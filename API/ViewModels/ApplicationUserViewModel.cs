@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace API.ViewModels
 {
-    public class RegisterUserViewModel
+    public class RegisterViewModel
     {
         [Required(ErrorMessage = "Field {0} is required")]
         public string Name { get; set; }
@@ -12,7 +12,7 @@ namespace API.ViewModels
         public string Surname { get; set; }
 
         [Required(ErrorMessage = "Field {0} is required")]
-        [EmailAddress(ErrorMessage = "O campo {0} está em formato inválido")]
+        [EmailAddress(ErrorMessage = "Field {0} format is invalid")]
         public string Email { get; set; }
 
         [Required(ErrorMessage = "Field {0} is required")]
@@ -23,16 +23,16 @@ namespace API.ViewModels
         public string ConfirmPassword { get; set; }
     }
 
-    //public class LoginUserViewModel
-    //{
-    //    [Required(ErrorMessage = "O campo {0} é obrigatório")]
-    //    [EmailAddress(ErrorMessage = "O campo {0} está em formato inválido")]
-    //    public string Email { get; set; }
+    public class LoginViewModel
+    {
+        [Required(ErrorMessage = "Field {0} is required")]
+        [EmailAddress(ErrorMessage = "Field {0} format is invalid")]
+        public string Email { get; set; }
 
-    //    [Required(ErrorMessage = "O campo {0} é obrigatório")]
-    //    [StringLength(100, ErrorMessage = "O campo {0} precisa ter entre {2} e {1} caracteres", MinimumLength = 6)]
-    //    public string Password { get; set; }
-    //}
+        [Required(ErrorMessage = "Field {0} is required")]
+        [StringLength(100, ErrorMessage = "Field {0} requires an amount of characters between {2} and {1}", MinimumLength = 6)]
+        public string Password { get; set; }
+    }
 
     //public class UserTokenViewModel
     //{
