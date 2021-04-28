@@ -1,15 +1,22 @@
 ﻿using Data.Models;
-using System.Data.Entity;
-using System;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 
 namespace Data
 {
     public class FlashMEMOContext : DbContext
     {
-        public FlashMEMOContext() : base()
+        public FlashMEMOContext(DbContextOptions<FlashMEMOContext> options) : base(options)
         { 
         }
         public DbSet<News> News { get; set; }
+    }
+
+    public class IdentityContext : IdentityDbContext<ApplicationUser>
+    {
+        public IdentityContext(DbContextOptions<IdentityContext> options) : base(options)
+        {
+        }
     }
 }
 

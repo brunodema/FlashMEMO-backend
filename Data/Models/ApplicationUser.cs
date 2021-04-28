@@ -2,7 +2,7 @@
 
 namespace Data.Models
 {
-    class ApplicationUser : IdentityUser
+    public class ApplicationUser : IdentityUser
     {
     }
 }
