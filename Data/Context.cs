@@ -15,3 +15,4 @@ namespace Data
 
 //https://balta.io/artigos/aspnet-5-autenticacao-autorizacao-bearer-jwt
 //https://docs.microsoft.com/en-us/ef/ef6/modeling/code-first/workflows/new-database#1-create-the-application
+//https://www.c-sharpcorner.com/article/authentication-and-authorization-in-asp-net-core-web-api-with-json-web-tokens/
