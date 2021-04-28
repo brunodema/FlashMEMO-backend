@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace FlashMEMO_backend_Data
+namespace Business
 {
     public class Class1
     {

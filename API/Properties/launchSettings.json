@@ -3,8 +3,8 @@
     "windowsAuthentication": false,
     "anonymousAuthentication": true,
     "iisExpress": {
-      "applicationUrl": "http://localhost:39886",
-      "sslPort": 44359
+      "applicationUrl": "http://localhost:18112",
+      "sslPort": 44326
     }
   },
   "$schema": "http://json.schemastore.org/launchsettings.json",
@@ -17,7 +17,7 @@
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
     },
-    "FlashMEMO_backed_API": {
+    "API": {
       "commandName": "Project",
       "launchBrowser": true,
       "launchUrl": "swagger",

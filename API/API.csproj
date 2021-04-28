@@ -2,8 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
-    <RootNamespace>FlashMEMO_backed_API</RootNamespace>
-    <UserSecretsId>df8ae5cb-8314-428b-b54a-68abaebbd82a</UserSecretsId>
+    <UserSecretsId>5b7d0cb0-cefc-4192-9feb-bf5bd7cb7460</UserSecretsId>
     <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
   </PropertyGroup>
 

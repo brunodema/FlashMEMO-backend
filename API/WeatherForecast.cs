@@ -1,6 +1,6 @@
 using System;
 
-namespace FlashMEMO_backed_API
+namespace API
 {
     public class WeatherForecast
     {
