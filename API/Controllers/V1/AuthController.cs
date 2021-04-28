@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace API.Controllers
@@ -41,11 +42,12 @@ namespace API.Controllers
             };
             var result = await _userManager.CreateAsync(user, model.Password);
             if (!result.Succeeded)
-                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "User creation failed! Please check user details and try again." });
+            {
+                var errorList = result.Errors.Select(e => e.Description);
+                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "User creation failed! Please check user details and try again.", Errors = errorList });
+            }
 
             return Ok(new Response { Status = "Success", Message = "User created successfully!" });
         }
-
-
     }
 }
