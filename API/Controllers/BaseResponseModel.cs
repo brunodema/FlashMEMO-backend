@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace API.ViewModels
 {
-    public class BaseResponse
+    public class BaseResponseModel
     {
         public string Status { get; set; }
         public string Message { get; set; }

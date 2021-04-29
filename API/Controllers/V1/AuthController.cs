@@ -1,12 +1,16 @@
 ﻿using API.ViewModels;
+using Business.JWT;
 using Data.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Options;
 using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace API.Controllers
@@ -29,13 +33,13 @@ namespace API.Controllers
 
         [HttpPost]
         [Route("register")]
-        public async Task<IActionResult> Register([FromBody] RegisterViewModel model)
+        public async Task<IActionResult> Register([FromBody] RegisterRequestModel model)
         {
             var userExists = await _userManager.FindByEmailAsync(model.Email);
             if (userExists != null)
-                return StatusCode(StatusCodes.Status500InternalServerError, new BaseResponse { Status = "Error", Message = "User already exists!" });
+                return StatusCode(StatusCodes.Status500InternalServerError, new BaseResponseModel { Status = "Error", Message = "User already exists!" });
 
-            ApplicationUser user = new ApplicationUser()             
+            ApplicationUser user = new ApplicationUser()
             {
                 Email = model.Email,
                 SecurityStamp = Guid.NewGuid().ToString(),
@@ -45,18 +49,41 @@ namespace API.Controllers
             if (!result.Succeeded)
             {
                 var errorList = result.Errors.Select(e => e.Description);
-                return StatusCode(StatusCodes.Status500InternalServerError, new BaseResponse { Status = "Error", Message = "User creation failed! Please check user details and try again.", Errors = errorList });
+                return StatusCode(StatusCodes.Status500InternalServerError, new BaseResponseModel { Status = "Error", Message = "User creation failed! Please check user details and try again.", Errors = errorList });
             }
 
-            return Ok(new BaseResponse { Status = "Success", Message = "User created successfully!" });
+            return Ok(new BaseResponseModel { Status = "Success", Message = "User created successfully!" });
+        }
+
+
+        [HttpPost]
+        [Route("login")]
+        public IActionResult Login(LoginRequestModel model)
+        {
+            List<string> roles = new List<string> { };
+            JWTServiceOptions a = new JWTServiceOptions();
+            _configuration.GetSection("JWT").Bind(a);
+            var serviceConfig = new JWTServiceOptions
+            {
+                ValidAudience = a.ValidAudience,
+                ValidIssuer = a.ValidIssuer,
+                HoursToExpiration = a.HoursToExpiration,
+                Secret = a.Secret,
+            };
+            var token = new JWTService(serviceConfig).CreateLoginToken(new UserIdentityData
+            {
+                User = new UserInfo { Email = model.Email },
+                UserRoles = roles
+            });
+            return Ok(new LoginResponseModel { Status = "Success", Message = "User has logged in", JWTToken = token });
         }
 
         [HttpGet]
-        [Authorize]
+        //[Authorize]
         [Route("test")]
         public IActionResult Test()
         {
-            return Ok(new BaseResponse { Status = "Sucess", Message = "You managed to get here!" });
+            return Ok(new BaseResponseModel { Status = "Sucess", Message = "You managed to get here!" });
         }
     }
 }

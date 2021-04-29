@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace API.ViewModels
 {
-    public class RegisterViewModel
+    public class RegisterRequestModel
     {
         [Required(ErrorMessage = "Field {0} is required")]
         public string Name { get; set; }
@@ -23,7 +23,7 @@ namespace API.ViewModels
         public string ConfirmPassword { get; set; }
     }
 
-    public class LoginViewModel
+    public class LoginRequestModel
     {
         [Required(ErrorMessage = "Field {0} is required")]
         [EmailAddress(ErrorMessage = "Field {0} format is invalid")]
@@ -32,6 +32,11 @@ namespace API.ViewModels
         [Required(ErrorMessage = "Field {0} is required")]
         [StringLength(100, ErrorMessage = "Field {0} requires an amount of characters between {2} and {1}", MinimumLength = 6)]
         public string Password { get; set; }
+    }
+
+    public class LoginResponseModel : BaseResponseModel
+    {
+        public string JWTToken { get; set; }
     }
 
     //public class UserTokenViewModel
