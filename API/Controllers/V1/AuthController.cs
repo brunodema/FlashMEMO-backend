@@ -72,7 +72,7 @@ namespace API.Controllers
         }
 
         [HttpGet]
-        //[Authorize]
+        [Authorize]
         [Route("test")]
         public IActionResult Test()
         {
