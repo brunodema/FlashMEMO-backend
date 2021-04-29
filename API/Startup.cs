@@ -45,6 +45,7 @@ namespace API
             });
 
             // custom definitions
+            // swagger/API definitions
             services.AddApiVersioning(config =>
             {
                 config.DefaultApiVersion = new ApiVersion(1, 0);
@@ -56,13 +57,13 @@ namespace API
                 o.GroupNameFormat = "'v'VVV";
                 o.SubstituteApiVersionInUrl = true;
             });
+            // identity/authentication configurations (including JWT)
             services.AddIdentity<ApplicationUser, IdentityRole>(opt =>
             {
                 opt.User.RequireUniqueEmail = true;
             })
                 .AddEntityFrameworkStores<IdentityContext>()
                 .AddDefaultTokenProviders();
-
             services.AddAuthentication(options =>
             {
                 options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -82,9 +83,10 @@ namespace API
                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["JWT:Secret"]))
                 };
             });
+            // database configuration
             services.AddDbContext<IdentityContext>(options => options.UseSqlServer(Configuration.GetConnectionString("ConnStr")));
             services.AddDbContext<FlashMEMOContext>(options => options.UseSqlServer(Configuration.GetConnectionString("ConnStr")));
-
+            // options configuration
             services.Configure<JWTServiceOptions>(Configuration.GetSection("JWT"));
             services.AddScoped<IJWTService, JWTService>();
         }
