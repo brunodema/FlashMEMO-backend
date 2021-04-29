@@ -1,5 +1,6 @@
 ﻿using API.ViewModels;
 using Data.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -32,7 +33,7 @@ namespace API.Controllers
         {
             var userExists = await _userManager.FindByEmailAsync(model.Email);
             if (userExists != null)
-                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "User already exists!" });
+                return StatusCode(StatusCodes.Status500InternalServerError, new BaseResponse { Status = "Error", Message = "User already exists!" });
 
             ApplicationUser user = new ApplicationUser()             
             {
@@ -44,10 +45,18 @@ namespace API.Controllers
             if (!result.Succeeded)
             {
                 var errorList = result.Errors.Select(e => e.Description);
-                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "User creation failed! Please check user details and try again.", Errors = errorList });
+                return StatusCode(StatusCodes.Status500InternalServerError, new BaseResponse { Status = "Error", Message = "User creation failed! Please check user details and try again.", Errors = errorList });
             }
 
-            return Ok(new Response { Status = "Success", Message = "User created successfully!" });
+            return Ok(new BaseResponse { Status = "Success", Message = "User created successfully!" });
+        }
+
+        [HttpGet]
+        [Authorize]
+        [Route("test")]
+        public IActionResult Test()
+        {
+            return Ok(new BaseResponse { Status = "Sucess", Message = "You managed to get here!" });
         }
     }
 }
