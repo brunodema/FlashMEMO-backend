@@ -22,13 +22,13 @@ namespace API.Controllers
     {
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly RoleManager<IdentityRole> _roleManager;
-        private readonly IOptions<JWTServiceOptions> _options;
+        private readonly IJWTService _JWTService;
 
-        public AuthController(UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager, IOptions<JWTServiceOptions> options) : base()
+        public AuthController(UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager, IJWTService JWTService) : base()
         {
             _userManager = userManager;
             _roleManager = roleManager;
-            _options = options;
+            _JWTService = JWTService;
         }
 
         [HttpPost]
@@ -62,17 +62,12 @@ namespace API.Controllers
         {
             List<string> roles = new List<string> { };
 
-            var token = new JWTService(new JWTServiceOptions
-            {
-                ValidAudience = _options.Value.ValidAudience,
-                ValidIssuer = _options.Value.ValidIssuer,
-                HoursToExpiration = _options.Value.HoursToExpiration,
-                Secret = _options.Value.Secret,
-            }).CreateLoginToken(new UserIdentityData
+            var token = _JWTService.CreateLoginToken(new UserIdentityData
             {
                 User = new UserInfo { Email = model.Email },
                 UserRoles = roles
             });
+
             return Ok(new LoginResponseModel { Status = "Success", Message = "User has logged in", JWTToken = token });
         }
 

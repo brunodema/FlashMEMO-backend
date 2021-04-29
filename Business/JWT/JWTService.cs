@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;
@@ -10,13 +11,17 @@ using System.Threading.Tasks;
 
 namespace Business.JWT
 {
-    public class JWTService
+    public interface IJWTService
     {
-        private readonly IJWTServiceOptions _config;
+        public string CreateLoginToken(IUserIdentityData userIdentityData);
+    }
+    public class JWTService : IJWTService
+    {
+        private readonly IJWTServiceOptions _options;
 
-        public JWTService(IJWTServiceOptions config)
+        public JWTService(IOptions<JWTServiceOptions> options)
         {
-            _config = config;
+            _options = options.Value;
         }
 
         public string CreateLoginToken(IUserIdentityData userIdentityData)
@@ -31,11 +36,11 @@ namespace Business.JWT
                 claims.Add(new Claim(ClaimTypes.Role, role));
             }
 
-            var signingKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config.Secret));
+            var signingKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_options.Secret));
 
             return new JwtSecurityTokenHandler().WriteToken(new JwtSecurityToken(
-                issuer: _config.ValidIssuer, audience: _config.ValidAudience,
-                expires: DateTime.Now.AddHours(Convert.ToDouble(_config.HoursToExpiration)), 
+                issuer: _options.ValidIssuer, audience: _options.ValidAudience,
+                expires: DateTime.Now.AddHours(Convert.ToDouble(_options.HoursToExpiration)), 
                 claims: claims, 
                 signingCredentials: new SigningCredentials(signingKey, SecurityAlgorithms.HmacSha256)
             ));

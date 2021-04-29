@@ -1,3 +1,4 @@
+using Business.JWT;
 using Data;
 using Data.Models;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -83,6 +84,9 @@ namespace API
             });
             services.AddDbContext<IdentityContext>(options => options.UseSqlServer(Configuration.GetConnectionString("ConnStr")));
             services.AddDbContext<FlashMEMOContext>(options => options.UseSqlServer(Configuration.GetConnectionString("ConnStr")));
+
+            services.Configure<JWTServiceOptions>(Configuration.GetSection("JWT"));
+            services.AddScoped<IJWTService, JWTService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
