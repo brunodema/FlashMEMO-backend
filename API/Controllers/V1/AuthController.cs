@@ -22,13 +22,13 @@ namespace API.Controllers
     {
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly RoleManager<IdentityRole> _roleManager;
-        private readonly IConfiguration _configuration;
+        private readonly IOptions<JWTServiceOptions> _options;
 
-        public AuthController(UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager, IConfiguration configuration) : base()
+        public AuthController(UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager, IOptions<JWTServiceOptions> options) : base()
         {
             _userManager = userManager;
             _roleManager = roleManager;
-            _configuration = configuration;
+            _options = options;
         }
 
         [HttpPost]
@@ -61,16 +61,14 @@ namespace API.Controllers
         public IActionResult Login(LoginRequestModel model)
         {
             List<string> roles = new List<string> { };
-            JWTServiceOptions a = new JWTServiceOptions();
-            _configuration.GetSection("JWT").Bind(a);
-            var serviceConfig = new JWTServiceOptions
+
+            var token = new JWTService(new JWTServiceOptions
             {
-                ValidAudience = a.ValidAudience,
-                ValidIssuer = a.ValidIssuer,
-                HoursToExpiration = a.HoursToExpiration,
-                Secret = a.Secret,
-            };
-            var token = new JWTService(serviceConfig).CreateLoginToken(new UserIdentityData
+                ValidAudience = _options.Value.ValidAudience,
+                ValidIssuer = _options.Value.ValidIssuer,
+                HoursToExpiration = _options.Value.HoursToExpiration,
+                Secret = _options.Value.Secret,
+            }).CreateLoginToken(new UserIdentityData
             {
                 User = new UserInfo { Email = model.Email },
                 UserRoles = roles
