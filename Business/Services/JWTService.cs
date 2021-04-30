@@ -1,4 +1,5 @@
 ﻿using Business.Interfaces;
+using Data.Models;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using System;
@@ -18,14 +19,14 @@ namespace Business.JWT
             _options = options.Value;
         }
 
-        public string CreateLoginToken(IUserIdentityData userIdentityData)
+        public string CreateLoginToken(ApplicationUser user)
         {
             var claims = new List<Claim>
             {
-                new Claim(ClaimTypes.Email, userIdentityData.User.Email),
+                new Claim(ClaimTypes.Email, user.Email),
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
             };
-            foreach (var role in userIdentityData.UserRoles)
+            foreach (var role in user.UserRoles)
             {
                 claims.Add(new Claim(ClaimTypes.Role, role));
             }
@@ -47,11 +48,5 @@ namespace Business.JWT
         public string ValidAudience { get; set; }
         public double TimeToExpiration { get; set; }
         public string Secret { get; set; }
-    }
-
-    public class UserIdentityData : IUserIdentityData
-    {
-        public UserInfo User { get; set; }
-        public IList<string> UserRoles { get; set; }
     }
 }

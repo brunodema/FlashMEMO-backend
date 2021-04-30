@@ -1,4 +1,4 @@
-﻿using Business.JWT;
+﻿using Data.Models;
 
 namespace Business.Interfaces
 {
@@ -11,6 +11,6 @@ namespace Business.Interfaces
     }
     public interface IJWTService
     {
-        public string CreateLoginToken(IUserIdentityData userIdentityData);
+        public string CreateLoginToken(ApplicationUser user);
     }
 }

@@ -60,9 +60,9 @@ namespace API.Controllers
         {
             List<string> roles = new List<string> { };
 
-            var token = _JWTService.CreateLoginToken(new UserIdentityData
+            var token = _JWTService.CreateLoginToken(new ApplicationUser
             {
-                User = new UserInfo { Email = model.Email },
+                Email = model.Email,
                 UserRoles = roles
             });
 
