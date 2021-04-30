@@ -1,4 +1,4 @@
-﻿using Business.JWT;
+﻿using Business.Services;
 using Data.Models;
 
 namespace Business.Interfaces
@@ -8,6 +8,6 @@ namespace Business.Interfaces
     }
     public interface IAuthService
     {
-        public bool AreCredentialsValid(ApplicationUser userIdentityData);
+        public bool AreCredentialsValid(ApplicationUser user);
     }
 }

@@ -1,6 +1,5 @@
 ﻿using API.ViewModels;
 using Business.Interfaces;
-using Business.JWT;
 using Data.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
