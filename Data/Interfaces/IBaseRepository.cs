@@ -35,22 +35,22 @@ namespace Data.Interfaces
             return await _dbset.FindAsync(id);
         }
         // CRUD
-        public virtual async Task Create(TEntity entity)
+        public virtual async Task CreateAsync(TEntity entity)
         {
             _dbset.Add(entity);
-            await SaveChanges();
+            await SaveChangesAsync();
         }
-        public virtual async Task Update(TEntity entity)
+        public virtual async Task UpdateAsync(TEntity entity)
         {
             _dbset.Update(entity);
-            await SaveChanges();
+            await SaveChangesAsync();
         }
-        public virtual async Task Remove(TEntity entity)
+        public virtual async Task RemoveAsync(TEntity entity)
         {
             _dbset.Remove(entity);
-            await SaveChanges();
+            await SaveChangesAsync();
         }
-        public async Task<int> SaveChanges()
+        public async Task<int> SaveChangesAsync()
         {
             return await _context.SaveChangesAsync();
         }
