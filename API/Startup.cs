@@ -2,7 +2,6 @@ using Business.Interfaces;
 using Business.Services;
 using Data;
 using Data.Models;
-using Data.Roles;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -72,12 +71,12 @@ namespace API
                 o.SubstituteApiVersionInUrl = true;
             });
             // identity/authentication configurations (including JWT)
-            services.AddAuthorization(config =>
-            {
-                config.AddPolicy("User", policy => policy.RequireRole(ApplicationUserRoles.User));
-                config.AddPolicy("Admin", policy => policy.RequireRole(ApplicationUserRoles.Admin));
+            //services.AddAuthorization(config =>
+            //{
+            //    config.AddPolicy("User", policy => policy.RequireRole(ApplicationUserRoles.User));
+            //    config.AddPolicy("Admin", policy => policy.RequireRole(ApplicationUserRoles.Admin));
 
-            });
+            //});
             services.AddIdentity<ApplicationUser, IdentityRole>(opt =>
             {
                 opt.User.RequireUniqueEmail = true;
@@ -109,13 +108,14 @@ namespace API
             });
             // database configuration
             services.AddDbContext<FlashMEMOContext>(options => options.UseSqlServer(Configuration.GetConnectionString("ConnStr"), options => options.MigrationsAssembly("API")));
+            //services.AddTransient<DbSeeder>();
             // options configuration
             services.Configure<JWTServiceOptions>(Configuration.GetSection("JWT"));
             services.AddScoped<IJWTService, JWTService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IServiceProvider provider)
         {
             if (env.IsDevelopment())
             {
@@ -136,6 +136,8 @@ namespace API
             {
                 endpoints.MapControllers();
             });
+
+            DbSeeder.InitializeDatabase(provider);
         }
     }
 }

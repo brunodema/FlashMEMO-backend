@@ -6,9 +6,12 @@ using System.Threading.Tasks;
 
 namespace Data.Roles
 {
-    public static class ApplicationUserRoles
+    public class FlashMEMORoles
     {
-        public const string Admin = "Admin";
-        public const string User = "User";
+        public static readonly string[] Roles =
+        {
+            "admin",
+            "user"
+        };
     }
 }

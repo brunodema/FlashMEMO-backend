@@ -1,4 +1,6 @@
 ﻿using Data.Models;
+using Data.Roles;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
@@ -14,6 +16,8 @@ namespace Data
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            // following implementation follows .NET boilerplate for identity customization (https://docs.microsoft.com/en-us/aspnet/core/security/authentication/customize-identity-model?view=aspnetcore-5.0)
+
             base.OnModelCreating(modelBuilder);
 
             modelBuilder.Entity<ApplicationUser>(b =>
@@ -65,4 +69,3 @@ namespace Data
 //https://balta.io/artigos/aspnet-5-autenticacao-autorizacao-bearer-jwt
 //https://docs.microsoft.com/en-us/ef/ef6/modeling/code-first/workflows/new-database#1-create-the-application
 //https://www.c-sharpcorner.com/article/authentication-and-authorization-in-asp-net-core-web-api-with-json-web-tokens/
-//https://docs.microsoft.com/en-us/aspnet/core/security/authentication/customize-identity-model?view=aspnetcore-5.0

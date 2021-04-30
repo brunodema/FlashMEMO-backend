@@ -3,6 +3,7 @@ using System.Collections.Generic;
 
 namespace Data.Models
 {
+    // following implementation follows .NET boilerplate for identity customization (https://docs.microsoft.com/en-us/aspnet/core/security/authentication/customize-identity-model?view=aspnetcore-5.0)
     public class ApplicationUser : IdentityUser
     {
         public virtual ICollection<ApplicationUserClaim> Claims { get; set; }
