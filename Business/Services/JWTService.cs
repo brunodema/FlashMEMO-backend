@@ -28,7 +28,7 @@ namespace Business.JWT
             };
             foreach (var role in user.UserRoles)
             {
-                claims.Add(new Claim(ClaimTypes.Role, role));
+                claims.Add(new Claim(ClaimTypes.Role, role.RoleId));
             }
 
             var signingKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_options.Secret));

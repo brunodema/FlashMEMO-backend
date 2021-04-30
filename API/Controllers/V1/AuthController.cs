@@ -58,7 +58,7 @@ namespace API.Controllers
         [Route("login")]
         public IActionResult Login(LoginRequestModel model)
         {
-            List<string> roles = new List<string> { };
+            ICollection<ApplicationUserRole> roles = new List<ApplicationUserRole>();
 
             var token = _JWTService.CreateLoginToken(new ApplicationUser
             {

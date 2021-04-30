@@ -2,6 +2,7 @@ using Business.Interfaces;
 using Business.JWT;
 using Data;
 using Data.Models;
+using Data.Roles;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -13,6 +14,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using System;
 using System.Text;
 
 namespace API
@@ -70,11 +72,18 @@ namespace API
                 o.SubstituteApiVersionInUrl = true;
             });
             // identity/authentication configurations (including JWT)
+            services.AddAuthorization(config =>
+            {
+                config.AddPolicy("User", policy => policy.RequireRole(ApplicationUserRoles.User));
+                config.AddPolicy("Admin", policy => policy.RequireRole(ApplicationUserRoles.Admin));
+
+            });
             services.AddIdentity<ApplicationUser, IdentityRole>(opt =>
             {
                 opt.User.RequireUniqueEmail = true;
             })
-                .AddEntityFrameworkStores<IdentityContext>()
+                .AddEntityFrameworkStores<FlashMEMOContext>()
+                .AddRoles<IdentityRole>()
                 .AddDefaultTokenProviders();
             services.AddAuthentication(options =>
             {
@@ -92,12 +101,14 @@ namespace API
                     ValidateAudience = true,
                     ValidAudience = Configuration["JWT:ValidAudience"],
                     ValidIssuer = Configuration["JWT:ValidIssuer"],
-                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["JWT:Secret"]))
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["JWT:Secret"])),
+                    // custom definitions
+                    ValidateLifetime = true, // otherwise the expiration change is not checked
+                    ClockSkew = TimeSpan.Zero // the default is 5 min (framework)
                 };
             });
             // database configuration
-            services.AddDbContext<IdentityContext>(options => options.UseSqlServer(Configuration.GetConnectionString("ConnStr")));
-            services.AddDbContext<FlashMEMOContext>(options => options.UseSqlServer(Configuration.GetConnectionString("ConnStr")));
+            services.AddDbContext<FlashMEMOContext>(options => options.UseSqlServer(Configuration.GetConnectionString("ConnStr"), options => options.MigrationsAssembly("API")));
             // options configuration
             services.Configure<JWTServiceOptions>(Configuration.GetSection("JWT"));
             services.AddScoped<IJWTService, JWTService>();
