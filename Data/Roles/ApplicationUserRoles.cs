@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Data.Roles
 {
-    public static class UserRoles
+    public static class ApplicationUserRoles
     {
         public const string Admin = "Admin";
         public const string User = "User";
