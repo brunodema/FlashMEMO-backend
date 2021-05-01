@@ -1,14 +1,19 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 
 namespace Data.Interfaces
 {
     public interface IBaseRepository<T>
     {
-        public Task<IEnumerable<T>> GetAll();
-        public Task<T> GetById(Guid id);
+        public Task<IEnumerable<T>> GetAllAsync();
+        public Task<T> GetByIdAsync(Guid id);
+        public Task<IEnumerable<T>> FindAllAsync(Expression<Func<T, bool>> predicate);
+        public Task<T> FindFirstAsync(Expression<Func<T, bool>> predicate);
+
     }
 
     public abstract class BaseRepository<TEntity, DatabaseContext> : IBaseRepository<TEntity>
@@ -23,11 +28,19 @@ namespace Data.Interfaces
             _context = context;
             _dbset = context.Set<TEntity>();
         }
-        public async Task<IEnumerable<TEntity>> GetAll()
+        public async Task<IEnumerable<TEntity>> FindAllAsync(Expression<Func<TEntity, bool>> predicate)
+        {
+            return await _dbset.AsNoTracking().Where(predicate).ToListAsync();
+        }
+        public async Task<TEntity> FindFirstAsync(Expression<Func<TEntity, bool>> predicate)
+        {
+            return await _dbset.AsNoTracking().FirstOrDefaultAsync(predicate);
+        }
+        public async Task<IEnumerable<TEntity>> GetAllAsync()
         {
             return await _dbset.ToListAsync();
         }
-        public async Task<TEntity> GetById(Guid id)
+        public async Task<TEntity> GetByIdAsync(Guid id)
         {
             return await _dbset.FindAsync(id);
         }

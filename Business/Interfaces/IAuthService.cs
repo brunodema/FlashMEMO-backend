@@ -1,5 +1,6 @@
 ﻿using Business.Services;
 using Data.Models;
+using System.Threading.Tasks;
 
 namespace Business.Interfaces
 {
@@ -8,6 +9,6 @@ namespace Business.Interfaces
     }
     public interface IAuthService
     {
-        public bool AreCredentialsValid(ApplicationUser user);
+        public Task<bool> AreCredentialsValidAsync(ICredentials credentials);
     }
 }

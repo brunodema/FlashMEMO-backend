@@ -2,6 +2,7 @@ using Business.Interfaces;
 using Business.Services;
 using Data;
 using Data.Models;
+using Data.Repository;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -111,7 +112,10 @@ namespace API
             //services.AddTransient<DbSeeder>();
             // options configuration
             services.Configure<JWTServiceOptions>(Configuration.GetSection("JWT"));
+            // custom services
             services.AddScoped<IJWTService, JWTService>();
+            services.AddScoped<IAuthService, AuthService>();
+            services.AddScoped<ApplicationUserRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

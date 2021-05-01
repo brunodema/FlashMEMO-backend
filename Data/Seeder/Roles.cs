@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Data.Roles
+namespace Data.Seeder
 {
     public class FlashMEMORoles
     {

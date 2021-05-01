@@ -1,6 +1,7 @@
 ﻿using API.ViewModels;
 using Business.Interfaces;
 using Data.Models;
+using Data.Repository;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
@@ -20,12 +21,14 @@ namespace API.Controllers
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly RoleManager<IdentityRole> _roleManager;
         private readonly IJWTService _JWTService;
+        private readonly IAuthService _authService;
 
-        public AuthController(UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager, IJWTService JWTService) : base()
+        public AuthController(UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager, IJWTService JWTService, IAuthService authService) : base()
         {
             _userManager = userManager;
             _roleManager = roleManager;
             _JWTService = JWTService;
+            _authService = authService;
         }
 
         [HttpPost]
@@ -55,17 +58,22 @@ namespace API.Controllers
 
         [HttpPost]
         [Route("login")]
-        public IActionResult Login(LoginRequestModel model)
+        public async Task<IActionResult> Login(LoginRequestModel model)
         {
             ICollection<ApplicationUserRole> roles = new List<ApplicationUserRole>();
 
-            var token = _JWTService.CreateLoginToken(new ApplicationUser
+           if (await _authService.AreCredentialsValidAsync(new Credentials { Email = model.Email, PasswordHash = model.Password }))
             {
-                Email = model.Email,
-                UserRoles = roles
-            });
+                var token = _JWTService.CreateLoginToken(new ApplicationUser
+                {
+                    Email = model.Email,
+                    UserRoles = roles
+                });
 
-            return Ok(new LoginResponseModel { Status = "Success", Message = "User has logged in", JWTToken = token });
+                return Ok(new LoginResponseModel { Status = "Success", Message = "User has logged in", JWTToken = token });
+            }
+
+           return Unauthorized(new LoginResponseModel { Status = "Error", Message = "User can not be authenticated" });
         }
 
         [HttpGet]
