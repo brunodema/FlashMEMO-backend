@@ -27,7 +27,7 @@ namespace Business.Services
             var user = await _userManager.FindByEmailAsync(credentials.Email);
             if (user != null)
             {
-                if (new PasswordHasher<ApplicationUser>().VerifyHashedPassword(user, user.PasswordHash, credentials.PasswordHash) == PasswordVerificationResult.Success) return true;
+                if (await _userManager.CheckPasswordAsync(user, credentials.PasswordHash)) return true;
             }
 
             return false;
