@@ -1,13 +1,20 @@
 ﻿using System;
 using System.Linq;
 using Data.Models;
-using Data.Seeder;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Data
 {
+    public class FlashMEMORoles
+    {
+        public static readonly string[] Roles =
+        {
+            "admin",
+            "user"
+        };
+    }
     public class DbSeeder
     {
         public static void InitializeDatabase(IServiceProvider serviceProvider)
