@@ -14,17 +14,17 @@ namespace Business.Services
     public class AuthService : IAuthService
     {
         private readonly IAuthServiceOptions _options;
-        private readonly ApplicationUserRepository _repository;
+        private readonly UserManager<ApplicationUser> _userManager;
 
-        public AuthService(IOptions<AuthServiceOptions> options, ApplicationUserRepository repository)
+        public AuthService(IOptions<AuthServiceOptions> options, UserManager<ApplicationUser> userManager)
         {
             _options = options.Value;
-            _repository = repository;
+            _userManager = userManager;
         }
 
         public async Task<bool> AreCredentialsValidAsync(ICredentials credentials)
         {
-            var user = await _repository.FindFirstAsync(u => u.Email == credentials.Email);
+            var user = await _userManager.FindByEmailAsync(credentials.Email);
             if (user != null)
             {
                 if (new PasswordHasher<ApplicationUser>().VerifyHashedPassword(user, user.PasswordHash, credentials.PasswordHash) == PasswordVerificationResult.Success) return true;
