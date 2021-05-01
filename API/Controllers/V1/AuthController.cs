@@ -35,8 +35,7 @@ namespace API.Controllers
         [Route("register")]
         public async Task<IActionResult> Register([FromBody] RegisterRequestModel model)
         {
-            var userExists = await _userManager.FindByEmailAsync(model.Email);
-            if (userExists != null)
+            if (await _userManager.FindByEmailAsync(model.Email) != null)
                 return StatusCode(StatusCodes.Status500InternalServerError, new BaseResponseModel { Status = "Error", Message = "User already exists!" });
 
             ApplicationUser user = new ApplicationUser()
@@ -73,7 +72,7 @@ namespace API.Controllers
                 return Ok(new LoginResponseModel { Status = "Success", Message = "User has logged in", JWTToken = token });
             }
 
-           return Unauthorized(new LoginResponseModel { Status = "Error", Message = "User can not be authenticated" });
+           return Unauthorized(new LoginResponseModel { Status = "Error", Message = "The provided credentials could not be validated" });
         }
 
         [HttpGet]

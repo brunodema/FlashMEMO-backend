@@ -1,6 +1,4 @@
-﻿using Business.Services;
-using Data.Models;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 
 namespace Business.Interfaces
 {
