@@ -1,7 +1,7 @@
 ﻿using API.ViewModels;
+using API.ViewModels.Auth;
 using Business.Interfaces;
 using Data.Models;
-using Data.Repository;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
