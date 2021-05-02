@@ -108,7 +108,8 @@ namespace API
                 };
             });
             // database configuration
-            services.AddDbContext<FlashMEMOContext>(options => options.UseSqlServer(Configuration.GetConnectionString("ConnStr"), options => options.MigrationsAssembly("API")));
+            //services.AddDbContext<FlashMEMOContext>(options => options.UseSqlServer(Configuration.GetConnectionString("ConnStr"), options => options.MigrationsAssembly("API")));
+            services.AddDbContext<FlashMEMOContext>(options => options.UseNpgsql(Configuration.GetConnectionString("Postgres"), options => options.MigrationsAssembly("API")));
             //services.AddTransient<DbSeeder>();
             // options configuration
             services.Configure<JWTServiceOptions>(Configuration.GetSection("JWT"));
