@@ -1,0 +1,28 @@
+version: '3'
+services:
+  flashmemo-backend:
+    build: .  
+    ports:
+      - "4200:4200"
+    depends_on: 
+      database:
+        condition: service_healthy
+    
+  database:
+    image: mcr.microsoft.com/mssql/server
+    environment:
+      - "ACCEPT_EULA=Y"
+      - "SA_PASSWORD=yourStrong!Password"
+      - "MSSQL_PID:Express"
+    ports:
+      - "1433:1433"
+    volumes:
+      - "./dbinit.sql:/docker-entrypoint-initdb.d/init.sql"
+    command: bash -c "(sleep 40s && /opt/mssql-tools/bin/sqlcmd -S database -U sa -P 'yourStrong!Password' -i /docker-entrypoint-initdb.d/init.sql -I) & /opt/mssql/bin/sqlservr"
+    healthcheck:
+      # test: ["CMD-SHELL", "bash -c 'echo testing healthcheck... && sqlcmd -S localhost -U sa -P 'yourStrong!Password' -d Flashmemo"]
+      # start_period: 50s
+      # interval: 10s
+      # timeout: 15s
+      # retries: 2
+    
