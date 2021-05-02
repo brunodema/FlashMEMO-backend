@@ -9,6 +9,7 @@ services:
       - ASPNETCORE_Kestrel__Certificates__Default__Password=mypassword123
       - ASPNETCORE_Kestrel__Certificates__Default__Path=/https/aspnetapp.pfx
     ports:
+      - "44392:44392"
       - "4201:443"
       - "4200:80"
     depends_on:
