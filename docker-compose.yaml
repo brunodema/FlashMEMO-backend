@@ -18,14 +18,24 @@ services:
     volumes:
       - ~/.aspnet/https:/https:ro
 
+  # database:
+  #   image: mcr.microsoft.com/mssql/server
+  #   environment:
+  #     - "ACCEPT_EULA=Y"
+  #     - "SA_PASSWORD=yourStrong!Password"
+  #     - "MSSQL_PID:Express"
+  #   ports:
+  #     - "1433:1433"
+  #   volumes:
+  #     - "./dbinit.sql:/docker-entrypoint-initdb.d/init.sql"
+  #   command: bash -c "(sleep 40s && /opt/mssql-tools/bin/sqlcmd -S database -U sa -P 'yourStrong!Password' -i /docker-entrypoint-initdb.d/init.sql -I) & /opt/mssql/bin/sqlservr"
+
   database:
-    image: mcr.microsoft.com/mssql/server
+    image: postgres
     environment:
-      - "ACCEPT_EULA=Y"
-      - "SA_PASSWORD=yourStrong!Password"
-      - "MSSQL_PID:Express"
-    ports:
-      - "1433:1433"
+      - "POSTGRES_PASSWORD=Flashmemo@123"
+      - "POSTGRES_DB=FlashMEMO"
+    expose:
+      - 5432
     volumes:
       - "./dbinit.sql:/docker-entrypoint-initdb.d/init.sql"
-    command: bash -c "(sleep 40s && /opt/mssql-tools/bin/sqlcmd -S database -U sa -P 'yourStrong!Password' -i /docker-entrypoint-initdb.d/init.sql -I) & /opt/mssql/bin/sqlservr"

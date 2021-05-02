@@ -4,7 +4,6 @@ COPY . /app
 RUN dotnet restore FlashMEMO-backend.sln
 RUN dotnet publish -c Release -o /app/publish FlashMEMO-backend.sln
 
-### Estágio 2 - Subir a aplicação através dos binários ###
 FROM mcr.microsoft.com/dotnet/aspnet:5.0-focal
 WORKDIR /app
 EXPOSE 80
