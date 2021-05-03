@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Threading.Tasks;
 using Data.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
@@ -17,7 +18,7 @@ namespace Data
     }
     public class DbSeeder
     {
-        public static void InitializeDatabase(IServiceProvider serviceProvider)
+        public static async Task InitializeDatabaseAsync(IServiceProvider serviceProvider)
         {
             var context = serviceProvider.GetService<FlashMEMOContext>();
             var roleStore = new RoleStore<ApplicationRole>(context);
@@ -29,7 +30,7 @@ namespace Data
                 {
                     if (!context.Roles.Any(r => r.Name == role))
                     {
-                        roleStore.CreateAsync(new ApplicationRole { Name = role });
+                        await roleStore.CreateAsync(new ApplicationRole { Name = role });
                     }
                 }
             }
@@ -38,13 +39,16 @@ namespace Data
                 var user = new ApplicationUser
                 {
                     UserName = "sysadmin",
-                    Email = "sysadmin@flashmemo.com"
+                    NormalizedUserName = "SYSADMIN",
+                    Email = "sysadmin@flashmemo.com",
+                    NormalizedEmail = "SYSADMIN@FLASHMEMO.COM",
+                    
                 };
                 user.PasswordHash = new PasswordHasher<ApplicationUser>().HashPassword(user, "Flashmemo@123");
-                userStore.CreateAsync(user);
+                await userStore.CreateAsync(user);
             }
 
-            context.SaveChangesAsync();
+            await context.SaveChangesAsync();
         }
     }
 }

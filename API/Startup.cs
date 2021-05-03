@@ -141,7 +141,7 @@ namespace API
                 endpoints.MapControllers();
             });
 
-            DbSeeder.InitializeDatabase(provider);
+            DbSeeder.InitializeDatabaseAsync(provider).Wait();
         }
     }
 }
