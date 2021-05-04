@@ -13,6 +13,6 @@ namespace Business.Interfaces
     }
     public interface INewsService
     {
-        public Task<ICollection<News>> GetNewsAsync(int pageSize, string filter);
+        public Task<IEnumerable<News>> GetNewsAsync(int pageSize, string filter);
     }
 }

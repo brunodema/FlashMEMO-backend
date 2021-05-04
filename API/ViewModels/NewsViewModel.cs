@@ -5,6 +5,6 @@ namespace API.ViewModels
 {
     public class ListNewsResponseModel : BaseResponseModel
     {
-        public ICollection<News> News { get; set; }
+        public IEnumerable<News> News { get; set; }
     }
 }

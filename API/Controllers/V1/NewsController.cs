@@ -19,9 +19,9 @@ namespace API.Controllers
 
         [HttpGet]
         [Route("list")]
-        public async Task<IActionResult> List()
+        public async Task<IActionResult> List([FromQuery] int pageSize, string filter)
         {
-            var news = await _newsService.GetNewsAsync(1, "");
+            var news = await _newsService.GetNewsAsync(pageSize, filter);
             return Ok(new ListNewsResponseModel { Status = "Sucess", News = news });
         }
     }

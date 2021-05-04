@@ -4,7 +4,9 @@ using Data.Models;
 using Data.Repository;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Options;
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Business.Services
@@ -14,7 +16,7 @@ namespace Business.Services
         public int MaxPageSize { get; set; } = 50;
         public int PageSize { get; set; } = 10;
         public string Filter { get; set; } = "";
-        }
+    }
     public class NewsService : INewsService
     {
         private readonly INewsServiceOptions _options;
@@ -25,9 +27,20 @@ namespace Business.Services
             _options = options.Value;
             _repository = repository;
         }
-        public async Task<ICollection<News>> GetNewsAsync(int pageSize, string filter)
+        public async Task<IEnumerable<News>> GetNewsAsync(int pageSize = 0, string filter = null)
         {
-            return await _repository.GetAllAsync();
+            IEnumerable<News> news;
+            if (filter == null) // empty
+            {
+                news = await _repository.GetAllAsync();
+            }
+            else
+            {
+                news = await _repository.FindAllAsync(o => o.Title.Contains(filter) || o.Subtitle.Contains(filter) || o.Content.Contains(filter)); // must make this case insensitive
+            }
+            if (pageSize > _options.MaxPageSize || pageSize == 0) pageSize = _options.MaxPageSize;
+
+            return news.Take(pageSize);
         }
     }
 }
