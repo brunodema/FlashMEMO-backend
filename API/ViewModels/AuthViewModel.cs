@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-namespace API.ViewModels.Auth
+namespace API.ViewModels
 {
     public class RegisterRequestModel
     {

@@ -9,9 +9,9 @@ namespace Data.Interfaces
 {
     public interface IBaseRepository<T>
     {
-        public Task<IEnumerable<T>> GetAllAsync();
+        public Task<ICollection<T>> GetAllAsync();
         public Task<T> GetByIdAsync(Guid id);
-        public Task<IEnumerable<T>> FindAllAsync(Expression<Func<T, bool>> predicate);
+        public Task<ICollection<T>> FindAllAsync(Expression<Func<T, bool>> predicate);
         public Task<T> FindFirstAsync(Expression<Func<T, bool>> predicate);
 
     }
@@ -28,7 +28,7 @@ namespace Data.Interfaces
             _context = context;
             _dbset = context.Set<TEntity>();
         }
-        public async Task<IEnumerable<TEntity>> FindAllAsync(Expression<Func<TEntity, bool>> predicate)
+        public async Task<ICollection<TEntity>> FindAllAsync(Expression<Func<TEntity, bool>> predicate)
         {
             return await _dbset.AsNoTracking().Where(predicate).ToListAsync();
         }
@@ -36,7 +36,7 @@ namespace Data.Interfaces
         {
             return await _dbset.AsNoTracking().FirstOrDefaultAsync(predicate);
         }
-        public async Task<IEnumerable<TEntity>> GetAllAsync()
+        public async Task<ICollection<TEntity>> GetAllAsync()
         {
             return await _dbset.ToListAsync();
         }

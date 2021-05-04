@@ -115,7 +115,9 @@ namespace API
             // custom services
             services.AddScoped<IJWTService, JWTService>();
             services.AddScoped<IAuthService, AuthService>();
+            services.AddScoped<INewsService, NewsService>();
             services.AddScoped<ApplicationUserRepository>();
+            services.AddScoped<NewsRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
