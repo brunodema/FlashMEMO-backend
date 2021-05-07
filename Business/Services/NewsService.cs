@@ -38,7 +38,7 @@ namespace Business.Services
             {
                 news = await _repository.FindAllAsync(o => o.Title.Contains(filter) || o.Subtitle.Contains(filter) || o.Content.Contains(filter)); // must make this case insensitive
             }
-            if (pageSize > _options.MaxPageSize || pageSize == 0) pageSize = _options.MaxPageSize;
+            if (pageSize > _options.MaxPageSize || pageSize <= 0) pageSize = _options.MaxPageSize;
 
             return news.Take(pageSize);
         }
