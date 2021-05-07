@@ -27,7 +27,7 @@ namespace Business.Services
             _options = options.Value;
             _repository = repository;
         }
-        public async Task<IEnumerable<News>> GetNewsAsync(int pageSize = 0, string filter = null)
+        public async Task<IEnumerable<News>> GetNewsAsync(int pageSize = 0, string filter = null, SortType sortType = SortType.Ascending)
         {
             IEnumerable<News> news;
             if (filter == null) // empty
@@ -40,7 +40,15 @@ namespace Business.Services
             }
             if (pageSize > _options.MaxPageSize || pageSize <= 0) pageSize = _options.MaxPageSize;
 
-            return news.Take(pageSize);
+            return SortCreationDateBy(news.Take(pageSize), sortType);
+        }
+        private IEnumerable<News> SortCreationDateBy(IEnumerable<News> news, SortType type)
+        {
+            if (type == SortType.Ascending)
+            {
+                return news.OrderBy(item => item.CreationDate);
+            }
+            return news.OrderByDescending(item => item.CreationDate);
         }
     }
 }
