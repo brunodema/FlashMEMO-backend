@@ -134,6 +134,12 @@ namespace API
 
             app.UseRouting();
 
+            //custom configuration - CORS for development
+            app.UseCors(builder => builder
+    .AllowAnyOrigin()
+    .AllowAnyMethod()
+    .AllowAnyHeader());
+
             app.UseAuthentication();
 
             app.UseAuthorization();
