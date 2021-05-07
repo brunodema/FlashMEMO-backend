@@ -32,23 +32,15 @@ namespace Business.Services
             IEnumerable<News> news;
             if (filter == null) // empty
             {
-                news = await _repository.GetAllAsync();
+                news = await _repository.GetAllAndOrderByCreationDateAsync(sortType);
             }
             else
             {
-                news = await _repository.FindAllAsync(o => o.Title.Contains(filter) || o.Subtitle.Contains(filter) || o.Content.Contains(filter)); // must make this case insensitive
+                news = await _repository.FindAllAndOrderByCreationDateAsync(o => o.Title.Contains(filter) || o.Subtitle.Contains(filter) || o.Content.Contains(filter), sortType); // must make this case insensitive
             }
             if (pageSize > _options.MaxPageSize || pageSize <= 0) pageSize = _options.MaxPageSize;
 
-            return SortCreationDateBy(news.Take(pageSize), sortType);
-        }
-        private IEnumerable<News> SortCreationDateBy(IEnumerable<News> news, SortType type)
-        {
-            if (type == SortType.Ascending)
-            {
-                return news.OrderBy(item => item.CreationDate);
-            }
-            return news.OrderByDescending(item => item.CreationDate);
+            return news.Take(pageSize);
         }
     }
 }

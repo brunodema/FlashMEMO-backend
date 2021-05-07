@@ -11,11 +11,6 @@ namespace Business.Interfaces
         public int PageSize { get; set; }
         public string Filter { get; set; }
     }
-    public enum SortType
-    {
-        Ascending,
-        Descending
-    }
     public interface INewsService
     {
         public Task<IEnumerable<News>> GetNewsAsync(int pageSize = 0, string filter = null, SortType sortType = SortType.Ascending);

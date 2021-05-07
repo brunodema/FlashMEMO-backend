@@ -13,7 +13,11 @@ namespace Data.Interfaces
         public Task<T> GetByIdAsync(Guid id);
         public Task<IEnumerable<T>> FindAllAsync(Expression<Func<T, bool>> predicate);
         public Task<T> FindFirstAsync(Expression<Func<T, bool>> predicate);
-
+    }
+    public enum SortType
+    {
+        Ascending,
+        Descending
     }
 
     public abstract class BaseRepository<TEntity, DatabaseContext> : IBaseRepository<TEntity>
