@@ -7,12 +7,19 @@ using System.Threading.Tasks;
 
 namespace Data.Interfaces
 {
-    public interface IBaseRepository<T>
+    public interface IBaseRepository<TEntity, DatabaseContext> where TEntity : class
+        where DatabaseContext : DbContext
     {
-        public Task<ICollection<T>> GetAllAsync();
-        public Task<T> GetByIdAsync(Guid id);
-        public Task<IEnumerable<T>> FindAllAsync(Expression<Func<T, bool>> predicate, int maxRecords);
-        public Task<T> FindFirstAsync(Expression<Func<T, bool>> predicate);
+        public Task<IEnumerable<TEntity>> FindAllAsync(Expression<Func<TEntity, bool>> predicate, int numRecords);
+        public Task<TEntity> FindFirstAsync(Expression<Func<TEntity, bool>> predicate);
+        public Task<ICollection<TEntity>> GetAllAsync();
+        public Task<TEntity> GetByIdAsync(Guid id);
+        // CRUD
+        public Task CreateAsync(TEntity entity);
+        public Task UpdateAsync(TEntity entity);
+        public Task RemoveAsync(TEntity entity);
+        public Task<int> SaveChangesAsync();
+        public void Dispose();
     }
     public enum SortType
     {
@@ -20,7 +27,7 @@ namespace Data.Interfaces
         Descending
     }
 
-    public abstract class BaseRepository<TEntity, DatabaseContext> : IBaseRepository<TEntity>
+    public abstract class BaseRepository<TEntity, DatabaseContext> : IBaseRepository<TEntity , DatabaseContext>
         where TEntity : class
         where DatabaseContext : DbContext
     {
