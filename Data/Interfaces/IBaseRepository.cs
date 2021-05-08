@@ -11,7 +11,7 @@ namespace Data.Interfaces
     {
         public Task<ICollection<T>> GetAllAsync();
         public Task<T> GetByIdAsync(Guid id);
-        public Task<IEnumerable<T>> FindAllAsync(Expression<Func<T, bool>> predicate);
+        public Task<IEnumerable<T>> FindAllAsync(Expression<Func<T, bool>> predicate, int maxRecords);
         public Task<T> FindFirstAsync(Expression<Func<T, bool>> predicate);
     }
     public enum SortType
@@ -32,9 +32,9 @@ namespace Data.Interfaces
             _context = context;
             _dbset = context.Set<TEntity>();
         }
-        public async Task<IEnumerable<TEntity>> FindAllAsync(Expression<Func<TEntity, bool>> predicate)
+        public async Task<IEnumerable<TEntity>> FindAllAsync(Expression<Func<TEntity, bool>> predicate, int numRecords)
         {
-            return await _dbset.AsNoTracking().Where(predicate).ToListAsync();
+            return await _dbset.AsNoTracking().Where(predicate).Take(numRecords).ToListAsync();
         }
         public async Task<TEntity> FindFirstAsync(Expression<Func<TEntity, bool>> predicate)
         {

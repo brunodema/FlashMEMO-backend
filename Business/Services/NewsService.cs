@@ -7,6 +7,7 @@ using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 
 namespace Business.Services
@@ -27,20 +28,15 @@ namespace Business.Services
             _options = options.Value;
             _repository = repository;
         }
-        public async Task<IEnumerable<News>> GetNewsAsync(int pageSize = 0, string filter = null, SortType sortType = SortType.Ascending)
+        public async Task<IEnumerable<News>> GetNewsAsync(int numRecords = 0, string filter = null, SortType sortType = SortType.Ascending)
         {
-            IEnumerable<News> news;
-            if (filter == null) // empty
-            {
-                news = await _repository.GetAllAndOrderByCreationDateAsync(sortType);
-            }
-            else
-            {
-                news = await _repository.FindAllAndOrderByCreationDateAsync(o => o.Title.Contains(filter) || o.Subtitle.Contains(filter) || o.Content.Contains(filter), sortType); // must make this case insensitive
-            }
-            if (pageSize > _options.MaxPageSize || pageSize <= 0) pageSize = _options.MaxPageSize;
+            Expression<Func<News, bool>> func;
+            if (filter == null) func = _ => true;
+            else func = (news) => news.Title.Contains(filter) || news.Subtitle.Contains(filter) || news.Content.Contains(filter);
 
-            return news.Take(pageSize);
+            if (numRecords > _options.MaxPageSize || numRecords <= 0) numRecords = _options.MaxPageSize;
+
+            return await _repository.FindAllAndOrderByCreationDateAsync(func, numRecords, sortType); // must make this case insensitive
         }
     }
 }
