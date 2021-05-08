@@ -12,7 +12,7 @@ namespace Data.Interfaces
     {
         public Task<IEnumerable<TEntity>> FindAllAsync(Expression<Func<TEntity, bool>> predicate, int numRecords);
         public Task<TEntity> FindFirstAsync(Expression<Func<TEntity, bool>> predicate);
-        public Task<ICollection<TEntity>> GetAllAsync();
+        public Task<ICollection<TEntity>> GetAllAsync(int numRecords);
         public Task<TEntity> GetByIdAsync(Guid id);
         // CRUD
         public Task CreateAsync(TEntity entity);
@@ -47,9 +47,9 @@ namespace Data.Interfaces
         {
             return await _dbset.AsNoTracking().FirstOrDefaultAsync(predicate);
         }
-        public async Task<ICollection<TEntity>> GetAllAsync()
+        public async Task<ICollection<TEntity>> GetAllAsync(int numRecords)
         {
-            return await _dbset.ToListAsync();
+            return await _dbset.Take(numRecords).ToListAsync();
         }
         public async Task<TEntity> GetByIdAsync(Guid id)
         {

@@ -21,9 +21,9 @@ namespace Data.Repository
             }
             return response.OrderByDescending(news => news.CreationDate);
         }
-        public async Task<IEnumerable<News>> GetAllAndOrderByCreationDateAsync(SortType sortType)
+        public async Task<IEnumerable<News>> GetAllAndOrderByCreationDateAsync(int numRecords, SortType sortType)
         {
-            var response = await base.GetAllAsync();
+            var response = await base.GetAllAsync(numRecords);
             if (sortType == SortType.Ascending)
             {
                 return response.OrderBy(news => news.CreationDate);
