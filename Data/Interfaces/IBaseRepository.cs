@@ -10,9 +10,9 @@ namespace Data.Interfaces
     public interface IBaseRepository<TEntity, DatabaseContext> where TEntity : class
         where DatabaseContext : DbContext
     {
-        public Task<IEnumerable<TEntity>> FindAllAsync(Expression<Func<TEntity, bool>> predicate, int numRecords);
-        public Task<TEntity> FindFirstAsync(Expression<Func<TEntity, bool>> predicate);
-        public Task<ICollection<TEntity>> GetAllAsync(int numRecords);
+        public Task<IEnumerable<TEntity>> SearchAllAsync(Expression<Func<TEntity, bool>> predicate);
+        public Task<TEntity> SearchFirstAsync(Expression<Func<TEntity, bool>> predicate);
+        public Task<ICollection<TEntity>> GetAllAsync();
         public Task<TEntity> GetByIdAsync(Guid id);
         // CRUD
         public Task CreateAsync(TEntity entity);
@@ -39,17 +39,17 @@ namespace Data.Interfaces
             _context = context;
             _dbset = context.Set<TEntity>();
         }
-        public async Task<IEnumerable<TEntity>> FindAllAsync(Expression<Func<TEntity, bool>> predicate, int numRecords)
+        public async Task<IEnumerable<TEntity>> SearchAllAsync(Expression<Func<TEntity, bool>> predicate)
         {
-            return await _dbset.AsNoTracking().Where(predicate).Take(numRecords).ToListAsync();
+            return await _dbset.AsNoTracking().Where(predicate).ToListAsync();
         }
-        public async Task<TEntity> FindFirstAsync(Expression<Func<TEntity, bool>> predicate)
+        public async Task<TEntity> SearchFirstAsync(Expression<Func<TEntity, bool>> predicate)
         {
             return await _dbset.AsNoTracking().FirstOrDefaultAsync(predicate);
         }
-        public async Task<ICollection<TEntity>> GetAllAsync(int numRecords)
+        public async Task<ICollection<TEntity>> GetAllAsync()
         {
-            return await _dbset.Take(numRecords).ToListAsync();
+            return await _dbset.ToListAsync();
         }
         public async Task<TEntity> GetByIdAsync(Guid id)
         {

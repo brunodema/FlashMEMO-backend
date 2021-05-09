@@ -12,18 +12,18 @@ namespace Data.Repository
     {
         public NewsRepository(FlashMEMOContext context) : base(context) { }
 
-        public async Task<IEnumerable<News>> FindAllAndOrderByCreationDateAsync(Expression<Func<News, bool>> predicate, int numRecords, SortType sortType)
+        public async Task<IEnumerable<News>> FindAndOrderByCreationDateAsync(Expression<Func<News, bool>> predicate, int numRecords, SortType sortType)
         {
-            var response = await base.FindAllAsync(predicate, numRecords);
+            var response = await base.SearchAllAsync(predicate);
             if (sortType == SortType.Ascending)
             {
                 return response.OrderBy(news => news.CreationDate);
             }
             return response.OrderByDescending(news => news.CreationDate);
         }
-        public async Task<IEnumerable<News>> GetAllAndOrderByCreationDateAsync(int numRecords, SortType sortType)
+        public async Task<IEnumerable<News>> GetAndOrderByCreationDateAsync(int numRecords, SortType sortType)
         {
-            var response = await base.GetAllAsync(numRecords);
+            var response = await base.GetAllAsync();
             if (sortType == SortType.Ascending)
             {
                 return response.OrderBy(news => news.CreationDate);
