@@ -1,10 +1,11 @@
-﻿using Data.Models;
+﻿using Data.Interfaces;
+using Data.Models;
 using System.Collections.Generic;
 
 namespace API.ViewModels
 {
     public class ListNewsResponseModel : BaseResponseModel
     {
-        public IEnumerable<News> News { get; set; }
+        public IEnumerable<INews> News { get; set; }
     }
 }
