@@ -79,11 +79,19 @@ namespace RepositoryTests
         [Theory]
         [InlineData(50, SortType.Ascending)]
         [InlineData(1, SortType.Ascending)]
+        [InlineData(0, SortType.Ascending)]
+        [InlineData(4, SortType.Ascending)]
+        [InlineData(-1, SortType.Ascending)]
+        [InlineData(50, SortType.Descending)]
+        [InlineData(1, SortType.Descending)]
+        [InlineData(0, SortType.Descending)]
+        [InlineData(4, SortType.Descending)]
+        [InlineData(-1, SortType.Descending)]
         public async void FindAllAndOrderByCreationDateAsync_ProperlyGetDateAndOrderAccordignly(int numRecords, SortType sortType)
         {
             var response = await _repositoryFixture._repository.GetAllAndOrderByCreationDateAsync(numRecords, sortType);
 
-            Assert.True(response.Count() <= numRecords);
+            Assert.True(response.Count() <= (numRecords < 0 ? 0 : numRecords));
             if (sortType == SortType.Ascending)
             {
                 Assert.True(response.OrderBy(news => news.CreationDate).SequenceEqual(response));
