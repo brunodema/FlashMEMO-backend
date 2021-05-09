@@ -14,12 +14,7 @@ namespace Data.Repository
 
         public async Task<IEnumerable<News>> SearchAndOrderByCreationDateAsync(Expression<Func<News, bool>> predicate, SortType sortType, int numRecords)
         {
-            var response = await base.SearchAllAsync(predicate);
-            if (sortType == SortType.Ascending)
-            {
-                return response.OrderBy(news => news.CreationDate);
-            }
-            return response.OrderByDescending(news => news.CreationDate);
+            return await base.SearchAndOrderAsync(predicate, sortType, news => news.CreationDate, numRecords);
         }
         public async Task<IEnumerable<News>> GetAndOrderByCreationDateAsync(SortType sortType, int numRecords)
         {

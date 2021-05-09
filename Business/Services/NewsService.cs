@@ -36,7 +36,7 @@ namespace Business.Services
 
             if (numRecords > _options.MaxPageSize || numRecords <= 0) numRecords = _options.MaxPageSize;
 
-            return await _repository.SearchAndOrderByCreationDateAsync(func, numRecords, sortType); // must make this case insensitive
+            return await _repository.SearchAndOrderByCreationDateAsync(func, sortType, numRecords); // must make this case insensitive
         }
     }
 }
