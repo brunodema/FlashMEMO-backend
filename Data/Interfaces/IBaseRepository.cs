@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,6 +11,7 @@ namespace Data.Interfaces
     public interface IBaseRepository<TEntity, DatabaseContext> where TEntity : class
         where DatabaseContext : DbContext
     {
+        public Task<IEnumerable<TEntity>> SearchAndOrderAsync(Expression<Func<TEntity, bool>> predicate, SortType sortType, Expression<Func<TEntity, IKey>> columnToSort, int numRecords);
         public Task<IEnumerable<TEntity>> SearchAllAsync(Expression<Func<TEntity, bool>> predicate);
         public Task<TEntity> SearchFirstAsync(Expression<Func<TEntity, bool>> predicate);
         public Task<ICollection<TEntity>> GetAllAsync();
@@ -38,6 +40,15 @@ namespace Data.Interfaces
         {
             _context = context;
             _dbset = context.Set<TEntity>();
+        }
+        public async Task<IEnumerable<TEntity>> SearchAndOrderAsync(Expression<Func<TEntity, bool>> predicate, SortType sortType, Expression<Func<TEntity, IKey>> columnToSort, int numRecords)
+        {
+            if (sortType == SortType.Ascending)
+            {
+                return await _dbset.AsNoTracking().Where(predicate).OrderBy(columnToSort).Take(numRecords).ToListAsync();
+            }
+            return await _dbset.AsNoTracking().Where(predicate).OrderByDescending(columnToSort).Take(numRecords).ToListAsync();
+
         }
         public async Task<IEnumerable<TEntity>> SearchAllAsync(Expression<Func<TEntity, bool>> predicate)
         {
