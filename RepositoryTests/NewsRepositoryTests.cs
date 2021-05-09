@@ -67,13 +67,36 @@ namespace RepositoryTests
         }
     }
 
-    public class NewsRepositoryTests : IClassFixture<NewsRepositoryFixture>
+
+    public interface IBaseRepositoryTests<TEntity>
+    {
+        public void CreateAsync_AssertThatItGetsProperlyCreated();
+        //public void UpdateAsync_AssertThatItGetsProperlyUpdated(TEntity entity);
+        //public void RemoveAsync_AssertThatItGetsProperlyRemoved(TEntity entity);
+    }
+
+    public class NewsRepositoryTests : IClassFixture<NewsRepositoryFixture>, IBaseRepositoryTests<News>
     {
         NewsRepositoryFixture _repositoryFixture;
 
         public NewsRepositoryTests(NewsRepositoryFixture repositoryFixture)
         {
             _repositoryFixture = repositoryFixture;
+        }
+        [Fact]
+        public async void CreateAsync_AssertThatItGetsProperlyCreated()
+        {
+            var dummyNews = new News
+            {
+                Title = "NASA slams China after rocket debris lands near Maldives for 'failing to meet responsible standards'",
+                Subtitle = "China's Long March 5B rocket made an uncontrolled reentry into Earth's atmosphere",
+                Content = "NASA rebuked China for failing to meet responsible spacefaring standards after remnants of the nation's rogue Long March 5B rocket landed in the Indian Ocean near the Maldives early Sunday. Sightings of the Chinese rocket debris reentering Earth's atmosphere and scorching across the pre-dawn skies were reported in Jordan, Oman and Saudi Arabia.",
+                CreationDate = DateTime.Now.Subtract(TimeSpan.FromDays(30)),
+                LastUpdated = DateTime.Now.Subtract(TimeSpan.FromDays(30))
+            };
+            await this._repositoryFixture._repository.CreateAsync(dummyNews);
+
+            Assert.True((await this._repositoryFixture._repository.GetAllAsync()).Contains(dummyNews));
         }
 
         [Theory]
