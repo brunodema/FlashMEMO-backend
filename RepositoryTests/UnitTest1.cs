@@ -87,7 +87,7 @@ namespace RepositoryTests
         [InlineData(0, SortType.Descending)]
         [InlineData(4, SortType.Descending)]
         [InlineData(-1, SortType.Descending)]
-        public async void FindAllAndOrderByCreationDateAsync_ProperlyGetDateAndOrderAccordignly(int numRecords, SortType sortType)
+        public async void GetAllAndOrderByCreationDateAsync_ProperlyGetDateAndOrderAccordignly(int numRecords, SortType sortType)
         {
             var response = await _repositoryFixture._repository.GetAllAndOrderByCreationDateAsync(numRecords, sortType);
 
