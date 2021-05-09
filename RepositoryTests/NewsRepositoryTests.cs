@@ -8,6 +8,9 @@ using System.Linq.Expressions;
 using System.Collections.Generic;
 using Data.Interfaces;
 using System.Linq;
+using Xunit.Abstractions;
+using System.Threading.Tasks;
+using System.Threading;
 
 namespace RepositoryTests
 {
@@ -21,7 +24,8 @@ namespace RepositoryTests
             var context = new FlashMEMOContext(options);
             context.News.Add(new News
             {
-                // all samples taken from https://goodmenproject.com/featured-content/100-examples-genuine-good-news-mostly-awesome-world-h2l/
+                // all samples taken from https://goodmenproject.com/featured-content/100-examples-genuine-good-news-mostly-awesome-world-h2l/. GUID created with https://www.guidgenerator.com/online-guid-generator.aspx
+                NewsID = Guid.Parse("58f59c8a-1530-4e72-95c6-4cf60ca29ddc"),
                 Title = "100 Examples of Genuine Good News in a Mostly Awesome World",
                 Subtitle = "We all require joy, hope and optimism. In these darker times, take heart that people care, that kindnesses, innovation and generosity are happening all over the world.",
                 ThumbnailPath = "assets/features/flashmemo_dummy1.jpg",
@@ -31,6 +35,7 @@ namespace RepositoryTests
             });
             context.News.Add(new News
             {
+                NewsID = Guid.Parse("5c2ccf9e-056f-420a-a262-e04dbe4dcab3"),
                 Title = "Losing ‘Manliness’ from Aging",
                 Subtitle = "Age takes its toll no matter how strong or smart or handsome you are now. Here's how you can change the way you view your masculinity.",
                 ThumbnailPath = "assets/features/flashmemo_dummy2.jpg",
@@ -40,6 +45,7 @@ namespace RepositoryTests
             });
             context.News.Add(new News
             {
+                NewsID = Guid.Parse("e17161ed-2a4d-4612-bb54-a1294a8a4e28"),
                 Title = "To Some, Reparations Are Common Sense",
                 Subtitle = "Three White Jeopardy contestants recently thought reparations had already been paid. It made me feel strangely optimistic.",
                 ThumbnailPath = "assets/features/flashmemo_dummy3.jpg",
@@ -49,6 +55,7 @@ namespace RepositoryTests
             });
             context.News.Add(new News
             {
+                NewsID = Guid.Parse("b12144ad-6de7-47af-9996-42178f29701b"),
                 Title = "George Floyd and Friendship",
                 Subtitle = "Finding hope in tragedy.",
                 ThumbnailPath = "assets/features/flashmemo_dummy4.jpg",
@@ -71,17 +78,19 @@ namespace RepositoryTests
     public interface IBaseRepositoryTests<TEntity>
     {
         public void CreateAsync_AssertThatItGetsProperlyCreated();
-        //public void UpdateAsync_AssertThatItGetsProperlyUpdated(TEntity entity);
-        //public void RemoveAsync_AssertThatItGetsProperlyRemoved(TEntity entity);
+        public void UpdateAsync_AssertThatItGetsProperlyUpdated();
+        public void RemoveAsync_AssertThatItGetsProperlyRemoved();
     }
 
     public class NewsRepositoryTests : IClassFixture<NewsRepositoryFixture>, IBaseRepositoryTests<News>
     {
-        NewsRepositoryFixture _repositoryFixture;
+        private NewsRepositoryFixture _repositoryFixture;
+        private readonly ITestOutputHelper _output;
 
-        public NewsRepositoryTests(NewsRepositoryFixture repositoryFixture)
+        public NewsRepositoryTests(NewsRepositoryFixture repositoryFixture, ITestOutputHelper output)
         {
             _repositoryFixture = repositoryFixture;
+            _output = output;
         }
         [Fact]
         public async void CreateAsync_AssertThatItGetsProperlyCreated()
@@ -97,6 +106,31 @@ namespace RepositoryTests
             await this._repositoryFixture._repository.CreateAsync(dummyNews);
 
             Assert.True((await this._repositoryFixture._repository.GetAllAsync()).Contains(dummyNews));
+            Assert.True(this._repositoryFixture._repository.GetAllAsync().Result.Count == 5, $"Lenght of list returned is invalid (!= 5)");
+        }
+        [Fact]
+        public async void UpdateAsync_AssertThatItGetsProperlyUpdated()
+        {
+            var dummyNews = await this._repositoryFixture._repository.GetByIdAsync(Guid.Parse("b12144ad-6de7-47af-9996-42178f29701b"));
+
+            dummyNews.Title = "New generated title, different from the previous one";
+            var newTime = dummyNews.LastUpdated = DateTime.Now;
+            await this._repositoryFixture._repository.UpdateAsync(dummyNews);
+
+            var query = await this._repositoryFixture._repository.GetByIdAsync(Guid.Parse("b12144ad-6de7-47af-9996-42178f29701b"));
+            Assert.NotNull(query);
+            Assert.True(query.Title == "New generated title, different from the previous one");
+            Assert.True(query.LastUpdated == newTime);
+            Assert.True((await this._repositoryFixture._repository.GetAllAsync()).Count == 4);
+        }
+        [Fact]
+        public async void RemoveAsync_AssertThatItGetsProperlyRemoved()
+        {
+            var dummyNews = await this._repositoryFixture._repository.GetByIdAsync(Guid.Parse("e17161ed-2a4d-4612-bb54-a1294a8a4e28"));
+            await this._repositoryFixture._repository.RemoveAsync(dummyNews);
+
+            Assert.False((await this._repositoryFixture._repository.GetAllAsync()).Contains(dummyNews));
+            Assert.True((await this._repositoryFixture._repository.GetAllAsync()).Count == 3);
         }
 
         [Theory]

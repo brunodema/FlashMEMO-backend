@@ -60,7 +60,7 @@ namespace Data.Interfaces
         }
         public async Task<ICollection<TEntity>> GetAllAsync()
         {
-            return await _dbset.ToListAsync();
+            return await _dbset. ToListAsync();
         }
         public async Task<TEntity> GetByIdAsync(Guid id)
         {
