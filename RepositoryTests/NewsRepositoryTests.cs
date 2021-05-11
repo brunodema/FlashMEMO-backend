@@ -74,16 +74,6 @@ namespace RepositoryTests
         }
     }
 
-
-    public interface IBaseRepositoryTests<TEntity>
-    {
-        public void CreateAsync_AssertThatItGetsProperlyCreated();
-        public void UpdateAsync_AssertThatItGetsProperlyUpdated();
-        public void RemoveAsync_AssertThatItGetsProperlyRemoved();
-
-        // still missing: GetById, validation tests
-    }
-
     public class NewsRepositoryTests : IClassFixture<NewsRepositoryFixture>, IBaseRepositoryTests<News>
     {
         private NewsRepositoryFixture _repositoryFixture;
