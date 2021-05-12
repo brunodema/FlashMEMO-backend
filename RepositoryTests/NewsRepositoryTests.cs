@@ -142,6 +142,18 @@ namespace RepositoryTests
             Assert.False((await this._repositoryFixture._repository.GetAllAsync()).Contains(dummyNews), "Table still contains the item");
             Assert.True(newNumRows == numRows - 1, $"Number of rows did not decrease with the item removed ({ newNumRows} != { numRows - 1})");
         }
+        [Fact]
+        public async void GetByIdAsync_AssertThatItGetsProperlyRemoved()
+        {
+            // Arrange
+            // Act
+            var dummyNews1 = await this._repositoryFixture._repository.GetByIdAsync(Guid.Parse("58f59c8a-1530-4e72-95c6-4cf60ca29ddc"));
+            var dummyNews2 = await this._repositoryFixture._repository.GetByIdAsync(Guid.Parse("0d88212f-5d1e-45ab-877a-03d1b0b961ce")); // invalid GUID
+
+            // Assert
+            Assert.NotNull(dummyNews1);
+            Assert.Null(dummyNews2);
+        }
 
         [Theory]
         [InlineData(50, SortType.Ascending)]
