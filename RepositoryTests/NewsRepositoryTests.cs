@@ -125,7 +125,7 @@ namespace RepositoryTests
             Assert.NotNull(queryResult);
             Assert.True(queryResult.Title == "New generated title, different from the previous one", "Object property does not match the new updated value");
             Assert.True(queryResult.LastUpdated == newTime, "Object property does not match the new updated value");
-            Assert.True(newNumRows == numRows, $"Number of rows did not stay the same with the update ({newNumRows} != {numRows + 1})");
+            Assert.True(newNumRows == numRows, $"Number of rows did not stay the same with the update ({newNumRows} != {numRows})");
         }
         [Fact]
         public async void RemoveAsync_AssertThatItGetsProperlyRemoved()
@@ -140,7 +140,7 @@ namespace RepositoryTests
             // Assert
             var newNumRows = this._repositoryFixture._repository.GetAllAsync().Result.Count;
             Assert.False((await this._repositoryFixture._repository.GetAllAsync()).Contains(dummyNews), "Table still contains the item");
-            Assert.True(newNumRows == numRows - 1, $"Number of rows did not decrease with the item removed ({ newNumRows} != { numRows + 1})");
+            Assert.True(newNumRows == numRows - 1, $"Number of rows did not decrease with the item removed ({ newNumRows} != { numRows - 1})");
         }
 
         [Theory]

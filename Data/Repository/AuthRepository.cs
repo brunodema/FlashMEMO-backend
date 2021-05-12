@@ -1,32 +1,20 @@
-﻿using System;
+﻿using Data.Interfaces;
+using Data.Models;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
-using Microsoft.AspNetCore.Identity;
-using Data.Models;
+using System.Threading.Tasks;
 
-namespace Data.Interfaces
+namespace Data.Repository
 {
-    public interface IAuthRepository
-    {
-        public Task<IEnumerable<ApplicationUser>> SearchAndOrderUserAsync<TKey>(Expression<Func<ApplicationUser, bool>> predicate, SortType sortType, Expression<Func<ApplicationUser, TKey>> columnToSort, int numRecords);
-        public Task<IEnumerable<ApplicationUser>> SearchAllUserAsync(Expression<Func<ApplicationUser, bool>> predicate);
-        public Task<ApplicationUser> SearchFirstAsync(Expression<Func<ApplicationUser, bool>> predicate);
-        public Task<ICollection<ApplicationUser>> GetAllUserAsync();
-        public Task<ApplicationUser> GetUserByIdAsync(Guid id);
-        // CRUD
-        public Task<IdentityResult> CreateUserAsync(ApplicationUser entity, string encryptedPassword);
-        public Task<IdentityResult> UpdateUserAsync(ApplicationUser entity);
-        public Task<IdentityResult> RemoveUserAsync(ApplicationUser entity);
-        public void Dispose();
-    }
-    public abstract class AuthRepository : IAuthRepository
+    public class AuthRepository : IAuthRepository
     {
         protected readonly UserManager<ApplicationUser> _userManager;
 
-        protected AuthRepository(UserManager<ApplicationUser> userManager)
+        public AuthRepository(UserManager<ApplicationUser> userManager)
         {
             _userManager = userManager;
         }
@@ -74,4 +62,3 @@ namespace Data.Interfaces
         }
     }
 }
-
