@@ -11,10 +11,10 @@ using Xunit.Abstractions;
 
 namespace RepositoryTests
 {
-    public class ApplicationUserFixture : IDisposable
+    public class ApplicationUserRepositoryFixture : IDisposable
     {
         public ApplicationUserRepository _repository;
-        public ApplicationUserFixture()
+        public ApplicationUserRepositoryFixture()
         {
             var options = new DbContextOptionsBuilder<FlashMEMOContext>().UseInMemoryDatabase(databaseName: "FlashMEMOTest").Options;
             var context = new FlashMEMOContext(options);
@@ -66,12 +66,12 @@ namespace RepositoryTests
         }
     }
 
-    public class ApplicationUserRepositoryTests : IClassFixture<ApplicationUserFixture>, IBaseRepositoryTests<ApplicationUser>
+    public class ApplicationUserRepositoryTests : IClassFixture<ApplicationUserRepositoryFixture>, IBaseRepositoryTests<ApplicationUser>
     {
-        private ApplicationUserFixture _repositoryFixture;
+        private ApplicationUserRepositoryFixture _repositoryFixture;
         private readonly ITestOutputHelper _output;
 
-        public ApplicationUserRepositoryTests(ApplicationUserFixture repositoryFixture, ITestOutputHelper output)
+        public ApplicationUserRepositoryTests(ApplicationUserRepositoryFixture repositoryFixture, ITestOutputHelper output)
         {
             _repositoryFixture = repositoryFixture;
             _output = output;
