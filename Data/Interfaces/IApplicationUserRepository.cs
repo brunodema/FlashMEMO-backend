@@ -9,7 +9,7 @@ using Data.Models;
 
 namespace Data.Interfaces
 {
-    public interface IAuthRepository
+    public interface IApplicationUserRepository
     {
         public Task<IEnumerable<ApplicationUser>> SearchAndOrderUserAsync<TKey>(Expression<Func<ApplicationUser, bool>> predicate, SortType sortType, Expression<Func<ApplicationUser, TKey>> columnToSort, int numRecords);
         public Task<IEnumerable<ApplicationUser>> SearchAllUserAsync(Expression<Func<ApplicationUser, bool>> predicate);
