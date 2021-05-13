@@ -11,10 +11,10 @@ using Xunit.Abstractions;
 
 namespace RepositoryTests
 {
-    public class AuthRepositoryFixture : IDisposable
+    public class ApplicationUserFixture : IDisposable
     {
-        public AuthRepository _repository;
-        public AuthRepositoryFixture()
+        public ApplicationUserRepository _repository;
+        public ApplicationUserFixture()
         {
             var options = new DbContextOptionsBuilder<FlashMEMOContext>().UseInMemoryDatabase(databaseName: "FlashMEMOTest").Options;
             var context = new FlashMEMOContext(options);
@@ -57,7 +57,7 @@ namespace RepositoryTests
 
             }, "Test@123").Wait();
 
-            _repository = new AuthRepository(userManager);
+            _repository = new ApplicationUserRepository(context, userManager);
         }
 
         public void Dispose()
@@ -66,12 +66,12 @@ namespace RepositoryTests
         }
     }
 
-    public class AuthRepositoryTests : IClassFixture<AuthRepositoryFixture>, IAuthRepositoryTest
+    public class ApplicationUserRepositoryTests : IClassFixture<ApplicationUserFixture>, IApplicationUserRepositoryTest
     {
-        private AuthRepositoryFixture _repositoryFixture;
+        private ApplicationUserFixture _repositoryFixture;
         private readonly ITestOutputHelper _output;
 
-        public AuthRepositoryTests(AuthRepositoryFixture repositoryFixture, ITestOutputHelper output)
+        public ApplicationUserRepositoryTests(ApplicationUserFixture repositoryFixture, ITestOutputHelper output)
         {
             _repositoryFixture = repositoryFixture;
             _output = output;
@@ -81,7 +81,7 @@ namespace RepositoryTests
         public async void CreateUserAsync_AssertThatItGetsProperlyCreated()
         {
             // Arrange
-            var numRows = this._repositoryFixture._repository.GetAllUserAsync().Result.Count;
+            var numRows = this._repositoryFixture._repository.GetAllAsync().Result.Count;
             var dummyUser = new ApplicationUser
             {
                 Id = "424e9d3e-686d-4163-be89-e7bae263a1a5",
@@ -95,53 +95,53 @@ namespace RepositoryTests
             await this._repositoryFixture._repository.CreateUserAsync(dummyUser, "Dummy@123");
 
             // Assert
-            var newNumRows = this._repositoryFixture._repository.GetAllUserAsync().Result.Count;
-            Assert.True((await this._repositoryFixture._repository.GetAllUserAsync()).Contains(dummyUser), "Table does not contain the new item");
+            var newNumRows = this._repositoryFixture._repository.GetAllAsync().Result.Count;
+            Assert.True((await this._repositoryFixture._repository.GetAllAsync()).Contains(dummyUser), "Table does not contain the new item");
             Assert.True(newNumRows == numRows + 1, $"Number of rows did not increase with the new item added ({newNumRows} != {numRows + 1})");
         }
         [Fact]
-        public async void UpdateUserAsync_AssertThatItGetsProperlyUpdated()
+        public async void UpdateAsync_AssertThatItGetsProperlyUpdated()
         {
             // Arrange
-            var numRows = this._repositoryFixture._repository.GetAllUserAsync().Result.Count;
-            var dummyUser = await this._repositoryFixture._repository.GetUserByIdAsync(Guid.Parse("e7edd329-b0bd-4820-9df4-c13c8aab3577"));
+            var numRows = this._repositoryFixture._repository.GetAllAsync().Result.Count;
+            var dummyUser = await this._repositoryFixture._repository.GetByIdAsync(Guid.Parse("e7edd329-b0bd-4820-9df4-c13c8aab3577"));
 
             dummyUser.Email = "newemail@email.com";
             dummyUser.UserName = "newdummy";
 
             // Act
-            await this._repositoryFixture._repository.UpdateUserAsync(dummyUser);
+            await this._repositoryFixture._repository.UpdateAsync(dummyUser);
 
             // Assert
-            var newNumRows = this._repositoryFixture._repository.GetAllUserAsync().Result.Count;
-            var queryResult = await this._repositoryFixture._repository.GetUserByIdAsync(Guid.Parse("e7edd329-b0bd-4820-9df4-c13c8aab3577"));
+            var newNumRows = this._repositoryFixture._repository.GetAllAsync().Result.Count;
+            var queryResult = await this._repositoryFixture._repository.GetByIdAsync(Guid.Parse("e7edd329-b0bd-4820-9df4-c13c8aab3577"));
             Assert.NotNull(queryResult);
             Assert.True(queryResult.Email == "newemail@email.com", "Object property does not match the new updated value");
             Assert.True(queryResult.UserName == "newdummy", "Object property does not match the new updated value");
             Assert.True(newNumRows == numRows, $"Number of rows did not stay the same with the update ({newNumRows} != {numRows})");
         }
         [Fact]
-        public async void RemoveUserAsync_AssertThatItGetsProperlyRemoved()
+        public async void RemoveAsync_AssertThatItGetsProperlyRemoved()
         {
             // Arrange
-            var numRows = this._repositoryFixture._repository.GetAllUserAsync().Result.Count;
-            var dummyUser = await this._repositoryFixture._repository.GetUserByIdAsync(Guid.Parse("858b3287-5972-4069-bf75-a650453dfef7"));
+            var numRows = this._repositoryFixture._repository.GetAllAsync().Result.Count;
+            var dummyUser = await this._repositoryFixture._repository.GetByIdAsync(Guid.Parse("858b3287-5972-4069-bf75-a650453dfef7"));
 
             // Act
-            await this._repositoryFixture._repository.RemoveUserAsync(dummyUser);
+            await this._repositoryFixture._repository.RemoveAsync(dummyUser);
 
             // Assert
-            var newNumRows = this._repositoryFixture._repository.GetAllUserAsync().Result.Count;
-            Assert.False((await this._repositoryFixture._repository.GetAllUserAsync()).Contains(dummyUser), "Table still contains the item");
+            var newNumRows = this._repositoryFixture._repository.GetAllAsync().Result.Count;
+            Assert.False((await this._repositoryFixture._repository.GetAllAsync()).Contains(dummyUser), "Table still contains the item");
             Assert.True(newNumRows == numRows - 1, $"Number of rows did not decrease with the item removed ({ newNumRows} != { numRows - 1})");
         }
         [Fact]
-        public async void GetUserByIdAsync_AssertThatItGetsProperlyRemoved()
+        public async void GetByIdAsync_AssertThatItGetsProperlyRemoved()
         {
             // Arrange
             // Act
-            var dummyUser1 = await this._repositoryFixture._repository.GetUserByIdAsync(Guid.Parse("858b3287-5972-4069-bf75-a650453dfef7"));
-            var dummyUser2 = await this._repositoryFixture._repository.GetUserByIdAsync(Guid.Parse("0d88212f-5d1e-45ab-877a-03d1b0b961ce")); // invalid GUID
+            var dummyUser1 = await this._repositoryFixture._repository.GetByIdAsync(Guid.Parse("858b3287-5972-4069-bf75-a650453dfef7"));
+            var dummyUser2 = await this._repositoryFixture._repository.GetByIdAsync(Guid.Parse("0d88212f-5d1e-45ab-877a-03d1b0b961ce")); // invalid GUID
 
             // Assert
             Assert.NotNull(dummyUser1);

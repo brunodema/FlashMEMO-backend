@@ -40,7 +40,7 @@ namespace Data.Interfaces
             _context = context;
             _dbset = context.Set<TEntity>();
         }
-        public async Task<IEnumerable<TEntity>> SearchAndOrderAsync<TKey>(Expression<Func<TEntity, bool>> predicate, SortType sortType, Expression<Func<TEntity, TKey>> columnToSort, int numRecords)
+        public virtual async Task<IEnumerable<TEntity>> SearchAndOrderAsync<TKey>(Expression<Func<TEntity, bool>> predicate, SortType sortType, Expression<Func<TEntity, TKey>> columnToSort, int numRecords)
         {
             if (sortType == SortType.Ascending)
             {
@@ -49,19 +49,19 @@ namespace Data.Interfaces
             return await _dbset.AsNoTracking().Where(predicate).OrderByDescending(columnToSort).Take(numRecords).ToListAsync();
 
         }
-        public async Task<IEnumerable<TEntity>> SearchAllAsync(Expression<Func<TEntity, bool>> predicate)
+        public virtual async Task<IEnumerable<TEntity>> SearchAllAsync(Expression<Func<TEntity, bool>> predicate)
         {
             return await _dbset.AsNoTracking().Where(predicate).ToListAsync();
         }
-        public async Task<TEntity> SearchFirstAsync(Expression<Func<TEntity, bool>> predicate)
+        public virtual async Task<TEntity> SearchFirstAsync(Expression<Func<TEntity, bool>> predicate)
         {
             return await _dbset.AsNoTracking().FirstOrDefaultAsync(predicate);
         }
-        public async Task<ICollection<TEntity>> GetAllAsync()
+        public virtual async Task<ICollection<TEntity>> GetAllAsync()
         {
             return await _dbset. ToListAsync();
         }
-        public async Task<TEntity> GetByIdAsync(Guid id)
+        public virtual async Task<TEntity> GetByIdAsync(Guid id)
         {
             return await _dbset.FindAsync(id);
         }
@@ -85,7 +85,7 @@ namespace Data.Interfaces
         {
             return await _context.SaveChangesAsync();
         }
-        public void Dispose()
+        public virtual void Dispose()
         {
             _context?.Dispose();
         }
