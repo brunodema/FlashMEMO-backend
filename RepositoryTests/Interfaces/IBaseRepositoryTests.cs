@@ -13,12 +13,4 @@ namespace RepositoryTests
         public void RemoveAsync_AssertThatItGetsProperlyRemoved();
         public void GetByIdAsync_AssertThatItGetsProperlyRemoved();
     }
-
-    public interface IApplicationUserRepositoryTest
-    {
-        public void CreateUserAsync_AssertThatItGetsProperlyCreated();
-        public void UpdateAsync_AssertThatItGetsProperlyUpdated();
-        public void RemoveAsync_AssertThatItGetsProperlyRemoved();
-        public void GetByIdAsync_AssertThatItGetsProperlyRemoved();
-    }
 }

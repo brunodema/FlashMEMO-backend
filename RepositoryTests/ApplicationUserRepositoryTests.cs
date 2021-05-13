@@ -66,7 +66,7 @@ namespace RepositoryTests
         }
     }
 
-    public class ApplicationUserRepositoryTests : IClassFixture<ApplicationUserFixture>, IApplicationUserRepositoryTest
+    public class ApplicationUserRepositoryTests : IClassFixture<ApplicationUserFixture>, IBaseRepositoryTests<ApplicationUser>
     {
         private ApplicationUserFixture _repositoryFixture;
         private readonly ITestOutputHelper _output;
@@ -78,7 +78,7 @@ namespace RepositoryTests
         }
 
         [Fact]
-        public async void CreateUserAsync_AssertThatItGetsProperlyCreated()
+        public async void CreateAsync_AssertThatItGetsProperlyCreated()
         {
             // Arrange
             var numRows = this._repositoryFixture._repository.GetAllAsync().Result.Count;
