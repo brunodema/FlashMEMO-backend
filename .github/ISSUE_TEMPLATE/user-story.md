@@ -17,7 +17,7 @@ assignees: ''
 Scattering information in emails and other places makes it difficult to work collaboratively,
 so I need all the relevant information within the relevant issue.
 
-### Acceptance Criteria
+## Acceptance Criteria
 
 1. If I do A.
 1. B should happen.
@@ -30,11 +30,11 @@ Also, here are a few points that need to be addressed:
 
 ## Resources:
 
-* Mockups: [Here goes a URL to or the name of the mockup(s) in inVision];
-* Testing URL: [Here goes a URL to the testing branch or IP];
-* Staging URL: [Here goes a URL to the feature on staging];
+* Mockups:[Here goes a URL to or the name of the mockup(s) in inVision;
+* Testing URL: Here goes a URL to the testing branch or IP;
+* Staging URL: Here goes a URL to the feature on staging;
 
-### Notes
+## Notes
 
 Some complementary notes if necessary:
 
