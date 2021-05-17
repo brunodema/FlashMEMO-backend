@@ -28,7 +28,7 @@ namespace Data.Repository
             _context = context;
         }
 
-        public async Task AdduserToRule(ApplicationUser user, ApplicationRole role)
+        public async Task AdduserToRuleAsync(ApplicationUser user, ApplicationRole role)
         {
             await _userManager.AddToRoleAsync(user, role.Name);
         }
@@ -82,7 +82,7 @@ namespace Data.Repository
             return _roleRepository.RemoveAsync(entity);
         }
 
-        public async Task RemoveUserFromRule(ApplicationUser user, ApplicationRole role)
+        public async Task RemoveUserFromRuleAsync(ApplicationUser user, ApplicationRole role)
         {
             await _userManager.RemoveFromRoleAsync(user, role.Name);
         }
