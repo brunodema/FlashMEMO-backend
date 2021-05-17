@@ -32,6 +32,8 @@ namespace Data.Interfaces
         public Task UpdateAsync(ApplicationRole entity);
         public Task RemoveAsync(ApplicationRole entity);
         #endregion
+        public Task AdduserToRule(ApplicationUser user, ApplicationRole role);
+        public Task RemoveUserFromRule(ApplicationUser user, ApplicationRole role);
         public Task<int> SaveChangesAsync();
         public void Dispose();
     }

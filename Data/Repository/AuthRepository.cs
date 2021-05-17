@@ -27,6 +27,12 @@ namespace Data.Repository
             _roleRepository = roleRepository;
             _context = context;
         }
+
+        public async Task AdduserToRule(ApplicationUser user, ApplicationRole role)
+        {
+            await _userManager.AddToRoleAsync(user, role.Name);
+        }
+
         public async Task CreateAsync(ApplicationUser entity, string cleanPassword)
         {
             await _userManager.CreateAsync(entity, cleanPassword);
@@ -74,6 +80,11 @@ namespace Data.Repository
         public Task RemoveAsync(ApplicationRole entity)
         {
             return _roleRepository.RemoveAsync(entity);
+        }
+
+        public async Task RemoveUserFromRule(ApplicationUser user, ApplicationRole role)
+        {
+            await _userManager.RemoveFromRoleAsync(user, role.Name);
         }
 
         public async Task<int> SaveChangesAsync()
