@@ -122,11 +122,11 @@ namespace RepositoryTests
                 _authRepositoriesFixture = authRepositoriesFixture;
                 _output = output;
             }
-            [Fact]
+            //[Fact]
             public async void AddUserToRole_CheckThatItGetsCorrectlyAdded()
             {
                 // Arrange
-                var user = await _authRepositoriesFixture._userRepository.GetByIdAsync(Guid.Parse(UserTestGUID.GUID1));
+                //var user = await _authRepositoriesFixture._userRepository.GetByIdAsync(Guid.Parse(UserTestGUID.GUID1));
 
                 // Act
                 // The repositories do not have shared methods for adding/removing roles - oops! Need to implement it.
