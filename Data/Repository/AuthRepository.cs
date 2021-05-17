@@ -72,6 +72,11 @@ namespace Data.Repository
             return _applicationUserRepository.GetByIdAsync(id);
         }
 
+        public async Task<IEnumerable<ApplicationRole>> GetUserRolesAsync(ApplicationUser user)
+        {
+            return await _roleRepository.SearchAllAsync(role => role.UserRoles.Any(r => r.User == user)); // probably will break
+        }
+
         public Task RemoveAsync(ApplicationUser entity)
         {
             return _applicationUserRepository.RemoveAsync(entity);
