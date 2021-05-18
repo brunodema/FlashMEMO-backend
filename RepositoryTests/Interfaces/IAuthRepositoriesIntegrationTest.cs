@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Data.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -19,10 +20,10 @@ namespace RepositoryTests.Interfaces
         public void User_RemoveAsync_AssertThatItGetsProperlyRemoved();
         public void User_GetByIdAsync_AssertThatItGetsProperlyRemoved();
         // AUX
-        public void User_SearchAndOrderAsync_AssertThatItWorksProperly();
-        public void User_SearchAllAsync_AssertThatItWorksProperly();
-        public void User_SearchFirstAsync_AssertThatItWorksProperly();
-        public void User_GetAllAsync_AssertThatItWorksProperly();
+        public void User_SearchAndOrderAsync_AssertThatItGetsProperlySorted(int numRecords, SortType sortType);
+        //public void User_SearchAllAsync_AssertThatItWorksProperly(); // does not make sense to exist considering that the above method does everything better
+        public void User_SearchFirstAsync_AssertThatItWorksProperly(string email, bool expectNull);
+        //public void User_GetAllAsync_AssertThatItWorksProperly(); // also does not make much sense to test this, since it is used throughout other tests
 
         // Role
         // CRUD

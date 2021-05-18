@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using RepositoryTests.Interfaces;
 using System;
+using System.Linq;
 using Xunit;
 using Xunit.Abstractions;
 
@@ -205,25 +206,46 @@ namespace RepositoryTests
                 Assert.NotNull(dummyUser1);
                 Assert.Null(dummyUser2);
             }
-
-            public async void User_SearchAndOrderAsync_AssertThatItWorksProperly()
+            [Theory]
+            [InlineData(50, SortType.Ascending)]
+            [InlineData(1, SortType.Ascending)]
+            [InlineData(0, SortType.Ascending)]
+            [InlineData(4, SortType.Ascending)]
+            [InlineData(-1, SortType.Ascending)]
+            [InlineData(50, SortType.Descending)]
+            [InlineData(1, SortType.Descending)]
+            [InlineData(0, SortType.Descending)]
+            [InlineData(4, SortType.Descending)]
+            [InlineData(-1, SortType.Descending)]
+            public async void User_SearchAndOrderAsync_AssertThatItGetsProperlySorted(int numRecords, SortType sortType)
             {
-                throw new NotImplementedException();
+                /// Arrange
+                var response = await _authRepositoryFixture._authRepository.SearchAndOrderAsync(_ => true, sortType, c => c.UserName, numRecords);
+
+                Assert.True(response.Count() <= (numRecords < 0 ? 0 : numRecords));
+                if (sortType == SortType.Ascending)
+                {
+                    Assert.True(response.OrderBy(user => user.UserName).SequenceEqual(response));
+                }
+                else
+                {
+                    Assert.True(response.OrderByDescending(user => user.UserName).SequenceEqual(response));
+                }
             }
-
-            public async void User_SearchAllAsync_AssertThatItWorksProperly()
+            [Theory]
+            [InlineData("test@email.com", false)]
+            [InlineData("test2@email.com", false)]
+            // [InlineData("test3@email.com", false)] // gets deleted during testing
+            [InlineData("fake@email.com", true)]
+            public async void User_SearchFirstAsync_AssertThatItWorksProperly(string email, bool expectNull)
             {
-                throw new NotImplementedException();
-            }
+                // Arrange
+                // Act
+                var response = await _authRepositoryFixture._authRepository.SearchFirstAsync(u => u.Email == email);
 
-            public async void User_SearchFirstAsync_AssertThatItWorksProperly()
-            {
-                throw new NotImplementedException();
-            }
-
-            public async void User_GetAllAsync_AssertThatItWorksProperly()
-            {
-                throw new NotImplementedException();
+                // Assert
+                bool isResponseNull = response == null ? true : false;
+                Assert.True(isResponseNull == expectNull);
             }
             [Fact]
             public async void Role_CreateAsync_AssertThatItGetsProperlyCreated()
