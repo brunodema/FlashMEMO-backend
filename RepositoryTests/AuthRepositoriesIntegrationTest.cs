@@ -234,8 +234,8 @@ namespace RepositoryTests
             }
             [Theory]
             [InlineData("test@email.com", false)]
-            [InlineData("test2@email.com", false)]
-            // [InlineData("test3@email.com", false)] // gets deleted during testing
+            [InlineData("newemail@email.com", false)] // gets updated
+            [InlineData("test3@email.com", false)] // gets deleted during testing
             [InlineData("fake@email.com", true)]
             public async void User_SearchFirstAsync_AssertThatItWorksProperly(string email, bool expectNull)
             {
@@ -312,25 +312,46 @@ namespace RepositoryTests
                 Assert.NotNull(dummyRole1);
                 Assert.Null(dummyRole2);
             }
-
-            public async void Role_SearchAndOrderAsync_AssertThatItWorksProperly()
+            [Theory]
+            [InlineData(50, SortType.Ascending)]
+            [InlineData(1, SortType.Ascending)]
+            [InlineData(0, SortType.Ascending)]
+            [InlineData(4, SortType.Ascending)]
+            [InlineData(-1, SortType.Ascending)]
+            [InlineData(50, SortType.Descending)]
+            [InlineData(1, SortType.Descending)]
+            [InlineData(0, SortType.Descending)]
+            [InlineData(4, SortType.Descending)]
+            [InlineData(-1, SortType.Descending)]
+            public async void Role_SearchAndOrderAsync_AssertThatItWorksProperly(int numRecords, SortType sortType)
             {
-                throw new NotImplementedException();
+                /// Arrange
+                var response = await _authRepositoryFixture._authRepository.SearchAndOrderAsync(_ => true, sortType, role => role.Name, numRecords);
+
+                Assert.True(response.Count() <= (numRecords < 0 ? 0 : numRecords));
+                if (sortType == SortType.Ascending)
+                {
+                    Assert.True(response.OrderBy(role => role.Name).SequenceEqual(response));
+                }
+                else
+                {
+                    Assert.True(response.OrderByDescending(role => role.Name).SequenceEqual(response));
+                }
             }
-
-            public async void Role_SearchAllAsync_AssertThatItWorksProperly()
+            [Theory]
+            [InlineData("admin", false)]
+            [InlineData("user", false)]
+            [InlineData("visitor", false)] // gets deleted during testing
+            [InlineData("new_one", true)]
+            public async void Role_SearchFirstAsync_AssertThatItWorksProperly(string roleName, bool expectNull)
             {
-                throw new NotImplementedException();
-            }
+                // Arrange
+                // Act
+                var response = await _authRepositoryFixture._authRepository.SearchFirstAsync(role => role.Name == roleName);
 
-            public async void Role_SearchFirstAsync_AssertThatItWorksProperly()
-            {
-                throw new NotImplementedException();
-            }
-
-            public async void Role_GetAllAsync_AssertThatItWorksProperly()
-            {
-                throw new NotImplementedException();
+                // Assert
+                bool isResponseNull = response == null ? true : false;
+                Assert.True(isResponseNull == expectNull);
             }
         }
     }

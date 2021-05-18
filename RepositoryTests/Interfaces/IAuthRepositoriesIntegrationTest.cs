@@ -32,9 +32,7 @@ namespace RepositoryTests.Interfaces
         public void Role_RemoveAsync_AssertThatItGetsProperlyRemoved();
         public void Role_GetByIdAsync_AssertThatItGetsProperlyRemoved();
         // AUX
-        public void Role_SearchAndOrderAsync_AssertThatItWorksProperly();
-        public void Role_SearchAllAsync_AssertThatItWorksProperly();
-        public void Role_SearchFirstAsync_AssertThatItWorksProperly();
-        public void Role_GetAllAsync_AssertThatItWorksProperly();
+        public void Role_SearchAndOrderAsync_AssertThatItWorksProperly(int numRecords, SortType sortType);
+        public void Role_SearchFirstAsync_AssertThatItWorksProperly(string roleName, bool expectNull);
     }
 }
