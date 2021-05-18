@@ -30,11 +30,10 @@ namespace RepositoryTests
             public const string GUID4 = "0d5c2fb5-a849-4b56-8b6f-23f44ac4be4c"; // is not used in initialization
             public const string GUID5 = "7925ec1c-4c9d-499b-919e-a0447e447e05"; // is not used in initialization
         }
-        public class AuthRepositoriesIntegrationTestFixture : IDisposable
+        public class AuthRepositoryFixture : IDisposable
         {
-            public ApplicationUserRepository _userRepository;
-            public RoleRepository _roleRepository;
-            public AuthRepositoriesIntegrationTestFixture()
+            public IAuthRepository _authRepository;
+            public AuthRepositoryFixture()
             {
                 var options = new DbContextOptionsBuilder<FlashMEMOContext>().UseInMemoryDatabase(databaseName: "FlashMEMOTest").Options;
                 var context = new FlashMEMOContext(options);
@@ -48,7 +47,7 @@ namespace RepositoryTests
                 roleManager.CreateAsync(new ApplicationRole
                 {
                     Id = RoleTestGUID.GUID1,
-                    Name = "admin"
+                    Name = "admin",
                 }).Wait();
                 roleManager.CreateAsync(new ApplicationRole
                 {
@@ -61,7 +60,7 @@ namespace RepositoryTests
                     Name = "visitor"
                 }).Wait();
 
-                _roleRepository = new RoleRepository(context, roleManager);
+                var roleRepository = new RoleRepository(context, roleManager);
 
                 var userManager = new UserManager<ApplicationUser>(
                     new UserStore<ApplicationUser>(context),
@@ -102,35 +101,40 @@ namespace RepositoryTests
 
                 }, "Test@123").Wait();
 
-                _userRepository = new ApplicationUserRepository(context, userManager);
+                var userRepository = new ApplicationUserRepository(context, userManager);
+
+                _authRepository = new AuthRepository(userRepository, roleRepository);
             }
 
             public void Dispose()
             {
-                _roleRepository?.Dispose();
-                _userRepository?.Dispose();
+                _authRepository?.Dispose();
             }
         }
 
-        public class AuthRepositoriesIntegrationTest : IClassFixture<AuthRepositoriesIntegrationTestFixture>, IAuthRepositoriesIntegrationTest
+        public class AuthRepositoriesIntegrationTest : IClassFixture<AuthRepositoryFixture>, IAuthRepositoriesIntegrationTest
         {
-            private AuthRepositoriesIntegrationTestFixture _authRepositoriesFixture;
+            private readonly AuthRepositoryFixture _authRepositoryFixture;
             private readonly ITestOutputHelper _output;
 
-            public AuthRepositoriesIntegrationTest(AuthRepositoriesIntegrationTestFixture authRepositoriesFixture, ITestOutputHelper output)
+            public AuthRepositoriesIntegrationTest(AuthRepositoryFixture authRepositoryFixture, ITestOutputHelper output)
             {
-                _authRepositoriesFixture = authRepositoriesFixture;
+                _authRepositoryFixture = authRepositoryFixture;
                 _output = output;
             }
-            //[Fact]
+            [Fact]
             public async void AddUserToRole_CheckThatItGetsCorrectlyAdded()
             {
                 // Arrange
-                //var user = await _authRepositoriesFixture._userRepository.GetByIdAsync(Guid.Parse(UserTestGUID.GUID1));
+                var user = await _authRepositoryFixture._authRepository.GetUserByIdAsync(Guid.Parse(UserTestGUID.GUID1));
+                var role = await _authRepositoryFixture._authRepository.GetRoleByIdAsync(Guid.Parse(RoleTestGUID.GUID1));
 
                 // Act
-                // The repositories do not have shared methods for adding/removing roles - oops! Need to implement it.
+                await _authRepositoryFixture._authRepository.AdduserToRuleAsync(user, role);
+
+
                 // Assert
+                Assert.True(user.UserRoles.Count == 1);
             }
 
             public void RemoveUserFromRole_CheckThatItGetsCorrectlyRemoved()

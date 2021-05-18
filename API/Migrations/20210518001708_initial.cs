@@ -54,6 +54,7 @@ namespace API.Migrations
                     NewsID = table.Column<Guid>(type: "uuid", nullable: false),
                     Title = table.Column<string>(type: "text", nullable: true),
                     Subtitle = table.Column<string>(type: "text", nullable: true),
+                    ThumbnailPath = table.Column<string>(type: "text", nullable: true),
                     Content = table.Column<string>(type: "text", nullable: true),
                     CreationDate = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
                     LastUpdated = table.Column<DateTime>(type: "timestamp without time zone", nullable: false)

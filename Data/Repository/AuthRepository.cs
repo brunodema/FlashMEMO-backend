@@ -13,43 +13,34 @@ namespace Data.Repository
 {
     public class AuthRepository : IAuthRepository
     {
-        private readonly UserManager<ApplicationUser> _userManager;
-        private readonly RoleManager<ApplicationRole> _roleManager;
         private readonly ApplicationUserRepository _applicationUserRepository;
         private readonly RoleRepository _roleRepository;
-        private readonly DbContext _context;
 
-        public AuthRepository(UserManager<ApplicationUser> userManager, RoleManager<ApplicationRole> roleManager, ApplicationUserRepository applicationUserRepository, RoleRepository roleRepository, DbContext context)
+        public AuthRepository(ApplicationUserRepository applicationUserRepository, RoleRepository roleRepository)
         {
-            _userManager = userManager;
-            _roleManager = roleManager;
             _applicationUserRepository = applicationUserRepository;
             _roleRepository = roleRepository;
-            _context = context;
         }
 
         public async Task AdduserToRuleAsync(ApplicationUser user, ApplicationRole role)
         {
-            await _userManager.AddToRoleAsync(user, role.Name);
+            await _applicationUserRepository.AddUserToRoleAsync(user, role);
         }
 
         public async Task CreateAsync(ApplicationUser entity, string cleanPassword)
         {
-            await _userManager.CreateAsync(entity, cleanPassword);
+            await _applicationUserRepository.CreateUserAsync(entity, cleanPassword);
         }
 
         public async Task CreateAsync(ApplicationRole entity)
         {
-            await _roleManager.CreateAsync(entity);
+            await _roleRepository.CreateAsync(entity);
         }
 
         public void Dispose()
         {
-            _userManager?.Dispose();
-            _roleManager?.Dispose(); 
             _applicationUserRepository?.Dispose();
             _roleRepository?.Dispose();
-            _context?.Dispose();
         }
 
         public async Task<ICollection<ApplicationRole>> GetAllRolesAsync()
@@ -89,12 +80,8 @@ namespace Data.Repository
 
         public async Task RemoveUserFromRuleAsync(ApplicationUser user, ApplicationRole role)
         {
-            await _userManager.RemoveFromRoleAsync(user, role.Name);
-        }
-
-        public async Task<int> SaveChangesAsync()
-        {
-            return await _context.SaveChangesAsync();
+            //await _applicationUserRepository.RemoveFromRoleAsync(user, role.Name);
+            return;
         }
 
         public async Task<IEnumerable<ApplicationUser>> SearchAllAsync(Expression<Func<ApplicationUser, bool>> predicate)

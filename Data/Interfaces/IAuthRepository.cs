@@ -36,8 +36,6 @@ namespace Data.Interfaces
         public Task RemoveUserFromRuleAsync(ApplicationUser user, ApplicationRole role);
 
         public Task<IEnumerable<ApplicationRole>> GetUserRolesAsync(ApplicationUser user);
-
-        public Task<int> SaveChangesAsync();
         public void Dispose();
     }
 }

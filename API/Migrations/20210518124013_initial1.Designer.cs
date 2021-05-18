@@ -10,7 +10,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace API.Migrations
 {
     [DbContext(typeof(FlashMEMOContext))]
-    [Migration("20210503012721_initial1")]
+    [Migration("20210518124013_initial1")]
     partial class initial1
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -231,6 +231,9 @@ namespace API.Migrations
                         .HasColumnType("timestamp without time zone");
 
                     b.Property<string>("Subtitle")
+                        .HasColumnType("text");
+
+                    b.Property<string>("ThumbnailPath")
                         .HasColumnType("text");
 
                     b.Property<string>("Title")
