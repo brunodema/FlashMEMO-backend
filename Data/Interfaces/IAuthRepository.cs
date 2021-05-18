@@ -34,7 +34,6 @@ namespace Data.Interfaces
         #endregion
         public Task AdduserToRuleAsync(ApplicationUser user, ApplicationRole role);
         public Task RemoveUserFromRuleAsync(ApplicationUser user, ApplicationRole role);
-
         public Task<IEnumerable<ApplicationRole>> GetUserRolesAsync(ApplicationUser user);
         public void Dispose();
     }

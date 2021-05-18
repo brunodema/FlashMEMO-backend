@@ -14,7 +14,7 @@ namespace RepositoryTests
 {
     public class AuthRepositoriesIntegration
     {
-        public static class RoleTestGUID
+        internal static class RoleTestGUID
         {
             public const string GUID1 = "34e9a9fe-85c3-4e47-81eb-904ee907de55";
             public const string GUID2 = "ab0a60dd-606b-42a1-ac78-e5942cf2d425";
@@ -22,7 +22,7 @@ namespace RepositoryTests
             public const string GUID4 = "5904095d-dbc5-4363-8044-b444bdebfc79"; // is not used in initialization
             public const string GUID5 = "eec739b0-778d-4af4-b94b-6d242eba2e51"; // is not used in initialization
         }
-        public static class UserTestGUID
+        internal static class UserTestGUID
         {
             public const string GUID1 = "680f82d1-094f-4f9f-b666-4fe910b408d4";
             public const string GUID2 = "0d99f136-87db-461c-943d-bcb76e8d75dd";
@@ -122,22 +122,114 @@ namespace RepositoryTests
                 _authRepositoryFixture = authRepositoryFixture;
                 _output = output;
             }
-            [Fact]
-            public async void AddUserToRole_CheckThatItGetsCorrectlyAdded()
+            public async void AddUserToRole_CheckThatItGetsCorrectlyAdded() // on hold
             {
-                // Arrange
-                var user = await _authRepositoryFixture._authRepository.GetUserByIdAsync(Guid.Parse(UserTestGUID.GUID1));
-                var role = await _authRepositoryFixture._authRepository.GetRoleByIdAsync(Guid.Parse(RoleTestGUID.GUID1));
-
-                // Act
-                await _authRepositoryFixture._authRepository.AdduserToRuleAsync(user, role);
-
-
-                // Assert
-                Assert.True(user.UserRoles.Count == 1);
+                throw new NotImplementedException();
             }
 
-            public void RemoveUserFromRole_CheckThatItGetsCorrectlyRemoved()
+            public void RemoveUserFromRole_CheckThatItGetsCorrectlyRemoved()  // on hold
+            {
+                throw new NotImplementedException();
+            }
+            [Fact]
+            public async void GetUserRolesAsync_CheckThatItRetrievesDataCorrectly()  // on hold
+            {
+                throw new NotImplementedException();
+            }
+            [Fact]
+            public async void User_CreateAsync_AssertThatItGetsProperlyCreated()
+            {
+                // Arrange
+                var numRows = _authRepositoryFixture._authRepository.GetAllUsersAsync().Result.Count;
+                var dummyUser = new ApplicationUser
+                {
+                    Id = "424e9d3e-686d-4163-be89-e7bae263a1a5",
+                    Email = "dummy@domain.com",
+                    NormalizedEmail = "DUMMY@DOMAIN.COM",
+                    UserName = "Dummy",
+                    NormalizedUserName = "DUMMY",
+                };
+
+                // Act
+                await _authRepositoryFixture._authRepository.CreateAsync(dummyUser, "Dummy@123");
+
+                // Assert
+                var newNumRows = _authRepositoryFixture._authRepository.GetAllUsersAsync().Result.Count;
+                Assert.True((await _authRepositoryFixture._authRepository.GetAllUsersAsync()).Contains(dummyUser), "Table does not contain the new item");
+                Assert.True(newNumRows == numRows + 1, $"Number of rows did not increase with the new item added ({newNumRows} != {numRows + 1})");
+            }
+
+            public async void User_UpdateAsync_AssertThatItGetsProperlyUpdated()
+            {
+                throw new NotImplementedException();
+            }
+
+            public async void User_RemoveAsync_AssertThatItGetsProperlyRemoved()
+            {
+                throw new NotImplementedException();
+            }
+
+            public async void User_GetByIdAsync_AssertThatItGetsProperlyRemoved()
+            {
+                throw new NotImplementedException();
+            }
+
+            public async void User_SearchAndOrderAsync_AssertThatItWorksProperly()
+            {
+                throw new NotImplementedException();
+            }
+
+            public async void User_SearchAllAsync_AssertThatItWorksProperly()
+            {
+                throw new NotImplementedException();
+            }
+
+            public async void User_SearchFirstAsync_AssertThatItWorksProperly()
+            {
+                throw new NotImplementedException();
+            }
+
+            public async void User_GetAllAsync_AssertThatItWorksProperly()
+            {
+                throw new NotImplementedException();
+            }
+
+            public async void Role_CreateAsync_AssertThatItGetsProperlyCreated()
+            {
+                throw new NotImplementedException();
+            }
+
+            public async void Role_UpdateAsync_AssertThatItGetsProperlyUpdated()
+            {
+                throw new NotImplementedException();
+            }
+
+            public async void Role_RemoveAsync_AssertThatItGetsProperlyRemoved()
+            {
+                throw new NotImplementedException();
+            }
+
+            public async void Role_GetByIdAsync_AssertThatItGetsProperlyRemoved()
+            {
+                throw new NotImplementedException();
+            }
+
+            public async void Role_SearchAndOrderAsync_AssertThatItWorksProperly()
+            {
+                throw new NotImplementedException();
+            }
+
+            public async void Role_SearchAllAsync_AssertThatItWorksProperly()
+            {
+                throw new NotImplementedException();
+            }
+
+            public async void Role_SearchFirstAsync_AssertThatItWorksProperly()
+            {
+                throw new NotImplementedException();
+            }
+
+            public async void Role_GetAllAsync_AssertThatItWorksProperly()
             {
                 throw new NotImplementedException();
             }
