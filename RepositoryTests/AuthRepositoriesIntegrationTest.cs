@@ -14,7 +14,7 @@ namespace RepositoryTests
 {
     public class AuthRepositoriesIntegration
     {
-        internal static class RoleTestGUID
+        public static class RoleTestGUID
         {
             public const string GUID1 = "34e9a9fe-85c3-4e47-81eb-904ee907de55";
             public const string GUID2 = "ab0a60dd-606b-42a1-ac78-e5942cf2d425";
@@ -22,7 +22,7 @@ namespace RepositoryTests
             public const string GUID4 = "5904095d-dbc5-4363-8044-b444bdebfc79"; // is not used in initialization
             public const string GUID5 = "eec739b0-778d-4af4-b94b-6d242eba2e51"; // is not used in initialization
         }
-        internal static class UserTestGUID
+        public static class UserTestGUID
         {
             public const string GUID1 = "680f82d1-094f-4f9f-b666-4fe910b408d4";
             public const string GUID2 = "0d99f136-87db-461c-943d-bcb76e8d75dd";
@@ -225,25 +225,70 @@ namespace RepositoryTests
             {
                 throw new NotImplementedException();
             }
-
+            [Fact]
             public async void Role_CreateAsync_AssertThatItGetsProperlyCreated()
             {
-                throw new NotImplementedException();
-            }
+                // Arrange
+                var numRows = _authRepositoryFixture._authRepository.GetAllRolesAsync().Result.Count;
+                var dummyRole = new ApplicationRole
+                {
+                    Id = RoleTestGUID.GUID4,
+                    Name = "new_admin"
+                };
 
+                // Act
+                await _authRepositoryFixture._authRepository.CreateAsync(dummyRole);
+
+                // Assert
+                var newNumRows = _authRepositoryFixture._authRepository.GetAllRolesAsync().Result.Count;
+                Assert.True((await _authRepositoryFixture._authRepository.GetAllRolesAsync()).Contains(dummyRole), "Table does not contain the new item");
+                Assert.True(newNumRows == numRows + 1, $"Number of rows did not increase with the new item added ({newNumRows} != {numRows + 1})");
+            }
+            [Fact]
             public async void Role_UpdateAsync_AssertThatItGetsProperlyUpdated()
             {
-                throw new NotImplementedException();
-            }
+                // Arrange
+                var numRows = _authRepositoryFixture._authRepository.GetAllRolesAsync().Result.Count;
+                var dummyRole = await _authRepositoryFixture._authRepository.GetRoleByIdAsync(Guid.Parse(RoleTestGUID.GUID1));
 
+                dummyRole.Name = "altered_name";
+
+                // Act
+                await _authRepositoryFixture._authRepository.UpdateAsync(dummyRole);
+
+                // Assert
+                var newNumRows = _authRepositoryFixture._authRepository.GetAllRolesAsync().Result.Count;
+                var queryResult = await _authRepositoryFixture._authRepository.GetRoleByIdAsync(Guid.Parse(RoleTestGUID.GUID1));
+                Assert.NotNull(queryResult);
+                Assert.True(queryResult.Name == "altered_name", "Object property does not match the new updated value");
+                Assert.True(newNumRows == numRows, $"Number of rows did not stay the same with the update ({newNumRows} != {numRows})");
+            }
+            [Fact]
             public async void Role_RemoveAsync_AssertThatItGetsProperlyRemoved()
             {
-                throw new NotImplementedException();
-            }
+                // Arrange
+                var numRows = _authRepositoryFixture._authRepository.GetAllRolesAsync().Result.Count;
+                var dummyRole = await _authRepositoryFixture._authRepository.GetRoleByIdAsync(Guid.Parse(RoleTestGUID.GUID2));
 
+                // Act
+                await _authRepositoryFixture._authRepository.RemoveAsync(dummyRole);
+
+                // Assert
+                var newNumRows = _authRepositoryFixture._authRepository.GetAllRolesAsync().Result.Count;
+                Assert.False((await _authRepositoryFixture._authRepository.GetAllRolesAsync()).Contains(dummyRole), "Table still contains the item");
+                Assert.True(newNumRows == numRows - 1, $"Number of rows did not decrease with the item removed ({ newNumRows} != { numRows - 1})");
+            }
+            [Fact]
             public async void Role_GetByIdAsync_AssertThatItGetsProperlyRemoved()
             {
-                throw new NotImplementedException();
+                // Arrange
+                // Act
+                var dummyRole1 = await _authRepositoryFixture._authRepository.GetRoleByIdAsync(Guid.Parse(RoleTestGUID.GUID1));
+                var dummyRole2 = await _authRepositoryFixture._authRepository.GetRoleByIdAsync(Guid.Parse(RoleTestGUID.GUID5)); // invalid GUID
+
+                // Assert
+                Assert.NotNull(dummyRole1);
+                Assert.Null(dummyRole2);
             }
 
             public async void Role_SearchAndOrderAsync_AssertThatItWorksProperly()
