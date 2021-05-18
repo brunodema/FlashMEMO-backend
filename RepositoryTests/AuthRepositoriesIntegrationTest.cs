@@ -35,7 +35,7 @@ namespace RepositoryTests
             public IAuthRepository _authRepository;
             public AuthRepositoryFixture()
             {
-                var options = new DbContextOptionsBuilder<FlashMEMOContext>().UseInMemoryDatabase(databaseName: "FlashMEMOTest").Options;
+                var options = new DbContextOptionsBuilder<FlashMEMOContext>().UseInMemoryDatabase(databaseName: "AuthRepositoryFixture").Options;
                 var context = new FlashMEMOContext(options);
                 var roleManager = new RoleManager<ApplicationRole>(
                     new RoleStore<ApplicationRole>(context),
@@ -131,7 +131,6 @@ namespace RepositoryTests
             {
                 throw new NotImplementedException();
             }
-            [Fact]
             public async void GetUserRolesAsync_CheckThatItRetrievesDataCorrectly()  // on hold
             {
                 throw new NotImplementedException();
@@ -143,7 +142,7 @@ namespace RepositoryTests
                 var numRows = _authRepositoryFixture._authRepository.GetAllUsersAsync().Result.Count;
                 var dummyUser = new ApplicationUser
                 {
-                    Id = "424e9d3e-686d-4163-be89-e7bae263a1a5",
+                    Id = UserTestGUID.GUID4,
                     Email = "dummy@domain.com",
                     NormalizedEmail = "DUMMY@DOMAIN.COM",
                     UserName = "Dummy",
@@ -158,10 +157,26 @@ namespace RepositoryTests
                 Assert.True((await _authRepositoryFixture._authRepository.GetAllUsersAsync()).Contains(dummyUser), "Table does not contain the new item");
                 Assert.True(newNumRows == numRows + 1, $"Number of rows did not increase with the new item added ({newNumRows} != {numRows + 1})");
             }
-
+            [Fact]
             public async void User_UpdateAsync_AssertThatItGetsProperlyUpdated()
             {
-                throw new NotImplementedException();
+                // Arrange
+                var numRows = _authRepositoryFixture._authRepository.GetAllUsersAsync().Result.Count;
+                var dummyUser = await _authRepositoryFixture._authRepository.GetUserByIdAsync(Guid.Parse(UserTestGUID.GUID2));
+
+                dummyUser.Email = "newemail@email.com";
+                dummyUser.UserName = "newdummy";
+
+                // Act
+                await  _authRepositoryFixture._authRepository.UpdateAsync(dummyUser);
+
+                // Assert
+                var newNumRows = _authRepositoryFixture._authRepository.GetAllUsersAsync().Result.Count;
+                var queryResult = await _authRepositoryFixture._authRepository.GetUserByIdAsync(Guid.Parse(UserTestGUID.GUID2));
+                Assert.NotNull(queryResult);
+                Assert.True(queryResult.Email == "newemail@email.com", "Object property does not match the new updated value");
+                Assert.True(queryResult.UserName == "newdummy", "Object property does not match the new updated value");
+                Assert.True(newNumRows == numRows, $"Number of rows did not stay the same with the update ({newNumRows} != {numRows})");
             }
 
             public async void User_RemoveAsync_AssertThatItGetsProperlyRemoved()

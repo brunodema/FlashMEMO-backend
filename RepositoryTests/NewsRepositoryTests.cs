@@ -19,7 +19,7 @@ namespace RepositoryTests
         public NewsRepository _repository;
         public NewsRepositoryFixture()
         {
-            var options = new DbContextOptionsBuilder<FlashMEMOContext>().UseInMemoryDatabase(databaseName: "FlashMEMOTest").Options;
+            var options = new DbContextOptionsBuilder<FlashMEMOContext>().UseInMemoryDatabase(databaseName: "NewsRepositoryFixture").Options;
 
             var context = new FlashMEMOContext(options);
             context.News.Add(new News

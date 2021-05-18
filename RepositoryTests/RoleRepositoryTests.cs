@@ -24,7 +24,7 @@ namespace RepositoryTests
         public RoleRepository _repository;
         public RoleRepositoryFixture()
         {
-            var options = new DbContextOptionsBuilder<FlashMEMOContext>().UseInMemoryDatabase(databaseName: "FlashMEMOTest").Options;
+            var options = new DbContextOptionsBuilder<FlashMEMOContext>().UseInMemoryDatabase(databaseName: "RoleRepositoryFixture").Options;
             var context = new FlashMEMOContext(options);
             var roleManager = new RoleManager<ApplicationRole>(
                 new RoleStore<ApplicationRole>(context),
