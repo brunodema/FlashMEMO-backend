@@ -178,15 +178,32 @@ namespace RepositoryTests
                 Assert.True(queryResult.UserName == "newdummy", "Object property does not match the new updated value");
                 Assert.True(newNumRows == numRows, $"Number of rows did not stay the same with the update ({newNumRows} != {numRows})");
             }
-
+            [Fact]
             public async void User_RemoveAsync_AssertThatItGetsProperlyRemoved()
             {
-                throw new NotImplementedException();
-            }
+                // Arrange
+                var numRows = _authRepositoryFixture._authRepository.GetAllUsersAsync().Result.Count;
+                var dummyUser = await _authRepositoryFixture._authRepository.GetUserByIdAsync(Guid.Parse(UserTestGUID.GUID1));
 
+                // Act
+                await _authRepositoryFixture._authRepository.RemoveAsync(dummyUser);
+
+                // Assert
+                var newNumRows = _authRepositoryFixture._authRepository.GetAllUsersAsync().Result.Count;
+                Assert.False((await _authRepositoryFixture._authRepository.GetAllUsersAsync()).Contains(dummyUser), "Table still contains the item");
+                Assert.True(newNumRows == numRows - 1, $"Number of rows did not decrease with the item removed ({ newNumRows} != { numRows - 1})");
+            }
+            [Fact]
             public async void User_GetByIdAsync_AssertThatItGetsProperlyRemoved()
             {
-                throw new NotImplementedException();
+                // Arrange
+                // Act
+                var dummyUser1 = await _authRepositoryFixture._authRepository.GetUserByIdAsync(Guid.Parse(UserTestGUID.GUID1));
+                var dummyUser2 = await _authRepositoryFixture._authRepository.GetUserByIdAsync(Guid.Parse(UserTestGUID.GUID5)); // invalid GUID
+
+                // Assert
+                Assert.NotNull(dummyUser1);
+                Assert.Null(dummyUser2);
             }
 
             public async void User_SearchAndOrderAsync_AssertThatItWorksProperly()
