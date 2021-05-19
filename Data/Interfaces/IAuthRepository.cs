@@ -12,7 +12,6 @@ namespace Data.Interfaces
     {
         #region USER
         public Task<IEnumerable<ApplicationUser>> SearchAndOrderAsync<TKey>(Expression<Func<ApplicationUser, bool>> predicate, SortType sortType, Expression<Func<ApplicationUser, TKey>> columnToSort, int numRecords);
-        public Task<IEnumerable<ApplicationUser>> SearchAllAsync(Expression<Func<ApplicationUser, bool>> predicate);
         public Task<ApplicationUser> SearchFirstAsync(Expression<Func<ApplicationUser, bool>> predicate);
         public Task<ICollection<ApplicationUser>> GetAllUsersAsync();
         public Task<ApplicationUser> GetUserByIdAsync(Guid id);
@@ -23,7 +22,6 @@ namespace Data.Interfaces
         #endregion
         #region ROLE
         public Task<IEnumerable<ApplicationRole>> SearchAndOrderAsync<TKey>(Expression<Func<ApplicationRole, bool>> predicate, SortType sortType, Expression<Func<ApplicationRole, TKey>> columnToSort, int numRecords);
-        public Task<IEnumerable<ApplicationRole>> SearchAllAsync(Expression<Func<ApplicationRole, bool>> predicate);
         public Task<ApplicationRole> SearchFirstAsync(Expression<Func<ApplicationRole, bool>> predicate);
         public Task<ICollection<ApplicationRole>> GetAllRolesAsync();
         public Task<ApplicationRole> GetRoleByIdAsync(Guid id);
@@ -33,7 +31,7 @@ namespace Data.Interfaces
         public Task RemoveAsync(ApplicationRole entity);
         #endregion
         public Task AdduserToRuleAsync(ApplicationUser user, ApplicationRole role);
-        public Task RemoveUserFromRuleAsync(ApplicationUser user, ApplicationRole role);
+        public Task RemoveUserFromRoleAsync(ApplicationUser user, ApplicationRole role);
         public Task<IEnumerable<ApplicationRole>> GetUserRolesAsync(ApplicationUser user);
         public void Dispose();
     }

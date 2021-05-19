@@ -78,20 +78,9 @@ namespace Data.Repository
             return _roleRepository.RemoveAsync(entity);
         }
 
-        public async Task RemoveUserFromRuleAsync(ApplicationUser user, ApplicationRole role)
+        public async Task RemoveUserFromRoleAsync(ApplicationUser user, ApplicationRole role)
         {
-            //await _applicationUserRepository.RemoveFromRoleAsync(user, role.Name);
-            return;
-        }
-
-        public async Task<IEnumerable<ApplicationUser>> SearchAllAsync(Expression<Func<ApplicationUser, bool>> predicate)
-        {
-            return await _applicationUserRepository.SearchAllAsync(predicate);
-        }
-
-        public async Task<IEnumerable<ApplicationRole>> SearchAllAsync(Expression<Func<ApplicationRole, bool>> predicate)
-        {
-            return await _roleRepository.SearchAllAsync(predicate);
+            await _applicationUserRepository.RemoveUserFromRoleAsync(user, role);
         }
 
         public async Task<IEnumerable<ApplicationUser>> SearchAndOrderAsync<TKey>(Expression<Func<ApplicationUser, bool>> predicate, SortType sortType, Expression<Func<ApplicationUser, TKey>> columnToSort, int numRecords)
