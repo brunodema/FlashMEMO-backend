@@ -10,8 +10,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace API.Migrations
 {
     [DbContext(typeof(FlashMEMOContext))]
-    [Migration("20210503230740_newone")]
-    partial class newone
+    [Migration("20210518124048_initial1h")]
+    partial class initial1h
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

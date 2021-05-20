@@ -1,5 +1,7 @@
-﻿using Data.Interfaces;
+﻿using Data;
+using Data.Interfaces;
 using Data.Models;
+using Data.Repository;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -55,6 +57,14 @@ namespace Data.Repository
         public override async Task<IdentityResult> RemoveAsync(ApplicationUser entity)
         {
             return await _userManager.DeleteAsync(entity);
+        }
+        public async Task<IdentityResult> AddUserToRoleAsync(ApplicationUser entity, ApplicationRole role)
+        {
+            return await _userManager.AddToRoleAsync(entity, role.Name);
+        }
+        public async Task<IdentityResult> RemoveUserFromRoleAsync(ApplicationUser entity, ApplicationRole role)
+        {
+            return await _userManager.RemoveFromRoleAsync(entity, role.Name);
         }
         public override void Dispose()
         {

@@ -88,7 +88,7 @@ namespace RepositoryTests
                 Email = "dummy@domain.com",
                 NormalizedEmail = "DUMMY@DOMAIN.COM",
                 UserName = "Dummy",
-                NormalizedUserName = "DUMMY"
+                NormalizedUserName = "DUMMY",
             };
 
             // Act
