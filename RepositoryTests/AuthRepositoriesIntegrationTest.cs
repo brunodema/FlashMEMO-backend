@@ -7,7 +7,9 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using RepositoryTests.Interfaces;
 using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using Xunit;
 using Xunit.Abstractions;
 
@@ -123,19 +125,6 @@ namespace RepositoryTests
                 _authRepositoryFixture = authRepositoryFixture;
                 _output = output;
             }
-            public async void AddUserToRole_CheckThatItGetsCorrectlyAdded() // on hold
-            {
-                throw new NotImplementedException();
-            }
-
-            public void RemoveUserFromRole_CheckThatItGetsCorrectlyRemoved()  // on hold
-            {
-                throw new NotImplementedException();
-            }
-            public async void GetUserRolesAsync_CheckThatItRetrievesDataCorrectly()  // on hold
-            {
-                throw new NotImplementedException();
-            }
             [Fact]
             public async void User_CreateAsync_AssertThatItGetsProperlyCreated()
             {
@@ -165,7 +154,6 @@ namespace RepositoryTests
                 var numRows = _authRepositoryFixture._authRepository.GetAllUsersAsync().Result.Count;
                 var dummyUser = await _authRepositoryFixture._authRepository.GetUserByIdAsync(Guid.Parse(UserTestGUID.GUID2));
 
-                dummyUser.Email = "newemail@email.com";
                 dummyUser.UserName = "newdummy";
 
                 // Act
@@ -175,7 +163,6 @@ namespace RepositoryTests
                 var newNumRows = _authRepositoryFixture._authRepository.GetAllUsersAsync().Result.Count;
                 var queryResult = await _authRepositoryFixture._authRepository.GetUserByIdAsync(Guid.Parse(UserTestGUID.GUID2));
                 Assert.NotNull(queryResult);
-                Assert.True(queryResult.Email == "newemail@email.com", "Object property does not match the new updated value");
                 Assert.True(queryResult.UserName == "newdummy", "Object property does not match the new updated value");
                 Assert.True(newNumRows == numRows, $"Number of rows did not stay the same with the update ({newNumRows} != {numRows})");
             }
@@ -234,8 +221,8 @@ namespace RepositoryTests
             }
             [Theory]
             [InlineData("test@email.com", false)]
-            [InlineData("newemail@email.com", false)] // gets updated
-            [InlineData("test3@email.com", false)] // gets deleted during testing
+            [InlineData("test2@email.com", false)] // gets updated
+            [InlineData("test3@email.com", false)]
             [InlineData("fake@email.com", true)]
             public async void User_SearchFirstAsync_AssertThatItWorksProperly(string email, bool expectNull)
             {
@@ -352,6 +339,70 @@ namespace RepositoryTests
                 // Assert
                 bool isResponseNull = response == null ? true : false;
                 Assert.True(isResponseNull == expectNull);
+            }
+            public class User_SearchAndOrderAsync_AssertThatPredicateIsConsidered_TestConfig
+            {
+                public static IEnumerable<object[]> TestCases
+                {
+                    get
+                    {
+                        yield return new object[] { (Expression<Func<ApplicationUser, bool>>)((u) => u.Email == "test@email.com"), 10, SortType.Ascending, 1 };
+                        yield return new object[] { (Expression<Func<ApplicationUser, bool>>)((u) => u.Email == "test2@email.com"), 10, SortType.Ascending, 1 };
+                        yield return new object[] { (Expression<Func<ApplicationUser, bool>>)((u) => u.Email == "test3@email.com"), 10, SortType.Ascending, 1 };
+                        yield return new object[] { (Expression<Func<ApplicationUser, bool>>)((u) => u.Email == "inexistant@email.com"), 10, SortType.Ascending, 0 };
+                        yield return new object[] { (Expression<Func<ApplicationUser, bool>>)((u) => u.Email.Contains("email")), 10, SortType.Ascending, 3 };
+                    }
+                }
+            }
+            [Theory]
+            [MemberData(nameof(User_SearchAndOrderAsync_AssertThatPredicateIsConsidered_TestConfig.TestCases), MemberType = typeof(User_SearchAndOrderAsync_AssertThatPredicateIsConsidered_TestConfig))]
+            public async void User_SearchAndOrderAsync_AssertThatPredicateIsConsidered(Expression<Func<ApplicationUser, bool>> predicate, int numRecords, SortType sortType, int expectedNumberOfRecordsReturned)
+            {
+                /// Arrange
+                var response = await _authRepositoryFixture._authRepository.SearchAndOrderAsync(predicate, sortType, user => user.Email, numRecords);
+
+                Assert.True(response.Count() <= (numRecords < 0 ? 0 : numRecords));
+                if (sortType == SortType.Ascending)
+                {
+                    Assert.True(response.OrderBy(user => user.Email).SequenceEqual(response));
+                }
+                else
+                {
+                    Assert.True(response.OrderByDescending(user => user.Email).SequenceEqual(response));
+                }
+                Assert.True(response.Count() == expectedNumberOfRecordsReturned);
+            }
+
+            public class Role_SearchAndOrderAsync_AssertThatPredicateIsConsidered_TestConfig
+            {
+                public static IEnumerable<object[]> TestCases
+                {
+                    get
+                    {
+                        yield return new object[] { (Expression<Func<ApplicationRole, bool>>)((r) => r.Name == "altered_name"), 10, SortType.Ascending, 1 };
+                        yield return new object[] { (Expression<Func<ApplicationRole, bool>>)((r) => r.Name == "user"), 10, SortType.Ascending, 0 }; // gets removed
+                        yield return new object[] { (Expression<Func<ApplicationRole, bool>>)((r) => r.Name == "visitor"), 10, SortType.Ascending, 1 };
+                        yield return new object[] { (Expression<Func<ApplicationRole, bool>>)((r) => r.Name == "inexistant"), 10, SortType.Ascending, 0 };
+                    }
+                }
+            }
+            [Theory]
+            [MemberData(nameof(Role_SearchAndOrderAsync_AssertThatPredicateIsConsidered_TestConfig.TestCases), MemberType = typeof(Role_SearchAndOrderAsync_AssertThatPredicateIsConsidered_TestConfig))]
+            public async void Role_SearchAndOrderAsync_AssertThatPredicateIsConsidered(Expression<Func<ApplicationRole, bool>> predicate, int numRecords, SortType sortType, int expectedNumberOfRecordsReturned)
+            {
+                /// Arrange
+                var response = await _authRepositoryFixture._authRepository.SearchAndOrderAsync(predicate, sortType, role => role.Name, numRecords);
+
+                Assert.True(response.Count() <= (numRecords < 0 ? 0 : numRecords));
+                if (sortType == SortType.Ascending)
+                {
+                    Assert.True(response.OrderBy(role => role.Name).SequenceEqual(response));
+                }
+                else
+                {
+                    Assert.True(response.OrderByDescending(role => role.Name).SequenceEqual(response));
+                }
+                Assert.True(response.Count() == expectedNumberOfRecordsReturned);
             }
         }
     }

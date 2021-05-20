@@ -1,7 +1,9 @@
 ﻿using Data.Interfaces;
+using Data.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -9,10 +11,6 @@ namespace RepositoryTests.Interfaces
 {
     public interface IAuthRepositoriesIntegrationTest
     {
-        public void AddUserToRole_CheckThatItGetsCorrectlyAdded();
-        public void RemoveUserFromRole_CheckThatItGetsCorrectlyRemoved();
-        public void GetUserRolesAsync_CheckThatItRetrievesDataCorrectly();
-
         // User
         // CRUD
         public void User_CreateAsync_AssertThatItGetsProperlyCreated();
@@ -21,9 +19,8 @@ namespace RepositoryTests.Interfaces
         public void User_GetByIdAsync_AssertThatItGetsProperlyRemoved();
         // AUX
         public void User_SearchAndOrderAsync_AssertThatItGetsProperlySorted(int numRecords, SortType sortType);
-        //public void User_SearchAllAsync_AssertThatItWorksProperly(); // does not make sense to exist considering that the above method does everything better
+        public void User_SearchAndOrderAsync_AssertThatPredicateIsConsidered(Expression<Func<ApplicationUser, bool>> predicate, int numRecords, SortType sortType, int expectedNumberOfRecordsReturned);
         public void User_SearchFirstAsync_AssertThatItWorksProperly(string email, bool expectNull);
-        //public void User_GetAllAsync_AssertThatItWorksProperly(); // also does not make much sense to test this, since it is used throughout other tests
 
         // Role
         // CRUD
@@ -33,6 +30,7 @@ namespace RepositoryTests.Interfaces
         public void Role_GetByIdAsync_AssertThatItGetsProperlyRemoved();
         // AUX
         public void Role_SearchAndOrderAsync_AssertThatItWorksProperly(int numRecords, SortType sortType);
+        public void Role_SearchAndOrderAsync_AssertThatPredicateIsConsidered(Expression<Func<ApplicationRole, bool>> predicate, int numRecords, SortType sortType, int expectedNumberOfRecordsReturned);
         public void Role_SearchFirstAsync_AssertThatItWorksProperly(string roleName, bool expectNull);
     }
 }
