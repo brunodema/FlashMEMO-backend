@@ -1,3 +1,4 @@
+using API.ViewModels;
 using Business.Interfaces;
 using Business.Services;
 using Data;
@@ -15,6 +16,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System;
+using System.Linq;
 using System.Text;
 
 namespace API
@@ -31,7 +33,6 @@ namespace API
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
@@ -71,13 +72,19 @@ namespace API
                 o.GroupNameFormat = "'v'VVV";
                 o.SubstituteApiVersionInUrl = true;
             });
-            // identity/authentication configurations (including JWT)
-            //services.AddAuthorization(config =>
-            //{
-            //    config.AddPolicy("User", policy => policy.RequireRole(ApplicationUserRoles.User));
-            //    config.AddPolicy("Admin", policy => policy.RequireRole(ApplicationUserRoles.Admin));
 
-            //});
+            services.AddMvc()
+        .ConfigureApiBehaviorOptions(options =>
+        {
+            options.InvalidModelStateResponseFactory = actionContext =>
+            {
+                return new BadRequestObjectResult(new BaseResponseModel { Status = "Bad Request", Message = "Validation errors have ocurred when processing the request", Errors = actionContext.ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage) });
+            };
+        });
+
+
+
+            // identity config
             services.AddIdentity<ApplicationUser, IdentityRole>(opt =>
             {
                 opt.User.RequireUniqueEmail = true;
@@ -85,6 +92,7 @@ namespace API
                 .AddEntityFrameworkStores<FlashMEMOContext>()
                 .AddRoles<IdentityRole>()
                 .AddDefaultTokenProviders();
+            // auth config
             services.AddAuthentication(options =>
             {
                 options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -108,7 +116,6 @@ namespace API
                 };
             });
             // database configuration
-            //services.AddDbContext<FlashMEMOContext>(options => options.UseSqlServer(Configuration.GetConnectionString("ConnStr"), options => options.MigrationsAssembly("API")));
             services.AddDbContext<FlashMEMOContext>(options => options.UseNpgsql(Configuration.GetConnectionString("Postgres"), options => options.MigrationsAssembly("API")));
             // options configuration
             services.Configure<JWTServiceOptions>(Configuration.GetSection("JWT"));
