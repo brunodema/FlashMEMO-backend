@@ -66,6 +66,10 @@ namespace Data.Repository
         {
             return await _userManager.RemoveFromRoleAsync(entity, role.Name);
         }
+        public async Task<bool> CheckPasswordAsync(ApplicationUser user, string cleanPassword)
+        {
+            return await _userManager.CheckPasswordAsync(user, cleanPassword);
+        }
         public override void Dispose()
         {
             _userManager?.Dispose();

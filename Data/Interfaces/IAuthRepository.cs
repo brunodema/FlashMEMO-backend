@@ -1,4 +1,5 @@
 ﻿using Data.Models;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -15,10 +16,11 @@ namespace Data.Interfaces
         public Task<ApplicationUser> SearchFirstAsync(Expression<Func<ApplicationUser, bool>> predicate);
         public Task<ICollection<ApplicationUser>> GetAllUsersAsync();
         public Task<ApplicationUser> GetUserByIdAsync(Guid id);
+        public Task<bool> CheckPasswordAsync(ApplicationUser user, string cleanPassword);
         // CRUD
-        public Task CreateAsync(ApplicationUser entity, string cleanPassword);
-        public Task UpdateAsync(ApplicationUser entity);
-        public Task RemoveAsync(ApplicationUser entity);
+        public Task<IdentityResult> CreateAsync(ApplicationUser entity, string cleanPassword);
+        public Task<IdentityResult> UpdateAsync(ApplicationUser entity);
+        public Task<IdentityResult> RemoveAsync(ApplicationUser entity);
         #endregion
         #region ROLE
         public Task<IEnumerable<ApplicationRole>> SearchAndOrderAsync<TKey>(Expression<Func<ApplicationRole, bool>> predicate, SortType sortType, Expression<Func<ApplicationRole, TKey>> columnToSort, int numRecords);
@@ -26,9 +28,9 @@ namespace Data.Interfaces
         public Task<ICollection<ApplicationRole>> GetAllRolesAsync();
         public Task<ApplicationRole> GetRoleByIdAsync(Guid id);
         // CRUD
-        public Task CreateAsync(ApplicationRole entity);
-        public Task UpdateAsync(ApplicationRole entity);
-        public Task RemoveAsync(ApplicationRole entity);
+        public Task<IdentityResult> CreateAsync(ApplicationRole entity);
+        public Task<IdentityResult> UpdateAsync(ApplicationRole entity);
+        public Task<IdentityResult> RemoveAsync(ApplicationRole entity);
         #endregion
         public Task AdduserToRuleAsync(ApplicationUser user, ApplicationRole role);
         public Task RemoveUserFromRoleAsync(ApplicationUser user, ApplicationRole role);
