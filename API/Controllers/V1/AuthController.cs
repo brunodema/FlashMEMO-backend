@@ -17,15 +17,11 @@ namespace API.Controllers
     [Route("api/v{version:apiVersion}/[controller]")]
     public class AuthController : ControllerBase
     {
-        private readonly UserManager<ApplicationUser> _userManager;
-        private readonly RoleManager<IdentityRole> _roleManager;
         private readonly IJWTService _JWTService;
         private readonly IAuthService _authService;
 
-        public AuthController(UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager, IJWTService JWTService, IAuthService authService) : base()
+        public AuthController(IJWTService JWTService, IAuthService authService) : base()
         {
-            _userManager = userManager;
-            _roleManager = roleManager;
             _JWTService = JWTService;
             _authService = authService;
         }
@@ -34,23 +30,26 @@ namespace API.Controllers
         [Route("register")]
         public async Task<IActionResult> Register([FromBody] RegisterRequestModel model)
         {
-            if (await _userManager.FindByEmailAsync(model.Email) != null)
-                return StatusCode(StatusCodes.Status500InternalServerError, new BaseResponseModel { Status = "Error", Message = "User already exists!" });
+            if (await _authService.UserAlreadyExistsAsync(model.Email))
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, new BaseResponseModel { Status = "Error", Message = "Email already exists in the database. Please use an unique email for registration, or contact one of our administrator to recover your password/account." });
+            }
 
             ApplicationUser user = new ApplicationUser()
             {
                 Email = model.Email,
                 SecurityStamp = Guid.NewGuid().ToString(),
-                UserName = model.Email
+                UserName = model.Email,
             };
-            var result = await _userManager.CreateAsync(user, model.Password);
+
+            var result = await _authService.CreateUserAsync(user, model.Password);
             if (!result.Succeeded)
             {
                 var errorList = result.Errors.Select(e => e.Description);
-                return StatusCode(StatusCodes.Status500InternalServerError, new BaseResponseModel { Status = "Error", Message = "User creation failed! Please check user details and try again.", Errors = errorList });
+                return StatusCode(StatusCodes.Status500InternalServerError, new BaseResponseModel { Status = "Error", Message = "User creation failed. Please check user details and try again.", Errors = errorList });
             }
 
-            return Ok(new BaseResponseModel { Status = "Success", Message = "User created successfully!" });
+            return Ok(new BaseResponseModel { Status = "Success", Message = "User created successfully." });
         }
 
 
