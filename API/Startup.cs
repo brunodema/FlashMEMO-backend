@@ -2,6 +2,7 @@ using API.ViewModels;
 using Business.Interfaces;
 using Business.Services;
 using Data;
+using Data.Interfaces;
 using Data.Models;
 using Data.Repository;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -85,12 +86,12 @@ namespace API
 
 
             // identity config
-            services.AddIdentity<ApplicationUser, IdentityRole>(opt =>
+            services.AddIdentity<ApplicationUser, ApplicationRole>(opt =>
             {
                 opt.User.RequireUniqueEmail = true;
             })
                 .AddEntityFrameworkStores<FlashMEMOContext>()
-                .AddRoles<IdentityRole>()
+                .AddRoles<ApplicationRole>()
                 .AddDefaultTokenProviders();
             // auth config
             services.AddAuthentication(options =>
@@ -124,6 +125,8 @@ namespace API
             services.AddScoped<IAuthService, AuthService>();
             services.AddScoped<INewsService, NewsService>();
             services.AddScoped<ApplicationUserRepository>();
+            services.AddScoped<IAuthRepository, AuthRepository>();
+            services.AddScoped<RoleRepository>();
             services.AddScoped<NewsRepository>();
         }
 

@@ -27,14 +27,19 @@ namespace Data.Repository
             await _applicationUserRepository.AddUserToRoleAsync(user, role);
         }
 
-        public async Task CreateAsync(ApplicationUser entity, string cleanPassword)
+        public async Task<bool> CheckPasswordAsync(ApplicationUser user, string cleanPassword)
         {
-            await _applicationUserRepository.CreateUserAsync(entity, cleanPassword);
+            return await _applicationUserRepository.CheckPasswordAsync(user, cleanPassword);
         }
 
-        public async Task CreateAsync(ApplicationRole entity)
+        public async Task<IdentityResult> CreateAsync(ApplicationUser entity, string cleanPassword)
         {
-            await _roleRepository.CreateAsync(entity);
+            return await _applicationUserRepository.CreateUserAsync(entity, cleanPassword);
+        }
+
+        public async Task<IdentityResult> CreateAsync(ApplicationRole entity)
+        {
+            return await  _roleRepository.CreateAsync(entity);
         }
 
         public void Dispose()
@@ -68,12 +73,12 @@ namespace Data.Repository
             return await _roleRepository.SearchAllAsync(role => role.UserRoles.Any(r => r.User == user)); // probably will break
         }
 
-        public Task RemoveAsync(ApplicationUser entity)
+        public Task<IdentityResult> RemoveAsync(ApplicationUser entity)
         {
             return _applicationUserRepository.RemoveAsync(entity);
         }
 
-        public Task RemoveAsync(ApplicationRole entity)
+        public Task<IdentityResult> RemoveAsync(ApplicationRole entity)
         {
             return _roleRepository.RemoveAsync(entity);
         }
@@ -103,14 +108,14 @@ namespace Data.Repository
             return await _roleRepository.SearchFirstAsync(predicate);
         }
 
-        public async Task UpdateAsync(ApplicationUser entity)
+        public async Task<IdentityResult> UpdateAsync(ApplicationUser entity)
         {
-            await _applicationUserRepository.UpdateAsync(entity);
+            return await _applicationUserRepository.UpdateAsync(entity);
         }
 
-        public async Task UpdateAsync(ApplicationRole entity)
+        public async Task<IdentityResult> UpdateAsync(ApplicationRole entity)
         {
-            await _roleRepository.UpdateAsync(entity);
+            return await _roleRepository.UpdateAsync(entity);
         }
     }
 }
