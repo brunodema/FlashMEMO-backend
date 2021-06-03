@@ -24,7 +24,13 @@ namespace Data.Interfaces
     }
     public enum SortType
     {
+        None,
         Ascending,
         Descending
+    }
+    public class SortOptions<TEntity, IKey>
+    {
+        public SortType SortType { get; set; } = SortType.None;
+        public Expression<Func<TEntity, IKey>> ColumnToSort { get; set; } = null;
     }
 }
