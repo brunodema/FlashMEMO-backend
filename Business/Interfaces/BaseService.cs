@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Business.Interfaces
 {
-    public interface BaseService<TEntity, TResultClass> 
+    public interface BaseRepositoryService<TEntity, TResultClass> 
         where TEntity : class
         where TResultClass : class // in case you need to use an additional type for the return type of certain operations (eX: 'IdentityResult')
     {
