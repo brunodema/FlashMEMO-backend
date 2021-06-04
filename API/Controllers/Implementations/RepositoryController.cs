@@ -58,7 +58,7 @@ namespace API.Controllers.Implementations
         public async virtual Task<IActionResult> Delete(TEntity entity)
         {
             await _repositoryService.UpdateAsync(entity);
-            return Ok(new BaseResponseModel { Status = "Success", Message = $"{entity.ToString()} updated successfully." });
+            return Ok(new BaseResponseModel { Status = "Success", Message = $"{entity.ToString()} deleted successfully." });
         }
     }
 }
