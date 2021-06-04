@@ -1,7 +1,10 @@
 ﻿using API.ViewModels;
 using Business.Interfaces;
-using Data.Interfaces;
+using Data.Models;
+using Data.Tools;
 using Microsoft.AspNetCore.Mvc;
+using System;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 
 namespace API.Controllers
@@ -11,9 +14,9 @@ namespace API.Controllers
     [Route("api/v{version:apiVersion}/[controller]")]
     public class NewsController : ControllerBase
     {
-        private readonly INewsService _newsService;
+        private readonly DummyService _newsService;
 
-        public NewsController(INewsService newsService) : base()
+        public NewsController(DummyService newsService) : base()
         {
             _newsService = newsService;
         }
@@ -22,7 +25,8 @@ namespace API.Controllers
         [Route("list")]
         public async Task<IActionResult> List([FromQuery] int pageSize, string filter, SortType sortType)
         {
-            var news = await _newsService.GetNewsAsync(pageSize, filter, sortType);
+            Expression<Func<News,bool>> predicate = filter == null ? _ => true : news => news.Content.Contains(filter) || news.Title.Contains(filter) || news.Subtitle.Contains(filter);
+            var news = await _newsService.GetAsync<int>(predicate, null, pageSize);;
             return Ok(new ListNewsResponseModel { Status = "Sucess", News = news });
         }
     }

@@ -1,16 +1,12 @@
-using Data;
+using Data.Context;
 using Data.Repository;
 using Microsoft.EntityFrameworkCore;
 using System;
 using Xunit;
 using Data.Models;
-using System.Linq.Expressions;
-using System.Collections.Generic;
-using Data.Interfaces;
 using System.Linq;
 using Xunit.Abstractions;
-using System.Threading.Tasks;
-using System.Threading;
+using Data.Tools;
 
 namespace RepositoryTests
 {

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Data.Interfaces
+namespace Data.Models.Interfaces
 {
     public interface INews
     {

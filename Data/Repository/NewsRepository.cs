@@ -1,10 +1,10 @@
-﻿using Data.Interfaces;
-using Data.Models;
+﻿using Data.Models;
+using Data.Tools;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
+using Data.Context;
 
 namespace Data.Repository
 {
@@ -14,7 +14,7 @@ namespace Data.Repository
 
         public async Task<IEnumerable<News>> SearchAndOrderByCreationDateAsync(Expression<Func<News, bool>> predicate, SortType sortType, int numRecords)
         {
-            return await base.SearchAndOrderAsync(predicate, sortType, news => news.CreationDate, numRecords);
+            return await base.SearchAndOrderAsync(predicate, new SortOptions<News, DateTime> { SortType = sortType, ColumnToSort = news => news.CreationDate }, numRecords);
         }
     }
 }

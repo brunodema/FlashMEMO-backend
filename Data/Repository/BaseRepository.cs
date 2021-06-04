@@ -1,4 +1,4 @@
-﻿using Data.Interfaces;
+﻿using Data.Tools;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Data.Repository
 {
-    public abstract class BaseRepository<TEntity, DatabaseContext> : IBaseRepository<TEntity, DatabaseContext>
+    public abstract class BaseRepository<TEntity, DatabaseContext>
         where TEntity : class
         where DatabaseContext : DbContext
     {
@@ -20,14 +20,17 @@ namespace Data.Repository
             _context = context;
             _dbset = context.Set<TEntity>();
         }
-        public virtual async Task<IEnumerable<TEntity>> SearchAndOrderAsync<TKey>(Expression<Func<TEntity, bool>> predicate, SortType sortType, Expression<Func<TEntity, TKey>> columnToSort, int numRecords)
+        public virtual async Task<IEnumerable<TEntity>> SearchAndOrderAsync<TKey>(Expression<Func<TEntity, bool>> predicate, SortOptions<TEntity, TKey> sortOptions, int numRecords)
         {
-            if (sortType == SortType.Ascending)
+            if (sortOptions != null)
             {
-                return await _dbset.AsNoTracking().Where(predicate).OrderBy(columnToSort).Take(numRecords).ToListAsync();
+                if (sortOptions.SortType == SortType.Ascending)
+                {
+                    return await _dbset.AsNoTracking().Where(predicate).OrderBy(sortOptions.ColumnToSort).Take(numRecords).ToListAsync();
+                }
+                return await _dbset.AsNoTracking().Where(predicate).OrderByDescending(sortOptions.ColumnToSort).Take(numRecords).ToListAsync();
             }
-            return await _dbset.AsNoTracking().Where(predicate).OrderByDescending(columnToSort).Take(numRecords).ToListAsync();
-
+            return await _dbset.AsNoTracking().Where(predicate).Take(numRecords).ToListAsync();
         }
         public virtual async Task<IEnumerable<TEntity>> SearchAllAsync(Expression<Func<TEntity, bool>> predicate)
         {

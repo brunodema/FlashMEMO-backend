@@ -1,5 +1,5 @@
-﻿using Data.Interfaces;
-using Data.Models;
+﻿using Data.Models;
+using Data.Tools;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
+using Data.Context;
 
 namespace Data.Repository
 {
@@ -17,13 +18,17 @@ namespace Data.Repository
         {
             _roleManager = roleManager;
         }
-        public override async Task<IEnumerable<ApplicationRole>> SearchAndOrderAsync<TKey>(Expression<Func<ApplicationRole, bool>> predicate, SortType sortType, Expression<Func<ApplicationRole, TKey>> columnToSort, int numRecords)
+        public override async Task<IEnumerable<ApplicationRole>> SearchAndOrderAsync<TKey>(Expression<Func<ApplicationRole, bool>> predicate, SortOptions<ApplicationRole, TKey> sortOptions, int numRecords)
         {
-            if (sortType == SortType.Ascending)
+            if (sortOptions != null)
             {
-                return await _roleManager.Roles.AsNoTracking().Where(predicate).OrderBy(columnToSort).Take(numRecords).ToListAsync();
+                if (sortOptions.SortType == SortType.Ascending)
+                {
+                    return await _roleManager.Roles.AsNoTracking().Where(predicate).OrderBy(sortOptions.ColumnToSort).Take(numRecords).ToListAsync();
+                }
+                return await _roleManager.Roles.AsNoTracking().Where(predicate).OrderByDescending(sortOptions.ColumnToSort).Take(numRecords).ToListAsync();
             }
-            return await _roleManager.Roles.AsNoTracking().Where(predicate).OrderByDescending(columnToSort).Take(numRecords).ToListAsync();
+            return await _roleManager.Roles.AsNoTracking().Where(predicate).Take(numRecords).ToListAsync();
 
         }
         public override async Task<IEnumerable<ApplicationRole>> SearchAllAsync(Expression<Func<ApplicationRole, bool>> predicate)

@@ -1,13 +1,12 @@
-﻿using Data.Interfaces;
-using Data.Models;
+﻿using Data.Models;
+using Data.Repository.Interfaces;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
-using System.Text;
 using System.Threading.Tasks;
+using Data.Tools;
 
 namespace Data.Repository
 {
@@ -88,14 +87,14 @@ namespace Data.Repository
             await _applicationUserRepository.RemoveUserFromRoleAsync(user, role);
         }
 
-        public async Task<IEnumerable<ApplicationUser>> SearchAndOrderAsync<TKey>(Expression<Func<ApplicationUser, bool>> predicate, SortType sortType, Expression<Func<ApplicationUser, TKey>> columnToSort, int numRecords)
+        public async Task<IEnumerable<ApplicationUser>> SearchAndOrderAsync<TKey>(Expression<Func<ApplicationUser, bool>> predicate, SortOptions<ApplicationUser, TKey> sortOptions, int numRecords)
         {
-            return await _applicationUserRepository.SearchAndOrderAsync(predicate, sortType, columnToSort, numRecords);
+            return await _applicationUserRepository.SearchAndOrderAsync<TKey>(predicate, sortOptions, numRecords);
         }
 
-        public async Task<IEnumerable<ApplicationRole>> SearchAndOrderAsync<TKey>(Expression<Func<ApplicationRole, bool>> predicate, SortType sortType, Expression<Func<ApplicationRole, TKey>> columnToSort, int numRecords)
+        public async Task<IEnumerable<ApplicationRole>> SearchAndOrderAsync<TKey>(Expression<Func<ApplicationRole, bool>> predicate, SortOptions<ApplicationRole, TKey> sortOptions, int numRecords)
         {
-            return await _roleRepository.SearchAndOrderAsync(predicate, sortType, columnToSort, numRecords);
+            return await _roleRepository.SearchAndOrderAsync(predicate, sortOptions, numRecords);
         }
 
         public async Task<ApplicationUser> SearchFirstAsync(Expression<Func<ApplicationUser, bool>> predicate)

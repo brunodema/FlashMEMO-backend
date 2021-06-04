@@ -1,6 +1,6 @@
-﻿using Data.Interfaces;
-using Data.Models;
+﻿using Data.Repository.Interfaces;
 using System.Collections.Generic;
+using Data.Models.Interfaces;
 
 namespace API.ViewModels
 {

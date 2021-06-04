@@ -5,8 +5,9 @@ using Data.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using Data.Context;
 
-namespace Data
+namespace Data.Seeder
 {
     public class FlashMEMORoles
     {

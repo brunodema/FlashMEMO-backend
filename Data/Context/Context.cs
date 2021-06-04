@@ -1,9 +1,8 @@
-﻿using Data.Interfaces;
-using Data.Models;
+﻿using Data.Models;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
-namespace Data
+namespace Data.Context
 {
     public class FlashMEMOContext : IdentityDbContext<
         ApplicationUser, ApplicationRole, string,

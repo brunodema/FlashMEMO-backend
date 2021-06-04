@@ -1,7 +1,6 @@
-﻿using Data;
-using Data.Interfaces;
+﻿using Data.Context;
 using Data.Models;
-using Data.Repository;
+using Data.Tools;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -19,14 +18,17 @@ namespace Data.Repository
         {
             _userManager = userManager;
         }
-        public override async Task<IEnumerable<ApplicationUser>> SearchAndOrderAsync<TKey>(Expression<Func<ApplicationUser, bool>> predicate, SortType sortType, Expression<Func<ApplicationUser, TKey>> columnToSort, int numRecords)
+        public override async Task<IEnumerable<ApplicationUser>> SearchAndOrderAsync<TKey>(Expression<Func<ApplicationUser, bool>> predicate, SortOptions<ApplicationUser, TKey> sortOptions, int numRecords)
         {
-            if (sortType == SortType.Ascending)
+            if (sortOptions != null)
             {
-                return await _userManager.Users.AsNoTracking().Where(predicate).OrderBy(columnToSort).Take(numRecords).ToListAsync();
+                if (sortOptions.SortType == SortType.Ascending)
+                {
+                    return await _userManager.Users.AsNoTracking().Where(predicate).OrderBy(sortOptions.ColumnToSort).Take(numRecords).ToListAsync();
+                }
+                return await _userManager.Users.AsNoTracking().Where(predicate).OrderByDescending(sortOptions.ColumnToSort).Take(numRecords).ToListAsync();
             }
-            return await _userManager.Users.AsNoTracking().Where(predicate).OrderByDescending(columnToSort).Take(numRecords).ToListAsync();
-
+            return await _userManager.Users.AsNoTracking().Where(predicate).Take(numRecords).ToListAsync();
         }
         public override async Task<IEnumerable<ApplicationUser>> SearchAllAsync(Expression<Func<ApplicationUser, bool>> predicate)
         {

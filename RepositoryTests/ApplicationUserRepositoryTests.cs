@@ -1,5 +1,5 @@
-﻿using Data;
-using Data.Interfaces;
+﻿using Data.Context;
+using Data.Repository.Interfaces;
 using Data.Models;
 using Data.Repository;
 using Microsoft.AspNetCore.Identity;

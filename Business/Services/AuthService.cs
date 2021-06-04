@@ -1,5 +1,5 @@
 ﻿using Business.Interfaces;
-using Data.Interfaces;
+using Data.Repository.Interfaces;
 using Data.Models;
 using Data.Repository;
 using Microsoft.AspNetCore.Identity;

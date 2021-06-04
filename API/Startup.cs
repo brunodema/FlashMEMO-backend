@@ -1,8 +1,8 @@
 using API.ViewModels;
 using Business.Interfaces;
 using Business.Services;
-using Data;
-using Data.Interfaces;
+using Data.Context;
+using Data.Repository.Interfaces;
 using Data.Models;
 using Data.Repository;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -19,6 +19,7 @@ using Microsoft.OpenApi.Models;
 using System;
 using System.Linq;
 using System.Text;
+using Data.Seeder;
 
 namespace API
 {
@@ -120,10 +121,13 @@ namespace API
             services.AddDbContext<FlashMEMOContext>(options => options.UseNpgsql(Configuration.GetConnectionString("Postgres"), options => options.MigrationsAssembly("API")));
             // options configuration
             services.Configure<JWTServiceOptions>(Configuration.GetSection("JWT"));
+            services.Configure<BaseRepositoryServiceOptions>(Configuration.GetSection("BaseRepositoryServiceOptions"));
             // custom services
             services.AddScoped<IJWTService, JWTService>();
             services.AddScoped<IAuthService, AuthService>();
-            services.AddScoped<INewsService, NewsService>();
+            //services.AddScoped<INewsService, NewsService>();
+            //services.AddScoped<BaseRepositoryService<NewsRepository, News>>();
+            services.AddScoped<DummyService>();
             services.AddScoped<ApplicationUserRepository>();
             services.AddScoped<IAuthRepository, AuthRepository>();
             services.AddScoped<RoleRepository>();
