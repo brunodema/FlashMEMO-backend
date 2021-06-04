@@ -8,19 +8,10 @@ using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Data.Models.Interfaces;
+using Business.Tools;
 
 namespace Business.Services
 {
-    public class ValidatonResult
-    {
-        public bool IsValid { get; set; } = false;
-        public string[] Errors { get; set; } = { };
-    }
-    public class ServiceValidationException : Exception
-    {
-        public ServiceValidationException() : base("The service could successfully validate the entity.") { }
-        public string[] Errors { get; set; } = { };
-    }
     public abstract class BaseRepositoryService<TRepositoryType, TEntity>
         where TRepositoryType : BaseRepository<TEntity, FlashMEMOContext>
         where TEntity : class
