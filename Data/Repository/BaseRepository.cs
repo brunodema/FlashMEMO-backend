@@ -1,4 +1,5 @@
-﻿using Data.Tools;
+﻿using Data.Repository.Interfaces.Data.Interfaces;
+using Data.Tools;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -8,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Data.Repository
 {
-    public abstract class BaseRepository<TEntity, DatabaseContext>
+    public abstract class BaseRepository<TEntity, DatabaseContext> : IBaseRepository<TEntity, DatabaseContext>
         where TEntity : class
         where DatabaseContext : DbContext
     {
