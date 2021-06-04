@@ -125,8 +125,6 @@ namespace API
             // custom services
             services.AddScoped<IJWTService, JWTService>();
             services.AddScoped<IAuthService, AuthService>();
-            //services.AddScoped<INewsService, NewsService>();
-            //services.AddScoped<BaseRepositoryService<NewsRepository, News>>();
             services.AddScoped<NewsService>();
             services.AddScoped<ApplicationUserRepository>();
             services.AddScoped<IAuthRepository, AuthRepository>();

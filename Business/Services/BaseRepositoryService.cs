@@ -40,9 +40,9 @@ namespace Business.Services
         {
             return await _baseRepository.GetByIdAsync(id);
         }
-        public async virtual Task<IEnumerable<TEntity>> GetAsync<TKey>(Expression<Func<TEntity, bool>> predicate = null, SortOptions<TEntity, TKey> sortOptions = null, int numRecords = 1000)
+        public async virtual Task<IEnumerable<TEntity>> GetAsync(Expression<Func<TEntity, bool>> predicate = null, SortOptions<TEntity, object> sortOptions = null, int numRecords = 1000)
         {
-            return await _baseRepository.SearchAndOrderAsync<TKey>(predicate, sortOptions, numRecords);
+            return await _baseRepository.SearchAndOrderAsync(predicate, sortOptions, numRecords);
         }
         public async virtual Task RemoveAsync(TEntity entity)
         {
