@@ -28,7 +28,8 @@ namespace API.Controllers.Implementations
         }
         [HttpGet]
         [Route("list")]
-        public abstract Task<IActionResult> Get();
+        public abstract Task<IActionResult> Get([FromQuery] string sortOrder, string currentFilter, string searchString, int? pageNumber);
+
         [HttpPost]
         [Route("create")]
         public async virtual Task<IActionResult> Create(TEntity entity)
@@ -41,6 +42,7 @@ namespace API.Controllers.Implementations
             }
             return BadRequest(new BaseResponseModel { Status = "Error", Message = $"Validation occured when creating {entity.ToString()}.", Errors = validationResult.Errors });
         }
+
         [HttpPut]
         [Route("update")]
         public async virtual Task<IActionResult> Update(TEntity entity)
@@ -53,6 +55,7 @@ namespace API.Controllers.Implementations
             }
             return BadRequest(new BaseResponseModel { Status = "Error", Message = $"Validation occured when updating {entity.ToString()}.", Errors = validationResult.Errors });
         }
+
         [HttpPost]
         [Route("delete")]
         public async virtual Task<IActionResult> Delete(TEntity entity)
