@@ -10,7 +10,7 @@ using Data.Tools;
 
 namespace Data.Repository
 {
-    public class AuthRepository : IAuthRepository
+    public class AuthRepository : IAuthRepository // this interface must exist because otherwise many functions would clash, since they have the same input parameters (ex: GetById takes GUID), so it's not possible to inherit two BaseRepositories<...,...> interfaces/classes
     {
         private readonly ApplicationUserRepository _applicationUserRepository;
         private readonly RoleRepository _roleRepository;
@@ -21,9 +21,19 @@ namespace Data.Repository
             _roleRepository = roleRepository;
         }
 
-        public async Task AdduserToRuleAsync(ApplicationUser user, ApplicationRole role)
+        public async Task AdduserToRoleAsync(ApplicationUser user, ApplicationRole role)
         {
             await _applicationUserRepository.AddUserToRoleAsync(user, role);
+        }
+
+        public async Task RemoveUserFromRoleAsync(ApplicationUser user, ApplicationRole role)
+        {
+            await _applicationUserRepository.RemoveUserFromRoleAsync(user, role);
+        }
+
+        public async Task<IEnumerable<ApplicationRole>> GetUserRolesAsync(ApplicationUser user)
+        {
+            return await _roleRepository.SearchAllAsync(role => role.UserRoles.Any(r => r.User == user)); // probably will break
         }
 
         public async Task<bool> CheckPasswordAsync(ApplicationUser user, string cleanPassword)
@@ -67,11 +77,6 @@ namespace Data.Repository
             return _applicationUserRepository.GetByIdAsync(id);
         }
 
-        public async Task<IEnumerable<ApplicationRole>> GetUserRolesAsync(ApplicationUser user)
-        {
-            return await _roleRepository.SearchAllAsync(role => role.UserRoles.Any(r => r.User == user)); // probably will break
-        }
-
         public Task<IdentityResult> RemoveAsync(ApplicationUser entity)
         {
             return _applicationUserRepository.RemoveAsync(entity);
@@ -80,11 +85,6 @@ namespace Data.Repository
         public Task<IdentityResult> RemoveAsync(ApplicationRole entity)
         {
             return _roleRepository.RemoveAsync(entity);
-        }
-
-        public async Task RemoveUserFromRoleAsync(ApplicationUser user, ApplicationRole role)
-        {
-            await _applicationUserRepository.RemoveUserFromRoleAsync(user, role);
         }
 
         public async Task<IEnumerable<ApplicationUser>> SearchAndOrderAsync<TKey>(Expression<Func<ApplicationUser, bool>> predicate, SortOptions<ApplicationUser, TKey> sortOptions, int numRecords)

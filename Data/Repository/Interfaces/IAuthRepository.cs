@@ -31,7 +31,7 @@ namespace Data.Repository.Interfaces
         public Task<IdentityResult> UpdateAsync(ApplicationRole entity);
         public Task<IdentityResult> RemoveAsync(ApplicationRole entity);
         #endregion
-        public Task AdduserToRuleAsync(ApplicationUser user, ApplicationRole role);
+        public Task AdduserToRoleAsync(ApplicationUser user, ApplicationRole role);
         public Task RemoveUserFromRoleAsync(ApplicationUser user, ApplicationRole role);
         public Task<IEnumerable<ApplicationRole>> GetUserRolesAsync(ApplicationUser user);
         public void Dispose();
