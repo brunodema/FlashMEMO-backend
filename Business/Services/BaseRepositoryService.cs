@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
+using Data.Models.Interfaces;
 
 namespace Business.Services
 {
@@ -64,9 +65,9 @@ namespace Business.Services
         public int PageSize { get; set; } = 10;
     }
 
-    public class DummyService : BaseRepositoryService<NewsRepository, News>
+    public class NewsService : BaseRepositoryService<NewsRepository, News>
     {
-        public DummyService(NewsRepository baseRepository, IOptions<BaseRepositoryServiceOptions> serviceOptions) : base(baseRepository, serviceOptions.Value) { }
+        public NewsService(NewsRepository baseRepository, IOptions<BaseRepositoryServiceOptions> serviceOptions) : base(baseRepository, serviceOptions.Value) { }
         public override ValidatonResult CheckIfEntityIsValid(News entity)
         {
             return new ValidatonResult { IsValid = true }; // temporary implementation

@@ -14,9 +14,9 @@ namespace API.Controllers
     [Route("api/v{version:apiVersion}/[controller]")]
     public class NewsController : ControllerBase
     {
-        private readonly DummyService _newsService;
+        private readonly NewsService _newsService;
 
-        public NewsController(DummyService newsService) : base()
+        public NewsController(NewsService newsService) : base()
         {
             _newsService = newsService;
         }
