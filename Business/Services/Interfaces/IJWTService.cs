@@ -1,6 +1,6 @@
 ﻿using Data.Models;
 
-namespace Business.Interfaces
+namespace Business.Services.Interfaces
 {
     public interface IJWTServiceOptions
     {

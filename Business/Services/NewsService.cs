@@ -1,5 +1,4 @@
-﻿using Business.Interfaces;
-using Data.Tools;
+﻿using Data.Tools;
 using Data.Models;
 using Data.Repository;
 using Microsoft.Extensions.Options;
@@ -7,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
+using Business.Services.Interfaces;
 
 namespace Business.Services
 {

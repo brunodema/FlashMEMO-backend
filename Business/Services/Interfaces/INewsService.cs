@@ -3,7 +3,7 @@ using Data.Models;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace Business.Interfaces
+namespace Business.Services.Interfaces
 {
     public interface INewsServiceOptions
     {

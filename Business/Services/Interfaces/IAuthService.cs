@@ -1,8 +1,9 @@
-﻿using Data.Models;
+﻿using Business.Tools.Interfaces;
+using Data.Models;
 using Microsoft.AspNetCore.Identity;
 using System.Threading.Tasks;
 
-namespace Business.Interfaces
+namespace Business.Services.Interfaces
 {
     public interface IAuthServiceOptions
     {

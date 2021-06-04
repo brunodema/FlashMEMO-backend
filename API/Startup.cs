@@ -1,5 +1,4 @@
 using API.ViewModels;
-using Business.Interfaces;
 using Business.Services;
 using Data.Context;
 using Data.Repository.Interfaces;
@@ -20,6 +19,7 @@ using System;
 using System.Linq;
 using System.Text;
 using Data.Seeder;
+using Business.Services.Interfaces;
 
 namespace API
 {
