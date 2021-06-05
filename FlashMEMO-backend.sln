@@ -9,7 +9,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Business", "Business\Busine
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Data", "Data\Data.csproj", "{F49AC012-8DD0-4697-B237-EA23BBAC5C2F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RepositoryTests", "RepositoryTests\RepositoryTests.csproj", "{3285E6CD-9847-4816-A9D0-621600C1EC05}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tests", "RepositoryTests\Tests.csproj", "{3285E6CD-9847-4816-A9D0-621600C1EC05}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
