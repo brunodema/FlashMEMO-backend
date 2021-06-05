@@ -1,0 +1,902 @@
+﻿[
+  {
+    "NewsID": "3C976BBA-BFF7-0EF5-5A6B-B0AE96F7D3F2",
+    "Title": "in lobortis tellus justo sit",
+    "Subtitle": "diam eu dolor egestas rhoncus. Proin",
+    "ThumbnailPath": "assets/features/flashmemo_dummy3.jpg",
+    "Content": "tellus. Phasellus elit pede, malesuada vel, venenatis vel, faucibus id, libero. Donec consectetuer mauris id sapien. Cras dolor dolor, tempus non, lacinia at, iaculis quis, pede. Praesent eu dui. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Aenean eget magna. Suspendisse tristique neque venenatis lacus. Etiam bibendum fermentum metus. Aenean sed pede nec ante blandit viverra. Donec tempus, lorem fringilla ornare placerat, orci lacus vestibulum lorem, sit amet ultricies sem magna nec quam. Curabitur vel lectus.",
+    "CreationDate": "2021-06-15 13:03:08",
+    "LastUpdated": "2022-04-03 13:30:37"
+  },
+  {
+    "NewsID": "FEA551C2-6CC8-1775-A179-0F08CC673A5B",
+    "Title": "quis diam luctus",
+    "Subtitle": "eu",
+    "ThumbnailPath": "assets/features/flashmemo_dummy1.jpg",
+    "Content": "magna a tortor. Nunc commodo auctor velit. Aliquam nisl. Nulla eu neque pellentesque massa lobortis ultrices. Vivamus rhoncus. Donec est. Nunc ullamcorper, velit in aliquet lobortis, nisi nibh lacinia orci, consectetuer euismod est arcu ac orci. Ut semper pretium neque. Morbi quis urna.",
+    "CreationDate": "2021-04-13 14:36:44",
+    "LastUpdated": "2022-03-19 05:01:18"
+  },
+  {
+    "NewsID": "5CDA2C98-98D7-0341-0D7F-5F634136DBE3",
+    "Title": "ut",
+    "Subtitle": "ut lacus. Nulla tincidunt, neque vitae",
+    "ThumbnailPath": "assets/features/flashmemo_dummy3.jpg",
+    "Content": "nec luctus felis purus ac tellus. Suspendisse sed dolor. Fusce mi lorem, vehicula et, rutrum eu, ultrices sit amet, risus. Donec nibh enim, gravida sit amet, dapibus id, blandit at, nisi. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Proin vel nisl. Quisque fringilla euismod enim. Etiam gravida molestie arcu. Sed eu nibh vulputate mauris sagittis placerat. Cras dictum ultricies ligula. Nullam enim. Sed nulla ante, iaculis nec, eleifend non, dapibus rutrum, justo. Praesent luctus.",
+    "CreationDate": "2021-09-16 13:40:24",
+    "LastUpdated": "2020-10-21 04:46:45"
+  },
+  {
+    "NewsID": "B244F77E-3A71-27E6-7363-D2BA2ADC86BC",
+    "Title": "ultrices. Duis volutpat nunc sit amet metus.",
+    "Subtitle": "Phasellus at augue id ante dictum",
+    "ThumbnailPath": "assets/features/flashmemo_dummy4.jpg",
+    "Content": "Fusce aliquam, enim nec tempus scelerisque, lorem ipsum sodales purus, in molestie tortor nibh sit amet orci. Ut sagittis lobortis mauris. Suspendisse aliquet molestie tellus. Aenean egestas hendrerit neque. In ornare sagittis felis. Donec tempor, est ac mattis semper, dui lectus rutrum urna, nec luctus felis purus ac tellus. Suspendisse sed dolor. Fusce mi lorem, vehicula et, rutrum eu, ultrices sit amet, risus. Donec nibh enim, gravida",
+    "CreationDate": "2021-08-19 07:03:05",
+    "LastUpdated": "2022-03-04 10:17:27"
+  },
+  {
+    "NewsID": "D43D4CD6-538F-03DA-0B75-D0C7197BB333",
+    "Title": "nec orci. Donec nibh.",
+    "Subtitle": "tempus scelerisque, lorem ipsum sodales purus, in molestie tortor nibh",
+    "ThumbnailPath": "assets/features/flashmemo_dummy1.jpg",
+    "Content": "cursus a, enim. Suspendisse aliquet, sem ut cursus luctus, ipsum leo elementum sem, vitae aliquam eros turpis non enim. Mauris quis turpis vitae purus gravida sagittis. Duis gravida. Praesent eu nulla at sem molestie sodales. Mauris blandit enim consequat purus. Maecenas libero est, congue a, aliquet vel, vulputate eu, odio. Phasellus at augue id ante dictum cursus. Nunc mauris elit, dictum eu, eleifend nec, malesuada ut, sem. Nulla interdum. Curabitur dictum. Phasellus in felis. Nulla tempor augue ac ipsum. Phasellus vitae mauris sit amet",
+    "CreationDate": "2021-10-21 14:31:43",
+    "LastUpdated": "2022-04-18 22:11:07"
+  },
+  {
+    "NewsID": "D976E7EB-4A4B-2A3F-80E1-E2F215B6136D",
+    "Title": "rutrum.",
+    "Subtitle": "pharetra. Quisque",
+    "ThumbnailPath": "assets/features/flashmemo_dummy1.jpg",
+    "Content": "aliquet, sem ut cursus luctus, ipsum leo elementum sem, vitae aliquam eros turpis non enim. Mauris quis turpis vitae purus gravida sagittis. Duis gravida. Praesent eu nulla at sem molestie sodales. Mauris blandit enim consequat purus. Maecenas libero",
+    "CreationDate": "2021-03-10 04:31:01",
+    "LastUpdated": "2021-07-27 15:23:30"
+  },
+  {
+    "NewsID": "D5F606F2-32B4-17E3-1224-8E157535C724",
+    "Title": "dolor dapibus gravida. Aliquam tincidunt,",
+    "Subtitle": "amet, faucibus ut, nulla. Cras eu tellus eu augue",
+    "ThumbnailPath": "assets/features/flashmemo_dummy1.jpg",
+    "Content": "lacus. Mauris non dui nec urna suscipit nonummy. Fusce fermentum fermentum arcu. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Phasellus ornare. Fusce mollis. Duis sit amet diam eu dolor egestas rhoncus. Proin nisl sem, consequat nec, mollis vitae, posuere at, velit. Cras lorem lorem,",
+    "CreationDate": "2020-11-03 16:06:29",
+    "LastUpdated": "2020-07-24 06:29:46"
+  },
+  {
+    "NewsID": "2E725719-C9AD-AE80-A2B8-A25DD64BF7DF",
+    "Title": "Aliquam fringilla",
+    "Subtitle": "blandit enim",
+    "ThumbnailPath": "assets/features/flashmemo_dummy1.jpg",
+    "Content": "nascetur ridiculus mus. Donec dignissim magna a tortor. Nunc commodo auctor velit. Aliquam nisl. Nulla eu neque pellentesque massa lobortis ultrices. Vivamus rhoncus. Donec est. Nunc ullamcorper, velit in aliquet lobortis, nisi nibh lacinia orci, consectetuer euismod est arcu ac orci. Ut semper pretium neque. Morbi quis urna. Nunc quis arcu vel quam dignissim pharetra. Nam ac",
+    "CreationDate": "2020-07-17 13:07:32",
+    "LastUpdated": "2020-12-30 07:43:10"
+  },
+  {
+    "NewsID": "571534F2-4BD5-1155-6944-8403E73FF6F8",
+    "Title": "ac facilisis",
+    "Subtitle": "erat volutpat. Nulla facilisis.",
+    "ThumbnailPath": "assets/features/flashmemo_dummy4.jpg",
+    "Content": "orci",
+    "CreationDate": "2021-11-12 20:45:14",
+    "LastUpdated": "2020-08-23 13:26:44"
+  },
+  {
+    "NewsID": "4E5EAF51-57AF-8584-2DCC-00A31CBC84F9",
+    "Title": "turpis non enim. Mauris quis turpis vitae purus",
+    "Subtitle": "Nulla facilisis. Suspendisse commodo tincidunt nibh.",
+    "ThumbnailPath": "assets/features/flashmemo_dummy4.jpg",
+    "Content": "nisl. Quisque fringilla euismod enim. Etiam gravida molestie arcu. Sed eu nibh vulputate mauris sagittis placerat. Cras dictum ultricies ligula. Nullam enim. Sed nulla ante, iaculis nec, eleifend non, dapibus rutrum, justo.",
+    "CreationDate": "2021-12-22 05:23:32",
+    "LastUpdated": "2021-12-08 18:55:55"
+  },
+  {
+    "NewsID": "4415CC1D-183C-59F8-1E4C-D6EAE455F2D1",
+    "Title": "tincidunt, neque vitae semper egestas, urna justo",
+    "Subtitle": "pede.",
+    "ThumbnailPath": "assets/features/flashmemo_dummy3.jpg",
+    "Content": "sollicitudin a, malesuada id, erat. Etiam vestibulum massa rutrum magna. Cras convallis convallis dolor. Quisque tincidunt pede ac urna. Ut tincidunt vehicula risus. Nulla eget metus eu erat semper rutrum. Fusce dolor quam, elementum at, egestas a, scelerisque sed, sapien. Nunc pulvinar arcu et pede. Nunc sed orci lobortis augue scelerisque mollis. Phasellus libero mauris, aliquam eu, accumsan sed, facilisis vitae, orci. Phasellus dapibus quam quis diam. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Fusce aliquet magna a neque. Nullam ut nisi a odio semper cursus. Integer mollis. Integer tincidunt",
+    "CreationDate": "2020-06-27 02:39:59",
+    "LastUpdated": "2022-05-06 20:58:34"
+  },
+  {
+    "NewsID": "908F6A34-B737-24FB-9382-213A31679F22",
+    "Title": "ipsum. Phasellus",
+    "Subtitle": "nisi magna",
+    "ThumbnailPath": "assets/features/flashmemo_dummy2.jpg",
+    "Content": "nibh. Phasellus nulla. Integer vulputate, risus a ultricies adipiscing, enim mi tempor lorem, eget mollis lectus pede et risus. Quisque libero lacus, varius et, euismod et, commodo at, libero. Morbi accumsan",
+    "CreationDate": "2021-11-26 04:00:23",
+    "LastUpdated": "2021-11-14 13:42:29"
+  },
+  {
+    "NewsID": "6D7E1180-1098-845A-A6C2-9C7DD4697675",
+    "Title": "faucibus lectus, a",
+    "Subtitle": "elementum at, egestas a, scelerisque sed, sapien. Nunc pulvinar arcu",
+    "ThumbnailPath": "assets/features/flashmemo_dummy3.jpg",
+    "Content": "blandit at, nisi. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Proin vel nisl. Quisque fringilla euismod enim. Etiam gravida molestie arcu. Sed eu nibh vulputate mauris sagittis placerat. Cras dictum ultricies ligula. Nullam enim. Sed nulla ante, iaculis nec, eleifend non, dapibus rutrum, justo. Praesent luctus. Curabitur egestas",
+    "CreationDate": "2021-02-06 11:37:18",
+    "LastUpdated": "2021-08-25 12:06:36"
+  },
+  {
+    "NewsID": "E477A0F9-0C21-3F3C-0392-A9C8D41C3013",
+    "Title": "metus.",
+    "Subtitle": "ligula. Nullam enim. Sed nulla ante, iaculis nec,",
+    "ThumbnailPath": "assets/features/flashmemo_dummy2.jpg",
+    "Content": "metus sit amet ante. Vivamus non lorem vitae odio sagittis semper. Nam tempor diam dictum sapien. Aenean massa. Integer vitae nibh. Donec",
+    "CreationDate": "2021-01-10 13:40:48",
+    "LastUpdated": "2022-03-08 21:27:15"
+  },
+  {
+    "NewsID": "2D459567-1EFE-A380-4640-DC7CEA5F076F",
+    "Title": "egestas. Sed pharetra, felis",
+    "Subtitle": "justo sit amet nulla.",
+    "ThumbnailPath": "assets/features/flashmemo_dummy2.jpg",
+    "Content": "Vivamus sit amet risus. Donec egestas. Aliquam nec enim. Nunc ut erat. Sed nunc est, mollis non, cursus non, egestas a, dui. Cras pellentesque. Sed dictum. Proin eget odio. Aliquam vulputate ullamcorper magna. Sed eu eros. Nam consequat dolor vitae dolor. Donec fringilla. Donec feugiat metus sit amet ante. Vivamus non lorem vitae odio sagittis semper. Nam",
+    "CreationDate": "2021-09-20 21:24:18",
+    "LastUpdated": "2022-01-17 06:27:57"
+  },
+  {
+    "NewsID": "DA2FB0BA-0036-25E6-D08E-ACE92FB275C6",
+    "Title": "Aliquam erat volutpat. Nulla",
+    "Subtitle": "nascetur ridiculus mus. Proin vel arcu",
+    "ThumbnailPath": "assets/features/flashmemo_dummy2.jpg",
+    "Content": "vulputate, lacus. Cras interdum. Nunc sollicitudin commodo ipsum. Suspendisse non leo. Vivamus nibh dolor, nonummy ac, feugiat non, lobortis quis, pede. Suspendisse dui. Fusce diam nunc, ullamcorper eu, euismod ac, fermentum vel, mauris. Integer sem elit, pharetra ut, pharetra sed, hendrerit a, arcu. Sed et libero. Proin mi. Aliquam gravida mauris ut mi. Duis risus odio, auctor vitae, aliquet nec, imperdiet nec, leo. Morbi neque tellus, imperdiet non, vestibulum nec, euismod in, dolor. Fusce feugiat. Lorem ipsum dolor sit amet, consectetuer adipiscing elit.",
+    "CreationDate": "2020-08-11 10:32:08",
+    "LastUpdated": "2020-11-02 22:42:34"
+  },
+  {
+    "NewsID": "9B7565CA-3639-2DDC-8FD1-F1B37E365970",
+    "Title": "pharetra nibh. Aliquam ornare, libero",
+    "Subtitle": "cursus et,",
+    "ThumbnailPath": "assets/features/flashmemo_dummy3.jpg",
+    "Content": "mauris. Morbi non sapien molestie orci tincidunt adipiscing. Mauris molestie pharetra nibh. Aliquam ornare, libero at auctor ullamcorper, nisl arcu iaculis enim, sit amet ornare lectus justo eu arcu. Morbi sit amet massa. Quisque porttitor eros nec tellus. Nunc lectus pede, ultrices a, auctor non, feugiat nec, diam. Duis mi enim, condimentum eget, volutpat ornare, facilisis eget, ipsum. Donec sollicitudin adipiscing ligula. Aenean gravida nunc sed pede. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus",
+    "CreationDate": "2020-09-03 10:07:29",
+    "LastUpdated": "2021-01-06 05:07:37"
+  },
+  {
+    "NewsID": "C9542F38-5E6B-0694-0BB6-B13269BD5555",
+    "Title": "in consequat enim diam",
+    "Subtitle": "non, hendrerit id, ante.",
+    "ThumbnailPath": "assets/features/flashmemo_dummy2.jpg",
+    "Content": "adipiscing lobortis risus. In mi pede, nonummy ut, molestie in, tempus eu, ligula. Aenean euismod mauris eu elit. Nulla facilisi. Sed neque. Sed eget lacus. Mauris non dui nec urna suscipit nonummy. Fusce fermentum fermentum arcu. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Phasellus ornare. Fusce mollis. Duis sit amet diam eu dolor egestas rhoncus. Proin nisl sem, consequat",
+    "CreationDate": "2020-07-01 16:10:17",
+    "LastUpdated": "2020-07-11 20:47:34"
+  },
+  {
+    "NewsID": "6ACF0826-299F-BAAB-FDF9-98D8DF032C8D",
+    "Title": "non sapien molestie orci tincidunt adipiscing. Mauris molestie pharetra",
+    "Subtitle": "parturient montes, nascetur ridiculus mus. Proin vel",
+    "ThumbnailPath": "assets/features/flashmemo_dummy1.jpg",
+    "Content": "orci. Ut sagittis lobortis mauris. Suspendisse aliquet molestie tellus. Aenean egestas hendrerit neque. In ornare sagittis felis. Donec tempor, est ac mattis semper, dui lectus rutrum urna, nec luctus felis purus ac tellus. Suspendisse sed dolor. Fusce mi lorem, vehicula et, rutrum eu, ultrices sit amet, risus. Donec nibh enim, gravida sit amet, dapibus id, blandit at, nisi. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Proin vel nisl. Quisque fringilla euismod enim. Etiam gravida molestie arcu. Sed eu",
+    "CreationDate": "2020-06-17 16:28:59",
+    "LastUpdated": "2020-09-22 20:14:27"
+  },
+  {
+    "NewsID": "43FF434F-E36D-5209-BD4E-E1B28A5BE582",
+    "Title": "mollis. Integer tincidunt aliquam",
+    "Subtitle": "massa. Vestibulum accumsan neque et nunc.",
+    "ThumbnailPath": "assets/features/flashmemo_dummy3.jpg",
+    "Content": "amet ornare lectus justo eu arcu. Morbi sit amet massa. Quisque porttitor eros nec tellus. Nunc lectus pede, ultrices a, auctor non, feugiat nec, diam. Duis mi enim, condimentum eget, volutpat ornare, facilisis eget, ipsum. Donec sollicitudin adipiscing ligula. Aenean gravida nunc sed pede. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Proin vel arcu eu odio",
+    "CreationDate": "2021-09-22 18:59:18",
+    "LastUpdated": "2021-01-23 07:49:33"
+  },
+  {
+    "NewsID": "ACFC4E6B-86F5-8EBF-67D7-8FAAEA66660A",
+    "Title": "in faucibus orci luctus et ultrices",
+    "Subtitle": "ac mattis velit",
+    "ThumbnailPath": "assets/features/flashmemo_dummy4.jpg",
+    "Content": "amet, consectetuer adipiscing elit. Etiam laoreet, libero et tristique pellentesque, tellus sem mollis dui, in sodales elit erat vitae risus. Duis a mi fringilla mi lacinia mattis. Integer eu lacus. Quisque imperdiet, erat nonummy ultricies ornare, elit elit fermentum risus, at fringilla purus mauris a nunc. In at pede. Cras vulputate velit eu sem. Pellentesque ut ipsum ac mi eleifend egestas. Sed pharetra, felis eget varius ultrices, mauris ipsum porta elit, a feugiat tellus lorem eu metus. In lorem. Donec elementum, lorem ut",
+    "CreationDate": "2021-09-07 12:16:58",
+    "LastUpdated": "2021-06-29 10:52:40"
+  },
+  {
+    "NewsID": "1609C597-D7C4-7B1B-477D-03E4740AE991",
+    "Title": "sem, vitae aliquam eros turpis non enim.",
+    "Subtitle": "tellus. Nunc lectus pede, ultrices a, auctor non, feugiat",
+    "ThumbnailPath": "assets/features/flashmemo_dummy3.jpg",
+    "Content": "consectetuer mauris id sapien. Cras dolor dolor, tempus non, lacinia at, iaculis",
+    "CreationDate": "2021-05-07 10:55:55",
+    "LastUpdated": "2022-05-27 07:15:21"
+  },
+  {
+    "NewsID": "7A6D17E2-4477-8B08-C695-25E414321103",
+    "Title": "vitae, orci. Phasellus dapibus quam quis diam. Pellentesque habitant morbi",
+    "Subtitle": "Aliquam ornare, libero",
+    "ThumbnailPath": "assets/features/flashmemo_dummy4.jpg",
+    "Content": "metus. Vivamus euismod urna. Nullam lobortis quam a felis ullamcorper viverra. Maecenas iaculis aliquet diam. Sed diam lorem, auctor quis, tristique ac, eleifend vitae, erat. Vivamus nisi. Mauris nulla. Integer urna. Vivamus molestie dapibus ligula. Aliquam erat volutpat. Nulla dignissim. Maecenas ornare egestas ligula. Nullam feugiat placerat velit. Quisque varius. Nam porttitor scelerisque neque. Nullam nisl. Maecenas malesuada fringilla est. Mauris eu turpis. Nulla aliquet. Proin velit. Sed malesuada augue ut lacus. Nulla tincidunt,",
+    "CreationDate": "2022-04-12 03:59:09",
+    "LastUpdated": "2021-12-30 22:52:02"
+  },
+  {
+    "NewsID": "9B76B91F-9D1B-3E20-518D-9A7894F22EF6",
+    "Title": "sem. Nulla interdum. Curabitur dictum.",
+    "Subtitle": "mi enim,",
+    "ThumbnailPath": "assets/features/flashmemo_dummy4.jpg",
+    "Content": "Vivamus sit amet risus. Donec egestas. Aliquam nec enim. Nunc ut erat. Sed nunc est, mollis non, cursus non, egestas a, dui. Cras pellentesque. Sed dictum. Proin eget odio. Aliquam vulputate ullamcorper magna. Sed eu",
+    "CreationDate": "2020-06-25 16:52:49",
+    "LastUpdated": "2021-09-25 13:21:46"
+  },
+  {
+    "NewsID": "09B6E103-8C69-7A7D-20AC-C4BABFD46D89",
+    "Title": "arcu.",
+    "Subtitle": "mauris blandit mattis. Cras",
+    "ThumbnailPath": "assets/features/flashmemo_dummy2.jpg",
+    "Content": "at lacus. Quisque purus sapien, gravida non, sollicitudin a, malesuada id, erat. Etiam vestibulum massa rutrum",
+    "CreationDate": "2022-01-22 09:44:59",
+    "LastUpdated": "2020-12-10 11:26:43"
+  },
+  {
+    "NewsID": "A08EE80E-0E9B-0020-4BAB-54D40AB29AB9",
+    "Title": "euismod enim. Etiam gravida molestie arcu.",
+    "Subtitle": "consequat purus. Maecenas libero est, congue a, aliquet vel, vulputate",
+    "ThumbnailPath": "assets/features/flashmemo_dummy4.jpg",
+    "Content": "Vivamus nibh dolor, nonummy",
+    "CreationDate": "2022-04-09 03:33:14",
+    "LastUpdated": "2021-04-21 04:14:39"
+  },
+  {
+    "NewsID": "E2A77984-8CF5-D4DE-6718-668AE525019D",
+    "Title": "Cum sociis natoque",
+    "Subtitle": "Donec feugiat metus sit",
+    "ThumbnailPath": "assets/features/flashmemo_dummy3.jpg",
+    "Content": "erat. Sed nunc",
+    "CreationDate": "2021-10-13 11:19:39",
+    "LastUpdated": "2020-12-05 13:54:25"
+  },
+  {
+    "NewsID": "E0F00BB5-165B-D771-30EC-8E910C07321D",
+    "Title": "ipsum porta elit, a feugiat tellus",
+    "Subtitle": "in molestie tortor",
+    "ThumbnailPath": "assets/features/flashmemo_dummy4.jpg",
+    "Content": "pede. Cras vulputate velit eu sem. Pellentesque ut ipsum ac mi eleifend egestas. Sed pharetra, felis eget varius ultrices, mauris ipsum porta elit, a feugiat tellus lorem eu metus. In lorem. Donec elementum, lorem ut aliquam iaculis, lacus pede sagittis augue, eu tempor erat neque non quam. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Aliquam fringilla cursus purus. Nullam scelerisque neque sed sem egestas blandit. Nam nulla magna, malesuada vel, convallis in, cursus et, eros. Proin ultrices. Duis volutpat nunc sit amet metus. Aliquam erat volutpat. Nulla facilisis. Suspendisse commodo tincidunt nibh.",
+    "CreationDate": "2020-11-13 04:39:43",
+    "LastUpdated": "2021-10-16 02:26:59"
+  },
+  {
+    "NewsID": "2E796166-4DA3-EEE7-F3BE-AC2319CD3EF6",
+    "Title": "lacus. Ut nec urna et arcu imperdiet ullamcorper.",
+    "Subtitle": "vitae velit egestas lacinia. Sed congue, elit sed",
+    "ThumbnailPath": "assets/features/flashmemo_dummy3.jpg",
+    "Content": "a ultricies adipiscing, enim mi tempor lorem, eget mollis lectus pede et risus. Quisque libero lacus, varius et, euismod et, commodo at, libero. Morbi accumsan laoreet ipsum. Curabitur consequat, lectus sit amet luctus vulputate, nisi sem semper erat, in consectetuer ipsum",
+    "CreationDate": "2021-07-24 06:53:52",
+    "LastUpdated": "2022-02-28 11:08:54"
+  },
+  {
+    "NewsID": "D38016CA-1EB1-4017-F4AF-707ECD0FABE6",
+    "Title": "nonummy ac, feugiat non, lobortis",
+    "Subtitle": "nisi nibh lacinia orci, consectetuer",
+    "ThumbnailPath": "assets/features/flashmemo_dummy1.jpg",
+    "Content": "velit dui, semper et, lacinia vitae, sodales at, velit. Pellentesque ultricies dignissim lacus. Aliquam rutrum lorem ac risus. Morbi metus. Vivamus euismod urna. Nullam lobortis quam a felis ullamcorper viverra. Maecenas iaculis aliquet diam. Sed diam lorem, auctor quis, tristique ac, eleifend vitae, erat. Vivamus nisi. Mauris nulla. Integer urna. Vivamus molestie dapibus ligula. Aliquam erat volutpat. Nulla dignissim. Maecenas ornare egestas ligula. Nullam feugiat placerat velit.",
+    "CreationDate": "2022-02-05 02:05:11",
+    "LastUpdated": "2020-11-09 23:22:35"
+  },
+  {
+    "NewsID": "43F889DC-2EC6-9792-5ADE-996E6E91B0BF",
+    "Title": "tincidunt adipiscing. Mauris molestie pharetra nibh.",
+    "Subtitle": "Nunc laoreet lectus quis",
+    "ThumbnailPath": "assets/features/flashmemo_dummy1.jpg",
+    "Content": "eget varius ultrices, mauris ipsum porta elit, a feugiat tellus lorem eu metus. In lorem. Donec elementum, lorem ut aliquam iaculis, lacus pede sagittis augue, eu tempor erat neque non quam. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.",
+    "CreationDate": "2022-02-03 08:09:46",
+    "LastUpdated": "2020-08-09 10:00:13"
+  },
+  {
+    "NewsID": "BA7BDBC6-D13A-EA18-9209-90CDAD2868EA",
+    "Title": "Sed et libero. Proin mi. Aliquam gravida mauris ut",
+    "Subtitle": "cursus.",
+    "ThumbnailPath": "assets/features/flashmemo_dummy4.jpg",
+    "Content": "Quisque ornare tortor at risus. Nunc ac",
+    "CreationDate": "2020-06-27 13:41:48",
+    "LastUpdated": "2020-11-16 00:39:33"
+  },
+  {
+    "NewsID": "84CF205B-6EF8-95F3-23B9-DDC7E620150D",
+    "Title": "risus. Duis a mi fringilla mi lacinia mattis. Integer eu",
+    "Subtitle": "et pede.",
+    "ThumbnailPath": "assets/features/flashmemo_dummy1.jpg",
+    "Content": "pretium aliquet, metus urna convallis erat, eget tincidunt dui augue eu tellus. Phasellus elit pede, malesuada vel, venenatis vel, faucibus id, libero. Donec consectetuer mauris id sapien. Cras dolor dolor, tempus non, lacinia at, iaculis quis, pede. Praesent eu dui. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Aenean eget magna. Suspendisse tristique neque venenatis lacus. Etiam bibendum fermentum metus. Aenean sed pede nec ante blandit viverra. Donec tempus, lorem fringilla ornare placerat, orci lacus vestibulum lorem, sit amet ultricies sem magna nec quam. Curabitur vel lectus. Cum sociis natoque penatibus et",
+    "CreationDate": "2021-03-24 12:20:36",
+    "LastUpdated": "2020-06-05 17:16:29"
+  },
+  {
+    "NewsID": "858E9385-2BEA-FD8F-CD2E-FC00A3B72407",
+    "Title": "luctus",
+    "Subtitle": "adipiscing elit.",
+    "ThumbnailPath": "assets/features/flashmemo_dummy2.jpg",
+    "Content": "scelerisque, lorem ipsum sodales purus, in molestie tortor nibh sit amet orci. Ut sagittis lobortis mauris. Suspendisse aliquet molestie tellus. Aenean egestas hendrerit neque. In ornare sagittis felis. Donec tempor, est ac mattis semper, dui lectus rutrum urna, nec luctus felis purus ac tellus. Suspendisse sed dolor. Fusce mi lorem, vehicula et, rutrum eu, ultrices sit amet, risus. Donec nibh enim, gravida sit amet, dapibus id, blandit at, nisi. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur",
+    "CreationDate": "2020-11-20 02:25:49",
+    "LastUpdated": "2020-12-12 00:45:08"
+  },
+  {
+    "NewsID": "A5DDD7F1-90FA-BA16-B486-2F870CDE7E1A",
+    "Title": "eleifend nec, malesuada ut, sem. Nulla interdum. Curabitur",
+    "Subtitle": "Nulla interdum. Curabitur dictum. Phasellus in felis. Nulla tempor",
+    "ThumbnailPath": "assets/features/flashmemo_dummy4.jpg",
+    "Content": "nibh lacinia orci, consectetuer euismod est arcu ac orci. Ut semper pretium neque. Morbi quis urna. Nunc quis arcu vel quam dignissim pharetra. Nam ac nulla. In tincidunt congue turpis. In",
+    "CreationDate": "2020-07-03 11:27:00",
+    "LastUpdated": "2021-03-28 00:53:09"
+  },
+  {
+    "NewsID": "5DFB0384-3242-97E2-E8D7-C6EB94F628C8",
+    "Title": "semper, dui lectus rutrum urna, nec luctus felis purus ac",
+    "Subtitle": "arcu imperdiet ullamcorper. Duis at lacus. Quisque",
+    "ThumbnailPath": "assets/features/flashmemo_dummy3.jpg",
+    "Content": "dignissim magna a tortor. Nunc commodo auctor velit. Aliquam nisl. Nulla eu neque pellentesque massa",
+    "CreationDate": "2020-12-25 17:27:00",
+    "LastUpdated": "2020-08-28 06:44:01"
+  },
+  {
+    "NewsID": "5D636441-B075-113A-D74B-BC067AE0D113",
+    "Title": "Aliquam erat volutpat. Nulla dignissim. Maecenas",
+    "Subtitle": "facilisis vitae, orci. Phasellus dapibus quam quis diam. Pellentesque habitant",
+    "ThumbnailPath": "assets/features/flashmemo_dummy2.jpg",
+    "Content": "enim mi tempor lorem, eget mollis lectus pede et risus. Quisque libero lacus, varius et, euismod et, commodo at, libero. Morbi accumsan laoreet ipsum. Curabitur consequat, lectus sit amet luctus vulputate, nisi sem semper erat,",
+    "CreationDate": "2022-05-06 21:37:13",
+    "LastUpdated": "2021-12-27 16:58:11"
+  },
+  {
+    "NewsID": "EDF7FB88-8C98-561B-EA0C-F9C082FB052B",
+    "Title": "vestibulum, neque sed dictum",
+    "Subtitle": "in faucibus orci luctus et",
+    "ThumbnailPath": "assets/features/flashmemo_dummy3.jpg",
+    "Content": "arcu iaculis enim, sit amet ornare lectus justo eu arcu. Morbi sit amet massa. Quisque porttitor eros nec tellus. Nunc lectus pede, ultrices a, auctor non, feugiat nec, diam. Duis mi enim, condimentum eget, volutpat ornare, facilisis eget, ipsum. Donec sollicitudin adipiscing ligula. Aenean gravida nunc sed pede. Cum sociis natoque penatibus et magnis dis parturient montes,",
+    "CreationDate": "2022-03-21 01:39:48",
+    "LastUpdated": "2021-03-03 21:21:30"
+  },
+  {
+    "NewsID": "EA899E3A-8A5C-3C79-52A4-02C7284D8F12",
+    "Title": "risus. Duis a mi fringilla mi lacinia mattis.",
+    "Subtitle": "nec, leo.",
+    "ThumbnailPath": "assets/features/flashmemo_dummy3.jpg",
+    "Content": "vitae purus gravida sagittis. Duis gravida. Praesent eu nulla at sem molestie sodales. Mauris blandit enim consequat purus. Maecenas libero est, congue a, aliquet vel, vulputate eu, odio. Phasellus at augue id ante dictum cursus. Nunc mauris elit, dictum eu, eleifend nec, malesuada ut, sem. Nulla interdum. Curabitur dictum. Phasellus in felis. Nulla tempor augue ac ipsum. Phasellus vitae mauris sit amet lorem semper auctor. Mauris vel turpis. Aliquam adipiscing lobortis risus. In mi pede, nonummy ut, molestie in, tempus eu, ligula.",
+    "CreationDate": "2020-12-13 09:42:11",
+    "LastUpdated": "2021-03-07 12:53:46"
+  },
+  {
+    "NewsID": "73A67A4E-5217-8B94-AD6A-2DA5A183A658",
+    "Title": "mauris blandit",
+    "Subtitle": "in, tempus eu, ligula. Aenean euismod mauris eu",
+    "ThumbnailPath": "assets/features/flashmemo_dummy1.jpg",
+    "Content": "sed orci lobortis augue scelerisque mollis. Phasellus libero mauris, aliquam eu, accumsan sed, facilisis vitae, orci. Phasellus dapibus quam quis diam. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac",
+    "CreationDate": "2020-07-26 17:22:06",
+    "LastUpdated": "2020-08-30 10:24:42"
+  },
+  {
+    "NewsID": "08E16399-0B0A-EB29-7A50-C030C9C695B2",
+    "Title": "rhoncus id, mollis nec, cursus a,",
+    "Subtitle": "natoque penatibus et",
+    "ThumbnailPath": "assets/features/flashmemo_dummy3.jpg",
+    "Content": "nunc est, mollis non, cursus non, egestas a, dui. Cras pellentesque. Sed dictum. Proin eget odio. Aliquam vulputate ullamcorper magna. Sed eu eros. Nam consequat dolor vitae dolor. Donec fringilla. Donec feugiat metus sit amet",
+    "CreationDate": "2021-07-15 07:14:29",
+    "LastUpdated": "2021-08-12 17:26:53"
+  },
+  {
+    "NewsID": "BF194F75-2401-CF58-67E9-D710EF4BF68D",
+    "Title": "mauris, aliquam eu, accumsan sed, facilisis vitae, orci. Phasellus",
+    "Subtitle": "pede. Suspendisse dui. Fusce diam nunc,",
+    "ThumbnailPath": "assets/features/flashmemo_dummy2.jpg",
+    "Content": "risus. Nunc ac sem ut dolor dapibus gravida. Aliquam tincidunt, nunc ac mattis ornare, lectus ante dictum mi, ac mattis velit justo nec ante. Maecenas mi felis, adipiscing fringilla, porttitor vulputate, posuere vulputate, lacus. Cras interdum. Nunc sollicitudin commodo ipsum. Suspendisse non leo. Vivamus nibh dolor, nonummy ac, feugiat non, lobortis quis, pede. Suspendisse dui. Fusce diam nunc, ullamcorper eu, euismod ac, fermentum vel,",
+    "CreationDate": "2020-11-08 11:05:02",
+    "LastUpdated": "2020-07-25 17:19:24"
+  },
+  {
+    "NewsID": "9D58321E-5125-F005-DB69-1F3A1E30D6E4",
+    "Title": "interdum. Sed auctor odio",
+    "Subtitle": "venenatis lacus. Etiam bibendum",
+    "ThumbnailPath": "assets/features/flashmemo_dummy4.jpg",
+    "Content": "lacus vestibulum lorem, sit amet ultricies sem magna nec quam. Curabitur vel lectus. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec dignissim magna a tortor. Nunc commodo auctor velit. Aliquam nisl. Nulla eu neque pellentesque massa lobortis ultrices. Vivamus rhoncus. Donec est. Nunc ullamcorper, velit in aliquet lobortis, nisi nibh lacinia orci, consectetuer euismod est arcu ac orci. Ut semper pretium neque. Morbi quis urna. Nunc quis arcu vel",
+    "CreationDate": "2021-09-19 21:30:40",
+    "LastUpdated": "2020-12-25 23:29:10"
+  },
+  {
+    "NewsID": "62F4BD98-D760-8D6F-BFD0-1BB18462824B",
+    "Title": "Aenean eget metus. In nec orci. Donec nibh. Quisque",
+    "Subtitle": "magna. Lorem ipsum",
+    "ThumbnailPath": "assets/features/flashmemo_dummy3.jpg",
+    "Content": "ac mattis ornare, lectus ante dictum mi, ac mattis velit justo nec ante. Maecenas mi felis, adipiscing fringilla, porttitor vulputate, posuere vulputate, lacus. Cras interdum. Nunc sollicitudin commodo",
+    "CreationDate": "2022-02-01 06:36:43",
+    "LastUpdated": "2021-09-20 09:40:20"
+  },
+  {
+    "NewsID": "62E562D2-7B29-1B3F-366B-54C3386EF8D6",
+    "Title": "elit. Etiam laoreet, libero et tristique pellentesque, tellus sem",
+    "Subtitle": "in, dolor. Fusce",
+    "ThumbnailPath": "assets/features/flashmemo_dummy4.jpg",
+    "Content": "venenatis lacus. Etiam bibendum fermentum metus. Aenean sed pede nec ante blandit viverra. Donec tempus, lorem fringilla ornare placerat, orci lacus vestibulum lorem, sit amet ultricies sem magna nec quam. Curabitur vel lectus. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec dignissim magna a tortor. Nunc commodo auctor velit. Aliquam nisl. Nulla eu neque pellentesque massa lobortis ultrices. Vivamus rhoncus. Donec est. Nunc",
+    "CreationDate": "2022-05-16 04:59:53",
+    "LastUpdated": "2021-01-21 01:43:45"
+  },
+  {
+    "NewsID": "CF313185-B3D6-3B20-F627-B07673C129A7",
+    "Title": "iaculis aliquet diam. Sed diam lorem, auctor quis, tristique",
+    "Subtitle": "fermentum convallis",
+    "ThumbnailPath": "assets/features/flashmemo_dummy4.jpg",
+    "Content": "dui nec urna suscipit nonummy. Fusce",
+    "CreationDate": "2022-01-09 01:29:16",
+    "LastUpdated": "2021-08-01 06:16:02"
+  },
+  {
+    "NewsID": "9DEBC522-B651-3882-6415-374ED28FAF67",
+    "Title": "nec tellus. Nunc lectus pede, ultrices a,",
+    "Subtitle": "gravida molestie arcu. Sed eu",
+    "ThumbnailPath": "assets/features/flashmemo_dummy1.jpg",
+    "Content": "Nunc lectus pede, ultrices a, auctor non, feugiat nec, diam. Duis mi enim, condimentum eget, volutpat ornare, facilisis eget, ipsum. Donec sollicitudin adipiscing ligula. Aenean gravida nunc sed pede. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Proin vel arcu eu odio tristique pharetra. Quisque ac libero nec ligula consectetuer rhoncus. Nullam velit dui, semper et, lacinia vitae, sodales at, velit. Pellentesque ultricies dignissim lacus. Aliquam rutrum lorem ac risus. Morbi metus. Vivamus euismod urna. Nullam lobortis quam a felis ullamcorper viverra. Maecenas iaculis aliquet diam. Sed diam lorem, auctor quis, tristique ac,",
+    "CreationDate": "2021-05-25 11:03:07",
+    "LastUpdated": "2022-06-02 01:40:31"
+  },
+  {
+    "NewsID": "62D520A1-1805-69C7-1185-822DBD2F5E9B",
+    "Title": "Aliquam fringilla cursus purus. Nullam scelerisque neque sed",
+    "Subtitle": "luctus vulputate, nisi sem semper erat, in consectetuer ipsum nunc",
+    "ThumbnailPath": "assets/features/flashmemo_dummy2.jpg",
+    "Content": "vel arcu. Curabitur ut odio vel est tempor bibendum. Donec felis orci, adipiscing non, luctus sit amet, faucibus ut, nulla. Cras eu tellus eu augue porttitor interdum. Sed auctor odio a purus. Duis elementum, dui quis accumsan convallis, ante lectus convallis est, vitae sodales nisi magna sed dui. Fusce aliquam, enim nec tempus scelerisque, lorem ipsum sodales purus, in",
+    "CreationDate": "2022-03-10 18:33:07",
+    "LastUpdated": "2021-07-30 04:32:05"
+  },
+  {
+    "NewsID": "E4947250-9B27-24D8-22E8-94C86CA74BC0",
+    "Title": "ante, iaculis nec, eleifend non,",
+    "Subtitle": "dapibus rutrum,",
+    "ThumbnailPath": "assets/features/flashmemo_dummy4.jpg",
+    "Content": "dis parturient montes, nascetur ridiculus mus. Proin vel arcu eu odio tristique pharetra. Quisque ac libero nec ligula consectetuer rhoncus. Nullam velit dui, semper et, lacinia vitae, sodales at, velit. Pellentesque ultricies dignissim lacus. Aliquam rutrum lorem",
+    "CreationDate": "2020-12-28 06:00:57",
+    "LastUpdated": "2022-04-15 20:14:52"
+  },
+  {
+    "NewsID": "43101255-D45E-A22E-194A-26896300896D",
+    "Title": "euismod in, dolor. Fusce feugiat. Lorem ipsum dolor sit",
+    "Subtitle": "amet",
+    "ThumbnailPath": "assets/features/flashmemo_dummy4.jpg",
+    "Content": "magna a tortor. Nunc commodo auctor velit. Aliquam",
+    "CreationDate": "2021-09-24 17:17:45",
+    "LastUpdated": "2021-06-25 19:01:28"
+  },
+  {
+    "NewsID": "F6194F47-9CC6-2789-09A8-68AA7557A093",
+    "Title": "lobortis quis, pede. Suspendisse dui. Fusce diam nunc, ullamcorper",
+    "Subtitle": "In scelerisque",
+    "ThumbnailPath": "assets/features/flashmemo_dummy2.jpg",
+    "Content": "malesuada ut, sem. Nulla interdum. Curabitur dictum. Phasellus in felis. Nulla tempor augue ac ipsum. Phasellus vitae mauris sit amet lorem semper auctor. Mauris vel turpis. Aliquam adipiscing lobortis risus. In mi pede, nonummy ut, molestie in, tempus eu, ligula. Aenean euismod mauris eu elit. Nulla facilisi. Sed neque. Sed eget lacus. Mauris non dui nec urna suscipit",
+    "CreationDate": "2020-12-21 06:56:09",
+    "LastUpdated": "2022-05-22 10:57:02"
+  },
+  {
+    "NewsID": "FD961A45-CF4E-09A0-32DF-FC0E75E9BE9B",
+    "Title": "velit dui, semper et, lacinia vitae, sodales",
+    "Subtitle": "est. Nunc ullamcorper, velit in aliquet",
+    "ThumbnailPath": "assets/features/flashmemo_dummy3.jpg",
+    "Content": "dictum placerat, augue. Sed molestie. Sed id risus quis diam luctus lobortis. Class aptent taciti sociosqu",
+    "CreationDate": "2021-03-08 23:13:22",
+    "LastUpdated": "2021-01-02 22:45:46"
+  },
+  {
+    "NewsID": "CCD74374-FAF2-57B9-8820-CC4CE3487C56",
+    "Title": "facilisis facilisis,",
+    "Subtitle": "Cras lorem lorem, luctus ut, pellentesque eget, dictum",
+    "ThumbnailPath": "assets/features/flashmemo_dummy1.jpg",
+    "Content": "neque venenatis lacus. Etiam bibendum fermentum metus. Aenean sed pede nec ante blandit viverra. Donec tempus, lorem fringilla ornare placerat, orci lacus vestibulum lorem, sit amet ultricies sem magna nec quam. Curabitur vel lectus. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec dignissim magna a tortor. Nunc commodo auctor velit. Aliquam nisl. Nulla eu neque pellentesque massa lobortis ultrices. Vivamus rhoncus. Donec est. Nunc ullamcorper, velit in aliquet lobortis, nisi nibh lacinia orci, consectetuer euismod est arcu ac orci. Ut semper pretium neque. Morbi quis urna. Nunc quis",
+    "CreationDate": "2022-04-17 23:19:00",
+    "LastUpdated": "2022-02-27 19:51:43"
+  },
+  {
+    "NewsID": "B54F6008-C18D-E541-FE43-310AE3F02F88",
+    "Title": "eros",
+    "Subtitle": "arcu. Nunc mauris. Morbi non sapien molestie",
+    "ThumbnailPath": "assets/features/flashmemo_dummy2.jpg",
+    "Content": "Nunc ullamcorper, velit in aliquet lobortis, nisi nibh lacinia orci, consectetuer euismod est arcu ac orci. Ut semper pretium neque. Morbi quis urna. Nunc quis arcu vel quam dignissim pharetra. Nam ac nulla. In tincidunt congue turpis. In condimentum. Donec at arcu. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Donec tincidunt. Donec vitae erat vel pede blandit congue. In scelerisque scelerisque dui. Suspendisse ac metus vitae velit egestas lacinia. Sed congue, elit sed consequat auctor, nunc nulla vulputate dui, nec tempus mauris erat eget ipsum. Suspendisse sagittis. Nullam vitae diam. Proin",
+    "CreationDate": "2022-04-24 04:34:26",
+    "LastUpdated": "2020-08-31 08:38:44"
+  },
+  {
+    "NewsID": "17A871F3-D69C-D20E-65D6-EFD1AF9181E5",
+    "Title": "leo. Vivamus nibh dolor, nonummy ac, feugiat",
+    "Subtitle": "non, dapibus rutrum, justo. Praesent luctus. Curabitur egestas nunc sed",
+    "ThumbnailPath": "assets/features/flashmemo_dummy3.jpg",
+    "Content": "facilisis eget, ipsum. Donec sollicitudin adipiscing ligula. Aenean gravida nunc sed pede. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Proin vel arcu eu",
+    "CreationDate": "2021-08-06 21:31:05",
+    "LastUpdated": "2020-07-04 19:37:38"
+  },
+  {
+    "NewsID": "B2A9992A-76C2-9351-252E-6CE68B9786FE",
+    "Title": "semper, dui lectus rutrum urna, nec luctus felis purus ac",
+    "Subtitle": "mi tempor lorem, eget mollis lectus",
+    "ThumbnailPath": "assets/features/flashmemo_dummy4.jpg",
+    "Content": "nibh lacinia orci, consectetuer euismod est arcu ac orci. Ut semper pretium neque. Morbi quis urna. Nunc quis",
+    "CreationDate": "2020-08-20 11:12:35",
+    "LastUpdated": "2021-01-08 06:25:50"
+  },
+  {
+    "NewsID": "49681B93-04DA-31C7-2258-8D6488216126",
+    "Title": "malesuada ut, sem. Nulla interdum. Curabitur",
+    "Subtitle": "et arcu imperdiet ullamcorper. Duis at",
+    "ThumbnailPath": "assets/features/flashmemo_dummy1.jpg",
+    "Content": "litora torquent per conubia nostra, per inceptos hymenaeos. Mauris ut quam vel sapien imperdiet ornare. In faucibus. Morbi vehicula. Pellentesque tincidunt tempus risus. Donec",
+    "CreationDate": "2021-07-24 23:15:48",
+    "LastUpdated": "2020-07-16 02:31:59"
+  },
+  {
+    "NewsID": "2B6482E8-15F1-644D-7161-002E864F3623",
+    "Title": "ridiculus mus. Proin",
+    "Subtitle": "lorem. Donec elementum, lorem ut aliquam iaculis, lacus pede",
+    "ThumbnailPath": "assets/features/flashmemo_dummy2.jpg",
+    "Content": "penatibus et",
+    "CreationDate": "2020-09-26 16:36:49",
+    "LastUpdated": "2022-02-22 01:13:12"
+  },
+  {
+    "NewsID": "B54D96D9-9B9B-A879-14AE-306C35DB63CB",
+    "Title": "et, eros. Proin ultrices.",
+    "Subtitle": "accumsan laoreet",
+    "ThumbnailPath": "assets/features/flashmemo_dummy3.jpg",
+    "Content": "tellus non magna. Nam ligula elit, pretium",
+    "CreationDate": "2022-02-05 00:41:12",
+    "LastUpdated": "2021-06-23 06:58:15"
+  },
+  {
+    "NewsID": "780A38B0-6054-8B0B-A4E5-B66D4D43BEB5",
+    "Title": "Donec vitae erat vel pede blandit congue. In scelerisque",
+    "Subtitle": "Cras dolor dolor, tempus non,",
+    "ThumbnailPath": "assets/features/flashmemo_dummy4.jpg",
+    "Content": "tempor bibendum. Donec felis orci, adipiscing non, luctus sit amet, faucibus ut, nulla. Cras",
+    "CreationDate": "2020-12-03 08:15:58",
+    "LastUpdated": "2022-02-13 17:36:06"
+  },
+  {
+    "NewsID": "F7746F47-854E-A098-20CA-A2C595F71206",
+    "Title": "semper cursus. Integer mollis. Integer",
+    "Subtitle": "rutrum eu, ultrices sit amet,",
+    "ThumbnailPath": "assets/features/flashmemo_dummy4.jpg",
+    "Content": "id, libero. Donec consectetuer mauris id sapien. Cras dolor dolor,",
+    "CreationDate": "2021-02-16 07:23:32",
+    "LastUpdated": "2020-09-23 04:15:16"
+  },
+  {
+    "NewsID": "7F68926A-82BD-73B2-58B4-ACF299C9AC0E",
+    "Title": "lacus. Quisque purus sapien, gravida non, sollicitudin a,",
+    "Subtitle": "diam vel arcu. Curabitur ut odio",
+    "ThumbnailPath": "assets/features/flashmemo_dummy3.jpg",
+    "Content": "egestas ligula. Nullam feugiat placerat velit. Quisque varius. Nam porttitor scelerisque neque. Nullam nisl.",
+    "CreationDate": "2021-04-16 06:44:31",
+    "LastUpdated": "2021-09-09 18:21:46"
+  },
+  {
+    "NewsID": "5B9A45BD-C7C4-10EE-620A-19DA0653DE65",
+    "Title": "risus. Donec egestas. Aliquam nec enim. Nunc ut",
+    "Subtitle": "Mauris ut quam vel sapien imperdiet ornare.",
+    "ThumbnailPath": "assets/features/flashmemo_dummy3.jpg",
+    "Content": "a nunc. In at pede. Cras vulputate velit eu sem. Pellentesque ut ipsum ac mi eleifend egestas. Sed pharetra, felis eget varius ultrices, mauris ipsum porta elit, a feugiat tellus lorem eu metus. In lorem. Donec elementum, lorem ut aliquam iaculis, lacus pede sagittis augue, eu tempor erat neque non quam.",
+    "CreationDate": "2020-11-07 23:10:28",
+    "LastUpdated": "2020-12-28 15:53:25"
+  },
+  {
+    "NewsID": "5A7470C3-89C1-260E-545E-7E5D8C33F36E",
+    "Title": "nisi. Cum sociis natoque",
+    "Subtitle": "consequat nec,",
+    "ThumbnailPath": "assets/features/flashmemo_dummy1.jpg",
+    "Content": "Duis sit amet diam eu dolor egestas rhoncus. Proin nisl sem, consequat nec, mollis vitae, posuere at, velit. Cras lorem lorem, luctus ut, pellentesque eget, dictum placerat, augue. Sed molestie. Sed id risus quis diam luctus lobortis. Class aptent taciti sociosqu ad litora",
+    "CreationDate": "2021-11-14 19:24:21",
+    "LastUpdated": "2021-04-30 15:56:49"
+  },
+  {
+    "NewsID": "396E3CF0-64FA-B1D3-B50A-8CAE29BF0719",
+    "Title": "sodales purus, in molestie tortor nibh sit",
+    "Subtitle": "massa. Quisque",
+    "ThumbnailPath": "assets/features/flashmemo_dummy2.jpg",
+    "Content": "aliquet, sem ut cursus luctus, ipsum leo elementum sem, vitae aliquam eros turpis non enim. Mauris quis turpis vitae purus gravida sagittis. Duis gravida. Praesent eu nulla at sem molestie sodales. Mauris blandit enim consequat purus. Maecenas libero est, congue a, aliquet vel, vulputate eu, odio. Phasellus at augue id ante dictum cursus. Nunc mauris elit, dictum eu, eleifend nec, malesuada ut, sem. Nulla interdum. Curabitur dictum. Phasellus in felis. Nulla tempor augue ac ipsum. Phasellus vitae mauris sit amet lorem semper auctor. Mauris vel turpis. Aliquam adipiscing lobortis risus. In mi pede, nonummy ut, molestie in, tempus eu,",
+    "CreationDate": "2022-03-31 01:51:48",
+    "LastUpdated": "2021-08-13 20:50:50"
+  },
+  {
+    "NewsID": "19649C09-18FF-DD47-532B-FEA8B60153A2",
+    "Title": "erat volutpat. Nulla dignissim. Maecenas ornare egestas",
+    "Subtitle": "leo",
+    "ThumbnailPath": "assets/features/flashmemo_dummy2.jpg",
+    "Content": "Nunc ullamcorper, velit in aliquet lobortis, nisi nibh lacinia orci, consectetuer euismod est arcu ac orci. Ut semper pretium neque. Morbi quis urna. Nunc quis arcu vel quam dignissim pharetra. Nam ac nulla. In tincidunt congue turpis. In condimentum. Donec at arcu. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae;",
+    "CreationDate": "2022-02-01 06:04:45",
+    "LastUpdated": "2021-11-05 14:14:35"
+  },
+  {
+    "NewsID": "4332C0DB-BC9B-8E02-9001-E9A17B445CCF",
+    "Title": "pede. Praesent eu dui. Cum sociis natoque penatibus et magnis",
+    "Subtitle": "pharetra sed,",
+    "ThumbnailPath": "assets/features/flashmemo_dummy1.jpg",
+    "Content": "amet lorem semper auctor. Mauris vel turpis. Aliquam adipiscing lobortis risus. In mi pede, nonummy ut, molestie in, tempus eu, ligula. Aenean euismod mauris eu elit. Nulla facilisi. Sed neque.",
+    "CreationDate": "2020-08-05 20:18:14",
+    "LastUpdated": "2022-03-01 15:38:06"
+  },
+  {
+    "NewsID": "5C799191-BAA9-03FE-4717-8585EB773B00",
+    "Title": "egestas nunc",
+    "Subtitle": "faucibus leo, in lobortis tellus",
+    "ThumbnailPath": "assets/features/flashmemo_dummy2.jpg",
+    "Content": "in consequat enim diam vel arcu. Curabitur ut odio vel est tempor bibendum. Donec felis orci, adipiscing non,",
+    "CreationDate": "2022-03-17 03:54:25",
+    "LastUpdated": "2021-07-19 10:55:15"
+  },
+  {
+    "NewsID": "8D934612-7DEB-7AB4-B2FB-EDA12667C713",
+    "Title": "mi lacinia mattis. Integer eu",
+    "Subtitle": "iaculis aliquet diam. Sed diam lorem, auctor quis, tristique ac,",
+    "ThumbnailPath": "assets/features/flashmemo_dummy1.jpg",
+    "Content": "massa. Suspendisse eleifend. Cras sed leo. Cras vehicula aliquet libero. Integer in magna. Phasellus dolor elit, pellentesque a, facilisis non, bibendum sed, est. Nunc laoreet lectus quis massa. Mauris vestibulum, neque sed dictum eleifend, nunc risus varius orci, in consequat enim diam vel arcu. Curabitur ut odio vel est tempor bibendum.",
+    "CreationDate": "2021-02-13 08:18:37",
+    "LastUpdated": "2021-03-01 01:08:44"
+  },
+  {
+    "NewsID": "B3AB2720-2971-1AFE-2BE8-7CB68BA934FF",
+    "Title": "aliquam eros turpis non enim. Mauris",
+    "Subtitle": "sodales nisi magna",
+    "ThumbnailPath": "assets/features/flashmemo_dummy4.jpg",
+    "Content": "Morbi non sapien molestie orci tincidunt adipiscing. Mauris molestie pharetra nibh. Aliquam ornare, libero at auctor ullamcorper, nisl arcu iaculis enim, sit amet ornare lectus justo eu arcu. Morbi sit amet massa. Quisque porttitor eros nec tellus. Nunc lectus pede, ultrices a, auctor non, feugiat nec, diam. Duis mi",
+    "CreationDate": "2021-05-18 14:30:02",
+    "LastUpdated": "2022-01-20 13:22:03"
+  },
+  {
+    "NewsID": "832439CA-653A-20E6-F435-E3B3CFA40665",
+    "Title": "feugiat metus sit amet",
+    "Subtitle": "Morbi accumsan laoreet",
+    "ThumbnailPath": "assets/features/flashmemo_dummy1.jpg",
+    "Content": "libero mauris, aliquam eu, accumsan sed, facilisis vitae, orci. Phasellus dapibus quam quis diam. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Fusce aliquet magna a neque. Nullam ut nisi a odio semper cursus. Integer mollis. Integer tincidunt aliquam arcu. Aliquam ultrices iaculis odio. Nam interdum enim non nisi. Aenean eget metus. In nec orci. Donec nibh. Quisque nonummy ipsum non arcu. Vivamus sit amet risus. Donec egestas. Aliquam nec enim. Nunc ut erat. Sed nunc est, mollis non, cursus non, egestas a, dui. Cras",
+    "CreationDate": "2021-09-05 17:57:39",
+    "LastUpdated": "2020-09-16 09:21:38"
+  },
+  {
+    "NewsID": "135AFEF8-5E81-6FA9-7058-04351CCBB4D6",
+    "Title": "augue. Sed molestie. Sed id risus quis diam luctus lobortis.",
+    "Subtitle": "cursus a, enim.",
+    "ThumbnailPath": "assets/features/flashmemo_dummy1.jpg",
+    "Content": "sapien molestie orci tincidunt adipiscing. Mauris molestie pharetra nibh. Aliquam ornare, libero at auctor ullamcorper, nisl arcu iaculis enim, sit amet ornare lectus justo eu arcu. Morbi sit amet massa. Quisque porttitor eros nec tellus. Nunc lectus pede, ultrices a, auctor non, feugiat nec, diam. Duis mi enim, condimentum eget, volutpat ornare, facilisis eget, ipsum. Donec sollicitudin",
+    "CreationDate": "2021-02-25 08:06:44",
+    "LastUpdated": "2020-12-30 12:58:48"
+  },
+  {
+    "NewsID": "07E7A4DD-5916-1B5E-9434-144218DD501B",
+    "Title": "lobortis tellus justo sit amet nulla. Donec non justo. Proin",
+    "Subtitle": "Cras lorem lorem, luctus",
+    "ThumbnailPath": "assets/features/flashmemo_dummy2.jpg",
+    "Content": "eget metus. In nec orci. Donec nibh. Quisque nonummy ipsum non arcu. Vivamus sit amet risus. Donec egestas. Aliquam nec enim. Nunc ut erat. Sed nunc est, mollis non, cursus non, egestas a, dui. Cras pellentesque. Sed dictum. Proin eget odio. Aliquam vulputate ullamcorper magna. Sed eu eros. Nam consequat dolor vitae dolor. Donec fringilla. Donec feugiat metus sit amet ante. Vivamus non lorem vitae odio sagittis semper. Nam tempor diam dictum sapien. Aenean massa. Integer vitae nibh. Donec est mauris, rhoncus id, mollis nec, cursus a, enim. Suspendisse aliquet, sem ut cursus",
+    "CreationDate": "2020-07-03 02:12:44",
+    "LastUpdated": "2021-12-05 19:11:34"
+  },
+  {
+    "NewsID": "C0AD67B7-68B2-BBFA-CE21-5C5C4E54D628",
+    "Title": "convallis est, vitae sodales nisi magna sed dui. Fusce aliquam,",
+    "Subtitle": "suscipit nonummy. Fusce",
+    "ThumbnailPath": "assets/features/flashmemo_dummy3.jpg",
+    "Content": "eleifend",
+    "CreationDate": "2020-12-14 22:08:20",
+    "LastUpdated": "2022-04-28 18:52:55"
+  },
+  {
+    "NewsID": "DD0C1FE2-421C-4EB7-6210-8E61446EB9B0",
+    "Title": "vehicula risus. Nulla eget metus eu erat semper",
+    "Subtitle": "porttitor eros nec tellus. Nunc lectus pede,",
+    "ThumbnailPath": "assets/features/flashmemo_dummy2.jpg",
+    "Content": "Nunc mauris sapien, cursus in, hendrerit consectetuer, cursus et, magna. Praesent interdum ligula eu enim. Etiam imperdiet dictum magna. Ut tincidunt orci quis lectus. Nullam suscipit, est ac facilisis facilisis, magna tellus faucibus leo, in lobortis tellus justo sit amet nulla. Donec non justo. Proin non massa non ante bibendum ullamcorper. Duis cursus, diam at pretium aliquet, metus urna convallis erat, eget tincidunt dui augue eu tellus. Phasellus elit pede, malesuada vel, venenatis vel, faucibus id, libero. Donec consectetuer mauris id sapien. Cras dolor dolor, tempus non, lacinia at, iaculis quis, pede. Praesent eu dui. Cum sociis natoque penatibus",
+    "CreationDate": "2020-07-10 04:12:20",
+    "LastUpdated": "2020-12-10 18:12:49"
+  },
+  {
+    "NewsID": "998B81AC-A645-DBBB-18B1-9D07C47BA7D1",
+    "Title": "magnis dis parturient montes,",
+    "Subtitle": "ac, fermentum vel, mauris. Integer sem elit, pharetra ut, pharetra",
+    "ThumbnailPath": "assets/features/flashmemo_dummy3.jpg",
+    "Content": "turpis egestas. Aliquam fringilla cursus purus. Nullam scelerisque neque sed sem egestas blandit. Nam nulla",
+    "CreationDate": "2020-07-07 10:03:12",
+    "LastUpdated": "2022-03-14 15:08:58"
+  },
+  {
+    "NewsID": "4A5C51B1-D8A3-4680-7E6B-59AA6BAD4DF2",
+    "Title": "justo faucibus",
+    "Subtitle": "Nunc mauris sapien, cursus in, hendrerit consectetuer, cursus et, magna.",
+    "ThumbnailPath": "assets/features/flashmemo_dummy3.jpg",
+    "Content": "eu, accumsan sed, facilisis vitae, orci. Phasellus dapibus quam quis diam. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Fusce aliquet magna a neque. Nullam ut nisi a odio semper cursus. Integer mollis. Integer tincidunt aliquam arcu. Aliquam ultrices iaculis odio. Nam interdum enim non nisi. Aenean eget metus. In nec orci. Donec nibh. Quisque nonummy ipsum non arcu. Vivamus sit amet risus. Donec egestas. Aliquam nec enim. Nunc ut erat. Sed nunc est, mollis non, cursus non, egestas a, dui. Cras pellentesque. Sed dictum. Proin eget odio. Aliquam vulputate ullamcorper magna. Sed",
+    "CreationDate": "2020-09-18 20:10:02",
+    "LastUpdated": "2021-04-13 17:04:12"
+  },
+  {
+    "NewsID": "FFE0F03D-0709-CAEF-CF05-102809ABBB80",
+    "Title": "ligula",
+    "Subtitle": "malesuada vel, venenatis",
+    "ThumbnailPath": "assets/features/flashmemo_dummy2.jpg",
+    "Content": "lacus. Mauris non dui nec urna suscipit nonummy. Fusce fermentum fermentum arcu. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Phasellus ornare. Fusce mollis. Duis sit amet diam eu dolor egestas rhoncus. Proin",
+    "CreationDate": "2020-10-11 08:11:30",
+    "LastUpdated": "2020-12-01 12:05:57"
+  },
+  {
+    "NewsID": "8AAFD3B8-B861-A2F5-38E6-879A9108C812",
+    "Title": "magna. Cras convallis convallis dolor.",
+    "Subtitle": "ornare, facilisis eget, ipsum. Donec sollicitudin adipiscing ligula.",
+    "ThumbnailPath": "assets/features/flashmemo_dummy4.jpg",
+    "Content": "amet diam eu dolor egestas rhoncus. Proin nisl sem, consequat nec, mollis vitae, posuere at, velit. Cras lorem",
+    "CreationDate": "2020-08-16 18:33:24",
+    "LastUpdated": "2021-12-23 15:55:44"
+  },
+  {
+    "NewsID": "AA2C5878-C7C3-DB5A-C9CD-698A4512E310",
+    "Title": "rhoncus id, mollis nec, cursus a,",
+    "Subtitle": "magnis dis parturient montes,",
+    "ThumbnailPath": "assets/features/flashmemo_dummy4.jpg",
+    "Content": "magna a tortor. Nunc commodo auctor velit. Aliquam nisl. Nulla eu neque pellentesque massa lobortis ultrices. Vivamus rhoncus. Donec est. Nunc ullamcorper, velit in aliquet lobortis, nisi nibh lacinia orci, consectetuer euismod est arcu ac orci. Ut semper",
+    "CreationDate": "2021-04-01 06:23:04",
+    "LastUpdated": "2021-12-25 05:51:54"
+  },
+  {
+    "NewsID": "64610994-4E39-C5DB-750D-1683847D23C4",
+    "Title": "Quisque purus sapien,",
+    "Subtitle": "convallis dolor.",
+    "ThumbnailPath": "assets/features/flashmemo_dummy2.jpg",
+    "Content": "eros nec tellus. Nunc lectus pede, ultrices a, auctor non, feugiat nec, diam. Duis mi enim, condimentum eget, volutpat ornare, facilisis eget, ipsum. Donec sollicitudin",
+    "CreationDate": "2020-08-18 17:48:24",
+    "LastUpdated": "2021-10-09 19:13:27"
+  },
+  {
+    "NewsID": "C5739A76-6372-9703-28AD-63D5074DEB8D",
+    "Title": "tempor diam dictum sapien.",
+    "Subtitle": "sem ut cursus luctus, ipsum leo elementum sem, vitae aliquam",
+    "ThumbnailPath": "assets/features/flashmemo_dummy3.jpg",
+    "Content": "sit amet, faucibus ut, nulla. Cras eu tellus eu augue porttitor interdum. Sed auctor odio a purus. Duis elementum, dui quis accumsan convallis, ante lectus convallis est, vitae sodales nisi magna sed dui. Fusce aliquam, enim nec tempus scelerisque, lorem ipsum sodales purus, in molestie tortor nibh sit amet orci.",
+    "CreationDate": "2021-03-05 05:29:56",
+    "LastUpdated": "2022-01-20 00:41:18"
+  },
+  {
+    "NewsID": "9A62F567-2EAC-43B2-1324-E3A0702C9CC8",
+    "Title": "elit, pretium et, rutrum non, hendrerit",
+    "Subtitle": "imperdiet ornare. In faucibus. Morbi vehicula. Pellentesque tincidunt tempus",
+    "ThumbnailPath": "assets/features/flashmemo_dummy3.jpg",
+    "Content": "Phasellus at augue id ante dictum cursus. Nunc mauris elit, dictum eu, eleifend nec, malesuada ut, sem. Nulla interdum. Curabitur dictum. Phasellus in felis. Nulla tempor augue ac ipsum. Phasellus vitae mauris sit amet lorem semper auctor. Mauris vel turpis. Aliquam",
+    "CreationDate": "2021-01-27 15:37:33",
+    "LastUpdated": "2021-02-02 02:53:27"
+  },
+  {
+    "NewsID": "5568D52A-758C-835D-F523-3634A17A3A90",
+    "Title": "semper pretium neque. Morbi quis urna. Nunc quis arcu",
+    "Subtitle": "non, lobortis quis,",
+    "ThumbnailPath": "assets/features/flashmemo_dummy3.jpg",
+    "Content": "Proin sed turpis nec mauris blandit mattis. Cras eget nisi dictum augue malesuada malesuada. Integer id magna et ipsum cursus",
+    "CreationDate": "2020-06-21 11:01:25",
+    "LastUpdated": "2022-05-08 00:43:45"
+  },
+  {
+    "NewsID": "508EBDCA-3905-5374-5AE6-A3EA5FFAB10A",
+    "Title": "tincidunt pede",
+    "Subtitle": "sociis natoque penatibus",
+    "ThumbnailPath": "assets/features/flashmemo_dummy2.jpg",
+    "Content": "at, egestas",
+    "CreationDate": "2021-02-11 12:07:28",
+    "LastUpdated": "2020-11-20 01:46:50"
+  },
+  {
+    "NewsID": "FCFE9D7A-D6C5-B49D-35E9-1D953AA4C64B",
+    "Title": "Pellentesque tincidunt tempus risus. Donec egestas. Duis ac",
+    "Subtitle": "ultrices posuere cubilia Curae; Donec",
+    "ThumbnailPath": "assets/features/flashmemo_dummy3.jpg",
+    "Content": "ultrices sit amet, risus. Donec nibh enim, gravida sit amet, dapibus id, blandit at, nisi. Cum sociis natoque penatibus et magnis",
+    "CreationDate": "2021-02-03 11:07:45",
+    "LastUpdated": "2022-04-04 19:36:34"
+  },
+  {
+    "NewsID": "78A6326F-A307-9C46-C979-473E4C1D5705",
+    "Title": "nec enim. Nunc",
+    "Subtitle": "Quisque",
+    "ThumbnailPath": "assets/features/flashmemo_dummy4.jpg",
+    "Content": "semper tellus id nunc interdum feugiat. Sed nec metus facilisis lorem tristique aliquet. Phasellus fermentum convallis ligula. Donec luctus aliquet odio. Etiam ligula tortor, dictum eu, placerat eget, venenatis a, magna. Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Etiam laoreet, libero et tristique pellentesque, tellus sem mollis dui, in sodales elit erat vitae risus. Duis a mi fringilla mi lacinia mattis. Integer eu lacus. Quisque imperdiet, erat nonummy ultricies ornare, elit elit fermentum risus,",
+    "CreationDate": "2020-06-17 05:19:59",
+    "LastUpdated": "2022-03-28 05:49:46"
+  },
+  {
+    "NewsID": "8C19F5CF-B621-9AE3-B484-7687E4E648F2",
+    "Title": "ultricies adipiscing, enim",
+    "Subtitle": "nibh sit",
+    "ThumbnailPath": "assets/features/flashmemo_dummy3.jpg",
+    "Content": "Donec est. Nunc ullamcorper, velit in aliquet lobortis, nisi nibh lacinia orci, consectetuer euismod est arcu ac orci. Ut semper pretium neque. Morbi quis urna. Nunc quis",
+    "CreationDate": "2021-08-06 02:07:31",
+    "LastUpdated": "2021-11-30 10:52:42"
+  },
+  {
+    "NewsID": "55684DBC-C067-2645-E0F2-EE736652AE0C",
+    "Title": "Praesent luctus.",
+    "Subtitle": "non",
+    "ThumbnailPath": "assets/features/flashmemo_dummy1.jpg",
+    "Content": "eleifend non, dapibus rutrum, justo. Praesent luctus. Curabitur egestas nunc sed libero. Proin sed turpis nec mauris blandit mattis. Cras eget nisi dictum augue malesuada malesuada. Integer id magna et ipsum cursus vestibulum. Mauris magna. Duis dignissim tempor arcu. Vestibulum ut eros non enim commodo hendrerit. Donec porttitor tellus non magna. Nam ligula elit, pretium et, rutrum non, hendrerit id, ante. Nunc mauris sapien, cursus in, hendrerit consectetuer, cursus et, magna. Praesent interdum ligula eu enim. Etiam imperdiet dictum magna. Ut tincidunt orci quis lectus. Nullam suscipit, est ac facilisis facilisis, magna tellus",
+    "CreationDate": "2021-07-30 14:48:58",
+    "LastUpdated": "2021-04-18 21:12:28"
+  },
+  {
+    "NewsID": "D594D7F1-83AF-FF84-3D71-5313AC23373E",
+    "Title": "orci quis lectus. Nullam suscipit, est",
+    "Subtitle": "purus ac tellus. Suspendisse",
+    "ThumbnailPath": "assets/features/flashmemo_dummy1.jpg",
+    "Content": "fermentum metus. Aenean sed pede nec ante blandit viverra. Donec tempus, lorem fringilla",
+    "CreationDate": "2021-07-27 18:16:53",
+    "LastUpdated": "2021-03-18 11:17:40"
+  },
+  {
+    "NewsID": "6A4B4800-F4CC-106C-FC38-AFA2992C27CD",
+    "Title": "diam vel arcu. Curabitur",
+    "Subtitle": "ipsum. Phasellus vitae mauris sit amet lorem",
+    "ThumbnailPath": "assets/features/flashmemo_dummy1.jpg",
+    "Content": "pede. Nunc sed orci lobortis augue scelerisque mollis. Phasellus libero mauris, aliquam eu, accumsan sed, facilisis vitae, orci. Phasellus dapibus quam quis diam. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Fusce aliquet magna a neque. Nullam ut nisi a",
+    "CreationDate": "2021-10-09 10:30:01",
+    "LastUpdated": "2021-12-02 21:42:23"
+  },
+  {
+    "NewsID": "A83A3097-9C55-2F9B-B82F-265775FA700B",
+    "Title": "vel arcu eu odio tristique pharetra. Quisque ac libero",
+    "Subtitle": "dui quis accumsan convallis, ante lectus convallis est, vitae",
+    "ThumbnailPath": "assets/features/flashmemo_dummy3.jpg",
+    "Content": "quam a felis ullamcorper viverra. Maecenas iaculis aliquet diam. Sed diam lorem, auctor quis, tristique ac, eleifend vitae, erat. Vivamus nisi. Mauris nulla. Integer urna. Vivamus molestie dapibus ligula. Aliquam erat volutpat. Nulla dignissim. Maecenas ornare egestas ligula. Nullam feugiat placerat velit. Quisque varius. Nam porttitor scelerisque neque. Nullam nisl. Maecenas malesuada fringilla est. Mauris eu turpis. Nulla aliquet. Proin velit. Sed malesuada augue ut lacus. Nulla tincidunt, neque vitae semper egestas, urna justo faucibus lectus, a sollicitudin orci sem eget massa. Suspendisse eleifend. Cras sed leo.",
+    "CreationDate": "2020-11-14 19:32:58",
+    "LastUpdated": "2021-08-24 04:28:12"
+  },
+  {
+    "NewsID": "EF0A8C78-219D-7CE8-4FBE-36D89881AF7F",
+    "Title": "netus",
+    "Subtitle": "magna et ipsum",
+    "ThumbnailPath": "assets/features/flashmemo_dummy2.jpg",
+    "Content": "at, libero. Morbi accumsan laoreet ipsum.",
+    "CreationDate": "2021-09-30 07:11:26",
+    "LastUpdated": "2021-09-24 00:45:36"
+  },
+  {
+    "NewsID": "D716C956-5952-2980-4030-72DB345398A9",
+    "Title": "mus. Donec dignissim magna a tortor. Nunc commodo auctor",
+    "Subtitle": "Aenean massa. Integer vitae",
+    "ThumbnailPath": "assets/features/flashmemo_dummy1.jpg",
+    "Content": "Aliquam nec enim. Nunc ut erat. Sed nunc est, mollis non, cursus non, egestas a, dui. Cras pellentesque. Sed dictum. Proin eget odio. Aliquam vulputate ullamcorper magna. Sed eu eros. Nam consequat dolor vitae dolor. Donec fringilla. Donec feugiat metus sit amet ante. Vivamus non lorem vitae odio sagittis semper. Nam tempor diam dictum sapien. Aenean massa. Integer vitae nibh. Donec est mauris,",
+    "CreationDate": "2021-05-05 12:39:34",
+    "LastUpdated": "2022-04-02 13:51:46"
+  },
+  {
+    "NewsID": "0B300688-C3E8-D7BC-612E-6D85491D21DF",
+    "Title": "Nunc pulvinar arcu et pede. Nunc",
+    "Subtitle": "dictum placerat, augue.",
+    "ThumbnailPath": "assets/features/flashmemo_dummy2.jpg",
+    "Content": "Cras eget nisi dictum augue malesuada malesuada. Integer id magna et ipsum cursus vestibulum. Mauris magna. Duis dignissim tempor arcu. Vestibulum ut eros non enim commodo hendrerit. Donec porttitor tellus non magna. Nam ligula elit,",
+    "CreationDate": "2021-10-20 10:32:58",
+    "LastUpdated": "2020-11-25 14:45:15"
+  },
+  {
+    "NewsID": "94A9F69D-2FB9-573E-148A-C6E2D4C7765D",
+    "Title": "consequat dolor vitae dolor. Donec fringilla.",
+    "Subtitle": "tempor erat neque non quam. Pellentesque habitant",
+    "ThumbnailPath": "assets/features/flashmemo_dummy4.jpg",
+    "Content": "dolor egestas rhoncus. Proin nisl sem, consequat nec, mollis vitae, posuere at, velit. Cras lorem lorem, luctus ut, pellentesque eget, dictum placerat, augue. Sed molestie. Sed id risus quis diam luctus lobortis. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos hymenaeos. Mauris ut quam vel sapien imperdiet ornare.",
+    "CreationDate": "2021-08-08 21:32:24",
+    "LastUpdated": "2020-12-31 19:20:13"
+  },
+  {
+    "NewsID": "911E13D5-FB72-CBE3-5557-1AFE32BB8F31",
+    "Title": "purus. Nullam scelerisque neque sed",
+    "Subtitle": "ultricies ligula. Nullam enim. Sed nulla ante, iaculis",
+    "ThumbnailPath": "assets/features/flashmemo_dummy1.jpg",
+    "Content": "Nullam nisl. Maecenas malesuada fringilla est. Mauris eu turpis. Nulla aliquet. Proin velit. Sed malesuada augue ut lacus. Nulla tincidunt, neque vitae semper egestas, urna justo faucibus",
+    "CreationDate": "2021-08-04 00:35:44",
+    "LastUpdated": "2020-08-15 00:40:55"
+  },
+  {
+    "NewsID": "8C0EE871-F836-7433-506A-1EE0AAF36328",
+    "Title": "volutpat nunc sit amet metus. Aliquam erat volutpat. Nulla facilisis.",
+    "Subtitle": "rutrum non, hendrerit id, ante. Nunc mauris",
+    "ThumbnailPath": "assets/features/flashmemo_dummy2.jpg",
+    "Content": "commodo auctor velit. Aliquam nisl. Nulla eu neque pellentesque massa lobortis ultrices. Vivamus rhoncus. Donec est. Nunc ullamcorper, velit in aliquet lobortis, nisi nibh lacinia orci, consectetuer euismod est arcu ac orci. Ut semper pretium neque. Morbi quis urna. Nunc quis arcu vel quam dignissim pharetra. Nam ac nulla. In tincidunt congue turpis. In condimentum. Donec at arcu. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Donec tincidunt. Donec",
+    "CreationDate": "2020-09-07 20:08:06",
+    "LastUpdated": "2022-01-08 17:03:26"
+  },
+  {
+    "NewsID": "C4E907BE-F731-160B-AC49-8C52D3E42240",
+    "Title": "Nulla semper tellus id nunc interdum feugiat. Sed nec",
+    "Subtitle": "semper et, lacinia vitae,",
+    "ThumbnailPath": "assets/features/flashmemo_dummy3.jpg",
+    "Content": "lobortis quam a felis ullamcorper viverra. Maecenas iaculis aliquet diam. Sed diam lorem, auctor quis, tristique ac, eleifend vitae, erat. Vivamus nisi. Mauris nulla. Integer urna. Vivamus molestie dapibus ligula. Aliquam erat volutpat. Nulla dignissim. Maecenas ornare egestas ligula. Nullam",
+    "CreationDate": "2021-11-17 07:44:04",
+    "LastUpdated": "2022-01-10 14:58:52"
+  },
+  {
+    "NewsID": "1C9B12E3-FE59-04B6-5C0F-1FF825911DF6",
+    "Title": "sit amet lorem semper auctor. Mauris vel turpis.",
+    "Subtitle": "Nullam",
+    "ThumbnailPath": "assets/features/flashmemo_dummy3.jpg",
+    "Content": "lectus ante dictum mi, ac mattis velit justo nec ante. Maecenas mi felis, adipiscing fringilla, porttitor vulputate, posuere",
+    "CreationDate": "2020-09-11 14:49:12",
+    "LastUpdated": "2021-08-01 22:45:03"
+  }
+]
