@@ -1,4 +1,5 @@
-﻿using API.Tools;
+﻿using API.Controllers.Implementations;
+using API.Tools;
 using API.ViewModels;
 using Business.Services;
 using Data.Models;
@@ -13,28 +14,19 @@ namespace API.Controllers
     [ApiController]
     [ApiVersion("1.0")]
     [Route("api/v{version:apiVersion}/[controller]")]
-    public class NewsController : ControllerBase
+    public class NewsController : RepositoryController<News>
     {
         private readonly NewsService _newsService;
 
-        public NewsController(NewsService newsService) : base()
+        public NewsController(NewsService newsService) : base(newsService)
         {
             _newsService = newsService;
         }
 
         [HttpGet]
         [Route("list")]
-        public async Task<IActionResult> List([FromQuery] string columnToSort, SortType sortType, string currentFilter, string searchString, int pageSize, int? pageNumber)
+        public override async Task<IActionResult> Get([FromQuery] string columnToSort, SortType sortType, string searchString, int pageSize, int? pageNumber)
         {
-            if (searchString != null)
-            {
-                pageNumber = 1;
-            }
-            else
-            {
-                searchString = currentFilter;
-            }
-
             SortOptions<News, object> sortOptions = new SortOptions<News, object>();
             switch (columnToSort)
             {

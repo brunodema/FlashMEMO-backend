@@ -1,4 +1,4 @@
-﻿using Data.Repository.Interfaces.Data.Interfaces;
+﻿using Data.Repository.Interfaces;
 using Data.Tools;
 using Microsoft.EntityFrameworkCore;
 using System;

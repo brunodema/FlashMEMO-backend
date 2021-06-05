@@ -7,12 +7,12 @@ using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
-using Data.Models.Interfaces;
 using Business.Tools;
+using Business.Services.Interfaces;
 
 namespace Business.Services
 {
-    public abstract class BaseRepositoryService<TRepositoryType, TEntity>
+    public abstract class BaseRepositoryService<TRepositoryType, TEntity> : IBaseRepositoryService<TEntity>
         where TRepositoryType : BaseRepository<TEntity, FlashMEMOContext>
         where TEntity : class
     {

@@ -16,19 +16,19 @@ using System.Threading.Tasks;
 
 namespace API.Controllers.Implementations
 {
-    public abstract class RepositoryController<TRepositoryService, TEntity> : ControllerBase
-        where TRepositoryService : BaseRepositoryService<BaseRepository<TEntity, FlashMEMOContext>, TEntity>
+    public abstract class RepositoryController<TEntity> : ControllerBase
         where TEntity : class
     {
-        private readonly BaseRepositoryService<BaseRepository<TEntity, FlashMEMOContext>, TEntity> _repositoryService;
+        private readonly IBaseRepositoryService<TEntity> _repositoryService;
+        private readonly IDictionary<string, object> _columnSort;
 
-        protected RepositoryController(BaseRepositoryService<BaseRepository<TEntity, FlashMEMOContext>, TEntity> repositoryService)
+        protected RepositoryController(IBaseRepositoryService<TEntity> repositoryService)
         {
             _repositoryService = repositoryService;
         }
         [HttpGet]
         [Route("list")]
-        public abstract Task<IActionResult> Get([FromQuery] string sortOrder, string currentFilter, string searchString, int? pageNumber);
+        public abstract Task<IActionResult> Get([FromQuery] string columnToSort, SortType sortType, string searchString, int pageSize, int? pageNumber);
 
         [HttpPost]
         [Route("create")]
