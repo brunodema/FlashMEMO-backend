@@ -1,4 +1,5 @@
-﻿using API.ViewModels;
+﻿using API.Tools;
+using API.ViewModels;
 using Business.Services;
 using Business.Services.Interfaces;
 using Business.Tools;
@@ -12,6 +13,7 @@ using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 
 namespace API.Controllers.Implementations
@@ -20,7 +22,6 @@ namespace API.Controllers.Implementations
         where TEntity : class
     {
         private readonly IBaseRepositoryService<TEntity> _repositoryService;
-        private readonly IDictionary<string, object> _columnSort;
 
         protected RepositoryController(IBaseRepositoryService<TEntity> repositoryService)
         {
@@ -28,7 +29,17 @@ namespace API.Controllers.Implementations
         }
         [HttpGet]
         [Route("list")]
-        public abstract Task<IActionResult> Get([FromQuery] string columnToSort, SortType sortType, string searchString, int pageSize, int? pageNumber);
+        public async virtual Task<IActionResult> Get([FromQuery] string columnToSort, SortType sortType, string searchString, int pageSize, int? pageNumber)
+        {
+            var sortOptions = SetColumnSorting(columnToSort, sortType);
+            var predicate = SetFiltering(searchString);
+
+            var news = await _repositoryService.GetAsync(predicate, sortOptions, 10000);
+            return Ok(new PaginatedListResponse<TEntity> { Status = "Sucess", Data = PaginatedList<TEntity>.CreateAsync(news, pageNumber ?? 1, pageSize) });
+        }
+
+        protected abstract SortOptions<TEntity, object> SetColumnSorting(string columnToSort, SortType sortType);
+        protected abstract Expression<Func<TEntity, bool>> SetFiltering(string searchString);
 
         [HttpPost]
         [Route("create")]

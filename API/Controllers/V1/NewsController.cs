@@ -27,6 +27,11 @@ namespace API.Controllers
         [Route("list")]
         public override async Task<IActionResult> Get([FromQuery] string columnToSort, SortType sortType, string searchString, int pageSize, int? pageNumber)
         {
+            return await base.Get(columnToSort, sortType, searchString, pageSize, pageNumber);
+        }
+
+        protected override SortOptions<News, object> SetColumnSorting(string columnToSort, SortType sortType)
+        {
             SortOptions<News, object> sortOptions = new SortOptions<News, object>();
             switch (columnToSort)
             {
@@ -41,10 +46,12 @@ namespace API.Controllers
                     break;
             }
             sortOptions.SortType = sortType;
-            Expression <Func<News,bool>> predicate = searchString == null ? _ => true : news => news.Content.Contains(searchString) || news.Title.Contains(searchString) || news.Subtitle.Contains(searchString);
+            return sortOptions;
+        }
 
-            var news = await _newsService.GetAsync(predicate, sortOptions, 1000);
-            return Ok(new ListNewsResponseModel { Status = "Sucess", News = PaginatedList<News>.CreateAsync(news, pageNumber ?? 1, pageSize)});
+        protected override Expression<Func<News, bool>> SetFiltering(string searchString)
+        {
+            return searchString == null ? _ => true : news => news.Content.Contains(searchString) || news.Title.Contains(searchString) || news.Subtitle.Contains(searchString);
         }
     }
 }

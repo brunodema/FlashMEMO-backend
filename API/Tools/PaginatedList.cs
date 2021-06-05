@@ -7,17 +7,22 @@ using System.Threading.Tasks;
 namespace API.Tools
 {
     // taken from: https://docs.microsoft.com/en-us/aspnet/core/data/ef-mvc/sort-filter-page?view=aspnetcore-5.0
-    public class PaginatedList<T> : List<T>
+    public class PaginatedList<T>
     {
+        public List<T> Results { get; private set; }
         public int PageIndex { get; private set; }
         public int TotalPages { get; private set; }
+        public int Count { get; private set; }
+        public int Total { get; private set; }
 
         public PaginatedList(List<T> items, int count, int pageIndex, int pageSize)
         {
             PageIndex = pageIndex;
             TotalPages = (int)Math.Ceiling(count / (double)pageSize);
+            Total = count;
+            Count = items.Count;
 
-            this.AddRange(items);
+            Results = new List<T>(items);
         }
 
         public bool HasPreviousPage
