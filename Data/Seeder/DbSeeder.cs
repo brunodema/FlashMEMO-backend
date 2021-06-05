@@ -21,7 +21,7 @@ namespace Data.Seeder
     }
     public class DbSeeder
     {
-        public static async Task InitializeDatabaseAsync(IServiceProvider serviceProvider)
+        public static async Task InitializeDatabaseAsync(IServiceProvider serviceProvider, string seederPath)
         {
             var context = serviceProvider.GetService<FlashMEMOContext>();
             var roleStore = new RoleStore<ApplicationRole>(context);
@@ -53,7 +53,7 @@ namespace Data.Seeder
             if (!context.News.Any())
             {
                 // samples generated with generatedata.com
-                var newsSeeder = JsonConvert.DeserializeObject<News[]>(File.ReadAllText("../Data/Seeder/News.json"));
+                var newsSeeder = JsonConvert.DeserializeObject<News[]>(File.ReadAllText($"{seederPath}/News.json"));
                 await context.AddRangeAsync(newsSeeder);
             }
 
