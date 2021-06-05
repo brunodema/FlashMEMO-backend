@@ -24,7 +24,7 @@ namespace API.Controllers
 
         [HttpGet]
         [Route("list")]
-        public async Task<IActionResult> List([FromQuery] string columnToSort, SortType sortType, string currentFilter, string searchString, int? pageNumber)
+        public async Task<IActionResult> List([FromQuery] string columnToSort, SortType sortType, string currentFilter, string searchString, int pageSize, int? pageNumber)
         {
             if (searchString != null)
             {
@@ -52,7 +52,7 @@ namespace API.Controllers
             Expression <Func<News,bool>> predicate = searchString == null ? _ => true : news => news.Content.Contains(searchString) || news.Title.Contains(searchString) || news.Subtitle.Contains(searchString);
 
             var news = await _newsService.GetAsync(predicate, sortOptions, 1000);
-            return Ok(new ListNewsResponseModel { Status = "Sucess", News = PaginatedList<News>.CreateAsync(news, pageNumber ?? 1, 1)});
+            return Ok(new ListNewsResponseModel { Status = "Sucess", News = PaginatedList<News>.CreateAsync(news, pageNumber ?? 1, pageSize)});
         }
     }
 }
