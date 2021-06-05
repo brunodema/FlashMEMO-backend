@@ -7,9 +7,8 @@ using System.Threading.Tasks;
 
 namespace Data.Repository.Interfaces
 {
-    public interface IBaseRepository<TEntity, DatabaseContext>
+    public interface IBaseRepository<TEntity>
         where TEntity : class
-        where DatabaseContext : DbContext
     {
         public Task<IEnumerable<TEntity>> SearchAndOrderAsync<TKey>(Expression<Func<TEntity, bool>> predicate, SortOptions<TEntity, TKey> sortOptions, int numRecords);
         public Task<IEnumerable<TEntity>> SearchAllAsync(Expression<Func<TEntity, bool>> predicate);

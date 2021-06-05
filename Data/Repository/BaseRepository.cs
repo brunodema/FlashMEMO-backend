@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Data.Repository
 {
-    public abstract class BaseRepository<TEntity, DatabaseContext> : IBaseRepository<TEntity, DatabaseContext>
+    public abstract class BaseRepository<TEntity, DatabaseContext> : IBaseRepository<TEntity>
         where TEntity : class
         where DatabaseContext : DbContext
     {
