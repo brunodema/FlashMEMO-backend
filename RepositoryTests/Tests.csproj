@@ -28,8 +28,4 @@
     <ProjectReference Include="..\Data\Data.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Integration\Interfaces\" />
-  </ItemGroup>
-
 </Project>
