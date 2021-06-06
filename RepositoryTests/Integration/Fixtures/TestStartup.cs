@@ -30,6 +30,17 @@ namespace Tests.Integration.Fixtures
 {
     public class TestStartup
     {
+        private class InteralConfigs
+        {
+            // JWT
+            public const string ValidIssuer = "http://localhost:61955";
+            public const string ValidAudience = "http://localhost:4200";
+            public const int TimeToExpiration = 300;
+            public const string Secret = "mysecretmysecret";
+            // Seeder
+            public const string SeederPath = "../../..//../Data/Seeder";
+        }
+
         public TestStartup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -80,18 +91,15 @@ namespace Tests.Integration.Fixtures
                 o.SubstituteApiVersionInUrl = true;
             });
 
-            services.AddMvc()
-        .ConfigureApiBehaviorOptions(options =>
-        {
-            options.InvalidModelStateResponseFactory = actionContext =>
+            services.AddMvc().ConfigureApiBehaviorOptions(options =>
             {
-                return new BadRequestObjectResult(new BaseResponseModel { Status = "Bad Request", Message = "Validation errors have ocurred when processing the request", Errors = actionContext.ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage) });
-            };
-        })
-                .AddApplicationPart(typeof(NewsController).Assembly)
+                options.InvalidModelStateResponseFactory = actionContext =>
+                {
+                    return new BadRequestObjectResult(new BaseResponseModel { Status = "Bad Request", Message = "Validation errors have ocurred when processing the request", Errors = actionContext.ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage) });
+                };
+            })
+            .AddApplicationPart(typeof(NewsController).Assembly)
             .AddApplicationPart(typeof(AuthController).Assembly);
-
-
 
             // identity config
             services.AddIdentity<ApplicationUser, ApplicationRole>(opt =>
@@ -116,9 +124,9 @@ namespace Tests.Integration.Fixtures
                     {
                         ValidateIssuer = true,
                         ValidateAudience = true,
-                        ValidAudience = "http://localhost:4200",
-                        ValidIssuer = "http://localhost:61955",
-                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("mysecretmysecret")),
+                        ValidAudience = InteralConfigs.ValidAudience,
+                        ValidIssuer = InteralConfigs.ValidIssuer,
+                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(InteralConfigs.Secret)),
                         // custom definitions
                         ValidateLifetime = true, // otherwise the expiration change is not checked
                         ClockSkew = TimeSpan.Zero // the default is 5 min (framework)
@@ -129,10 +137,10 @@ namespace Tests.Integration.Fixtures
             // options configuration
             services.Configure<JWTServiceOptions>(config =>
             {
-                config.ValidIssuer = "http://localhost:61955";
-                config.ValidAudience = "http://localhost:4200";
-                config.TimeToExpiration = 300;
-                config.Secret = "mysecretmysecret";
+                config.ValidIssuer = InteralConfigs.ValidIssuer;
+                config.ValidAudience = InteralConfigs.ValidAudience;
+                config.TimeToExpiration = InteralConfigs.TimeToExpiration;
+                config.Secret = InteralConfigs.Secret;
             });
             // custom services
             services.AddScoped<IJWTService, JWTService>();
@@ -186,8 +194,8 @@ namespace Tests.Integration.Fixtures
             var hostBuilder = new HostBuilder()
                 .ConfigureWebHost(webHost =>
                 {
-                    // Add TestServer
-                    webHost.UseTestServer();
+                // Add TestServer
+                webHost.UseTestServer();
                     webHost.UseStartup<TestStartup>();
                 });
 
