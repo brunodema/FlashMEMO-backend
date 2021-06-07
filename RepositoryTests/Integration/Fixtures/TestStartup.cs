@@ -184,33 +184,4 @@ namespace Tests.Integration.Fixtures
             DbSeeder.InitializeDatabaseAsync(provider, "../../..//../Data/Seeder").Wait();
         }
     }
-
-    public class dummy
-    {
-        [Fact]
-        public async Task BasicEndPointTest()
-        {
-            // Arrange
-            var hostBuilder = new HostBuilder()
-                .ConfigureWebHost(webHost =>
-                {
-                // Add TestServer
-                webHost.UseTestServer();
-                    webHost.UseStartup<TestStartup>();
-                });
-
-            // Create and start up the host
-            var host = await hostBuilder.StartAsync();
-
-            // Create an HttpClient which is setup for the test host
-            var client = host.GetTestClient();
-
-            // Act
-            var response = await client.GetAsync("/api/v1/News/list");
-
-            // Assert
-            var responseString = await response.Content.ReadAsStringAsync();
-            Assert.True(responseString == "This is a test");
-        }
-    }
 }
