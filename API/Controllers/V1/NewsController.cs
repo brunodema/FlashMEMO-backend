@@ -22,14 +22,6 @@ namespace API.Controllers
         {
             _newsService = newsService;
         }
-
-        [HttpGet]
-        [Route("list")]
-        public override async Task<IActionResult> Get([FromQuery] string columnToSort, SortType sortType, string searchString, int pageSize, int? pageNumber)
-        {
-            return await base.Get(columnToSort, sortType, searchString, pageSize, pageNumber);
-        }
-
         protected override SortOptions<News, object> SetColumnSorting(string columnToSort, SortType sortType)
         {
             SortOptions<News, object> sortOptions = new SortOptions<News, object>();

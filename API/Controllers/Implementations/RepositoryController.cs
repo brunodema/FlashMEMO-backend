@@ -29,7 +29,7 @@ namespace API.Controllers.Implementations
         }
         [HttpGet]
         [Route("list")]
-        public async virtual Task<IActionResult> Get([FromQuery] string columnToSort, SortType sortType, string searchString, int pageSize, int? pageNumber)
+        public async virtual Task<IActionResult> List([FromQuery] string columnToSort, SortType sortType, string searchString, int pageSize, int? pageNumber)
         {
             var sortOptions = SetColumnSorting(columnToSort, sortType);
             var predicate = SetFiltering(searchString);
