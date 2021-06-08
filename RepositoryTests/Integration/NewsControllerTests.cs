@@ -1,10 +1,12 @@
-﻿using Data.Models;
+﻿using API.ViewModels;
+using Data.Models;
 using Data.Models.Interfaces;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.TestHost;
 using Microsoft.Extensions.Hosting;
 using System;
 using System.Collections.Generic;
+using System.Net;
 using System.Net.Http;
 using System.Net.Http.Json;
 using System.Threading.Tasks;
@@ -57,21 +59,62 @@ namespace Tests.Integration
             var body = JsonContent.Create(entity);
 
             // Act
-            var response = await this._integrationTestFixture.HttpClient.PostAsync("/api/v1/News/create", body);
+            var response = await _integrationTestFixture.HttpClient.PostAsync(CreateEndpoint, body);
+            var parsedResponse = await response.Content.ReadFromJsonAsync<BaseResponseModel>();
 
             // Assert
-            var responseString = await response.Content.ReadAsStringAsync();
-            Assert.True(responseString == "This is a test");
+            Assert.True(response.StatusCode == HttpStatusCode.OK);
+            Assert.Null(parsedResponse.Errors);
+
+            // Undo
+            response = await _integrationTestFixture.HttpClient.PostAsync(DeleteEndpoint, body);
+            parsedResponse = await response.Content.ReadFromJsonAsync<BaseResponseModel>();
+            Assert.True(response.StatusCode == HttpStatusCode.OK);
+            Assert.Null(parsedResponse.Errors);
         }
 
         public void DeletesByIdSuccessfully(Guid guid)
         {
             throw new NotImplementedException();
         }
-
-        public void DeletesSuccessfully(INews entity)
+        public class DeletesSuccessfullyTestData
         {
-            throw new NotImplementedException();
+            public static IEnumerable<object[]> TestCases
+            {
+                get
+                {
+                    yield return new object[] {
+                        new News {
+                            NewsID = Guid.Parse("5CDA2C98-98D7-0341-0D7F-5F634136DBE3"),
+                            Title = "ut",
+                            Subtitle =  "ut lacus. Nulla tincidunt, neque vitae",
+                            ThumbnailPath = "assets/features/flashmemo_dummy3.jpg",
+                            Content = "nec luctus felis purus ac tellus. Suspendisse sed dolor. Fusce mi lorem, vehicula et, rutrum eu, ultrices sit amet, risus. Donec nibh enim, gravida sit amet, dapibus id, blandit at, nisi. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Proin vel nisl. Quisque fringilla euismod enim. Etiam gravida molestie arcu. Sed eu nibh vulputate mauris sagittis placerat. Cras dictum ultricies ligula. Nullam enim. Sed nulla ante, iaculis nec, eleifend non, dapibus rutrum, justo. Praesent luctus.",
+                            CreationDate = DateTime.Parse("2021-09-16 13:40:24"),
+                            LastUpdated = DateTime.Parse("2020-10-21 04:46:45")
+                        }
+                    };
+                }
+            }
+        }
+        [Theory]
+        [MemberData(nameof(DeletesSuccessfullyTestData.TestCases), MemberType = typeof(DeletesSuccessfullyTestData))]
+        public async void DeletesSuccessfully(INews entity)
+        {
+            // Arrange
+            var body = JsonContent.Create(entity);
+
+            // Act
+            var response = await _integrationTestFixture.HttpClient.PostAsync(DeleteEndpoint, body);
+            var parsedResponse = await response.Content.ReadFromJsonAsync<BaseResponseModel>();
+            Assert.True(response.StatusCode == HttpStatusCode.OK);
+            Assert.Null(parsedResponse.Errors);
+
+            // Undo
+            response = await _integrationTestFixture.HttpClient.PostAsync(CreateEndpoint, body);
+            parsedResponse = await response.Content.ReadFromJsonAsync<BaseResponseModel>();
+            Assert.True(response.StatusCode == HttpStatusCode.OK);
+            Assert.Null(parsedResponse.Errors);
         }
 
         public void FailsDeletionIfIdDoesNotExist(Guid guid)
