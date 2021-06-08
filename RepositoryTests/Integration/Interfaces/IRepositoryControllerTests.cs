@@ -2,13 +2,17 @@
 
 namespace Tests.Integration.Interfaces
 {
-    public interface IRepositoryControllerTests<TEntity> : 
-        IRepositoryControllerCreateTests<TEntity>, 
+    public interface IRepositoryControllerTests<TEntity> :
+        IRepositoryControllerCreateTests<TEntity>,
         IRepositoryControllerUpdateTests<TEntity>,
         IRepositoryControllerDeleteTests<TEntity>,
         IRepositoryControllerGetTests<TEntity>
     {
-
+        public string BaseEndpoint { get; set; }
+        public string CreateEndpoint { get; set; }
+        public string UpdateEndpoint { get; set; }
+        public string GetEndpoint { get; set; }
+        public string DeleteEndpoint { get; set; }
     }
     public interface IRepositoryControllerCreateTests<TEntity>
     {

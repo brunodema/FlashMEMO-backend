@@ -6,25 +6,26 @@ using System.Net.Http;
 
 namespace Tests.Integration.Fixtures
 {
-    public abstract class IntegrationTestFixture : IDisposable
+    public class IntegrationTestFixture : IDisposable
     {
-        protected IHost Host { get; set; }
-        protected HttpClient HttpClient { get; set; }
-        protected IntegrationTestFixture()
+        public IHost Host { get; set; }
+        public HttpClient HttpClient { get; set; }
+        public IHostBuilder HostBuilder { get; set; }
+        public IntegrationTestFixture()
         {
             // Arrange
-            var hostBuilder = new HostBuilder()
+            HostBuilder = new HostBuilder()
                 .ConfigureWebHost(webHost =>
                 {
                     webHost.UseTestServer();
                     webHost.UseStartup<TestStartup>();
                 });
-            ConfigureInternals(hostBuilder);
+            ConfigureInternals();
         }
 
-        protected async void ConfigureInternals(IHostBuilder hostBuilder)
+        public async void ConfigureInternals()
         {
-            Host = await hostBuilder.StartAsync();
+            Host = await HostBuilder.StartAsync();
             HttpClient = Host.GetTestClient();
         }
 
