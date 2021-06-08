@@ -26,7 +26,7 @@ namespace Business.Services
         public async virtual Task CreateAsync(TEntity entity, object[] auxParams = null) // to cover the 'CreateUserAsync' case (requires password)
         {
             var validationResult = CheckIfEntityIsValid(entity);
-            if (validationResult.IsValid)
+            if (!validationResult.IsValid)
             {
                 throw new ServiceValidationException { Errors = validationResult.Errors };
             }
