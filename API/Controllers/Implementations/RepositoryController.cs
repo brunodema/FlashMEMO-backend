@@ -27,6 +27,9 @@ namespace API.Controllers.Implementations
         {
             _repositoryService = repositoryService;
         }
+        protected abstract SortOptions<TEntity, object> SetColumnSorting(string columnToSort, SortType sortType);
+        protected abstract Expression<Func<TEntity, bool>> SetFiltering(string searchString);
+
         [HttpGet]
         [Route("list")]
         public async virtual Task<IActionResult> List([FromQuery] string columnToSort, SortType sortType, string searchString, int pageSize, int? pageNumber)
@@ -34,12 +37,17 @@ namespace API.Controllers.Implementations
             var sortOptions = SetColumnSorting(columnToSort, sortType);
             var predicate = SetFiltering(searchString);
 
-            var news = await _repositoryService.GetAsync(predicate, sortOptions, 10000);
-            return Ok(new PaginatedListResponse<TEntity> { Status = "Sucess", Data = PaginatedList<TEntity>.CreateAsync(news, pageNumber ?? 1, pageSize) });
+            var data = await _repositoryService.GetAsync(predicate, sortOptions, 10000);
+            return Ok(new PaginatedListResponse<TEntity> { Status = "Sucess", Data = PaginatedList<TEntity>.CreateAsync(data, pageNumber ?? 1, pageSize) });
         }
 
-        protected abstract SortOptions<TEntity, object> SetColumnSorting(string columnToSort, SortType sortType);
-        protected abstract Expression<Func<TEntity, bool>> SetFiltering(string searchString);
+        [HttpGet]
+        [Route("get")]
+        public async virtual Task<IActionResult> Get(Guid guid)
+        {
+            var data = await _repositoryService.GetbyIdAsync(guid);
+            return Ok(new PaginatedListResponse<TEntity> { Status = "Sucess", Data = PaginatedList<TEntity>.CreateAsync(new List<TEntity> { data }, 1, 1) });
+        }
 
         [HttpPost]
         [Route("create")]

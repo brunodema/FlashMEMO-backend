@@ -118,7 +118,12 @@ namespace API
                 };
             });
             // database configuration
-            services.AddDbContext<FlashMEMOContext>(options => options.UseNpgsql(Configuration.GetConnectionString("Postgres"), options => options.MigrationsAssembly("API")));
+            services.AddDbContext<FlashMEMOContext>(o =>
+            {
+                o.UseNpgsql(Configuration.GetConnectionString("Postgres"), options => options
+                    .MigrationsAssembly("API")
+                    .EnableRetryOnFailure(5));
+            });
             // options configuration
             services.Configure<JWTServiceOptions>(Configuration.GetSection("JWT"));
             services.Configure<BaseRepositoryServiceOptions>(Configuration.GetSection("BaseRepositoryServiceOptions"));
