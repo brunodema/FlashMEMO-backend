@@ -60,6 +60,11 @@ namespace Data.Repository
             _dbset.Update(entity);
             await SaveChangesAsync();
         }
+        public virtual async Task RemoveByIdAsync(Guid guid)
+        {
+            _dbset.Remove(await _dbset.FindAsync(guid));
+            await SaveChangesAsync();
+        }
         public virtual async Task RemoveAsync(TEntity entity)
         {
             _dbset.Remove(entity);

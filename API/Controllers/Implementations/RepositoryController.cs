@@ -37,7 +37,7 @@ namespace API.Controllers.Implementations
             var sortOptions = SetColumnSorting(columnToSort, sortType);
             var predicate = SetFiltering(searchString);
 
-            var data = await _repositoryService.GetAsync(predicate, sortOptions, 10000);
+            var data = await _repositoryService.GetAsync(predicate, sortOptions);
             return Ok(new PaginatedListResponse<TEntity> { Status = "Sucess", Data = PaginatedList<TEntity>.CreateAsync(data, pageNumber ?? 1, pageSize) });
         }
 

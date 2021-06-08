@@ -44,6 +44,10 @@ namespace Business.Services
         {
             return await _baseRepository.SearchAndOrderAsync(predicate, sortOptions, numRecords);
         }
+        public async virtual Task RemoveByIdAsync(Guid guid)
+        {
+            await _baseRepository.RemoveByIdAsync(guid);
+        }
         public async virtual Task RemoveAsync(TEntity entity)
         {
             await _baseRepository.RemoveAsync(entity);
