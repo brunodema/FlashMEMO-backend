@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Data.Repository.Interfaces;
+using System;
 
 namespace Tests.Integration.Interfaces
 {
@@ -7,7 +8,9 @@ namespace Tests.Integration.Interfaces
         IRepositoryControllerUpdateTests<TEntity>,
         IRepositoryControllerDeleteTests<TEntity>,
         IRepositoryControllerGetTests<TEntity>
+        where TEntity : class
     {
+        public IBaseRepository<TEntity> BaseRepository { get; set; }
         public string BaseEndpoint { get; set; }
         public string CreateEndpoint { get; set; }
         public string UpdateEndpoint { get; set; }

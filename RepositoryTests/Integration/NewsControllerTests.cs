@@ -1,8 +1,11 @@
 ﻿using API.ViewModels;
 using Data.Models;
 using Data.Models.Interfaces;
+using Data.Repository;
+using Data.Repository.Interfaces;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.TestHost;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System;
 using System.Collections.Generic;
@@ -16,7 +19,7 @@ using Xunit;
 
 namespace Tests.Integration
 {
-    public class NewsControllerTests : IClassFixture<IntegrationTestFixture>, IRepositoryControllerTests<INews>
+    public class NewsControllerTests : IClassFixture<IntegrationTestFixture>, IRepositoryControllerTests<News>
     {
         private readonly IntegrationTestFixture _integrationTestFixture;
         public string BaseEndpoint { get; set; } = "api/v1/news";
@@ -24,6 +27,7 @@ namespace Tests.Integration
         public string UpdateEndpoint { get; set; }
         public string GetEndpoint { get; set; }
         public string DeleteEndpoint { get; set; }
+        public IBaseRepository<News> BaseRepository { get; set; }
 
         public NewsControllerTests(IntegrationTestFixture integrationTestFixture)
         {
@@ -32,6 +36,9 @@ namespace Tests.Integration
             UpdateEndpoint = $"{BaseEndpoint}/update";
             GetEndpoint = $"{BaseEndpoint}/get";
             DeleteEndpoint = $"{BaseEndpoint}/delete";
+
+            BaseRepository = (NewsRepository)this._integrationTestFixture.Host.Services.GetService(typeof(NewsRepository));
+
         }
         public class CreatesSuccessfullyTestData
         {
@@ -41,6 +48,7 @@ namespace Tests.Integration
                 {
                     yield return new object[] {
                         new News {
+                            NewsID = Guid.NewGuid(),
                             Title = "Test News",
                             Subtitle = "This is a test news",
                             Content = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Vel fringilla est ullamcorper eget nulla facilisi etiam dignissim. Orci sagittis eu volutpat odio facilisis mauris sit amet massa. Tincidunt vitae semper quis lectus nulla. Accumsan tortor posuere ac ut consequat semper viverra. Dictum non consectetur a erat. Tellus molestie nunc non blandit massa enim. Mauris a diam maecenas sed. Viverra aliquet eget sit amet tellus cras. A pellentesque sit amet porttitor eget.",
@@ -53,7 +61,7 @@ namespace Tests.Integration
         }
         [Theory]
         [MemberData(nameof(CreatesSuccessfullyTestData.TestCases), MemberType = typeof(CreatesSuccessfullyTestData))]
-        public async void CreatesSuccessfully(INews entity)
+        public async void CreatesSuccessfully(News entity)
         {
             // Arrange
             var body = JsonContent.Create(entity);
@@ -65,6 +73,8 @@ namespace Tests.Integration
             // Assert
             Assert.True(response.StatusCode == HttpStatusCode.OK);
             Assert.Null(parsedResponse.Errors);
+
+            var a = await BaseRepository.GetByIdAsync(entity.NewsID);
 
             // Undo
             response = await _integrationTestFixture.HttpClient.PostAsync(DeleteEndpoint, body);
@@ -99,7 +109,7 @@ namespace Tests.Integration
         }
         [Theory]
         [MemberData(nameof(DeletesSuccessfullyTestData.TestCases), MemberType = typeof(DeletesSuccessfullyTestData))]
-        public async void DeletesSuccessfully(INews entity)
+        public async void DeletesSuccessfully(News entity)
         {
             // Arrange
             var body = JsonContent.Create(entity);
@@ -137,17 +147,17 @@ namespace Tests.Integration
             throw new NotImplementedException();
         }
 
-        public void ReportsValidationErrorsWhenCreating(INews entity, string[] expectedErrors)
+        public void ReportsValidationErrorsWhenCreating(News entity, string[] expectedErrors)
         {
             throw new NotImplementedException();
         }
 
-        public void ReportsValidationErrorsWhenUpdating(INews entity, string[] expectedErrors)
+        public void ReportsValidationErrorsWhenUpdating(News entity, string[] expectedErrors)
         {
             throw new NotImplementedException();
         }
 
-        public void UpdatesSuccessfully(INews entity)
+        public void UpdatesSuccessfully(News entity)
         {
             throw new NotImplementedException();
         }
