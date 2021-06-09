@@ -82,37 +82,25 @@ namespace Tests.Integration
             Assert.True(response.StatusCode == HttpStatusCode.OK);
             Assert.Null(parsedResponse.Errors);
         }
-
-        public void DeletesByIdSuccessfully(Guid guid)
-        {
-            throw new NotImplementedException();
-        }
-        public class DeletesSuccessfullyTestData
+        public class DeletesByIdSuccessfullyTestData
         {
             public static IEnumerable<object[]> TestCases
             {
                 get
                 {
                     yield return new object[] {
-                        new News {
-                            NewsID = Guid.Parse("5CDA2C98-98D7-0341-0D7F-5F634136DBE3"),
-                            Title = "ut",
-                            Subtitle =  "ut lacus. Nulla tincidunt, neque vitae",
-                            ThumbnailPath = "assets/features/flashmemo_dummy3.jpg",
-                            Content = "nec luctus felis purus ac tellus. Suspendisse sed dolor. Fusce mi lorem, vehicula et, rutrum eu, ultrices sit amet, risus. Donec nibh enim, gravida sit amet, dapibus id, blandit at, nisi. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Proin vel nisl. Quisque fringilla euismod enim. Etiam gravida molestie arcu. Sed eu nibh vulputate mauris sagittis placerat. Cras dictum ultricies ligula. Nullam enim. Sed nulla ante, iaculis nec, eleifend non, dapibus rutrum, justo. Praesent luctus.",
-                            CreationDate = DateTime.Parse("2021-09-16 13:40:24"),
-                            LastUpdated = DateTime.Parse("2020-10-21 04:46:45")
-                        }
+                        new Guid("5CDA2C98-98D7-0341-0D7F-5F634136DBE3")
                     };
                 }
             }
         }
         [Theory]
-        [MemberData(nameof(DeletesSuccessfullyTestData.TestCases), MemberType = typeof(DeletesSuccessfullyTestData))]
-        public async void DeletesSuccessfully(News entity)
+        [MemberData(nameof(DeletesByIdSuccessfullyTestData.TestCases), MemberType = typeof(DeletesByIdSuccessfullyTestData))]
+        public async void DeletesByIdSuccessfully(Guid id)
         {
             // Arrange
-            var body = JsonContent.Create(entity.NewsID);
+            var entity = await BaseRepository.GetByIdAsync(id);
+            var body = JsonContent.Create(id);
 
             // Act
             var response = await _integrationTestFixture.HttpClient.PostAsync(DeleteEndpoint, body);

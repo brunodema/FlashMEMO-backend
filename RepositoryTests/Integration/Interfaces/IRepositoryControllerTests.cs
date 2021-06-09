@@ -6,7 +6,7 @@ namespace Tests.Integration.Interfaces
     public interface IRepositoryControllerTests<TEntity, TKey> :
         IRepositoryControllerCreateTests<TEntity>,
         IRepositoryControllerUpdateTests<TEntity>,
-        IRepositoryControllerDeleteTests<TEntity>,
+        IRepositoryControllerDeleteTests<TEntity, TKey>,
         IRepositoryControllerGetTests<TEntity>
         where TEntity : class
     {
@@ -27,11 +27,10 @@ namespace Tests.Integration.Interfaces
         void UpdatesSuccessfully(TEntity entity);
         void ReportsValidationErrorsWhenUpdating(TEntity entity, string[] expectedErrors);
     }
-    public interface IRepositoryControllerDeleteTests<TEntity>
+    public interface IRepositoryControllerDeleteTests<TEntity, TKey>
     {
-        void DeletesSuccessfully(TEntity entity);
-        void DeletesByIdSuccessfully(Guid guid);
-        void FailsDeletionIfIdDoesNotExist(Guid guid);
+        void DeletesByIdSuccessfully(TKey id);
+        void FailsDeletionIfIdDoesNotExist(TKey id);
     }
     public interface IRepositoryControllerGetTests<TEntity>
     {
