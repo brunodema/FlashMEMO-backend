@@ -20,6 +20,8 @@ using System.Linq;
 using System.Text;
 using Data.Seeder;
 using Business.Services.Interfaces;
+using Microsoft.AspNetCore.Diagnostics;
+using Microsoft.AspNetCore.Http;
 
 namespace API
 {
@@ -147,6 +149,15 @@ namespace API
             }
 
             app.UseHttpsRedirection();
+
+            app.UseExceptionHandler(c => c.Run(async context =>
+            {
+                var exception = context.Features
+                    .Get<IExceptionHandlerPathFeature>()
+                    .Error;
+                var response = new BaseResponseModel { Status = "Internal Error", Message = exception.Message };
+                await context.Response.WriteAsJsonAsync(response);
+            }));
 
             app.UseRouting();
 

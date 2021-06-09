@@ -9,6 +9,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Json;
@@ -105,6 +106,8 @@ namespace Tests.Integration
             // Act
             var response = await _integrationTestFixture.HttpClient.PostAsync(DeleteEndpoint, body);
             var parsedResponse = await response.Content.ReadFromJsonAsync<BaseResponseModel>();
+
+            // Assert
             Assert.True(response.StatusCode == HttpStatusCode.OK);
             Assert.Null(parsedResponse.Errors);
 
@@ -114,10 +117,32 @@ namespace Tests.Integration
             Assert.True(response.StatusCode == HttpStatusCode.OK);
             Assert.Null(parsedResponse.Errors);
         }
-
-        public void FailsDeletionIfIdDoesNotExist(Guid guid)
+        public class FailsDeletionIfIdDoesNotExistTestData
         {
-            throw new NotImplementedException();
+            public static IEnumerable<object[]> TestCases
+            {
+                get
+                {
+                    yield return new object[] {
+                        new Guid("00000000-0000-0000-0000-000000000000")
+                    };
+                }
+            }
+        }
+        [Theory]
+        [MemberData(nameof(FailsDeletionIfIdDoesNotExistTestData.TestCases), MemberType = typeof(FailsDeletionIfIdDoesNotExistTestData))]
+        public async void FailsDeletionIfIdDoesNotExist(Guid id)
+        {
+            // Arrange
+            var body = JsonContent.Create(id);
+
+            // Act
+            var response = await _integrationTestFixture.HttpClient.PostAsync(DeleteEndpoint, body);
+            var parsedResponse = await response.Content.ReadFromJsonAsync<BaseResponseModel>();
+
+            // Assert
+            Assert.True(response.StatusCode == HttpStatusCode.InternalServerError);
+            Assert.NotNull(parsedResponse.Message);
         }
 
         public void GetsAllRecordsSuccessfully(int expectedNumberOfRecords)
