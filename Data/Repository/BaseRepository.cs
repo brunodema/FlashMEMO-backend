@@ -50,7 +50,7 @@ namespace Data.Repository
             return await _dbset.FindAsync(id);
         }
         // CRUD
-        public virtual async Task CreateAsync(TEntity entity)
+        public virtual async Task CreateAsync(TEntity entity, object[] extraParams = null)
         {
             _dbset.Add(entity);
             await SaveChangesAsync();

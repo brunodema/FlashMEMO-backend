@@ -48,9 +48,9 @@ namespace Data.Repository
         }
         // CRUD
         // Note: this is the intended method when creating a user, since this 'override' uses the 'UserManager' instead of context.
-        public async Task<IdentityResult> CreateUserAsync(ApplicationUser entity, string encryptedPassword)
+        public override async Task<IdentityResult> CreateAsync(ApplicationUser entity, object[] extraParams)
         {
-            return await _userManager.CreateAsync(entity, encryptedPassword);
+            return await _userManager.CreateAsync(entity, (string)extraParams[0]);
         }
         public override async Task<IdentityResult> UpdateAsync(ApplicationUser entity)
         {

@@ -16,7 +16,7 @@ namespace Data.Repository.Interfaces
         public Task<ICollection<TEntity>> GetAllAsync();
         public Task<TEntity> GetByIdAsync(Guid id);
         // CRUD
-        public Task CreateAsync(TEntity entity);
+        public Task CreateAsync(TEntity entity, params object[] extraParams);
         public Task UpdateAsync(TEntity entity);
         public Task RemoveByIdAsync(Guid guid);
         public Task RemoveAsync(TEntity entity);

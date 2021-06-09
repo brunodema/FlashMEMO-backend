@@ -92,7 +92,7 @@ namespace RepositoryTests
             };
 
             // Act
-            await this._repositoryFixture._repository.CreateUserAsync(dummyUser, "Dummy@123");
+            await this._repositoryFixture._repository.CreateAsync(dummyUser, new object[] { "Dummy@123" });
 
             // Assert
             var newNumRows = this._repositoryFixture._repository.GetAllAsync().Result.Count;

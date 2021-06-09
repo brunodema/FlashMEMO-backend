@@ -132,7 +132,6 @@ namespace API
             services.AddScoped<IAuthService, AuthService>();
             services.AddScoped<NewsService>();
             services.AddScoped<ApplicationUserRepository>();
-            services.AddScoped<IAuthRepository, AuthRepository>();
             services.AddScoped<RoleRepository>();
             services.AddScoped<NewsRepository>();
         }

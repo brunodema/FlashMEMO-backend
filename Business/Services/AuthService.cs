@@ -16,12 +16,14 @@ namespace Business.Services
     public class AuthService : IAuthService
     {
         private readonly IAuthServiceOptions _options;
-        private readonly IAuthRepository _authRepository;
+        private readonly ApplicationUserRepository _applicationUserRepository;
+        private readonly RoleRepository _roleRepository;
 
-        public AuthService(IOptions<AuthServiceOptions> options, IAuthRepository authRepository)
+        public AuthService(IOptions<AuthServiceOptions> options, ApplicationUserRepository applicationUserRepository, RoleRepository roleRepository)
         {
             _options = options.Value;
-            _authRepository = authRepository;
+            _applicationUserRepository = applicationUserRepository;
+            _roleRepository = roleRepository;
         }
 
         public async Task<bool> AreCredentialsValidAsync(ICredentials credentials)
@@ -36,17 +38,17 @@ namespace Business.Services
 
         public async Task<IdentityResult> CreateUserAsync(ApplicationUser user, string cleanPassword)
         {
-            return await _authRepository.CreateAsync(user, cleanPassword);
+            return await _applicationUserRepository.CreateAsync(user, new object[] { cleanPassword });
         }
 
         public async Task<bool> UserAlreadyExistsAsync(string email)
         {
-            return (await _authRepository.SearchFirstAsync(u => u.Email == email)) != null;
+            return (await _applicationUserRepository.SearchFirstAsync(u => u.Email == email)) != null;
         }
         public async Task<bool> GetUserByEmailAndCheckCredentialsAsync(ICredentials credentials)
         {
-            var user = await _authRepository.SearchFirstAsync(u => u.Email == credentials.Email);
-            return await _authRepository.CheckPasswordAsync(user, credentials.PasswordHash);
+            var user = await _applicationUserRepository.SearchFirstAsync(u => u.Email == credentials.Email);
+            return await _applicationUserRepository.CheckPasswordAsync(user, credentials.PasswordHash);
         }
     }
 }
