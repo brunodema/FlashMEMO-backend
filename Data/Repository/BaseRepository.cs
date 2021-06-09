@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Data.Repository
 {
-    public abstract class BaseRepository<TEntity, DatabaseContext> : IBaseRepository<TEntity>
+    public abstract class BaseRepository<TEntity, TKey, DatabaseContext> : IBaseRepository<TEntity, TKey>
         where TEntity : class
         where DatabaseContext : DbContext
     {
@@ -45,7 +45,7 @@ namespace Data.Repository
         {
             return await _dbset.ToListAsync();
         }
-        public virtual async Task<TEntity> GetByIdAsync(Guid id)
+        public virtual async Task<TEntity> GetByIdAsync(TKey id)
         {
             return await _dbset.FindAsync(id);
         }
@@ -60,7 +60,7 @@ namespace Data.Repository
             _dbset.Update(entity);
             await SaveChangesAsync();
         }
-        public virtual async Task RemoveByIdAsync(Guid guid)
+        public virtual async Task RemoveByIdAsync(TKey guid)
         {
             _dbset.Remove(await _dbset.FindAsync(guid));
             await SaveChangesAsync();

@@ -104,7 +104,7 @@ namespace RepositoryTests
         {
             // Arrange
             var numRows = this._repositoryFixture._repository.GetAllAsync().Result.Count;
-            var dummyUser = await this._repositoryFixture._repository.GetByIdAsync(Guid.Parse("e7edd329-b0bd-4820-9df4-c13c8aab3577"));
+            var dummyUser = await this._repositoryFixture._repository.GetByIdAsync("e7edd329-b0bd-4820-9df4-c13c8aab3577");
 
             dummyUser.Email = "newemail@email.com";
             dummyUser.UserName = "newdummy";
@@ -114,7 +114,7 @@ namespace RepositoryTests
 
             // Assert
             var newNumRows = this._repositoryFixture._repository.GetAllAsync().Result.Count;
-            var queryResult = await this._repositoryFixture._repository.GetByIdAsync(Guid.Parse("e7edd329-b0bd-4820-9df4-c13c8aab3577"));
+            var queryResult = await this._repositoryFixture._repository.GetByIdAsync("e7edd329-b0bd-4820-9df4-c13c8aab3577");
             Assert.NotNull(queryResult);
             Assert.True(queryResult.Email == "newemail@email.com", "Object property does not match the new updated value");
             Assert.True(queryResult.UserName == "newdummy", "Object property does not match the new updated value");
@@ -125,10 +125,10 @@ namespace RepositoryTests
         {
             // Arrange
             var numRows = this._repositoryFixture._repository.GetAllAsync().Result.Count;
-            var dummyUser = await this._repositoryFixture._repository.GetByIdAsync(Guid.Parse("858b3287-5972-4069-bf75-a650453dfef7"));
+            var dummyUser = await this._repositoryFixture._repository.GetByIdAsync("858b3287-5972-4069-bf75-a650453dfef7");
 
             // Act
-            await this._repositoryFixture._repository.RemoveByIdAsync(Guid.Parse(dummyUser.Id));
+            await this._repositoryFixture._repository.RemoveByIdAsync(dummyUser.Id);
 
             // Assert
             var newNumRows = this._repositoryFixture._repository.GetAllAsync().Result.Count;
@@ -140,8 +140,8 @@ namespace RepositoryTests
         {
             // Arrange
             // Act
-            var dummyUser1 = await this._repositoryFixture._repository.GetByIdAsync(Guid.Parse("858b3287-5972-4069-bf75-a650453dfef7"));
-            var dummyUser2 = await this._repositoryFixture._repository.GetByIdAsync(Guid.Parse("0d88212f-5d1e-45ab-877a-03d1b0b961ce")); // invalid GUID
+            var dummyUser1 = await this._repositoryFixture._repository.GetByIdAsync("858b3287-5972-4069-bf75-a650453dfef7");
+            var dummyUser2 = await this._repositoryFixture._repository.GetByIdAsync("0d88212f-5d1e-45ab-877a-03d1b0b961ce"); // invalid GUID
 
             // Assert
             Assert.NotNull(dummyUser1);

@@ -14,7 +14,7 @@ namespace API.Controllers
     [ApiController]
     [ApiVersion("1.0")]
     [Route("api/v{version:apiVersion}/[controller]")]
-    public class NewsController : RepositoryController<News>
+    public class NewsController : RepositoryController<News, Guid>
     {
         private readonly NewsService _newsService;
 

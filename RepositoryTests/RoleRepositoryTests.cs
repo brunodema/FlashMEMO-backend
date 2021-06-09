@@ -93,7 +93,7 @@ namespace RepositoryTests
         {
             // Arrange
             var numRows = this._repositoryFixture._repository.GetAllAsync().Result.Count;
-            var dummyRole = await this._repositoryFixture._repository.GetByIdAsync(Guid.Parse(TestGUID.GUID1));
+            var dummyRole = await this._repositoryFixture._repository.GetByIdAsync(TestGUID.GUID1);
 
             dummyRole.Name = "altered_name";
 
@@ -102,7 +102,7 @@ namespace RepositoryTests
 
             // Assert
             var newNumRows = this._repositoryFixture._repository.GetAllAsync().Result.Count;
-            var queryResult = await this._repositoryFixture._repository.GetByIdAsync(Guid.Parse(TestGUID.GUID1));
+            var queryResult = await this._repositoryFixture._repository.GetByIdAsync(TestGUID.GUID1);
             Assert.NotNull(queryResult);
             Assert.True(queryResult.Name == "altered_name", "Object property does not match the new updated value");
             Assert.True(newNumRows == numRows, $"Number of rows did not stay the same with the update ({newNumRows} != {numRows})");
@@ -112,10 +112,10 @@ namespace RepositoryTests
         {
             // Arrange
             var numRows = this._repositoryFixture._repository.GetAllAsync().Result.Count;
-            var dummyRole = await this._repositoryFixture._repository.GetByIdAsync(Guid.Parse(TestGUID.GUID2));
+            var dummyRole = await this._repositoryFixture._repository.GetByIdAsync(TestGUID.GUID2);
 
             // Act
-            await this._repositoryFixture._repository.RemoveByIdAsync(Guid.Parse(dummyRole.Id));
+            await this._repositoryFixture._repository.RemoveByIdAsync(dummyRole.Id);
 
             // Assert
             var newNumRows = this._repositoryFixture._repository.GetAllAsync().Result.Count;
@@ -127,8 +127,8 @@ namespace RepositoryTests
         {
             // Arrange
             // Act
-            var dummyRole1 = await this._repositoryFixture._repository.GetByIdAsync(Guid.Parse(TestGUID.GUID1));
-            var dummyRole2 = await this._repositoryFixture._repository.GetByIdAsync(Guid.Parse(TestGUID.GUID5)); // invalid GUID
+            var dummyRole1 = await this._repositoryFixture._repository.GetByIdAsync(TestGUID.GUID1);
+            var dummyRole2 = await this._repositoryFixture._repository.GetByIdAsync(TestGUID.GUID5); // invalid GUID
 
             // Assert
             Assert.NotNull(dummyRole1);

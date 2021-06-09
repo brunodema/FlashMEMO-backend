@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace Data.Repository
 {
-    public class ApplicationUserRepository : BaseRepository<ApplicationUser, FlashMEMOContext>
+    public class ApplicationUserRepository : BaseRepository<ApplicationUser, string, FlashMEMOContext>
     {
         private readonly UserManager<ApplicationUser> _userManager;
         public ApplicationUserRepository(FlashMEMOContext context, UserManager<ApplicationUser> userManager) : base(context)
@@ -42,7 +42,7 @@ namespace Data.Repository
         {
             return await _userManager.Users.ToListAsync();
         }
-        public override async Task<ApplicationUser> GetByIdAsync(Guid id)
+        public override async Task<ApplicationUser> GetByIdAsync(string id)
         {
             return await _userManager.FindByIdAsync(id.ToString());
         }

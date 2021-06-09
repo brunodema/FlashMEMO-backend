@@ -11,7 +11,7 @@ using Data.Context;
 
 namespace Data.Repository
 {
-    public class RoleRepository : BaseRepository<ApplicationRole, FlashMEMOContext>
+    public class RoleRepository : BaseRepository<ApplicationRole, string, FlashMEMOContext>
     {
         private readonly RoleManager<ApplicationRole> _roleManager;
         public RoleRepository(FlashMEMOContext context, RoleManager<ApplicationRole> roleManager) : base(context)
@@ -43,7 +43,7 @@ namespace Data.Repository
         {
             return await _roleManager.Roles.ToListAsync();
         }
-        public override async Task<ApplicationRole> GetByIdAsync(Guid id)
+        public override async Task<ApplicationRole> GetByIdAsync(string id)
         {
             return await _roleManager.FindByIdAsync(id.ToString());
         }

@@ -18,12 +18,12 @@ using System.Threading.Tasks;
 
 namespace API.Controllers.Implementations
 {
-    public abstract class RepositoryController<TEntity> : ControllerBase
+    public abstract class RepositoryController<TEntity, TKey> : ControllerBase
         where TEntity : class
     {
-        private readonly IBaseRepositoryService<TEntity> _repositoryService;
+        private readonly IBaseRepositoryService<TEntity, TKey> _repositoryService;
 
-        protected RepositoryController(IBaseRepositoryService<TEntity> repositoryService)
+        protected RepositoryController(IBaseRepositoryService<TEntity, TKey> repositoryService)
         {
             _repositoryService = repositoryService;
         }
@@ -43,7 +43,7 @@ namespace API.Controllers.Implementations
 
         [HttpGet]
         [Route("get")]
-        public async virtual Task<IActionResult> Get([FromBody] Guid id)
+        public async virtual Task<IActionResult> Get([FromBody] TKey id)
         {
             var data = await _repositoryService.GetbyIdAsync(id);
             return Ok(new PaginatedListResponse<TEntity> { Status = "Sucess", Data = PaginatedList<TEntity>.CreateAsync(new List<TEntity> { data }, 1, 1) });
@@ -77,7 +77,7 @@ namespace API.Controllers.Implementations
 
         [HttpPost]
         [Route("delete")]
-        public async virtual Task<IActionResult> Delete([FromBody] Guid id)
+        public async virtual Task<IActionResult> Delete([FromBody] TKey id)
         {
             await _repositoryService.RemoveByIdAsync(id);
             return Ok(new BaseResponseModel { Status = "Success", Message = $"Object deleted successfully." });

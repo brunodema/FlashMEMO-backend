@@ -12,8 +12,8 @@ using Business.Services.Interfaces;
 
 namespace Business.Services
 {
-    public abstract class BaseRepositoryService<TRepositoryType, TEntity> : IBaseRepositoryService<TEntity>
-        where TRepositoryType : BaseRepository<TEntity, FlashMEMOContext>
+    public abstract class BaseRepositoryService<TRepositoryType, TKey, TEntity> : IBaseRepositoryService<TEntity, TKey>
+        where TRepositoryType : BaseRepository<TEntity, TKey, FlashMEMOContext>
         where TEntity : class
     {
         private readonly TRepositoryType _baseRepository;
@@ -36,7 +36,7 @@ namespace Business.Services
         {
             await _baseRepository.UpdateAsync(entity);
         }
-        public async virtual Task<TEntity> GetbyIdAsync(Guid id)
+        public async virtual Task<TEntity> GetbyIdAsync(TKey id)
         {
             return await _baseRepository.GetByIdAsync(id);
         }
@@ -44,7 +44,7 @@ namespace Business.Services
         {
             return await _baseRepository.SearchAndOrderAsync(predicate, sortOptions, numRecords);
         }
-        public async virtual Task RemoveByIdAsync(Guid guid)
+        public async virtual Task RemoveByIdAsync(TKey guid)
         {
             await _baseRepository.RemoveByIdAsync(guid);
         }
@@ -56,7 +56,7 @@ namespace Business.Services
         public int PageSize { get; set; } = 10;
     }
 
-    public class NewsService : BaseRepositoryService<NewsRepository, News>
+    public class NewsService : BaseRepositoryService<NewsRepository, Guid, News>
     {
         public NewsService(NewsRepository baseRepository, IOptions<BaseRepositoryServiceOptions> serviceOptions) : base(baseRepository, serviceOptions.Value) { }
         public override ValidatonResult CheckIfEntityIsValid(News entity)

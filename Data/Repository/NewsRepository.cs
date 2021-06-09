@@ -8,7 +8,7 @@ using Data.Context;
 
 namespace Data.Repository
 {
-    public class NewsRepository : BaseRepository<News, FlashMEMOContext>
+    public class NewsRepository : BaseRepository<News, Guid, FlashMEMOContext>
     {
         public NewsRepository(FlashMEMOContext context) : base(context) { }
 

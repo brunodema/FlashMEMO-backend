@@ -19,7 +19,7 @@ using Xunit;
 
 namespace Tests.Integration
 {
-    public class NewsControllerTests : IClassFixture<IntegrationTestFixture>, IRepositoryControllerTests<News>
+    public class NewsControllerTests : IClassFixture<IntegrationTestFixture>, IRepositoryControllerTests<News, Guid>
     {
         private readonly IntegrationTestFixture _integrationTestFixture;
         public string BaseEndpoint { get; set; } = "api/v1/news";
@@ -27,7 +27,7 @@ namespace Tests.Integration
         public string UpdateEndpoint { get; set; }
         public string GetEndpoint { get; set; }
         public string DeleteEndpoint { get; set; }
-        public IBaseRepository<News> BaseRepository { get; set; }
+        public IBaseRepository<News, Guid> BaseRepository { get; set; }
 
         public NewsControllerTests(IntegrationTestFixture integrationTestFixture)
         {

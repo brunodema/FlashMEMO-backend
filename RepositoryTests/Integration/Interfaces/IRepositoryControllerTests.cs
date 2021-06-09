@@ -3,14 +3,14 @@ using System;
 
 namespace Tests.Integration.Interfaces
 {
-    public interface IRepositoryControllerTests<TEntity> :
+    public interface IRepositoryControllerTests<TEntity, TKey> :
         IRepositoryControllerCreateTests<TEntity>,
         IRepositoryControllerUpdateTests<TEntity>,
         IRepositoryControllerDeleteTests<TEntity>,
         IRepositoryControllerGetTests<TEntity>
         where TEntity : class
     {
-        public IBaseRepository<TEntity> BaseRepository { get; set; }
+        public IBaseRepository<TEntity, TKey> BaseRepository { get; set; }
         public string BaseEndpoint { get; set; }
         public string CreateEndpoint { get; set; }
         public string UpdateEndpoint { get; set; }

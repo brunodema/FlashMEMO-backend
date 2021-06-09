@@ -156,7 +156,7 @@ namespace RepositoryTests
             {
                 // Arrange
                 var numRows = _authRepositoryFixture._applicationUserRepository.GetAllAsync().Result.Count;
-                var dummyUser = await _authRepositoryFixture._applicationUserRepository.GetByIdAsync(Guid.Parse(UserTestGUID.GUID2));
+                var dummyUser = await _authRepositoryFixture._applicationUserRepository.GetByIdAsync(UserTestGUID.GUID2);
 
                 dummyUser.UserName = "newdummy";
 
@@ -165,7 +165,7 @@ namespace RepositoryTests
 
                 // Assert
                 var newNumRows = _authRepositoryFixture._applicationUserRepository.GetAllAsync().Result.Count;
-                var queryResult = await _authRepositoryFixture._applicationUserRepository.GetByIdAsync(Guid.Parse(UserTestGUID.GUID2));
+                var queryResult = await _authRepositoryFixture._applicationUserRepository.GetByIdAsync(UserTestGUID.GUID2);
                 Assert.NotNull(queryResult);
                 Assert.True(queryResult.UserName == "newdummy", "Object property does not match the new updated value");
                 Assert.True(newNumRows == numRows, $"Number of rows did not stay the same with the update ({newNumRows} != {numRows})");
@@ -175,10 +175,10 @@ namespace RepositoryTests
             {
                 // Arrange
                 var numRows = _authRepositoryFixture._applicationUserRepository.GetAllAsync().Result.Count;
-                var dummyUser = await _authRepositoryFixture._applicationUserRepository.GetByIdAsync(Guid.Parse(UserTestGUID.GUID1));
+                var dummyUser = await _authRepositoryFixture._applicationUserRepository.GetByIdAsync(UserTestGUID.GUID1);
 
                 // Act
-                await _authRepositoryFixture._applicationUserRepository.RemoveByIdAsync(Guid.Parse(dummyUser.Id));
+                await _authRepositoryFixture._applicationUserRepository.RemoveByIdAsync(dummyUser.Id);
 
                 // Assert
                 var newNumRows = _authRepositoryFixture._applicationUserRepository.GetAllAsync().Result.Count;
@@ -190,8 +190,8 @@ namespace RepositoryTests
             {
                 // Arrange
                 // Act
-                var dummyUser1 = await _authRepositoryFixture._applicationUserRepository.GetByIdAsync(Guid.Parse(UserTestGUID.GUID1));
-                var dummyUser2 = await _authRepositoryFixture._applicationUserRepository.GetByIdAsync(Guid.Parse(UserTestGUID.GUID5)); // invalid GUID
+                var dummyUser1 = await _authRepositoryFixture._applicationUserRepository.GetByIdAsync(UserTestGUID.GUID1);
+                var dummyUser2 = await _authRepositoryFixture._applicationUserRepository.GetByIdAsync(UserTestGUID.GUID5); // invalid GUID
 
                 // Assert
                 Assert.NotNull(dummyUser1);
@@ -262,7 +262,7 @@ namespace RepositoryTests
             {
                 // Arrange
                 var numRows = _authRepositoryFixture._roleRepository.GetAllAsync().Result.Count;
-                var dummyRole = await _authRepositoryFixture._roleRepository.GetByIdAsync(Guid.Parse(RoleTestGUID.GUID1));
+                var dummyRole = await _authRepositoryFixture._roleRepository.GetByIdAsync(RoleTestGUID.GUID1);
 
                 dummyRole.Name = "altered_name";
 
@@ -271,7 +271,7 @@ namespace RepositoryTests
 
                 // Assert
                 var newNumRows = _authRepositoryFixture._roleRepository.GetAllAsync().Result.Count;
-                var queryResult = await _authRepositoryFixture._roleRepository.GetByIdAsync(Guid.Parse(RoleTestGUID.GUID1));
+                var queryResult = await _authRepositoryFixture._roleRepository.GetByIdAsync(RoleTestGUID.GUID1);
                 Assert.NotNull(queryResult);
                 Assert.True(queryResult.Name == "altered_name", "Object property does not match the new updated value");
                 Assert.True(newNumRows == numRows, $"Number of rows did not stay the same with the update ({newNumRows} != {numRows})");
@@ -281,10 +281,10 @@ namespace RepositoryTests
             {
                 // Arrange
                 var numRows = _authRepositoryFixture._roleRepository.GetAllAsync().Result.Count;
-                var dummyRole = await _authRepositoryFixture._roleRepository.GetByIdAsync(Guid.Parse(RoleTestGUID.GUID2));
+                var dummyRole = await _authRepositoryFixture._roleRepository.GetByIdAsync(RoleTestGUID.GUID2);
 
                 // Act
-                await _authRepositoryFixture._roleRepository.RemoveByIdAsync(Guid.Parse(dummyRole.Id));
+                await _authRepositoryFixture._roleRepository.RemoveByIdAsync(dummyRole.Id);
 
                 // Assert
                 var newNumRows = _authRepositoryFixture._roleRepository.GetAllAsync().Result.Count;
@@ -296,8 +296,8 @@ namespace RepositoryTests
             {
                 // Arrange
                 // Act
-                var dummyRole1 = await _authRepositoryFixture._roleRepository.GetByIdAsync(Guid.Parse(RoleTestGUID.GUID1));
-                var dummyRole2 = await _authRepositoryFixture._roleRepository.GetByIdAsync(Guid.Parse(RoleTestGUID.GUID5)); // invalid GUID
+                var dummyRole1 = await _authRepositoryFixture._roleRepository.GetByIdAsync(RoleTestGUID.GUID1);
+                var dummyRole2 = await _authRepositoryFixture._roleRepository.GetByIdAsync(RoleTestGUID.GUID5); // invalid GUID
 
                 // Assert
                 Assert.NotNull(dummyRole1);
