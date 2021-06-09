@@ -178,7 +178,7 @@ namespace RepositoryTests
                 var dummyUser = await _authRepositoryFixture._applicationUserRepository.GetByIdAsync(Guid.Parse(UserTestGUID.GUID1));
 
                 // Act
-                await _authRepositoryFixture._applicationUserRepository.RemoveAsync(dummyUser);
+                await _authRepositoryFixture._applicationUserRepository.RemoveByIdAsync(Guid.Parse(dummyUser.Id));
 
                 // Assert
                 var newNumRows = _authRepositoryFixture._applicationUserRepository.GetAllAsync().Result.Count;
@@ -284,7 +284,7 @@ namespace RepositoryTests
                 var dummyRole = await _authRepositoryFixture._roleRepository.GetByIdAsync(Guid.Parse(RoleTestGUID.GUID2));
 
                 // Act
-                await _authRepositoryFixture._roleRepository.RemoveAsync(dummyRole);
+                await _authRepositoryFixture._roleRepository.RemoveByIdAsync(Guid.Parse(dummyRole.Id));
 
                 // Assert
                 var newNumRows = _authRepositoryFixture._roleRepository.GetAllAsync().Result.Count;

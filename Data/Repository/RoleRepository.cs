@@ -57,10 +57,6 @@ namespace Data.Repository
         {
             return await _roleManager.UpdateAsync(entity);
         }
-        public override async Task<IdentityResult> RemoveAsync(ApplicationRole entity)
-        {
-            return await _roleManager.DeleteAsync(entity);
-        }
         public override void Dispose()
         {
             _roleManager?.Dispose();

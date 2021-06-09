@@ -19,7 +19,6 @@ namespace Business.Services.Interfaces
         public Task<TEntity> GetbyIdAsync(Guid id);
         public Task<IEnumerable<TEntity>> GetAsync(Expression<Func<TEntity, bool>> predicate, SortOptions<TEntity, object> sortOptions, int numRecords = 1000);
         public Task RemoveByIdAsync(Guid guid);
-        public Task RemoveAsync(TEntity entity);
         public ValidatonResult CheckIfEntityIsValid(TEntity entity);
     }
 }

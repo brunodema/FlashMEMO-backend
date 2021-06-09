@@ -131,7 +131,7 @@ namespace RepositoryTests
             var dummyNews = await this._repositoryFixture._repository.GetByIdAsync(Guid.Parse("e17161ed-2a4d-4612-bb54-a1294a8a4e28"));
 
             // Act
-            await this._repositoryFixture._repository.RemoveAsync(dummyNews);
+            await this._repositoryFixture._repository.RemoveByIdAsync(dummyNews.NewsID);
 
             // Assert
             var newNumRows = this._repositoryFixture._repository.GetAllAsync().Result.Count;

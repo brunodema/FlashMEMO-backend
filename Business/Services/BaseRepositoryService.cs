@@ -48,10 +48,6 @@ namespace Business.Services
         {
             await _baseRepository.RemoveByIdAsync(guid);
         }
-        public async virtual Task RemoveAsync(TEntity entity)
-        {
-            await _baseRepository.RemoveAsync(entity);
-        }
         public abstract ValidatonResult CheckIfEntityIsValid(TEntity entity);
     }
     public class BaseRepositoryServiceOptions

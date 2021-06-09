@@ -115,7 +115,7 @@ namespace RepositoryTests
             var dummyRole = await this._repositoryFixture._repository.GetByIdAsync(Guid.Parse(TestGUID.GUID2));
 
             // Act
-            await this._repositoryFixture._repository.RemoveAsync(dummyRole);
+            await this._repositoryFixture._repository.RemoveByIdAsync(Guid.Parse(dummyRole.Id));
 
             // Assert
             var newNumRows = this._repositoryFixture._repository.GetAllAsync().Result.Count;

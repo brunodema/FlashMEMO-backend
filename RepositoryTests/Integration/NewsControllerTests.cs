@@ -77,7 +77,7 @@ namespace Tests.Integration
             var a = await BaseRepository.GetByIdAsync(entity.NewsID);
 
             // Undo
-            response = await _integrationTestFixture.HttpClient.PostAsync(DeleteEndpoint, body);
+            response = await _integrationTestFixture.HttpClient.PostAsync(DeleteEndpoint, JsonContent.Create(entity.NewsID));
             parsedResponse = await response.Content.ReadFromJsonAsync<BaseResponseModel>();
             Assert.True(response.StatusCode == HttpStatusCode.OK);
             Assert.Null(parsedResponse.Errors);
@@ -112,7 +112,7 @@ namespace Tests.Integration
         public async void DeletesSuccessfully(News entity)
         {
             // Arrange
-            var body = JsonContent.Create(entity);
+            var body = JsonContent.Create(entity.NewsID);
 
             // Act
             var response = await _integrationTestFixture.HttpClient.PostAsync(DeleteEndpoint, body);
@@ -121,7 +121,7 @@ namespace Tests.Integration
             Assert.Null(parsedResponse.Errors);
 
             // Undo
-            response = await _integrationTestFixture.HttpClient.PostAsync(CreateEndpoint, body);
+            response = await _integrationTestFixture.HttpClient.PostAsync(CreateEndpoint, JsonContent.Create(entity));
             parsedResponse = await response.Content.ReadFromJsonAsync<BaseResponseModel>();
             Assert.True(response.StatusCode == HttpStatusCode.OK);
             Assert.Null(parsedResponse.Errors);

@@ -19,7 +19,6 @@ namespace Data.Repository.Interfaces
         public Task CreateAsync(TEntity entity, params object[] extraParams);
         public Task UpdateAsync(TEntity entity);
         public Task RemoveByIdAsync(Guid guid);
-        public Task RemoveAsync(TEntity entity);
         public Task<int> SaveChangesAsync();
         public void Dispose();
     }

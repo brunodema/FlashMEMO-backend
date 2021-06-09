@@ -128,7 +128,7 @@ namespace RepositoryTests
             var dummyUser = await this._repositoryFixture._repository.GetByIdAsync(Guid.Parse("858b3287-5972-4069-bf75-a650453dfef7"));
 
             // Act
-            await this._repositoryFixture._repository.RemoveAsync(dummyUser);
+            await this._repositoryFixture._repository.RemoveByIdAsync(Guid.Parse(dummyUser.Id));
 
             // Assert
             var newNumRows = this._repositoryFixture._repository.GetAllAsync().Result.Count;

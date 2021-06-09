@@ -43,9 +43,9 @@ namespace API.Controllers.Implementations
 
         [HttpGet]
         [Route("get")]
-        public async virtual Task<IActionResult> Get(Guid guid)
+        public async virtual Task<IActionResult> Get([FromBody] Guid id)
         {
-            var data = await _repositoryService.GetbyIdAsync(guid);
+            var data = await _repositoryService.GetbyIdAsync(id);
             return Ok(new PaginatedListResponse<TEntity> { Status = "Sucess", Data = PaginatedList<TEntity>.CreateAsync(new List<TEntity> { data }, 1, 1) });
         }
 
@@ -77,10 +77,10 @@ namespace API.Controllers.Implementations
 
         [HttpPost]
         [Route("delete")]
-        public async virtual Task<IActionResult> Delete(TEntity entity)
+        public async virtual Task<IActionResult> Delete([FromBody] Guid id)
         {
-            await _repositoryService.RemoveAsync(entity);
-            return Ok(new BaseResponseModel { Status = "Success", Message = $"{entity.ToString()} deleted successfully." });
+            await _repositoryService.RemoveByIdAsync(id);
+            return Ok(new BaseResponseModel { Status = "Success", Message = $"Object deleted successfully." });
         }
     }
 }
