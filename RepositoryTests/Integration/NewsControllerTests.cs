@@ -1,4 +1,5 @@
 ﻿using API.ViewModels;
+using Data.Messages;
 using Data.Models;
 using Data.Models.Interfaces;
 using Data.Repository;
@@ -142,7 +143,7 @@ namespace Tests.Integration
 
             // Assert
             Assert.True(response.StatusCode == HttpStatusCode.InternalServerError);
-            Assert.NotNull(parsedResponse.Message);
+            Assert.True(parsedResponse.Message == RepositoryExceptionMessages.NullObjectInvalidID);
         }
 
         public void GetsAllRecordsSuccessfully(int expectedNumberOfRecords)

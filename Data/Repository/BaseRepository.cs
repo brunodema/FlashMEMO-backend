@@ -1,4 +1,5 @@
-﻿using Data.Repository.Interfaces;
+﻿using Data.Messages;
+using Data.Repository.Interfaces;
 using Data.Tools;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -62,8 +63,22 @@ namespace Data.Repository
         }
         public virtual async Task RemoveByIdAsync(TKey guid)
         {
-            _dbset.Remove(await _dbset.FindAsync(guid));
-            await SaveChangesAsync();
+            try
+            {
+                var entity = await _dbset.FindAsync(guid);
+                if (entity == null)
+                {
+                    throw new Exception(RepositoryExceptionMessages.NullObjectInvalidID);
+                }
+                _dbset.Remove(entity);
+                await SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+
+                throw;
+            }
+
         }
         public async Task<int> SaveChangesAsync()
         {
