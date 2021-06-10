@@ -61,7 +61,8 @@ namespace Business.Services
         public NewsService(NewsRepository baseRepository, IOptions<BaseRepositoryServiceOptions> serviceOptions) : base(baseRepository, serviceOptions.Value) { }
         public override ValidatonResult CheckIfEntityIsValid(News entity)
         {
-            return new ValidatonResult { IsValid = true }; // temporary implementation
+            // return new ValidatonResult { IsValid = entity.CreationDate <= entity.LastUpdated }; // dummy database needs to be updated in order to take this into account... let's just return true for now
+            return new ValidatonResult { IsValid = true };
         }
     }
 }

@@ -36,7 +36,6 @@ namespace Tests.Integration.Interfaces
     public interface IRepositoryControllerGetTests<TEntity>
     {
         void ListsAllRecordsSuccessfully(int expectedNumberOfRecords);
-        void GetsSpecifiedNumberOfRecordsAtMax(int numberOfRecords);
         void GetsSpecifiedNumberOfRecordsPerPage(int pageSize, int? pageNumber, int expectedNumberOfRecords);
     }
 }
