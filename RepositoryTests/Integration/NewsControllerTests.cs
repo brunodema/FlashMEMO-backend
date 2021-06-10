@@ -168,7 +168,7 @@ namespace Tests.Integration
         [InlineData(10, 2, 10)]
         [InlineData(100, 1, 100)]
         [InlineData(99, 2, 1)]
-        public async void GetsSpecifiedNumberOfPagesAndRecords(int pageSize, int? pageNumber, int expectedNumberOfRecords)
+        public async void GetsSpecifiedNumberOfRecordsPerPage(int pageSize, int? pageNumber, int expectedNumberOfRecords)
         {
             // Arrange
             var count = (await BaseRepository.GetAllAsync()).Count;

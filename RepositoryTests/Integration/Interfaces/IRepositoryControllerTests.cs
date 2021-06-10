@@ -37,6 +37,6 @@ namespace Tests.Integration.Interfaces
     {
         void ListsAllRecordsSuccessfully(int expectedNumberOfRecords);
         void GetsSpecifiedNumberOfRecordsAtMax(int numberOfRecords);
-        void GetsSpecifiedNumberOfPagesAndRecords(int pageSize, int? pageNumber, int expectedNumberOfRecords);
+        void GetsSpecifiedNumberOfRecordsPerPage(int pageSize, int? pageNumber, int expectedNumberOfRecords);
     }
 }
