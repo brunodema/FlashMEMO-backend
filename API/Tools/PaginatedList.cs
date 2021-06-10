@@ -9,21 +9,13 @@ namespace API.Tools
     // taken from: https://docs.microsoft.com/en-us/aspnet/core/data/ef-mvc/sort-filter-page?view=aspnetcore-5.0
     public class PaginatedList<T>
     {
-        public List<T> Results { get; private set; }
-        public int PageIndex { get; private set; }
-        public int TotalPages { get; private set; }
-        public int Count { get; private set; }
-        public int Total { get; private set; }
+        public List<T> Results { get; set; }
+        public int PageIndex { get; set; }
+        public int TotalPages { get; set; }
+        public int Count { get; set; }
+        public int Total { get; set; }
 
-        public PaginatedList(List<T> items, int count, int pageIndex, int pageSize)
-        {
-            PageIndex = pageIndex;
-            TotalPages = (int)Math.Ceiling(count / (double)pageSize);
-            Total = count;
-            Count = items.Count;
-
-            Results = new List<T>(items);
-        }
+        public PaginatedList() { }
 
         public bool HasPreviousPage
         {
@@ -45,7 +37,15 @@ namespace API.Tools
         {
             var count = source.Count();
             var items = source.Skip((pageIndex - 1) * pageSize).Take(pageSize).ToList();
-            return new PaginatedList<T>(items, count, pageIndex, pageSize);
+            return new PaginatedList<T>
+            {
+                PageIndex = pageIndex,
+                TotalPages = (int)Math.Ceiling(count / (double)pageSize),
+                Total = count,
+                Count = items.Count,
+
+                Results = new List<T>(items)
+            };
         }
     }
 }

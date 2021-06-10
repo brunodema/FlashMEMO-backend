@@ -63,22 +63,13 @@ namespace Data.Repository
         }
         public virtual async Task RemoveByIdAsync(TKey guid)
         {
-            try
+            var entity = await _dbset.FindAsync(guid);
+            if (entity == null)
             {
-                var entity = await _dbset.FindAsync(guid);
-                if (entity == null)
-                {
-                    throw new Exception(RepositoryExceptionMessages.NullObjectInvalidID);
-                }
-                _dbset.Remove(entity);
-                await SaveChangesAsync();
+                throw new Exception(RepositoryExceptionMessages.NullObjectInvalidID);
             }
-            catch (Exception ex)
-            {
-
-                throw;
-            }
-
+            _dbset.Remove(entity);
+            await SaveChangesAsync();
         }
         public async Task<int> SaveChangesAsync()
         {

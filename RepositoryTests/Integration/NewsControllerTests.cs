@@ -4,6 +4,7 @@ using Data.Models;
 using Data.Models.Interfaces;
 using Data.Repository;
 using Data.Repository.Interfaces;
+using Data.Tools;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.TestHost;
 using Microsoft.Extensions.DependencyInjection;
@@ -28,6 +29,7 @@ namespace Tests.Integration
         public string CreateEndpoint { get; set; }
         public string UpdateEndpoint { get; set; }
         public string GetEndpoint { get; set; }
+        public string ListEndpoint { get; set; }
         public string DeleteEndpoint { get; set; }
         public IBaseRepository<News, Guid> BaseRepository { get; set; }
 
@@ -37,6 +39,7 @@ namespace Tests.Integration
             CreateEndpoint = $"{BaseEndpoint}/create";
             UpdateEndpoint = $"{BaseEndpoint}/update";
             GetEndpoint = $"{BaseEndpoint}/get";
+            ListEndpoint = $"{BaseEndpoint}/list";
             DeleteEndpoint = $"{BaseEndpoint}/delete";
 
             BaseRepository = (NewsRepository)this._integrationTestFixture.Host.Services.GetService(typeof(NewsRepository));
@@ -145,15 +148,42 @@ namespace Tests.Integration
             Assert.True(response.StatusCode == HttpStatusCode.InternalServerError);
             Assert.True(parsedResponse.Message == RepositoryExceptionMessages.NullObjectInvalidID);
         }
-
-        public void GetsAllRecordsSuccessfully(int expectedNumberOfRecords)
+        [Theory]
+        [InlineData(100)]
+        public async void ListsAllRecordsSuccessfully(int expectedNumberOfRecords)
         {
-            throw new NotImplementedException();
+            // Arrange
+            var queryParams = $"?pageSize={expectedNumberOfRecords}";
+
+            // Act
+            var response = await _integrationTestFixture.HttpClient.GetAsync($"{ListEndpoint}{queryParams}");
+            var parsedResponse = await response.Content.ReadFromJsonAsync<PaginatedListResponse<News>>();
+
+            // Assert
+            Assert.True(response.StatusCode == HttpStatusCode.OK);
+            Assert.True(parsedResponse.Data.Count == expectedNumberOfRecords);
         }
-
-        public void GetsSpecifiedNumberOfPagesAndRecords(int pageSize, int numberOfPages)
+        [Theory]
+        [InlineData(10, 1, 10)]
+        [InlineData(10, 2, 10)]
+        [InlineData(100, 1, 100)]
+        [InlineData(99, 2, 1)]
+        public async void GetsSpecifiedNumberOfPagesAndRecords(int pageSize, int? pageNumber, int expectedNumberOfRecords)
         {
-            throw new NotImplementedException();
+            // Arrange
+            var count = (await BaseRepository.GetAllAsync()).Count;
+            var targetPageNumber = pageNumber == null ? 1 : pageNumber;
+            var queryParams = $"?pageSize={pageSize}&pageNumber={targetPageNumber}";
+
+            // Act
+            var response = await _integrationTestFixture.HttpClient.GetAsync($"{ListEndpoint}{queryParams}");
+            var parsedResponse = await response.Content.ReadFromJsonAsync<PaginatedListResponse<News>>();
+
+            // Assert
+            Assert.True(response.StatusCode == HttpStatusCode.OK);
+            Assert.True(parsedResponse.Data.Count == expectedNumberOfRecords);
+            Assert.True(parsedResponse.Data.PageIndex == pageNumber);
+            Assert.True(parsedResponse.Data.Total == count);
         }
 
         public void GetsSpecifiedNumberOfRecordsAtMax(int numberOfRecords)

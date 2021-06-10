@@ -15,6 +15,7 @@ namespace Tests.Integration.Interfaces
         public string CreateEndpoint { get; set; }
         public string UpdateEndpoint { get; set; }
         public string GetEndpoint { get; set; }
+        public string ListEndpoint { get; set; }
         public string DeleteEndpoint { get; set; }
     }
     public interface IRepositoryControllerCreateTests<TEntity>
@@ -34,8 +35,8 @@ namespace Tests.Integration.Interfaces
     }
     public interface IRepositoryControllerGetTests<TEntity>
     {
-        void GetsAllRecordsSuccessfully(int expectedNumberOfRecords);
+        void ListsAllRecordsSuccessfully(int expectedNumberOfRecords);
         void GetsSpecifiedNumberOfRecordsAtMax(int numberOfRecords);
-        void GetsSpecifiedNumberOfPagesAndRecords(int pageSize, int numberOfPages);
+        void GetsSpecifiedNumberOfPagesAndRecords(int pageSize, int? pageNumber, int expectedNumberOfRecords);
     }
 }
