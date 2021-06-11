@@ -211,10 +211,31 @@ namespace Tests.Integration
         {
             Assert.True(true); // skip this for now
         }
-
-        public void ReportsValidationErrorsWhenUpdating(News entity, string[] expectedErrors)
+        public class ReportsValidationErrorsWhenUpdatingTestData
         {
-            throw new NotImplementedException();
+            public static IEnumerable<object[]> TestCases
+            {
+                get
+                {
+                    yield return new object[] {
+                        new News {
+                            NewsID = Guid.NewGuid(),
+                            Title = "Test News",
+                            Subtitle = "This is a test news",
+                            Content = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Vel fringilla est ullamcorper eget nulla facilisi etiam dignissim. Orci sagittis eu volutpat odio facilisis mauris sit amet massa. Tincidunt vitae semper quis lectus nulla. Accumsan tortor posuere ac ut consequat semper viverra. Dictum non consectetur a erat. Tellus molestie nunc non blandit massa enim. Mauris a diam maecenas sed. Viverra aliquet eget sit amet tellus cras. A pellentesque sit amet porttitor eget.",
+                            CreationDate = DateTime.Now,
+                            LastUpdated = DateTime.Now
+                        },
+                        new string[]{} // once char limits for title/subtitle/content and datetime checks are implemented, come back to this method
+                    };
+                }
+            }
+        }
+        [Theory]
+        [MemberData(nameof(ReportsValidationErrorsWhenUpdatingTestData.TestCases), MemberType = typeof(ReportsValidationErrorsWhenUpdatingTestData))]
+        public async void ReportsValidationErrorsWhenUpdating(News entity, string[] expectedErrors)
+        {
+            Assert.True(true); // skip this for now
         }
 
         public void UpdatesSuccessfully(News entity)
