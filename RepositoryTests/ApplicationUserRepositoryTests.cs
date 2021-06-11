@@ -66,7 +66,7 @@ namespace RepositoryTests
         }
     }
 
-    public class ApplicationUserRepositoryTests : IClassFixture<ApplicationUserRepositoryFixture>, IBaseRepositoryTests<ApplicationUser>
+    public class ApplicationUserRepositoryTests : IClassFixture<ApplicationUserRepositoryFixture>, IBaseRepositoryTests<ApplicationUser, string>
     {
         private ApplicationUserRepositoryFixture _repositoryFixture;
         private readonly ITestOutputHelper _output;

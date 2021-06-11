@@ -70,7 +70,7 @@ namespace RepositoryTests
         }
     }
 
-    public class NewsRepositoryTests : IClassFixture<NewsRepositoryFixture>, IBaseRepositoryTests<News>
+    public class NewsRepositoryTests : IClassFixture<NewsRepositoryFixture>, IBaseRepositoryTests<News, Guid>
     {
         private NewsRepositoryFixture _repositoryFixture;
         private readonly ITestOutputHelper _output;
