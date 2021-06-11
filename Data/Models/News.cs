@@ -13,5 +13,10 @@ namespace Data.Models
         public string Content { get; set; }
         public DateTime CreationDate { get; set; }
         public DateTime LastUpdated { get; set; }
+
+        public Guid GetId()
+        {
+            return NewsID;
+        }
     }
 }

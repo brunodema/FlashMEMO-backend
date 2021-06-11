@@ -1,8 +1,9 @@
-﻿using System;
+﻿using Data.Repository.Interfaces;
+using System;
 
 namespace Data.Models.Interfaces
 {
-    public interface INews
+    public interface INews : IDatabaseItem<Guid>
     {
         public Guid NewsID { get; set; }
         public string Title { get; set; }
