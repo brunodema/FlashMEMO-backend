@@ -18,7 +18,7 @@ namespace Data.Repository
         {
             _userManager = userManager;
         }
-        public override async Task<IEnumerable<ApplicationUser>> SearchAndOrderAsync<TKey>(Expression<Func<ApplicationUser, bool>> predicate, SortOptions<ApplicationUser, TKey> sortOptions, int numRecords)
+        public override async Task<IEnumerable<ApplicationUser>> SearchAndOrderAsync<ColumnType>(Expression<Func<ApplicationUser, bool>> predicate, SortOptions<ApplicationUser, ColumnType> sortOptions, int numRecords)
         {
             if (sortOptions != null)
             {

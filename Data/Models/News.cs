@@ -1,4 +1,5 @@
 ﻿using Data.Models.Interfaces;
+using Data.Repository.Interfaces;
 using System;
 
 namespace Data.Models

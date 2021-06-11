@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 namespace Data.Repository
 {
     public abstract class BaseRepository<TEntity, TKey, DatabaseContext> : IBaseRepository<TEntity, TKey>
-        where TEntity : class
+        where TEntity : class, IDatabaseItem<TKey>
         where DatabaseContext : DbContext
     {
         protected readonly DatabaseContext _context;
@@ -22,7 +22,7 @@ namespace Data.Repository
             _context = context;
             _dbset = context.Set<TEntity>();
         }
-        public virtual async Task<IEnumerable<TEntity>> SearchAndOrderAsync<TKey>(Expression<Func<TEntity, bool>> predicate, SortOptions<TEntity, TKey> sortOptions, int numRecords)
+        public virtual async Task<IEnumerable<TEntity>> SearchAndOrderAsync<ColumnType>(Expression<Func<TEntity, bool>> predicate, SortOptions<TEntity, ColumnType> sortOptions, int numRecords)
         {
             if (sortOptions != null)
             {

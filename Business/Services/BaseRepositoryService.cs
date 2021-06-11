@@ -9,12 +9,13 @@ using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Business.Tools;
 using Business.Services.Interfaces;
+using Data.Repository.Interfaces;
 
 namespace Business.Services
 {
     public abstract class BaseRepositoryService<TRepositoryType, TKey, TEntity> : IBaseRepositoryService<TEntity, TKey>
         where TRepositoryType : BaseRepository<TEntity, TKey, FlashMEMOContext>
-        where TEntity : class
+        where TEntity : class, IDatabaseItem<TKey>
     {
         private readonly TRepositoryType _baseRepository;
         private readonly BaseRepositoryServiceOptions _serviceOptions;
