@@ -237,10 +237,46 @@ namespace Tests.Integration
         {
             Assert.True(true); // skip this for now
         }
-
-        public void UpdatesSuccessfully(News entity)
+        public class UpdatesSuccessfullyTestData
         {
-            throw new NotImplementedException();
+            public static IEnumerable<object[]> TestCases
+            {
+                get
+                {
+                    yield return new object[] {
+                        new News {
+                            NewsID = new Guid("3C976BBA-BFF7-0EF5-5A6B-B0AE96F7D3F2"), // id already exists, and object is completely different
+                            Title = "Test News",
+                            Subtitle = "This is a test news",
+                            Content = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Vel fringilla est ullamcorper eget nulla facilisi etiam dignissim. Orci sagittis eu volutpat odio facilisis mauris sit amet massa. Tincidunt vitae semper quis lectus nulla. Accumsan tortor posuere ac ut consequat semper viverra. Dictum non consectetur a erat. Tellus molestie nunc non blandit massa enim. Mauris a diam maecenas sed. Viverra aliquet eget sit amet tellus cras. A pellentesque sit amet porttitor eget.",
+                            CreationDate = DateTime.Now,
+                            LastUpdated = DateTime.Now
+                        },
+                    };
+                }
+            }
+        }
+        [Theory]
+        [MemberData(nameof(UpdatesSuccessfullyTestData.TestCases), MemberType = typeof(UpdatesSuccessfullyTestData))]
+        public async void UpdatesSuccessfully(News entity)
+        {
+            // Arrange
+            var entityBefore = await BaseRepository.GetByIdAsync(entity.NewsID);
+            var body = JsonContent.Create(entity);
+
+            // Act
+            var response = await _integrationTestFixture.HttpClient.PutAsync(UpdateEndpoint, body);
+            var entityAfter = await BaseRepository.GetByIdAsync(entity.NewsID);
+
+            // Assert
+            Assert.True(response.StatusCode == HttpStatusCode.OK);
+            Assert.True(entityAfter == entity);
+            Assert.True(entityAfter != entityBefore);
+
+            // Undo
+            await BaseRepository.UpdateAsync(entityBefore);
+            var entityUndo = await BaseRepository.GetByIdAsync(entity.NewsID);
+            Assert.True(entityBefore == entityUndo);
         }
     }
 }
