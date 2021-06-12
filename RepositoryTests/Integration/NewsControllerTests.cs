@@ -19,6 +19,7 @@ using System.Threading.Tasks;
 using Tests.Integration.Fixtures;
 using Tests.Integration.Interfaces;
 using Xunit;
+using FluentAssertions;
 
 namespace Tests.Integration
 {
@@ -38,7 +39,7 @@ namespace Tests.Integration
             _integrationTestFixture = integrationTestFixture;
             CreateEndpoint = $"{BaseEndpoint}/create";
             UpdateEndpoint = $"{BaseEndpoint}/update";
-            GetEndpoint = $"{BaseEndpoint}/get";
+            GetEndpoint = $"{BaseEndpoint}";
             ListEndpoint = $"{BaseEndpoint}/list";
             DeleteEndpoint = $"{BaseEndpoint}/delete";
 
@@ -161,7 +162,7 @@ namespace Tests.Integration
 
             // Assert
             Assert.True(response.StatusCode == HttpStatusCode.OK);
-            Assert.True(parsedResponse.Data.Count == expectedNumberOfRecords);
+            Assert.True(parsedResponse.Data.Count == expectedNumberOfRecords, $"Expected value was {expectedNumberOfRecords}, returned value is {parsedResponse.Data.Count}");
         }
         [Theory]
         [InlineData(10, 1, 10)]
@@ -266,17 +267,18 @@ namespace Tests.Integration
 
             // Act
             var response = await _integrationTestFixture.HttpClient.PutAsync(UpdateEndpoint, body);
-            var entityAfter = await BaseRepository.GetByIdAsync(entity.NewsID);
+            var afterResponse = await _integrationTestFixture.HttpClient.GetAsync($"{GetEndpoint}/{entity.NewsID}");
+            var entityAfter = afterResponse.Content.ReadFromJsonAsync<PaginatedListResponse<News>>().Result.Data.Results.SingleOrDefault();
 
             // Assert
             Assert.True(response.StatusCode == HttpStatusCode.OK);
-            Assert.True(entityAfter == entity);
-            Assert.True(entityAfter != entityBefore);
+            entity.Should().BeEquivalentTo(entityAfter);
+            entity.Should().NotBeEquivalentTo(entityBefore);
 
             // Undo
             await BaseRepository.UpdateAsync(entityBefore);
             var entityUndo = await BaseRepository.GetByIdAsync(entity.NewsID);
-            Assert.True(entityBefore == entityUndo);
+            entityBefore.Should().BeEquivalentTo(entityUndo);
         }
     }
 }

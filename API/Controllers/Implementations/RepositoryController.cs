@@ -42,8 +42,8 @@ namespace API.Controllers.Implementations
         }
 
         [HttpGet]
-        [Route("get")]
-        public async virtual Task<IActionResult> Get([FromBody] TKey id)
+        [Route("{id}")]
+        public async virtual Task<IActionResult> Get(TKey id)
         {
             var data = await _repositoryService.GetbyIdAsync(id);
             return Ok(new PaginatedListResponse<TEntity> { Status = "Sucess", Data = PaginatedList<TEntity>.CreateAsync(new List<TEntity> { data }, 1, 1) });
