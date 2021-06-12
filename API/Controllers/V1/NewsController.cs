@@ -1,13 +1,10 @@
 ﻿using API.Controllers.Implementations;
-using API.Tools;
-using API.ViewModels;
 using Business.Services;
 using Data.Models;
 using Data.Tools;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Linq.Expressions;
-using System.Threading.Tasks;
 
 namespace API.Controllers
 {

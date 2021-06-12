@@ -1,27 +1,18 @@
 ﻿using API.ViewModels;
 using Data.Messages;
-using Data.Models;
-using Data.Models.Interfaces;
 using Data.Repository;
 using Data.Repository.Interfaces;
-using Data.Tools;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.TestHost;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Net;
-using System.Net.Http;
 using System.Net.Http.Json;
-using System.Threading.Tasks;
 using Tests.Integration.Fixtures;
 using Tests.Integration.Interfaces;
 using Xunit;
 using FluentAssertions;
+using Data.Models;
 
-namespace Tests.Integration
+namespace Tests.Integration.NewsTests
 {
     public class NewsControllerTests : IClassFixture<IntegrationTestFixture>, IRepositoryControllerTests<News, Guid>
     {
@@ -33,6 +24,7 @@ namespace Tests.Integration
         public string ListEndpoint { get; set; }
         public string DeleteEndpoint { get; set; }
         public IBaseRepository<News, Guid> BaseRepository { get; set; }
+        public NewsControllerTestData TestData { get; set; }
 
         public NewsControllerTests(IntegrationTestFixture integrationTestFixture)
         {
@@ -44,29 +36,11 @@ namespace Tests.Integration
             DeleteEndpoint = $"{BaseEndpoint}/delete";
 
             BaseRepository = (NewsRepository)this._integrationTestFixture.Host.Services.GetService(typeof(NewsRepository));
+            TestData = (NewsControllerTestData)this._integrationTestFixture.Host.Services.GetService(typeof(NewsControllerTestData));
 
         }
-        public class CreatesSuccessfullyTestData
-        {
-            public static IEnumerable<object[]> TestCases
-            {
-                get
-                {
-                    yield return new object[] {
-                        new News {
-                            NewsID = Guid.NewGuid(),
-                            Title = "Test News",
-                            Subtitle = "This is a test news",
-                            Content = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Vel fringilla est ullamcorper eget nulla facilisi etiam dignissim. Orci sagittis eu volutpat odio facilisis mauris sit amet massa. Tincidunt vitae semper quis lectus nulla. Accumsan tortor posuere ac ut consequat semper viverra. Dictum non consectetur a erat. Tellus molestie nunc non blandit massa enim. Mauris a diam maecenas sed. Viverra aliquet eget sit amet tellus cras. A pellentesque sit amet porttitor eget.",
-                            CreationDate = DateTime.Now,
-                            LastUpdated = DateTime.Now
-                        }
-                    };
-                }
-            }
-        }
         [Theory]
-        [MemberData(nameof(CreatesSuccessfullyTestData.TestCases), MemberType = typeof(CreatesSuccessfullyTestData))]
+        [MemberData(nameof(NewsControllerTestData.CreatesSuccessfullyTestCases), MemberType = typeof(NewsControllerTestData))]
         public async void CreatesSuccessfully(News entity)
         {
             // Arrange
@@ -88,20 +62,8 @@ namespace Tests.Integration
             Assert.True(response.StatusCode == HttpStatusCode.OK);
             Assert.Null(parsedResponse.Errors);
         }
-        public class DeletesByIdSuccessfullyTestData
-        {
-            public static IEnumerable<object[]> TestCases
-            {
-                get
-                {
-                    yield return new object[] {
-                        new Guid("5CDA2C98-98D7-0341-0D7F-5F634136DBE3")
-                    };
-                }
-            }
-        }
         [Theory]
-        [MemberData(nameof(DeletesByIdSuccessfullyTestData.TestCases), MemberType = typeof(DeletesByIdSuccessfullyTestData))]
+        [MemberData(nameof(NewsControllerTestData.DeletesByIdSuccessfullyTestData), MemberType = typeof(NewsControllerTestData))]
         public async void DeletesByIdSuccessfully(Guid id)
         {
             // Arrange
@@ -122,20 +84,8 @@ namespace Tests.Integration
             Assert.True(response.StatusCode == HttpStatusCode.OK);
             Assert.Null(parsedResponse.Errors);
         }
-        public class FailsDeletionIfIdDoesNotExistTestData
-        {
-            public static IEnumerable<object[]> TestCases
-            {
-                get
-                {
-                    yield return new object[] {
-                        new Guid("00000000-0000-0000-0000-000000000000")
-                    };
-                }
-            }
-        }
         [Theory]
-        [MemberData(nameof(FailsDeletionIfIdDoesNotExistTestData.TestCases), MemberType = typeof(FailsDeletionIfIdDoesNotExistTestData))]
+        [MemberData(nameof(NewsControllerTestData.FailsDeletionIfIdDoesNotExistTestData), MemberType = typeof(NewsControllerTestData))]
         public async void FailsDeletionIfIdDoesNotExist(Guid id)
         {
             // Arrange
@@ -186,79 +136,20 @@ namespace Tests.Integration
             Assert.True(parsedResponse.Data.PageIndex == pageNumber);
             Assert.True(parsedResponse.Data.Total == count);
         }
-        public class ReportsValidationErrorsWhenCreatingTestData
-        {
-            public static IEnumerable<object[]> TestCases
-            {
-                get
-                {
-                    yield return new object[] {
-                        new News {
-                            NewsID = Guid.NewGuid(),
-                            Title = "Test News",
-                            Subtitle = "This is a test news",
-                            Content = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Vel fringilla est ullamcorper eget nulla facilisi etiam dignissim. Orci sagittis eu volutpat odio facilisis mauris sit amet massa. Tincidunt vitae semper quis lectus nulla. Accumsan tortor posuere ac ut consequat semper viverra. Dictum non consectetur a erat. Tellus molestie nunc non blandit massa enim. Mauris a diam maecenas sed. Viverra aliquet eget sit amet tellus cras. A pellentesque sit amet porttitor eget.",
-                            CreationDate = DateTime.Now,
-                            LastUpdated = DateTime.Now
-                        },
-                        new string[]{} // once char limits for title/subtitle/content and datetime checks are implemented, come back to this method
-                    };
-                }
-            }
-        }
         [Theory]
-        [MemberData(nameof(ReportsValidationErrorsWhenCreatingTestData.TestCases), MemberType = typeof(ReportsValidationErrorsWhenCreatingTestData))]
+        [MemberData(nameof(NewsControllerTestData.ReportsValidationErrorsWhenCreatingTestData), MemberType = typeof(NewsControllerTestData))]
         public async void ReportsValidationErrorsWhenCreating(News entity, string[] expectedErrors)
         {
             Assert.True(true); // skip this for now
         }
-        public class ReportsValidationErrorsWhenUpdatingTestData
-        {
-            public static IEnumerable<object[]> TestCases
-            {
-                get
-                {
-                    yield return new object[] {
-                        new News {
-                            NewsID = Guid.NewGuid(),
-                            Title = "Test News",
-                            Subtitle = "This is a test news",
-                            Content = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Vel fringilla est ullamcorper eget nulla facilisi etiam dignissim. Orci sagittis eu volutpat odio facilisis mauris sit amet massa. Tincidunt vitae semper quis lectus nulla. Accumsan tortor posuere ac ut consequat semper viverra. Dictum non consectetur a erat. Tellus molestie nunc non blandit massa enim. Mauris a diam maecenas sed. Viverra aliquet eget sit amet tellus cras. A pellentesque sit amet porttitor eget.",
-                            CreationDate = DateTime.Now,
-                            LastUpdated = DateTime.Now
-                        },
-                        new string[]{} // once char limits for title/subtitle/content and datetime checks are implemented, come back to this method
-                    };
-                }
-            }
-        }
         [Theory]
-        [MemberData(nameof(ReportsValidationErrorsWhenUpdatingTestData.TestCases), MemberType = typeof(ReportsValidationErrorsWhenUpdatingTestData))]
+        [MemberData(nameof(NewsControllerTestData.ReportsValidationErrorsWhenUpdatingTestData), MemberType = typeof(NewsControllerTestData))]
         public async void ReportsValidationErrorsWhenUpdating(News entity, string[] expectedErrors)
         {
             Assert.True(true); // skip this for now
         }
-        public class UpdatesSuccessfullyTestData
-        {
-            public static IEnumerable<object[]> TestCases
-            {
-                get
-                {
-                    yield return new object[] {
-                        new News {
-                            NewsID = new Guid("3C976BBA-BFF7-0EF5-5A6B-B0AE96F7D3F2"), // id already exists, and object is completely different
-                            Title = "Test News",
-                            Subtitle = "This is a test news",
-                            Content = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Vel fringilla est ullamcorper eget nulla facilisi etiam dignissim. Orci sagittis eu volutpat odio facilisis mauris sit amet massa. Tincidunt vitae semper quis lectus nulla. Accumsan tortor posuere ac ut consequat semper viverra. Dictum non consectetur a erat. Tellus molestie nunc non blandit massa enim. Mauris a diam maecenas sed. Viverra aliquet eget sit amet tellus cras. A pellentesque sit amet porttitor eget.",
-                            CreationDate = DateTime.Now,
-                            LastUpdated = DateTime.Now
-                        },
-                    };
-                }
-            }
-        }
         [Theory]
-        [MemberData(nameof(UpdatesSuccessfullyTestData.TestCases), MemberType = typeof(UpdatesSuccessfullyTestData))]
+        [MemberData(nameof(NewsControllerTestData.UpdatesSuccessfullyTestData), MemberType = typeof(NewsControllerTestData))]
         public async void UpdatesSuccessfully(News entity)
         {
             // Arrange

@@ -1,9 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Linq;
-using System.Net.Http;
 using System.Text;
-using System.Threading.Tasks;
 using API.Controllers;
 using API.ViewModels;
 using Business.Services;
@@ -11,7 +9,6 @@ using Business.Services.Interfaces;
 using Data.Context;
 using Data.Models;
 using Data.Repository;
-using Data.Repository.Interfaces;
 using Data.Seeder;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
@@ -20,13 +17,12 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.TestHost;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
-using Xunit;
+using Tests.Integration.NewsTests;
 
 namespace Tests.Integration.Fixtures
 {
@@ -151,6 +147,8 @@ namespace Tests.Integration.Fixtures
             services.AddScoped<ApplicationUserRepository>();
             services.AddScoped<RoleRepository>();
             services.AddScoped<NewsRepository>();
+
+            services.AddScoped<NewsControllerTestData>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
