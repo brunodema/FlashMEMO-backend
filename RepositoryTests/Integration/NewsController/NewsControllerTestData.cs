@@ -5,7 +5,7 @@ using Tests.Integration.Interfaces;
 
 namespace Tests.Integration.NewsTests
 {
-    public class NewsControllerTestData : IRepositoryControllerTestData<News>
+    public class NewsControllerTestData : IRepositoryControllerTestData
     {
         public static IEnumerable<object[]> CreatesSuccessfullyTestCases
         {

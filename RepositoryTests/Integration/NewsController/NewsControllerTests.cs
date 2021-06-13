@@ -13,8 +13,9 @@ using FluentAssertions;
 using Data.Models;
 
 namespace Tests.Integration.NewsTests
-{    public abstract class RepositoryControllerTests<TEntity, TKey> : IClassFixture<IntegrationTestFixture>, IRepositoryControllerTests<TEntity, TKey>
+{    public abstract class RepositoryControllerTests<TEntity, TKey, TTestData> : IClassFixture<IntegrationTestFixture>, IRepositoryControllerTests<TEntity, TKey>
         where TEntity : class, IDatabaseItem<TKey>
+        where TTestData : class, IRepositoryControllerTestData
 
     {
         private readonly IntegrationTestFixture _integrationTestFixture;
@@ -25,7 +26,6 @@ namespace Tests.Integration.NewsTests
         public string ListEndpoint { get; set; }
         public string DeleteEndpoint { get; set; }
         public IBaseRepository<TEntity, TKey> BaseRepository { get; set; }
-        public NewsControllerTestData TestData { get; set; }
 
         public RepositoryControllerTests(IntegrationTestFixture integrationTestFixture)
         {
@@ -37,11 +37,10 @@ namespace Tests.Integration.NewsTests
             DeleteEndpoint = $"{BaseEndpoint}/delete";
 
             BaseRepository = (IBaseRepository<TEntity, TKey>)this._integrationTestFixture.Host.Services.GetService(typeof(IBaseRepository<TEntity, TKey>));
-            TestData = (NewsControllerTestData)this._integrationTestFixture.Host.Services.GetService(typeof(NewsControllerTestData));
 
         }
         [Theory]
-        [MemberData(nameof(NewsControllerTestData.CreatesSuccessfullyTestCases), MemberType = typeof(NewsControllerTestData))]
+        [MemberData(nameof(IRepositoryControllerTestData.CreatesSuccessfullyTestCases), MemberType = typeof(IRepositoryControllerTestData))]
         public async void CreatesSuccessfully(TEntity entity)
         {
             // Arrange
@@ -64,7 +63,7 @@ namespace Tests.Integration.NewsTests
             Assert.Null(parsedResponse.Errors);
         }
         [Theory]
-        [MemberData(nameof(NewsControllerTestData.DeletesByIdSuccessfullyTestData), MemberType = typeof(NewsControllerTestData))]
+        [MemberData(nameof(IRepositoryControllerTestData.DeletesByIdSuccessfullyTestData), MemberType = typeof(IRepositoryControllerTestData))]
         public async void DeletesByIdSuccessfully(TKey id)
         {
             // Arrange
@@ -86,7 +85,7 @@ namespace Tests.Integration.NewsTests
             Assert.Null(parsedResponse.Errors);
         }
         [Theory]
-        [MemberData(nameof(NewsControllerTestData.FailsDeletionIfIdDoesNotExistTestData), MemberType = typeof(NewsControllerTestData))]
+        [MemberData(nameof(IRepositoryControllerTestData.FailsDeletionIfIdDoesNotExistTestData), MemberType = typeof(IRepositoryControllerTestData))]
         public async void FailsDeletionIfIdDoesNotExist(TKey id)
         {
             // Arrange
@@ -109,7 +108,7 @@ namespace Tests.Integration.NewsTests
 
             // Act
             var response = await _integrationTestFixture.HttpClient.GetAsync($"{ListEndpoint}{queryParams}");
-            var parsedResponse = await response.Content.ReadFromJsonAsync<PaginatedListResponse<News>>();
+            var parsedResponse = await response.Content.ReadFromJsonAsync<PaginatedListResponse<TEntity>>();
 
             // Assert
             Assert.True(response.StatusCode == HttpStatusCode.OK);
@@ -129,7 +128,7 @@ namespace Tests.Integration.NewsTests
 
             // Act
             var response = await _integrationTestFixture.HttpClient.GetAsync($"{ListEndpoint}{queryParams}");
-            var parsedResponse = await response.Content.ReadFromJsonAsync<PaginatedListResponse<News>>();
+            var parsedResponse = await response.Content.ReadFromJsonAsync<PaginatedListResponse<TEntity>>();
 
             // Assert
             Assert.True(response.StatusCode == HttpStatusCode.OK);
@@ -138,19 +137,19 @@ namespace Tests.Integration.NewsTests
             Assert.True(parsedResponse.Data.Total == count);
         }
         [Theory]
-        [MemberData(nameof(NewsControllerTestData.ReportsValidationErrorsWhenCreatingTestData), MemberType = typeof(NewsControllerTestData))]
+        [MemberData(nameof(IRepositoryControllerTestData.ReportsValidationErrorsWhenCreatingTestData), MemberType = typeof(IRepositoryControllerTestData))]
         public async void ReportsValidationErrorsWhenCreating(TEntity entity, string[] expectedErrors)
         {
             Assert.True(true); // skip this for now
         }
         [Theory]
-        [MemberData(nameof(NewsControllerTestData.ReportsValidationErrorsWhenUpdatingTestData), MemberType = typeof(NewsControllerTestData))]
+        [MemberData(nameof(IRepositoryControllerTestData.ReportsValidationErrorsWhenUpdatingTestData), MemberType = typeof(IRepositoryControllerTestData))]
         public async void ReportsValidationErrorsWhenUpdating(TEntity entity, string[] expectedErrors)
         {
             Assert.True(true); // skip this for now
         }
         [Theory]
-        [MemberData(nameof(NewsControllerTestData.UpdatesSuccessfullyTestData), MemberType = typeof(NewsControllerTestData))]
+        [MemberData(nameof(IRepositoryControllerTestData.UpdatesSuccessfullyTestData), MemberType = typeof(IRepositoryControllerTestData))]
         public async void UpdatesSuccessfully(TEntity entity)
         {
             // Arrange
@@ -160,7 +159,7 @@ namespace Tests.Integration.NewsTests
             // Act
             var response = await _integrationTestFixture.HttpClient.PutAsync(UpdateEndpoint, body);
             var afterResponse = await _integrationTestFixture.HttpClient.GetAsync($"{GetEndpoint}/{entity.GetId()}");
-            var entityAfter = afterResponse.Content.ReadFromJsonAsync<PaginatedListResponse<News>>().Result.Data.Results.SingleOrDefault();
+            var entityAfter = afterResponse.Content.ReadFromJsonAsync<PaginatedListResponse<TEntity>>().Result.Data.Results.SingleOrDefault();
 
             // Assert
             Assert.True(response.StatusCode == HttpStatusCode.OK);
@@ -174,7 +173,7 @@ namespace Tests.Integration.NewsTests
         }
     }
 
-    public class NewsRepositoryControllerTests : RepositoryControllerTests<News, Guid>
+    public class NewsRepositoryControllerTests : RepositoryControllerTests<News, Guid, NewsControllerTestData>
     {
         public NewsRepositoryControllerTests(IntegrationTestFixture integrationTestFixture) : base(integrationTestFixture) { }
     }

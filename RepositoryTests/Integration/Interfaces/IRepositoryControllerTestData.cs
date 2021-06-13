@@ -2,8 +2,7 @@
 
 namespace Tests.Integration.Interfaces
 {
-    public interface IRepositoryControllerTestData<TEntity>
-        where TEntity : class
+    public interface IRepositoryControllerTestData
     {
         public static IEnumerable<object[]> CreatesSuccessfullyTestCases { get; }
         public static IEnumerable<object[]> DeletesByIdSuccessfullyTestData { get; }
