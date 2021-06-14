@@ -26,6 +26,7 @@ namespace Tests.Integration.NewsTests
         public string ListEndpoint { get; set; }
         public string DeleteEndpoint { get; set; }
         public IBaseRepository<TEntity, TKey> BaseRepository { get; set; }
+        public IRepositoryControllerTestData TestData { get; set; }
 
         public RepositoryControllerTests(IntegrationTestFixture integrationTestFixture)
         {
