@@ -5,25 +5,35 @@ using Tests.Integration.Interfaces;
 
 namespace Tests.Integration.NewsTests
 {
-    public class NewsControllerTestData : IRepositoryControllerTestData
+    public class NewsControllerTestData : IRepositoryControllerTestData<News, Guid>
     {
-        public static IEnumerable<object[]> CreatesSuccessfullyTestCases
+        public IEnumerable<News> CreatesSuccessfullyTestCases
         {
             get
             {
-                yield return new object[] {
-                    new News {
+                return new List<News> {
+                    new News
+                    {
                         NewsID = Guid.NewGuid(),
                         Title = "Test News",
                         Subtitle = "This is a test news",
                         Content = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Vel fringilla est ullamcorper eget nulla facilisi etiam dignissim. Orci sagittis eu volutpat odio facilisis mauris sit amet massa. Tincidunt vitae semper quis lectus nulla. Accumsan tortor posuere ac ut consequat semper viverra. Dictum non consectetur a erat. Tellus molestie nunc non blandit massa enim. Mauris a diam maecenas sed. Viverra aliquet eget sit amet tellus cras. A pellentesque sit amet porttitor eget.",
                         CreationDate = DateTime.Now,
                         LastUpdated = DateTime.Now
+                    },
+                    new News // duplicate only to check how the yield return is structured
+                    {
+                        NewsID = Guid.NewGuid(),
+                        Title = "(Another) Test News",
+                        Subtitle = "This is another test news",
+                        Content = "Hello",
+                        CreationDate = DateTime.Now,
+                        LastUpdated = DateTime.Now
                     }
                 };
             }
         }
-        public static IEnumerable<object[]> DeletesByIdSuccessfullyTestData
+        public IEnumerable<object[]> DeletesByIdSuccessfullyTestData
         {
             get
             {
@@ -33,7 +43,7 @@ namespace Tests.Integration.NewsTests
             }
         }
 
-        public static IEnumerable<object[]> FailsDeletionIfIdDoesNotExistTestData
+        public IEnumerable<object[]> FailsDeletionIfIdDoesNotExistTestData
 
         {
             get
@@ -44,7 +54,7 @@ namespace Tests.Integration.NewsTests
             }
         }
 
-        public static IEnumerable<object[]> ReportsValidationErrorsWhenCreatingTestData
+        public IEnumerable<object[]> ReportsValidationErrorsWhenCreatingTestData
         {
             get
             {
@@ -62,7 +72,7 @@ namespace Tests.Integration.NewsTests
             }
         }
 
-        public static IEnumerable<object[]> ReportsValidationErrorsWhenUpdatingTestData
+        public IEnumerable<object[]> ReportsValidationErrorsWhenUpdatingTestData
         {
             get
             {
@@ -80,7 +90,7 @@ namespace Tests.Integration.NewsTests
             }
         }
 
-        public static IEnumerable<object[]> UpdatesSuccessfullyTestData
+        public IEnumerable<object[]> UpdatesSuccessfullyTestData
         {
             get
             {
