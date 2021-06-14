@@ -47,9 +47,11 @@ namespace Tests.Integration.NewsTests
         [Fact]
         public async void CreatesSuccessfully()
         {
+            int count = 0;
             foreach (var entity in TestData.CreatesSuccessfullyTestCases)
             {
                 // Arrange
+                ++count;
                 var body = JsonContent.Create(entity);
 
                 // Act
@@ -65,6 +67,8 @@ namespace Tests.Integration.NewsTests
                 parsedResponse = await response.Content.ReadFromJsonAsync<BaseResponseModel>();
                 Assert.True(response.StatusCode == HttpStatusCode.OK);
                 Assert.Null(parsedResponse.Errors);
+
+                Output.WriteLine($"Test #{count} run successfully.");
             }
         }
         //[Theory]

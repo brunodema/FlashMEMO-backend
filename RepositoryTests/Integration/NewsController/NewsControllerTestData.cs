@@ -7,7 +7,7 @@ namespace Tests.Integration.NewsTests
 {
     public class NewsControllerTestData : IRepositoryControllerTestData<News, Guid>
     {
-        public IEnumerable<News> CreatesSuccessfullyTestCases
+        public List<News> CreatesSuccessfullyTestCases
         {
             get
             {
