@@ -11,6 +11,7 @@ using Tests.Integration.Interfaces;
 using Xunit;
 using FluentAssertions;
 using Data.Models;
+using Xunit.Abstractions;
 
 namespace Tests.Integration.NewsTests
 {
@@ -27,11 +28,14 @@ namespace Tests.Integration.NewsTests
         public string DeleteEndpoint { get; set; }
         public IRepositoryControllerTestData<TEntity, TKey> TestData { get; set; }
 
-        public abstract void SetTestData();
+        private readonly ITestOutputHelper Output;
 
-        public RepositoryControllerTests(IntegrationTestFixture integrationTestFixture)
+        public abstract void SetTestData();
+        public RepositoryControllerTests(IntegrationTestFixture integrationTestFixture, ITestOutputHelper output)
         {
             _integrationTestFixture = integrationTestFixture;
+            Output = output;
+
             CreateEndpoint = $"{BaseEndpoint}/create";
             UpdateEndpoint = $"{BaseEndpoint}/update";
             GetEndpoint = $"{BaseEndpoint}";
@@ -176,7 +180,7 @@ namespace Tests.Integration.NewsTests
 
     public class NewsRepositoryControllerTests : RepositoryControllerTests<News, Guid>
     {
-        public NewsRepositoryControllerTests(IntegrationTestFixture integrationTestFixture) : base(integrationTestFixture)
+        public NewsRepositoryControllerTests(IntegrationTestFixture integrationTestFixture, ITestOutputHelper output) : base(integrationTestFixture, output)
         {
             SetTestData();
         }
