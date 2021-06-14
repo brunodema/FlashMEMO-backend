@@ -1,4 +1,5 @@
 ﻿using Data.Repository.Interfaces;
+using System;
 using System.Collections.Generic;
 
 namespace Tests.Integration.Interfaces
@@ -7,10 +8,10 @@ namespace Tests.Integration.Interfaces
         where TEntity : class, IDatabaseItem<TKey>
     {
         public List<TEntity> CreatesSuccessfullyTestCases { get; }
-        public IEnumerable<object[]> DeletesByIdSuccessfullyTestData { get; }
-        public IEnumerable<object[]> FailsDeletionIfIdDoesNotExistTestData { get; }
-        public IEnumerable<object[]> ReportsValidationErrorsWhenCreatingTestData { get; }
-        public IEnumerable<object[]> ReportsValidationErrorsWhenUpdatingTestData { get; }
-        public IEnumerable<object[]> UpdatesSuccessfullyTestData { get; }
+        public IEnumerable<Guid> DeletesByIdSuccessfullyTestData { get; }
+        public IEnumerable<Guid> FailsDeletionIfIdDoesNotExistTestData { get; }
+        public IEnumerable<ValidationErrorsWhenCreatingData<TEntity>> ReportsValidationErrorsWhenCreatingTestData { get; }
+        public IEnumerable<ValidationErrorsWhenCreatingData<TEntity>> ReportsValidationErrorsWhenUpdatingTestData { get; }
+        public IEnumerable<TEntity> UpdatesSuccessfullyTestData { get; }
     }
 }

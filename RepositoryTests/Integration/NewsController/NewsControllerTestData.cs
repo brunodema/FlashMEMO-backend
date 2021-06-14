@@ -33,33 +33,34 @@ namespace Tests.Integration.NewsTests
                 };
             }
         }
-        public IEnumerable<object[]> DeletesByIdSuccessfullyTestData
+        public IEnumerable<Guid> DeletesByIdSuccessfullyTestData
         {
             get
             {
-                yield return new object[] {
+                return new List<Guid> {
                         new Guid("5CDA2C98-98D7-0341-0D7F-5F634136DBE3")
                     };
             }
         }
 
-        public IEnumerable<object[]> FailsDeletionIfIdDoesNotExistTestData
+        public IEnumerable<Guid> FailsDeletionIfIdDoesNotExistTestData
 
         {
             get
             {
-                yield return new object[] {
+                return new List<Guid> {
                         new Guid("00000000-0000-0000-0000-000000000000")
                     };
             }
         }
 
-        public IEnumerable<object[]> ReportsValidationErrorsWhenCreatingTestData
+        public IEnumerable<ValidationErrorsWhenCreatingData<News>> ReportsValidationErrorsWhenCreatingTestData
         {
             get
             {
-                yield return new object[] {
-                        new News {
+                return new List<ValidationErrorsWhenCreatingData<News>> {
+                    new ValidationErrorsWhenCreatingData<News> {
+                        Entiy = new News {
                             NewsID = Guid.NewGuid(),
                             Title = "Test News",
                             Subtitle = "This is a test news",
@@ -67,17 +68,19 @@ namespace Tests.Integration.NewsTests
                             CreationDate = DateTime.Now,
                             LastUpdated = DateTime.Now
                         },
-                        new string[]{} // once char limits for title/subtitle/content and datetime checks are implemented, come back to this method
-                    };
+                        Errors = new string[]{} // once char limits for title/subtitle/content and datetime checks are implemented, come back to this method
+                    }
+                };
             }
         }
 
-        public IEnumerable<object[]> ReportsValidationErrorsWhenUpdatingTestData
+        public IEnumerable<ValidationErrorsWhenCreatingData<News>> ReportsValidationErrorsWhenUpdatingTestData
         {
             get
             {
-                yield return new object[] {
-                        new News {
+                return new List<ValidationErrorsWhenCreatingData<News>> {
+                    new ValidationErrorsWhenCreatingData<News> {
+                        Entiy = new News {
                             NewsID = Guid.NewGuid(),
                             Title = "Test News",
                             Subtitle = "This is a test news",
@@ -85,16 +88,17 @@ namespace Tests.Integration.NewsTests
                             CreationDate = DateTime.Now,
                             LastUpdated = DateTime.Now
                         },
-                        new string[]{} // once char limits for title/subtitle/content and datetime checks are implemented, come back to this method
-                    };
+                        Errors = new string[]{} // once char limits for title/subtitle/content and datetime checks are implemented, come back to this method
+                    }
+                };
             }
         }
 
-        public IEnumerable<object[]> UpdatesSuccessfullyTestData
+        public IEnumerable<News> UpdatesSuccessfullyTestData
         {
             get
             {
-                yield return new object[] {
+                return new List<News> {
                         new News {
                             NewsID = new Guid("3C976BBA-BFF7-0EF5-5A6B-B0AE96F7D3F2"), // id already exists, and object is completely different
                             Title = "Test News",

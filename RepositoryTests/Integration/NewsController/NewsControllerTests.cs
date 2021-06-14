@@ -12,6 +12,7 @@ using Xunit;
 using FluentAssertions;
 using Data.Models;
 using Xunit.Abstractions;
+using System.Collections.Generic;
 
 namespace Tests.Integration.NewsTests
 {
@@ -42,16 +43,23 @@ namespace Tests.Integration.NewsTests
             ListEndpoint = $"{BaseEndpoint}/list";
             DeleteEndpoint = $"{BaseEndpoint}/delete";
         }
-        //[Theory]
-        //[MemberData(nameof(IRepositoryControllerTestData.CreatesSuccessfullyTestCases), MemberType = typeof(IRepositoryControllerTestData))]
+        private void RunAndReportResults<TTestInputData>(IEnumerable<TTestInputData> vs, Action<TTestInputData> func)
+        {
+            int count = 0;
+            foreach (var entity in vs)
+            {
+                ++count;
+                func(entity);
+                Output.WriteLine($"Test #{count} run successfully.");
+            }
+        }
+
         [Fact]
         public async void CreatesSuccessfully()
         {
-            int count = 0;
-            foreach (var entity in TestData.CreatesSuccessfullyTestCases)
+            RunAndReportResults(TestData.CreatesSuccessfullyTestCases, async entity =>
             {
                 // Arrange
-                ++count;
                 var body = JsonContent.Create(entity);
 
                 // Act
@@ -67,9 +75,7 @@ namespace Tests.Integration.NewsTests
                 parsedResponse = await response.Content.ReadFromJsonAsync<BaseResponseModel>();
                 Assert.True(response.StatusCode == HttpStatusCode.OK);
                 Assert.Null(parsedResponse.Errors);
-
-                Output.WriteLine($"Test #{count} run successfully.");
-            }
+            });
         }
         //[Theory]
         //[MemberData(nameof(IRepositoryControllerTestData.DeletesByIdSuccessfullyTestData), MemberType = typeof(IRepositoryControllerTestData))]
