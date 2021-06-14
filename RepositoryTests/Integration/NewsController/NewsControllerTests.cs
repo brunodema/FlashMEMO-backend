@@ -55,7 +55,7 @@ namespace Tests.Integration.NewsTests
         }
 
         [Fact]
-        public async void CreatesSuccessfully()
+        public void CreatesSuccessfully()
         {
             RunAndReportResults(TestData.CreatesSuccessfullyTestCases, async entity =>
             {
@@ -77,28 +77,30 @@ namespace Tests.Integration.NewsTests
                 Assert.Null(parsedResponse.Errors);
             });
         }
-        //[Theory]
-        //[MemberData(nameof(IRepositoryControllerTestData.DeletesByIdSuccessfullyTestData), MemberType = typeof(IRepositoryControllerTestData))]
-        //public async void DeletesByIdSuccessfully(TKey id)
-        //{
-        //    // Arrange
-        //    var entity = await BaseRepository.GetByIdAsync(id);
-        //    var body = JsonContent.Create(id);
+        [Fact]
+        public void DeletesByIdSuccessfully()
+        {
+            RunAndReportResults(TestData.DeletesByIdSuccessfullyTestData, async id =>
+            {
+                // Arrange
+                var entity = await _integrationTestFixture.HttpClient.GetAsync($"{GetEndpoint}/{id}").Result.Content.ReadFromJsonAsync<TEntity>();
+                var body = JsonContent.Create(id);
 
-        //    // Act
-        //    var response = await _integrationTestFixture.HttpClient.PostAsync(DeleteEndpoint, body);
-        //    var parsedResponse = await response.Content.ReadFromJsonAsync<BaseResponseModel>();
+                // Act
+                var response = await _integrationTestFixture.HttpClient.PostAsync(DeleteEndpoint, body);
+                var parsedResponse = await response.Content.ReadFromJsonAsync<BaseResponseModel>();
 
-        //    // Assert
-        //    Assert.True(response.StatusCode == HttpStatusCode.OK);
-        //    Assert.Null(parsedResponse.Errors);
+                // Assert
+                Assert.True(response.StatusCode == HttpStatusCode.OK);
+                Assert.Null(parsedResponse.Errors);
 
-        //    // Undo
-        //    response = await _integrationTestFixture.HttpClient.PostAsync(CreateEndpoint, JsonContent.Create(entity));
-        //    parsedResponse = await response.Content.ReadFromJsonAsync<BaseResponseModel>();
-        //    Assert.True(response.StatusCode == HttpStatusCode.OK);
-        //    Assert.Null(parsedResponse.Errors);
-        //}
+                // Undo
+                response = await _integrationTestFixture.HttpClient.PostAsync(CreateEndpoint, JsonContent.Create(entity));
+                parsedResponse = await response.Content.ReadFromJsonAsync<BaseResponseModel>();
+                Assert.True(response.StatusCode == HttpStatusCode.OK);
+                Assert.Null(parsedResponse.Errors);
+            });
+        }
         //[Theory]
         //[MemberData(nameof(IRepositoryControllerTestData.FailsDeletionIfIdDoesNotExistTestData), MemberType = typeof(IRepositoryControllerTestData))]
         //public async void FailsDeletionIfIdDoesNotExist(TKey id)
