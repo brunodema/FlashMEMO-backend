@@ -51,7 +51,6 @@ namespace Tests.Integration.NewsTests
                 Output.WriteLine($"Test #{count} has failed. Exception was: {ex.Message}");
                 throw;
             }
-
         }
         public RepositoryControllerTests(IntegrationTestFixture integrationTestFixture, ITestOutputHelper output)
         {

@@ -39,7 +39,6 @@ namespace Tests.Integration.NewsTests
             get
             {
                 return new List<Guid> {
-                        new Guid("00000000-0000-0000-0000-000000000000"),
                         new Guid("5CDA2C98-98D7-0341-0D7F-5F634136DBE3")
                     };
             }
