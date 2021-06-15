@@ -174,29 +174,32 @@ namespace Tests.Integration.NewsTests
                 Assert.True(true); // skip this for now
             });
         }
-        //[Theory]
-        //[MemberData(nameof(IRepositoryControllerTestData.UpdatesSuccessfullyTestData), MemberType = typeof(IRepositoryControllerTestData))]
-        //public async void UpdatesSuccessfully(TEntity entity)
-        //{
-        //    // Arrange
-        //    var entityBefore = await BaseRepository.GetByIdAsync(entity.GetId());
-        //    var body = JsonContent.Create(entity);
+        [Fact]
+        public void UpdatesSuccessfully()
+        {
+            RunAndReportResults(TestData.UpdatesSuccessfullyTestData, async entity =>
+            {
+                // Arrange
+                var entityBefore = await _integrationTestFixture.HttpClient.GetAsync($"{GetEndpoint}/{entity.GetId()}").Result.Content.ReadFromJsonAsync<TEntity>();
+                var body = JsonContent.Create(entity);
 
-        //    // Act
-        //    var response = await _integrationTestFixture.HttpClient.PutAsync(UpdateEndpoint, body);
-        //    var afterResponse = await _integrationTestFixture.HttpClient.GetAsync($"{GetEndpoint}/{entity.GetId()}");
-        //    var entityAfter = afterResponse.Content.ReadFromJsonAsync<PaginatedListResponse<TEntity>>().Result.Data.Results.SingleOrDefault();
+                // Act
+                var response = await _integrationTestFixture.HttpClient.PutAsync(UpdateEndpoint, body);
+                var afterResponse = await _integrationTestFixture.HttpClient.GetAsync($"{GetEndpoint}/{entity.GetId()}");
+                var entityAfter = afterResponse.Content.ReadFromJsonAsync<PaginatedListResponse<TEntity>>().Result.Data.Results.SingleOrDefault();
 
-        //    // Assert
-        //    Assert.True(response.StatusCode == HttpStatusCode.OK);
-        //    entity.Should().BeEquivalentTo(entityAfter);
-        //    entity.Should().NotBeEquivalentTo(entityBefore);
+                // Assert
+                Assert.True(response.StatusCode == HttpStatusCode.OK);
+                entity.Should().BeEquivalentTo(entityAfter);
+                entity.Should().NotBeEquivalentTo(entityBefore);
 
-        //    // Undo
-        //    await BaseRepository.UpdateAsync(entityBefore);
-        //    var entityUndo = await BaseRepository.GetByIdAsync(entity.GetId());
-        //    entityBefore.Should().BeEquivalentTo(entityUndo);
-        //}
+                // Undo
+                body = JsonContent.Create(entityBefore);
+                await _integrationTestFixture.HttpClient.PutAsync(UpdateEndpoint, body);
+                var entityUndo = await _integrationTestFixture.HttpClient.GetAsync($"{GetEndpoint}/{entity.GetId()}").Result.Content.ReadFromJsonAsync<TEntity>();
+                entityBefore.Should().BeEquivalentTo(entityUndo);
+            });
+        }
     }
 
     public class NewsRepositoryControllerTests : RepositoryControllerTests<News, Guid>
