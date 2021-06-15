@@ -2,6 +2,18 @@
 
 namespace Tests.Integration.AuxiliaryClasses
 {
+    public static class TestMessages
+    {
+        /// <summary>
+        /// {0} Number of the test.
+        /// </summary>
+        public const string TestSuccessful = "Test #{0} run successfully.";
+        /// <summary>
+        /// {0} Number of the test.
+        /// {1} Exception message.
+        /// </summary>
+        public const string TestFailed = "Test #{0} has failed. Exception: {1}";
+    }
     public class ValidationErrorsWhenCreatingData<TEntiy> : IValidationErrorsWhenCreatingData<TEntiy>
     {
         public TEntiy Entiy { get; set; }

@@ -1,6 +1,5 @@
 ﻿using API.ViewModels;
 using Data.Messages;
-using Data.Repository;
 using Data.Repository.Interfaces;
 using System;
 using System.Linq;
@@ -142,7 +141,7 @@ namespace Tests.Integration.NewsTests
 
                 // Assert
                 Assert.True(response.StatusCode == HttpStatusCode.OK);
-                Assert.True(parsedResponse.Data.Count == expectedNumberOfRecords, $"Expected value was {expectedNumberOfRecords}, returned value is {parsedResponse.Data.Count}");
+                Assert.True(parsedResponse.Data.Count == expectedNumberOfRecords);
             });
         }
         [Fact]
@@ -178,22 +177,24 @@ namespace Tests.Integration.NewsTests
                 }
             });
         }
-        //[Fact]
-        //public void ReportsValidationErrorsWhenCreating()
-        //{
-        //    RunAndReportResults(TestData.ReportsValidationErrorsWhenCreatingTestData, testData =>
-        //    {
-        //        Assert.True(true); // skip this for now
-        //    });
-        //}
-        //[Fact]
-        //public void ReportsValidationErrorsWhenUpdating()
-        //{
-        //    RunAndReportResults(TestData.ReportsValidationErrorsWhenCreatingTestData, testData =>
-        //    {
-        //        Assert.True(true); // skip this for now
-        //    });
-        //}
+        [Fact]
+        public void ReportsValidationErrorsWhenCreating()
+        {
+            RunAndReportResults(TestData.ReportsValidationErrorsWhenCreatingTestData, async testData =>
+            {
+                Assert.True(true); // skip this for now
+                await Task.CompletedTask;
+            });
+        }
+        [Fact]
+        public void ReportsValidationErrorsWhenUpdating()
+        {
+            RunAndReportResults(TestData.ReportsValidationErrorsWhenCreatingTestData, async testData =>
+            {
+                Assert.True(true); // skip this for now
+                                await Task.CompletedTask;
+            });
+        }
         [Fact]
         public void UpdatesSuccessfully()
         {
