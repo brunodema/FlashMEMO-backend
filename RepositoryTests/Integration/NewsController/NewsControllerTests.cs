@@ -158,18 +158,22 @@ namespace Tests.Integration.NewsTests
                 Assert.True(parsedResponse.Data.Total == count);
             });
         }
-        //[Theory]
-        //[MemberData(nameof(IRepositoryControllerTestData.ReportsValidationErrorsWhenCreatingTestData), MemberType = typeof(IRepositoryControllerTestData))]
-        //public async void ReportsValidationErrorsWhenCreating(TEntity entity, string[] expectedErrors)
-        //{
-        //    Assert.True(true); // skip this for now
-        //}
-        //[Theory]
-        //[MemberData(nameof(IRepositoryControllerTestData.ReportsValidationErrorsWhenUpdatingTestData), MemberType = typeof(IRepositoryControllerTestData))]
-        //public async void ReportsValidationErrorsWhenUpdating(TEntity entity, string[] expectedErrors)
-        //{
-        //    Assert.True(true); // skip this for now
-        //}
+        [Fact]
+        public void ReportsValidationErrorsWhenCreating()
+        {
+            RunAndReportResults(TestData.ReportsValidationErrorsWhenCreatingTestData, testData =>
+            {
+                Assert.True(true); // skip this for now
+            });
+        }
+        [Fact]
+        public void ReportsValidationErrorsWhenUpdating()
+        {
+            RunAndReportResults(TestData.ReportsValidationErrorsWhenCreatingTestData, testData =>
+            {
+                Assert.True(true); // skip this for now
+            });
+        }
         //[Theory]
         //[MemberData(nameof(IRepositoryControllerTestData.UpdatesSuccessfullyTestData), MemberType = typeof(IRepositoryControllerTestData))]
         //public async void UpdatesSuccessfully(TEntity entity)
