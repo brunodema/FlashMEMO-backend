@@ -13,6 +13,7 @@ using FluentAssertions;
 using Data.Models;
 using Xunit.Abstractions;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace Tests.Integration.NewsTests
 {
@@ -32,6 +33,26 @@ namespace Tests.Integration.NewsTests
         private readonly ITestOutputHelper Output;
 
         public abstract void SetTestData();
+
+        private async void RunAndReportResults<TTestInputData>(IEnumerable<TTestInputData> vs, Func<TTestInputData, Task> func)
+        {
+            int count = 0;
+            try
+            {
+                foreach (var entity in vs)
+                {
+                    ++count;
+                    await func(entity);
+                    Output.WriteLine($"Test #{count} run successfully.");
+                }
+            }
+            catch (Exception ex)
+            {
+                Output.WriteLine($"Test #{count} has failed. Exception was: {ex.Message}");
+                throw;
+            }
+
+        }
         public RepositoryControllerTests(IntegrationTestFixture integrationTestFixture, ITestOutputHelper output)
         {
             _integrationTestFixture = integrationTestFixture;
@@ -42,16 +63,6 @@ namespace Tests.Integration.NewsTests
             GetEndpoint = $"{BaseEndpoint}";
             ListEndpoint = $"{BaseEndpoint}/list";
             DeleteEndpoint = $"{BaseEndpoint}/delete";
-        }
-        private void RunAndReportResults<TTestInputData>(IEnumerable<TTestInputData> vs, Action<TTestInputData> func)
-        {
-            int count = 0;
-            foreach (var entity in vs)
-            {
-                ++count;
-                func(entity);
-                Output.WriteLine($"Test #{count} run successfully.");
-            }
         }
 
         [Fact]
@@ -168,22 +179,22 @@ namespace Tests.Integration.NewsTests
                 }
             });
         }
-        [Fact]
-        public void ReportsValidationErrorsWhenCreating()
-        {
-            RunAndReportResults(TestData.ReportsValidationErrorsWhenCreatingTestData, testData =>
-            {
-                Assert.True(true); // skip this for now
-            });
-        }
-        [Fact]
-        public void ReportsValidationErrorsWhenUpdating()
-        {
-            RunAndReportResults(TestData.ReportsValidationErrorsWhenCreatingTestData, testData =>
-            {
-                Assert.True(true); // skip this for now
-            });
-        }
+        //[Fact]
+        //public void ReportsValidationErrorsWhenCreating()
+        //{
+        //    RunAndReportResults(TestData.ReportsValidationErrorsWhenCreatingTestData, testData =>
+        //    {
+        //        Assert.True(true); // skip this for now
+        //    });
+        //}
+        //[Fact]
+        //public void ReportsValidationErrorsWhenUpdating()
+        //{
+        //    RunAndReportResults(TestData.ReportsValidationErrorsWhenCreatingTestData, testData =>
+        //    {
+        //        Assert.True(true); // skip this for now
+        //    });
+        //}
         [Fact]
         public void UpdatesSuccessfully()
         {
