@@ -74,25 +74,31 @@ namespace Tests.Integration.NewsTests
                         {
                             pageSize = 10,
                             pageNumber = 1,
-                            expectedNumberOfRecords = 10
                         },
                         new GetsSpecifiedNumberOfRecordsPerPageData<News>
                         {
                             pageSize = 10,
                             pageNumber = 2,
-                            expectedNumberOfRecords = 10
                         },
                         new GetsSpecifiedNumberOfRecordsPerPageData<News>
                         {
                             pageSize = 100,
                             pageNumber = 1,
-                            expectedNumberOfRecords = 100
                         },
                         new GetsSpecifiedNumberOfRecordsPerPageData<News>
                         {
                             pageSize = 99,
                             pageNumber = 2,
-                            expectedNumberOfRecords = 1
+                        },
+                        new GetsSpecifiedNumberOfRecordsPerPageData<News>
+                        {
+                            pageSize = 100,
+                            pageNumber = 100,
+                        },
+                        new GetsSpecifiedNumberOfRecordsPerPageData<News>
+                        {
+                            pageSize = 70,
+                            pageNumber = 2,
                         },
                 };
             }

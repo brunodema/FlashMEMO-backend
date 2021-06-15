@@ -136,16 +136,14 @@ namespace Tests.Integration.NewsTests
             });
         }
         [Fact]
+
         public void GetsSpecifiedNumberOfRecordsPerPage()
         {
             RunAndReportResults(TestData.GetsSpecifiedNumberOfRecordsPerPage, async testData =>
             {
                 // Arrange
-                var queryParams = $"?pageSize={100}"; // current total value
-                var count = _integrationTestFixture.HttpClient.GetAsync($"{ListEndpoint}{queryParams}").Result.Content.ReadFromJsonAsync<PaginatedListResponse<TEntity>>().Result.Data.Count; // monstruosity
-
                 var targetPageNumber = testData.pageNumber == null ? 1 : testData.pageNumber;
-                queryParams = $"?pageSize={testData.pageSize}&pageNumber={targetPageNumber}";
+                var queryParams = $"?pageSize={testData.pageSize}&pageNumber={targetPageNumber}";
 
                 // Act
                 var response = await _integrationTestFixture.HttpClient.GetAsync($"{ListEndpoint}{queryParams}");
@@ -153,9 +151,21 @@ namespace Tests.Integration.NewsTests
 
                 // Assert
                 Assert.True(response.StatusCode == HttpStatusCode.OK);
-                Assert.True(parsedResponse.Data.Count == testData.expectedNumberOfRecords);
                 Assert.True(parsedResponse.Data.PageIndex == testData.pageNumber);
-                Assert.True(parsedResponse.Data.Total == count);
+
+                // rework this in the future
+                if (testData.pageNumber > parsedResponse.Data.TotalPages)
+                {
+                    Assert.True(parsedResponse.Data.Count == 0);
+                }
+                else if (testData.pageNumber == parsedResponse.Data.TotalPages)
+                {
+                    Assert.True(parsedResponse.Data.Count == parsedResponse.Data.Total - (parsedResponse.Data.PageIndex - 1) * testData.pageSize);
+                }
+                else
+                {
+                    Assert.True(parsedResponse.Data.Count == testData.pageSize);
+                }
             });
         }
         [Fact]

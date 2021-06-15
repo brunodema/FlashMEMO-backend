@@ -15,6 +15,5 @@ namespace Tests.Integration.Interfaces
     {
         public int pageSize { get; set; }
         public int? pageNumber { get; set; }
-        public int expectedNumberOfRecords { get; set; }
     }
 }
