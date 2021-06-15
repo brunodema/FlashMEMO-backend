@@ -11,4 +11,10 @@ namespace Tests.Integration.Interfaces
         public TEntiy Entiy { get; set; }
         public string[] Errors { get; set; }
     }
+    public interface IGetsSpecifiedNumberOfRecordsPerPageData<TEntiy>
+    {
+        public int pageSize { get; set; }
+        public int? pageNumber { get; set; }
+        public int expectedNumberOfRecords { get; set; }
+    }
 }

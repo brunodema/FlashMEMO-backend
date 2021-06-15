@@ -101,58 +101,63 @@ namespace Tests.Integration.NewsTests
                 Assert.Null(parsedResponse.Errors);
             });
         }
-        //[Theory]
-        //[MemberData(nameof(IRepositoryControllerTestData.FailsDeletionIfIdDoesNotExistTestData), MemberType = typeof(IRepositoryControllerTestData))]
-        //public async void FailsDeletionIfIdDoesNotExist(TKey id)
-        //{
-        //    // Arrange
-        //    var body = JsonContent.Create(id);
+        [Fact]
+        public void FailsDeletionIfIdDoesNotExist()
+        {
+            RunAndReportResults(TestData.FailsDeletionIfIdDoesNotExistTestData, async id =>
+            {
+                // Arrange
+                var body = JsonContent.Create(id);
 
-        //    // Act
-        //    var response = await _integrationTestFixture.HttpClient.PostAsync(DeleteEndpoint, body);
-        //    var parsedResponse = await response.Content.ReadFromJsonAsync<BaseResponseModel>();
+                // Act
+                var response = await _integrationTestFixture.HttpClient.PostAsync(DeleteEndpoint, body);
+                var parsedResponse = await response.Content.ReadFromJsonAsync<BaseResponseModel>();
 
-        //    // Assert
-        //    Assert.True(response.StatusCode == HttpStatusCode.InternalServerError);
-        //    Assert.True(parsedResponse.Message == RepositoryExceptionMessages.NullObjectInvalidID);
-        //}
-        //[Theory]
-        //[InlineData(100)]
-        //public async void ListsAllRecordsSuccessfully(int expectedNumberOfRecords)
-        //{
-        //    // Arrange
-        //    var queryParams = $"?pageSize={expectedNumberOfRecords}";
+                // Assert
+                Assert.True(response.StatusCode == HttpStatusCode.InternalServerError);
+                Assert.True(parsedResponse.Message == RepositoryExceptionMessages.NullObjectInvalidID);
+            });
+        }
+        [Fact]
+        public void ListsAllRecordsSuccessfully()
+        {
+            RunAndReportResults(TestData.ListsAllRecordsSuccessfully, async expectedNumberOfRecords =>
+            {
+                // Arrange
+                var queryParams = $"?pageSize={expectedNumberOfRecords}";
 
-        //    // Act
-        //    var response = await _integrationTestFixture.HttpClient.GetAsync($"{ListEndpoint}{queryParams}");
-        //    var parsedResponse = await response.Content.ReadFromJsonAsync<PaginatedListResponse<TEntity>>();
+                // Act
+                var response = await _integrationTestFixture.HttpClient.GetAsync($"{ListEndpoint}{queryParams}");
+                var parsedResponse = await response.Content.ReadFromJsonAsync<PaginatedListResponse<TEntity>>();
 
-        //    // Assert
-        //    Assert.True(response.StatusCode == HttpStatusCode.OK);
-        //    Assert.True(parsedResponse.Data.Count == expectedNumberOfRecords, $"Expected value was {expectedNumberOfRecords}, returned value is {parsedResponse.Data.Count}");
-        //}
-        //[Theory]
-        //[InlineData(10, 1, 10)]
-        //[InlineData(10, 2, 10)]
-        //[InlineData(100, 1, 100)]
-        //[InlineData(99, 2, 1)]
-        //public async void GetsSpecifiedNumberOfRecordsPerPage(int pageSize, int? pageNumber, int expectedNumberOfRecords)
-        //{
-        //    // Arrange
-        //    var count = (await BaseRepository.GetAllAsync()).Count;
-        //    var targetPageNumber = pageNumber == null ? 1 : pageNumber;
-        //    var queryParams = $"?pageSize={pageSize}&pageNumber={targetPageNumber}";
+                // Assert
+                Assert.True(response.StatusCode == HttpStatusCode.OK);
+                Assert.True(parsedResponse.Data.Count == expectedNumberOfRecords, $"Expected value was {expectedNumberOfRecords}, returned value is {parsedResponse.Data.Count}");
+            });
+        }
+        [Fact]
+        public void GetsSpecifiedNumberOfRecordsPerPage()
+        {
+            RunAndReportResults(TestData.GetsSpecifiedNumberOfRecordsPerPage, async testData =>
+            {
+                // Arrange
+                var queryParams = $"?pageSize={100}"; // current total value
+                var count = _integrationTestFixture.HttpClient.GetAsync($"{ListEndpoint}{queryParams}").Result.Content.ReadFromJsonAsync<PaginatedListResponse<TEntity>>().Result.Data.Count; // monstruosity
 
-        //    // Act
-        //    var response = await _integrationTestFixture.HttpClient.GetAsync($"{ListEndpoint}{queryParams}");
-        //    var parsedResponse = await response.Content.ReadFromJsonAsync<PaginatedListResponse<TEntity>>();
+                var targetPageNumber = testData.pageNumber == null ? 1 : testData.pageNumber;
+                queryParams = $"?pageSize={testData.pageSize}&pageNumber={targetPageNumber}";
 
-        //    // Assert
-        //    Assert.True(response.StatusCode == HttpStatusCode.OK);
-        //    Assert.True(parsedResponse.Data.Count == expectedNumberOfRecords);
-        //    Assert.True(parsedResponse.Data.PageIndex == pageNumber);
-        //    Assert.True(parsedResponse.Data.Total == count);
-        //}
+                // Act
+                var response = await _integrationTestFixture.HttpClient.GetAsync($"{ListEndpoint}{queryParams}");
+                var parsedResponse = await response.Content.ReadFromJsonAsync<PaginatedListResponse<TEntity>>();
+
+                // Assert
+                Assert.True(response.StatusCode == HttpStatusCode.OK);
+                Assert.True(parsedResponse.Data.Count == testData.expectedNumberOfRecords);
+                Assert.True(parsedResponse.Data.PageIndex == testData.pageNumber);
+                Assert.True(parsedResponse.Data.Total == count);
+            });
+        }
         //[Theory]
         //[MemberData(nameof(IRepositoryControllerTestData.ReportsValidationErrorsWhenCreatingTestData), MemberType = typeof(IRepositoryControllerTestData))]
         //public async void ReportsValidationErrorsWhenCreating(TEntity entity, string[] expectedErrors)

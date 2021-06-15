@@ -1,6 +1,7 @@
 ﻿using Data.Models;
 using System;
 using System.Collections.Generic;
+using Tests.Integration.AuxiliaryClasses;
 using Tests.Integration.Interfaces;
 
 namespace Tests.Integration.NewsTests
@@ -54,7 +55,50 @@ namespace Tests.Integration.NewsTests
             }
         }
 
-        public IEnumerable<ValidationErrorsWhenCreatingData<News>> ReportsValidationErrorsWhenCreatingTestData
+        public IEnumerable<int> ListsAllRecordsSuccessfully
+        {
+            get
+            {
+                return new List<int> {
+                       100
+                    };
+            }
+        }
+
+        public IEnumerable<GetsSpecifiedNumberOfRecordsPerPageData<News>> GetsSpecifiedNumberOfRecordsPerPage
+        {
+            get
+            {
+                return new List<GetsSpecifiedNumberOfRecordsPerPageData<News>> {
+                        new GetsSpecifiedNumberOfRecordsPerPageData<News>
+                        {
+                            pageSize = 10,
+                            pageNumber = 1,
+                            expectedNumberOfRecords = 10
+                        },
+                        new GetsSpecifiedNumberOfRecordsPerPageData<News>
+                        {
+                            pageSize = 10,
+                            pageNumber = 2,
+                            expectedNumberOfRecords = 10
+                        },
+                        new GetsSpecifiedNumberOfRecordsPerPageData<News>
+                        {
+                            pageSize = 100,
+                            pageNumber = 1,
+                            expectedNumberOfRecords = 100
+                        },
+                        new GetsSpecifiedNumberOfRecordsPerPageData<News>
+                        {
+                            pageSize = 99,
+                            pageNumber = 2,
+                            expectedNumberOfRecords = 1
+                        },
+                };
+            }
+        }
+
+        public IEnumerable<IValidationErrorsWhenCreatingData<News>> ReportsValidationErrorsWhenCreatingTestData
         {
             get
             {
@@ -74,7 +118,7 @@ namespace Tests.Integration.NewsTests
             }
         }
 
-        public IEnumerable<ValidationErrorsWhenCreatingData<News>> ReportsValidationErrorsWhenUpdatingTestData
+        public IEnumerable<IValidationErrorsWhenCreatingData<News>> ReportsValidationErrorsWhenUpdatingTestData
         {
             get
             {
