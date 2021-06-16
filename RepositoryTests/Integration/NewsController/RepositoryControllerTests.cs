@@ -16,7 +16,7 @@ using System.Threading.Tasks;
 
 namespace Tests.Integration.NewsTests
 {
-    public abstract class RepositoryControllerTests<TEntity, TKey> : IClassFixture<IntegrationTestFixture>//, IRepositoryControllerTests<TEntity, TKey>
+    public abstract class RepositoryControllerTests<TEntity, TKey> : IClassFixture<IntegrationTestFixture>, IRepositoryControllerTests<TEntity, TKey>
        where TEntity : class, IDatabaseItem<TKey>
 
     {
