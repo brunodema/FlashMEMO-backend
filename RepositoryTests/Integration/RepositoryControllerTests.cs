@@ -36,6 +36,13 @@ namespace Tests.Integration.NewsTests
         /// </summary>
         public abstract IRepositoryControllerTestData<TEntity, TKey> SetTestData();
 
+        private async Task<int> GetTotalNumberOfRecordsOnDatabase()
+        {
+            var queryParams = $"?pageSize={100000}"; // should be large enough, right?
+            var response = await _integrationTestFixture.HttpClient.GetAsync($"{ListEndpoint}{queryParams}");
+            return response.Content.ReadFromJsonAsync<PaginatedListResponse<TEntity>>().Result.Data.Count;
+        }
+
         private async void RunAndReportResults<TTestInputData>(IEnumerable<TTestInputData> vs, Func<TTestInputData, Task> func)
         {
             int count = 0;
