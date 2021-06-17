@@ -13,6 +13,7 @@ using Data.Models;
 using Xunit.Abstractions;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Tests.Integration.NewsControllerTests;
 
 namespace Tests.Integration.NewsTests
 {

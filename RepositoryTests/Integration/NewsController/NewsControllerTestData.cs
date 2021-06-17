@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using Tests.Integration.AuxiliaryClasses;
 using Tests.Integration.Interfaces;
 
-namespace Tests.Integration.NewsTests
+namespace Tests.Integration.NewsControllerTests
 {
     public class NewsControllerTestData : IRepositoryControllerTestData<News, Guid>
     {
