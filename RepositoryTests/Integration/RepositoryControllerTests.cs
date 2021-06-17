@@ -156,7 +156,7 @@ namespace Tests.Integration.NewsTests
             RunAndReportResults(TestData.GetsSpecifiedNumberOfRecordsPerPage, async testData =>
             {
                 // Arrange
-                var targetPageNumber = testData.pageNumber == null ? 1 : testData.pageNumber;
+                var targetPageNumber = testData.pageNumber <= 0? 1 : testData.pageNumber;
                 var queryParams = $"?pageSize={testData.pageSize}&pageNumber={targetPageNumber}";
 
                 // Act
