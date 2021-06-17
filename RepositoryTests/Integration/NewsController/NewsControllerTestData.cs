@@ -131,14 +131,15 @@ namespace Tests.Integration.NewsTests
                 return new List<ValidationErrorsWhenCreatingData<News>> {
                     new ValidationErrorsWhenCreatingData<News> {
                         Entiy = new News {
-                            NewsID = Guid.NewGuid(),
+                            NewsID = Guid.Parse("5f3c3d42-f836-4017-9116-f9856cb0ff4f"), // does not exist
                             Title = "Test News",
                             Subtitle = "This is a test news",
                             Content = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Vel fringilla est ullamcorper eget nulla facilisi etiam dignissim. Orci sagittis eu volutpat odio facilisis mauris sit amet massa. Tincidunt vitae semper quis lectus nulla. Accumsan tortor posuere ac ut consequat semper viverra. Dictum non consectetur a erat. Tellus molestie nunc non blandit massa enim. Mauris a diam maecenas sed. Viverra aliquet eget sit amet tellus cras. A pellentesque sit amet porttitor eget.",
                             CreationDate = DateTime.Now,
                             LastUpdated = DateTime.Now
                         },
-                        Errors = new string[]{} // once char limits for title/subtitle/content and datetime checks are implemented, come back to this method
+                        Message = "Attempted to update or delete an entity that does not exist in the store.",
+                        Errors = null // once char limits for title/subtitle/content and datetime checks are implemented, come back to this method
                     }
                 };
             }

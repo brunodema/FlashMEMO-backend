@@ -17,6 +17,7 @@ namespace Tests.Integration.AuxiliaryClasses
     public class ValidationErrorsWhenCreatingData<TEntiy> : IValidationErrorsWhenCreatingData<TEntiy>
     {
         public TEntiy Entiy { get; set; }
+        public string Message { get; set; }
         public string[] Errors { get; set; }
     }
     public class GetsSpecifiedNumberOfRecordsPerPageData<TEntiy> : IGetsSpecifiedNumberOfRecordsPerPageData<TEntiy>
