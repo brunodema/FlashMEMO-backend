@@ -229,10 +229,7 @@ namespace Tests.Integration.NewsTests
 
     public class NewsRepositoryControllerTests : RepositoryControllerTests<News, Guid>
     {
-        public NewsRepositoryControllerTests(IntegrationTestFixture integrationTestFixture, ITestOutputHelper output) : base(integrationTestFixture, output)
-        {
-            SetTestData();
-        }
+        public NewsRepositoryControllerTests(IntegrationTestFixture integrationTestFixture, ITestOutputHelper output) : base(integrationTestFixture, output) { }
 
         public override IRepositoryControllerTestData<News, Guid> SetTestData()
         {
