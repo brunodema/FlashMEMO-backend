@@ -31,7 +31,7 @@ namespace Tests.Integration.NewsTests
         public IRepositoryControllerTestData<TEntity, TKey> TestData { get; set; }
 
         /// <summary>
-        /// 
+        /// This method returns a new IRepositoryControllerTestData object containing the tests to be run for each RepositoryController test category (create, read, update, delete, etc).
         /// </summary>
         public abstract IRepositoryControllerTestData<TEntity, TKey> SetTestData();
 
