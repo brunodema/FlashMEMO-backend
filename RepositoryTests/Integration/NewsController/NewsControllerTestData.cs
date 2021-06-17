@@ -39,7 +39,7 @@ namespace Tests.Integration.NewsControllerTests
             get
             {
                 return new List<Guid> {
-                        new Guid("5CDA2C98-98D7-0341-0D7F-5F634136DBE3")
+                        new Guid("A43ACA9F-363A-1321-D87D-4CCD55FAD9B9")
                     };
             }
         }
@@ -50,7 +50,7 @@ namespace Tests.Integration.NewsControllerTests
             get
             {
                 return new List<Guid> {
-                        new Guid("00000000-0000-0000-0000-000000000000")
+                        new Guid("00000000-0000-0000-0000-000000000000") // does not exist
                     };
             }
         }
@@ -131,7 +131,7 @@ namespace Tests.Integration.NewsControllerTests
                 return new List<ValidationErrorsWhenCreatingData<News>> {
                     new ValidationErrorsWhenCreatingData<News> {
                         Entiy = new News {
-                            NewsID = Guid.Parse("5f3c3d42-f836-4017-9116-f9856cb0ff4f"), // does not exist
+                            NewsID = Guid.NewGuid(), // does not exist
                             Title = "Test News",
                             Subtitle = "This is a test news",
                             Content = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Vel fringilla est ullamcorper eget nulla facilisi etiam dignissim. Orci sagittis eu volutpat odio facilisis mauris sit amet massa. Tincidunt vitae semper quis lectus nulla. Accumsan tortor posuere ac ut consequat semper viverra. Dictum non consectetur a erat. Tellus molestie nunc non blandit massa enim. Mauris a diam maecenas sed. Viverra aliquet eget sit amet tellus cras. A pellentesque sit amet porttitor eget.",
@@ -151,7 +151,7 @@ namespace Tests.Integration.NewsControllerTests
             {
                 return new List<News> {
                         new News {
-                            NewsID = new Guid("3C976BBA-BFF7-0EF5-5A6B-B0AE96F7D3F2"), // id already exists, and object is completely different
+                            NewsID = new Guid("B167AB39-E163-B913-FB94-8B0E6FD933B5"), // id already exists, and object is completely different
                             Title = "Test News",
                             Subtitle = "This is a test news",
                             Content = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Vel fringilla est ullamcorper eget nulla facilisi etiam dignissim. Orci sagittis eu volutpat odio facilisis mauris sit amet massa. Tincidunt vitae semper quis lectus nulla. Accumsan tortor posuere ac ut consequat semper viverra. Dictum non consectetur a erat. Tellus molestie nunc non blandit massa enim. Mauris a diam maecenas sed. Viverra aliquet eget sit amet tellus cras. A pellentesque sit amet porttitor eget.",

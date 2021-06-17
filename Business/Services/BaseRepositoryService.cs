@@ -13,6 +13,12 @@ using Data.Repository.Interfaces;
 
 namespace Business.Services
 {
+    public class BaseRepositoryServiceOptions
+    {
+        public int MaxPageSize { get; set; } = 50;
+        public int PageSize { get; set; } = 10;
+    }
+
     public abstract class BaseRepositoryService<TRepositoryType, TKey, TEntity> : IBaseRepositoryService<TEntity, TKey>
         where TRepositoryType : BaseRepository<TEntity, TKey, FlashMEMOContext>
         where TEntity : class, IDatabaseItem<TKey>
@@ -50,20 +56,5 @@ namespace Business.Services
             await _baseRepository.RemoveByIdAsync(guid);
         }
         public abstract ValidatonResult CheckIfEntityIsValid(TEntity entity);
-    }
-    public class BaseRepositoryServiceOptions
-    {
-        public int MaxPageSize { get; set; } = 50;
-        public int PageSize { get; set; } = 10;
-    }
-
-    public class NewsService : BaseRepositoryService<NewsRepository, Guid, News>
-    {
-        public NewsService(NewsRepository baseRepository, IOptions<BaseRepositoryServiceOptions> serviceOptions) : base(baseRepository, serviceOptions.Value) { }
-        public override ValidatonResult CheckIfEntityIsValid(News entity)
-        {
-            // return new ValidatonResult { IsValid = entity.CreationDate <= entity.LastUpdated }; // dummy database needs to be updated in order to take this into account... let's just return true for now
-            return new ValidatonResult { IsValid = true };
-        }
     }
 }
