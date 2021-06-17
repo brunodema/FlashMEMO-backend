@@ -21,6 +21,7 @@ namespace Tests.Integration.NewsTests
 
     {
         private readonly IntegrationTestFixture _integrationTestFixture;
+        private readonly ITestOutputHelper Output;
         public string BaseEndpoint { get; set; } = $"api/v1/{typeof(TEntity).Name}";
         public string CreateEndpoint { get; set; }
         public string UpdateEndpoint { get; set; }
@@ -29,9 +30,10 @@ namespace Tests.Integration.NewsTests
         public string DeleteEndpoint { get; set; }
         public IRepositoryControllerTestData<TEntity, TKey> TestData { get; set; }
 
-        private readonly ITestOutputHelper Output;
-
-        public abstract void SetTestData();
+        /// <summary>
+        /// 
+        /// </summary>
+        public abstract IRepositoryControllerTestData<TEntity, TKey> SetTestData();
 
         private async void RunAndReportResults<TTestInputData>(IEnumerable<TTestInputData> vs, Func<TTestInputData, Task> func)
         {
@@ -61,6 +63,8 @@ namespace Tests.Integration.NewsTests
             GetEndpoint = $"{BaseEndpoint}";
             ListEndpoint = $"{BaseEndpoint}/list";
             DeleteEndpoint = $"{BaseEndpoint}/delete";
+
+            TestData = SetTestData();
         }
 
         [Fact]
@@ -230,9 +234,9 @@ namespace Tests.Integration.NewsTests
             SetTestData();
         }
 
-        public override void SetTestData()
+        public override IRepositoryControllerTestData<News, Guid> SetTestData()
         {
-            TestData = new NewsControllerTestData();
+            return new NewsControllerTestData();
         }
     }
 }
