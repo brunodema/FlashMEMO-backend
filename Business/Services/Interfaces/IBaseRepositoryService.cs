@@ -10,6 +10,7 @@ namespace Business.Services.Interfaces
     public interface IBaseRepositoryService<TEntity, TKey>
         where TEntity : class
     {
+        public Task<bool> IdAlreadyExists(TKey id);
         public Task CreateAsync(TEntity entity, object[] auxParams = null); // to cover the 'CreateUserAsync' case (requires password)
         public Task UpdateAsync(TEntity entity);
         public Task<TEntity> GetbyIdAsync(TKey id);

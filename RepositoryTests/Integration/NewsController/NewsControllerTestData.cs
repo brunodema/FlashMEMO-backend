@@ -111,6 +111,18 @@ namespace Tests.Integration.NewsControllerTests
                 return new List<ValidationErrorsWhenCreatingData<News>> {
                     new ValidationErrorsWhenCreatingData<News> {
                         Entiy = new News {
+                            NewsID = Guid.Parse("F8633B38-C9B7-882B-496B-E2EE1CC348A7"), // GUID already exists, can't be used to create a new entity
+                            Title = "Test News",
+                            Subtitle = "This is a test news",
+                            Content = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Vel fringilla est ullamcorper eget nulla facilisi etiam dignissim. Orci sagittis eu volutpat odio facilisis mauris sit amet massa. Tincidunt vitae semper quis lectus nulla. Accumsan tortor posuere ac ut consequat semper viverra. Dictum non consectetur a erat. Tellus molestie nunc non blandit massa enim. Mauris a diam maecenas sed. Viverra aliquet eget sit amet tellus cras. A pellentesque sit amet porttitor eget.",
+                            CreationDate = DateTime.Now,
+                            LastUpdated = DateTime.Now
+                        },
+                        Message = "Validation errors occured when creating News.",
+                        Errors = new string[]{ "The provided ID points to an already existing object." }
+                    },
+                    new ValidationErrorsWhenCreatingData<News> {
+                        Entiy = new News {
                             NewsID = Guid.NewGuid(),
                             Title = "Test News",
                             Subtitle = "This is a test news",

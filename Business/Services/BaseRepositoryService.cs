@@ -56,5 +56,10 @@ namespace Business.Services
             await _baseRepository.RemoveByIdAsync(guid);
         }
         public abstract ValidatonResult CheckIfEntityIsValid(TEntity entity);
+
+        public async virtual Task<bool> IdAlreadyExists(TKey id)
+        {
+            return await GetbyIdAsync(id) != null;
+        }
     }
 }

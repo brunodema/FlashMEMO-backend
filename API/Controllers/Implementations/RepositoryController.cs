@@ -1,6 +1,7 @@
 ﻿using API.Tools;
 using API.ViewModels;
 using Business.Services.Interfaces;
+using Data.Repository.Interfaces;
 using Data.Tools;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -11,7 +12,7 @@ using System.Threading.Tasks;
 namespace API.Controllers.Implementations
 {
     public abstract class RepositoryController<TEntity, TKey> : ControllerBase
-        where TEntity : class
+        where TEntity : class, IDatabaseItem<TKey>
     {
         private readonly IBaseRepositoryService<TEntity, TKey> _repositoryService;
 
@@ -46,12 +47,18 @@ namespace API.Controllers.Implementations
         public async virtual Task<IActionResult> Create(TEntity entity)
         {
             var validationResult = _repositoryService.CheckIfEntityIsValid(entity);
-            if (validationResult.IsValid)
+            bool idAlreadyExists = await _repositoryService.IdAlreadyExists(entity.GetId());
+            if (validationResult.IsValid && !idAlreadyExists)
             {
                 await _repositoryService.CreateAsync(entity);
                 return Ok(new BaseResponseModel { Status = "Success", Message = $"{entity.GetType().Name} created successfully." });
             }
-            return BadRequest(new BaseResponseModel { Status = "Error", Message = $"Validation errors occured when creating {entity.GetType().Name}.", Errors = validationResult.Errors });
+            var errors = validationResult.Errors;
+            if (idAlreadyExists)
+            {
+                errors.Add("The provided ID points to an already existing object.");
+            }
+            return BadRequest(new BaseResponseModel { Status = "Error", Message = $"Validation errors occured when creating {entity.GetType().Name}.", Errors = errors });
         }
 
         [HttpPut]
