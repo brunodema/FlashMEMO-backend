@@ -140,6 +140,30 @@ namespace Tests.Integration.NewsControllerTests
                         },
                         Message = "Attempted to update or delete an entity that does not exist in the store.",
                         Errors = null // once char limits for title/subtitle/content and datetime checks are implemented, come back to this method
+                    },
+                    new ValidationErrorsWhenCreatingData<News> {
+                        Entiy = new News {
+                            NewsID = Guid.Parse("82da5e95-a4ac-436f-aba7-211a3f7343ee"), // does not exist
+                            Title = "Test News",
+                            Subtitle = "This is a test news",
+                            Content = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Vel fringilla est ullamcorper eget nulla facilisi etiam dignissim. Orci sagittis eu volutpat odio facilisis mauris sit amet massa. Tincidunt vitae semper quis lectus nulla. Accumsan tortor posuere ac ut consequat semper viverra. Dictum non consectetur a erat. Tellus molestie nunc non blandit massa enim. Mauris a diam maecenas sed. Viverra aliquet eget sit amet tellus cras. A pellentesque sit amet porttitor eget.",
+                            CreationDate = DateTime.Now,
+                            LastUpdated = DateTime.Now
+                        },
+                        Message = "Attempted to update or delete an entity that does not exist in the store.",
+                        Errors = null // once char limits for title/subtitle/content and datetime checks are implemented, come back to this method
+                    },
+                    new ValidationErrorsWhenCreatingData<News> {
+                        Entiy = new News {
+                            NewsID = Guid.Parse("00000000-0000-0000-0000-000000000001"), // does not exist - so, funny fact. Apparently, an empty guid (the one full of zeros) will always return a default object, so that can't be used for testing, since it will make this fail. Threfore, something like this has to be used.
+                            Title = "Test News",
+                            Subtitle = "This is a test news",
+                            Content = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Vel fringilla est ullamcorper eget nulla facilisi etiam dignissim. Orci sagittis eu volutpat odio facilisis mauris sit amet massa. Tincidunt vitae semper quis lectus nulla. Accumsan tortor posuere ac ut consequat semper viverra. Dictum non consectetur a erat. Tellus molestie nunc non blandit massa enim. Mauris a diam maecenas sed. Viverra aliquet eget sit amet tellus cras. A pellentesque sit amet porttitor eget.",
+                            CreationDate = DateTime.Now,
+                            LastUpdated = DateTime.Now
+                        },
+                        Message = "Attempted to update or delete an entity that does not exist in the store.",
+                        Errors = null // once char limits for title/subtitle/content and datetime checks are implemented, come back to this method
                     }
                 };
             }

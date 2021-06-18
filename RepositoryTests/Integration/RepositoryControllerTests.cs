@@ -43,6 +43,11 @@ namespace Tests.Integration.NewsTests
             return response.Content.ReadFromJsonAsync<PaginatedListResponse<TEntity>>().Result.Data.Count;
         }
 
+        private async Task<TEntity> GetEntityById(string id)
+        {
+            return await _integrationTestFixture.HttpClient.GetAsync($"{GetEndpoint}/{id}").Result.Content.ReadFromJsonAsync<TEntity>();
+        }
+
         private async void RunAndReportResults<TTestInputData>(IEnumerable<TTestInputData> vs, Func<TTestInputData, Task> func)
         {
             int count = 0;
