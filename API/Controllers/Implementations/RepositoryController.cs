@@ -49,9 +49,9 @@ namespace API.Controllers.Implementations
             if (validationResult.IsValid)
             {
                 await _repositoryService.CreateAsync(entity);
-                return Ok(new BaseResponseModel { Status = "Success", Message = $"{entity.ToString()} created successfully." });
+                return Ok(new BaseResponseModel { Status = "Success", Message = $"{entity.GetType().Name} created successfully." });
             }
-            return BadRequest(new BaseResponseModel { Status = "Error", Message = $"Validation errors occured when creating {entity.ToString()}.", Errors = validationResult.Errors });
+            return BadRequest(new BaseResponseModel { Status = "Error", Message = $"Validation errors occured when creating {entity.GetType().Name}.", Errors = validationResult.Errors });
         }
 
         [HttpPut]
@@ -62,9 +62,9 @@ namespace API.Controllers.Implementations
             if (validationResult.IsValid)
             {
                 await _repositoryService.UpdateAsync(entity);
-                return Ok(new BaseResponseModel { Status = "Success", Message = $"{entity.ToString()} updated successfully." });
+                return Ok(new BaseResponseModel { Status = "Success", Message = $"{entity.GetType().Name} updated successfully." });
             }
-            return BadRequest(new BaseResponseModel { Status = "Error", Message = $"Validation errors occured when updating {entity.ToString()}.", Errors = validationResult.Errors });
+            return BadRequest(new BaseResponseModel { Status = "Error", Message = $"Validation errors occured when updating {entity.GetType().Name}.", Errors = validationResult.Errors });
         }
 
         [HttpPost]

@@ -199,8 +199,17 @@ namespace Tests.Integration.NewsTests
         {
             RunAndReportResults(TestData.ReportsValidationErrorsWhenCreatingTestData, async testData =>
             {
-                Assert.True(true); // skip this for now
-                await Task.CompletedTask;
+                // Arrange
+                var body = JsonContent.Create(testData.Entiy);
+
+                // Act
+                var response = await _integrationTestFixture.HttpClient.PostAsync(CreateEndpoint, body);
+                var parsedResponse = await response.Content.ReadFromJsonAsync<BaseResponseModel>();
+
+                // Assert
+                Assert.True(response.StatusCode == HttpStatusCode.BadRequest);
+                Assert.True(parsedResponse.Message == testData.Message);
+                parsedResponse.Errors.Should().BeEquivalentTo(testData.Errors);
             });
         }
         [Fact]

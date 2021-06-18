@@ -116,9 +116,10 @@ namespace Tests.Integration.NewsControllerTests
                             Subtitle = "This is a test news",
                             Content = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Vel fringilla est ullamcorper eget nulla facilisi etiam dignissim. Orci sagittis eu volutpat odio facilisis mauris sit amet massa. Tincidunt vitae semper quis lectus nulla. Accumsan tortor posuere ac ut consequat semper viverra. Dictum non consectetur a erat. Tellus molestie nunc non blandit massa enim. Mauris a diam maecenas sed. Viverra aliquet eget sit amet tellus cras. A pellentesque sit amet porttitor eget.",
                             CreationDate = DateTime.Now,
-                            LastUpdated = DateTime.Now
+                            LastUpdated = DateTime.Now.Subtract(TimeSpan.FromSeconds(1)) // this should make it fail
                         },
-                        Errors = new string[]{} // once char limits for title/subtitle/content and datetime checks are implemented, come back to this method
+                        Message = "Validation errors occured when creating News.",
+                        Errors = new string[]{ "The last updated date must be more recent than the creation date." }
                     }
                 };
             }
