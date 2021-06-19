@@ -18,11 +18,6 @@ namespace Data.Models
         {
             return Id;
         }
-
-        public Expression<Func<object>> GetSortColumnFromString(string column)
-        {
-            throw new NotImplementedException();
-        }
     }
 
     public class ApplicationRole : IdentityRole, IDatabaseItem<string>
@@ -32,11 +27,6 @@ namespace Data.Models
         public string GetId()
         {
             return Id;
-        }
-
-        public Expression<Func<object>> GetSortColumnFromString(string column)
-        {
-            throw new NotImplementedException();
         }
     }
 
