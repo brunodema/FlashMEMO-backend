@@ -1,4 +1,5 @@
-﻿using Tests.Integration.Interfaces;
+﻿using Data.Tools;
+using Tests.Integration.Interfaces;
 
 namespace Tests.Integration.AuxiliaryClasses
 {
@@ -30,6 +31,7 @@ namespace Tests.Integration.AuxiliaryClasses
     {
         public int pageSize { get; set; }
         public string columnToSort { get; set; }
+        public SortType SortType { get; set; }
     }
     public class ShoulFilterRecordsAppropriately<TEntiy> : IShoulFilterRecordsAppropriately<TEntiy>
     {

@@ -19,22 +19,9 @@ namespace API.Controllers
         {
             _newsService = newsService;
         }
-        protected override SortOptions<News, object> SetColumnSorting(string columnToSort, SortType sortType)
+        protected override GenericSortOptions<News> SetColumnSorting(string columnToSort, SortType sortType)
         {
-            SortOptions<News, object> sortOptions = new SortOptions<News, object>();
-            switch (columnToSort)
-            {
-                case "subtitle":
-                    sortOptions.ColumnToSort = news => news.Subtitle;
-                    break;
-                case "date":
-                    sortOptions.ColumnToSort = news => news.CreationDate;
-                    break;
-                default: // default will be title
-                    sortOptions.ColumnToSort = news => news.Title;
-                    break;
-            }
-            sortOptions.SortType = sortType;
+            GenericSortOptions<News> sortOptions = new NewsSortOptions(sortType, columnToSort);
             return sortOptions;
         }
 

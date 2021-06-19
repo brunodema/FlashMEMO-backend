@@ -1,4 +1,6 @@
-﻿namespace Tests.Integration.Interfaces
+﻿using Data.Tools;
+
+namespace Tests.Integration.Interfaces
 {
     public interface IValidationErrorsWhenCreatingData<TEntiy>
     {
@@ -16,6 +18,7 @@
     {
         public int pageSize { get; set; }
         public string columnToSort{ get; set; }
+        SortType SortType { get; set; }
     }
 
     public interface IShoulFilterRecordsAppropriately<TEntiy>

@@ -20,7 +20,7 @@ namespace API.Controllers.Implementations
         {
             _repositoryService = repositoryService;
         }
-        protected abstract SortOptions<TEntity, object> SetColumnSorting(string columnToSort, SortType sortType);
+        protected abstract GenericSortOptions<TEntity> SetColumnSorting(string columnToSort, SortType sortType);
         protected abstract Expression<Func<TEntity, bool>> SetFiltering(string searchString);
 
         [HttpGet]

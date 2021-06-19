@@ -3,6 +3,8 @@ using System;
 using System.Collections.Generic;
 using Tests.Integration.AuxiliaryClasses;
 
+// Attention: always use different existing objects when necessary (i.e., different GUIDs). Unfortunately, since the tests are run concurrently, sometimes that causes issues, making tests fail when they shouldn't.
+
 namespace Tests.Integration.Interfaces
 {
     public interface IRepositoryControllerTestData<TEntity, TKey> 

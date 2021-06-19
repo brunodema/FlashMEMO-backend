@@ -1,4 +1,5 @@
 ﻿using Data.Models;
+using Data.Tools;
 using System;
 using System.Collections.Generic;
 using Tests.Integration.AuxiliaryClasses;
@@ -39,7 +40,7 @@ namespace Tests.Integration.NewsControllerTests
             get
             {
                 return new List<Guid> {
-                        new Guid("A43ACA9F-363A-1321-D87D-4CCD55FAD9B9")
+                        new Guid("A42E0F40-D8F3-54F3-3935-075456951442")
                     };
             }
         }
@@ -111,7 +112,7 @@ namespace Tests.Integration.NewsControllerTests
                 return new List<ValidationErrorsWhenCreatingData<News>> {
                     new ValidationErrorsWhenCreatingData<News> {
                         Entiy = new News {
-                            NewsID = Guid.Parse("F8633B38-C9B7-882B-496B-E2EE1CC348A7"), // GUID already exists, can't be used to create a new entity
+                            NewsID = Guid.Parse("D2792985-E573-4A67-64C4-54F6ACECBBFC"), // GUID already exists, can't be used to create a new entity
                             Title = "Test News",
                             Subtitle = "This is a test news",
                             Content = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Vel fringilla est ullamcorper eget nulla facilisi etiam dignissim. Orci sagittis eu volutpat odio facilisis mauris sit amet massa. Tincidunt vitae semper quis lectus nulla. Accumsan tortor posuere ac ut consequat semper viverra. Dictum non consectetur a erat. Tellus molestie nunc non blandit massa enim. Mauris a diam maecenas sed. Viverra aliquet eget sit amet tellus cras. A pellentesque sit amet porttitor eget.",
@@ -188,7 +189,7 @@ namespace Tests.Integration.NewsControllerTests
             {
                 return new List<News> {
                         new News {
-                            NewsID = new Guid("B167AB39-E163-B913-FB94-8B0E6FD933B5"), // id already exists, and object is completely different
+                            NewsID = new Guid("3E00BFDD-F9BC-FFE6-C6A9-64AFC05519B7"), // id already exists, and object is completely different
                             Title = "Test News",
                             Subtitle = "This is a test news",
                             Content = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Vel fringilla est ullamcorper eget nulla facilisi etiam dignissim. Orci sagittis eu volutpat odio facilisis mauris sit amet massa. Tincidunt vitae semper quis lectus nulla. Accumsan tortor posuere ac ut consequat semper viverra. Dictum non consectetur a erat. Tellus molestie nunc non blandit massa enim. Mauris a diam maecenas sed. Viverra aliquet eget sit amet tellus cras. A pellentesque sit amet porttitor eget.",
@@ -208,22 +209,32 @@ namespace Tests.Integration.NewsControllerTests
                     new ShouldSortRecordsAppropriately<News>
                     {
                         pageSize = 10,
-                        columnToSort = "subtitle"
-                    },
-                    new ShouldSortRecordsAppropriately<News>
-                    {
-                        pageSize = 20,
-                        columnToSort = "date"
-                    },
-                    new ShouldSortRecordsAppropriately<News>
-                    {
-                        pageSize = 30,
-                        columnToSort = "title"
+                        columnToSort = "subtitle",
+                        SortType = SortType.Ascending
                     },
                     new ShouldSortRecordsAppropriately<News>
                     {
                         pageSize = 10,
-                        columnToSort = "gibberish" // should default to title sorting
+                        columnToSort = "subtitle",
+                        SortType = SortType.Descending
+                    },
+                    new ShouldSortRecordsAppropriately<News>
+                    {
+                        pageSize = 20,
+                        columnToSort = "date",
+                        SortType = SortType.Descending
+                    },
+                    new ShouldSortRecordsAppropriately<News>
+                    {
+                        pageSize = 30,
+                        columnToSort = "title",
+                        SortType = SortType.Ascending
+                    },
+                    new ShouldSortRecordsAppropriately<News>
+                    {
+                        pageSize = 10,
+                        columnToSort = "gibberish", // should default to title sorting
+                        SortType = SortType.Ascending
                     }
                 };
             }

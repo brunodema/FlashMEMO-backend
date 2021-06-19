@@ -14,6 +14,7 @@ using Xunit.Abstractions;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Tests.Integration.NewsControllerTests;
+using Data.Tools;
 
 namespace Tests.Integration.NewsTests
 {
@@ -283,22 +284,30 @@ namespace Tests.Integration.NewsTests
             RunAndReportResults(TestData.ShouldSortRecordsAppropriatelyTestData, async testData =>
             {
                 // Arrange
-                var referenceVector = GetAllObjectsOnDatabase().Result.ToList();
-                //referenceVector.OrderBy(n => n.);
-                var referenceVectorSize = referenceVector.Count;
+                var referenceElements = GetAllObjectsOnDatabase().Result.AsQueryable();
+                var referenceVectorSize = referenceElements.Count();
+                if (testData.SortType == SortType.Ascending)
+                {
+                    referenceElements = referenceElements.OrderBy(new NewsSortOptions(testData.SortType, testData.columnToSort).ColumnToSort);
+                }
+                else if (testData.SortType == SortType.Descending)
+                {
+                    referenceElements = referenceElements.OrderByDescending(new NewsSortOptions(testData.SortType, testData.columnToSort).ColumnToSort);
+                }
                 var totalPages = Math.Ceiling((decimal)referenceVectorSize / (decimal)testData.pageSize);
                 var currentPage = 1;
 
                 // Act
                 while (currentPage <= totalPages)
                 {
-                    var queryParams = $"?pageSize={testData.pageSize}&pageNumber={currentPage}";
+                    var queryParams = $"?pageSize={testData.pageSize}&pageNumber={currentPage}&sortType={testData.SortType}&columnToSort={testData.columnToSort}";
                     var response = await _integrationTestFixture.HttpClient.GetAsync($"{ListEndpoint}{queryParams}");
                     var parsedResponse = await response.Content.ReadFromJsonAsync<PaginatedListResponse<News>>();
                     var returnedElements = parsedResponse.Data.Results;
 
                     // Assert
-
+                    var comparisonVector = referenceElements.Skip(testData.pageSize * (currentPage - 1)).Take(testData.pageSize);
+                    returnedElements.Should().BeEquivalentTo(comparisonVector);
 
                     ++currentPage;
                 }

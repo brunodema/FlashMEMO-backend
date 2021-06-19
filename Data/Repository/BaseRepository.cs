@@ -22,7 +22,7 @@ namespace Data.Repository
             _context = context;
             _dbset = context.Set<TEntity>();
         }
-        public virtual async Task<IEnumerable<TEntity>> SearchAndOrderAsync<ColumnType>(Expression<Func<TEntity, bool>> predicate, SortOptions<TEntity, ColumnType> sortOptions, int numRecords)
+        public virtual async Task<IEnumerable<TEntity>> SearchAndOrderAsync(Expression<Func<TEntity, bool>> predicate, GenericSortOptions<TEntity> sortOptions, int numRecords)
         {
             if (sortOptions != null)
             {
