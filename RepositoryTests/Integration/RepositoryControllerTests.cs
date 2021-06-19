@@ -18,7 +18,7 @@ using Tests.Integration.NewsControllerTests;
 namespace Tests.Integration.NewsTests
 {
     public abstract class RepositoryControllerTests<TEntity, TKey> : IClassFixture<IntegrationTestFixture>, IRepositoryControllerTests<TEntity, TKey>
-       where TEntity : class, IDatabaseItem<TEntity, TKey>
+       where TEntity : class, IDatabaseItem<TKey>
 
     {
         protected readonly IntegrationTestFixture _integrationTestFixture;
@@ -284,7 +284,7 @@ namespace Tests.Integration.NewsTests
             {
                 // Arrange
                 var referenceVector = GetAllObjectsOnDatabase().Result.ToList();
-                referenceVector.OrderBy(n => n.);
+                //referenceVector.OrderBy(n => n.);
                 var referenceVectorSize = referenceVector.Count;
                 var totalPages = Math.Ceiling((decimal)referenceVectorSize / (decimal)testData.pageSize);
                 var currentPage = 1;
@@ -302,7 +302,7 @@ namespace Tests.Integration.NewsTests
 
                     ++currentPage;
                 }
-            }
+            });
         }
 
         public override void ShoulFilterRecordsAppropriately()
