@@ -7,7 +7,8 @@ namespace Tests.Integration.Interfaces
         IRepositoryControllerCreateTests<TEntity>,
         IRepositoryControllerUpdateTests<TEntity>,
         IRepositoryControllerDeleteTests<TEntity, TKey>,
-        IRepositoryControllerGetTests<TEntity>
+        IRepositoryControllerGetTests<TEntity>,
+        IRepositoryControllerListTests<TEntity>
         where TEntity : class
     {
         public string BaseEndpoint { get; set; }
@@ -34,7 +35,12 @@ namespace Tests.Integration.Interfaces
     }
     public interface IRepositoryControllerGetTests<TEntity>
     {
-        void ListsAllRecordsSuccessfully();
         void GetsSpecifiedNumberOfRecordsPerPage();
+    }
+    public interface IRepositoryControllerListTests<TEntity>
+    {
+        void ListsAllRecordsSuccessfully();
+        void ShouldSortRecordsAppropriately();
+        void ShoulFilterRecordsAppropriately();
     }
 }

@@ -25,4 +25,15 @@ namespace Tests.Integration.AuxiliaryClasses
         public int pageSize { get; set; }
         public int pageNumber { get; set; }
     }
+
+    public class ShouldSortRecordsAppropriately<TEntiy> : IShouldSortRecordsAppropriately<TEntiy>
+    {
+        public int pageSize { get; set; }
+        public string columnToSort { get; set; }
+    }
+    public class ShoulFilterRecordsAppropriately<TEntiy> : IShoulFilterRecordsAppropriately<TEntiy>
+    {
+        public int pageSize { get; set; }
+        public string searchString { get; set; }
+    }
 }

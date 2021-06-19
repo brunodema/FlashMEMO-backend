@@ -256,6 +256,16 @@ namespace Tests.Integration.NewsTests
                 entityBefore.Should().BeEquivalentTo(entityUndo);
             });
         }
+       
+        public void ShouldSortRecordsAppropriately()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void ShoulFilterRecordsAppropriately()
+        {
+            throw new NotImplementedException();
+        }
     }
 
     public class NewsRepositoryControllerTests : RepositoryControllerTests<News, Guid>
