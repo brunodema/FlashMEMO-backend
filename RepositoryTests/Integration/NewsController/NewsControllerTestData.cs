@@ -198,5 +198,49 @@ namespace Tests.Integration.NewsControllerTests
                 };
             }
         }
+
+        public IEnumerable<IShouldSortRecordsAppropriately<News>> ShouldSortRecordsAppropriatelyTestData
+        {
+            get
+            {
+                return new List<IShouldSortRecordsAppropriately<News>>
+                {
+                    new ShouldSortRecordsAppropriately<News>
+                    {
+                        pageSize = 10,
+                        columnToSort = "subtitle"
+                    },
+                    new ShouldSortRecordsAppropriately<News>
+                    {
+                        pageSize = 20,
+                        columnToSort = "date"
+                    },
+                    new ShouldSortRecordsAppropriately<News>
+                    {
+                        pageSize = 30,
+                        columnToSort = "title"
+                    },
+                    new ShouldSortRecordsAppropriately<News>
+                    {
+                        pageSize = 10,
+                        columnToSort = "gibberish" // should default to title sorting
+                    }
+                };
+            }
+        }
+
+        public IEnumerable<IShoulFilterRecordsAppropriately<News>> ShoulFilterRecordsAppropriatelyTestData
+        {
+            get
+            {
+                return new List<IShoulFilterRecordsAppropriately<News>> {
+                    new ShoulFilterRecordsAppropriately<News>
+                    {
+                        pageSize = 10,
+                        searchString = "lorem"
+                    }
+                };
+            }
+        }
     }
 }
