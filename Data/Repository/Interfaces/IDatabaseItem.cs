@@ -10,7 +10,5 @@ namespace Data.Repository.Interfaces
     public interface IDatabaseItem<TKey>
     {
         public abstract TKey GetId();
-
-        public abstract Expression<Func<object>> GetSortColumnFromString(string column);
     }
 }

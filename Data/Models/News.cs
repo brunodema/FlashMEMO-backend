@@ -20,18 +20,5 @@ namespace Data.Models
         {
             return NewsID;
         }
-
-        public Expression<Func<object>> GetSortColumnFromString(string column)
-        {
-            switch (column)
-            {
-                case "subtitle":
-                    return () => Subtitle;
-                case "date":
-                    return () =>CreationDate;
-                default: // default will be title
-                    return () => Title;
-            }
-        }
     }
 }
