@@ -18,11 +18,11 @@ using Tests.Integration.NewsControllerTests;
 namespace Tests.Integration.NewsTests
 {
     public abstract class RepositoryControllerTests<TEntity, TKey> : IClassFixture<IntegrationTestFixture>, IRepositoryControllerTests<TEntity, TKey>
-       where TEntity : class, IDatabaseItem<TKey>
+       where TEntity : class, IDatabaseItem<TEntity, TKey>
 
     {
-        private readonly IntegrationTestFixture _integrationTestFixture;
-        private readonly ITestOutputHelper Output;
+        protected readonly IntegrationTestFixture _integrationTestFixture;
+        protected readonly ITestOutputHelper Output;
         public string BaseEndpoint { get; set; } = $"api/v1/{typeof(TEntity).Name}";
         public string CreateEndpoint { get; set; }
         public string UpdateEndpoint { get; set; }
@@ -36,26 +36,26 @@ namespace Tests.Integration.NewsTests
         /// </summary>
         public abstract IRepositoryControllerTestData<TEntity, TKey> SetTestData();
 
-        private async Task<int> GetTotalNumberOfRecordsOnDatabase()
+        protected async Task<int> GetTotalNumberOfRecordsOnDatabase()
         {
             var queryParams = $"?pageSize={100000}"; // should be large enough, right?
             var response = await _integrationTestFixture.HttpClient.GetAsync($"{ListEndpoint}{queryParams}");
             return response.Content.ReadFromJsonAsync<PaginatedListResponse<TEntity>>().Result.Data.Count;
         }
 
-        private async Task<IEnumerable<TEntity>> GetAllObjectsOnDatabase()
+        protected async Task<IEnumerable<TEntity>> GetAllObjectsOnDatabase()
         {
             var queryParams = $"?pageSize={100000}"; // should be large enough, right?
             var response = await _integrationTestFixture.HttpClient.GetAsync($"{ListEndpoint}{queryParams}");
             return response.Content.ReadFromJsonAsync<PaginatedListResponse<TEntity>>().Result.Data.Results;
         }
 
-        private async Task<TEntity> GetEntityById(string id)
+        protected async Task<TEntity> GetEntityById(string id)
         {
             return await _integrationTestFixture.HttpClient.GetAsync($"{GetEndpoint}/{id}").Result.Content.ReadFromJsonAsync<TEntity>();
         }
 
-        private async void RunAndReportResults<TTestInputData>(IEnumerable<TTestInputData> vs, Func<TTestInputData, Task> func)
+        protected async void RunAndReportResults<TTestInputData>(IEnumerable<TTestInputData> vs, Func<TTestInputData, Task> func)
         {
             int count = 0;
             try
@@ -263,26 +263,10 @@ namespace Tests.Integration.NewsTests
                 entityBefore.Should().BeEquivalentTo(entityUndo);
             });
         }
-       
-        public void ShouldSortRecordsAppropriately()
-        {
-            // Arrange
-            //var referenceVector = Geta
-            // Act
-
-            // Assert
-
-        }
-
-        public void ShoulFilterRecordsAppropriately()
-        {
-            // Arrange
-
-            // Act
-
-            // Assert
-
-        }
+        [Fact]
+        public abstract void ShouldSortRecordsAppropriately();
+        [Fact]
+        public abstract void ShoulFilterRecordsAppropriately();
     }
 
     public class NewsRepositoryControllerTests : RepositoryControllerTests<News, Guid>
@@ -292,6 +276,38 @@ namespace Tests.Integration.NewsTests
         public override IRepositoryControllerTestData<News, Guid> SetTestData()
         {
             return new NewsControllerTestData();
+        }
+
+        public override void ShouldSortRecordsAppropriately()
+        {
+            RunAndReportResults(TestData.ShouldSortRecordsAppropriatelyTestData, async testData =>
+            {
+                // Arrange
+                var referenceVector = GetAllObjectsOnDatabase().Result.ToList();
+                referenceVector.OrderBy(n => n.);
+                var referenceVectorSize = referenceVector.Count;
+                var totalPages = Math.Ceiling((decimal)referenceVectorSize / (decimal)testData.pageSize);
+                var currentPage = 1;
+
+                // Act
+                while (currentPage <= totalPages)
+                {
+                    var queryParams = $"?pageSize={testData.pageSize}&pageNumber={currentPage}";
+                    var response = await _integrationTestFixture.HttpClient.GetAsync($"{ListEndpoint}{queryParams}");
+                    var parsedResponse = await response.Content.ReadFromJsonAsync<PaginatedListResponse<News>>();
+                    var returnedElements = parsedResponse.Data.Results;
+
+                    // Assert
+
+
+                    ++currentPage;
+                }
+            }
+        }
+
+        public override void ShoulFilterRecordsAppropriately()
+        {
+            throw new NotImplementedException();
         }
     }
 }
