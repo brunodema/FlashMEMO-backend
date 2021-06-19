@@ -43,6 +43,13 @@ namespace Tests.Integration.NewsTests
             return response.Content.ReadFromJsonAsync<PaginatedListResponse<TEntity>>().Result.Data.Count;
         }
 
+        private async Task<IEnumerable<TEntity>> GetAllObjectsOnDatabase()
+        {
+            var queryParams = $"?pageSize={100000}"; // should be large enough, right?
+            var response = await _integrationTestFixture.HttpClient.GetAsync($"{ListEndpoint}{queryParams}");
+            return response.Content.ReadFromJsonAsync<PaginatedListResponse<TEntity>>().Result.Data.Results;
+        }
+
         private async Task<TEntity> GetEntityById(string id)
         {
             return await _integrationTestFixture.HttpClient.GetAsync($"{GetEndpoint}/{id}").Result.Content.ReadFromJsonAsync<TEntity>();
@@ -259,12 +266,22 @@ namespace Tests.Integration.NewsTests
        
         public void ShouldSortRecordsAppropriately()
         {
-            throw new NotImplementedException();
+            // Arrange
+            //var referenceVector = Geta
+            // Act
+
+            // Assert
+
         }
 
         public void ShoulFilterRecordsAppropriately()
         {
-            throw new NotImplementedException();
+            // Arrange
+
+            // Act
+
+            // Assert
+
         }
     }
 
