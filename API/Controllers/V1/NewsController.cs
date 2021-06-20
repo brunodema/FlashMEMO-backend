@@ -23,10 +23,5 @@ namespace API.Controllers
         {
             return new NewsSortOptions(sortType, columnToSort);
         }
-
-        protected override Expression<Func<News, bool>> SetFiltering(string searchString)
-        {
-            return searchString == null ? _ => true : news => news.Content.Contains(searchString) || news.Title.Contains(searchString) || news.Subtitle.Contains(searchString);
-        }
     }
 }

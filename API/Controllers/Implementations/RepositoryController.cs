@@ -21,16 +21,14 @@ namespace API.Controllers.Implementations
             _repositoryService = repositoryService;
         }
         protected abstract GenericSortOptions<TEntity> SetColumnSorting(string columnToSort, SortType sortType);
-        protected abstract Expression<Func<TEntity, bool>> SetFiltering(string searchString);
 
         [HttpGet]
         [Route("list")]
-        public async virtual Task<IActionResult> List([FromQuery] string columnToSort, SortType sortType, string searchString, int pageSize, int? pageNumber)
+        public async virtual Task<IActionResult> List([FromQuery] string columnToSort, SortType sortType, int pageSize, int? pageNumber)
         {
             var sortOptions = SetColumnSorting(columnToSort, sortType);
-            var predicate = SetFiltering(searchString);
 
-            var data = await _repositoryService.GetAsync(predicate, sortOptions);
+            var data = await _repositoryService.GetAsync(_ => true, sortOptions);
             return Ok(new PaginatedListResponse<TEntity> { Status = "Sucess", Data = PaginatedList<TEntity>.CreateAsync(data, pageNumber ?? 1, pageSize) });
         }
 
