@@ -21,8 +21,7 @@ namespace API.Controllers
         }
         protected override GenericSortOptions<News> SetColumnSorting(string columnToSort, SortType sortType)
         {
-            GenericSortOptions<News> sortOptions = new NewsSortOptions(sortType, columnToSort);
-            return sortOptions;
+            return new NewsSortOptions(sortType, columnToSort);
         }
 
         protected override Expression<Func<News, bool>> SetFiltering(string searchString)
