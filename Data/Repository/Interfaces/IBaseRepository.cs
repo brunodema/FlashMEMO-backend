@@ -1,5 +1,5 @@
 ﻿using Data.Tools;
-using Microsoft.EntityFrameworkCore;
+using Data.Tools.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,10 +8,11 @@ using System.Threading.Tasks;
 
 namespace Data.Repository.Interfaces
 {
-    public interface IBaseRepository<TEntity, TKey>
+    public interface IBaseRepository<TEntity, TKey> where TEntity : class, IDatabaseItem<TKey>
     {
-        public Task<IEnumerable<TEntity>> SearchAndOrderAsync(Expression<Func<TEntity, bool>> predicate, GenericSortOptions<TEntity> sortOptions, int numRecords);
+        public Task<IEnumerable<TEntity>> SearchAndOrderAsync(Expression<Func<TEntity, bool>> predicate, ISortOptions<TEntity> sortOptions, int numRecords);
         public Task<IEnumerable<TEntity>> SearchAllAsync(Expression<Func<TEntity, bool>> predicate);
+        public Task<IEnumerable<TEntity>> SearchAndOrderAsync(IQueryFilterOptions<TEntity> filterOptions, ISortOptions<TEntity> sortOptions); // probably will transition towards this one
         public Task<TEntity> SearchFirstAsync(Expression<Func<TEntity, bool>> predicate);
         public IQueryable<TEntity> GetAll();
         public Task<TEntity> GetByIdAsync(TKey id);

@@ -1,5 +1,5 @@
-﻿using API.Tools.Interfaces;
-using Data.Models;
+﻿using Data.Models;
+using Data.Tools.Interfaces;
 using System;
 using System.Linq;
 

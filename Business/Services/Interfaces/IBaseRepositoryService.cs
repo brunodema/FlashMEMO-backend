@@ -14,7 +14,7 @@ namespace Business.Services.Interfaces
         public Task CreateAsync(TEntity entity, object[] auxParams = null); // to cover the 'CreateUserAsync' case (requires password)
         public Task UpdateAsync(TEntity entity);
         public Task<TEntity> GetbyIdAsync(TKey id);
-        public Task<IEnumerable<TEntity>> GetAsync(Expression<Func<TEntity, bool>> predicate, GenericSortOptions<TEntity> sortOptions, int numRecords = 1000);
+        public Task<IEnumerable<TEntity>> GetAsync(Expression<Func<TEntity, bool>> predicate, ISortOptions<TEntity> sortOptions, int numRecords = 1000);
         public Task RemoveByIdAsync(TKey guid);
         public ValidatonResult CheckIfEntityIsValid(TEntity entity);
     }

@@ -18,7 +18,7 @@ namespace Data.Repository
         {
             _roleManager = roleManager;
         }
-        public override async Task<IEnumerable<ApplicationRole>> SearchAndOrderAsync(Expression<Func<ApplicationRole, bool>> predicate, GenericSortOptions<ApplicationRole> sortOptions, int numRecords)
+        public override async Task<IEnumerable<ApplicationRole>> SearchAndOrderAsync(Expression<Func<ApplicationRole, bool>> predicate, ISortOptions<ApplicationRole> sortOptions, int numRecords)
         {
             if (sortOptions != null)
             {

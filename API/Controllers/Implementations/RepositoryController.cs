@@ -20,7 +20,7 @@ namespace API.Controllers.Implementations
         {
             _repositoryService = repositoryService;
         }
-        protected abstract GenericSortOptions<TEntity> SetColumnSorting(string columnToSort, SortType sortType);
+        protected abstract ISortOptions<TEntity> SetColumnSorting(string columnToSort, SortType sortType);
 
         [HttpGet]
         [Route("list")]

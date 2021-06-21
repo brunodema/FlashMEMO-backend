@@ -1,6 +1,5 @@
 ﻿using API.Controllers.Implementations;
 using API.Tools;
-using API.Tools.Interfaces;
 using API.ViewModels;
 using Business.Services;
 using Data.Models;
@@ -23,16 +22,16 @@ namespace API.Controllers
         {
             _newsService = newsService;
         }
-        protected override GenericSortOptions<News> SetColumnSorting(string columnToSort, SortType sortType)
+        protected override ISortOptions<News> SetColumnSorting(string columnToSort, SortType sortType)
         {
-            return new NewsSortOptions(sortType, columnToSort);
+            return new NewsSortOptions().GetSortOptions(sortType, columnToSort);
         }
 
         [HttpGet]
         [Route("search")]
         public async virtual Task<IActionResult> Search([FromQuery] string columnToSort, SortType sortType, int pageSize, int? pageNumber, [FromQuery] NewsFilterOptions filterOptions)
         {
-            var sortOptions = new NewsSortOptions(sortType, columnToSort);
+            var sortOptions = new NewsSortOptions().GetSortOptions(sortType, columnToSort);
 
             var data = await _newsService.GetAsync(_ => true, sortOptions);
             data = filterOptions.GetFilteredResults(data.AsQueryable());

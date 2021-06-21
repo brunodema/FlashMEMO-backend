@@ -15,67 +15,81 @@ namespace Data.Tools
         Ascending,
         Descending
     }
-    public abstract class GenericSortOptions<TEntity>
+    public interface ISortOptions<TEntity>
+    {
+        public SortType SortType { get; set; }
+        public Expression<Func<TEntity, object>> ColumnToSort { get; set; }
+        public ISortOptions<TEntity> GetSortOptions(SortType sortType, string columnToSort);
+    }
+    public class NewsSortOptions : ISortOptions<News>
     {
         public SortType SortType { get; set; } = SortType.None;
-        public Expression<Func<TEntity, object>> ColumnToSort { get; set; } = null;
-    }
-    public class NewsSortOptions : GenericSortOptions<News>
-    {
+        public Expression<Func<News, object>> ColumnToSort { get; set; } = null;
         public static class ColumnOptions
         {
             public const string SUBTITLE = "subtitle";
             public const string DATE = "date";
         }
-        public NewsSortOptions(SortType sortType, string columnToSort = "title")
+        public ISortOptions<News> GetSortOptions(SortType sortType, string columnToSort = "title")
         {
-            SortType = sortType;
+            var sortOptions = new NewsSortOptions();
+            sortOptions.SortType = sortType;
             switch (columnToSort)
             {
                 case ColumnOptions.SUBTITLE:
-                    ColumnToSort = news => news.Subtitle;
+                    sortOptions.ColumnToSort = news => news.Subtitle;
                     break;
                 case ColumnOptions.DATE:
-                    ColumnToSort = news => news.CreationDate;
+                    sortOptions.ColumnToSort = news => news.CreationDate;
                     break;
                 default: // default will be title
-                    ColumnToSort = news => news.Title;
+                    sortOptions.ColumnToSort = news => news.Title;
                     break;
             }
+            return sortOptions;
         }
     }
 
-    public class ApplicationUserSortOptions : GenericSortOptions<ApplicationUser>
+    public class ApplicationUserSortOptions : ISortOptions<ApplicationUser>
     {
+        public SortType SortType { get; set; } = SortType.None;
+        public Expression<Func<ApplicationUser, object>> ColumnToSort { get; set; } = null;
         public static class ColumnOptions
         {
             public const string EMAIL = "email";
         }
-        public ApplicationUserSortOptions(SortType sortType, string columnToSort = "")
+        public ISortOptions<ApplicationUser> GetSortOptions(SortType sortType, string columnToSort = "username")
         {
-            SortType = sortType;
+            var sortOptions = new ApplicationUserSortOptions();
+            sortOptions.SortType = sortType;
             switch (columnToSort)
             {
                 case ColumnOptions.EMAIL:
-                    ColumnToSort = user => user.Email;
+                    sortOptions.ColumnToSort = user => user.Email;
                     break;
                 default: // default will be username
-                    ColumnToSort = user => user.UserName;
+                    sortOptions.ColumnToSort = user => user.UserName;
                     break;
             }
+            return sortOptions;
         }
     }
 
-    public class RoleSortOptions : GenericSortOptions<ApplicationRole>
+    public class RoleSortOptions : ISortOptions<ApplicationRole>
     {
+        public SortType SortType { get; set; } = SortType.None;
+        public Expression<Func<ApplicationRole, object>> ColumnToSort { get; set; } = null;
         public static class ColumnOptions
         {
             public const string NAME = "name"; // will not be used for now
         }
-        public RoleSortOptions(SortType sortType, string columnToSort = "name")
+        public ISortOptions<ApplicationRole> GetSortOptions(SortType sortType, string columnToSort = "name")
         {
-            SortType = sortType;
-            ColumnToSort = role => role.Name;
+            return new RoleSortOptions
+            {
+                SortType = sortType,
+                ColumnToSort = role => role.Name
+            };
         }
     }
 }
