@@ -39,9 +39,9 @@ namespace Data.Repository
         {
             return await _roleManager.Roles.AsNoTracking().FirstOrDefaultAsync(predicate);
         }
-        public override async Task<ICollection<ApplicationRole>> GetAllAsync()
+        public override IQueryable<ApplicationRole> GetAll()
         {
-            return await _roleManager.Roles.ToListAsync();
+            return _roleManager.Roles.AsQueryable();
         }
         public override async Task<ApplicationRole> GetByIdAsync(string id)
         {

@@ -42,9 +42,9 @@ namespace Data.Repository
         {
             return await _dbset.AsNoTracking().FirstOrDefaultAsync(predicate);
         }
-        public virtual async Task<ICollection<TEntity>> GetAllAsync()
+        public virtual IQueryable<TEntity> GetAll()
         {
-            return await _dbset.ToListAsync();
+            return _dbset.AsQueryable();
         }
         public virtual async Task<TEntity> GetByIdAsync(TKey id)
         {

@@ -133,7 +133,7 @@ namespace RepositoryTests
             public async void User_CreateAsync_AssertThatItGetsProperlyCreated()
             {
                 // Arrange
-                var numRows = _authRepositoryFixture._applicationUserRepository.GetAllAsync().Result.Count;
+                var numRows = await _authRepositoryFixture._applicationUserRepository.GetAll().CountAsync();
                 var dummyUser = new ApplicationUser
                 {
                     Id = UserTestGUID.GUID4,
@@ -147,15 +147,15 @@ namespace RepositoryTests
                 await _authRepositoryFixture._applicationUserRepository.CreateAsync(dummyUser, new object[] { "Dummy@123" });
 
                 // Assert
-                var newNumRows = _authRepositoryFixture._applicationUserRepository.GetAllAsync().Result.Count;
-                Assert.True((await _authRepositoryFixture._applicationUserRepository.GetAllAsync()).Contains(dummyUser), "Table does not contain the new item");
+                var newNumRows = await _authRepositoryFixture._applicationUserRepository.GetAll().CountAsync();
+                Assert.True((await _authRepositoryFixture._applicationUserRepository.GetAll().ToListAsync()).Contains(dummyUser), "Table does not contain the new item");
                 Assert.True(newNumRows == numRows + 1, $"Number of rows did not increase with the new item added ({newNumRows} != {numRows + 1})");
             }
             [Fact]
             public async void User_UpdateAsync_AssertThatItGetsProperlyUpdated()
             {
                 // Arrange
-                var numRows = _authRepositoryFixture._applicationUserRepository.GetAllAsync().Result.Count;
+                var numRows = await _authRepositoryFixture._applicationUserRepository.GetAll().CountAsync();
                 var dummyUser = await _authRepositoryFixture._applicationUserRepository.GetByIdAsync(UserTestGUID.GUID2);
 
                 dummyUser.UserName = "newdummy";
@@ -164,7 +164,7 @@ namespace RepositoryTests
                 await  _authRepositoryFixture._applicationUserRepository.UpdateAsync(dummyUser);
 
                 // Assert
-                var newNumRows = _authRepositoryFixture._applicationUserRepository.GetAllAsync().Result.Count;
+                var newNumRows = await _authRepositoryFixture._applicationUserRepository.GetAll().CountAsync();
                 var queryResult = await _authRepositoryFixture._applicationUserRepository.GetByIdAsync(UserTestGUID.GUID2);
                 Assert.NotNull(queryResult);
                 Assert.True(queryResult.UserName == "newdummy", "Object property does not match the new updated value");
@@ -174,15 +174,15 @@ namespace RepositoryTests
             public async void User_RemoveAsync_AssertThatItGetsProperlyRemoved()
             {
                 // Arrange
-                var numRows = _authRepositoryFixture._applicationUserRepository.GetAllAsync().Result.Count;
+                var numRows = await _authRepositoryFixture._applicationUserRepository.GetAll().CountAsync();
                 var dummyUser = await _authRepositoryFixture._applicationUserRepository.GetByIdAsync(UserTestGUID.GUID1);
 
                 // Act
                 await _authRepositoryFixture._applicationUserRepository.RemoveByIdAsync(dummyUser.Id);
 
                 // Assert
-                var newNumRows = _authRepositoryFixture._applicationUserRepository.GetAllAsync().Result.Count;
-                Assert.False((await _authRepositoryFixture._applicationUserRepository.GetAllAsync()).Contains(dummyUser), "Table still contains the item");
+                var newNumRows = await _authRepositoryFixture._applicationUserRepository.GetAll().CountAsync();
+                Assert.False((await _authRepositoryFixture._applicationUserRepository.GetAll().ToListAsync()).Contains(dummyUser), "Table still contains the item");
                 Assert.True(newNumRows == numRows - 1, $"Number of rows did not decrease with the item removed ({ newNumRows} != { numRows - 1})");
             }
             [Fact]
@@ -242,7 +242,7 @@ namespace RepositoryTests
             public async void Role_CreateAsync_AssertThatItGetsProperlyCreated()
             {
                 // Arrange
-                var numRows = _authRepositoryFixture._roleRepository.GetAllAsync().Result.Count;
+                var numRows = await _authRepositoryFixture._roleRepository.GetAll().CountAsync();
                 var dummyRole = new ApplicationRole
                 {
                     Id = RoleTestGUID.GUID4,
@@ -253,15 +253,15 @@ namespace RepositoryTests
                 await _authRepositoryFixture._roleRepository.CreateAsync(dummyRole);
 
                 // Assert
-                var newNumRows = _authRepositoryFixture._roleRepository.GetAllAsync().Result.Count;
-                Assert.True((await _authRepositoryFixture._roleRepository.GetAllAsync()).Contains(dummyRole), "Table does not contain the new item");
+                var newNumRows = await _authRepositoryFixture._roleRepository.GetAll().CountAsync();
+                Assert.True((await _authRepositoryFixture._roleRepository.GetAll().ToListAsync()).Contains(dummyRole), "Table does not contain the new item");
                 Assert.True(newNumRows == numRows + 1, $"Number of rows did not increase with the new item added ({newNumRows} != {numRows + 1})");
             }
             [Fact]
             public async void Role_UpdateAsync_AssertThatItGetsProperlyUpdated()
             {
                 // Arrange
-                var numRows = _authRepositoryFixture._roleRepository.GetAllAsync().Result.Count;
+                var numRows = await _authRepositoryFixture._roleRepository.GetAll().CountAsync();
                 var dummyRole = await _authRepositoryFixture._roleRepository.GetByIdAsync(RoleTestGUID.GUID1);
 
                 dummyRole.Name = "altered_name";
@@ -270,7 +270,7 @@ namespace RepositoryTests
                 await _authRepositoryFixture._roleRepository.UpdateAsync(dummyRole);
 
                 // Assert
-                var newNumRows = _authRepositoryFixture._roleRepository.GetAllAsync().Result.Count;
+                var newNumRows = await _authRepositoryFixture._roleRepository.GetAll().CountAsync();
                 var queryResult = await _authRepositoryFixture._roleRepository.GetByIdAsync(RoleTestGUID.GUID1);
                 Assert.NotNull(queryResult);
                 Assert.True(queryResult.Name == "altered_name", "Object property does not match the new updated value");
@@ -280,15 +280,15 @@ namespace RepositoryTests
             public async void Role_RemoveAsync_AssertThatItGetsProperlyRemoved()
             {
                 // Arrange
-                var numRows = _authRepositoryFixture._roleRepository.GetAllAsync().Result.Count;
+                var numRows = await _authRepositoryFixture._roleRepository.GetAll().CountAsync();
                 var dummyRole = await _authRepositoryFixture._roleRepository.GetByIdAsync(RoleTestGUID.GUID2);
 
                 // Act
                 await _authRepositoryFixture._roleRepository.RemoveByIdAsync(dummyRole.Id);
 
                 // Assert
-                var newNumRows = _authRepositoryFixture._roleRepository.GetAllAsync().Result.Count;
-                Assert.False((await _authRepositoryFixture._roleRepository.GetAllAsync()).Contains(dummyRole), "Table still contains the item");
+                var newNumRows = await _authRepositoryFixture._roleRepository.GetAll().CountAsync();
+                Assert.False((await _authRepositoryFixture._roleRepository.GetAll().ToListAsync()).Contains(dummyRole), "Table still contains the item");
                 Assert.True(newNumRows == numRows - 1, $"Number of rows did not decrease with the item removed ({ newNumRows} != { numRows - 1})");
             }
             [Fact]

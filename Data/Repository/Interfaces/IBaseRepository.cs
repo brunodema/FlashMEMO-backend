@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 
@@ -12,7 +13,7 @@ namespace Data.Repository.Interfaces
         public Task<IEnumerable<TEntity>> SearchAndOrderAsync(Expression<Func<TEntity, bool>> predicate, GenericSortOptions<TEntity> sortOptions, int numRecords);
         public Task<IEnumerable<TEntity>> SearchAllAsync(Expression<Func<TEntity, bool>> predicate);
         public Task<TEntity> SearchFirstAsync(Expression<Func<TEntity, bool>> predicate);
-        public Task<ICollection<TEntity>> GetAllAsync();
+        public IQueryable<TEntity> GetAll();
         public Task<TEntity> GetByIdAsync(TKey id);
         // CRUD
         public Task CreateAsync(TEntity entity, params object[] extraParams);

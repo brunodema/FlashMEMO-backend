@@ -38,9 +38,9 @@ namespace Data.Repository
         {
             return await _userManager.Users.AsNoTracking().FirstOrDefaultAsync(predicate);
         }
-        public override async Task<ICollection<ApplicationUser>> GetAllAsync()
+        public override IQueryable<ApplicationUser> GetAll()
         {
-            return await _userManager.Users.ToListAsync();
+            return _userManager.Users.AsQueryable();
         }
         public override async Task<ApplicationUser> GetByIdAsync(string id)
         {

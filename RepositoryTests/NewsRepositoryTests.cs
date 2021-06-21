@@ -84,7 +84,7 @@ namespace RepositoryTests
         public async void CreateAsync_AssertThatItGetsProperlyCreated()
         {
             // Arrange
-            var numRows = this._repositoryFixture._repository.GetAllAsync().Result.Count;
+            var numRows = await this._repositoryFixture._repository.GetAll().CountAsync();
             var dummyNews = new News
             {
                 Title = "NASA slams China after rocket debris lands near Maldives for 'failing to meet responsible standards'",
@@ -98,15 +98,15 @@ namespace RepositoryTests
             await this._repositoryFixture._repository.CreateAsync(dummyNews);
 
             // Assert
-            var newNumRows = this._repositoryFixture._repository.GetAllAsync().Result.Count;
-            Assert.True((await this._repositoryFixture._repository.GetAllAsync()).Contains(dummyNews), "Table does not contain the new item");
+            var newNumRows = await this._repositoryFixture._repository.GetAll().CountAsync();
+            Assert.True((await this._repositoryFixture._repository.GetAll().ToListAsync()).Contains(dummyNews), "Table does not contain the new item");
             Assert.True(newNumRows == numRows + 1, $"Number of rows did not increase with the new item added ({newNumRows} != {numRows + 1})");
         }
         [Fact]
         public async void UpdateAsync_AssertThatItGetsProperlyUpdated()
         {
             // Arrange
-            var numRows = this._repositoryFixture._repository.GetAllAsync().Result.Count;
+            var numRows = await this._repositoryFixture._repository.GetAll().CountAsync();
             var dummyNews = await this._repositoryFixture._repository.GetByIdAsync(Guid.Parse("b12144ad-6de7-47af-9996-42178f29701b"));
 
             dummyNews.Title = "New generated title, different from the previous one";
@@ -116,7 +116,7 @@ namespace RepositoryTests
             await this._repositoryFixture._repository.UpdateAsync(dummyNews);
 
             // Assert
-            var newNumRows = this._repositoryFixture._repository.GetAllAsync().Result.Count;
+            var newNumRows = await this._repositoryFixture._repository.GetAll().CountAsync();
             var queryResult = await this._repositoryFixture._repository.GetByIdAsync(Guid.Parse("b12144ad-6de7-47af-9996-42178f29701b"));
             Assert.NotNull(queryResult);
             Assert.True(queryResult.Title == "New generated title, different from the previous one", "Object property does not match the new updated value");
@@ -127,15 +127,15 @@ namespace RepositoryTests
         public async void RemoveAsync_AssertThatItGetsProperlyRemoved()
         {
             // Arrange
-            var numRows = this._repositoryFixture._repository.GetAllAsync().Result.Count;
+            var numRows = await this._repositoryFixture._repository.GetAll().CountAsync();
             var dummyNews = await this._repositoryFixture._repository.GetByIdAsync(Guid.Parse("e17161ed-2a4d-4612-bb54-a1294a8a4e28"));
 
             // Act
             await this._repositoryFixture._repository.RemoveByIdAsync(dummyNews.NewsID);
 
             // Assert
-            var newNumRows = this._repositoryFixture._repository.GetAllAsync().Result.Count;
-            Assert.False((await this._repositoryFixture._repository.GetAllAsync()).Contains(dummyNews), "Table still contains the item");
+            var newNumRows = await this._repositoryFixture._repository.GetAll().CountAsync();
+            Assert.False((await this._repositoryFixture._repository.GetAll().ToListAsync()).Contains(dummyNews), "Table still contains the item");
             Assert.True(newNumRows == numRows - 1, $"Number of rows did not decrease with the item removed ({ newNumRows} != { numRows - 1})");
         }
         [Fact]
