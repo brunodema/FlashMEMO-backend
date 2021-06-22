@@ -1,5 +1,6 @@
 ﻿using Data.Models;
 using Data.Tools;
+using Data.Tools.Implementations;
 using System;
 using System.Collections.Generic;
 using Tests.Integration.AuxiliaryClasses;
@@ -73,33 +74,33 @@ namespace Tests.Integration.NewsControllerTests
                 return new List<GetsSpecifiedNumberOfRecordsPerPageData<News>> {
                         new GetsSpecifiedNumberOfRecordsPerPageData<News>
                         {
-                            pageSize = 10,
-                            pageNumber = 1,
+                            PageSize = 10,
+                            PageNumber = 1,
                         },
                         new GetsSpecifiedNumberOfRecordsPerPageData<News>
                         {
-                            pageSize = 10,
-                            pageNumber = 2,
+                            PageSize = 10,
+                            PageNumber = 2,
                         },
                         new GetsSpecifiedNumberOfRecordsPerPageData<News>
                         {
-                            pageSize = 100,
-                            pageNumber = 1,
+                            PageSize = 100,
+                            PageNumber = 1,
                         },
                         new GetsSpecifiedNumberOfRecordsPerPageData<News>
                         {
-                            pageSize = 99,
-                            pageNumber = 2,
+                            PageSize = 99,
+                            PageNumber = 2,
                         },
                         new GetsSpecifiedNumberOfRecordsPerPageData<News>
                         {
-                            pageSize = 100,
-                            pageNumber = 100,
+                            PageSize = 100,
+                            PageNumber = 100,
                         },
                         new GetsSpecifiedNumberOfRecordsPerPageData<News>
                         {
-                            pageSize = 70,
-                            pageNumber = 2,
+                            PageSize = 70,
+                            PageNumber = 2,
                         },
                 };
             }
@@ -208,32 +209,32 @@ namespace Tests.Integration.NewsControllerTests
                 {
                     new ShouldSortRecordsAppropriately<News>
                     {
-                        pageSize = 10,
-                        columnToSort = "subtitle",
+                        PageSize = 10,
+                        ColumnToSort = "subtitle",
                         SortType = SortType.Ascending
                     },
                     new ShouldSortRecordsAppropriately<News>
                     {
-                        pageSize = 10,
-                        columnToSort = "subtitle",
+                        PageSize = 10,
+                        ColumnToSort = "subtitle",
                         SortType = SortType.Descending
                     },
                     new ShouldSortRecordsAppropriately<News>
                     {
-                        pageSize = 20,
-                        columnToSort = "date",
+                        PageSize = 20,
+                        ColumnToSort = "date",
                         SortType = SortType.Descending
                     },
                     new ShouldSortRecordsAppropriately<News>
                     {
-                        pageSize = 30,
-                        columnToSort = "title",
+                        PageSize = 30,
+                        ColumnToSort = "title",
                         SortType = SortType.Ascending
                     },
                     new ShouldSortRecordsAppropriately<News>
                     {
-                        pageSize = 10,
-                        columnToSort = "gibberish", // should default to title sorting
+                        PageSize = 10,
+                        ColumnToSort = "gibberish", // should default to title sorting
                         SortType = SortType.Ascending
                     }
                 };
@@ -247,8 +248,8 @@ namespace Tests.Integration.NewsControllerTests
                 return new List<IShoulFilterRecordsAppropriately<News>> {
                     new ShoulFilterRecordsAppropriately<News>
                     {
-                        pageSize = 10,
-                        searchString = "lorem"
+                        PageSize = 10,
+                        SearchString = "lorem"
                     }
                 };
             }

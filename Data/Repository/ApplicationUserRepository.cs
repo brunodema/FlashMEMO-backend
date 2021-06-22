@@ -1,6 +1,7 @@
 ﻿using Data.Context;
 using Data.Models;
 using Data.Tools;
+using Data.Tools.Implementations;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -11,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace Data.Repository
 {
-    public class ApplicationUserRepository : BaseRepository<ApplicationUser, string, FlashMEMOContext>
+    public class ApplicationUserRepository : GenericRepository<ApplicationUser, string, FlashMEMOContext>
     {
         private readonly UserManager<ApplicationUser> _userManager;
         public ApplicationUserRepository(FlashMEMOContext context, UserManager<ApplicationUser> userManager) : base(context)

@@ -13,6 +13,7 @@ using System.Linq.Expressions;
 using Xunit;
 using Xunit.Abstractions;
 using Data.Tools;
+using Data.Tools.Implementations;
 
 namespace RepositoryTests
 {
@@ -235,7 +236,7 @@ namespace RepositoryTests
                 var response = await _authRepositoryFixture._applicationUserRepository.SearchFirstAsync(u => u.Email == email);
 
                 // Assert
-                bool isResponseNull = response == null ? true : false;
+                bool isResponseNull = response == null;
                 Assert.True(isResponseNull == expectNull);
             }
             [Fact]
@@ -341,7 +342,7 @@ namespace RepositoryTests
                 var response = await _authRepositoryFixture._roleRepository.SearchFirstAsync(role => role.Name == roleName);
 
                 // Assert
-                bool isResponseNull = response == null ? true : false;
+                bool isResponseNull = response == null;
                 Assert.True(isResponseNull == expectNull);
             }
             public class User_SearchAndOrderAsync_AssertThatPredicateIsConsidered_TestConfig

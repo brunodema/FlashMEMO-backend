@@ -1,4 +1,4 @@
-﻿using Data.Tools;
+﻿using Data.Tools.Implementations;
 using Tests.Integration.Interfaces;
 
 namespace Tests.Integration.AuxiliaryClasses
@@ -23,19 +23,19 @@ namespace Tests.Integration.AuxiliaryClasses
     }
     public class GetsSpecifiedNumberOfRecordsPerPageData<TEntiy> : IGetsSpecifiedNumberOfRecordsPerPageData<TEntiy>
     {
-        public int pageSize { get; set; }
-        public int pageNumber { get; set; }
+        public int PageSize { get; set; }
+        public int PageNumber { get; set; }
     }
 
     public class ShouldSortRecordsAppropriately<TEntiy> : IShouldSortRecordsAppropriately<TEntiy>
     {
-        public int pageSize { get; set; }
-        public string columnToSort { get; set; }
+        public int PageSize { get; set; }
+        public string ColumnToSort { get; set; }
         public SortType SortType { get; set; }
     }
     public class ShoulFilterRecordsAppropriately<TEntiy> : IShoulFilterRecordsAppropriately<TEntiy>
     {
-        public int pageSize { get; set; }
-        public string searchString { get; set; }
+        public int PageSize { get; set; }
+        public string SearchString { get; set; }
     }
 }

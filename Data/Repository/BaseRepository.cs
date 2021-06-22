@@ -1,6 +1,7 @@
 ﻿using Data.Messages;
 using Data.Repository.Interfaces;
 using Data.Tools;
+using Data.Tools.Implementations;
 using Data.Tools.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -11,14 +12,14 @@ using System.Threading.Tasks;
 
 namespace Data.Repository
 {
-    public abstract class BaseRepository<TEntity, TKey, DatabaseContext> : IBaseRepository<TEntity, TKey>
+    public abstract class GenericRepository<TEntity, TKey, DatabaseContext> : IRepository<TEntity, TKey>
         where TEntity : class, IDatabaseItem<TKey>
         where DatabaseContext : DbContext
     {
         protected readonly DatabaseContext _context;
         protected readonly DbSet<TEntity> _dbset;
 
-        protected BaseRepository(DatabaseContext context)
+        protected GenericRepository(DatabaseContext context)
         {
             _context = context;
             _dbset = context.Set<TEntity>();

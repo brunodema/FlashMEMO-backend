@@ -60,7 +60,7 @@ namespace RepositoryTests
 
     public class RoleRepositoryTests : IClassFixture<RoleRepositoryFixture>, IBaseRepositoryTests<ApplicationRole, string>
     {
-        private RoleRepositoryFixture _repositoryFixture;
+        private readonly RoleRepositoryFixture _repositoryFixture;
         private readonly ITestOutputHelper _output;
 
         public RoleRepositoryTests(RoleRepositoryFixture repositoryFixture, ITestOutputHelper output)

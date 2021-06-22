@@ -1,45 +1,10 @@
 ﻿using Data.Models;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Linq.Expressions;
-using System.Threading.Tasks;
+using Data.Tools.Implementations;
+
 
 namespace Data.Tools
 {
-    public enum SortType
-    {
-        None,
-        Ascending,
-        Descending
-    }
-    public abstract class GenericSortOptions<TEntity>
-    {
-        public SortType SortType { get; set; } = SortType.None;
-        public Expression<Func<TEntity, object>> ColumnToSort { get; set; } = null;
-        public GenericSortOptions(SortType sortType = SortType.None, string columnToSort = "") 
-        {
-            SortType = sortType;
-            DetermineColumnToSort(columnToSort);
-        }
-        public IEnumerable<TEntity> GetSortedResults(IQueryable<TEntity> elements)
-        {
-            DetermineColumnToSort();
-            if (SortType == SortType.Ascending)
-            {
-                return elements.OrderBy(ColumnToSort);
-            }
-            else if (SortType == SortType.Descending)
-            {
-                return elements.OrderByDescending(ColumnToSort);
-            }
-            return elements;
-        }
-        public abstract void DetermineColumnToSort(string columnToSort = "");
-    }
-    public class NewsSortOptions : GenericSortOptions<News>
+     public class NewsSortOptions : GenericSortOptions<News>
     {
         public static class ColumnOptions
         {
@@ -49,18 +14,13 @@ namespace Data.Tools
         public NewsSortOptions(SortType sortType = SortType.None, string columnToSort = "") : base(sortType, columnToSort) { }
         public override void DetermineColumnToSort(string columnToSort = "title")
         {
-            switch (columnToSort)
+            ColumnToSort = columnToSort switch
             {
-                case ColumnOptions.SUBTITLE:
-                    ColumnToSort = news => news.Subtitle;
-                    break;
-                case ColumnOptions.DATE:
-                    ColumnToSort = news => news.CreationDate;
-                    break;
-                default: // default will be username
-                    ColumnToSort = news => news.Title;
-                    break;
-            }
+                ColumnOptions.SUBTITLE => news => news.Subtitle,
+                ColumnOptions.DATE => news => news.CreationDate,
+                // default will be username
+                _ => news => news.Title,
+            };
         }
     }
 
@@ -73,15 +33,12 @@ namespace Data.Tools
         public ApplicationUserSortOptions(SortType sortType = SortType.None, string columnToSort = "") : base(sortType, columnToSort) { }
         public override void DetermineColumnToSort(string columnToSort = "title")
         {
-            switch (columnToSort)
+            ColumnToSort = columnToSort switch
             {
-                case ColumnOptions.EMAIL:
-                    ColumnToSort = user => user.Email;
-                    break;
-                default: // default will be username
-                    ColumnToSort = user => user.UserName;
-                    break;
-            }
+                ColumnOptions.EMAIL => user => user.Email,
+                // default will be username
+                _ => user => user.UserName,
+            };
         }
     }
 

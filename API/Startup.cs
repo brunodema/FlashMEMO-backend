@@ -128,7 +128,7 @@ namespace API
             });
             // options configuration
             services.Configure<JWTServiceOptions>(Configuration.GetSection("JWT"));
-            services.Configure<BaseRepositoryServiceOptions>(Configuration.GetSection("BaseRepositoryServiceOptions"));
+            services.Configure<GenericRepositoryServiceOptions>(Configuration.GetSection("BaseRepositoryServiceOptions"));
             // custom services
             services.AddScoped<IJWTService, JWTService>();
             services.AddScoped<IAuthService, AuthService>();

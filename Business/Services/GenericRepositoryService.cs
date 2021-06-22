@@ -1,8 +1,5 @@
 ﻿using Data.Context;
-using Data.Tools;
-using Data.Models;
 using Data.Repository;
-using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
@@ -11,22 +8,23 @@ using Business.Tools;
 using Business.Services.Interfaces;
 using Data.Repository.Interfaces;
 using Data.Tools.Interfaces;
+using Data.Tools.Implementations;
 
 namespace Business.Services
 {
-    public class BaseRepositoryServiceOptions
+    public class GenericRepositoryServiceOptions
     {
         public int MaxPageSize { get; set; } = 50;
         public int PageSize { get; set; } = 10;
     }
 
-    public abstract class BaseRepositoryService<TRepositoryType, TKey, TEntity> : IRepositoryService<TEntity, TKey>
-        where TRepositoryType : BaseRepository<TEntity, TKey, FlashMEMOContext>
+    public abstract class GenericRepositoryService<TRepositoryType, TKey, TEntity> : IRepositoryService<TEntity, TKey>
+        where TRepositoryType : GenericRepository<TEntity, TKey, FlashMEMOContext>
         where TEntity : class, IDatabaseItem<TKey>
     {
         private readonly TRepositoryType _baseRepository;
-        private readonly BaseRepositoryServiceOptions _serviceOptions;
-        public BaseRepositoryService(TRepositoryType baseRepository, BaseRepositoryServiceOptions serviceOptions)
+        private readonly GenericRepositoryServiceOptions _serviceOptions;
+        public GenericRepositoryService(TRepositoryType baseRepository, GenericRepositoryServiceOptions serviceOptions)
         {
             _baseRepository = baseRepository;
             _serviceOptions = serviceOptions;

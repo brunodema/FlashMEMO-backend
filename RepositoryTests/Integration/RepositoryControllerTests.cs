@@ -15,6 +15,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Tests.Integration.NewsControllerTests;
 using Data.Tools;
+using Data.Tools.Implementations;
 
 namespace Tests.Integration.NewsTests
 {
@@ -176,8 +177,8 @@ namespace Tests.Integration.NewsTests
             RunAndReportResults(TestData.GetsSpecifiedNumberOfRecordsPerPage, async testData =>
             {
                 // Arrange
-                var targetPageNumber = testData.pageNumber <= 0? 1 : testData.pageNumber;
-                var queryParams = $"?pageSize={testData.pageSize}&pageNumber={targetPageNumber}";
+                var targetPageNumber = testData.PageNumber <= 0? 1 : testData.PageNumber;
+                var queryParams = $"?pageSize={testData.PageSize}&pageNumber={targetPageNumber}";
 
                 // Act
                 var response = await _integrationTestFixture.HttpClient.GetAsync($"{ListEndpoint}{queryParams}");
@@ -185,20 +186,20 @@ namespace Tests.Integration.NewsTests
 
                 // Assert
                 Assert.True(response.StatusCode == HttpStatusCode.OK);
-                Assert.True(parsedResponse.Data.PageIndex == testData.pageNumber);
+                Assert.True(parsedResponse.Data.PageIndex == testData.PageNumber);
 
                 // rework this in the future
-                if (testData.pageNumber > parsedResponse.Data.TotalPages)
+                if (testData.PageNumber > parsedResponse.Data.TotalPages)
                 {
                     Assert.True(parsedResponse.Data.Count == 0);
                 }
-                else if (testData.pageNumber == parsedResponse.Data.TotalPages)
+                else if (testData.PageNumber == parsedResponse.Data.TotalPages)
                 {
-                    Assert.True(parsedResponse.Data.Count == parsedResponse.Data.Total - (parsedResponse.Data.PageIndex - 1) * testData.pageSize);
+                    Assert.True(parsedResponse.Data.Count == parsedResponse.Data.Total - (parsedResponse.Data.PageIndex - 1) * testData.PageSize);
                 }
                 else
                 {
-                    Assert.True(parsedResponse.Data.Count == testData.pageSize);
+                    Assert.True(parsedResponse.Data.Count == testData.PageSize);
                 }
             });
         }
@@ -288,25 +289,25 @@ namespace Tests.Integration.NewsTests
                 var referenceVectorSize = referenceElements.Count();
                 if (testData.SortType == SortType.Ascending)
                 {
-                    referenceElements = referenceElements.OrderBy(new NewsSortOptions(testData.SortType, testData.columnToSort).ColumnToSort);
+                    referenceElements = referenceElements.OrderBy(new NewsSortOptions(testData.SortType, testData.ColumnToSort).ColumnToSort);
                 }
                 else if (testData.SortType == SortType.Descending)
                 {
-                    referenceElements = referenceElements.OrderByDescending(new NewsSortOptions(testData.SortType, testData.columnToSort).ColumnToSort);
+                    referenceElements = referenceElements.OrderByDescending(new NewsSortOptions(testData.SortType, testData.ColumnToSort).ColumnToSort);
                 }
-                var totalPages = Math.Ceiling((decimal)referenceVectorSize / (decimal)testData.pageSize);
+                var totalPages = Math.Ceiling((decimal)referenceVectorSize / (decimal)testData.PageSize);
                 var currentPage = 1;
 
                 // Act
                 while (currentPage <= totalPages)
                 {
-                    var queryParams = $"?pageSize={testData.pageSize}&pageNumber={currentPage}&sortType={testData.SortType}&columnToSort={testData.columnToSort}";
+                    var queryParams = $"?pageSize={testData.PageSize}&pageNumber={currentPage}&sortType={testData.SortType}&columnToSort={testData.ColumnToSort}";
                     var response = await _integrationTestFixture.HttpClient.GetAsync($"{ListEndpoint}{queryParams}");
                     var parsedResponse = await response.Content.ReadFromJsonAsync<PaginatedListResponse<News>>();
                     var returnedElements = parsedResponse.Data.Results;
 
                     // Assert
-                    var comparisonVector = referenceElements.Skip(testData.pageSize * (currentPage - 1)).Take(testData.pageSize);
+                    var comparisonVector = referenceElements.Skip(testData.PageSize * (currentPage - 1)).Take(testData.PageSize);
                     returnedElements.Should().BeEquivalentTo(comparisonVector);
 
                     ++currentPage;

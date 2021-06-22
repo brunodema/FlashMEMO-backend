@@ -68,7 +68,7 @@ namespace RepositoryTests
 
     public class ApplicationUserRepositoryTests : IClassFixture<ApplicationUserRepositoryFixture>, IBaseRepositoryTests<ApplicationUser, string>
     {
-        private ApplicationUserRepositoryFixture _repositoryFixture;
+        private readonly ApplicationUserRepositoryFixture _repositoryFixture;
         private readonly ITestOutputHelper _output;
 
         public ApplicationUserRepositoryTests(ApplicationUserRepositoryFixture repositoryFixture, ITestOutputHelper output)

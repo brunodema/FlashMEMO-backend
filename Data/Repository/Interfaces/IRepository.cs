@@ -1,4 +1,4 @@
-﻿using Data.Tools;
+﻿using Data.Tools.Implementations;
 using Data.Tools.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Data.Repository.Interfaces
 {
-    public interface IBaseRepository<TEntity, TKey> where TEntity : class, IDatabaseItem<TKey>
+    public interface IRepository<TEntity, TKey> where TEntity : class, IDatabaseItem<TKey>
     {
         public Task<IEnumerable<TEntity>> SearchAndOrderAsync(Expression<Func<TEntity, bool>> predicate, GenericSortOptions<TEntity> sortOptions, int numRecords);
         public Task<IEnumerable<TEntity>> SearchAllAsync(Expression<Func<TEntity, bool>> predicate);

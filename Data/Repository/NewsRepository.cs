@@ -5,10 +5,11 @@ using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Data.Context;
+using Data.Tools.Implementations;
 
 namespace Data.Repository
 {
-    public class NewsRepository : BaseRepository<News, Guid, FlashMEMOContext>
+    public class NewsRepository : GenericRepository<News, Guid, FlashMEMOContext>
     {
         public NewsRepository(FlashMEMOContext context) : base(context) { }
 

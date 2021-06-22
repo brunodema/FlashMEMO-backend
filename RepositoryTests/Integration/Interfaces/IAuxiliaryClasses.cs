@@ -1,4 +1,4 @@
-﻿using Data.Tools;
+﻿using Data.Tools.Implementations;
 
 namespace Tests.Integration.Interfaces
 {
@@ -10,20 +10,20 @@ namespace Tests.Integration.Interfaces
     }
     public interface IGetsSpecifiedNumberOfRecordsPerPageData<TEntiy>
     {
-        public int pageSize { get; set; }
-        public int pageNumber { get; set; }
+        public int PageSize { get; set; }
+        public int PageNumber { get; set; }
     }
 
     public interface IShouldSortRecordsAppropriately<TEntiy>
     {
-        public int pageSize { get; set; }
-        public string columnToSort{ get; set; }
+        public int PageSize { get; set; }
+        public string ColumnToSort { get; set; }
         SortType SortType { get; set; }
     }
 
     public interface IShoulFilterRecordsAppropriately<TEntiy>
     {
-        public int pageSize { get; set; }
-        public string searchString { get; set; }
+        public int PageSize { get; set; }
+        public string SearchString { get; set; }
     }
 }

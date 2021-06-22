@@ -1,5 +1,4 @@
 ﻿using Data.Models;
-using Data.Tools;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -8,10 +7,11 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Data.Context;
+using Data.Tools.Implementations;
 
 namespace Data.Repository
 {
-    public class RoleRepository : BaseRepository<ApplicationRole, string, FlashMEMOContext>
+    public class RoleRepository : GenericRepository<ApplicationRole, string, FlashMEMOContext>
     {
         private readonly RoleManager<ApplicationRole> _roleManager;
         public RoleRepository(FlashMEMOContext context, RoleManager<ApplicationRole> roleManager) : base(context)

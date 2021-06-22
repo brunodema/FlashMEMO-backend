@@ -7,6 +7,7 @@ using Data.Models;
 using System.Linq;
 using Xunit.Abstractions;
 using Data.Tools;
+using Data.Tools.Implementations;
 
 namespace RepositoryTests
 {
@@ -72,7 +73,7 @@ namespace RepositoryTests
 
     public class NewsRepositoryTests : IClassFixture<NewsRepositoryFixture>, IBaseRepositoryTests<News, Guid>
     {
-        private NewsRepositoryFixture _repositoryFixture;
+        private readonly NewsRepositoryFixture _repositoryFixture;
         private readonly ITestOutputHelper _output;
 
         public NewsRepositoryTests(NewsRepositoryFixture repositoryFixture, ITestOutputHelper output)
