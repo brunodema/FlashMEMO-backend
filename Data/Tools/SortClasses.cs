@@ -15,81 +15,86 @@ namespace Data.Tools
         Ascending,
         Descending
     }
-    public interface ISortOptions<TEntity>
-    {
-        public SortType SortType { get; set; }
-        public Expression<Func<TEntity, object>> ColumnToSort { get; set; }
-        public ISortOptions<TEntity> GetSortOptions(SortType sortType, string columnToSort);
-    }
-    public class NewsSortOptions : ISortOptions<News>
+    public abstract class GenericSortOptions<TEntity>
     {
         public SortType SortType { get; set; } = SortType.None;
-        public Expression<Func<News, object>> ColumnToSort { get; set; } = null;
+        public Expression<Func<TEntity, object>> ColumnToSort { get; set; } = null;
+        public GenericSortOptions(SortType sortType = SortType.None, string columnToSort = "") 
+        {
+            SortType = sortType;
+            DetermineColumnToSort(columnToSort);
+        }
+        public IEnumerable<TEntity> GetSortedResults(IQueryable<TEntity> elements)
+        {
+            DetermineColumnToSort();
+            if (SortType == SortType.Ascending)
+            {
+                return elements.OrderBy(ColumnToSort);
+            }
+            else if (SortType == SortType.Descending)
+            {
+                return elements.OrderByDescending(ColumnToSort);
+            }
+            return elements;
+        }
+        public abstract void DetermineColumnToSort(string columnToSort = "");
+    }
+    public class NewsSortOptions : GenericSortOptions<News>
+    {
         public static class ColumnOptions
         {
             public const string SUBTITLE = "subtitle";
             public const string DATE = "date";
         }
-        public ISortOptions<News> GetSortOptions(SortType sortType, string columnToSort = "title")
+        public NewsSortOptions(SortType sortType = SortType.None, string columnToSort = "") : base(sortType, columnToSort) { }
+        public override void DetermineColumnToSort(string columnToSort = "title")
         {
-            var sortOptions = new NewsSortOptions();
-            sortOptions.SortType = sortType;
             switch (columnToSort)
             {
                 case ColumnOptions.SUBTITLE:
-                    sortOptions.ColumnToSort = news => news.Subtitle;
+                    ColumnToSort = news => news.Subtitle;
                     break;
                 case ColumnOptions.DATE:
-                    sortOptions.ColumnToSort = news => news.CreationDate;
+                    ColumnToSort = news => news.CreationDate;
                     break;
-                default: // default will be title
-                    sortOptions.ColumnToSort = news => news.Title;
+                default: // default will be username
+                    ColumnToSort = news => news.Title;
                     break;
             }
-            return sortOptions;
         }
     }
 
-    public class ApplicationUserSortOptions : ISortOptions<ApplicationUser>
+    public class ApplicationUserSortOptions : GenericSortOptions<ApplicationUser>
     {
-        public SortType SortType { get; set; } = SortType.None;
-        public Expression<Func<ApplicationUser, object>> ColumnToSort { get; set; } = null;
         public static class ColumnOptions
         {
             public const string EMAIL = "email";
         }
-        public ISortOptions<ApplicationUser> GetSortOptions(SortType sortType, string columnToSort = "username")
+        public ApplicationUserSortOptions(SortType sortType = SortType.None, string columnToSort = "") : base(sortType, columnToSort) { }
+        public override void DetermineColumnToSort(string columnToSort = "title")
         {
-            var sortOptions = new ApplicationUserSortOptions();
-            sortOptions.SortType = sortType;
             switch (columnToSort)
             {
                 case ColumnOptions.EMAIL:
-                    sortOptions.ColumnToSort = user => user.Email;
+                    ColumnToSort = user => user.Email;
                     break;
                 default: // default will be username
-                    sortOptions.ColumnToSort = user => user.UserName;
+                    ColumnToSort = user => user.UserName;
                     break;
             }
-            return sortOptions;
         }
     }
 
-    public class RoleSortOptions : ISortOptions<ApplicationRole>
+    public class RoleSortOptions : GenericSortOptions<ApplicationRole>
     {
-        public SortType SortType { get; set; } = SortType.None;
-        public Expression<Func<ApplicationRole, object>> ColumnToSort { get; set; } = null;
         public static class ColumnOptions
         {
             public const string NAME = "name"; // will not be used for now
         }
-        public ISortOptions<ApplicationRole> GetSortOptions(SortType sortType, string columnToSort = "name")
+        public RoleSortOptions(SortType sortType = SortType.None, string columnToSort = "") : base(sortType, columnToSort) { }
+        public override void DetermineColumnToSort(string columnToSort = "name")
         {
-            return new RoleSortOptions
-            {
-                SortType = sortType,
-                ColumnToSort = role => role.Name
-            };
+            ColumnToSort = role => role.Name;
         }
     }
 }

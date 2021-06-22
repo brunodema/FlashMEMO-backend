@@ -7,6 +7,6 @@ namespace Data.Tools.Interfaces
 {
     public interface IQueryFilterOptions<TEntiy> where TEntiy : class
     {
-        public IQueryable<TEntiy> GetFilteredResults(IQueryable<TEntiy> elements);
+        public IEnumerable<TEntiy> GetFilteredResults(IQueryable<TEntiy> elements);
     }
 }

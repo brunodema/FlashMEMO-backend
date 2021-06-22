@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using Business.Tools;
 using Business.Services.Interfaces;
 using Data.Repository.Interfaces;
+using Data.Tools.Interfaces;
 
 namespace Business.Services
 {
@@ -47,7 +48,7 @@ namespace Business.Services
         {
             return await _baseRepository.GetByIdAsync(id);
         }
-        public async virtual Task<IEnumerable<TEntity>> GetAsync(Expression<Func<TEntity, bool>> predicate = null, ISortOptions<TEntity> sortOptions = null, int numRecords = 1000)
+        public async virtual Task<IEnumerable<TEntity>> GetAsync(Expression<Func<TEntity, bool>> predicate = null, GenericSortOptions<TEntity> sortOptions = null, int numRecords = 1000)
         {
             return await _baseRepository.SearchAndOrderAsync(predicate, sortOptions, numRecords);
         }
@@ -60,6 +61,11 @@ namespace Business.Services
         public async virtual Task<bool> IdAlreadyExists(TKey id)
         {
             return await GetbyIdAsync(id) != null;
+        }
+
+        public IEnumerable<TEntity> SearchAndOrder(IQueryFilterOptions<TEntity> filterOptions, GenericSortOptions<TEntity> sortOptions)
+        {
+            return _baseRepository.SearchAndOrder(filterOptions, sortOptions);
         }
     }
 }

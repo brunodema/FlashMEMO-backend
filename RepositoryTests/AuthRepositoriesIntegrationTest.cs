@@ -211,7 +211,7 @@ namespace RepositoryTests
             public async void User_SearchAndOrderAsync_AssertThatItGetsProperlySorted(int numRecords, SortType sortType)
             {
                 /// Arrange
-                var response = await _authRepositoryFixture._applicationUserRepository.SearchAndOrderAsync(_ => true, new ApplicationUserSortOptions().GetSortOptions(sortType), numRecords);
+                var response = await _authRepositoryFixture._applicationUserRepository.SearchAndOrderAsync(_ => true, new ApplicationUserSortOptions(sortType), numRecords);
 
                 Assert.True(response.Count() <= (numRecords < 0 ? 0 : numRecords));
                 if (sortType == SortType.Ascending)
@@ -317,7 +317,7 @@ namespace RepositoryTests
             public async void Role_SearchAndOrderAsync_AssertThatItWorksProperly(int numRecords, SortType sortType)
             {
                 /// Arrange
-                var response = await _authRepositoryFixture._roleRepository.SearchAndOrderAsync(_ => true, new RoleSortOptions().GetSortOptions(sortType), numRecords);
+                var response = await _authRepositoryFixture._roleRepository.SearchAndOrderAsync(_ => true, new RoleSortOptions(sortType), numRecords);
 
                 Assert.True(response.Count() <= (numRecords < 0 ? 0 : numRecords));
                 if (sortType == SortType.Ascending)
@@ -363,7 +363,7 @@ namespace RepositoryTests
             public async void User_SearchAndOrderAsync_AssertThatPredicateIsConsidered(Expression<Func<ApplicationUser, bool>> predicate, int numRecords, SortType sortType, int expectedNumberOfRecordsReturned)
             {
                 /// Arrange
-                var response = await _authRepositoryFixture._applicationUserRepository.SearchAndOrderAsync(predicate, new ApplicationUserSortOptions().GetSortOptions(sortType, ApplicationUserSortOptions.ColumnOptions.EMAIL), numRecords);
+                var response = await _authRepositoryFixture._applicationUserRepository.SearchAndOrderAsync(predicate, new ApplicationUserSortOptions(sortType, ApplicationUserSortOptions.ColumnOptions.EMAIL), numRecords);
 
                 Assert.True(response.Count() <= (numRecords < 0 ? 0 : numRecords));
                 if (sortType == SortType.Ascending)
@@ -395,7 +395,7 @@ namespace RepositoryTests
             public async void Role_SearchAndOrderAsync_AssertThatPredicateIsConsidered(Expression<Func<ApplicationRole, bool>> predicate, int numRecords, SortType sortType, int expectedNumberOfRecordsReturned)
             {
                 /// Arrange
-                var response = await _authRepositoryFixture._roleRepository.SearchAndOrderAsync(predicate, new RoleSortOptions().GetSortOptions(sortType), numRecords);
+                var response = await _authRepositoryFixture._roleRepository.SearchAndOrderAsync(predicate, new RoleSortOptions(sortType), numRecords);
 
                 Assert.True(response.Count() <= (numRecords < 0 ? 0 : numRecords));
                 if (sortType == SortType.Ascending)

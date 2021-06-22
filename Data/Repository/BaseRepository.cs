@@ -23,7 +23,7 @@ namespace Data.Repository
             _context = context;
             _dbset = context.Set<TEntity>();
         }
-        public virtual async Task<IEnumerable<TEntity>> SearchAndOrderAsync(Expression<Func<TEntity, bool>> predicate, ISortOptions<TEntity> sortOptions, int numRecords)
+        public virtual async Task<IEnumerable<TEntity>> SearchAndOrderAsync(Expression<Func<TEntity, bool>> predicate, GenericSortOptions<TEntity> sortOptions, int numRecords)
         {
             if (sortOptions != null)
             {
@@ -80,15 +80,9 @@ namespace Data.Repository
         {
             _context?.Dispose();
         }
-
-        public Task<IEnumerable<TEntity>> SearchAndOrderAsync(IQueryFilterOptions<TEntity> predicate)
+        public IEnumerable<TEntity> SearchAndOrder(IQueryFilterOptions<TEntity> filterOptions, GenericSortOptions<TEntity> sortOptions)
         {
-            throw new NotImplementedException();
-        }
-
-        public Task<IEnumerable<TEntity>> SearchAndOrderAsync(IQueryFilterOptions<TEntity> filterOptions, ISortOptions<TEntity> sortOptions)
-        {
-            throw new NotImplementedException();
+            return sortOptions.GetSortedResults(filterOptions.GetFilteredResults(GetAll()).AsQueryable());
         }
     }
 }

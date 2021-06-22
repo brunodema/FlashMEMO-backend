@@ -1,6 +1,7 @@
 ﻿using Data.Models;
 using Data.Tools.Interfaces;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace API.Tools
@@ -13,7 +14,7 @@ namespace API.Tools
         public string Subtitle { get; set; } = null;
         public string Content { get; set; } = null;
 
-        public IQueryable<News> GetFilteredResults(IQueryable<News> elements)
+        public IEnumerable<News> GetFilteredResults(IQueryable<News> elements)
         {
             var processedFromDate = FromDate ?? DateTime.MinValue;
             var processedToDate = ToDate ?? DateTime.MaxValue;

@@ -20,16 +20,16 @@ namespace API.Controllers.Implementations
         {
             _repositoryService = repositoryService;
         }
-        protected abstract ISortOptions<TEntity> SetColumnSorting(string columnToSort, SortType sortType);
+
+        protected abstract GenericSortOptions<TEntity> SetColumnSorting(SortType sortType, string columnToSort);
 
         [HttpGet]
         [Route("list")]
         public async virtual Task<IActionResult> List([FromQuery] string columnToSort, SortType sortType, int pageSize, int? pageNumber)
         {
-            var sortOptions = SetColumnSorting(columnToSort, sortType);
-
+            var sortOptions = SetColumnSorting(sortType, columnToSort);
             var data = await _repositoryService.GetAsync(_ => true, sortOptions);
-            return Ok(new PaginatedListResponse<TEntity> { Status = "Sucess", Data = PaginatedList<TEntity>.CreateAsync(data, pageNumber ?? 1, pageSize) });
+            return Ok(new PaginatedListResponse<TEntity> { Status = "Sucess", Data = PaginatedList<TEntity>.Create(data, pageNumber ?? 1, pageSize) });
         }
 
         [HttpGet]
@@ -37,7 +37,7 @@ namespace API.Controllers.Implementations
         public async virtual Task<IActionResult> Get(TKey id)
         {
             var data = await _repositoryService.GetbyIdAsync(id);
-            return Ok(new PaginatedListResponse<TEntity> { Status = "Sucess", Data = PaginatedList<TEntity>.CreateAsync(new List<TEntity> { data }, 1, 1) });
+            return Ok(new PaginatedListResponse<TEntity> { Status = "Sucess", Data = PaginatedList<TEntity>.Create(new List<TEntity> { data }, 1, 1) });
         }
 
         [HttpPost]

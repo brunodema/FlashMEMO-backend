@@ -22,21 +22,21 @@ namespace API.Controllers
         {
             _newsService = newsService;
         }
-        protected override ISortOptions<News> SetColumnSorting(string columnToSort, SortType sortType)
+        protected override GenericSortOptions<News> SetColumnSorting(SortType sortType, string columnToSort)
         {
-            return new NewsSortOptions().GetSortOptions(sortType, columnToSort);
+            return new NewsSortOptions(sortType, columnToSort);
         }
 
         [HttpGet]
         [Route("search")]
-        public async virtual Task<IActionResult> Search([FromQuery] string columnToSort, SortType sortType, int pageSize, int? pageNumber, [FromQuery] NewsFilterOptions filterOptions)
+        public virtual IActionResult Search([FromQuery] string columnToSort, SortType sortType, int pageSize, int? pageNumber, [FromQuery] NewsFilterOptions filterOptions)
         {
-            var sortOptions = new NewsSortOptions().GetSortOptions(sortType, columnToSort);
+            var sortOptions = SetColumnSorting(sortType, columnToSort);
 
-            var data = await _newsService.GetAsync(_ => true, sortOptions);
+            var data = _newsService.SearchAndOrder(filterOptions, sortOptions);
             data = filterOptions.GetFilteredResults(data.AsQueryable());
 
-            return Ok(new PaginatedListResponse<News> { Status = "Sucess", Data = PaginatedList<News>.CreateAsync(data, pageNumber ?? 1, pageSize) });
+            return Ok(new PaginatedListResponse<News> { Status = "Sucess", Data = PaginatedList<News>.Create(data, pageNumber ?? 1, pageSize) });
         }
     }
 }
