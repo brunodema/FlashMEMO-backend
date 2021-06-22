@@ -11,12 +11,12 @@ using System.Threading.Tasks;
 
 namespace API.Controllers.Implementations
 {
-    public abstract class RepositoryController<TEntity, TKey> : ControllerBase
+    public abstract class GenericRepositoryController<TEntity, TKey> : ControllerBase
         where TEntity : class, IDatabaseItem<TKey>
     {
         private readonly IBaseRepositoryService<TEntity, TKey> _repositoryService;
 
-        protected RepositoryController(IBaseRepositoryService<TEntity, TKey> repositoryService)
+        protected GenericRepositoryController(IBaseRepositoryService<TEntity, TKey> repositoryService)
         {
             _repositoryService = repositoryService;
         }
