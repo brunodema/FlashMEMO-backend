@@ -20,7 +20,7 @@ namespace Business.Services
         public int PageSize { get; set; } = 10;
     }
 
-    public abstract class BaseRepositoryService<TRepositoryType, TKey, TEntity> : IBaseRepositoryService<TEntity, TKey>
+    public abstract class BaseRepositoryService<TRepositoryType, TKey, TEntity> : IRepositoryService<TEntity, TKey>
         where TRepositoryType : BaseRepository<TEntity, TKey, FlashMEMOContext>
         where TEntity : class, IDatabaseItem<TKey>
     {

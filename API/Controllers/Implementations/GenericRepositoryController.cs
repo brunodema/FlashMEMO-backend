@@ -14,9 +14,9 @@ namespace API.Controllers.Implementations
     public abstract class GenericRepositoryController<TEntity, TKey> : ControllerBase
         where TEntity : class, IDatabaseItem<TKey>
     {
-        private readonly IBaseRepositoryService<TEntity, TKey> _repositoryService;
+        private readonly IRepositoryService<TEntity, TKey> _repositoryService;
 
-        protected GenericRepositoryController(IBaseRepositoryService<TEntity, TKey> repositoryService)
+        protected GenericRepositoryController(IRepositoryService<TEntity, TKey> repositoryService)
         {
             _repositoryService = repositoryService;
         }

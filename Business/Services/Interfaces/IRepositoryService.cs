@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Business.Services.Interfaces
 {
-    public interface IBaseRepositoryService<TEntity, TKey>
+    public interface IRepositoryService<TEntity, TKey>
         where TEntity : class
     {
         public Task<bool> IdAlreadyExists(TKey id);
