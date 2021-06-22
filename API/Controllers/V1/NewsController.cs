@@ -30,7 +30,7 @@ namespace API.Controllers
 
         [HttpGet]
         [Route("search")]
-        public virtual IActionResult Search([FromQuery] string columnToSort, SortType sortType, int pageSize, int? pageNumber, [FromQuery] NewsFilterOptions filterOptions)
+        public virtual IActionResult Search([FromQuery] string columnToSort, SortType sortType, int pageSize, int? pageNumber, [FromQuery] NewsFilterOptions filterOptions) // attempt to make this last parameter a part of the generic class (use type generics)
         {
             var sortOptions = SetColumnSorting(sortType, columnToSort);
 
