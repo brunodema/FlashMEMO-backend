@@ -5,6 +5,7 @@ using Business.Services;
 using Data.Models;
 using Data.Tools;
 using Data.Tools.Implementations;
+using Data.Tools.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Linq;
@@ -15,7 +16,7 @@ namespace API.Controllers
     [ApiController]
     [ApiVersion("1.0")]
     [Route("api/v{version:apiVersion}/[controller]")]
-    public class NewsController : GenericRepositoryController<News, Guid>
+    public class NewsController : GenericRepositoryController<News, Guid, NewsFilterOptions>
     {
         private readonly NewsService _newsService;
 
@@ -26,18 +27,6 @@ namespace API.Controllers
         protected override GenericSortOptions<News> SetColumnSorting(SortType sortType, string columnToSort)
         {
             return new NewsSortOptions(sortType, columnToSort);
-        }
-
-        [HttpGet]
-        [Route("search")]
-        public virtual IActionResult Search([FromQuery] string columnToSort, SortType sortType, int pageSize, int? pageNumber, [FromQuery] NewsFilterOptions filterOptions) // attempt to make this last parameter a part of the generic class (use type generics)
-        {
-            var sortOptions = SetColumnSorting(sortType, columnToSort);
-
-            var data = _newsService.SearchAndOrder(filterOptions, sortOptions);
-            data = filterOptions.GetFilteredResults(data.AsQueryable());
-
-            return Ok(new PaginatedListResponse<News> { Status = "Sucess", Data = PaginatedList<News>.Create(data, pageNumber ?? 1, pageSize) });
         }
     }
 }

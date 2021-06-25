@@ -4,16 +4,19 @@ using Business.Services.Interfaces;
 using Data.Repository.Interfaces;
 using Data.Tools;
 using Data.Tools.Implementations;
+using Data.Tools.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 
 namespace API.Controllers.Implementations
 {
-    public abstract class GenericRepositoryController<TEntity, TKey> : ControllerBase
+    public abstract class GenericRepositoryController<TEntity, TKey, TFilterOptions> : ControllerBase
         where TEntity : class, IDatabaseItem<TKey>
+        where TFilterOptions : IQueryFilterOptions<TEntity>
     {
         private readonly IRepositoryService<TEntity, TKey> _repositoryService;
 
@@ -79,6 +82,18 @@ namespace API.Controllers.Implementations
         {
             await _repositoryService.RemoveByIdAsync(id);
             return Ok(new BaseResponseModel { Status = "Success", Message = $"Object deleted successfully." });
+        }
+
+        [HttpGet]
+        [Route("search")]
+        public virtual IActionResult Search([FromQuery] string columnToSort, SortType sortType, int pageSize, int? pageNumber, [FromQuery] TFilterOptions filterOptions) // attempt to make this last parameter a part of the generic class (use type generics)
+        {
+            var sortOptions = SetColumnSorting(sortType, columnToSort);
+
+            var data = _repositoryService.SearchAndOrder(filterOptions, sortOptions);
+            data = filterOptions.GetFilteredResults(data.AsQueryable());
+
+            return Ok(new PaginatedListResponse<TEntity> { Status = "Sucess", Data = PaginatedList<TEntity>.Create(data, pageNumber ?? 1, pageSize) });
         }
     }
 }
