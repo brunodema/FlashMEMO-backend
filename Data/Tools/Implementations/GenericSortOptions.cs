@@ -44,7 +44,7 @@ namespace Data.Tools.Implementations
             }
             return elements;
         }
-        public abstract void DetermineColumnToSortExpression(string columnToSort = "");
+        protected abstract void DetermineColumnToSortExpression(string columnToSort = "");
 
         public Expression<Func<TEntity, object>> GetColumnToSort()
         {

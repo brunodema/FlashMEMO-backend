@@ -13,7 +13,7 @@ namespace Data.Tools
         }
         public NewsSortOptions(SortType sortType = SortType.None, string columnToSort = "") : base(sortType, columnToSort) { }
         public NewsSortOptions() { }
-        public override void DetermineColumnToSortExpression(string columnToSort = "title")
+        protected override void DetermineColumnToSortExpression(string columnToSort = "title")
         {
             ColumnToSortExprssion = columnToSort switch
             {
@@ -32,7 +32,7 @@ namespace Data.Tools
             public const string EMAIL = "email";
         }
         public ApplicationUserSortOptions(SortType sortType = SortType.None, string columnToSort = "") : base(sortType, columnToSort) { }
-        public override void DetermineColumnToSortExpression(string columnToSort = "title")
+        protected override void DetermineColumnToSortExpression(string columnToSort = "title")
         {
             ColumnToSortExprssion = columnToSort switch
             {
@@ -50,7 +50,7 @@ namespace Data.Tools
             public const string NAME = "name"; // will not be used for now
         }
         public RoleSortOptions(SortType sortType = SortType.None, string columnToSort = "") : base(sortType, columnToSort) { }
-        public override void DetermineColumnToSortExpression(string columnToSort = "name")
+        protected override void DetermineColumnToSortExpression(string columnToSort = "name")
         {
             ColumnToSortExprssion = role => role.Name;
         }
