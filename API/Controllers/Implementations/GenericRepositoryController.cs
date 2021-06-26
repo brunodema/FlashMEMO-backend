@@ -30,7 +30,6 @@ namespace API.Controllers.Implementations
         [Route("list")]
         public async virtual Task<IActionResult> List(int pageSize, int? pageNumber, [FromQuery] TSortOptions sortOptions = null)
         {
-            sortOptions.DetermineColumnToSortExpression(sortOptions.ColumnToSort);
             var data = await _repositoryService.GetAsync(_ => true, sortOptions);
             return Ok(new PaginatedListResponse<TEntity> { Status = "Sucess", Data = PaginatedList<TEntity>.Create(data, pageNumber ?? 1, pageSize) });
         }
@@ -87,7 +86,6 @@ namespace API.Controllers.Implementations
         [Route("search")]
         public virtual IActionResult Search(int pageSize, int? pageNumber, [FromQuery] TFilterOptions filterOptions, [FromQuery] TSortOptions sortOptions = null)
         {
-            sortOptions.DetermineColumnToSortExpression(sortOptions.ColumnToSort);
             var data = _repositoryService.SearchAndOrder(filterOptions, sortOptions);
             data = filterOptions.GetFilteredResults(data.AsQueryable());
 

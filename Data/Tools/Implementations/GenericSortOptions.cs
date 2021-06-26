@@ -16,14 +16,21 @@ namespace Data.Tools.Implementations
     public abstract class GenericSortOptions<TEntity>
     {
         public SortType SortType { get; set; } = SortType.None;
-        public string ColumnToSort { get; set; } = "";
+        public string ColumnToSort
+        {
+            get { return ColumnToSort; }
+            set
+            {
+                ColumnToSort = value;
+                DetermineColumnToSortExpression(ColumnToSort);
+            }
+        }
         protected Expression<Func<TEntity, object>> ColumnToSortExprssion { get; set; } = null;
 
         public GenericSortOptions(SortType sortType = SortType.None, string columnToSort = "")
         {
             SortType = sortType;
             ColumnToSort = columnToSort;
-            DetermineColumnToSortExpression(ColumnToSort);
         }
         public IEnumerable<TEntity> GetSortedResults(IQueryable<TEntity> elements)
         {
