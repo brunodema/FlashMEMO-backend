@@ -19,17 +19,9 @@ namespace Data.Repository
         {
             _userManager = userManager;
         }
-        public override async Task<IEnumerable<ApplicationUser>> SearchAndOrderAsync(Expression<Func<ApplicationUser, bool>> predicate, GenericSortOptions<ApplicationUser> sortOptions, int numRecords)
+        public override IEnumerable<ApplicationUser> SearchAndOrderAsync(Expression<Func<ApplicationUser, bool>> predicate, GenericSortOptions<ApplicationUser> sortOptions, int numRecords)
         {
-            if (sortOptions != null)
-            {
-                if (sortOptions.SortType == SortType.Ascending)
-                {
-                    return await _userManager.Users.AsNoTracking().Where(predicate).OrderBy(sortOptions.GetColumnToSort()).Take(numRecords).ToListAsync();
-                }
-                return await _userManager.Users.AsNoTracking().Where(predicate).OrderByDescending(sortOptions.GetColumnToSort()).Take(numRecords).ToListAsync();
-            }
-            return await _userManager.Users.AsNoTracking().Where(predicate).Take(numRecords).ToListAsync();
+            return sortOptions.GetSortedResults(_dbset.AsNoTracking().Where(predicate)).Take(numRecords);
         }
         public override async Task<IEnumerable<ApplicationUser>> SearchAllAsync(Expression<Func<ApplicationUser, bool>> predicate)
         {

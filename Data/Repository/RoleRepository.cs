@@ -18,18 +18,9 @@ namespace Data.Repository
         {
             _roleManager = roleManager;
         }
-        public override async Task<IEnumerable<ApplicationRole>> SearchAndOrderAsync(Expression<Func<ApplicationRole, bool>> predicate, GenericSortOptions<ApplicationRole> sortOptions, int numRecords)
+        public override IEnumerable<ApplicationRole> SearchAndOrderAsync(Expression<Func<ApplicationRole, bool>> predicate, GenericSortOptions<ApplicationRole> sortOptions, int numRecords)
         {
-            if (sortOptions != null)
-            {
-                if (sortOptions.SortType == SortType.Ascending)
-                {
-                    return await _roleManager.Roles.AsNoTracking().Where(predicate).OrderBy(sortOptions.GetColumnToSort()).Take(numRecords).ToListAsync();
-                }
-                return await _roleManager.Roles.AsNoTracking().Where(predicate).OrderByDescending(sortOptions.GetColumnToSort()).Take(numRecords).ToListAsync();
-            }
-            return await _roleManager.Roles.AsNoTracking().Where(predicate).Take(numRecords).ToListAsync();
-
+            return sortOptions.GetSortedResults(_dbset.AsNoTracking().Where(predicate)).Take(numRecords);
         }
         public override async Task<IEnumerable<ApplicationRole>> SearchAllAsync(Expression<Func<ApplicationRole, bool>> predicate)
         {

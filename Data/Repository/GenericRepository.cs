@@ -24,17 +24,9 @@ namespace Data.Repository
             _context = context;
             _dbset = context.Set<TEntity>();
         }
-        public virtual async Task<IEnumerable<TEntity>> SearchAndOrderAsync(Expression<Func<TEntity, bool>> predicate, GenericSortOptions<TEntity> sortOptions, int numRecords)
+        public virtual IEnumerable<TEntity> SearchAndOrderAsync(Expression<Func<TEntity, bool>> predicate, GenericSortOptions<TEntity> sortOptions, int numRecords)
         {
-            if (sortOptions != null)
-            {
-                if (sortOptions.SortType == SortType.Ascending)
-                {
-                    return await _dbset.AsNoTracking().Where(predicate).OrderBy(sortOptions.GetColumnToSort()).Take(numRecords).ToListAsync();
-                }
-                return await _dbset.AsNoTracking().Where(predicate).OrderByDescending(sortOptions.GetColumnToSort()).Take(numRecords).ToListAsync();
-            }
-            return await _dbset.AsNoTracking().Where(predicate).Take(numRecords).ToListAsync();
+            return sortOptions.GetSortedResults(_dbset.AsNoTracking().Where(predicate)).Take(numRecords);
         }
         public virtual async Task<IEnumerable<TEntity>> SearchAllAsync(Expression<Func<TEntity, bool>> predicate)
         {

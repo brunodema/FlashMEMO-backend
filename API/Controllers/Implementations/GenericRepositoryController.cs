@@ -28,9 +28,9 @@ namespace API.Controllers.Implementations
 
         [HttpGet]
         [Route("list")]
-        public async virtual Task<IActionResult> List(int pageSize, int? pageNumber, [FromQuery] TSortOptions sortOptions = null)
+        public virtual IActionResult List(int pageSize, int? pageNumber, [FromQuery] TSortOptions sortOptions = null)
         {
-            var data = await _repositoryService.GetAsync(_ => true, sortOptions);
+            var data = _repositoryService.GetAsync(_ => true, sortOptions);
             return Ok(new PaginatedListResponse<TEntity> { Status = "Sucess", Data = PaginatedList<TEntity>.Create(data, pageNumber ?? 1, pageSize) });
         }
 
