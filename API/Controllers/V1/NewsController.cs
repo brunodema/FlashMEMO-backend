@@ -11,17 +11,13 @@ namespace API.Controllers
     [ApiController]
     [ApiVersion("1.0")]
     [Route("api/v{version:apiVersion}/[controller]")]
-    public class NewsController : GenericRepositoryController<News, Guid, NewsFilterOptions>
+    public class NewsController : GenericRepositoryController<News, Guid, NewsFilterOptions, NewsSortOptions>
     {
         private readonly NewsService _newsService;
 
         public NewsController(NewsService newsService) : base(newsService)
         {
             _newsService = newsService;
-        }
-        protected override GenericSortOptions<News> SetColumnSorting(SortType sortType, string columnToSort)
-        {
-            return new NewsSortOptions(sortType, columnToSort);
         }
     }
 }

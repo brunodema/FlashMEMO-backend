@@ -12,6 +12,7 @@ namespace Data.Tools
             public const string DATE = "date";
         }
         public NewsSortOptions(SortType sortType = SortType.None, string columnToSort = "") : base(sortType, columnToSort) { }
+        public NewsSortOptions() { }
         public override void DetermineColumnToSortExpression(string columnToSort = "title")
         {
             ColumnToSortExprssion = columnToSort switch

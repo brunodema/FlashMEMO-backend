@@ -14,9 +14,10 @@ using System.Threading.Tasks;
 
 namespace API.Controllers.Implementations
 {
-    public abstract class GenericRepositoryController<TEntity, TKey, TFilterOptions> : ControllerBase
+    public abstract class GenericRepositoryController<TEntity, TKey, TFilterOptions, TSortOptions> : ControllerBase
         where TEntity : class, IDatabaseItem<TKey>
         where TFilterOptions : IQueryFilterOptions<TEntity>
+        where TSortOptions : GenericSortOptions<TEntity>
     {
         private readonly IRepositoryService<TEntity, TKey> _repositoryService;
 
@@ -25,13 +26,11 @@ namespace API.Controllers.Implementations
             _repositoryService = repositoryService;
         }
 
-        protected abstract GenericSortOptions<TEntity> SetColumnSorting(SortType sortType, string columnToSort);
-
         [HttpGet]
         [Route("list")]
-        public async virtual Task<IActionResult> List([FromQuery] string columnToSort, SortType sortType, int pageSize, int? pageNumber)
+        public async virtual Task<IActionResult> List(int pageSize, int? pageNumber, [FromQuery] TSortOptions sortOptions = null)
         {
-            var sortOptions = SetColumnSorting(sortType, columnToSort);
+            sortOptions.DetermineColumnToSortExpression(sortOptions.ColumnToSort);
             var data = await _repositoryService.GetAsync(_ => true, sortOptions);
             return Ok(new PaginatedListResponse<TEntity> { Status = "Sucess", Data = PaginatedList<TEntity>.Create(data, pageNumber ?? 1, pageSize) });
         }
@@ -86,10 +85,9 @@ namespace API.Controllers.Implementations
 
         [HttpGet]
         [Route("search")]
-        public virtual IActionResult Search([FromQuery] string columnToSort, SortType sortType, int pageSize, int? pageNumber, [FromQuery] TFilterOptions filterOptions, NewsSortOptions newsSortOptions)
+        public virtual IActionResult Search(int pageSize, int? pageNumber, [FromQuery] TFilterOptions filterOptions, [FromQuery] TSortOptions sortOptions = null)
         {
-            var sortOptions = SetColumnSorting(sortType, columnToSort);
-
+            sortOptions.DetermineColumnToSortExpression(sortOptions.ColumnToSort);
             var data = _repositoryService.SearchAndOrder(filterOptions, sortOptions);
             data = filterOptions.GetFilteredResults(data.AsQueryable());
 
