@@ -30,9 +30,9 @@ namespace Data.Repository
             {
                 if (sortOptions.SortType == SortType.Ascending)
                 {
-                    return await _dbset.AsNoTracking().Where(predicate).OrderBy(sortOptions.ColumnToSort).Take(numRecords).ToListAsync();
+                    return await _dbset.AsNoTracking().Where(predicate).OrderBy(sortOptions.GetColumnToSort()).Take(numRecords).ToListAsync();
                 }
-                return await _dbset.AsNoTracking().Where(predicate).OrderByDescending(sortOptions.ColumnToSort).Take(numRecords).ToListAsync();
+                return await _dbset.AsNoTracking().Where(predicate).OrderByDescending(sortOptions.GetColumnToSort()).Take(numRecords).ToListAsync();
             }
             return await _dbset.AsNoTracking().Where(predicate).Take(numRecords).ToListAsync();
         }

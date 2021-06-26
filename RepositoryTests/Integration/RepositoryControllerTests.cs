@@ -289,11 +289,11 @@ namespace Tests.Integration.NewsTests
                 var referenceVectorSize = referenceElements.Count();
                 if (testData.SortType == SortType.Ascending)
                 {
-                    referenceElements = referenceElements.OrderBy(new NewsSortOptions(testData.SortType, testData.ColumnToSort).ColumnToSort);
+                    referenceElements = referenceElements.OrderBy(new NewsSortOptions(testData.SortType, testData.ColumnToSort).GetColumnToSort());
                 }
                 else if (testData.SortType == SortType.Descending)
                 {
-                    referenceElements = referenceElements.OrderByDescending(new NewsSortOptions(testData.SortType, testData.ColumnToSort).ColumnToSort);
+                    referenceElements = referenceElements.OrderByDescending(new NewsSortOptions(testData.SortType, testData.ColumnToSort).GetColumnToSort());
                 }
                 var totalPages = Math.Ceiling((decimal)referenceVectorSize / (decimal)testData.PageSize);
                 var currentPage = 1;

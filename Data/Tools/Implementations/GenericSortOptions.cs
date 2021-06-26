@@ -16,25 +16,32 @@ namespace Data.Tools.Implementations
     public abstract class GenericSortOptions<TEntity>
     {
         public SortType SortType { get; set; } = SortType.None;
-        public Expression<Func<TEntity, object>> ColumnToSort { get; set; } = null;
+        public string ColumnToSort { get; set; } = "";
+        protected Expression<Func<TEntity, object>> ColumnToSortExprssion { get; set; } = null;
+
         public GenericSortOptions(SortType sortType = SortType.None, string columnToSort = "")
         {
             SortType = sortType;
-            DetermineColumnToSort(columnToSort);
+            ColumnToSort = columnToSort;
+            DetermineColumnToSortExpression(ColumnToSort);
         }
         public IEnumerable<TEntity> GetSortedResults(IQueryable<TEntity> elements)
         {
-            DetermineColumnToSort();
             if (SortType == SortType.Ascending)
             {
-                return elements.OrderBy(ColumnToSort);
+                return elements.OrderBy(ColumnToSortExprssion);
             }
             else if (SortType == SortType.Descending)
             {
-                return elements.OrderByDescending(ColumnToSort);
+                return elements.OrderByDescending(ColumnToSortExprssion);
             }
             return elements;
         }
-        public abstract void DetermineColumnToSort(string columnToSort = "");
+        public abstract void DetermineColumnToSortExpression(string columnToSort = "");
+
+        public Expression<Func<TEntity, object>> GetColumnToSort()
+        {
+            return ColumnToSortExprssion;
+        }
     }
 }

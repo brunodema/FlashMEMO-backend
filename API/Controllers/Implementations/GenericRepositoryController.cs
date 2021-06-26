@@ -86,7 +86,7 @@ namespace API.Controllers.Implementations
 
         [HttpGet]
         [Route("search")]
-        public virtual IActionResult Search([FromQuery] string columnToSort, SortType sortType, int pageSize, int? pageNumber, [FromQuery] TFilterOptions filterOptions)
+        public virtual IActionResult Search([FromQuery] string columnToSort, SortType sortType, int pageSize, int? pageNumber, [FromQuery] TFilterOptions filterOptions, NewsSortOptions newsSortOptions)
         {
             var sortOptions = SetColumnSorting(sortType, columnToSort);
 

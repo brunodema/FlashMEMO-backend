@@ -12,9 +12,9 @@ namespace Data.Tools
             public const string DATE = "date";
         }
         public NewsSortOptions(SortType sortType = SortType.None, string columnToSort = "") : base(sortType, columnToSort) { }
-        public override void DetermineColumnToSort(string columnToSort = "title")
+        public override void DetermineColumnToSortExpression(string columnToSort = "title")
         {
-            ColumnToSort = columnToSort switch
+            ColumnToSortExprssion = columnToSort switch
             {
                 ColumnOptions.SUBTITLE => news => news.Subtitle,
                 ColumnOptions.DATE => news => news.CreationDate,
@@ -31,9 +31,9 @@ namespace Data.Tools
             public const string EMAIL = "email";
         }
         public ApplicationUserSortOptions(SortType sortType = SortType.None, string columnToSort = "") : base(sortType, columnToSort) { }
-        public override void DetermineColumnToSort(string columnToSort = "title")
+        public override void DetermineColumnToSortExpression(string columnToSort = "title")
         {
-            ColumnToSort = columnToSort switch
+            ColumnToSortExprssion = columnToSort switch
             {
                 ColumnOptions.EMAIL => user => user.Email,
                 // default will be username
@@ -49,9 +49,9 @@ namespace Data.Tools
             public const string NAME = "name"; // will not be used for now
         }
         public RoleSortOptions(SortType sortType = SortType.None, string columnToSort = "") : base(sortType, columnToSort) { }
-        public override void DetermineColumnToSort(string columnToSort = "name")
+        public override void DetermineColumnToSortExpression(string columnToSort = "name")
         {
-            ColumnToSort = role => role.Name;
+            ColumnToSortExprssion = role => role.Name;
         }
     }
 }
