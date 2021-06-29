@@ -228,9 +228,39 @@ namespace Tests.Integration.NewsControllerTests
                         SortType = SortType.Descending,
                         FilterOptions = new NewsFilterOptions()
                         {
+                            //Content = "lorem",
+                            //Subtitle = "ipsum",
+                            //Title = "lorem",
+                            FromDate = DateTime.Parse("2020-01-01"),
+                            //ToDate = DateTime.Parse("2022-01-01")
+                        }
+                    },
+                    new ShouldSearchRecordsAppropriately<News>
+                    {
+                        PageSize = 5,
+                        ColumnToSort = "gibberish", // should default to title sorting
+                        SortType = SortType.Descending,
+                        FilterOptions = new NewsFilterOptions()
+                        {
+                            //Content = "lorem",
+                            //Subtitle = "ipsum",
+                            //Title = "lorem",
+                            //FromDate = DateTime.Parse("2020-01-01"),
+                            ToDate = DateTime.Parse("2022-01-01")
+                        }
+                    },
+                    new ShouldSearchRecordsAppropriately<News>
+                    {
+                        PageSize = 5,
+                        ColumnToSort = "gibberish", // should default to title sorting
+                        SortType = SortType.Descending,
+                        FilterOptions = new NewsFilterOptions()
+                        {
                             Content = "lorem",
                             Subtitle = "ipsum",
-                            ToDate = DateTime.Parse("2022-01-01")
+                            Title = "lorem",
+                            //FromDate = DateTime.Parse("2020-01-01"),
+                            //ToDate = DateTime.Parse("2022-01-01")
                         }
                     },
                     new ShouldSearchRecordsAppropriately<News>
