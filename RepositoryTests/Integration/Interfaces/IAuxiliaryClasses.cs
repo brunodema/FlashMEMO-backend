@@ -1,4 +1,5 @@
 ﻿using Data.Tools.Implementations;
+using Data.Tools.Interfaces;
 
 namespace Tests.Integration.Interfaces
 {
@@ -14,16 +15,12 @@ namespace Tests.Integration.Interfaces
         public int PageNumber { get; set; }
     }
 
-    public interface IShouldSortRecordsAppropriately<TEntiy>
+    public interface IShouldSearchRecordsAppropriately<TEntiy>
+        where TEntiy : class
     {
         public int PageSize { get; set; }
         public string ColumnToSort { get; set; }
         SortType SortType { get; set; }
-    }
-
-    public interface IShoulFilterRecordsAppropriately<TEntiy>
-    {
-        public int PageSize { get; set; }
-        public string SearchString { get; set; }
+        IQueryFilterOptions<TEntiy> FilterOptions { get; set; }
     }
 }

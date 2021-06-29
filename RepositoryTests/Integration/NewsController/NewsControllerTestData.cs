@@ -201,55 +201,41 @@ namespace Tests.Integration.NewsControllerTests
             }
         }
 
-        public IEnumerable<IShouldSortRecordsAppropriately<News>> ShouldSortRecordsAppropriatelyTestData
+        public IEnumerable<IShouldSearchRecordsAppropriately<News>> ShouldSortRecordsAppropriatelyTestData
         {
             get
             {
-                return new List<IShouldSortRecordsAppropriately<News>>
+                return new List<ShouldSearchRecordsAppropriately<News>>
                 {
-                    new ShouldSortRecordsAppropriately<News>
+                    new ShouldSearchRecordsAppropriately<News>
                     {
                         PageSize = 10,
                         ColumnToSort = "subtitle",
                         SortType = SortType.Ascending
                     },
-                    new ShouldSortRecordsAppropriately<News>
+                    new ShouldSearchRecordsAppropriately<News>
                     {
                         PageSize = 10,
                         ColumnToSort = "subtitle",
                         SortType = SortType.Descending
                     },
-                    new ShouldSortRecordsAppropriately<News>
+                    new ShouldSearchRecordsAppropriately<News>
                     {
                         PageSize = 20,
                         ColumnToSort = "date",
                         SortType = SortType.Descending
                     },
-                    new ShouldSortRecordsAppropriately<News>
+                    new ShouldSearchRecordsAppropriately<News>
                     {
                         PageSize = 30,
                         ColumnToSort = "title",
                         SortType = SortType.Ascending
                     },
-                    new ShouldSortRecordsAppropriately<News>
+                    new ShouldSearchRecordsAppropriately<News>
                     {
                         PageSize = 10,
                         ColumnToSort = "gibberish", // should default to title sorting
                         SortType = SortType.Ascending
-                    }
-                };
-            }
-        }
-
-        public IEnumerable<IShoulFilterRecordsAppropriately<News>> ShoulFilterRecordsAppropriatelyTestData
-        {
-            get
-            {
-                return new List<IShoulFilterRecordsAppropriately<News>> {
-                    new ShoulFilterRecordsAppropriately<News>
-                    {
-                        PageSize = 10,
-                        SearchString = "lorem"
                     }
                 };
             }

@@ -18,7 +18,6 @@ namespace Tests.Integration.Interfaces
         public IEnumerable<IValidationErrorsWhenCreatingData<TEntity>> ReportsValidationErrorsWhenCreatingTestData { get; }
         public IEnumerable<IValidationErrorsWhenCreatingData<TEntity>> ReportsValidationErrorsWhenUpdatingTestData { get; }
         public IEnumerable<TEntity> UpdatesSuccessfullyTestData { get; }
-        public IEnumerable<IShouldSortRecordsAppropriately<TEntity>> ShouldSortRecordsAppropriatelyTestData { get; }
-        public IEnumerable<IShoulFilterRecordsAppropriately<TEntity>> ShoulFilterRecordsAppropriatelyTestData { get; }
+        public IEnumerable<IShouldSearchRecordsAppropriately<TEntity>> ShouldSortRecordsAppropriatelyTestData { get; }
     }
 }

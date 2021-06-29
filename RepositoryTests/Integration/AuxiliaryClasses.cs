@@ -1,4 +1,5 @@
 ﻿using Data.Tools.Implementations;
+using Data.Tools.Interfaces;
 using Tests.Integration.Interfaces;
 
 namespace Tests.Integration.AuxiliaryClasses
@@ -27,15 +28,12 @@ namespace Tests.Integration.AuxiliaryClasses
         public int PageNumber { get; set; }
     }
 
-    public class ShouldSortRecordsAppropriately<TEntiy> : IShouldSortRecordsAppropriately<TEntiy>
+    public class ShouldSearchRecordsAppropriately<TEntiy> : IShouldSearchRecordsAppropriately<TEntiy>
+        where TEntiy : class
     {
         public int PageSize { get; set; }
         public string ColumnToSort { get; set; }
         public SortType SortType { get; set; }
-    }
-    public class ShoulFilterRecordsAppropriately<TEntiy> : IShoulFilterRecordsAppropriately<TEntiy>
-    {
-        public int PageSize { get; set; }
-        public string SearchString { get; set; }
+        public IQueryFilterOptions<TEntiy> FilterOptions { get; set; }
     }
 }
