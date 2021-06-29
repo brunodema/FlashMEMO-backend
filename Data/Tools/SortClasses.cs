@@ -15,7 +15,7 @@ namespace Data.Tools
         public NewsSortOptions() { }
         protected override void DetermineColumnToSortExpression(string columnToSort = "title")
         {
-            ColumnToSortExprssion = columnToSort switch
+            ColumnToSortExpression = columnToSort switch
             {
                 ColumnOptions.SUBTITLE => news => news.Subtitle,
                 ColumnOptions.DATE => news => news.CreationDate,
@@ -35,7 +35,7 @@ namespace Data.Tools
         public ApplicationUserSortOptions() { }
         protected override void DetermineColumnToSortExpression(string columnToSort = "title")
         {
-            ColumnToSortExprssion = columnToSort switch
+            ColumnToSortExpression = columnToSort switch
             {
                 ColumnOptions.EMAIL => user => user.Email,
                 // default will be username
@@ -54,7 +54,7 @@ namespace Data.Tools
         public RoleSortOptions() { }
         protected override void DetermineColumnToSortExpression(string columnToSort = "name")
         {
-            ColumnToSortExprssion = role => role.Name;
+            ColumnToSortExpression = role => role.Name;
         }
     }
 }

@@ -14,6 +14,7 @@ using Xunit;
 using Xunit.Abstractions;
 using Data.Tools;
 using Data.Tools.Implementations;
+using FluentAssertions;
 
 namespace RepositoryTests
 {
@@ -217,11 +218,11 @@ namespace RepositoryTests
                 Assert.True(response.Count() <= (numRecords < 0 ? 0 : numRecords));
                 if (sortType == SortType.Ascending)
                 {
-                    Assert.True(response.OrderBy(user => user.UserName).SequenceEqual(response));
+                    response.Should().BeEquivalentTo(response.OrderBy(user => user.UserName));
                 }
                 else
                 {
-                    Assert.True(response.OrderByDescending(user => user.UserName).SequenceEqual(response));
+                    response.Should().BeEquivalentTo(response.OrderByDescending(user => user.UserName));
                 }
             }
             [Theory]
@@ -323,11 +324,11 @@ namespace RepositoryTests
                 Assert.True(response.Count() <= (numRecords < 0 ? 0 : numRecords));
                 if (sortType == SortType.Ascending)
                 {
-                    Assert.True(response.OrderBy(role => role.Name).SequenceEqual(response));
+                    response.Should().BeEquivalentTo(response.OrderBy(role => role.Name));
                 }
                 else
                 {
-                    Assert.True(response.OrderByDescending(role => role.Name).SequenceEqual(response));
+                    response.Should().BeEquivalentTo(response.OrderByDescending(role => role.Name));
                 }
             }
             [Theory]
@@ -369,11 +370,11 @@ namespace RepositoryTests
                 Assert.True(response.Count() <= (numRecords < 0 ? 0 : numRecords));
                 if (sortType == SortType.Ascending)
                 {
-                    Assert.True(response.OrderBy(user => user.Email).SequenceEqual(response));
+                    response.Should().BeEquivalentTo(response.OrderBy(user => user.Email));
                 }
                 else
                 {
-                    Assert.True(response.OrderByDescending(user => user.Email).SequenceEqual(response));
+                    response.Should().BeEquivalentTo(response.OrderByDescending(user => user.Email));
                 }
                 Assert.True(response.Count() == expectedNumberOfRecordsReturned);
             }
@@ -401,11 +402,11 @@ namespace RepositoryTests
                 Assert.True(response.Count() <= (numRecords < 0 ? 0 : numRecords));
                 if (sortType == SortType.Ascending)
                 {
-                    Assert.True(response.OrderBy(role => role.Name).SequenceEqual(response));
+                    response.Should().BeEquivalentTo(response.OrderBy(role => role.Name));
                 }
                 else
                 {
-                    Assert.True(response.OrderByDescending(role => role.Name).SequenceEqual(response));
+                    response.Should().BeEquivalentTo(response.OrderByDescending(role => role.Name));
                 }
                 Assert.True(response.Count() == expectedNumberOfRecordsReturned);
             }

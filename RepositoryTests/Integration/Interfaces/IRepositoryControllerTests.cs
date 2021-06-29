@@ -40,7 +40,6 @@ namespace Tests.Integration.Interfaces
     public interface IRepositoryControllerListTests<TEntity>
     {
         void ListsAllRecordsSuccessfully();
-        void ShouldSortRecordsAppropriately();
-        void ShoulFilterRecordsAppropriately();
+        void ShouldSearchRecordsAppropriately();
     }
 }

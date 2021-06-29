@@ -266,9 +266,7 @@ namespace Tests.Integration.NewsTests
             });
         }
         [Fact]
-        public abstract void ShouldSortRecordsAppropriately();
-        [Fact]
-        public abstract void ShoulFilterRecordsAppropriately();
+        public abstract void ShouldSearchRecordsAppropriately();
     }
 
     public class NewsRepositoryControllerTests : RepositoryControllerTests<News, Guid>
@@ -280,7 +278,7 @@ namespace Tests.Integration.NewsTests
             return new NewsControllerTestData();
         }
 
-        public override void ShouldSortRecordsAppropriately()
+        public override void ShouldSearchRecordsAppropriately()
         {
             RunAndReportResults(TestData.ShouldSortRecordsAppropriatelyTestData, async testData =>
             {
@@ -313,11 +311,6 @@ namespace Tests.Integration.NewsTests
                     ++currentPage;
                 }
             });
-        }
-
-        public override void ShoulFilterRecordsAppropriately()
-        {
-            throw new NotImplementedException();
         }
     }
 }

@@ -8,6 +8,7 @@ using System.Linq;
 using Xunit.Abstractions;
 using Data.Tools;
 using Data.Tools.Implementations;
+using FluentAssertions;
 
 namespace RepositoryTests
 {
@@ -170,11 +171,11 @@ namespace RepositoryTests
             Assert.True(response.Count() <= (numRecords < 0 ? 0 : numRecords));
             if (sortType == SortType.Ascending)
             {
-                Assert.True(response.OrderBy(news => news.CreationDate).SequenceEqual(response));
+                response.Should().BeEquivalentTo(response.OrderBy(news => news.CreationDate));
             }
             else
             {
-                Assert.True(response.OrderByDescending(news => news.CreationDate).SequenceEqual(response));
+                response.Should().BeEquivalentTo(response.OrderByDescending(news => news.CreationDate));
             }
         }
     }
