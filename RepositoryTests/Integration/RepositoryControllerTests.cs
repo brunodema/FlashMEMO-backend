@@ -15,7 +15,6 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Tests.Integration.NewsControllerTests;
 using Data.Tools;
-using Data.Tools.Implementations;
 
 namespace Tests.Integration.NewsTests
 {
@@ -31,6 +30,7 @@ namespace Tests.Integration.NewsTests
         public string GetEndpoint { get; set; }
         public string ListEndpoint { get; set; }
         public string DeleteEndpoint { get; set; }
+        public string SearchEndpoint { get; set; }
         public IRepositoryControllerTestData<TEntity, TKey> TestData { get; set; }
 
         /// <summary>
@@ -85,6 +85,7 @@ namespace Tests.Integration.NewsTests
             GetEndpoint = $"{BaseEndpoint}";
             ListEndpoint = $"{BaseEndpoint}/list";
             DeleteEndpoint = $"{BaseEndpoint}/delete";
+            SearchEndpoint = $"{BaseEndpoint}/search";
 
             TestData = SetTestData();
         }
@@ -280,27 +281,45 @@ namespace Tests.Integration.NewsTests
 
         public override void ShouldSearchRecordsAppropriately()
         {
-            RunAndReportResults(TestData.ShouldSortRecordsAppropriatelyTestData, async testData =>
+            RunAndReportResults(TestData.ShouldSearchRecordsAppropriately, async testData =>
             {
                 // Arrange
                 var referenceElements = GetAllObjectsOnDatabase().Result.AsQueryable();
                 var referenceVectorSize = referenceElements.Count();
-                if (testData.SortType == SortType.Ascending)
+
+                referenceElements = new NewsSortOptions()
                 {
-                    referenceElements = referenceElements.OrderBy(new NewsSortOptions(testData.SortType, testData.ColumnToSort).GetColumnToSort());
-                }
-                else if (testData.SortType == SortType.Descending)
+                    SortType = testData.SortType,
+                    ColumnToSort = testData.ColumnToSort
+                }.GetSortedResults(referenceElements).AsQueryable();
+
+                if (testData.FilterOptions != null)
                 {
-                    referenceElements = referenceElements.OrderByDescending(new NewsSortOptions(testData.SortType, testData.ColumnToSort).GetColumnToSort());
+                    referenceElements = testData.FilterOptions.GetFilteredResults(referenceElements).AsQueryable();
                 }
+
                 var totalPages = Math.Ceiling((decimal)referenceVectorSize / (decimal)testData.PageSize);
                 var currentPage = 1;
 
                 // Act
                 while (currentPage <= totalPages)
                 {
-                    var queryParams = $"?pageSize={testData.PageSize}&pageNumber={currentPage}&sortType={testData.SortType}&columnToSort={testData.ColumnToSort}";
-                    var response = await _integrationTestFixture.HttpClient.GetAsync($"{ListEndpoint}{queryParams}");
+                    var queryParams = $"?pageSize={testData.PageSize}" +
+                    $"&pageNumber={currentPage}" +
+                    $"&sortType={testData.SortType}" +
+                    $"&columnToSort={testData.ColumnToSort}";
+
+                    // this attrocity over here takes care of concatenating the query parameters. Will fix this in the future
+                    if (testData.FilterOptions != null)
+                    {
+                        if (testData.FilterOptions.Content != null) queryParams = String.Concat(queryParams, $"&Content={testData.FilterOptions.Content}");
+                        if (testData.FilterOptions.Subtitle != null) queryParams = String.Concat(queryParams, $"&Subtitle={testData.FilterOptions.Subtitle}");
+                        if (testData.FilterOptions.Title != null) queryParams = String.Concat(queryParams, $"&Title={testData.FilterOptions.Title}");
+                        if (testData.FilterOptions.FromDate != null) queryParams = String.Concat(queryParams, $"&FromDate={testData.FilterOptions.FromDate.Value.ToString("yyyy-MM-dd")}");
+                        if (testData.FilterOptions.ToDate != null) queryParams = String.Concat(queryParams, $"&ToDate={testData.FilterOptions.ToDate.Value.ToString("yyyy-MM-dd")}");
+                    }
+                    
+                    var response = await _integrationTestFixture.HttpClient.GetAsync($"{SearchEndpoint}{queryParams}");
                     var parsedResponse = await response.Content.ReadFromJsonAsync<PaginatedListResponse<News>>();
                     var returnedElements = parsedResponse.Data.Results;
 

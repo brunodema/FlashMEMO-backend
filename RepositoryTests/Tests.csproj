@@ -30,4 +30,10 @@
     <ProjectReference Include="..\Data\Data.csproj" />
   </ItemGroup>
 
+<ItemGroup>
+  <None Update="xunit.runner.json"> 
+    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+  </None>
+</ItemGroup>
+
 </Project>

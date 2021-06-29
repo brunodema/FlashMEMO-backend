@@ -17,6 +17,7 @@ namespace Tests.Integration.Interfaces
         public string GetEndpoint { get; set; }
         public string ListEndpoint { get; set; }
         public string DeleteEndpoint { get; set; }
+        public string SearchEndpoint { get; set; }
     }
     public interface IRepositoryControllerCreateTests<TEntity>
     {

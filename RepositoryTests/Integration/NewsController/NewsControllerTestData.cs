@@ -201,12 +201,38 @@ namespace Tests.Integration.NewsControllerTests
             }
         }
 
-        public IEnumerable<IShouldSearchRecordsAppropriately<News>> ShouldSortRecordsAppropriatelyTestData
+        public IEnumerable<IShouldSearchRecordsAppropriately<News>> ShouldSearchRecordsAppropriately
         {
             get
             {
                 return new List<ShouldSearchRecordsAppropriately<News>>
                 {
+                    new ShouldSearchRecordsAppropriately<News>
+                    {
+                        PageSize = 10,
+                        ColumnToSort = "date",
+                        SortType = SortType.Ascending,
+                        FilterOptions = new NewsFilterOptions()
+                        {
+                            Content = "lorem",
+                            Subtitle = "et",
+                            Title = "et",
+                            FromDate = DateTime.Parse("2020-01-01"),
+                            ToDate = DateTime.Parse("2022-01-01")
+                        }
+                    },
+                    new ShouldSearchRecordsAppropriately<News>
+                    {
+                        PageSize = 5,
+                        ColumnToSort = "gibberish", // should default to title sorting
+                        SortType = SortType.Descending,
+                        FilterOptions = new NewsFilterOptions()
+                        {
+                            Content = "lorem",
+                            Subtitle = "ipsum",
+                            ToDate = DateTime.Parse("2022-01-01")
+                        }
+                    },
                     new ShouldSearchRecordsAppropriately<News>
                     {
                         PageSize = 10,
