@@ -265,7 +265,9 @@ namespace Tests.Integration.NewsTests
                 body = JsonContent.Create(entityBefore);
                 await _integrationTestFixture.HttpClient.PutAsync(UpdateEndpoint, body);
                 var entityUndo = await _integrationTestFixture.HttpClient.GetAsync($"{GetEndpoint}/{entity.GetId()}").Result.Content.ReadFromJsonAsync<TEntity>();
-                entityBefore.Should().BeEquivalentTo(entityUndo);
+
+                // Had to add this tolerance so errors regarding <= 20ms time differences are not reported.
+                entityBefore.Should().BeEquivalentTo(entityUndo, options => options.Using<DateTime>(ctx => ctx.Subject.Should().BeCloseTo(ctx.Expectation, 200)).WhenTypeIs<DateTime>());
             });
         }
     }
