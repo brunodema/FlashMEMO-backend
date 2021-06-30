@@ -89,6 +89,8 @@ namespace Tests.Integration.NewsTests
 
             TestData = SetTestData();
         }
+        [Fact]
+        public abstract void ShouldSearchRecordsAppropriately();
 
         [Fact]
         public void CreatesSuccessfully()
@@ -266,8 +268,6 @@ namespace Tests.Integration.NewsTests
                 entityBefore.Should().BeEquivalentTo(entityUndo);
             });
         }
-        [Fact]
-        public abstract void ShouldSearchRecordsAppropriately();
     }
 
     public class NewsRepositoryControllerTests : RepositoryControllerTests<News, Guid>

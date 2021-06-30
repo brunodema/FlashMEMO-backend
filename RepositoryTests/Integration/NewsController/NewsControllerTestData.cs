@@ -24,15 +24,6 @@ namespace Tests.Integration.NewsControllerTests
                         CreationDate = DateTime.Now,
                         LastUpdated = DateTime.Now
                     },
-                    new News // duplicate only to check how the yield return is structured
-                    {
-                        NewsID = Guid.NewGuid(),
-                        Title = "(Another) Test News",
-                        Subtitle = "This is another test news",
-                        Content = "Hello",
-                        CreationDate = DateTime.Now,
-                        LastUpdated = DateTime.Now
-                    }
                 };
             }
         }
@@ -291,21 +282,21 @@ namespace Tests.Integration.NewsControllerTests
                             //ToDate = DateTime.Parse("2022-01-01")
                         }
                     },
-                    // This one fails. Why? no fucking idea. Something to do with parallelism and LINQ/IQueryable translation. FromDate must be set or it doesn't work
-                    //new ShouldSearchRecordsAppropriately<News>
-                    //{
-                    //    PageSize = 5,
-                    //    ColumnToSort = "gibberish", // should default to title sorting
-                    //    SortType = SortType.Descending,
-                    //    FilterOptions = new NewsFilterOptions()
-                    //    {
-                    //        Content = "lorem",
-                    //        Subtitle = "ipsum",
-                    //        Title = "lorem",
-                    //        //FromDate = DateTime.Parse("2020-01-01"),
-                    //        //ToDate = DateTime.Parse("2022-01-01")
-                    //    }
-                    //},
+                    //This one fails. Why? no fucking idea. Something to do with parallelism and LINQ / IQueryable translation.FromDate must be set or it doesn't work
+                    new ShouldSearchRecordsAppropriately<News>
+                    {
+                        PageSize = 5,
+                        ColumnToSort = "gibberish", // should default to title sorting
+                        SortType = SortType.Descending,
+                        FilterOptions = new NewsFilterOptions()
+                        {
+                            Content = "lorem",
+                            Subtitle = "ipsum",
+                            Title = "lorem",
+                            //FromDate = DateTime.Parse("2020-01-01"),
+                            //ToDate = DateTime.Parse("2022-01-01")
+                        }
+                    },
                     new ShouldSearchRecordsAppropriately<News>
                     {
                         PageSize = 10,
