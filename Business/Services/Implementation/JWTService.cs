@@ -1,5 +1,5 @@
 ﻿using Business.Services.Interfaces;
-using Data.Models;
+using Data.Models.Implementation;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using System;
@@ -8,7 +8,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 
-namespace Business.Services
+namespace Business.Services.Implementation
 {
     public class JWTService : IJWTService
     {

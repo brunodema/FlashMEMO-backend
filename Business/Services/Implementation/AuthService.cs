@@ -1,13 +1,12 @@
-﻿using Data.Repository.Interfaces;
-using Data.Models;
-using Data.Repository;
-using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Options;
 using System.Threading.Tasks;
 using Business.Services.Interfaces;
 using Business.Tools.Interfaces;
+using Data.Repository.Implementation;
+using Data.Models.Implementation;
 
-namespace Business.Services
+namespace Business.Services.Implementation
 {
     public class AuthServiceOptions : IAuthServiceOptions
     {

@@ -1,15 +1,14 @@
 ﻿using Data.Context;
-using Data.Repository.Interfaces;
-using Data.Models;
-using Data.Repository;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using System;
 using Xunit;
 using Xunit.Abstractions;
+using Data.Models.Implementation;
+using Data.Repository.Implementation;
 
-namespace RepositoryTests
+namespace RepositoryTests.Implementation
 {
     public static class TestGUID
     {
@@ -60,7 +59,7 @@ namespace RepositoryTests
 
     public class RoleRepositoryTests : IClassFixture<RoleRepositoryFixture>, IBaseRepositoryTests<ApplicationRole, string>
     {
-        private RoleRepositoryFixture _repositoryFixture;
+        private readonly RoleRepositoryFixture _repositoryFixture;
         private readonly ITestOutputHelper _output;
 
         public RoleRepositoryTests(RoleRepositoryFixture repositoryFixture, ITestOutputHelper output)
@@ -73,7 +72,7 @@ namespace RepositoryTests
         public async void CreateAsync_AssertThatItGetsProperlyCreated()
         {
             // Arrange
-            var numRows = this._repositoryFixture._repository.GetAllAsync().Result.Count;
+            var numRows = await this._repositoryFixture._repository.GetAll().CountAsync();
             var dummyRole = new ApplicationRole
             {
                 Id = TestGUID.GUID4,
@@ -84,15 +83,15 @@ namespace RepositoryTests
             await this._repositoryFixture._repository.CreateAsync(dummyRole);
 
             // Assert
-            var newNumRows = this._repositoryFixture._repository.GetAllAsync().Result.Count;
-            Assert.True((await this._repositoryFixture._repository.GetAllAsync()).Contains(dummyRole), "Table does not contain the new item");
+            var newNumRows = await this._repositoryFixture._repository.GetAll().CountAsync();
+            Assert.True((await this._repositoryFixture._repository.GetAll().ToListAsync()).Contains(dummyRole), "Table does not contain the new item");
             Assert.True(newNumRows == numRows + 1, $"Number of rows did not increase with the new item added ({newNumRows} != {numRows + 1})");
         }
         [Fact]
         public async void UpdateAsync_AssertThatItGetsProperlyUpdated()
         {
             // Arrange
-            var numRows = this._repositoryFixture._repository.GetAllAsync().Result.Count;
+            var numRows = await this._repositoryFixture._repository.GetAll().CountAsync();
             var dummyRole = await this._repositoryFixture._repository.GetByIdAsync(TestGUID.GUID1);
 
             dummyRole.Name = "altered_name";
@@ -101,7 +100,7 @@ namespace RepositoryTests
             await this._repositoryFixture._repository.UpdateAsync(dummyRole);
 
             // Assert
-            var newNumRows = this._repositoryFixture._repository.GetAllAsync().Result.Count;
+            var newNumRows = await this._repositoryFixture._repository.GetAll().CountAsync();
             var queryResult = await this._repositoryFixture._repository.GetByIdAsync(TestGUID.GUID1);
             Assert.NotNull(queryResult);
             Assert.True(queryResult.Name == "altered_name", "Object property does not match the new updated value");
@@ -111,15 +110,15 @@ namespace RepositoryTests
         public async void RemoveAsync_AssertThatItGetsProperlyRemoved()
         {
             // Arrange
-            var numRows = this._repositoryFixture._repository.GetAllAsync().Result.Count;
+            var numRows = await this._repositoryFixture._repository.GetAll().CountAsync();
             var dummyRole = await this._repositoryFixture._repository.GetByIdAsync(TestGUID.GUID2);
 
             // Act
             await this._repositoryFixture._repository.RemoveByIdAsync(dummyRole.Id);
 
             // Assert
-            var newNumRows = this._repositoryFixture._repository.GetAllAsync().Result.Count;
-            Assert.False((await this._repositoryFixture._repository.GetAllAsync()).Contains(dummyRole), "Table still contains the item");
+            var newNumRows = await this._repositoryFixture._repository.GetAll().CountAsync();
+            Assert.False((await this._repositoryFixture._repository.GetAll().ToListAsync()).Contains(dummyRole), "Table still contains the item");
             Assert.True(newNumRows == numRows - 1, $"Number of rows did not decrease with the item removed ({ newNumRows} != { numRows - 1})");
         }
         [Fact]

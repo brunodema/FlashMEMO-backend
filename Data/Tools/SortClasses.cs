@@ -1,22 +1,60 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Linq.Expressions;
-using System.Threading.Tasks;
+﻿using Data.Models.Implementation;
+using Data.Tools.Implementation;
+
 
 namespace Data.Tools
 {
-    public enum SortType
+     public class NewsSortOptions : GenericSortOptions<News>
     {
-        None,
-        Ascending,
-        Descending
+        public static class ColumnOptions
+        {
+            public const string SUBTITLE = "subtitle";
+            public const string DATE = "date";
+        }
+        public NewsSortOptions(SortType sortType = SortType.None, string columnToSort = "") : base(sortType, columnToSort) { }
+        public NewsSortOptions() { }
+        protected override void DetermineColumnToSortExpression(string columnToSort = "title")
+        {
+            ColumnToSortExpression = columnToSort switch
+            {
+                ColumnOptions.SUBTITLE => news => news.Subtitle,
+                ColumnOptions.DATE => news => news.CreationDate,
+                // default will be username
+                _ => news => news.Title,
+            };
+        }
     }
-    public class SortOptions<TEntity, TKey>
+
+    public class ApplicationUserSortOptions : GenericSortOptions<ApplicationUser>
     {
-        public SortType SortType { get; set; } = SortType.None;
-        public Expression<Func<TEntity, TKey>> ColumnToSort { get; set; } = null;
+        public static class ColumnOptions
+        {
+            public const string EMAIL = "email";
+        }
+        public ApplicationUserSortOptions(SortType sortType = SortType.None, string columnToSort = "") : base(sortType, columnToSort) { }
+        public ApplicationUserSortOptions() { }
+        protected override void DetermineColumnToSortExpression(string columnToSort = "title")
+        {
+            ColumnToSortExpression = columnToSort switch
+            {
+                ColumnOptions.EMAIL => user => user.Email,
+                // default will be username
+                _ => user => user.UserName,
+            };
+        }
+    }
+
+    public class RoleSortOptions : GenericSortOptions<ApplicationRole>
+    {
+        public static class ColumnOptions
+        {
+            public const string NAME = "name"; // will not be used for now
+        }
+        public RoleSortOptions(SortType sortType = SortType.None, string columnToSort = "") : base(sortType, columnToSort) { }
+        public RoleSortOptions() { }
+        protected override void DetermineColumnToSortExpression(string columnToSort = "name")
+        {
+            ColumnToSortExpression = role => role.Name;
+        }
     }
 }

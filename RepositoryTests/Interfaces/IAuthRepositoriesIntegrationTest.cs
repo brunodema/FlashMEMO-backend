@@ -1,8 +1,7 @@
-﻿using Data.Repository.Interfaces;
-using Data.Models;
-using System;
-using Data.Tools;
+﻿using System;
 using System.Linq.Expressions;
+using Data.Models.Implementation;
+using Data.Tools.Implementation;
 
 namespace RepositoryTests.Interfaces
 {

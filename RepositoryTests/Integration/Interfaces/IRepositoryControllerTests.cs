@@ -7,35 +7,40 @@ namespace Tests.Integration.Interfaces
         IRepositoryControllerCreateTests<TEntity>,
         IRepositoryControllerUpdateTests<TEntity>,
         IRepositoryControllerDeleteTests<TEntity, TKey>,
-        IRepositoryControllerGetTests<TEntity>
+        IRepositoryControllerGetTests<TEntity>,
+        IRepositoryControllerListTests<TEntity>
         where TEntity : class
     {
-        public IBaseRepository<TEntity, TKey> BaseRepository { get; set; }
         public string BaseEndpoint { get; set; }
         public string CreateEndpoint { get; set; }
         public string UpdateEndpoint { get; set; }
         public string GetEndpoint { get; set; }
         public string ListEndpoint { get; set; }
         public string DeleteEndpoint { get; set; }
+        public string SearchEndpoint { get; set; }
     }
     public interface IRepositoryControllerCreateTests<TEntity>
     {
-        void CreatesSuccessfully(TEntity entity);
-        void ReportsValidationErrorsWhenCreating(TEntity entity, string[] expectedErrors);
+        void CreatesSuccessfully();
+        void ReportsValidationErrorsWhenCreating();
     }
     public interface IRepositoryControllerUpdateTests<TEntity>
     {
-        void UpdatesSuccessfully(TEntity entity);
-        void ReportsValidationErrorsWhenUpdating(TEntity entity, string[] expectedErrors);
+        void UpdatesSuccessfully();
+        void ReportsValidationErrorsWhenUpdating();
     }
     public interface IRepositoryControllerDeleteTests<TEntity, TKey>
     {
-        void DeletesByIdSuccessfully(TKey id);
-        void FailsDeletionIfIdDoesNotExist(TKey id);
+        void DeletesByIdSuccessfully();
+        void FailsDeletionIfIdDoesNotExist();
     }
     public interface IRepositoryControllerGetTests<TEntity>
     {
-        void ListsAllRecordsSuccessfully(int expectedNumberOfRecords);
-        void GetsSpecifiedNumberOfRecordsPerPage(int pageSize, int? pageNumber, int expectedNumberOfRecords);
+        void GetsSpecifiedNumberOfRecordsPerPage();
+    }
+    public interface IRepositoryControllerListTests<TEntity>
+    {
+        void ListsAllRecordsSuccessfully();
+        void ShouldSearchRecordsAppropriately();
     }
 }

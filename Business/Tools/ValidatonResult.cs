@@ -1,8 +1,10 @@
-﻿namespace Business.Tools
+﻿using System.Collections.Generic;
+
+namespace Business.Tools
 {
     public class ValidatonResult
     {
         public bool IsValid { get; set; } = false;
-        public string[] Errors { get; set; } = { };
+        public List<string> Errors { get; set; } = null;
     }
 }

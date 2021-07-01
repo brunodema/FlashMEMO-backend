@@ -1,6 +1,4 @@
-﻿using Data.Models;
-using Data.Tools;
-using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -8,28 +6,22 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Data.Context;
+using Data.Tools.Implementation;
+using Data.Repository.Abstract;
+using Data.Models.Implementation;
 
-namespace Data.Repository
+namespace Data.Repository.Implementation
 {
-    public class RoleRepository : BaseRepository<ApplicationRole, string, FlashMEMOContext>
+    public class RoleRepository : GenericRepository<ApplicationRole, string, FlashMEMOContext>
     {
         private readonly RoleManager<ApplicationRole> _roleManager;
         public RoleRepository(FlashMEMOContext context, RoleManager<ApplicationRole> roleManager) : base(context)
         {
             _roleManager = roleManager;
         }
-        public override async Task<IEnumerable<ApplicationRole>> SearchAndOrderAsync<ColumnType>(Expression<Func<ApplicationRole, bool>> predicate, SortOptions<ApplicationRole, ColumnType> sortOptions, int numRecords)
+        public override IEnumerable<ApplicationRole> SearchAndOrderAsync(Expression<Func<ApplicationRole, bool>> predicate, GenericSortOptions<ApplicationRole> sortOptions, int numRecords)
         {
-            if (sortOptions != null)
-            {
-                if (sortOptions.SortType == SortType.Ascending)
-                {
-                    return await _roleManager.Roles.AsNoTracking().Where(predicate).OrderBy(sortOptions.ColumnToSort).Take(numRecords).ToListAsync();
-                }
-                return await _roleManager.Roles.AsNoTracking().Where(predicate).OrderByDescending(sortOptions.ColumnToSort).Take(numRecords).ToListAsync();
-            }
-            return await _roleManager.Roles.AsNoTracking().Where(predicate).Take(numRecords).ToListAsync();
-
+            return sortOptions.GetSortedResults(_dbset.AsNoTracking().Where(predicate)).Take(numRecords);
         }
         public override async Task<IEnumerable<ApplicationRole>> SearchAllAsync(Expression<Func<ApplicationRole, bool>> predicate)
         {
@@ -39,9 +31,9 @@ namespace Data.Repository
         {
             return await _roleManager.Roles.AsNoTracking().FirstOrDefaultAsync(predicate);
         }
-        public override async Task<ICollection<ApplicationRole>> GetAllAsync()
+        public override IQueryable<ApplicationRole> GetAll()
         {
-            return await _roleManager.Roles.ToListAsync();
+            return _roleManager.Roles.AsQueryable();
         }
         public override async Task<ApplicationRole> GetByIdAsync(string id)
         {

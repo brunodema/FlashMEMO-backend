@@ -1,6 +1,7 @@
 ﻿using Data.Context;
-using Data.Models;
-using Data.Tools;
+using Data.Models.Implementation;
+using Data.Repository.Abstract;
+using Data.Tools.Implementation;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -9,26 +10,18 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 
-namespace Data.Repository
+namespace Data.Repository.Implementation
 {
-    public class ApplicationUserRepository : BaseRepository<ApplicationUser, string, FlashMEMOContext>
+    public class ApplicationUserRepository : GenericRepository<ApplicationUser, string, FlashMEMOContext>
     {
         private readonly UserManager<ApplicationUser> _userManager;
         public ApplicationUserRepository(FlashMEMOContext context, UserManager<ApplicationUser> userManager) : base(context)
         {
             _userManager = userManager;
         }
-        public override async Task<IEnumerable<ApplicationUser>> SearchAndOrderAsync<ColumnType>(Expression<Func<ApplicationUser, bool>> predicate, SortOptions<ApplicationUser, ColumnType> sortOptions, int numRecords)
+        public override IEnumerable<ApplicationUser> SearchAndOrderAsync(Expression<Func<ApplicationUser, bool>> predicate, GenericSortOptions<ApplicationUser> sortOptions, int numRecords)
         {
-            if (sortOptions != null)
-            {
-                if (sortOptions.SortType == SortType.Ascending)
-                {
-                    return await _userManager.Users.AsNoTracking().Where(predicate).OrderBy(sortOptions.ColumnToSort).Take(numRecords).ToListAsync();
-                }
-                return await _userManager.Users.AsNoTracking().Where(predicate).OrderByDescending(sortOptions.ColumnToSort).Take(numRecords).ToListAsync();
-            }
-            return await _userManager.Users.AsNoTracking().Where(predicate).Take(numRecords).ToListAsync();
+            return sortOptions.GetSortedResults(_dbset.AsNoTracking().Where(predicate)).Take(numRecords);
         }
         public override async Task<IEnumerable<ApplicationUser>> SearchAllAsync(Expression<Func<ApplicationUser, bool>> predicate)
         {
@@ -38,9 +31,9 @@ namespace Data.Repository
         {
             return await _userManager.Users.AsNoTracking().FirstOrDefaultAsync(predicate);
         }
-        public override async Task<ICollection<ApplicationUser>> GetAllAsync()
+        public override IQueryable<ApplicationUser> GetAll()
         {
-            return await _userManager.Users.ToListAsync();
+            return _userManager.Users.AsQueryable();
         }
         public override async Task<ApplicationUser> GetByIdAsync(string id)
         {

@@ -1,8 +1,5 @@
-﻿using Data.Repository.Interfaces;
-using System.Collections.Generic;
-using Data.Models.Interfaces;
-using Data.Models;
-using API.Tools;
+﻿using API.Tools;
+using Data.Models.Implementation;
 
 namespace API.ViewModels
 {

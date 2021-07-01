@@ -1,6 +1,7 @@
 ﻿using Data.Messages;
 using Data.Repository.Interfaces;
-using Data.Tools;
+using Data.Tools.Implementation;
+using Data.Tools.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -8,31 +9,23 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 
-namespace Data.Repository
+namespace Data.Repository.Abstract
 {
-    public abstract class BaseRepository<TEntity, TKey, DatabaseContext> : IBaseRepository<TEntity, TKey>
+    public abstract class GenericRepository<TEntity, TKey, DatabaseContext> : IRepository<TEntity, TKey>
         where TEntity : class, IDatabaseItem<TKey>
         where DatabaseContext : DbContext
     {
         protected readonly DatabaseContext _context;
         protected readonly DbSet<TEntity> _dbset;
 
-        protected BaseRepository(DatabaseContext context)
+        protected GenericRepository(DatabaseContext context)
         {
             _context = context;
             _dbset = context.Set<TEntity>();
         }
-        public virtual async Task<IEnumerable<TEntity>> SearchAndOrderAsync<ColumnType>(Expression<Func<TEntity, bool>> predicate, SortOptions<TEntity, ColumnType> sortOptions, int numRecords)
+        public virtual IEnumerable<TEntity> SearchAndOrderAsync(Expression<Func<TEntity, bool>> predicate, GenericSortOptions<TEntity> sortOptions, int numRecords)
         {
-            if (sortOptions != null)
-            {
-                if (sortOptions.SortType == SortType.Ascending)
-                {
-                    return await _dbset.AsNoTracking().Where(predicate).OrderBy(sortOptions.ColumnToSort).Take(numRecords).ToListAsync();
-                }
-                return await _dbset.AsNoTracking().Where(predicate).OrderByDescending(sortOptions.ColumnToSort).Take(numRecords).ToListAsync();
-            }
-            return await _dbset.AsNoTracking().Where(predicate).Take(numRecords).ToListAsync();
+            return sortOptions.GetSortedResults(_dbset.AsNoTracking().Where(predicate)).Take(numRecords);
         }
         public virtual async Task<IEnumerable<TEntity>> SearchAllAsync(Expression<Func<TEntity, bool>> predicate)
         {
@@ -42,9 +35,9 @@ namespace Data.Repository
         {
             return await _dbset.AsNoTracking().FirstOrDefaultAsync(predicate);
         }
-        public virtual async Task<ICollection<TEntity>> GetAllAsync()
+        public virtual IQueryable<TEntity> GetAll()
         {
-            return await _dbset.ToListAsync();
+            return _dbset.AsQueryable();
         }
         public virtual async Task<TEntity> GetByIdAsync(TKey id)
         {
@@ -78,6 +71,10 @@ namespace Data.Repository
         public virtual void Dispose()
         {
             _context?.Dispose();
+        }
+        public IEnumerable<TEntity> SearchAndOrder(IQueryFilterOptions<TEntity> filterOptions, GenericSortOptions<TEntity> sortOptions)
+        {
+            return sortOptions.GetSortedResults(filterOptions.GetFilteredResults(GetAll()).AsQueryable());
         }
     }
 }

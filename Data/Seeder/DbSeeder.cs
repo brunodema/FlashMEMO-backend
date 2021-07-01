@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
-using Data.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Data.Context;
 using Newtonsoft.Json;
 using System.IO;
+using Data.Models.Implementation;
 
 namespace Data.Seeder
 {

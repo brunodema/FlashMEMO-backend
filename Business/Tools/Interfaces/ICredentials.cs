@@ -11,10 +11,4 @@ namespace Business.Tools.Interfaces
         public string Email { get; set; }
         public string PasswordHash { get; set; }
     }
-
-    public class Credentials : ICredentials
-    {
-        public string Email { get; set; }
-        public string PasswordHash { get; set; }
-    }
 }
