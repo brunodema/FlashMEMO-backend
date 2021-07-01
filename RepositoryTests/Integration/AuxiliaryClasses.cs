@@ -16,24 +16,24 @@ namespace Tests.Integration.AuxiliaryClasses
         /// </summary>
         public const string TestFailed = "Test #{0} has failed. Exception: {1}";
     }
-    public class ValidationErrorsWhenCreatingData<TEntiy> : IValidationErrorsWhenCreatingData<TEntiy>
+    public class ValidationErrorsWhenCreatingData<TEntiy> : IExpectedValidationErrorsForEntity<TEntiy>
     {
         public TEntiy Entiy { get; set; }
         public string Message { get; set; }
         public string[] Errors { get; set; }
     }
-    public class GetsSpecifiedNumberOfRecordsPerPageData<TEntiy> : IGetsSpecifiedNumberOfRecordsPerPageData<TEntiy>
+    public class GetsSpecifiedNumberOfRecordsPerPageData<TEntiy> : IPageData<TEntiy>
     {
         public int PageSize { get; set; }
         public int PageNumber { get; set; }
     }
 
-    public class ShouldSearchRecordsAppropriately<TEntiy> : IShouldSearchRecordsAppropriately<TEntiy>
+    public class SearchParameters<TEntiy> : ISearchParameters<TEntiy>
         where TEntiy : class
     {
         public int PageSize { get; set; }
-        public string ColumnToSort { get; set; }
-        public SortType SortType { get; set; }
+        public GenericSortOptions<TEntiy> SortOptions { get; set; }
         public IQueryFilterOptions<TEntiy> FilterOptions { get; set; }
+
     }
 }

@@ -15,9 +15,9 @@ namespace Tests.Integration.Interfaces
         public IEnumerable<Guid> FailsDeletionIfIdDoesNotExistTestData { get; }
         public IEnumerable<int> ListsAllRecordsSuccessfully { get; }
         public IEnumerable<GetsSpecifiedNumberOfRecordsPerPageData<TEntity>> GetsSpecifiedNumberOfRecordsPerPage { get; }
-        public IEnumerable<IValidationErrorsWhenCreatingData<TEntity>> ReportsValidationErrorsWhenCreatingTestData { get; }
-        public IEnumerable<IValidationErrorsWhenCreatingData<TEntity>> ReportsValidationErrorsWhenUpdatingTestData { get; }
+        public IEnumerable<IExpectedValidationErrorsForEntity<TEntity>> ReportsValidationErrorsWhenCreatingTestData { get; }
+        public IEnumerable<IExpectedValidationErrorsForEntity<TEntity>> ReportsValidationErrorsWhenUpdatingTestData { get; }
         public IEnumerable<TEntity> UpdatesSuccessfullyTestData { get; }
-        public IEnumerable<IShouldSearchRecordsAppropriately<TEntity>> ShouldSearchRecordsAppropriately { get; }
+        public IEnumerable<ISearchParameters<TEntity>> ShouldSearchRecordsAppropriately { get; }
     }
 }

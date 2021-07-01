@@ -97,7 +97,7 @@ namespace Tests.Integration.NewsControllerTests
             }
         }
 
-        public IEnumerable<IValidationErrorsWhenCreatingData<News>> ReportsValidationErrorsWhenCreatingTestData
+        public IEnumerable<IExpectedValidationErrorsForEntity<News>> ReportsValidationErrorsWhenCreatingTestData
         {
             get
             {
@@ -130,7 +130,7 @@ namespace Tests.Integration.NewsControllerTests
             }
         }
 
-        public IEnumerable<IValidationErrorsWhenCreatingData<News>> ReportsValidationErrorsWhenUpdatingTestData
+        public IEnumerable<IExpectedValidationErrorsForEntity<News>> ReportsValidationErrorsWhenUpdatingTestData
         {
             get
             {
@@ -192,17 +192,20 @@ namespace Tests.Integration.NewsControllerTests
             }
         }
 
-        public IEnumerable<IShouldSearchRecordsAppropriately<News>> ShouldSearchRecordsAppropriately
+        public IEnumerable<ISearchParameters<News>> ShouldSearchRecordsAppropriately
         {
             get
             {
-                return new List<ShouldSearchRecordsAppropriately<News>>
+                return new List<SearchParameters<News>>
                 {
-                    new ShouldSearchRecordsAppropriately<News>
+                    new SearchParameters<News>
                     {
                         PageSize = 10,
-                        ColumnToSort = "date",
-                        SortType = SortType.Ascending,
+                        SortOptions = new NewsSortOptions()
+                        {
+                            ColumnToSort = "date",
+                            SortType = SortType.Ascending,
+                        },
                         FilterOptions = new NewsFilterOptions()
                         {
                             Content = "lorem",
@@ -212,11 +215,14 @@ namespace Tests.Integration.NewsControllerTests
                             ToDate = DateTime.Parse("2022-01-01")
                         }
                     },
-                    new ShouldSearchRecordsAppropriately<News>
+                    new SearchParameters<News>
                     {
                         PageSize = 5,
-                        ColumnToSort = "gibberish", // should default to title sorting
-                        SortType = SortType.Descending,
+                        SortOptions = new NewsSortOptions()
+                        {
+                            ColumnToSort = "gibberish", // should default to title sorting
+                            SortType = SortType.Descending,
+                        },
                         FilterOptions = new NewsFilterOptions()
                         {
                             //Content = "lorem",
@@ -226,11 +232,14 @@ namespace Tests.Integration.NewsControllerTests
                             //ToDate = DateTime.Parse("2022-01-01")
                         }
                     },
-                    new ShouldSearchRecordsAppropriately<News>
+                    new SearchParameters<News>
                     {
                         PageSize = 5,
-                        ColumnToSort = "gibberish", // should default to title sorting
-                        SortType = SortType.Descending,
+                        SortOptions = new NewsSortOptions()
+                        {
+                            ColumnToSort = "gibberish", // should default to title sorting
+                            SortType = SortType.Descending,
+                        },
                         FilterOptions = new NewsFilterOptions()
                         {
                             //Content = "lorem",
@@ -240,11 +249,14 @@ namespace Tests.Integration.NewsControllerTests
                             ToDate = DateTime.Parse("2022-01-01")
                         }
                     },
-                    new ShouldSearchRecordsAppropriately<News>
+                    new SearchParameters<News>
                     {
                         PageSize = 5,
-                        ColumnToSort = "gibberish", // should default to title sorting
-                        SortType = SortType.Descending,
+                        SortOptions = new NewsSortOptions()
+                        {
+                            ColumnToSort = "gibberish", // should default to title sorting
+                            SortType = SortType.Descending,
+                        },
                         FilterOptions = new NewsFilterOptions()
                         {
                             Content = "lorem",
@@ -254,11 +266,14 @@ namespace Tests.Integration.NewsControllerTests
                             //ToDate = DateTime.Parse("2022-01-01")
                         }
                     },
-                    new ShouldSearchRecordsAppropriately<News>
+                    new SearchParameters<News>
                     {
                         PageSize = 5,
-                        ColumnToSort = "gibberish", // should default to title sorting
-                        SortType = SortType.Descending,
+                        SortOptions = new NewsSortOptions()
+                        {
+                            ColumnToSort = "gibberish", // should default to title sorting
+                            SortType = SortType.Descending,
+                        },
                         FilterOptions = new NewsFilterOptions()
                         {
                             //Content = "lorem",
@@ -268,11 +283,14 @@ namespace Tests.Integration.NewsControllerTests
                             //ToDate = DateTime.Parse("2022-01-01")
                         }
                     },
-                    new ShouldSearchRecordsAppropriately<News>
+                    new SearchParameters<News>
                     {
                         PageSize = 5,
-                        ColumnToSort = "gibberish", // should default to title sorting
-                        SortType = SortType.Descending,
+                        SortOptions = new NewsSortOptions()
+                        {
+                            ColumnToSort = "gibberish", // should default to title sorting
+                            SortType = SortType.Descending,
+                        },
                         FilterOptions = new NewsFilterOptions()
                         {
                             //Content = "lorem",
@@ -283,11 +301,14 @@ namespace Tests.Integration.NewsControllerTests
                         }
                     },
                     //This one fails. Why? no fucking idea. Something to do with parallelism and LINQ / IQueryable translation.FromDate must be set or it doesn't work
-                    new ShouldSearchRecordsAppropriately<News>
+                    new SearchParameters<News>
                     {
                         PageSize = 5,
-                        ColumnToSort = "gibberish", // should default to title sorting
-                        SortType = SortType.Descending,
+                        SortOptions = new NewsSortOptions()
+                        {
+                            ColumnToSort = "gibberish", // should default to title sorting
+                            SortType = SortType.Descending,
+                        },
                         FilterOptions = new NewsFilterOptions()
                         {
                             Content = "lorem",
@@ -297,35 +318,50 @@ namespace Tests.Integration.NewsControllerTests
                             //ToDate = DateTime.Parse("2022-01-01")
                         }
                     },
-                    new ShouldSearchRecordsAppropriately<News>
+                    new SearchParameters<News>
                     {
                         PageSize = 10,
-                        ColumnToSort = "subtitle",
-                        SortType = SortType.Ascending
+                        SortOptions = new NewsSortOptions()
+                        {
+                            ColumnToSort = "subtitle",
+                            SortType = SortType.Ascending,
+                        },
                     },
-                    new ShouldSearchRecordsAppropriately<News>
+                    new SearchParameters<News>
                     {
                         PageSize = 10,
-                        ColumnToSort = "subtitle",
-                        SortType = SortType.Descending
+                        SortOptions = new NewsSortOptions()
+                        {
+                            ColumnToSort = "subtitle",
+                            SortType = SortType.Descending,
+                        },
                     },
-                    new ShouldSearchRecordsAppropriately<News>
+                    new SearchParameters<News>
                     {
                         PageSize = 20,
-                        ColumnToSort = "date",
-                        SortType = SortType.Descending
+                        SortOptions = new NewsSortOptions()
+                        {
+                            ColumnToSort = "date",
+                            SortType = SortType.Descending,
+                        },
                     },
-                    new ShouldSearchRecordsAppropriately<News>
+                    new SearchParameters<News>
                     {
                         PageSize = 30,
-                        ColumnToSort = "title",
-                        SortType = SortType.Ascending
+                        SortOptions = new NewsSortOptions()
+                        {
+                            ColumnToSort = "title",
+                            SortType = SortType.Ascending,
+                        },
                     },
-                    new ShouldSearchRecordsAppropriately<News>
+                    new SearchParameters<News>
                     {
                         PageSize = 10,
-                        ColumnToSort = "gibberish", // should default to title sorting
-                        SortType = SortType.Ascending
+                        SortOptions = new NewsSortOptions()
+                        {
+                            ColumnToSort = "gibberish",
+                            SortType = SortType.Ascending,
+                        },
                     }
                 };
             }

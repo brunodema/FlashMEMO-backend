@@ -291,16 +291,8 @@ namespace Tests.Integration.NewsTests
                 var referenceElements = GetAllObjectsOnDatabase().Result.AsQueryable();
                 var referenceVectorSize = referenceElements.Count();
 
-                referenceElements = new NewsSortOptions()
-                {
-                    SortType = testData.SortType,
-                    ColumnToSort = testData.ColumnToSort
-                }.GetSortedResults(referenceElements).AsQueryable();
-
-                if (testData.FilterOptions != null)
-                {
-                    referenceElements = testData.FilterOptions.GetFilteredResults(referenceElements).AsQueryable();
-                }
+                if (testData.SortOptions != null) referenceElements = testData.SortOptions.GetSortedResults(referenceElements).AsQueryable();
+                if (testData.FilterOptions != null) referenceElements = testData.FilterOptions.GetFilteredResults(referenceElements).AsQueryable();
 
                 var totalPages = Math.Ceiling((decimal)referenceVectorSize / (decimal)testData.PageSize);
                 var currentPage = 1;
@@ -310,8 +302,8 @@ namespace Tests.Integration.NewsTests
                 {
                     var queryParams = $"?pageSize={testData.PageSize}" +
                     $"&pageNumber={currentPage}" +
-                    $"&sortType={testData.SortType}" +
-                    $"&columnToSort={testData.ColumnToSort}";
+                    $"&sortType={testData.SortOptions.SortType}" +
+                    $"&columnToSort={testData.SortOptions.ColumnToSort}";
 
                     // this attrocity over here takes care of concatenating the query parameters. Will fix this in the future
                     if (testData.FilterOptions != null)
