@@ -1,11 +1,12 @@
-﻿using Business.Tools;
-using Data.Models;
-using Data.Repository;
+﻿using Business.Services.Abstract;
+using Business.Tools;
+using Data.Models.Implementation;
+using Data.Repository.Implementation;
 using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
 
-namespace Business.Services
+namespace Business.Services.Implementation
 {
     public class NewsService : GenericRepositoryService<NewsRepository, Guid, News>
     {

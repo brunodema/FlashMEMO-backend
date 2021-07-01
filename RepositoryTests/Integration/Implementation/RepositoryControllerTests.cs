@@ -9,14 +9,13 @@ using Tests.Integration.Fixtures;
 using Tests.Integration.Interfaces;
 using Xunit;
 using FluentAssertions;
-using Data.Models;
 using Xunit.Abstractions;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Tests.Integration.NewsControllerTests;
-using Data.Tools;
+using Tests.Integration.TestData;
+using Data.Models.Implementation;
 
-namespace Tests.Integration.NewsTests
+namespace Tests.Integration.Implementation
 {
     public abstract class RepositoryControllerTests<TEntity, TKey> : IClassFixture<IntegrationTestFixture>, IRepositoryControllerTests<TEntity, TKey>
        where TEntity : class, IDatabaseItem<TKey>

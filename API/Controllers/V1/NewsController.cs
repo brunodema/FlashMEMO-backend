@@ -1,8 +1,7 @@
-﻿using API.Controllers.Implementations;
-using Business.Services;
-using Data.Models;
+﻿using API.Controllers.Abstract;
+using Business.Services.Implementation;
+using Data.Models.Implementation;
 using Data.Tools;
-using Data.Tools.Implementations;
 using Microsoft.AspNetCore.Mvc;
 using System;
 

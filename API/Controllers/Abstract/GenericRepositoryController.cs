@@ -2,17 +2,14 @@
 using API.ViewModels;
 using Business.Services.Interfaces;
 using Data.Repository.Interfaces;
-using Data.Tools;
-using Data.Tools.Implementations;
+using Data.Tools.Implementation;
 using Data.Tools.Interfaces;
 using Microsoft.AspNetCore.Mvc;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Linq.Expressions;
 using System.Threading.Tasks;
 
-namespace API.Controllers.Implementations
+namespace API.Controllers.Abstract
 {
     public abstract class GenericRepositoryController<TEntity, TKey, TFilterOptions, TSortOptions> : ControllerBase
         where TEntity : class, IDatabaseItem<TKey>

@@ -1,15 +1,14 @@
 ﻿using Data.Context;
-using Data.Repository.Interfaces;
-using Data.Models;
-using Data.Repository;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using System;
 using Xunit;
 using Xunit.Abstractions;
+using Data.Repository.Implementation;
+using Data.Models.Implementation;
 
-namespace RepositoryTests
+namespace RepositoryTests.Implementation
 {
     public class ApplicationUserRepositoryFixture : IDisposable
     {

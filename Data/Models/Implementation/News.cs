@@ -3,7 +3,7 @@ using Data.Repository.Interfaces;
 using System;
 using System.Linq.Expressions;
 
-namespace Data.Models
+namespace Data.Models.Implementation
 {
     public class News : INews
     {

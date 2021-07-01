@@ -1,7 +1,6 @@
 ﻿using Data.Messages;
 using Data.Repository.Interfaces;
-using Data.Tools;
-using Data.Tools.Implementations;
+using Data.Tools.Implementation;
 using Data.Tools.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -10,7 +9,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 
-namespace Data.Repository
+namespace Data.Repository.Abstract
 {
     public abstract class GenericRepository<TEntity, TKey, DatabaseContext> : IRepository<TEntity, TKey>
         where TEntity : class, IDatabaseItem<TKey>

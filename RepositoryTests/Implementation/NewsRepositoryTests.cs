@@ -1,16 +1,15 @@
 using Data.Context;
-using Data.Repository;
 using Microsoft.EntityFrameworkCore;
 using System;
 using Xunit;
-using Data.Models;
 using System.Linq;
 using Xunit.Abstractions;
-using Data.Tools;
-using Data.Tools.Implementations;
+using Data.Tools.Implementation;
 using FluentAssertions;
+using Data.Models.Implementation;
+using Data.Repository.Implementation;
 
-namespace RepositoryTests
+namespace RepositoryTests.Implementation
 {
     public class NewsRepositoryFixture : IDisposable
     {
@@ -164,9 +163,9 @@ namespace RepositoryTests
         [InlineData(0, SortType.Descending)]
         [InlineData(4, SortType.Descending)]
         [InlineData(-1, SortType.Descending)]
-        public async void SearchAndOrderByCreationDateAsync_ProperlyGetDataAndOrderAccordignly(int numRecords, SortType sortType)
+        public void SearchAndOrderByCreationDateAsync_ProperlyGetDataAndOrderAccordignly(int numRecords, SortType sortType)
         {
-            var response = await _repositoryFixture._repository.SearchAndOrderByCreationDateAsync(_ => true, sortType, numRecords);
+            var response = _repositoryFixture._repository.SearchAndOrderByCreationDateAsync(_ => true, sortType, numRecords);
 
             Assert.True(response.Count() <= (numRecords < 0 ? 0 : numRecords));
             if (sortType == SortType.Ascending)

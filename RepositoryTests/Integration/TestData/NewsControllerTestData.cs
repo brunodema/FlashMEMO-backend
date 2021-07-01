@@ -1,12 +1,12 @@
-﻿using Data.Models;
+﻿using Data.Models.Implementation;
 using Data.Tools;
-using Data.Tools.Implementations;
+using Data.Tools.Implementation;
 using System;
 using System.Collections.Generic;
-using Tests.Integration.AuxiliaryClasses;
+using Tests.Integration.Implementation;
 using Tests.Integration.Interfaces;
 
-namespace Tests.Integration.NewsControllerTests
+namespace Tests.Integration.TestData
 {
     public class NewsControllerTestData : IRepositoryControllerTestData<News, Guid>
     {

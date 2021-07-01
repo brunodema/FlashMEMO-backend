@@ -1,5 +1,4 @@
 ﻿using Data.Context;
-using Data.Repository;
 using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
@@ -8,9 +7,10 @@ using Business.Tools;
 using Business.Services.Interfaces;
 using Data.Repository.Interfaces;
 using Data.Tools.Interfaces;
-using Data.Tools.Implementations;
+using Data.Tools.Implementation;
+using Data.Repository.Abstract;
 
-namespace Business.Services
+namespace Business.Services.Abstract
 {
     public class GenericRepositoryServiceOptions
     {

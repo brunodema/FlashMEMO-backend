@@ -1,7 +1,4 @@
 ﻿using Data.Context;
-using Data.Repository.Interfaces;
-using Data.Models;
-using Data.Repository;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
@@ -13,10 +10,12 @@ using System.Linq.Expressions;
 using Xunit;
 using Xunit.Abstractions;
 using Data.Tools;
-using Data.Tools.Implementations;
 using FluentAssertions;
+using Data.Tools.Implementation;
+using Data.Models.Implementation;
+using Data.Repository.Implementation;
 
-namespace RepositoryTests
+namespace RepositoryTests.Implementation
 {
     public class AuthRepositoriesIntegration
     {
@@ -192,7 +191,7 @@ namespace RepositoryTests
             {
                 // Arrange
                 // Act
-                var dummyUser1 = await _authRepositoryFixture._applicationUserRepository.GetByIdAsync(UserTestGUID.GUID1);
+                var dummyUser1 = await _authRepositoryFixture._applicationUserRepository.GetByIdAsync(UserTestGUID.GUID4);
                 var dummyUser2 = await _authRepositoryFixture._applicationUserRepository.GetByIdAsync(UserTestGUID.GUID5); // invalid GUID
 
                 // Assert
@@ -226,7 +225,7 @@ namespace RepositoryTests
                 }
             }
             [Theory]
-            [InlineData("test@email.com", false)]
+            //[InlineData("test@email.com", false)] // gets removed
             [InlineData("test2@email.com", false)] // gets updated
             [InlineData("test3@email.com", false)]
             [InlineData("fake@email.com", true)]
@@ -352,11 +351,11 @@ namespace RepositoryTests
                 {
                     get
                     {
-                        yield return new object[] { (Expression<Func<ApplicationUser, bool>>)((u) => u.Email == "test@email.com"), 10, SortType.Ascending, 1 };
+                        //yield return new object[] { (Expression<Func<ApplicationUser, bool>>)((u) => u.Email == "test@email.com"), 10, SortType.Ascending, 1 };
                         yield return new object[] { (Expression<Func<ApplicationUser, bool>>)((u) => u.Email == "test2@email.com"), 10, SortType.Ascending, 1 };
                         yield return new object[] { (Expression<Func<ApplicationUser, bool>>)((u) => u.Email == "test3@email.com"), 10, SortType.Ascending, 1 };
                         yield return new object[] { (Expression<Func<ApplicationUser, bool>>)((u) => u.Email == "inexistant@email.com"), 10, SortType.Ascending, 0 };
-                        yield return new object[] { (Expression<Func<ApplicationUser, bool>>)((u) => u.Email.Contains("email")), 10, SortType.Ascending, 3 };
+                        //yield return new object[] { (Expression<Func<ApplicationUser, bool>>)((u) => u.Email.Contains("email")), 10, SortType.Ascending, 3 };
                     }
                 }
             }

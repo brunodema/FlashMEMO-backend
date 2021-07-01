@@ -1,5 +1,5 @@
-﻿using Data.Models;
-using Data.Tools.Implementations;
+﻿using Data.Models.Implementation;
+using Data.Tools.Implementation;
 
 
 namespace Data.Tools

@@ -1,9 +1,5 @@
 using API.ViewModels;
-using Business.Services;
 using Data.Context;
-using Data.Repository.Interfaces;
-using Data.Models;
-using Data.Repository;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -22,8 +18,10 @@ using Data.Seeder;
 using Business.Services.Interfaces;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Http;
-using Data.Tools.Interfaces;
-using API.Tools;
+using Data.Repository.Implementation;
+using Business.Services.Implementation;
+using Business.Services.Abstract;
+using Data.Models.Implementation;
 
 namespace API
 {

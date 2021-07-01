@@ -1,5 +1,5 @@
 ﻿using Business.Tools.Interfaces;
-using Data.Models;
+using Data.Models.Implementation;
 using Microsoft.AspNetCore.Identity;
 using System.Threading.Tasks;
 

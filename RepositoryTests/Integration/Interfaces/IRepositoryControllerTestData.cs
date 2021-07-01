@@ -1,7 +1,7 @@
 ﻿using Data.Repository.Interfaces;
 using System;
 using System.Collections.Generic;
-using Tests.Integration.AuxiliaryClasses;
+using Tests.Integration.Implementation;
 
 // Attention: always use different existing objects when necessary (i.e., different GUIDs). Unfortunately, since the tests are run concurrently, sometimes that causes issues, making tests fail when they shouldn't.
 

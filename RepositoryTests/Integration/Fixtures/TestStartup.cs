@@ -1,14 +1,13 @@
 ﻿using System;
-using System.IO;
 using System.Linq;
 using System.Text;
 using API.Controllers;
 using API.ViewModels;
-using Business.Services;
+using Business.Services.Implementation;
 using Business.Services.Interfaces;
 using Data.Context;
-using Data.Models;
-using Data.Repository;
+using Data.Models.Implementation;
+using Data.Repository.Implementation;
 using Data.Seeder;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
@@ -22,7 +21,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
-using Tests.Integration.NewsControllerTests;
+using Tests.Integration.TestData;
 
 namespace Tests.Integration.Fixtures
 {

@@ -1,4 +1,4 @@
-﻿using Data.Tools.Implementations;
+﻿using Data.Tools.Implementation;
 using Data.Tools.Interfaces;
 
 namespace Tests.Integration.Interfaces

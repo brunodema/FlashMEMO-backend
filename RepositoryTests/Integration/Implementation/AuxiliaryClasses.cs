@@ -1,8 +1,8 @@
-﻿using Data.Tools.Implementations;
+﻿using Data.Tools.Implementation;
 using Data.Tools.Interfaces;
 using Tests.Integration.Interfaces;
 
-namespace Tests.Integration.AuxiliaryClasses
+namespace Tests.Integration.Implementation
 {
     public static class TestMessages
     {

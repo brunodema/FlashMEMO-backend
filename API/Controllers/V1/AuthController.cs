@@ -1,7 +1,7 @@
 ﻿using API.ViewModels;
 using Business.Services.Interfaces;
 using Business.Tools;
-using Data.Models;
+using Data.Models.Implementation;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;

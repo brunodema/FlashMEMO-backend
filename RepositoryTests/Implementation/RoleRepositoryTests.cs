@@ -1,15 +1,14 @@
 ﻿using Data.Context;
-using Data.Repository.Interfaces;
-using Data.Models;
-using Data.Repository;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using System;
 using Xunit;
 using Xunit.Abstractions;
+using Data.Models.Implementation;
+using Data.Repository.Implementation;
 
-namespace RepositoryTests
+namespace RepositoryTests.Implementation
 {
     public static class TestGUID
     {

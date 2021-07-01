@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
 
-namespace Data.Models
+namespace Data.Models.Implementation
 {
     // following implementation follows .NET boilerplate for identity customization (https://docs.microsoft.com/en-us/aspnet/core/security/authentication/customize-identity-model?view=aspnetcore-5.0)
     public class ApplicationUser : IdentityUser, IDatabaseItem<string>

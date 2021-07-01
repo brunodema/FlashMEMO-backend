@@ -1,4 +1,4 @@
-﻿using Data.Models;
+﻿using Data.Models.Implementation;
 using Data.Tools.Interfaces;
 using System;
 using System.Collections.Generic;
