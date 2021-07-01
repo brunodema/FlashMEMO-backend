@@ -89,8 +89,6 @@ namespace Tests.Integration.NewsTests
 
             TestData = SetTestData();
         }
-        [Fact]
-        public abstract void ShouldSearchRecordsAppropriately();
 
         [Fact]
         public void CreatesSuccessfully()
@@ -242,6 +240,10 @@ namespace Tests.Integration.NewsTests
                 parsedResponse.Errors.Should().BeEquivalentTo(testData.Errors);
             });
         }
+
+        [Fact]
+        public abstract void ShouldSearchRecordsAppropriately();
+
         [Fact]
         public void UpdatesSuccessfully()
         {
