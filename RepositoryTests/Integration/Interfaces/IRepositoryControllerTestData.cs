@@ -10,7 +10,7 @@ namespace Tests.Integration.Interfaces
     public interface IRepositoryControllerTestData<TEntity, TKey> 
         where TEntity : class, IDatabaseItem<TKey>
     {
-        public List<TEntity> CreatesSuccessfullyTestCases { get; }
+        public IEnumerable<TEntity> CreatesSuccessfullyTestCases { get; }
         public IEnumerable<Guid> DeletesByIdSuccessfullyTestData { get; }
         public IEnumerable<Guid> FailsDeletionIfIdDoesNotExistTestData { get; }
         public IEnumerable<int> ListsAllRecordsSuccessfully { get; }
