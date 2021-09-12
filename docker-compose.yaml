@@ -27,4 +27,4 @@ services:
       - 5432
     volumes:
       - "./Data/Seeder/flashmemo-init.sql:/docker-entrypoint-initdb.d/flashmemo-init.sql" # .sql file must conform to POSTGRESQL's standards
-      - "./postgres-data:/var/lib/postgresql/data" # actual DB data
+      - "${POSTGRESS_DATA_VOLUME_DIR}:/var/lib/postgresql/data" # actual DB data
