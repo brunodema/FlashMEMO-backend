@@ -7,8 +7,8 @@ services:
       - ASPNETCORE_ENVIRONMENT=Production
       - ASPNETCORE_URLS=https://+;http://+ # sets the URLs for the API (HTTP and/or HTTPS)
       # following keys are boilerplate (taken from https://docs.microsoft.com/en-us/aspnet/core/security/docker-compose-https?view=aspnetcore-5.0)
-      - ASPNETCORE_Kestrel__Certificates__Default__Password=Flashmemo@123
-      - ASPNETCORE_Kestrel__Certificates__Default__Path=/https/aspnetapp.pfx
+      - ASPNETCORE_Kestrel__Certificates__Default__Password=${KESTREL_CERTIFICATE_PASSWORD}
+      - ASPNETCORE_Kestrel__Certificates__Default__Path=${KESTREL_CERTIFICATE_PATH}
     volumes:
       - ~/.aspnet/https:/https:ro # certificates generated on local machine are copied into host
     ports:
@@ -21,9 +21,10 @@ services:
     # all configs in accordance with Postgres' official image standards (https://hub.docker.com/_/postgres)
     image: postgres
     environment:
-      - "POSTGRES_PASSWORD=Flashmemo@123"
-      - "POSTGRES_DB=flashmemo"
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_DB=flashmemo
     expose:
       - 5432
     volumes:
       - "./Data/Seeder/flashmemo-init.sql:/docker-entrypoint-initdb.d/flashmemo-init.sql" # .sql file must conform to POSTGRESQL's standards
+      - "./postgres-data:/var/lib/postgresql/data" # actual DB data
