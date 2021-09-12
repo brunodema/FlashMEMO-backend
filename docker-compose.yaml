@@ -1,25 +1,29 @@
 version: "3"
+
 services:
   flashmemo-backend:
     build: .
     environment:
       - ASPNETCORE_ENVIRONMENT=Production
-      - ASPNETCORE_URLS=https://+:443;http://+:80
-      - ASPNETCORE_HTTPS_PORT=44392
-      - ASPNETCORE_Kestrel__Certificates__Default__Password=mypassword123
+      - ASPNETCORE_URLS=https://+;http://+ # sets the URLs for the API (HTTP and/or HTTPS)
+      # following keys are boilerplate (taken from https://docs.microsoft.com/en-us/aspnet/core/security/docker-compose-https?view=aspnetcore-5.0)
+      - ASPNETCORE_Kestrel__Certificates__Default__Password=Flashmemo@123
       - ASPNETCORE_Kestrel__Certificates__Default__Path=/https/aspnetapp.pfx
+    volumes:
+      - ~/.aspnet/https:/https:ro # certificates generated on local machine are copied into host
     ports:
-      - "44326:44326"
+      - 8000:80
+      - 8001:443
     depends_on:
       - "postgres_db"
-    restart: always
 
   postgres_db:
+    # all configs in accordance with Postgres' official image standards (https://hub.docker.com/_/postgres)
     image: postgres
     environment:
       - "POSTGRES_PASSWORD=Flashmemo@123"
-      - "POSTGRES_DB=FlashMEMO"
+      - "POSTGRES_DB=flashmemo"
     expose:
       - 5432
-    # volumes:
-    #   - "./dbinit.sql:/docker-entrypoint-initdb.d/init.sql"
+    volumes:
+      - "./Data/Seeder/flashmemo-init.sql:/docker-entrypoint-initdb.d/flashmemo-init.sql" # .sql file must conform to POSTGRESQL's standards

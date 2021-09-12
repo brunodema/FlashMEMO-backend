@@ -6,6 +6,5 @@ RUN dotnet publish -c Release -o /app/publish FlashMEMO-backend.sln
 
 FROM mcr.microsoft.com/dotnet/aspnet:5.0-focal
 WORKDIR /app
-EXPOSE 44326
 COPY --from=dotnet-builder /app/publish .
 ENTRYPOINT ["dotnet", "API.dll"]
