@@ -5,9 +5,9 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Data.Context;
-using Newtonsoft.Json;
 using System.IO;
 using Data.Models.Implementation;
+using Newtonsoft.Json;
 
 namespace Data.Seeder
 {
