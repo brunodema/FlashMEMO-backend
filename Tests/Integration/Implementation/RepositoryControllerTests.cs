@@ -268,7 +268,7 @@ namespace Tests.Integration.Implementation
                 var entityUndo = await _integrationTestFixture.HttpClient.GetAsync($"{GetEndpoint}/{entity.GetId()}").Result.Content.ReadFromJsonAsync<TEntity>();
 
                 // Had to add this tolerance so errors regarding <= 1000ms time differences are not reported.
-                entityBefore.Should().BeEquivalentTo(entityUndo, options => options.Using<DateTime>(ctx => ctx.Subject.Should().BeCloseTo(ctx.Expectation, TimeSpan.FromMilliseconds(100))).WhenTypeIs<DateTime>());
+                entityBefore.Should().BeEquivalentTo(entityUndo, options => options.Using<DateTime>(ctx => ctx.Subject.Should().BeCloseTo(ctx.Expectation, TimeSpan.FromMilliseconds(1000))).WhenTypeIs<DateTime>());
             });
         }
     }
