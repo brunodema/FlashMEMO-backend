@@ -43,7 +43,6 @@ namespace API
                     .AllowAnyOrigin()
                     .AllowAnyHeader()
                     .AllowAnyMethod()
-                    .AllowCredentials()
                 );
             });
 
