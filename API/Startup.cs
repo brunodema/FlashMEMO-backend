@@ -159,7 +159,7 @@ namespace API
              
             app.UseCors("AllowConfiguredOrigins");  // try to remove any CORS problems (k8s deployment)
 
-            app.UseHttpsRedirection();
+            // app.UseHttpsRedirection(); // removing for temporary testing
 
             app.UseExceptionHandler(c => c.Run(async context =>
             {
