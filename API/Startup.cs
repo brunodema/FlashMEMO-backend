@@ -44,7 +44,7 @@ namespace API
                     .AllowAnyHeader()
                     .AllowAnyMethod()
                 );
-            });
+            }); // try to remove any CORS problems (k8s deployment)
 
             services.AddControllers();
             services.AddSwaggerGen(c =>
@@ -94,8 +94,6 @@ namespace API
                 return new BadRequestObjectResult(new BaseResponseModel { Status = "Bad Request", Message = "Validation errors have ocurred when processing the request", Errors = actionContext.ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage) });
             };
         });
-
-
 
             // identity config
             services.AddIdentity<ApplicationUser, ApplicationRole>(opt =>
@@ -157,7 +155,9 @@ namespace API
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "API v1"));
             }
 
-            app.UseCors("AllowConfiguredOrigins");
+            app.UseHttpLogging(); // use HTTP logging from .NET 6.0 (debug k8s deployment)
+             
+            app.UseCors("AllowConfiguredOrigins");  // try to remove any CORS problems (k8s deployment)
 
             app.UseHttpsRedirection();
 
@@ -171,12 +171,6 @@ namespace API
             }));
 
             app.UseRouting();
-
-            //custom configuration - CORS for development
-            app.UseCors(builder => builder
-    .AllowAnyOrigin()
-    .AllowAnyMethod()
-    .AllowAnyHeader());
 
             app.UseAuthentication();
 
