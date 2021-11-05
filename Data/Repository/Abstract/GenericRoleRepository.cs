@@ -1,7 +1,9 @@
-﻿using Data.Messages;
+﻿using Data.Context;
+using Data.Messages;
 using Data.Repository.Interfaces;
 using Data.Tools.Implementation;
 using Data.Tools.Interfaces;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -9,61 +11,61 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 
-namespace Data.Repository.Abstract
+namespace Data.Repository.Implementation
 {
-    public abstract class GenericRepository<TEntity, TKey, DatabaseContext> : IRepository<TEntity, TKey, bool>
-        where TEntity : class, IDatabaseItem<TKey>
+    public class GenericRoleRepository<TEntity, TKey, DatabaseContext> : IRepository<TEntity, TKey, IdentityResult>
+        where TEntity : IdentityRole<string>, IDatabaseItem<TKey>
         where DatabaseContext : DbContext
     {
+        protected readonly RoleManager<TEntity> _roleManager;
         protected readonly DatabaseContext _context;
-        protected readonly DbSet<TEntity> _dbset;
 
-        protected GenericRepository(DatabaseContext context)
+        public GenericRoleRepository(DatabaseContext context, RoleManager<TEntity> roleManager)
         {
+            _roleManager = roleManager;
             _context = context;
-            _dbset = context.Set<TEntity>();
         }
         public virtual IEnumerable<TEntity> SearchAndOrderAsync(Expression<Func<TEntity, bool>> predicate, GenericSortOptions<TEntity> sortOptions, int numRecords)
         {
-            return sortOptions.GetSortedResults(_dbset.AsNoTracking().Where(predicate)).Take(numRecords);
+            return sortOptions.GetSortedResults(_roleManager.Roles.AsNoTracking().Where(predicate)).Take(numRecords);
         }
         public virtual async Task<IEnumerable<TEntity>> SearchAllAsync(Expression<Func<TEntity, bool>> predicate)
         {
-            return await _dbset.AsNoTracking().Where(predicate).ToListAsync();
+            return await _roleManager.Roles.AsNoTracking().Where(predicate).ToListAsync();
         }
         public virtual async Task<TEntity> SearchFirstAsync(Expression<Func<TEntity, bool>> predicate)
         {
-            return await _dbset.AsNoTracking().FirstOrDefaultAsync(predicate);
+            return await _roleManager.Roles.AsNoTracking().FirstOrDefaultAsync(predicate);
         }
         public virtual IQueryable<TEntity> GetAll()
         {
-            return _dbset.AsQueryable();
+            return _roleManager.Roles.AsQueryable();
         }
         public virtual async Task<TEntity> GetByIdAsync(TKey id)
         {
-            return await _dbset.FindAsync(id);
+            return await _roleManager.FindByIdAsync(id.ToString());
         }
         // CRUD
-        public virtual async Task<bool> CreateAsync(TEntity entity)
+        public virtual async Task<IdentityResult> CreateAsync(TEntity entity)
         {
-            _dbset.Add(entity);
+            var result = await _roleManager.CreateAsync(entity);
             await SaveChangesAsync();
-            return true;
+            return result;
         }
-        public virtual async Task<bool> UpdateAsync(TEntity entity)
+        public virtual async Task<IdentityResult> UpdateAsync(TEntity entity)
         {
-            _dbset.Update(entity);
+            var result = await _roleManager.UpdateAsync(entity);
             await SaveChangesAsync();
-            return true;
+            return result;
         }
         public virtual async Task RemoveByIdAsync(TKey guid)
         {
-            var entity = await _dbset.FindAsync(guid);
+            var entity = await _roleManager.FindByIdAsync(guid.ToString());
             if (entity == null)
             {
                 throw new Exception(RepositoryExceptionMessages.NullObjectInvalidID);
             }
-            _dbset.Remove(entity);
+            await _roleManager.DeleteAsync(entity);
             await SaveChangesAsync();
         }
         public async Task<int> SaveChangesAsync()

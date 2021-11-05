@@ -8,7 +8,8 @@ using System.Threading.Tasks;
 
 namespace Data.Repository.Interfaces
 {
-    public interface IRepository<TEntity, TKey> where TEntity : class, IDatabaseItem<TKey>
+    public interface IRepository<TEntity, TKey, TContextResult> 
+        where TEntity : class, IDatabaseItem<TKey>
     {
         public IEnumerable<TEntity> SearchAndOrderAsync(Expression<Func<TEntity, bool>> predicate, GenericSortOptions<TEntity> sortOptions, int numRecords);
         public Task<IEnumerable<TEntity>> SearchAllAsync(Expression<Func<TEntity, bool>> predicate);
@@ -17,8 +18,8 @@ namespace Data.Repository.Interfaces
         public IQueryable<TEntity> GetAll();
         public Task<TEntity> GetByIdAsync(TKey id);
         // CRUD
-        public Task CreateAsync(TEntity entity);
-        public Task UpdateAsync(TEntity entity);
+        public Task<TContextResult> CreateAsync(TEntity entity);
+        public Task<TContextResult> UpdateAsync(TEntity entity);
         public Task RemoveByIdAsync(TKey guid);
         public Task<int> SaveChangesAsync();
         public void Dispose();

@@ -37,7 +37,9 @@ namespace Business.Services.Implementation
 
         public async Task<IdentityResult> CreateUserAsync(ApplicationUser user, string cleanPassword)
         {
-            return await _applicationUserRepository.CreateAsync(user);
+            var result = await _applicationUserRepository.CreateAsync(user);
+            await _applicationUserRepository.SetInitialPassword(user.Id, cleanPassword);
+            return result;
         }
 
         public async Task<bool> UserAlreadyExistsAsync(string email)
@@ -47,7 +49,7 @@ namespace Business.Services.Implementation
         public async Task<bool> GetUserByEmailAndCheckCredentialsAsync(ICredentials credentials)
         {
             var user = await _applicationUserRepository.SearchFirstAsync(u => u.Email == credentials.Email);
-            return await _applicationUserRepository.CheckPasswordAsync(user, credentials.PasswordHash);
+            return await _applicationUserRepository.CheckPasswordAsync(user.Id, credentials.PasswordHash);
         }
     }
 }

@@ -43,7 +43,7 @@ namespace API.Controllers
             };
 
             var result = await _authService.CreateUserAsync(user, model.Password);
-            if (!result.Succeeded)
+            if (!result.Succeeded) 
             {
                 var errorList = result.Errors.Select(e => e.Description);
                 return StatusCode(StatusCodes.Status500InternalServerError, new BaseResponseModel { Status = "Error", Message = "User creation failed. Please check user details and try again.", Errors = errorList });
