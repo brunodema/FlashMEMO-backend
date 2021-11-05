@@ -17,7 +17,7 @@ namespace Data.Repository.Interfaces
         public IQueryable<TEntity> GetAll();
         public Task<TEntity> GetByIdAsync(TKey id);
         // CRUD
-        public Task CreateAsync(TEntity entity, params object[] extraParams);
+        public Task CreateAsync(TEntity entity);
         public Task UpdateAsync(TEntity entity);
         public Task RemoveByIdAsync(TKey guid);
         public Task<int> SaveChangesAsync();

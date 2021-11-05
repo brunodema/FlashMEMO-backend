@@ -44,7 +44,7 @@ namespace Data.Repository.Abstract
             return await _dbset.FindAsync(id);
         }
         // CRUD
-        public virtual async Task CreateAsync(TEntity entity, object[] extraParams = null)
+        public virtual async Task CreateAsync(TEntity entity)
         {
             _dbset.Add(entity);
             await SaveChangesAsync();

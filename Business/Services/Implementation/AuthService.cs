@@ -37,7 +37,7 @@ namespace Business.Services.Implementation
 
         public async Task<IdentityResult> CreateUserAsync(ApplicationUser user, string cleanPassword)
         {
-            return await _applicationUserRepository.CreateAsync(user, new object[] { cleanPassword });
+            return await _applicationUserRepository.CreateAsync(user);
         }
 
         public async Task<bool> UserAlreadyExistsAsync(string email)

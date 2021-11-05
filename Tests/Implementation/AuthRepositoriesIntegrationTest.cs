@@ -145,7 +145,7 @@ namespace RepositoryTests.Implementation
                 };
 
                 // Act
-                await _authRepositoryFixture._applicationUserRepository.CreateAsync(dummyUser, new object[] { "Dummy@123" });
+                await _authRepositoryFixture._applicationUserRepository.CreateAsync(dummyUser);
 
                 // Assert
                 var newNumRows = await _authRepositoryFixture._applicationUserRepository.GetAll().CountAsync();
