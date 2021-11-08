@@ -188,7 +188,8 @@ namespace Tests.Integration.Fixtures
                 endpoints.MapControllers();
             });
 
-            DbSeeder.InitializeDatabaseAsync(provider, "../../..//../Data/Seeder").Wait();
+            var seeder = new DbSeeder(provider, "../../../../Data/Seeder");
+            seeder.InitializeDatabaseAsync().Wait();
         }
     }
 }

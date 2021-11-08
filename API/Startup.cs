@@ -181,7 +181,8 @@ namespace API
                 endpoints.MapControllers();
             });
 
-            DbSeeder.InitializeDatabaseAsync(provider, "../Data/Seeder").Wait();
+            var seeder = new DbSeeder(provider, Configuration.GetValue<string>("seederPath"));
+            seeder.InitializeDatabaseAsync().Wait();
         }
     }
 }

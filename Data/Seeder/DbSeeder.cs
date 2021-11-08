@@ -21,23 +21,22 @@ namespace Data.Seeder
     }
     public class DbSeeder
     {
-        public static async Task InitializeDatabaseAsync(IServiceProvider serviceProvider, string seederPath)
-        {
-            var context = serviceProvider.GetService<FlashMEMOContext>();
-            var roleStore = new RoleStore<ApplicationRole>(context);
-            var userStore = new UserStore<ApplicationUser>(context);
+        private FlashMEMOContext _context { get; set; }
+        private RoleStore<ApplicationRole> _roleStore { get; set; }
+        private UserStore<ApplicationUser> _userStore { get; set; }
+        private string _seederPath { get; set; }
 
-            if (!context.Roles.Any())
-            {
-                foreach (string role in FlashMEMORoles.Roles)
-                {
-                    if (!context.Roles.Any(r => r.Name == role))
-                    {
-                        await roleStore.CreateAsync(new ApplicationRole { Name = role });
-                    }
-                }
-            }
-            if (!context.Users.Any())
+        public DbSeeder(IServiceProvider serviceProvider, string seederPath)
+        {
+            _context = serviceProvider.GetService<FlashMEMOContext>();
+            _roleStore = new RoleStore<ApplicationRole>(_context);
+            _userStore = new UserStore<ApplicationUser>(_context);
+            _seederPath = seederPath;
+        }
+
+        private async Task SeedUsers(bool forceBootstrap)
+        {
+            if (forceBootstrap)
             {
                 var user = new ApplicationUser
                 {
@@ -45,19 +44,49 @@ namespace Data.Seeder
                     NormalizedUserName = "SYSADMIN",
                     Email = "sysadmin@flashmemo.com",
                     NormalizedEmail = "SYSADMIN@FLASHMEMO.COM",
-                    
+
                 };
                 user.PasswordHash = new PasswordHasher<ApplicationUser>().HashPassword(user, "Flashmemo@123");
-                await userStore.CreateAsync(user);
+                await _userStore.CreateAsync(user);
+
+                // samples generated with generatedata.com
+                var userSeeder = JsonConvert.DeserializeObject<News[]>(File.ReadAllText($"{_seederPath}/Users.json"));
+                await _context.AddRangeAsync(userSeeder);
             }
-            if (!context.News.Any())
+            await _context.SaveChangesAsync();
+        }
+
+        private async Task SeedRoles(bool forceBootstrap)
+        {
+            if (forceBootstrap)
+            {
+                foreach (string role in FlashMEMORoles.Roles)
+                {
+                    if (!_context.Roles.Any(r => r.Name == role))
+                    {
+                        await _roleStore.CreateAsync(new ApplicationRole { Name = role });
+                    }
+                }
+            }
+            await _context.SaveChangesAsync();
+        }
+
+        private async Task SeedNews(bool forceBootstrap)
+        {
+            if (forceBootstrap)
             {
                 // samples generated with generatedata.com
-                var newsSeeder = JsonConvert.DeserializeObject<News[]>(File.ReadAllText($"{seederPath}/News.json"));
-                await context.AddRangeAsync(newsSeeder);
+                var newsSeeder = JsonConvert.DeserializeObject<News[]>(File.ReadAllText($"{_seederPath}/News.json"));
+                await _context.AddRangeAsync(newsSeeder);
             }
+            await _context.SaveChangesAsync();
+        }
 
-            await context.SaveChangesAsync();
+        public async Task InitializeDatabaseAsync(bool forceBootstrap = false)
+        {
+            await SeedRoles(forceBootstrap ? false : !_context.Users.Any());
+            await SeedUsers(forceBootstrap ? false : !_context.Roles.Any());
+            await SeedNews(forceBootstrap ? false : !_context.News.Any());
         }
     }
 }
