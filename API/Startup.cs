@@ -135,8 +135,10 @@ namespace API
             });
             // options configuration
             services.Configure<JWTServiceOptions>(Configuration.GetSection("JWT"));
+            services.Configure<ImageAPIServiceOptions>(Configuration.GetSection("APISettings"));
             services.Configure<GenericRepositoryServiceOptions>(Configuration.GetSection("BaseRepositoryServiceOptions"));
             // custom services
+            services.AddHttpClient();
             services.AddScoped<IJWTService, JWTService>();
             services.AddScoped<IAuthService, AuthService>();
             services.AddScoped<NewsService>();
