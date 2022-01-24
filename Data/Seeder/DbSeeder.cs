@@ -78,6 +78,7 @@ namespace Data.Seeder
                 // samples generated with generatedata.com
                 var newsSeeder = JsonConvert.DeserializeObject<News[]>(File.ReadAllText($"{_seederPath}/News.json"));
                 // I have to apply these transforms here to avoid this exception in the new version of the pgsql library: "Cannot write DateTime with Kind=UTC to PostgreSQL type 'timestamp without time zone'"
+                // maybe I can change this in the future to: newsSeeder.Select(s => {return s.CreationDate.ToUniversalTime(); }).ToList(); ???
                 newsSeeder.Select(s => { s.CreationDate = s.CreationDate.ToUniversalTime(); return s; }).ToList();
                 newsSeeder.Select(s => { s.LastUpdated = s.CreationDate.ToUniversalTime(); return s; }).ToList();
                 await _context.AddRangeAsync(newsSeeder);
