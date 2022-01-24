@@ -7,6 +7,7 @@ namespace Data.Tools.Interfaces
 {
     public interface IQueryFilterOptions<TEntiy> where TEntiy : class
     {
+        // there is something wrong with this interface. It's specific to 'News', which doesn't make sense. Gotta fix this...
         public DateTime? FromDate { get; set; }
         public DateTime? ToDate { get; set; }
         public string Title { get; set; }
