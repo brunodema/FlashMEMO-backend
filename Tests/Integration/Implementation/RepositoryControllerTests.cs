@@ -304,16 +304,8 @@ namespace Tests.Integration.Implementation
                     $"&sortType={testData.SortOptions.SortType}" +
                     $"&columnToSort={testData.SortOptions.ColumnToSort}";
 
-                    // this attrocity over here takes care of concatenating the query parameters. Will fix this in the future
-                    if (testData.FilterOptions != null)
-                    {
-                        if (testData.FilterOptions.Content != null) queryParams = String.Concat(queryParams, $"&Content={testData.FilterOptions.Content}");
-                        if (testData.FilterOptions.Subtitle != null) queryParams = String.Concat(queryParams, $"&Subtitle={testData.FilterOptions.Subtitle}");
-                        if (testData.FilterOptions.Title != null) queryParams = String.Concat(queryParams, $"&Title={testData.FilterOptions.Title}");
-                        if (testData.FilterOptions.FromDate != null) queryParams = String.Concat(queryParams, $"&FromDate={testData.FilterOptions.FromDate.Value.ToString("yyyy-MM-dd")}");
-                        if (testData.FilterOptions.ToDate != null) queryParams = String.Concat(queryParams, $"&ToDate={testData.FilterOptions.ToDate.Value.ToString("yyyy-MM-dd")}");
-                    }
-                    
+                    queryParams += testData.FilterOptions?.BuildQueryURL() ?? ""; // what this crazy line does: if the FilterOptions object is not null (i.e., the controller received values for the possible filter parameters), it appends the proper query params for the specific TEntity. Otherwise, it just moves on.
+
                     var response = await _integrationTestFixture.HttpClient.GetAsync($"{SearchEndpoint}{queryParams}");
                     var parsedResponse = await response.Content.ReadFromJsonAsync<PaginatedListResponse<News>>();
                     var returnedElements = parsedResponse.Data.Results;

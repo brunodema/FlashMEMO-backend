@@ -14,6 +14,19 @@ namespace Data.Tools
         public string Subtitle { get; set; } = null;
         public string Content { get; set; } = null;
 
+        public string BuildQueryURL()
+        {
+            string queryParams = "";
+
+            if (Content != null) queryParams = String.Concat(queryParams, $"&Content={Content}");
+            if (Subtitle != null) queryParams = String.Concat(queryParams, $"&Subtitle={Subtitle}");
+            if (Title != null) queryParams = String.Concat(queryParams, $"&Title={Title}");
+            if (FromDate != null) queryParams = String.Concat(queryParams, $"&FromDate={FromDate.Value.ToString("yyyy-MM-dd")}");
+            if (ToDate != null) queryParams = String.Concat(queryParams, $"&ToDate={ToDate.Value.ToString("yyyy-MM-dd")}");
+
+            return queryParams;
+        }
+
         public IEnumerable<News> GetFilteredResults(IQueryable<News> elements)
         {
             var processedFromDate = FromDate ?? DateTime.MinValue;
