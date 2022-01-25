@@ -10,6 +10,8 @@ using static Google.Apis.CustomSearchAPI.v1.CseResource;
 using Google.Apis.CustomSearchAPI.v1.Data;
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 
 namespace API.Controllers
 {
@@ -34,9 +36,9 @@ namespace API.Controllers
             {
                 errorMessages.Add("The search text used is not valid.");
             }
-            if (pageSize <= 0)
+            if (pageSize <= 0 || pageSize > 10) // the GT part is a restriction of the Google API itself
             {
-                errorMessages.Add("The page size has an invalid number (less or equal than 0).");
+                errorMessages.Add("The page size has an invalid number (less or equal than 0, or greater than 10).");
             }
             if (pageNumber <= 0)
             {
@@ -72,16 +74,15 @@ namespace API.Controllers
                     listRequest.Cx = _configuration.EngineID;
                     listRequest.Start = (pageSize * pageNumber) - pageSize;
                     listRequest.Num = pageSize;
-
                     var results = await listRequest.ExecuteAsync();
 
                     var totalAmount = Convert.ToUInt64(results?.SearchInformation.TotalResults ?? "0");
-                    var response = new PaginatedListResponse<Result>
+                    var response = new PaginatedListResponse<ImageAPIResponseViewModel>
                     {
                         Status = "Success",
-                        Data = new PaginatedList<Result>()
+                        Data = new PaginatedList<ImageAPIResponseViewModel>()
                         {
-                            Results = results.Items ?? new List<Result>() { },
+                            Results = results.Items.Select(i => new ImageAPIResponseViewModel(i.Title, i.Image, i.Link)).ToList(),
                             ResultSize = results?.Items?.Count ?? 0,
                             PageIndex = Convert.ToUInt64(pageNumber),
                             TotalAmount = totalAmount,
@@ -89,7 +90,6 @@ namespace API.Controllers
 
                         }
                     };
-
                     return Ok(response);
                 }
             }
