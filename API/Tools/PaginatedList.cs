@@ -10,10 +10,10 @@ namespace API.Tools
     public class PaginatedList<T>
     {
         public IList<T> Results { get; set; }
-        public int PageIndex { get; set; }
-        public int TotalPages { get; set; }
+        public UInt64 PageIndex { get; set; }
+        public UInt64 TotalPages { get; set; }
         public int ResultSize { get; set; }
-        public UInt32 TotalAmount { get; set; }
+        public UInt64 TotalAmount { get; set; }
 
         public PaginatedList() { }
 
@@ -39,9 +39,9 @@ namespace API.Tools
             var items = source.Skip((pageIndex - 1) * pageSize).Take(pageSize).ToList();
             return new PaginatedList<T>
             {
-                PageIndex = pageIndex,
-                TotalPages = (int)Math.Ceiling(count / (double)pageSize),
-                TotalAmount = Convert.ToUInt32(count),
+                PageIndex = Convert.ToUInt64(pageIndex),
+                TotalPages = Convert.ToUInt64(Math.Ceiling(count / (double)pageSize)),
+                TotalAmount = Convert.ToUInt64(count),
                 ResultSize = items.Count,
                 Results = new List<T>(items)
             };

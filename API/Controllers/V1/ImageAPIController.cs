@@ -30,6 +30,26 @@ namespace API.Controllers
             return !String.IsNullOrEmpty(searchText);
         }
 
+        private List<string> IsInputValid(string searchText, int pageSize, int pageNumber)
+        {
+            var errorMessages = new List<string>();
+
+            if (!IsSearchTextValid(searchText))
+            {
+                errorMessages.Add("The search text used is not valid.");
+            }
+            if (pageSize <= 0)
+            {
+                errorMessages.Add("The page size has an invalid number (less or equal than 0).");
+            }
+            if (pageNumber <= 0)
+            {
+                errorMessages.Add("The page size has an invalid number (less or equal than 0).");
+            }
+
+            return errorMessages;
+        }
+
         public ImageAPIController(IOptions<ImageAPIServiceOptions> configuration)
         {
             _configuration = configuration.Value;
@@ -45,28 +65,21 @@ namespace API.Controllers
                 {
                     ListRequest listRequest = service.Cse.List();
 
-                    if(!IsSearchTextValid(searchText))
+                    var validationsMessages = IsInputValid(searchText, pageSize, pageNumber);
+                    if (validationsMessages.Count > 0)
                     {
-                        return BadRequest(new BaseResponseModel { Status = "Bad Request", Errors = new List<string>() { "The search text used is not valid." }, Message = "The search text used is not valid." });
-                    }
+                        return BadRequest(new BaseResponseModel() { Status = "Bad Request", Message = "Query params have validation problems.", Errors = validationsMessages });
+                    } 
 
                     listRequest.Q = searchText;
                     listRequest.SearchType = ListRequest.SearchTypeEnum.Image;
                     listRequest.Cx = _configuration.EngineID;
-
-                    if (pageSize < 0)
-                    {
-                        return BadRequest(new BaseResponseModel { Status = "Bad Request", Errors = new List<string>() { "The page size has an invalid number (less than 0)." }, Message = "The page size has an invalid number (less than 0)." });
-                    }
-                    if (pageNumber < 0)
-                    {
-                        return BadRequest(new BaseResponseModel { Status = "Bad Request", Errors = new List<string>() { "The page size has an invalid number (less than 0)." }, Message = "The page size has an invalid number (less than 0)." });
-                    }
                     listRequest.Start = (pageSize * pageNumber) - pageSize;
                     listRequest.Num = pageSize;
 
                     var results = await listRequest.ExecuteAsync();
 
+                    var totalAmount = Convert.ToUInt64(results?.SearchInformation.TotalResults ?? "0");
                     var response = new PaginatedListResponse<Result>
                     {
                         Status = "Success",
@@ -74,9 +87,9 @@ namespace API.Controllers
                         {
                             Results = results.Items ?? new List<Result>() { },
                             ResultSize = results?.Items?.Count ?? 0,
-                            PageIndex = pageNumber,
-                            TotalAmount = Convert.ToUInt32(results?.SearchInformation.TotalResults ?? "0"),
-                            TotalPages = (int)Math.Ceiling(Convert.ToUInt32(results?.SearchInformation.TotalResults ?? "0") / (double)pageSize)
+                            PageIndex = Convert.ToUInt64(pageNumber),
+                            TotalAmount = totalAmount,
+                            TotalPages = Convert.ToUInt64(Math.Ceiling(totalAmount / (double)pageSize))
 
                         }
                     };

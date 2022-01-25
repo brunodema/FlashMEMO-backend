@@ -186,16 +186,16 @@ namespace Tests.Integration.Implementation
 
                 // Assert
                 Assert.True(response.StatusCode == HttpStatusCode.OK);
-                Assert.True(parsedResponse.Data.PageIndex == testData.PageNumber);
+                Assert.True(parsedResponse.Data.PageIndex == (ulong)testData.PageNumber);
 
                 // rework this in the future
-                if (testData.PageNumber > parsedResponse.Data.TotalPages)
+                if ((ulong)testData.PageNumber > parsedResponse.Data.TotalPages)
                 {
                     Assert.True(parsedResponse.Data.ResultSize == 0);
                 }
-                else if (testData.PageNumber == parsedResponse.Data.TotalPages)
+                else if ((ulong)testData.PageNumber == (ulong)parsedResponse.Data.TotalPages)
                 {
-                    Assert.True(parsedResponse.Data.ResultSize == parsedResponse.Data.TotalAmount - (parsedResponse.Data.PageIndex - 1) * testData.PageSize);
+                    Assert.True((ulong)parsedResponse.Data.ResultSize == parsedResponse.Data.TotalAmount - (parsedResponse.Data.PageIndex - 1) * (ulong)testData.PageSize);
                 }
                 else
                 {
