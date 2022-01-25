@@ -2,13 +2,9 @@ using API.Tools;
 using API.ViewModels;
 using Business.Services.Interfaces;
 using Google.Apis.Services;
-using ImageAPI.Models;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using System.Net.Http;
 using System.Threading.Tasks;
-
 using Google.Apis.CustomSearchAPI.v1;
 using static Google.Apis.CustomSearchAPI.v1.CseResource;
 using Google.Apis.CustomSearchAPI.v1.Data;
