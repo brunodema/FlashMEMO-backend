@@ -1,15 +1,17 @@
 using API.Tools;
 using API.ViewModels;
 using Business.Services.Interfaces;
-using Data.Tools.Implementation;
-using Data.Tools.Interfaces;
+using Google.Apis.Services;
 using ImageAPI.Models;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using System.Net.Http;
 using System.Threading.Tasks;
+
+using Google.Apis.CustomSearchAPI.v1;
+using static Google.Apis.CustomSearchAPI.v1.CseResource;
+using Google.Apis.CustomSearchAPI.v1.Data;
 
 namespace API.Controllers
 {
@@ -38,16 +40,20 @@ namespace API.Controllers
         [Route("search")]
         public async Task<IActionResult> Search(string searchText, int? pageSize, int? pageNumber)
         {
-            var httpClient = _httpClientFactory.CreateClient();
-            var httpResponseMessage = await httpClient.GetAsync($"{_fullEndpoint}&q={searchText}");
-
-            if (httpResponseMessage.IsSuccessStatusCode)
+            var service = new CustomSearchAPIService(new BaseClientService.Initializer
             {
-                using var contentStream =
-                    await httpResponseMessage.Content.ReadAsStreamAsync();
+                ApplicationName = "Discovery Sample",
+                ApiKey = _configuration.Token,
+            });
+            ListRequest listRequest = service.Cse.List();
+            listRequest.Q = searchText;
+            listRequest.SearchType = ListRequest.SearchTypeEnum.Image;
+            listRequest.Cx = _configuration.EngineID;
 
-                return Ok(new PaginatedListResponse<ImageResult> { Status = "Sucess", Data = PaginatedList<ImageResult>.Create(, pageNumber ?? 1, pageSize ?? 10) });
-            }
+            var results = await listRequest.ExecuteAsync();
+
+            return Ok(new PaginatedListResponse<Result> { Status = "Sucess", Data = PaginatedList<Result>.Create(results.Items, pageNumber ?? 1, pageSize ?? 10) });
+
         }
     }
 }
