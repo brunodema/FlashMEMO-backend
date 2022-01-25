@@ -21,19 +21,11 @@ namespace API.Controllers
     public class ImageAPIController : ControllerBase
 
     {
-        private readonly ILogger<ImageAPIController> _logger;
         private readonly IImageAPIServiceOptions _configuration;
-        private readonly IHttpClientFactory _httpClientFactory;
 
-        private readonly string _fullEndpoint;
-
-        public ImageAPIController(ILogger<ImageAPIController> logger, IOptions<ImageAPIServiceOptions> configuration, IHttpClientFactory httpClientFactory)
+        public ImageAPIController(IOptions<ImageAPIServiceOptions> configuration)
         {
-            _logger = logger;
             _configuration = configuration.Value;
-            _httpClientFactory = httpClientFactory;
-
-            _fullEndpoint = $"{_configuration.BaseURL}?key={_configuration.Token}&cx={_configuration.EngineID}";
         }
 
         [HttpGet]
@@ -42,9 +34,10 @@ namespace API.Controllers
         {
             var service = new CustomSearchAPIService(new BaseClientService.Initializer
             {
-                ApplicationName = "Discovery Sample",
+                ApplicationName = "FlashMEMO Image Search",
                 ApiKey = _configuration.Token,
             });
+
             ListRequest listRequest = service.Cse.List();
             listRequest.Q = searchText;
             listRequest.SearchType = ListRequest.SearchTypeEnum.Image;
@@ -53,7 +46,6 @@ namespace API.Controllers
             var results = await listRequest.ExecuteAsync();
 
             return Ok(new PaginatedListResponse<Result> { Status = "Sucess", Data = PaginatedList<Result>.Create(results.Items, pageNumber ?? 1, pageSize ?? 10) });
-
         }
     }
 }
