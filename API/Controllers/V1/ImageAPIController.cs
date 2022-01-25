@@ -12,6 +12,8 @@ using System.Threading.Tasks;
 using Google.Apis.CustomSearchAPI.v1;
 using static Google.Apis.CustomSearchAPI.v1.CseResource;
 using Google.Apis.CustomSearchAPI.v1.Data;
+using System;
+using System.Collections.Generic;
 
 namespace API.Controllers
 {
@@ -23,6 +25,11 @@ namespace API.Controllers
     {
         private readonly IImageAPIServiceOptions _configuration;
 
+        private bool IsSearchTextValid(string searchText)
+        {
+            return !String.IsNullOrEmpty(searchText);
+        }
+
         public ImageAPIController(IOptions<ImageAPIServiceOptions> configuration)
         {
             _configuration = configuration.Value;
@@ -30,22 +37,58 @@ namespace API.Controllers
 
         [HttpGet]
         [Route("search")]
-        public async Task<IActionResult> Search(string searchText, int? pageSize, int? pageNumber)
+        public async Task<IActionResult> Search(string searchText, int pageSize = 10, int pageNumber = 1)
         {
-            var service = new CustomSearchAPIService(new BaseClientService.Initializer
+            try
             {
-                ApplicationName = "FlashMEMO Image Search",
-                ApiKey = _configuration.Token,
-            });
+                using (var service = new CustomSearchAPIService(new BaseClientService.Initializer { ApplicationName = "FlashMEMO Image Search", ApiKey = _configuration.Token }))
+                {
+                    ListRequest listRequest = service.Cse.List();
 
-            ListRequest listRequest = service.Cse.List();
-            listRequest.Q = searchText;
-            listRequest.SearchType = ListRequest.SearchTypeEnum.Image;
-            listRequest.Cx = _configuration.EngineID;
+                    if(!IsSearchTextValid(searchText))
+                    {
+                        return BadRequest(new BaseResponseModel { Status = "Bad Request", Errors = new List<string>() { "The search text used is not valid." }, Message = "The search text used is not valid." });
+                    }
 
-            var results = await listRequest.ExecuteAsync();
+                    listRequest.Q = searchText;
+                    listRequest.SearchType = ListRequest.SearchTypeEnum.Image;
+                    listRequest.Cx = _configuration.EngineID;
 
-            return Ok(new PaginatedListResponse<Result> { Status = "Sucess", Data = PaginatedList<Result>.Create(results.Items, pageNumber ?? 1, pageSize ?? 10) });
+                    if (pageSize < 0)
+                    {
+                        return BadRequest(new BaseResponseModel { Status = "Bad Request", Errors = new List<string>() { "The page size has an invalid number (less than 0)." }, Message = "The page size has an invalid number (less than 0)." });
+                    }
+                    if (pageNumber < 0)
+                    {
+                        return BadRequest(new BaseResponseModel { Status = "Bad Request", Errors = new List<string>() { "The page size has an invalid number (less than 0)." }, Message = "The page size has an invalid number (less than 0)." });
+                    }
+                    listRequest.Start = (pageSize * pageNumber) - pageSize;
+                    listRequest.Num = pageSize;
+
+                    var results = await listRequest.ExecuteAsync();
+
+                    var response = new PaginatedListResponse<Result>
+                    {
+                        Status = "Success",
+                        Data = new PaginatedList<Result>()
+                        {
+                            Results = results.Items ?? new List<Result>() { },
+                            ResultSize = results?.Items?.Count ?? 0,
+                            PageIndex = pageNumber,
+                            TotalAmount = Convert.ToUInt32(results?.SearchInformation.TotalResults ?? "0"),
+                            TotalPages = (int)Math.Ceiling(Convert.ToUInt32(results?.SearchInformation.TotalResults ?? "0") / (double)pageSize)
+
+                        }
+                    };
+
+                    return Ok(response);
+                }
+            }
+            catch (Exception)
+            {
+                return StatusCode(500);
+                throw;
+            }
         }
     }
 }

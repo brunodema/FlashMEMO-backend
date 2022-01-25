@@ -41,7 +41,7 @@ namespace Tests.Integration.Implementation
         {
             var queryParams = $"?pageSize={100000}"; // should be large enough, right?
             var response = await _integrationTestFixture.HttpClient.GetAsync($"{ListEndpoint}{queryParams}");
-            return response.Content.ReadFromJsonAsync<PaginatedListResponse<TEntity>>().Result.Data.Count;
+            return response.Content.ReadFromJsonAsync<PaginatedListResponse<TEntity>>().Result.Data.ResultSize;
         }
 
         protected async Task<IEnumerable<TEntity>> GetAllObjectsOnDatabase()
@@ -167,7 +167,7 @@ namespace Tests.Integration.Implementation
 
                 // Assert
                 Assert.True(response.StatusCode == HttpStatusCode.OK);
-                Assert.True(parsedResponse.Data.Count == expectedNumberOfRecords);
+                Assert.True(parsedResponse.Data.ResultSize == expectedNumberOfRecords);
             });
         }
         [Fact]
@@ -191,15 +191,15 @@ namespace Tests.Integration.Implementation
                 // rework this in the future
                 if (testData.PageNumber > parsedResponse.Data.TotalPages)
                 {
-                    Assert.True(parsedResponse.Data.Count == 0);
+                    Assert.True(parsedResponse.Data.ResultSize == 0);
                 }
                 else if (testData.PageNumber == parsedResponse.Data.TotalPages)
                 {
-                    Assert.True(parsedResponse.Data.Count == parsedResponse.Data.Total - (parsedResponse.Data.PageIndex - 1) * testData.PageSize);
+                    Assert.True(parsedResponse.Data.ResultSize == parsedResponse.Data.TotalAmount - (parsedResponse.Data.PageIndex - 1) * testData.PageSize);
                 }
                 else
                 {
-                    Assert.True(parsedResponse.Data.Count == testData.PageSize);
+                    Assert.True(parsedResponse.Data.ResultSize == testData.PageSize);
                 }
             });
         }

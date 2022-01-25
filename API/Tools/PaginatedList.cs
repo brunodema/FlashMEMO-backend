@@ -9,11 +9,11 @@ namespace API.Tools
     // taken from: https://docs.microsoft.com/en-us/aspnet/core/data/ef-mvc/sort-filter-page?view=aspnetcore-5.0
     public class PaginatedList<T>
     {
-        public List<T> Results { get; set; }
+        public IList<T> Results { get; set; }
         public int PageIndex { get; set; }
         public int TotalPages { get; set; }
-        public int Count { get; set; }
-        public int Total { get; set; }
+        public int ResultSize { get; set; }
+        public UInt32 TotalAmount { get; set; }
 
         public PaginatedList() { }
 
@@ -41,9 +41,8 @@ namespace API.Tools
             {
                 PageIndex = pageIndex,
                 TotalPages = (int)Math.Ceiling(count / (double)pageSize),
-                Total = count,
-                Count = items.Count,
-
+                TotalAmount = Convert.ToUInt32(count),
+                ResultSize = items.Count,
                 Results = new List<T>(items)
             };
         }
