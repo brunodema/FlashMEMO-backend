@@ -1,6 +1,4 @@
-﻿using Google.Apis.CustomSearchAPI.v1.Data;
-using System.Collections.Generic;
-using static Google.Apis.CustomSearchAPI.v1.Data.Result;
+﻿using static Google.Apis.CustomSearchAPI.v1.Data.Result;
 
 namespace API.ViewModels
 {
