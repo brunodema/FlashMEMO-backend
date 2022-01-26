@@ -12,16 +12,28 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
+using API.Controllers.Interfaces;
+using Microsoft.AspNetCore.Http;
 
 namespace API.Controllers
 {
     [ApiController]
     [ApiVersion("1.0")]
     [Route("api/v{version:apiVersion}/[controller]")]
-    public class ImageAPIController : ControllerBase
+    public class ImageAPIController : GenericAPIController
 
     {
         private readonly IImageAPIServiceOptions _configuration;
+
+        protected override HttpResponse CheckAvailability()
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override HttpResponse CheckPeriodComsumption()
+        {
+            throw new NotImplementedException();
+        }
 
         private bool IsSearchTextValid(string searchText)
         {
