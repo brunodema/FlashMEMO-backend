@@ -5,6 +5,6 @@
     /// </summary>
     public class DictionaryAPIResponse : BaseResponseModel
     {
-        // to be implemented
+        // to be determined/implemented
     }
 }

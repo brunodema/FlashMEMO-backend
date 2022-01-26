@@ -34,7 +34,7 @@ namespace Business.Services.Abstract
             var validationResult = CheckIfEntityIsValid(entity);
             if (!validationResult.IsValid)
             {
-                throw new ServiceValidationException { Errors = validationResult.Errors };
+                throw new ServiceValidationException { ServiceValidationErrors = validationResult.Errors };
             }
             await _baseRepository.CreateAsync(entity);
         }

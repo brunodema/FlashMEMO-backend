@@ -1,4 +1,3 @@
-using API.ViewModels;
 using Data.Context;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
@@ -22,6 +21,7 @@ using Data.Repository.Implementation;
 using Business.Services.Implementation;
 using Business.Services.Abstract;
 using Data.Models.Implementation;
+using API.ViewModels;
 
 namespace API
 {
@@ -135,13 +135,15 @@ namespace API
             });
             // options configuration
             services.Configure<JWTServiceOptions>(Configuration.GetSection("JWT"));
-            services.Configure<ImageAPIServiceOptions>(Configuration.GetSection("APISettings"));
+            services.Configure<CustomSearchAPIServiceOptions>(Configuration.GetSection("GoogleCustomSearchAPI"));
+            //services.Configure<DictionaryAPIServiceOptions>(Configuration.GetSection("OxfordDictionaryAPI"));
             services.Configure<GenericRepositoryServiceOptions>(Configuration.GetSection("BaseRepositoryServiceOptions"));
             // custom services
             services.AddHttpClient();
             services.AddScoped<IJWTService, JWTService>();
             services.AddScoped<IAuthService, AuthService>();
             services.AddScoped<NewsService>();
+            services.AddScoped<CustomSearchAPIService>();
             services.AddScoped<ApplicationUserRepository>();
             services.AddScoped<RoleRepository>();
             services.AddScoped<NewsRepository>();

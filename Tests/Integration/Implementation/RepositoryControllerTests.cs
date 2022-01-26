@@ -1,5 +1,4 @@
-﻿using API.ViewModels;
-using Data.Messages;
+﻿using Data.Messages;
 using Data.Repository.Interfaces;
 using System;
 using System.Linq;
@@ -14,6 +13,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Tests.Integration.TestData;
 using Data.Models.Implementation;
+using API.ViewModels;
 
 namespace Tests.Integration.Implementation
 {

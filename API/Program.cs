@@ -21,7 +21,7 @@ namespace API
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder.UseStartup<Startup>()
-                    .ConfigureAppConfiguration(configureDelegate=>configureDelegate.AddJsonFile("apisettings.json"));
+                    .ConfigureAppConfiguration(configureDelegate => configureDelegate.AddJsonFile("apisettings.json"));
                 });
     }
 }

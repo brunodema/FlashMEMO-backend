@@ -1,68 +1,25 @@
-using API.Tools;
-using API.ViewModels;
-using Business.Services.Interfaces;
-using Google.Apis.Services;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Options;
 using System.Threading.Tasks;
-using Google.Apis.CustomSearchAPI.v1;
-using static Google.Apis.CustomSearchAPI.v1.CseResource;
-using Google.Apis.CustomSearchAPI.v1.Data;
+using Business.Services.Implementation;
+using Business.Tools;
+using API.ViewModels;
 using System;
-using System.Collections.Generic;
+using API.Tools;
 using System.Linq;
-using Microsoft.AspNetCore.Mvc.ModelBinding;
-using API.Controllers.Interfaces;
-using Microsoft.AspNetCore.Http;
 
 namespace API.Controllers
 {
     [ApiController]
     [ApiVersion("1.0")]
     [Route("api/v{version:apiVersion}/[controller]")]
-    public class ImageAPIController : GenericAPIController
+    public class ImageAPIController : ControllerBase
 
     {
-        private readonly IImageAPIServiceOptions _configuration;
+        private readonly CustomSearchAPIService _service;
 
-        protected override HttpResponse CheckAvailability()
+        public ImageAPIController(CustomSearchAPIService service)
         {
-            throw new NotImplementedException();
-        }
-
-        protected override HttpResponse CheckPeriodComsumption()
-        {
-            throw new NotImplementedException();
-        }
-
-        private bool IsSearchTextValid(string searchText)
-        {
-            return !String.IsNullOrEmpty(searchText);
-        }
-
-        private List<string> IsInputValid(string searchText, int pageSize, int pageNumber)
-        {
-            var errorMessages = new List<string>();
-
-            if (!IsSearchTextValid(searchText))
-            {
-                errorMessages.Add("The search text used is not valid.");
-            }
-            if (pageSize <= 0 || pageSize > 10) // the GT part is a restriction of the Google API itself
-            {
-                errorMessages.Add("The page size has an invalid number (less or equal than 0, or greater than 10).");
-            }
-            if (pageNumber <= 0)
-            {
-                errorMessages.Add("The page size has an invalid number (less or equal than 0).");
-            }
-
-            return errorMessages;
-        }
-
-        public ImageAPIController(IOptions<ImageAPIServiceOptions> configuration)
-        {
-            _configuration = configuration.Value;
+            _service = service;
         }
 
         [HttpGet]
@@ -71,39 +28,26 @@ namespace API.Controllers
         {
             try
             {
-                using (var service = new CustomSearchAPIService(new BaseClientService.Initializer { ApplicationName = "FlashMEMO Image Search", ApiKey = _configuration.Token }))
+                var results = await _service.Search(searchText, pageSize, pageNumber);
+
+                return Ok(new PaginatedListResponse<CustomSearchAPIImageResult>
                 {
-                    ListRequest listRequest = service.Cse.List();
-
-                    var validationsMessages = IsInputValid(searchText, pageSize, pageNumber);
-                    if (validationsMessages.Count > 0)
+                    Status = "Success",
+                    Message = "API results successfully retrieved.",
+                    Data = new PaginatedList<CustomSearchAPIImageResult>()
                     {
-                        return BadRequest(new BaseResponseModel() { Status = "Bad Request", Message = "Query params have validation problems.", Errors = validationsMessages });
-                    } 
-
-                    listRequest.Q = searchText;
-                    listRequest.SearchType = ListRequest.SearchTypeEnum.Image;
-                    listRequest.Cx = _configuration.EngineID;
-                    listRequest.Start = (pageSize * pageNumber) - pageSize;
-                    listRequest.Num = pageSize;
-                    var results = await listRequest.ExecuteAsync();
-
-                    var totalAmount = Convert.ToUInt64(results?.SearchInformation.TotalResults ?? "0");
-                    var response = new PaginatedListResponse<ImageAPIResponseViewModel>
-                    {
-                        Status = "Success",
-                        Data = new PaginatedList<ImageAPIResponseViewModel>()
-                        {
-                            Results = results.Items.Select(i => new ImageAPIResponseViewModel(i.Title, i.Image, i.Link)).ToList(),
-                            ResultSize = results?.Items?.Count ?? 0,
-                            PageIndex = Convert.ToUInt64(pageNumber),
-                            TotalAmount = totalAmount,
-                            TotalPages = Convert.ToUInt64(Math.Ceiling(totalAmount / (double)pageSize))
-
-                        }
-                    };
-                    return Ok(response);
-                }
+                        Results = results.Results.ToList(),
+                        ResultSize = results.ResultSize,
+                        PageIndex = results.PageIndex,
+                        TotalAmount = results.TotalAmount,
+                        TotalPages = results.TotalPages,
+                    }
+                });
+            }
+            catch (InputValidationException e)
+            {
+                return BadRequest(new BaseResponseModel { Status = "Bad Request", Message = e.Message, Errors = e.InputValidationErrors});
+                throw;
             }
             catch (Exception)
             {
