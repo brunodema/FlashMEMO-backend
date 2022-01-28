@@ -81,9 +81,9 @@ namespace API.Controllers
     public class DictionaryAPIController : ControllerBase
 
     {
-        private readonly DictionaryAPIService _service;
+        private readonly IDictionaryAPIService _service;
 
-        public DictionaryAPIController(DictionaryAPIService service)
+        public DictionaryAPIController(IDictionaryAPIService service)
         {
             _service = service;
         }
