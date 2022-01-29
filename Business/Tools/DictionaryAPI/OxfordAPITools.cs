@@ -3,7 +3,7 @@ using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Business.Tools.OxfordAPI
+namespace Business.Tools.DictionaryAPI
 {
     public class OxfordAPIDTO : IDictionaryAPIResponse
     {
