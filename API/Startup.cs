@@ -136,14 +136,20 @@ namespace API
             // options configuration
             services.Configure<JWTServiceOptions>(Configuration.GetSection("JWT"));
             services.Configure<CustomSearchAPIServiceOptions>(Configuration.GetSection("GoogleCustomSearchAPI"));
-            //services.Configure<DictionaryAPIServiceOptions>(Configuration.GetSection("OxfordDictionaryAPI"));
+            services.Configure<OxfordDictionaryAPIServiceOptions>(Configuration.GetSection("OxfordDictionaryAPI"));
+            services.Configure<LexicalaDictionaryAPIServiceOptions>(Configuration.GetSection("LexicalaDictionaryAPI")); // only for studies right now
             services.Configure<GenericRepositoryServiceOptions>(Configuration.GetSection("BaseRepositoryServiceOptions"));
             // custom services
             services.AddHttpClient();
             services.AddScoped<IJWTService, JWTService>();
             services.AddScoped<IAuthService, AuthService>();
+
             services.AddScoped<NewsService>();
+
             services.AddScoped<CustomSearchAPIService>();
+
+            services.AddScoped<IDictionaryAPIService, DictionaryAPIService>();
+
             services.AddScoped<ApplicationUserRepository>();
             services.AddScoped<RoleRepository>();
             services.AddScoped<NewsRepository>();

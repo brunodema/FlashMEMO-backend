@@ -9,6 +9,7 @@ using Data.Tools;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -29,6 +30,7 @@ namespace API.Controllers
         }
     }
 
+    [ApiController]
     [ApiVersion("1.0")]
     [Route("api/v{version:apiVersion}/[controller]")]
     public class ImageAPIController : ControllerBase
@@ -76,24 +78,22 @@ namespace API.Controllers
         }
     }
 
-    [ApiVersion("1.0")]
-    [Route("api/v{version:apiVersion}/[controller]")]
-    public class DictionaryAPIController : ControllerBase
-
+    public class GenericDictionaryAPIController : ControllerBase
     {
         private readonly IDictionaryAPIService _service;
 
-        public DictionaryAPIController(IDictionaryAPIService service)
+        public GenericDictionaryAPIController(IDictionaryAPIService service)
         {
             _service = service;
         }
 
         [HttpGet]
         [Route("search")]
-        public IActionResult Search(string searchText)
+        public async Task<IActionResult> Search(string searchText)
         {
             try
             {
+                await _service.SearchResults(searchText, "en-gb");
                 return Ok();
             }
             catch (Exception)
@@ -104,6 +104,35 @@ namespace API.Controllers
         }
     }
 
+    [ApiController]
+    [ApiVersion("1.0")]
+    [Route("api/v{version:apiVersion}/dict/oxford")]
+    public class OxfordDictionaryAPIController : GenericDictionaryAPIController
+
+    {
+        private readonly IDictionaryAPIService _service;
+
+        public OxfordDictionaryAPIController(IOptions<OxfordDictionaryAPIServiceOptions> options) : base(new DictionaryAPIService(options))
+        {
+            _service = new DictionaryAPIService(options);
+        }
+    }
+
+    [ApiController]
+    [ApiVersion("1.0")]
+    [Route("api/v{version:apiVersion}/dict/lexicala")]
+    public class LexicalaDictionaryAPIController : GenericDictionaryAPIController
+
+    {
+        private readonly IDictionaryAPIService _service;
+
+        public LexicalaDictionaryAPIController(IOptions<LexicalaDictionaryAPIServiceOptions> options) : base(new DictionaryAPIService(options))
+        {
+            _service = new DictionaryAPIService(options);
+        }
+    }
+
+    [ApiController]
     [ApiVersion("1.0")]
     [Route("api/v{version:apiVersion}/[controller]")]
     public class AuthController : ControllerBase
@@ -150,7 +179,7 @@ namespace API.Controllers
         {
             ICollection<ApplicationUserRole> roles = new List<ApplicationUserRole>();
 
-            if (await _authService.AreCredentialsValidAsync(new Credentials { Email = model.Email, PasswordHash = model.Password }))
+            if (await _authService.AreCredentialsValidAsync(new FlashMEMOCredentials { Email = model.Email, PasswordHash = model.Password }))
             {
                 var token = _JWTService.CreateLoginToken(new ApplicationUser
                 {

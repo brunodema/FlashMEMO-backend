@@ -2,6 +2,7 @@
 using Business.Services.Interfaces;
 using Business.Tools;
 using Business.Tools.Interfaces;
+using Business.Tools.OxfordAPI;
 using Data.Models.Implementation;
 using Data.Repository.Implementation;
 using Google.Apis.Services;
@@ -13,8 +14,10 @@ using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
+using System.Net.Http;
 using System.Security.Claims;
 using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
 using static Google.Apis.CustomSearchAPI.v1.CseResource;
 using static Google.Apis.CustomSearchAPI.v1.Data.Result;
@@ -200,6 +203,94 @@ namespace Business.Services.Implementation
         }
     }
 
+    #region DICTIONARY API
+    #region Lexicala
+    public class LexicalaDictionaryAPIServiceOptions : IDictionaryAPIServiceOptions // not implement, only for study reasons
+    {
+        public string BaseURL { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+
+        public string BuildSearchURL(string searchText, string targetLanguage)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Dictionary<string, IEnumerable<string>> SetupCredentials()
+        {
+            throw new NotImplementedException();
+        }
+    }
+    #endregion
+    #region Oxford
+    public class OxfordDictionaryAPIResult : IDictionaryAPIResult
+    {
+        public string LexicalCategory { get; set; }
+        public string PronunciationFile { get; set; }
+        public string PhoneticSpelling { get; set; }
+        public List<string> Definitions { get; set; }
+        public List<string> Examples { get; set; }
+    }
+
+    public class OxfordDictionaryAPIServiceOptions : IDictionaryAPIServiceOptions
+    {
+        public string BaseURL { get; set; }
+        public string AppID { get; set; }
+        public string AppKey { get; set; }
+
+        public string BuildSearchURL(string searchText, string targetLanguage)
+        {
+            return $"https://od-api.oxforddictionaries.com:443/api/v2/entries/{targetLanguage}/{searchText}";
+        }
+
+        public Dictionary<string, IEnumerable<string>> SetupCredentials()
+        {
+            var dict = new Dictionary<string, IEnumerable<string>>();
+            dict.Add("app_id", new List<string>{ AppID });
+            dict.Add("app_key", new List<string> { AppKey });
+
+            return dict;
+        }
+    }
+
+    public class DictionaryAPIService : IDictionaryAPIService
+    {
+        private IDictionaryAPIServiceOptions _serviceOptions;
+
+        public DictionaryAPIService(IOptions<IDictionaryAPIServiceOptions> options)
+        {
+            _serviceOptions = options.Value;
+        }
+
+        public HttpResponse CheckAvailability()
+        {
+            throw new NotImplementedException();
+        }
+
+        public HttpResponse CheckPeriodComsumption()
+        {
+            throw new NotImplementedException();
+        }
+
+        public async Task<IDictionaryAPIResponse> SearchResults(string searchText, string targetLanguage)
+        {
+            using (var client = new HttpClient())
+            {
+                foreach (var item in _serviceOptions.SetupCredentials())
+                {
+                    client.DefaultRequestHeaders.Add(item.Key, item.Value);
+                }
+                
+                var response = await client.GetAsync(_serviceOptions.BuildSearchURL(searchText, targetLanguage));
+
+                var parsedResponse = JsonSerializer.Deserialize<OxfordAPIResponseModel>(await response.Content.ReadAsStringAsync(), new JsonSerializerOptions() { PropertyNameCaseInsensitive = true} );
+
+                return (IDictionaryAPIResponse)response;
+            }
+        }
+    }
+    #endregion
+    #endregion
+
+
     public class AuthServiceOptions : IAuthServiceOptions
     {
 
@@ -217,7 +308,7 @@ namespace Business.Services.Implementation
             _roleRepository = roleRepository;
         }
 
-        public async Task<bool> AreCredentialsValidAsync(ICredentials credentials)
+        public async Task<bool> AreCredentialsValidAsync(IFlashMEMOCredentials credentials)
         {
             if (await UserAlreadyExistsAsync(credentials.Email))
             {
@@ -238,7 +329,7 @@ namespace Business.Services.Implementation
         {
             return (await _applicationUserRepository.SearchFirstAsync(u => u.Email == email)) != null;
         }
-        public async Task<bool> GetUserByEmailAndCheckCredentialsAsync(ICredentials credentials)
+        public async Task<bool> GetUserByEmailAndCheckCredentialsAsync(IFlashMEMOCredentials credentials)
         {
             var user = await _applicationUserRepository.SearchFirstAsync(u => u.Email == credentials.Email);
             return await _applicationUserRepository.CheckPasswordAsync(user.Id, credentials.PasswordHash);

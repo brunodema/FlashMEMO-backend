@@ -43,8 +43,8 @@ namespace Business.Services.Interfaces
         string LexicalCategory { get; set; }
         string PronunciationFile { get; set; }
         string PhoneticSpelling { get; set; }
-        string[] Definitions { get; set; }
-        string[] Examples { get; set; }
+        List<string> Definitions { get; set; }
+        List<string> Examples { get; set; }
     }
 
     public interface IDictionaryAPIResponse
@@ -54,13 +54,21 @@ namespace Business.Services.Interfaces
         /// String containing the ISO code for the language (ex: "en-us", "en-gb").
         /// </summary>
         string LanguageCode { get; set; }
-        IDictionaryAPIResult[] Results { get; set; }
+        List<IDictionaryAPIResult> Results { get; set; }
     }
 
     public interface IDictionaryAPIServiceOptions
     {
         string BaseURL { get; set; }
-        string Token { get; set; }
+
+        /// <summary>
+        /// Returns the full URL to be used by the service when querying the API.
+        /// </summary>
+        /// <param name="searchText"></param>
+        /// <param name="targetLanguage">String containing the ISO code for the language (ex: "en-us", "en-gb").</param>
+        /// <returns></returns>
+        string BuildSearchURL(string searchText, string targetLanguage);
+        Dictionary<string, IEnumerable<string>> SetupCredentials();
     }
 
     public interface IDictionaryAPIService : IAPIService
@@ -71,7 +79,7 @@ namespace Business.Services.Interfaces
         /// <param name="searchText"></param>
         /// <param name="targetLanguage">Two letter ISO code for the target language (ex: "en-us", "en-gb").</param>
         /// <returns></returns>
-        IDictionaryAPIResponse SearchResults(string searchText, string targetLanguage);
+        Task<IDictionaryAPIResponse> SearchResults(string searchText, string targetLanguage);
     }
     #endregion
 
@@ -83,7 +91,7 @@ namespace Business.Services.Interfaces
     {
         public Task<bool> UserAlreadyExistsAsync(string email);
         public Task<IdentityResult> CreateUserAsync(ApplicationUser user, string cleanPassword);
-        public Task<bool> AreCredentialsValidAsync(ICredentials credentials);
+        public Task<bool> AreCredentialsValidAsync(IFlashMEMOCredentials credentials);
     }
     #endregion
 

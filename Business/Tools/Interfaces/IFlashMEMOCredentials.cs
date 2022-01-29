@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Business.Tools.Interfaces
 {
-    public interface ICredentials
+    public interface IFlashMEMOCredentials
     {
         public string Email { get; set; }
         public string PasswordHash { get; set; }
