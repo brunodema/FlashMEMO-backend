@@ -1,11 +1,7 @@
-﻿using Business.Services.Implementation;
-using Business.Services.Interfaces;
+﻿using Business.Services.Interfaces;
 using Newtonsoft.Json;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Business.Tools.OxfordAPI
 {
@@ -19,20 +15,44 @@ namespace Business.Tools.OxfordAPI
         {
             SearchText = oxfordResponse.Id;
             LanguageCode = oxfordResponse.Results[0].Language; // shouldn't be different accross entries anyway
+            Results = new List<IDictionaryAPIResult>();
+
             foreach (var result in oxfordResponse.Results)
             {
-                foreach (var entry in result.LexicalEntries)
+                foreach (var lexicalEntry in result.LexicalEntries)
                 {
-                    Results[0].LexicalCategory = entry.LexicalCategory.Text;
-                    Results[0].PronunciationFile = entry.Entries[0].Pronunciations[0].;
-                    Results[0].PronunciationFile
-                    entry.Entries[0].Senses[0].
+                    var dictAPIResult = new OxfordDictionaryAPIResult() { LexicalCategory = lexicalEntry.LexicalCategory.Text };
 
+                    foreach (var entry in lexicalEntry.Entries)
+                    {
+                        dictAPIResult.PronunciationFile = entry.Pronunciations.Select(p => p.AudioFile).FirstOrDefault(); // won't bother with additional pronunciations/spellings for now
+                        dictAPIResult.PhoneticSpelling = entry.Pronunciations.Select(p => p.PhoneticSpelling).FirstOrDefault(); // won't bother with additional pronunciations/spellings for now
+
+                        foreach (var sense in entry.Senses)
+                        {
+                            dictAPIResult.Definitions = sense.Definitions.ToList();
+                            dictAPIResult.Examples = sense.Examples.Select(e => e.Text).ToList();
+                        }
+                    }
+
+                    Results.Add(dictAPIResult);
                 }
             }
         }
     }
 
+    public class OxfordDictionaryAPIResult : IDictionaryAPIResult
+    {
+        public string LexicalCategory { get; set; }
+        public string PronunciationFile { get; set; }
+        public string PhoneticSpelling { get; set; }
+        public List<string> Definitions { get; set; }
+        public List<string> Examples { get; set; }
+    }
+
+    /// <summary>
+    /// Represents the mapping of properties of the json object into a C# one (data extracted via https://json2csharp.com/).
+    /// </summary>
     public class OxfordAPIResponseModel
     {
         [JsonProperty("id")]

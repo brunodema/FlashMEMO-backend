@@ -283,7 +283,7 @@ namespace Business.Services.Implementation
 
                 var parsedResponse = JsonSerializer.Deserialize<OxfordAPIResponseModel>(await response.Content.ReadAsStringAsync(), new JsonSerializerOptions() { PropertyNameCaseInsensitive = true} );
 
-                return (IDictionaryAPIResponse)response;
+                return new OxfordAPIDTO(parsedResponse);
             }
         }
     }

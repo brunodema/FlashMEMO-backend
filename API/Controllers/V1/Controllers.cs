@@ -89,12 +89,11 @@ namespace API.Controllers
 
         [HttpGet]
         [Route("search")]
-        public async Task<IActionResult> Search(string searchText)
+        public async Task<IActionResult> Search(string searchText, string languageCode)
         {
             try
             {
-                await _service.SearchResults(searchText, "en-gb");
-                return Ok();
+                return Ok(await _service.SearchResults(searchText, languageCode));
             }
             catch (Exception)
             {
