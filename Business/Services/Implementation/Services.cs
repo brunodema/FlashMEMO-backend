@@ -207,6 +207,7 @@ namespace Business.Services.Implementation
     #region Lexicala
     public class LexicalaDictionaryAPIServiceOptions : IDictionaryAPIServiceOptions
     {
+        // with this implementation, it won't be possible to template the constructor of the Dictionary API Controller :/
         public string Username { get; set; }
         public string Password { get; set; }
 
@@ -221,7 +222,7 @@ namespace Business.Services.Implementation
             dict.Add("username", new List<string> { Username });
             dict.Add("password", new List<string> { Password });
 
-            return dict;
+            return dict; // this might not work for basic auth
         }
     }
     #endregion
