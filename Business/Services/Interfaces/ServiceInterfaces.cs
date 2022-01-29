@@ -65,8 +65,6 @@ namespace Business.Services.Interfaces
 
     public interface IDictionaryAPIServiceOptions
     {
-        string BaseURL { get; set; }
-
         /// <summary>
         /// Returns the full URL to be used by the service when querying the API.
         /// </summary>

@@ -232,7 +232,6 @@ namespace Business.Services.Implementation
 
     public class OxfordDictionaryAPIServiceOptions : IDictionaryAPIServiceOptions
     {
-        public string BaseURL { get; set; }
         public string AppID { get; set; }
         public string AppKey { get; set; }
 
