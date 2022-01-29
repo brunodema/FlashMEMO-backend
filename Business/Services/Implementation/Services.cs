@@ -205,18 +205,23 @@ namespace Business.Services.Implementation
 
     #region DICTIONARY API
     #region Lexicala
-    public class LexicalaDictionaryAPIServiceOptions : IDictionaryAPIServiceOptions // not implement, only for study reasons
+    public class LexicalaDictionaryAPIServiceOptions : IDictionaryAPIServiceOptions
     {
-        public string BaseURL { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public string Username { get; set; }
+        public string Password { get; set; }
 
         public string BuildSearchURL(string searchText, string targetLanguage)
         {
-            throw new NotImplementedException();
+            return $"https://dictapi.lexicala.com/search?source=global&language={targetLanguage}&text={searchText}";
         }
 
         public Dictionary<string, IEnumerable<string>> SetupCredentials()
         {
-            throw new NotImplementedException();
+            var dict = new Dictionary<string, IEnumerable<string>>();
+            dict.Add("username", new List<string> { Username });
+            dict.Add("password", new List<string> { Password });
+
+            return dict;
         }
     }
     #endregion
