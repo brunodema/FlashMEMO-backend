@@ -53,7 +53,7 @@ namespace Business.Services.Interfaces
     /// <summary>
     /// Interface representing the FlashMEMO (minimalistic) response of a dictionary API request.
     /// </summary>
-    public interface IDictionaryAPIResponse
+    public interface IDictionaryAPIDTO
     {
         string SearchText { get; set; }
         /// <summary>
@@ -87,7 +87,7 @@ namespace Business.Services.Interfaces
         /// <param name="searchText"></param>
         /// <param name="targetLanguage">Two letter ISO code for the target language (ex: "en-us", "en-gb").</param>
         /// <returns></returns>
-        Task<IDictionaryAPIResponse> SearchResults(string searchText, string targetLanguage);
+        Task<IDictionaryAPIDTO> SearchResults(string searchText, string targetLanguage);
     }
     #endregion
 

@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace Business.Tools.DictionaryAPI
 {
-    public class OxfordAPIDTO : IDictionaryAPIResponse
+    public class OxfordAPIDTO : IDictionaryAPIDTO
     {
         public string SearchText { get; set; }
         public string LanguageCode { get; set; }

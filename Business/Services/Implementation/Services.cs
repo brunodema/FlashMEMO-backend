@@ -269,7 +269,7 @@ namespace Business.Services.Implementation
             throw new NotImplementedException();
         }
 
-        public async Task<IDictionaryAPIResponse> SearchResults(string searchText, string targetLanguage)
+        public async Task<IDictionaryAPIDTO> SearchResults(string searchText, string targetLanguage)
         {
             using (var client = new HttpClient())
             {
