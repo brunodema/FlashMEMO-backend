@@ -38,6 +38,9 @@ namespace Business.Services.Interfaces
     }
 
     #region DICTIONARY API
+    /// <summary>
+    /// Interface representing the FlashMEMO (minimalistic) representation of a individual result of a dictionary API request.
+    /// </summary>
     public interface IDictionaryAPIResult
     {
         string LexicalCategory { get; set; }
@@ -47,6 +50,9 @@ namespace Business.Services.Interfaces
         List<string> Examples { get; set; }
     }
 
+    /// <summary>
+    /// Interface representing the FlashMEMO (minimalistic) response of a dictionary API request.
+    /// </summary>
     public interface IDictionaryAPIResponse
     {
         string SearchText { get; set; }
