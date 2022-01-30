@@ -224,15 +224,6 @@ namespace Business.Services.Implementation
     }
     #endregion
     #region Oxford
-    public class OxfordDictionaryAPIResult : IDictionaryAPIResult
-    {
-        public string LexicalCategory { get; set; }
-        public string PronunciationFile { get; set; }
-        public string PhoneticSpelling { get; set; }
-        public List<string> Definitions { get; set; }
-        public List<string> Examples { get; set; }
-    }
-
     public class OxfordDictionaryAPIServiceOptions : IDictionaryAPIRequestHandler
     {
         public string AppID { get; set; }
