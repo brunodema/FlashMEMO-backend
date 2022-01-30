@@ -250,11 +250,16 @@ namespace Business.Services.Implementation
         }
     }
 
+    /// <summary>
+    /// Standard service used to contact the Dictionary APIs used by FlashMEMO.
+    /// </summary>
+    /// <typeparam name="TDictionaryAPIResponse">A DictionaryAPIResponse class is injected as a template argument during the deserialization process.</typeparam>
+    /// <typeparam name="TDictionaryAPIDTO">Especialized DTO class that handles data transformation between the response object and the minimalistic one (response object contains pretty much all properties from the original API).</typeparam>
     public class DictionaryAPIService<TDictionaryAPIResponse, TDictionaryAPIDTO> : IDictionaryAPIService<TDictionaryAPIResponse>
         where TDictionaryAPIResponse : IDictionaryAPIResponse
         where TDictionaryAPIDTO : IDictionaryAPIDTO<TDictionaryAPIResponse>, new()
     {
-        private IDictionaryAPIRequestHandler _requestHandler;
+        private readonly IDictionaryAPIRequestHandler _requestHandler;
 
         public DictionaryAPIService(IOptions<IDictionaryAPIRequestHandler> requestHandlerConfig)
         {
