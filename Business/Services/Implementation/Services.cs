@@ -205,6 +205,7 @@ namespace Business.Services.Implementation
     }
 
     #region DICTIONARY API
+
     #region Lexicala
     public class LexicalaDictionaryAPIRequestHandler : IDictionaryAPIRequestHandler
     {
@@ -223,6 +224,7 @@ namespace Business.Services.Implementation
         }
     }
     #endregion
+
     #region Oxford
     public class OxfordDictionaryAPIRequestHandler : IDictionaryAPIRequestHandler
     {
@@ -239,6 +241,19 @@ namespace Business.Services.Implementation
                 return await client.GetAsync($"https://od-api.oxforddictionaries.com:443/api/v2/entries/{targetLanguage}/{searchText}");
             }
         }
+    }
+    #endregion
+
+    /// <summary>
+    /// Class representing the FlashMEMO (minimalistic) representation of a individual result of a dictionary API request. There is no interface for this implementation since the current implementations (Lexicala and Oxford) share the exact same properties between themselves (DRY principle).
+    /// </summary>
+    public class DictionaryAPIResult
+    {
+        public string LexicalCategory { get; set; }
+        public string PronunciationFile { get; set; }
+        public string PhoneticSpelling { get; set; }
+        public List<string> Definitions { get; set; }
+        public List<string> Examples { get; set; }
     }
 
     /// <summary>
@@ -278,8 +293,6 @@ namespace Business.Services.Implementation
         }
     }
     #endregion
-    #endregion
-
 
     public class AuthServiceOptions : IAuthServiceOptions
     {

@@ -1,4 +1,5 @@
-﻿using Business.Tools;
+﻿using Business.Services.Implementation;
+using Business.Tools;
 using Business.Tools.Interfaces;
 using Data.Models.Implementation;
 using Data.Tools.Implementation;
@@ -39,18 +40,6 @@ namespace Business.Services.Interfaces
     }
 
     #region DICTIONARY API
-    /// <summary>
-    /// Class representing the FlashMEMO (minimalistic) representation of a individual result of a dictionary API request. There is no interface for this implementation since the current implementations (Lexicala and Oxford) share the exact same properties between themselves (DRY principle).
-    /// </summary>
-    public class DictionaryAPIResult
-    {
-        public string LexicalCategory { get; set; }
-        public string PronunciationFile { get; set; }
-        public string PhoneticSpelling { get; set; }
-        public List<string> Definitions { get; set; }
-        public List<string> Examples { get; set; }
-    }
-
     /// <summary>
     /// Interface representing the FlashMEMO (minimalistic) response of a dictionary API request.
     /// </summary>
