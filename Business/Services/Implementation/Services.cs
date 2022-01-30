@@ -262,7 +262,7 @@ namespace Business.Services.Implementation
     /// <typeparam name="TDictionaryAPIDTO">Especialized DTO class that handles data transformation between the response object and the minimalistic one (response object contains pretty much all properties from the original API).</typeparam>
     public class DictionaryAPIService<TDictionaryAPIResponse, TDictionaryAPIDTO> : IDictionaryAPIService<TDictionaryAPIResponse>
         where TDictionaryAPIResponse : IDictionaryAPIResponse
-        where TDictionaryAPIDTO : IDictionaryAPIDTO<TDictionaryAPIResponse>, new()
+        where TDictionaryAPIDTO : DictionaryAPIDTO<TDictionaryAPIResponse>, new()
     {
         private readonly IDictionaryAPIRequestHandler _requestHandler;
 
@@ -281,7 +281,7 @@ namespace Business.Services.Implementation
             throw new NotImplementedException();
         }
 
-        public async Task<IDictionaryAPIDTO<TDictionaryAPIResponse>> SearchResults(string searchText, string targetLanguage)
+        public async Task<DictionaryAPIDTO<TDictionaryAPIResponse>> SearchResults(string searchText, string targetLanguage)
         {
             using (var response = await _requestHandler.MakeRequestToAPIAsync(searchText, targetLanguage))
             {

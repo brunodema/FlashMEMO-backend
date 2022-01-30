@@ -6,13 +6,13 @@ using System.Linq;
 
 namespace Business.Tools.DictionaryAPI.Lexicala
 {
-    public class LexicalaAPIDTO : IDictionaryAPIDTO<LexicalaAPIResponseModel>
+    public class LexicalaAPIDTO : DictionaryAPIDTO<LexicalaAPIResponseModel>
     {
         public string SearchText { get; set; }
         public string LanguageCode { get; set; }
         public List<DictionaryAPIResult> Results { get; set; }
 
-        public override IDictionaryAPIDTO<LexicalaAPIResponseModel> CreateDTO(LexicalaAPIResponseModel lexicalaResponse)
+        public override DictionaryAPIDTO<LexicalaAPIResponseModel> CreateDTO(LexicalaAPIResponseModel lexicalaResponse)
         {
             var dto = new LexicalaAPIDTO();
 

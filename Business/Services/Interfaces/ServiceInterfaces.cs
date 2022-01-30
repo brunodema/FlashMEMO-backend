@@ -44,7 +44,7 @@ namespace Business.Services.Interfaces
     /// Interface representing the FlashMEMO (minimalistic) response of a dictionary API request.
     /// </summary>
     /// <typeparam name="TDictionaryAPIResponse">A DictionaryAPIResponse class is injected so the mapper function can appropriatelly map the properties of the DTO object.</typeparam>
-    public abstract class IDictionaryAPIDTO<TDictionaryAPIResponse> where TDictionaryAPIResponse : IDictionaryAPIResponse
+    public abstract class DictionaryAPIDTO<TDictionaryAPIResponse> where TDictionaryAPIResponse : IDictionaryAPIResponse
     {
         string SearchText { get; set; }
         /// <summary>
@@ -53,7 +53,7 @@ namespace Business.Services.Interfaces
         string LanguageCode { get; set; }
         List<DictionaryAPIResult> Results { get; set; }
 
-        public abstract IDictionaryAPIDTO<TDictionaryAPIResponse> CreateDTO(TDictionaryAPIResponse dictionaryAPIResponse);
+        public abstract DictionaryAPIDTO<TDictionaryAPIResponse> CreateDTO(TDictionaryAPIResponse dictionaryAPIResponse);
     }
 
     /// <summary>
@@ -87,7 +87,7 @@ namespace Business.Services.Interfaces
         /// <param name="searchText"></param>
         /// <param name="targetLanguage">Two letter ISO code for the target language (ex: "en-us", "en-gb").</param>
         /// <returns></returns>
-        Task<IDictionaryAPIDTO<TDictionaryAPIResponse>> SearchResults(string searchText, string targetLanguage);
+        Task<DictionaryAPIDTO<TDictionaryAPIResponse>> SearchResults(string searchText, string targetLanguage);
     }
     #endregion
 

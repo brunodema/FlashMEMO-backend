@@ -6,13 +6,13 @@ using System.Linq;
 
 namespace Business.Tools.DictionaryAPI.Oxford
 {
-    public class OxfordAPIDTO : IDictionaryAPIDTO<OxfordAPIResponseModel>
+    public class OxfordAPIDTO : DictionaryAPIDTO<OxfordAPIResponseModel>
     {
         public string SearchText { get; set; }
         public string LanguageCode { get; set; }
         public List<DictionaryAPIResult> Results { get; set; }
 
-        public override IDictionaryAPIDTO<OxfordAPIResponseModel> CreateDTO(OxfordAPIResponseModel oxfordResponse)
+        public override DictionaryAPIDTO<OxfordAPIResponseModel> CreateDTO(OxfordAPIResponseModel oxfordResponse)
         {
             var dto = new OxfordAPIDTO();
 
