@@ -72,13 +72,13 @@ namespace Business.Services.Interfaces
     /// </summary>
     public interface IDictionaryAPIRequestHandler
     {
-        Task<HttpResponseMessage> MakeRequestToAPIAsync(string searchText, string targetLanguage);
         /// <summary>
-        /// Returns the full URL to be used by the service when querying the API.
+        /// Builds the HTTPClient object and makes the web request to the API. Different APIs use different endpoints and have different ways of setting up authentication for the services (i.e., basic auth, simple headers, etc).
         /// </summary>
         /// <param name="searchText"></param>
         /// <param name="targetLanguage">String containing the ISO code for the language (ex: "en-us", "en-gb").</param>
         /// <returns></returns>
+        Task<HttpResponseMessage> MakeRequestToAPIAsync(string searchText, string targetLanguage);
     }
 
     /// <summary>
