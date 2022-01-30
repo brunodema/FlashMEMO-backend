@@ -61,9 +61,6 @@ namespace Business.Tools.DictionaryAPI.Oxford
         public List<string> Examples { get; set; }
     }
 
-    /// <summary>
-    /// Represents the mapping of properties of the json object into a C# one (data extracted via https://json2csharp.com/).
-    /// </summary>
     public class OxfordAPIResponseModel : IDictionaryAPIResponse
     {
         [JsonProperty("id")]

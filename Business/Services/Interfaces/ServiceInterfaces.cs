@@ -54,6 +54,7 @@ namespace Business.Services.Interfaces
     /// <summary>
     /// Interface representing the FlashMEMO (minimalistic) response of a dictionary API request.
     /// </summary>
+    /// <typeparam name="TDictionaryAPIResponse">A DictionaryAPIResponse class is injected so the mapper function can appropriatelly map the properties of the DTO object.</typeparam>
     public abstract class IDictionaryAPIDTO<TDictionaryAPIResponse> where TDictionaryAPIResponse : IDictionaryAPIResponse
     {
         string SearchText { get; set; }
@@ -66,6 +67,9 @@ namespace Business.Services.Interfaces
         public abstract IDictionaryAPIDTO<TDictionaryAPIResponse> CreateDTO(TDictionaryAPIResponse dictionaryAPIResponse);
     }
 
+    /// <summary>
+    /// Besides holding the configurations of the Dictionary APIs located in the config file, contains the logic that sets up and executes the web request to the APIs.
+    /// </summary>
     public interface IDictionaryAPIRequestHandler
     {
         Task<HttpResponseMessage> MakeRequestToAPIAsync(string searchText, string targetLanguage);
@@ -78,7 +82,7 @@ namespace Business.Services.Interfaces
     }
 
     /// <summary>
-    /// Interface to be used as is (no implementation in it) for types that were mapped via json2csharp.
+    /// Interface to be used as is (no implementation in it) for types that were mapped via json2csharp (https://json2csharp.com/).
     /// </summary>
     public interface IDictionaryAPIResponse
     {
