@@ -6,53 +6,6 @@ using System.Linq;
 
 namespace Business.Tools.DictionaryAPI.Oxford
 {
-    public class OxfordAPIDTO : DictionaryAPIDTO<OxfordAPIResponseModel>
-    {
-        public string SearchText { get; set; }
-        public string LanguageCode { get; set; }
-        public List<DictionaryAPIResult> Results { get; set; }
-
-        public override DictionaryAPIDTO<OxfordAPIResponseModel> CreateDTO(OxfordAPIResponseModel oxfordResponse)
-        {
-            var dto = new OxfordAPIDTO();
-
-            dto.SearchText = oxfordResponse.Id;
-            dto.LanguageCode = oxfordResponse.Results[0].Language; // shouldn't be different accross entries anyway
-            dto.Results = new List<DictionaryAPIResult>();
-
-            foreach (var result in oxfordResponse.Results)
-            {
-                foreach (var lexicalEntry in result.LexicalEntries)
-                {
-                    var dictAPIResult = new DictionaryAPIResult()
-                    {
-                        LexicalCategory = lexicalEntry.LexicalCategory.Text,
-                        PhoneticSpelling = "",
-                        PronunciationFile = "",
-                        Definitions = new List<string>(),
-                        Examples = new List<string>(),
-                    };
-
-                    foreach (var entry in lexicalEntry.Entries)
-                    {
-                        dictAPIResult.PronunciationFile = entry.Pronunciations?.Select(p => p.AudioFile)?.FirstOrDefault() ?? ""; // won't bother with additional pronunciations/spellings for now
-                        dictAPIResult.PhoneticSpelling = entry.Pronunciations?.Select(p => p.PhoneticSpelling)?.FirstOrDefault() ?? ""; // won't bother with additional pronunciations/spellings for now
-
-                        foreach (var sense in entry.Senses)
-                        {
-                            if (sense.Definitions is not null) dictAPIResult.Definitions.AddRange(sense.Definitions.ToList());
-                            if (sense.Examples is not null) dictAPIResult.Examples.AddRange(sense.Examples.Select(e => e.Text).ToList());
-                        }
-                    }
-
-                    dto.Results.Add(dictAPIResult);
-                }
-            }
-
-            return dto;
-        }
-    }
-
     public class OxfordAPIResponseModel : IDictionaryAPIResponse
     {
         [JsonProperty("id")]

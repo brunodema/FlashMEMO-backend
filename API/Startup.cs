@@ -150,8 +150,8 @@ namespace API
 
             services.AddScoped<CustomSearchAPIService>();
 
-            services.AddScoped<IDictionaryAPIService<LexicalaAPIResponseModel>, DictionaryAPIService<LexicalaAPIResponseModel, LexicalaAPIDTO>>();
-            services.AddScoped<IDictionaryAPIService<OxfordAPIResponseModel>, DictionaryAPIService<OxfordAPIResponseModel, OxfordAPIDTO>>();
+            services.AddScoped<IDictionaryAPIService<LexicalaAPIResponseModel>, DictionaryAPIService<LexicalaAPIResponseModel>>();
+            services.AddScoped<IDictionaryAPIService<OxfordAPIResponseModel>, DictionaryAPIService<OxfordAPIResponseModel>>();
 
             services.AddScoped<ApplicationUserRepository>();
             services.AddScoped<RoleRepository>();

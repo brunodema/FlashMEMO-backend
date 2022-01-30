@@ -6,47 +6,6 @@ using System.Linq;
 
 namespace Business.Tools.DictionaryAPI.Lexicala
 {
-    public class LexicalaAPIDTO : DictionaryAPIDTO<LexicalaAPIResponseModel>
-    {
-        public string SearchText { get; set; }
-        public string LanguageCode { get; set; }
-        public List<DictionaryAPIResult> Results { get; set; }
-
-        public override DictionaryAPIDTO<LexicalaAPIResponseModel> CreateDTO(LexicalaAPIResponseModel lexicalaResponse)
-        {
-            var dto = new LexicalaAPIDTO();
-
-            dto.LanguageCode = lexicalaResponse.Results[0].Language;  // shouldn't be different accross entries anyway
-            dto.SearchText = lexicalaResponse.Results[0].Headword.Text;  // shouldn't be different accross entries anyway
-            dto.Results = new List<DictionaryAPIResult>();
-
-            foreach (var result in lexicalaResponse.Results)
-            {
-                var dictAPIResult = new DictionaryAPIResult()
-                {
-                    LexicalCategory = result.Headword.Pos,
-                    PhoneticSpelling = result.Headword.Pronunciation?.Value ?? "",
-                    PronunciationFile = "",
-                    Definitions = new List<string>(),
-                    Examples = new List<string>(),
-                };
-
-                foreach (var sense in result.Senses)
-                {
-                    if (sense.Definition is not null) dictAPIResult.Definitions.Add(sense.Definition);
-                    if (sense.Examples is not null) dictAPIResult.Examples.AddRange(sense.Examples.Select(s => s.Text).ToList());
-                }
-
-                dto.Results.Add(dictAPIResult);
-            }
-
-            return dto;
-        }
-    }
-
-    /// <summary>
-    /// Represents the mapping of properties of the json object into a C# one (data extracted via https://json2csharp.com/).
-    /// </summary>
     public class LexicalaAPIResponseModel : IDictionaryAPIResponse
     {
         [JsonProperty("n_results")]

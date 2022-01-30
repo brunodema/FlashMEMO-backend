@@ -1,5 +1,7 @@
 ﻿using Business.Services.Implementation;
 using Business.Tools;
+using Business.Tools.DictionaryAPI.Lexicala;
+using Business.Tools.DictionaryAPI.Oxford;
 using Business.Tools.Interfaces;
 using Data.Models.Implementation;
 using Data.Tools.Implementation;
@@ -8,6 +10,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Linq.Expressions;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -40,20 +43,94 @@ namespace Business.Services.Interfaces
     }
 
     #region DICTIONARY API
-    /// <summary>
-    /// Interface representing the FlashMEMO (minimalistic) response of a dictionary API request.
-    /// </summary>
-    /// <typeparam name="TDictionaryAPIResponse">A DictionaryAPIResponse class is injected so the mapper function can appropriatelly map the properties of the DTO object.</typeparam>
-    public abstract class DictionaryAPIDTO<TDictionaryAPIResponse> where TDictionaryAPIResponse : IDictionaryAPIResponse
+
+    public class DictionaryAPIDTO
     {
-        string SearchText { get; set; }
+        public string SearchText { get; set; }
         /// <summary>
         /// String containing the ISO code for the language (ex: "en-us", "en-gb").
         /// </summary>
-        string LanguageCode { get; set; }
-        List<DictionaryAPIResult> Results { get; set; }
+        public string LanguageCode { get; set; }
+        public List<DictionaryAPIResult> Results { get; set; }
+    }
 
-        public abstract DictionaryAPIDTO<TDictionaryAPIResponse> CreateDTO(TDictionaryAPIResponse dictionaryAPIResponse);
+    public class DictionaryAPIDTOMapper
+    {
+        public static DictionaryAPIDTO CreateDTO(IDictionaryAPIResponse dictionaryAPIResponse)
+        {
+            var dto = new DictionaryAPIDTO();
+
+            switch (dictionaryAPIResponse)
+            {
+                case LexicalaAPIResponseModel lexicalaResponse:
+
+                    dto.LanguageCode = lexicalaResponse.Results[0].Language;  // shouldn't be different accross entries anyway
+                    dto.SearchText = lexicalaResponse.Results[0].Headword.Text;  // shouldn't be different accross entries anyway
+                    dto.Results = new List<DictionaryAPIResult>();
+
+                    foreach (var result in lexicalaResponse.Results)
+                    {
+                        var dictAPIResult = new DictionaryAPIResult()
+                        {
+                            LexicalCategory = result.Headword.Pos,
+                            PhoneticSpelling = result.Headword.Pronunciation?.Value ?? "",
+                            PronunciationFile = "",
+                            Definitions = new List<string>(),
+                            Examples = new List<string>(),
+                        };
+
+                        foreach (var sense in result.Senses)
+                        {
+                            if (sense.Definition is not null) dictAPIResult.Definitions.Add(sense.Definition);
+                            if (sense.Examples is not null) dictAPIResult.Examples.AddRange(sense.Examples.Select(s => s.Text).ToList());
+                        }
+
+                        dto.Results.Add(dictAPIResult);
+                    }
+
+                    return dto;
+
+                case OxfordAPIResponseModel oxfordResponse:
+
+                    dto.SearchText = oxfordResponse.Id;
+                    dto.LanguageCode = oxfordResponse.Results[0].Language; // shouldn't be different accross entries anyway
+                    dto.Results = new List<DictionaryAPIResult>();
+
+                    foreach (var result in oxfordResponse.Results)
+                    {
+                        foreach (var lexicalEntry in result.LexicalEntries)
+                        {
+                            var dictAPIResult = new DictionaryAPIResult()
+                            {
+                                LexicalCategory = lexicalEntry.LexicalCategory.Text,
+                                PhoneticSpelling = "",
+                                PronunciationFile = "",
+                                Definitions = new List<string>(),
+                                Examples = new List<string>(),
+                            };
+
+                            foreach (var entry in lexicalEntry.Entries)
+                            {
+                                dictAPIResult.PronunciationFile = entry.Pronunciations?.Select(p => p.AudioFile)?.FirstOrDefault() ?? ""; // won't bother with additional pronunciations/spellings for now
+                                dictAPIResult.PhoneticSpelling = entry.Pronunciations?.Select(p => p.PhoneticSpelling)?.FirstOrDefault() ?? ""; // won't bother with additional pronunciations/spellings for now
+
+                                foreach (var sense in entry.Senses)
+                                {
+                                    if (sense.Definitions is not null) dictAPIResult.Definitions.AddRange(sense.Definitions.ToList());
+                                    if (sense.Examples is not null) dictAPIResult.Examples.AddRange(sense.Examples.Select(e => e.Text).ToList());
+                                }
+                            }
+
+                            dto.Results.Add(dictAPIResult);
+                        }
+                    }
+
+                    return dto;
+
+                default:
+                    throw new Exception();
+            }
+        }
     }
 
     /// <summary>
@@ -87,7 +164,7 @@ namespace Business.Services.Interfaces
         /// <param name="searchText"></param>
         /// <param name="targetLanguage">Two letter ISO code for the target language (ex: "en-us", "en-gb").</param>
         /// <returns></returns>
-        Task<DictionaryAPIDTO<TDictionaryAPIResponse>> SearchResults(string searchText, string targetLanguage);
+        Task<DictionaryAPIDTO> SearchResults(string searchText, string targetLanguage);
     }
     #endregion
 

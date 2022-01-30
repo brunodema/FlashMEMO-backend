@@ -259,10 +259,8 @@ namespace Business.Services.Implementation
     /// Standard service used to contact the Dictionary APIs used by FlashMEMO.
     /// </summary>
     /// <typeparam name="TDictionaryAPIResponse">A DictionaryAPIResponse class is injected as a template argument during the deserialization process.</typeparam>
-    /// <typeparam name="TDictionaryAPIDTO">Especialized DTO class that handles data transformation between the response object and the minimalistic one (response object contains pretty much all properties from the original API).</typeparam>
-    public class DictionaryAPIService<TDictionaryAPIResponse, TDictionaryAPIDTO> : IDictionaryAPIService<TDictionaryAPIResponse>
+    public class DictionaryAPIService<TDictionaryAPIResponse> : IDictionaryAPIService<TDictionaryAPIResponse>
         where TDictionaryAPIResponse : IDictionaryAPIResponse
-        where TDictionaryAPIDTO : DictionaryAPIDTO<TDictionaryAPIResponse>, new()
     {
         private readonly IDictionaryAPIRequestHandler _requestHandler;
 
@@ -281,13 +279,13 @@ namespace Business.Services.Implementation
             throw new NotImplementedException();
         }
 
-        public async Task<DictionaryAPIDTO<TDictionaryAPIResponse>> SearchResults(string searchText, string targetLanguage)
+        public async Task<DictionaryAPIDTO> SearchResults(string searchText, string targetLanguage)
         {
             using (var response = await _requestHandler.MakeRequestToAPIAsync(searchText, targetLanguage))
             {
                 var parsedResponse = JsonConvert.DeserializeObject<TDictionaryAPIResponse>(await response.Content.ReadAsStringAsync());
 
-                return new TDictionaryAPIDTO().CreateDTO(parsedResponse); // I *think* it should be possible to refactor this statement and use a Factory class, or even a static one. I tried to the second approach but encountered some problems making the static method understand the argument and pass to the correct specialized function (same name, one with Lexicala argument, other one with Oxford). Decided to leave as it is for now for the sake of development and FUN.
+                return DictionaryAPIDTOMapper.CreateDTO(parsedResponse);
             }
         }
     }
