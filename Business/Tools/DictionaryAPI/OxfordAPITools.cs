@@ -34,13 +34,13 @@ namespace Business.Tools.DictionaryAPI.Oxford
 
                     foreach (var entry in lexicalEntry.Entries)
                     {
-                        dictAPIResult.PronunciationFile = entry.Pronunciations.Select(p => p.AudioFile).FirstOrDefault(); // won't bother with additional pronunciations/spellings for now
-                        dictAPIResult.PhoneticSpelling = entry.Pronunciations.Select(p => p.PhoneticSpelling).FirstOrDefault(); // won't bother with additional pronunciations/spellings for now
+                        dictAPIResult.PronunciationFile = entry.Pronunciations?.Select(p => p.AudioFile)?.FirstOrDefault() ?? ""; // won't bother with additional pronunciations/spellings for now
+                        dictAPIResult.PhoneticSpelling = entry.Pronunciations?.Select(p => p.PhoneticSpelling)?.FirstOrDefault() ?? ""; // won't bother with additional pronunciations/spellings for now
 
                         foreach (var sense in entry.Senses)
                         {
-                            dictAPIResult.Definitions = sense.Definitions.ToList();
-                            dictAPIResult.Examples = sense.Examples.Select(e => e.Text).ToList();
+                            if (sense.Definitions is not null) dictAPIResult.Definitions.AddRange(sense.Definitions.ToList());
+                            if (sense.Examples is not null) dictAPIResult.Examples.AddRange(sense.Examples.Select(e => e.Text).ToList());
                         }
                     }
 

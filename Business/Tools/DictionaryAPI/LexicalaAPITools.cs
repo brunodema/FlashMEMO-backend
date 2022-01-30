@@ -24,7 +24,7 @@ namespace Business.Tools.DictionaryAPI.Lexicala
                 var dictAPIResult = new LexicalaDictionaryAPIResult()
                 {
                     LexicalCategory = result.Headword.Pos,
-                    PhoneticSpelling = result.Headword.Pronunciation.Value,
+                    PhoneticSpelling = result.Headword.Pronunciation?.Value ?? "",
                     PronunciationFile = "",
                     Definitions = new List<string>(),
                     Examples = new List<string>(),
