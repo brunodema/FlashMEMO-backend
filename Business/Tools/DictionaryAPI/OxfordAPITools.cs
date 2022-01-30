@@ -18,6 +18,7 @@ namespace Business.Tools.DictionaryAPI.Oxford
         public List<Result> Results { get; set; }
 
     }
+
     // created with the help of https://json2csharp.com/
     // Root myDeserializedClass = JsonConvert.DeserializeObject<Root>(myJsonResponse);
     public class Metadata

@@ -53,30 +53,6 @@ namespace Business.Tools.DictionaryAPI.Lexicala
         public string Subcategorization { get; set; }
     }
 
-    //public class AlternativeScripts
-    //{
-    //    [JsonProperty("romaji")]
-    //    public string Romaji { get; set; }
-    //}
-
-    //public class Ja
-    //{
-    //    [JsonProperty("text")]
-    //    public string Text { get; set; }
-
-    //    [JsonProperty("alternative_scripts")]
-    //    public AlternativeScripts AlternativeScripts { get; set; }
-    //}
-
-    //public class Sv
-    //{
-    //    [JsonProperty("text")]
-    //    public string Text { get; set; }
-
-    //    [JsonProperty("gender")]
-    //    public string Gender { get; set; }
-    //}
-
     public class Example
     {
         [JsonProperty("text")]
