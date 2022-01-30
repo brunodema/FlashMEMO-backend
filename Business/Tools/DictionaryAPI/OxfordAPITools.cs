@@ -23,7 +23,14 @@ namespace Business.Tools.DictionaryAPI.Oxford
             {
                 foreach (var lexicalEntry in result.LexicalEntries)
                 {
-                    var dictAPIResult = new OxfordDictionaryAPIResult() { LexicalCategory = lexicalEntry.LexicalCategory.Text };
+                    var dictAPIResult = new OxfordDictionaryAPIResult()
+                    {
+                        LexicalCategory = lexicalEntry.LexicalCategory.Text,
+                        PhoneticSpelling = "",
+                        PronunciationFile = "",
+                        Definitions = new List<string>(),
+                        Examples = new List<string>(),
+                    };
 
                     foreach (var entry in lexicalEntry.Entries)
                     {

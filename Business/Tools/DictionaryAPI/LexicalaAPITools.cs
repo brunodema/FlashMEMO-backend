@@ -1,6 +1,7 @@
 ﻿using Business.Services.Interfaces;
 using Newtonsoft.Json;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Business.Tools.DictionaryAPI.Lexicala
 {
@@ -10,9 +11,35 @@ namespace Business.Tools.DictionaryAPI.Lexicala
         public string LanguageCode { get; set; }
         public List<IDictionaryAPIResult> Results { get; set; }
 
-        public override IDictionaryAPIDTO<LexicalaAPIResponseModel> CreateDTO(LexicalaAPIResponseModel dictionaryAPIResponse)
+        public override IDictionaryAPIDTO<LexicalaAPIResponseModel> CreateDTO(LexicalaAPIResponseModel lexicalaResponse)
         {
-            throw new System.NotImplementedException();
+            var dto = new LexicalaAPIDTO();
+
+            dto.LanguageCode = lexicalaResponse.Results[0].Language;  // shouldn't be different accross entries anyway
+            dto.SearchText = lexicalaResponse.Results[0].Headword.Text;  // shouldn't be different accross entries anyway
+            dto.Results = new List<IDictionaryAPIResult>();
+
+            foreach (var result in lexicalaResponse.Results)
+            {
+                var dictAPIResult = new LexicalaDictionaryAPIResult()
+                {
+                    LexicalCategory = result.Headword.Pos,
+                    PhoneticSpelling = result.Headword.Pronunciation.Value,
+                    PronunciationFile = "",
+                    Definitions = new List<string>(),
+                    Examples = new List<string>(),
+                };
+
+                foreach (var sense in result.Senses)
+                {
+                    if (sense.Definition is not null) dictAPIResult.Definitions.Add(sense.Definition);
+                    if (sense.Examples is not null) dictAPIResult.Examples.AddRange(sense.Examples.Select(s => s.Text).ToList());
+                }
+
+                dto.Results.Add(dictAPIResult);
+            }
+
+            return dto;
         }
     }
 
