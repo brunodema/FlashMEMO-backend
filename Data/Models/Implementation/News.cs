@@ -1,7 +1,5 @@
 ﻿using Data.Models.Interfaces;
-using Data.Repository.Interfaces;
 using System;
-using System.Linq.Expressions;
 
 namespace Data.Models.Implementation
 {

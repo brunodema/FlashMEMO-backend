@@ -1,7 +1,4 @@
-﻿using Data.Repository.Interfaces;
-using System;
-
-namespace Tests.Integration.Interfaces
+﻿namespace Tests.Integration.Interfaces
 {
     public interface IRepositoryControllerTests<TEntity, TKey> :
         IRepositoryControllerCreateTests<TEntity>,

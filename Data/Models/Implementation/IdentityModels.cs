@@ -1,8 +1,6 @@
 ﻿using Data.Repository.Interfaces;
 using Microsoft.AspNetCore.Identity;
-using System;
 using System.Collections.Generic;
-using System.Linq.Expressions;
 
 namespace Data.Models.Implementation
 {
