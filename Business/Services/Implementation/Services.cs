@@ -21,6 +21,8 @@ using static Google.Apis.CustomSearchAPI.v1.CseResource;
 using static Google.Apis.CustomSearchAPI.v1.Data.Result;
 using System.Net.Http.Headers;
 using Newtonsoft.Json;
+using Business.Tools.DictionaryAPI.Oxford;
+using Business.Tools.DictionaryAPI.Lexicala;
 
 namespace Business.Services.Implementation
 {
@@ -242,6 +244,101 @@ namespace Business.Services.Implementation
         }
     }
     #endregion
+
+    /// <summary>
+    /// Minimalistic object holding information related to the API request made to the dicionary providers of FlashMEMO, and the results obtained by said call.
+    /// </summary>
+    public class DictionaryAPIDTO
+    {
+        public string SearchText { get; set; }
+        /// <summary>
+        /// String containing the ISO code for the language (ex: "en-us", "en-gb").
+        /// </summary>
+        public string LanguageCode { get; set; }
+        public List<DictionaryAPIResult> Results { get; set; }
+    }
+
+    /// <summary>
+    /// Static class that provides functions to map dictionary API response objects to structures used by FlashMEMO, reducing the information overhead across external calls.
+    /// </summary>
+    public static class DictionaryAPIDTOMapper
+    {
+        public static DictionaryAPIDTO CreateDTO(IDictionaryAPIResponse dictionaryAPIResponse)
+        {
+            var dto = new DictionaryAPIDTO();
+
+            switch (dictionaryAPIResponse)
+            {
+                case LexicalaAPIResponseModel lexicalaResponse:
+
+                    dto.LanguageCode = lexicalaResponse.Results[0].Language;  // shouldn't be different accross entries anyway
+                    dto.SearchText = lexicalaResponse.Results[0].Headword.Text;  // shouldn't be different accross entries anyway
+                    dto.Results = new List<DictionaryAPIResult>();
+
+                    foreach (var result in lexicalaResponse.Results)
+                    {
+                        var dictAPIResult = new DictionaryAPIResult()
+                        {
+                            LexicalCategory = result.Headword.Pos,
+                            PhoneticSpelling = result.Headword.Pronunciation?.Value ?? "",
+                            PronunciationFile = "",
+                            Definitions = new List<string>(),
+                            Examples = new List<string>(),
+                        };
+
+                        foreach (var sense in result.Senses)
+                        {
+                            if (sense.Definition is not null) dictAPIResult.Definitions.Add(sense.Definition);
+                            if (sense.Examples is not null) dictAPIResult.Examples.AddRange(sense.Examples.Select(s => s.Text).ToList());
+                        }
+
+                        dto.Results.Add(dictAPIResult);
+                    }
+
+                    return dto;
+
+                case OxfordAPIResponseModel oxfordResponse:
+
+                    dto.SearchText = oxfordResponse.Id;
+                    dto.LanguageCode = oxfordResponse.Results[0].Language; // shouldn't be different accross entries anyway
+                    dto.Results = new List<DictionaryAPIResult>();
+
+                    foreach (var result in oxfordResponse.Results)
+                    {
+                        foreach (var lexicalEntry in result.LexicalEntries)
+                        {
+                            var dictAPIResult = new DictionaryAPIResult()
+                            {
+                                LexicalCategory = lexicalEntry.LexicalCategory.Text,
+                                PhoneticSpelling = "",
+                                PronunciationFile = "",
+                                Definitions = new List<string>(),
+                                Examples = new List<string>(),
+                            };
+
+                            foreach (var entry in lexicalEntry.Entries)
+                            {
+                                dictAPIResult.PronunciationFile = entry.Pronunciations?.Select(p => p.AudioFile)?.FirstOrDefault() ?? ""; // won't bother with additional pronunciations/spellings for now
+                                dictAPIResult.PhoneticSpelling = entry.Pronunciations?.Select(p => p.PhoneticSpelling)?.FirstOrDefault() ?? ""; // won't bother with additional pronunciations/spellings for now
+
+                                foreach (var sense in entry.Senses)
+                                {
+                                    if (sense.Definitions is not null) dictAPIResult.Definitions.AddRange(sense.Definitions.ToList());
+                                    if (sense.Examples is not null) dictAPIResult.Examples.AddRange(sense.Examples.Select(e => e.Text).ToList());
+                                }
+                            }
+
+                            dto.Results.Add(dictAPIResult);
+                        }
+                    }
+
+                    return dto;
+
+                default:
+                    throw new Exception();
+            }
+        }
+    }
 
     /// <summary>
     /// Class representing the FlashMEMO (minimalistic) representation of a individual result of a dictionary API request. There is no interface for this implementation since the current implementations (Lexicala and Oxford) share the exact same properties between themselves (DRY principle).
