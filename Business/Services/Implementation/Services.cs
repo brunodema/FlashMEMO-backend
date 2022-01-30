@@ -277,7 +277,7 @@ namespace Business.Services.Implementation
             {
                 var parsedResponse = JsonConvert.DeserializeObject<TDictionaryAPIResponse>(await response.Content.ReadAsStringAsync());
 
-                return new TDictionaryAPIDTO().CreateDTO(parsedResponse);
+                return new TDictionaryAPIDTO().CreateDTO(parsedResponse); // I *think* it should be possible to refactor this statement and use a Factory class, or even a static one. I tried to the second approach but encountered some problems making the static method understand the argument and pass to the correct specialized function (same name, one with Lexicala argument, other one with Oxford). Decided to leave as it is for now for the sake of development and FUN.
             }
         }
     }
