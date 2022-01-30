@@ -115,7 +115,7 @@ namespace API.Controllers
     {
         private readonly IDictionaryAPIService<OxfordAPIResponseModel> _service;
 
-        public OxfordDictionaryAPIController(IOptions<OxfordDictionaryAPIServiceOptions> options) : base(new DictionaryAPIService<OxfordAPIResponseModel, OxfordAPIDTO>(options))
+        public OxfordDictionaryAPIController(IOptions<OxfordDictionaryAPIRequestHandler> options) : base(new DictionaryAPIService<OxfordAPIResponseModel, OxfordAPIDTO>(options))
         {
             _service = new DictionaryAPIService<OxfordAPIResponseModel, OxfordAPIDTO>(options);
         }
@@ -129,7 +129,7 @@ namespace API.Controllers
     {
         private readonly IDictionaryAPIService<LexicalaAPIResponseModel> _service;
 
-        public LexicalaDictionaryAPIController(IOptions<LexicalaDictionaryAPIServiceOptions> options) : base(new DictionaryAPIService<LexicalaAPIResponseModel, LexicalaAPIDTO>(options))
+        public LexicalaDictionaryAPIController(IOptions<LexicalaDictionaryAPIRequestHandler> options) : base(new DictionaryAPIService<LexicalaAPIResponseModel, LexicalaAPIDTO>(options))
         {
             _service = new DictionaryAPIService<LexicalaAPIResponseModel, LexicalaAPIDTO>(options);
         }

@@ -206,7 +206,7 @@ namespace Business.Services.Implementation
 
     #region DICTIONARY API
     #region Lexicala
-    public class LexicalaDictionaryAPIServiceOptions : IDictionaryAPIRequestHandler
+    public class LexicalaDictionaryAPIRequestHandler : IDictionaryAPIRequestHandler
     {
         // with this implementation, it won't be possible to template the constructor of the Dictionary API Controller :/
         public string Username { get; set; }
@@ -224,7 +224,7 @@ namespace Business.Services.Implementation
     }
     #endregion
     #region Oxford
-    public class OxfordDictionaryAPIServiceOptions : IDictionaryAPIRequestHandler
+    public class OxfordDictionaryAPIRequestHandler : IDictionaryAPIRequestHandler
     {
         public string AppID { get; set; }
         public string AppKey { get; set; }
