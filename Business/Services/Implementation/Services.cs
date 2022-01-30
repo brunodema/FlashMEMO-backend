@@ -212,11 +212,6 @@ namespace Business.Services.Implementation
         public string Username { get; set; }
         public string Password { get; set; }
 
-        public string BuildSearchURL(string searchText, string targetLanguage)
-        {
-            return $"https://dictapi.lexicala.com/search?source=global&language={targetLanguage}&text={searchText}";
-        }
-
         public async Task<HttpResponseMessage> MakeRequestToAPIAsync(string searchText, string targetLanguage)
         {
             using (var client = new HttpClient())
@@ -225,15 +220,6 @@ namespace Business.Services.Implementation
 
                 return await client.GetAsync($"https://dictapi.lexicala.com/search-entries?source=global&language={targetLanguage}&text={searchText}");
             }
-        }
-
-        public Dictionary<string, IEnumerable<string>> SetupCredentials()
-        {
-            var dict = new Dictionary<string, IEnumerable<string>>();
-            dict.Add("username", new List<string> { Username });
-            dict.Add("password", new List<string> { Password });
-
-            return dict; // this might not work for basic auth
         }
     }
     #endregion
@@ -252,11 +238,6 @@ namespace Business.Services.Implementation
         public string AppID { get; set; }
         public string AppKey { get; set; }
 
-        public string BuildSearchURL(string searchText, string targetLanguage)
-        {
-            return $"https://od-api.oxforddictionaries.com:443/api/v2/entries/{targetLanguage}/{searchText}";
-        }
-
         public async Task<HttpResponseMessage> MakeRequestToAPIAsync(string searchText, string targetLanguage)
         {
             using (var client = new HttpClient())
@@ -267,26 +248,17 @@ namespace Business.Services.Implementation
                 return await client.GetAsync($"https://od-api.oxforddictionaries.com:443/api/v2/entries/{targetLanguage}/{searchText}");
             }
         }
-
-        public Dictionary<string, IEnumerable<string>> SetupCredentials()
-        {
-            var dict = new Dictionary<string, IEnumerable<string>>();
-            dict.Add("app_id", new List<string>{ AppID });
-            dict.Add("app_key", new List<string> { AppKey });
-
-            return dict;
-        }
     }
 
     public class DictionaryAPIService<TDictionaryAPIResponse, TDictionaryAPIDTO> : IDictionaryAPIService<TDictionaryAPIResponse>
         where TDictionaryAPIResponse : IDictionaryAPIResponse
         where TDictionaryAPIDTO : IDictionaryAPIDTO<TDictionaryAPIResponse>, new()
     {
-        private IDictionaryAPIRequestHandler _serviceOptions;
+        private IDictionaryAPIRequestHandler _requestHandler;
 
-        public DictionaryAPIService(IOptions<IDictionaryAPIRequestHandler> options)
+        public DictionaryAPIService(IOptions<IDictionaryAPIRequestHandler> requestHandlerConfig)
         {
-            _serviceOptions = options.Value;
+            _requestHandler = requestHandlerConfig.Value;
         }
 
         public HttpResponse CheckAvailability()
@@ -301,7 +273,7 @@ namespace Business.Services.Implementation
 
         public async Task<IDictionaryAPIDTO<TDictionaryAPIResponse>> SearchResults(string searchText, string targetLanguage)
         {
-            using (var response = await _serviceOptions.MakeRequestToAPIAsync(searchText, targetLanguage))
+            using (var response = await _requestHandler.MakeRequestToAPIAsync(searchText, targetLanguage))
             {
                 var parsedResponse = JsonConvert.DeserializeObject<TDictionaryAPIResponse>(await response.Content.ReadAsStringAsync());
 

@@ -75,12 +75,6 @@ namespace Business.Services.Interfaces
         /// <param name="searchText"></param>
         /// <param name="targetLanguage">String containing the ISO code for the language (ex: "en-us", "en-gb").</param>
         /// <returns></returns>
-        string BuildSearchURL(string searchText, string targetLanguage);
-        /// <summary>
-        /// Setups key-value pairs to be used as headers in the web request to the API (ex: "app_id: {app_idd_value}").
-        /// </summary>
-        /// <returns>It might return 'null' if the operation is not necessary (i.e., authentication is made via query parameters), otherwise it returns the headers in a dictionary format.</returns>
-        Dictionary<string, IEnumerable<string>> SetupCredentials();
     }
 
     /// <summary>
