@@ -9,7 +9,7 @@ namespace Business.Tools.DictionaryAPI.Oxford
     {
         public string SearchText { get; set; }
         public string LanguageCode { get; set; }
-        public List<IDictionaryAPIResult> Results { get; set; }
+        public List<DictionaryAPIResult> Results { get; set; }
 
         public override IDictionaryAPIDTO<OxfordAPIResponseModel> CreateDTO(OxfordAPIResponseModel oxfordResponse)
         {
@@ -17,13 +17,13 @@ namespace Business.Tools.DictionaryAPI.Oxford
 
             dto.SearchText = oxfordResponse.Id;
             dto.LanguageCode = oxfordResponse.Results[0].Language; // shouldn't be different accross entries anyway
-            dto.Results = new List<IDictionaryAPIResult>();
+            dto.Results = new List<DictionaryAPIResult>();
 
             foreach (var result in oxfordResponse.Results)
             {
                 foreach (var lexicalEntry in result.LexicalEntries)
                 {
-                    var dictAPIResult = new OxfordDictionaryAPIResult()
+                    var dictAPIResult = new DictionaryAPIResult()
                     {
                         LexicalCategory = lexicalEntry.LexicalCategory.Text,
                         PhoneticSpelling = "",
@@ -50,15 +50,6 @@ namespace Business.Tools.DictionaryAPI.Oxford
 
             return dto;
         }
-    }
-
-    public class OxfordDictionaryAPIResult : IDictionaryAPIResult
-    {
-        public string LexicalCategory { get; set; }
-        public string PronunciationFile { get; set; }
-        public string PhoneticSpelling { get; set; }
-        public List<string> Definitions { get; set; }
-        public List<string> Examples { get; set; }
     }
 
     public class OxfordAPIResponseModel : IDictionaryAPIResponse

@@ -9,7 +9,7 @@ namespace Business.Tools.DictionaryAPI.Lexicala
     {
         public string SearchText { get; set; }
         public string LanguageCode { get; set; }
-        public List<IDictionaryAPIResult> Results { get; set; }
+        public List<DictionaryAPIResult> Results { get; set; }
 
         public override IDictionaryAPIDTO<LexicalaAPIResponseModel> CreateDTO(LexicalaAPIResponseModel lexicalaResponse)
         {
@@ -17,11 +17,11 @@ namespace Business.Tools.DictionaryAPI.Lexicala
 
             dto.LanguageCode = lexicalaResponse.Results[0].Language;  // shouldn't be different accross entries anyway
             dto.SearchText = lexicalaResponse.Results[0].Headword.Text;  // shouldn't be different accross entries anyway
-            dto.Results = new List<IDictionaryAPIResult>();
+            dto.Results = new List<DictionaryAPIResult>();
 
             foreach (var result in lexicalaResponse.Results)
             {
-                var dictAPIResult = new LexicalaDictionaryAPIResult()
+                var dictAPIResult = new DictionaryAPIResult()
                 {
                     LexicalCategory = result.Headword.Pos,
                     PhoneticSpelling = result.Headword.Pronunciation?.Value ?? "",
@@ -41,15 +41,6 @@ namespace Business.Tools.DictionaryAPI.Lexicala
 
             return dto;
         }
-    }
-
-    public class LexicalaDictionaryAPIResult : IDictionaryAPIResult
-    {
-        public string LexicalCategory { get; set; }
-        public string PronunciationFile { get; set; }
-        public string PhoneticSpelling { get; set; }
-        public List<string> Definitions { get; set; }
-        public List<string> Examples { get; set; }
     }
 
     /// <summary>

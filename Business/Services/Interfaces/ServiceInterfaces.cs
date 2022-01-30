@@ -40,15 +40,15 @@ namespace Business.Services.Interfaces
 
     #region DICTIONARY API
     /// <summary>
-    /// Interface representing the FlashMEMO (minimalistic) representation of a individual result of a dictionary API request.
+    /// Class representing the FlashMEMO (minimalistic) representation of a individual result of a dictionary API request. There is no interface for this implementation since the current implementations (Lexicala and Oxford) share the exact same properties between themselves (DRY principle).
     /// </summary>
-    public interface IDictionaryAPIResult
+    public class DictionaryAPIResult
     {
-        string LexicalCategory { get; set; }
-        string PronunciationFile { get; set; }
-        string PhoneticSpelling { get; set; }
-        List<string> Definitions { get; set; }
-        List<string> Examples { get; set; }
+        public string LexicalCategory { get; set; }
+        public string PronunciationFile { get; set; }
+        public string PhoneticSpelling { get; set; }
+        public List<string> Definitions { get; set; }
+        public List<string> Examples { get; set; }
     }
 
     /// <summary>
@@ -62,7 +62,7 @@ namespace Business.Services.Interfaces
         /// String containing the ISO code for the language (ex: "en-us", "en-gb").
         /// </summary>
         string LanguageCode { get; set; }
-        List<IDictionaryAPIResult> Results { get; set; }
+        List<DictionaryAPIResult> Results { get; set; }
 
         public abstract IDictionaryAPIDTO<TDictionaryAPIResponse> CreateDTO(TDictionaryAPIResponse dictionaryAPIResponse);
     }
