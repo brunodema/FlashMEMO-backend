@@ -21,6 +21,7 @@ using System.Text.Json;
 using System.Threading.Tasks;
 using static Google.Apis.CustomSearchAPI.v1.CseResource;
 using static Google.Apis.CustomSearchAPI.v1.Data.Result;
+using System.Net.Http.Headers;
 
 namespace Business.Services.Implementation
 {
@@ -205,7 +206,7 @@ namespace Business.Services.Implementation
 
     #region DICTIONARY API
     #region Lexicala
-    public class LexicalaDictionaryAPIServiceOptions : IDictionaryAPIServiceOptions
+    public class LexicalaDictionaryAPIServiceOptions : IDictionaryAPIRequestHandler
     {
         // with this implementation, it won't be possible to template the constructor of the Dictionary API Controller :/
         public string Username { get; set; }
@@ -214,6 +215,16 @@ namespace Business.Services.Implementation
         public string BuildSearchURL(string searchText, string targetLanguage)
         {
             return $"https://dictapi.lexicala.com/search?source=global&language={targetLanguage}&text={searchText}";
+        }
+
+        public async Task<HttpResponseMessage> MakeRequestToAPIAsync(string searchText, string targetLanguage)
+        {
+            using (var client = new HttpClient())
+            {
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Basic", Convert.ToBase64String(System.Text.ASCIIEncoding.ASCII.GetBytes($"{Username}:{Password}")));
+
+                return await client.GetAsync($"https://dictapi.lexicala.com/search?source=global&language={targetLanguage}&text={searchText}");
+            }
         }
 
         public Dictionary<string, IEnumerable<string>> SetupCredentials()
@@ -236,7 +247,7 @@ namespace Business.Services.Implementation
         public List<string> Examples { get; set; }
     }
 
-    public class OxfordDictionaryAPIServiceOptions : IDictionaryAPIServiceOptions
+    public class OxfordDictionaryAPIServiceOptions : IDictionaryAPIRequestHandler
     {
         public string AppID { get; set; }
         public string AppKey { get; set; }
@@ -244,6 +255,17 @@ namespace Business.Services.Implementation
         public string BuildSearchURL(string searchText, string targetLanguage)
         {
             return $"https://od-api.oxforddictionaries.com:443/api/v2/entries/{targetLanguage}/{searchText}";
+        }
+
+        public async Task<HttpResponseMessage> MakeRequestToAPIAsync(string searchText, string targetLanguage)
+        {
+            using (var client = new HttpClient())
+            {
+                client.DefaultRequestHeaders.Add("app_id", new List<string> { AppID });
+                client.DefaultRequestHeaders.Add("app_key", new List<string> { AppKey });
+
+                return await client.GetAsync($"https://od-api.oxforddictionaries.com:443/api/v2/entries/{targetLanguage}/{searchText}");
+            }
         }
 
         public Dictionary<string, IEnumerable<string>> SetupCredentials()
@@ -260,9 +282,9 @@ namespace Business.Services.Implementation
         where TDictionaryAPIResponse : IDictionaryAPIResponse
         where TDictionaryAPIDTO : IDictionaryAPIDTO<TDictionaryAPIResponse>, new()
     {
-        private IDictionaryAPIServiceOptions _serviceOptions;
+        private IDictionaryAPIRequestHandler _serviceOptions;
 
-        public DictionaryAPIService(IOptions<IDictionaryAPIServiceOptions> options)
+        public DictionaryAPIService(IOptions<IDictionaryAPIRequestHandler> options)
         {
             _serviceOptions = options.Value;
         }
@@ -279,15 +301,8 @@ namespace Business.Services.Implementation
 
         public async Task<IDictionaryAPIDTO<TDictionaryAPIResponse>> SearchResults(string searchText, string targetLanguage)
         {
-            using (var client = new HttpClient())
+            using (var response = await _serviceOptions.MakeRequestToAPIAsync(searchText, targetLanguage))
             {
-                foreach (var item in _serviceOptions.SetupCredentials())
-                {
-                    client.DefaultRequestHeaders.Add(item.Key, item.Value);
-                }
-                
-                var response = await client.GetAsync(_serviceOptions.BuildSearchURL(searchText, targetLanguage));
-
                 var parsedResponse = JsonSerializer.Deserialize<TDictionaryAPIResponse>(await response.Content.ReadAsStringAsync(), new JsonSerializerOptions() { PropertyNameCaseInsensitive = true} );
 
                 return new TDictionaryAPIDTO().CreateDTO(parsedResponse);

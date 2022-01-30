@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
+using System.Net.Http;
 using System.Threading.Tasks;
 
 namespace Business.Services.Interfaces
@@ -65,8 +66,9 @@ namespace Business.Services.Interfaces
         public abstract IDictionaryAPIDTO<TDictionaryAPIResponse> CreateDTO(TDictionaryAPIResponse dictionaryAPIResponse);
     }
 
-    public interface IDictionaryAPIServiceOptions
+    public interface IDictionaryAPIRequestHandler
     {
+        Task<HttpResponseMessage> MakeRequestToAPIAsync(string searchText, string targetLanguage);
         /// <summary>
         /// Returns the full URL to be used by the service when querying the API.
         /// </summary>
