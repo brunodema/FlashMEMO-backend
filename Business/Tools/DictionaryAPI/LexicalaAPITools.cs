@@ -5,11 +5,16 @@ using System.Linq;
 
 namespace Business.Tools.DictionaryAPI.Lexicala
 {
-    public class LexicalaAPIDTO : IDictionaryAPIDTO
+    public class LexicalaAPIDTO : IDictionaryAPIDTO<LexicalaAPIResponseModel>
     {
         public string SearchText { get; set; }
         public string LanguageCode { get; set; }
         public List<IDictionaryAPIResult> Results { get; set; }
+
+        public override IDictionaryAPIDTO<LexicalaAPIResponseModel> CreateDTO(LexicalaAPIResponseModel dictionaryAPIResponse)
+        {
+            throw new System.NotImplementedException();
+        }
     }
 
     public class LexicalaDictionaryAPIResult : IDictionaryAPIResult
@@ -24,7 +29,7 @@ namespace Business.Tools.DictionaryAPI.Lexicala
     /// <summary>
     /// Represents the mapping of properties of the json object into a C# one (data extracted via https://json2csharp.com/).
     /// </summary>
-    public class LexicalaAPIResponseModel
+    public class LexicalaAPIResponseModel : IDictionaryAPIResponse
     {
         public Root Root { get; set; }
     }

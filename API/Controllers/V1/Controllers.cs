@@ -4,6 +4,9 @@ using API.ViewModels;
 using Business.Services.Implementation;
 using Business.Services.Interfaces;
 using Business.Tools;
+using Business.Tools.DictionaryAPI;
+using Business.Tools.DictionaryAPI.Lexicala;
+using Business.Tools.DictionaryAPI.Oxford;
 using Data.Models.Implementation;
 using Data.Tools;
 using Microsoft.AspNetCore.Authorization;
@@ -78,11 +81,12 @@ namespace API.Controllers
         }
     }
 
-    public class GenericDictionaryAPIController : ControllerBase
+    public class GenericDictionaryAPIController<TDictionaryAPIResponse> : ControllerBase
+        where TDictionaryAPIResponse : IDictionaryAPIResponse
     {
-        private readonly IDictionaryAPIService _service;
+        private readonly IDictionaryAPIService<TDictionaryAPIResponse> _service;
 
-        public GenericDictionaryAPIController(IDictionaryAPIService service)
+        public GenericDictionaryAPIController(IDictionaryAPIService<TDictionaryAPIResponse> service)
         {
             _service = service;
         }
@@ -106,28 +110,28 @@ namespace API.Controllers
     [ApiController]
     [ApiVersion("1.0")]
     [Route("api/v{version:apiVersion}/dict/oxford")]
-    public class OxfordDictionaryAPIController : GenericDictionaryAPIController
+    public class OxfordDictionaryAPIController : GenericDictionaryAPIController<OxfordAPIResponseModel>
 
     {
-        private readonly IDictionaryAPIService _service;
+        private readonly IDictionaryAPIService<OxfordAPIResponseModel> _service;
 
-        public OxfordDictionaryAPIController(IOptions<OxfordDictionaryAPIServiceOptions> options) : base(new DictionaryAPIService(options))
+        public OxfordDictionaryAPIController(IOptions<OxfordDictionaryAPIServiceOptions> options) : base(new DictionaryAPIService<OxfordAPIResponseModel, OxfordAPIDTO>(options))
         {
-            _service = new DictionaryAPIService(options);
+            _service = new DictionaryAPIService<OxfordAPIResponseModel, OxfordAPIDTO>(options);
         }
     }
 
     [ApiController]
     [ApiVersion("1.0")]
     [Route("api/v{version:apiVersion}/dict/lexicala")]
-    public class LexicalaDictionaryAPIController : GenericDictionaryAPIController
+    public class LexicalaDictionaryAPIController : GenericDictionaryAPIController<LexicalaAPIResponseModel>
 
     {
-        private readonly IDictionaryAPIService _service;
+        private readonly IDictionaryAPIService<LexicalaAPIResponseModel> _service;
 
-        public LexicalaDictionaryAPIController(IOptions<LexicalaDictionaryAPIServiceOptions> options) : base(new DictionaryAPIService(options))
+        public LexicalaDictionaryAPIController(IOptions<LexicalaDictionaryAPIServiceOptions> options) : base(new DictionaryAPIService<LexicalaAPIResponseModel, LexicalaAPIDTO>(options))
         {
-            _service = new DictionaryAPIService(options);
+            _service = new DictionaryAPIService<LexicalaAPIResponseModel, LexicalaAPIDTO>(options);
         }
     }
 

@@ -3,19 +3,21 @@ using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Business.Tools.DictionaryAPI
+namespace Business.Tools.DictionaryAPI.Oxford
 {
-    public class OxfordAPIDTO : IDictionaryAPIDTO
+    public class OxfordAPIDTO : IDictionaryAPIDTO<OxfordAPIResponseModel>
     {
         public string SearchText { get; set; }
         public string LanguageCode { get; set; }
         public List<IDictionaryAPIResult> Results { get; set; }
 
-        public OxfordAPIDTO(OxfordAPIResponseModel oxfordResponse)
+        public override IDictionaryAPIDTO<OxfordAPIResponseModel> CreateDTO(OxfordAPIResponseModel oxfordResponse)
         {
-            SearchText = oxfordResponse.Id;
-            LanguageCode = oxfordResponse.Results[0].Language; // shouldn't be different accross entries anyway
-            Results = new List<IDictionaryAPIResult>();
+            var dto = new OxfordAPIDTO();
+
+            dto.SearchText = oxfordResponse.Id;
+            dto.LanguageCode = oxfordResponse.Results[0].Language; // shouldn't be different accross entries anyway
+            dto.Results = new List<IDictionaryAPIResult>();
 
             foreach (var result in oxfordResponse.Results)
             {
@@ -35,9 +37,11 @@ namespace Business.Tools.DictionaryAPI
                         }
                     }
 
-                    Results.Add(dictAPIResult);
+                    dto.Results.Add(dictAPIResult);
                 }
             }
+
+            return dto;
         }
     }
 
@@ -53,7 +57,7 @@ namespace Business.Tools.DictionaryAPI
     /// <summary>
     /// Represents the mapping of properties of the json object into a C# one (data extracted via https://json2csharp.com/).
     /// </summary>
-    public class OxfordAPIResponseModel
+    public class OxfordAPIResponseModel : IDictionaryAPIResponse
     {
         [JsonProperty("id")]
         public string Id { get; set; }

@@ -53,7 +53,7 @@ namespace Business.Services.Interfaces
     /// <summary>
     /// Interface representing the FlashMEMO (minimalistic) response of a dictionary API request.
     /// </summary>
-    public interface IDictionaryAPIDTO
+    public abstract class IDictionaryAPIDTO<TDictionaryAPIResponse> where TDictionaryAPIResponse : IDictionaryAPIResponse
     {
         string SearchText { get; set; }
         /// <summary>
@@ -61,6 +61,8 @@ namespace Business.Services.Interfaces
         /// </summary>
         string LanguageCode { get; set; }
         List<IDictionaryAPIResult> Results { get; set; }
+
+        public abstract IDictionaryAPIDTO<TDictionaryAPIResponse> CreateDTO(TDictionaryAPIResponse dictionaryAPIResponse);
     }
 
     public interface IDictionaryAPIServiceOptions
@@ -79,7 +81,16 @@ namespace Business.Services.Interfaces
         Dictionary<string, IEnumerable<string>> SetupCredentials();
     }
 
-    public interface IDictionaryAPIService : IAPIService
+    /// <summary>
+    /// Interface to be used as is (no implementation in it) for types that were mapped via json2csharp.
+    /// </summary>
+    public interface IDictionaryAPIResponse
+    {
+
+    }
+
+    public interface IDictionaryAPIService<TDictionaryAPIResponse> : IAPIService
+        where TDictionaryAPIResponse : IDictionaryAPIResponse
     {
         /// <summary>
         /// Queries the API to retrieve definitions for the filter text in the target language.
@@ -87,7 +98,7 @@ namespace Business.Services.Interfaces
         /// <param name="searchText"></param>
         /// <param name="targetLanguage">Two letter ISO code for the target language (ex: "en-us", "en-gb").</param>
         /// <returns></returns>
-        Task<IDictionaryAPIDTO> SearchResults(string searchText, string targetLanguage);
+        Task<IDictionaryAPIDTO<TDictionaryAPIResponse>> SearchResults(string searchText, string targetLanguage);
     }
     #endregion
 

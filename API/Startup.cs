@@ -22,6 +22,8 @@ using Business.Services.Implementation;
 using Business.Services.Abstract;
 using Data.Models.Implementation;
 using API.ViewModels;
+using Business.Tools.DictionaryAPI.Lexicala;
+using Business.Tools.DictionaryAPI.Oxford;
 
 namespace API
 {
@@ -148,7 +150,8 @@ namespace API
 
             services.AddScoped<CustomSearchAPIService>();
 
-            services.AddScoped<IDictionaryAPIService, DictionaryAPIService>();
+            services.AddScoped<IDictionaryAPIService<LexicalaAPIResponseModel>, DictionaryAPIService<LexicalaAPIResponseModel, LexicalaAPIDTO>>();
+            services.AddScoped<IDictionaryAPIService<OxfordAPIResponseModel>, DictionaryAPIService<OxfordAPIResponseModel, OxfordAPIDTO>>();
 
             services.AddScoped<ApplicationUserRepository>();
             services.AddScoped<RoleRepository>();

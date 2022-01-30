@@ -256,7 +256,9 @@ namespace Business.Services.Implementation
         }
     }
 
-    public class DictionaryAPIService : IDictionaryAPIService
+    public class DictionaryAPIService<TDictionaryAPIResponse, TDictionaryAPIDTO> : IDictionaryAPIService<TDictionaryAPIResponse>
+        where TDictionaryAPIResponse : IDictionaryAPIResponse
+        where TDictionaryAPIDTO : IDictionaryAPIDTO<TDictionaryAPIResponse>, new()
     {
         private IDictionaryAPIServiceOptions _serviceOptions;
 
@@ -275,7 +277,7 @@ namespace Business.Services.Implementation
             throw new NotImplementedException();
         }
 
-        public async Task<IDictionaryAPIDTO> SearchResults(string searchText, string targetLanguage)
+        public async Task<IDictionaryAPIDTO<TDictionaryAPIResponse>> SearchResults(string searchText, string targetLanguage)
         {
             using (var client = new HttpClient())
             {
@@ -286,9 +288,9 @@ namespace Business.Services.Implementation
                 
                 var response = await client.GetAsync(_serviceOptions.BuildSearchURL(searchText, targetLanguage));
 
-                var parsedResponse = JsonSerializer.Deserialize<OxfordAPIResponseModel>(await response.Content.ReadAsStringAsync(), new JsonSerializerOptions() { PropertyNameCaseInsensitive = true} );
+                var parsedResponse = JsonSerializer.Deserialize<TDictionaryAPIResponse>(await response.Content.ReadAsStringAsync(), new JsonSerializerOptions() { PropertyNameCaseInsensitive = true} );
 
-                return new OxfordAPIDTO(parsedResponse);
+                return new TDictionaryAPIDTO().CreateDTO(parsedResponse);
             }
         }
     }
