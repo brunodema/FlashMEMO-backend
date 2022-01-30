@@ -223,7 +223,7 @@ namespace Business.Services.Implementation
             {
                 client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Basic", Convert.ToBase64String(System.Text.ASCIIEncoding.ASCII.GetBytes($"{Username}:{Password}")));
 
-                return await client.GetAsync($"https://dictapi.lexicala.com/search?source=global&language={targetLanguage}&text={searchText}");
+                return await client.GetAsync($"https://dictapi.lexicala.com/search-entries?source=global&language={targetLanguage}&text={searchText}");
             }
         }
 

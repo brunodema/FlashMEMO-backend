@@ -31,7 +31,23 @@ namespace Business.Tools.DictionaryAPI.Lexicala
     /// </summary>
     public class LexicalaAPIResponseModel : IDictionaryAPIResponse
     {
-        public Root Root { get; set; }
+        [JsonProperty("n_results")]
+        public int NResults { get; set; }
+
+        [JsonProperty("page_number")]
+        public int PageNumber { get; set; }
+
+        [JsonProperty("results_per_page")]
+        public int ResultsPerPage { get; set; }
+
+        [JsonProperty("n_pages")]
+        public int NPages { get; set; }
+
+        [JsonProperty("available_n_pages")]
+        public int AvailableNPages { get; set; }
+
+        [JsonProperty("results")]
+        public List<Result> Results { get; set; }
     }
 
     // created with the help of https://json2csharp.com/
