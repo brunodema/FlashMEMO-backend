@@ -1,7 +1,6 @@
 ﻿using Business.Services.Interfaces;
 using Newtonsoft.Json;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace Business.Tools.DictionaryAPI.Lexicala
 {

@@ -17,11 +17,11 @@ using System.Linq;
 using System.Net.Http;
 using System.Security.Claims;
 using System.Text;
-using System.Text.Json;
 using System.Threading.Tasks;
 using static Google.Apis.CustomSearchAPI.v1.CseResource;
 using static Google.Apis.CustomSearchAPI.v1.Data.Result;
 using System.Net.Http.Headers;
+using Newtonsoft.Json;
 
 namespace Business.Services.Implementation
 {
@@ -303,7 +303,7 @@ namespace Business.Services.Implementation
         {
             using (var response = await _serviceOptions.MakeRequestToAPIAsync(searchText, targetLanguage))
             {
-                var parsedResponse = JsonSerializer.Deserialize<TDictionaryAPIResponse>(await response.Content.ReadAsStringAsync(), new JsonSerializerOptions() { PropertyNameCaseInsensitive = true} );
+                var parsedResponse = JsonConvert.DeserializeObject<TDictionaryAPIResponse>(await response.Content.ReadAsStringAsync());
 
                 return new TDictionaryAPIDTO().CreateDTO(parsedResponse);
             }
