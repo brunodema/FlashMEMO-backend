@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.TestHost;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using System;
 using System.Net.Http;
@@ -18,7 +19,7 @@ namespace Tests.Integration.Fixtures
                 .ConfigureWebHost(webHost =>
                 {
                     webHost.UseTestServer();
-                    webHost.UseStartup<TestStartup>();
+                    webHost.UseStartup<TestStartup>().UseConfiguration(new ConfigurationBuilder().AddJsonFile(@"C:\Users\Bruno\OneDrive\Área de Trabalho\FlashMEMO-backend\API\apisettings.json", optional: false).Build());
                 });
             ConfigureInternals();
         }

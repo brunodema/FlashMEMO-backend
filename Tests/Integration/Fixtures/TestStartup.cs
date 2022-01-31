@@ -96,7 +96,9 @@ namespace Tests.Integration.Fixtures
                 };
             })
             .AddApplicationPart(typeof(NewsController).Assembly)
-            .AddApplicationPart(typeof(AuthController).Assembly);
+            .AddApplicationPart(typeof(AuthController).Assembly)
+            .AddApplicationPart(typeof(OxfordDictionaryAPIController).Assembly)
+            .AddApplicationPart(typeof(LexicalaDictionaryAPIController).Assembly);
 
             // identity config
             services.AddIdentity<ApplicationUser, ApplicationRole>(opt =>
@@ -131,6 +133,7 @@ namespace Tests.Integration.Fixtures
                 });
             // database configuration
             services.AddDbContext<FlashMEMOContext>(options => options.UseInMemoryDatabase("TestDB"));
+
             // options configuration
             services.Configure<JWTServiceOptions>(config =>
             {
@@ -139,6 +142,10 @@ namespace Tests.Integration.Fixtures
                 config.TimeToExpiration = InteralConfigs.TimeToExpiration;
                 config.Secret = InteralConfigs.Secret;
             });
+            services.Configure<CustomSearchAPIServiceOptions>(Configuration.GetSection("GoogleCustomSearchAPI"));
+            services.Configure<OxfordDictionaryAPIRequestHandler>(Configuration.GetSection("OxfordDictionaryAPI"));
+            services.Configure<LexicalaDictionaryAPIRequestHandler>(Configuration.GetSection("LexicalaDictionaryAPI"));
+
             // custom services
             services.AddScoped<IJWTService, JWTService>();
             services.AddScoped<IAuthService, AuthService>();

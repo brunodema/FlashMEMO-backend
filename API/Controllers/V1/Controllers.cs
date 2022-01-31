@@ -97,7 +97,7 @@ namespace API.Controllers
         {
             try
             {
-                return Ok(await _service.SearchResults(searchText, languageCode));
+                return Ok(new DictionaryAPIResponse() { Status = "Success", Message = "API results successfully retrieved.", Data = await _service.SearchResults(searchText, languageCode) });
             }
             catch (Exception)
             {

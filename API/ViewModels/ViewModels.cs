@@ -1,4 +1,5 @@
 ﻿using API.Tools;
+using Business.Services.Implementation;
 using Data.Models.Implementation;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -21,7 +22,7 @@ namespace API.ViewModels
     /// </summary>
     public class DictionaryAPIResponse : BaseResponseModel
     {
-        // to be determined/implemented
+        public DictionaryAPIDTO Data { get; set; }
     }
 
     public class BaseResponseModel
