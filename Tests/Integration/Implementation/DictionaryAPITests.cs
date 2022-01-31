@@ -35,7 +35,7 @@ namespace Tests.Integration.Implementation
         /// <summary>
         /// Ensure that a given combination of search text + language code for a specific provider yields a valid response from the API. This test case only considers cases where an entry is FOUND within the API's database (ex: 'air' for 'en-us', and not 'fjh4892h8' for 'en-us').
         /// </summary>
-        [Theory, MemberData(nameof(MakesSuccessfulRequestData))]
+        [Theory, MemberData(nameof(MakesSuccessfulRequestData), Skip = "Test consumes external API. Ignore to avoid depleting daily comsumption limits")]
         public async void MakesSuccessfulRequest(string provider, string searchText, string languageCode)
         {
             // Arrange

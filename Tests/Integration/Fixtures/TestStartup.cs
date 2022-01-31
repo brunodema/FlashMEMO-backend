@@ -142,6 +142,7 @@ namespace Tests.Integration.Fixtures
                 config.TimeToExpiration = InteralConfigs.TimeToExpiration;
                 config.Secret = InteralConfigs.Secret;
             });
+
             services.Configure<CustomSearchAPIServiceOptions>(Configuration.GetSection("GoogleCustomSearchAPI"));
             services.Configure<OxfordDictionaryAPIRequestHandler>(Configuration.GetSection("OxfordDictionaryAPI"));
             services.Configure<LexicalaDictionaryAPIRequestHandler>(Configuration.GetSection("LexicalaDictionaryAPI"));

@@ -19,7 +19,8 @@ namespace Tests.Integration.Fixtures
                 .ConfigureWebHost(webHost =>
                 {
                     webHost.UseTestServer();
-                    webHost.UseStartup<TestStartup>().UseConfiguration(new ConfigurationBuilder().AddJsonFile(@"C:\Users\Bruno\OneDrive\Área de Trabalho\FlashMEMO-backend\API\apisettings.json", optional: false).Build());
+                    Console.WriteLine(System.IO.Directory.GetCurrentDirectory());
+                    webHost.UseStartup<TestStartup>().UseConfiguration(new ConfigurationBuilder().AddJsonFile("apisettings.json", optional: true).Build());
                 });
             ConfigureInternals();
         }
