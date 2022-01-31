@@ -6,6 +6,7 @@ using Business.Services.Interfaces;
 using Business.Tools;
 using Business.Tools.DictionaryAPI.Lexicala;
 using Business.Tools.DictionaryAPI.Oxford;
+using Business.Tools.Exceptions;
 using Data.Models.Implementation;
 using Data.Tools;
 using Microsoft.AspNetCore.Authorization;

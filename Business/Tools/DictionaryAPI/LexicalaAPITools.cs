@@ -25,6 +25,11 @@ namespace Business.Tools.DictionaryAPI.Lexicala
 
         [JsonProperty("results")]
         public List<Result> Results { get; set; }
+
+        public bool HasAnyResults()
+        {
+            return Results.Count > 0;
+        }
     }
 
     // created with the help of https://json2csharp.com/

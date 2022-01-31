@@ -23,6 +23,7 @@ using System.Net.Http.Headers;
 using Newtonsoft.Json;
 using Business.Tools.DictionaryAPI.Oxford;
 using Business.Tools.DictionaryAPI.Lexicala;
+using Business.Tools.Exceptions;
 
 namespace Business.Services.Implementation
 {
@@ -271,6 +272,8 @@ namespace Business.Services.Implementation
             {
                 case LexicalaAPIResponseModel lexicalaResponse:
 
+                    if (lexicalaResponse.Results.Count == 0) return null; // API's way to  
+
                     dto.LanguageCode = lexicalaResponse.Results[0].Language;  // shouldn't be different accross entries anyway
                     dto.SearchText = lexicalaResponse.Results[0].Headword.Text;  // shouldn't be different accross entries anyway
                     dto.Results = new List<DictionaryAPIResult>();
@@ -382,7 +385,14 @@ namespace Business.Services.Implementation
             {
                 var parsedResponse = JsonConvert.DeserializeObject<TDictionaryAPIResponse>(await response.Content.ReadAsStringAsync());
 
-                return DictionaryAPIDTOMapper.CreateDTO(parsedResponse);
+                if (parsedResponse.HasAnyResults()) return DictionaryAPIDTOMapper.CreateDTO(parsedResponse);
+                else
+                    return new DictionaryAPIDTO()
+                    {
+                        SearchText = searchText,
+                        LanguageCode = targetLanguage,
+                        Results = new List<DictionaryAPIResult>()
+                    };
             }
         }
     }

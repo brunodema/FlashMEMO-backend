@@ -17,6 +17,10 @@ namespace Business.Tools.DictionaryAPI.Oxford
         [JsonProperty("results")]
         public List<Result> Results { get; set; }
 
+        public bool HasAnyResults()
+        {
+            return Results?.Count > 0;
+        }
     }
 
     // created with the help of https://json2csharp.com/

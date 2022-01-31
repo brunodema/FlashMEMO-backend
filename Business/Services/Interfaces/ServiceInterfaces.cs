@@ -63,7 +63,7 @@ namespace Business.Services.Interfaces
     /// </summary>
     public interface IDictionaryAPIResponse
     {
-
+        bool HasAnyResults();
     }
 
     public interface IDictionaryAPIService<TDictionaryAPIResponse> : IAPIService
