@@ -4,6 +4,7 @@ using System.Net.Http.Json;
 using Tests.Integration.Fixtures;
 using Xunit;
 using Xunit.Abstractions;
+using FluentAssertions;
 
 namespace Tests.Integration.Implementation
 {
@@ -18,7 +19,6 @@ namespace Tests.Integration.Implementation
         {
             _integrationTestFixture = integrationTestFixture;
             _output = output;
-
         }
 
         public static IEnumerable<object[]> MakesSuccessfulRequestData =>
@@ -26,6 +26,10 @@ namespace Tests.Integration.Implementation
             {
                 new object[] { "oxford", "air", "en-us" },
                 new object[] { "lexicala", "air", "en" },
+                new object[] { "oxford", "love", "en-us" },
+                new object[] { "lexicala", "love", "en" },
+                new object[] { "oxford", "faire", "fr" },
+                new object[] { "lexicala", "faire", "fr" },
             };
 
         /// <summary>
@@ -36,32 +40,13 @@ namespace Tests.Integration.Implementation
         {
             // Arrange
             var url = $"{BaseEndpoint}/{provider}/search?searchText={searchText}&languageCode={languageCode}";
-            var entity = await _integrationTestFixture.HttpClient.GetAsync(url).Result.Content.ReadFromJsonAsync<DictionaryAPIResponse>();
-            _output.WriteLine(entity.ToString());
-            // Act
 
+            // Act
+            var entity = await _integrationTestFixture.HttpClient.GetAsync(url).Result.Content.ReadFromJsonAsync<DictionaryAPIResponse>();
 
             // Assert
-
-
-
-            // template
-            //var entity = await _integrationTestFixture.HttpClient.GetAsync($"{GetEndpoint}/{id}").Result.Content.ReadFromJsonAsync<TEntity>();
-            //var body = JsonContent.Create(id);
-
-            //// Act
-            //var response = await _integrationTestFixture.HttpClient.PostAsync(DeleteEndpoint, body);
-            //var parsedResponse = await response.Content.ReadFromJsonAsync<BaseResponseModel>();
-
-            //// Assert
-            //Assert.True(response.StatusCode == HttpStatusCode.OK);
-            //Assert.Null(parsedResponse.Errors);
-
-            //// Undo
-            //response = await _integrationTestFixture.HttpClient.PostAsync(CreateEndpoint, JsonContent.Create(entity));
-            //parsedResponse = await response.Content.ReadFromJsonAsync<BaseResponseModel>();
-            //Assert.True(response.StatusCode == HttpStatusCode.OK);
-            //Assert.Null(parsedResponse.Errors);
+            entity.Data.Results.Should().NotBeNull("valid data should have been retrieved from this query.");
+            entity.Status.Should().Be("Success", "this query contains valid parameters, and has been manually tested before");
         }
     }
 }
