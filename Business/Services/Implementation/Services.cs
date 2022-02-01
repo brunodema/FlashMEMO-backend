@@ -97,12 +97,7 @@ namespace Business.Services.Implementation
         public ImageData Image { get; set; }
         public string Link { get; set; }
 
-        public CustomSearchAPIImageResult(string title, ImageData imageData, string link)
-        {
-            Title = title;
-            Image = imageData;
-            Link = link;
-        }
+        public CustomSearchAPIImageResult() { }
     }
 
     public class CustomSearchAPIResponse
@@ -191,7 +186,7 @@ namespace Business.Services.Implementation
                     var totalAmount = Convert.ToUInt64(results?.SearchInformation.TotalResults ?? "0");
                     return new CustomSearchAPIResponse
                     {
-                        Results = results.Items.Select(i => new CustomSearchAPIImageResult(i.Title, i.Image, i.Link)).ToList(),
+                        Results = results.Items.Select(i => new CustomSearchAPIImageResult() { Title = i.Title, Image = i.Image, Link = i.Link }),
                         ResultSize = results?.Items?.Count ?? 0,
                         PageIndex = Convert.ToUInt64(pageNumber),
                         TotalAmount = totalAmount,

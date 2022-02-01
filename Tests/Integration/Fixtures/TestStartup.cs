@@ -98,7 +98,8 @@ namespace Tests.Integration.Fixtures
             .AddApplicationPart(typeof(NewsController).Assembly)
             .AddApplicationPart(typeof(AuthController).Assembly)
             .AddApplicationPart(typeof(OxfordDictionaryAPIController).Assembly)
-            .AddApplicationPart(typeof(LexicalaDictionaryAPIController).Assembly);
+            .AddApplicationPart(typeof(LexicalaDictionaryAPIController).Assembly)
+            .AddApplicationPart(typeof(ImageAPIController).Assembly);
 
             // identity config
             services.AddIdentity<ApplicationUser, ApplicationRole>(opt =>
@@ -154,6 +155,7 @@ namespace Tests.Integration.Fixtures
             services.AddScoped<ApplicationUserRepository>();
             services.AddScoped<RoleRepository>();
             services.AddScoped<NewsRepository>();
+            services.AddScoped<CustomSearchAPIService>();
 
             services.AddScoped<NewsControllerTestData>();
         }
