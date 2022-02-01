@@ -284,8 +284,8 @@ namespace Business.Services.Implementation
         {
             var validationResult = new ValidatonResult();
 
-            var regexValidation = new Regex("^[A-Za-z0-9]*$").Match(searchText).Success;
-            validationResult.IsValid = regexValidation is false;
+            var regexValidation = new Regex("^[A-Za-z0-9]*$").Match(searchText);
+            validationResult.IsValid = regexValidation.Success;
             validationResult.Errors = validationResult.IsValid ? null : new List<string>() { "The search text provided is not valid for this API. Only characters (A-Z or a-z) and numbers (0-9) are allowed." };
 
             return validationResult;
