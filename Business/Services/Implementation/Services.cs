@@ -253,8 +253,8 @@ namespace Business.Services.Implementation
             if (!textValidation.IsValid || !codeValidation.IsValid)
             {
                 var inputValidationErrors = new List<string>();
-                inputValidationErrors.AddRange(textValidation.Errors);
-                inputValidationErrors.AddRange(codeValidation.Errors);
+                if (textValidation.Errors is not null) inputValidationErrors.AddRange(textValidation.Errors);
+                if (codeValidation.Errors is not null) inputValidationErrors.AddRange(codeValidation.Errors);
 
                 throw new InputValidationException() { InputValidationErrors = inputValidationErrors };
             }
@@ -275,6 +275,12 @@ namespace Business.Services.Implementation
     /// </summary>
     public abstract class GenericDictionaryAPIRequestHandler
     {
+        public static class ErrorMessages
+        {
+            public const string InvalidSearchText = "The search text provided is not valid for this API. Only characters (A-Z or a-z) and numbers (0-9) are allowed.";
+            public const string InvalidLanguageCode = "The language code provided ('{0}') is not valid for this API.";
+        }
+
         /// <summary>
         /// List of supported languages by the API (2-digit ISO code).
         /// </summary>
@@ -286,7 +292,7 @@ namespace Business.Services.Implementation
 
             var regexValidation = new Regex("^[A-Za-z0-9]*$").Match(searchText);
             validationResult.IsValid = regexValidation.Success;
-            validationResult.Errors = validationResult.IsValid ? null : new List<string>() { "The search text provided is not valid for this API. Only characters (A-Z or a-z) and numbers (0-9) are allowed." };
+            validationResult.Errors = validationResult.IsValid ? null : new List<string>() { ErrorMessages.InvalidSearchText };
 
             return validationResult;
         }
@@ -296,7 +302,7 @@ namespace Business.Services.Implementation
             var validationResult = new ValidatonResult();
 
             validationResult.IsValid = SupportedLanguages.Contains(languageCode, StringComparer.OrdinalIgnoreCase);
-            validationResult.Errors = validationResult.IsValid ? null : new List<string>() { $"The language code provided ('{languageCode}') is not valid for this API." };
+            validationResult.Errors = validationResult.IsValid ? null : new List<string>() { String.Format(ErrorMessages.InvalidLanguageCode, languageCode) };
 
             return validationResult;
         }

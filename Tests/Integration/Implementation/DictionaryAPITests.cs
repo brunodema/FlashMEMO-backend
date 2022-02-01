@@ -5,6 +5,7 @@ using Tests.Integration.Fixtures;
 using Xunit;
 using Xunit.Abstractions;
 using FluentAssertions;
+using Business.Services.Implementation;
 
 namespace Tests.Integration.Implementation
 {
@@ -45,11 +46,11 @@ namespace Tests.Integration.Implementation
             var url = $"{BaseEndpoint}/{provider}/search?searchText={searchText}&languageCode={languageCode}";
 
             // Act
-            var entity = await _integrationTestFixture.HttpClient.GetAsync(url).Result.Content.ReadFromJsonAsync<DictionaryAPIResponse>();
+            var response = await _integrationTestFixture.HttpClient.GetAsync(url).Result.Content.ReadFromJsonAsync<DictionaryAPIResponse>();
 
             // Assert
-            entity.Data.Results.Should().NotBeNull("valid data should have been retrieved from this query.");
-            entity.Status.Should().Be("Success", "this query contains valid parameters, and has been manually tested before");
+            response.Data.Results.Should().NotBeNull("valid data should have been retrieved from this query.");
+            response.Status.Should().Be("Success", "this query contains valid parameters, and has been manually tested before");
         }
 
         public static IEnumerable<object[]> MakeRequestWithBrokenSearchTextData =>
@@ -72,11 +73,42 @@ namespace Tests.Integration.Implementation
             var url = $"{BaseEndpoint}/{provider}/search?searchText={searchText}&languageCode={languageCode}";
 
             // Act
-            var entity = await _integrationTestFixture.HttpClient.GetAsync(url).Result.Content.ReadFromJsonAsync<DictionaryAPIResponse>();
+            var response = await _integrationTestFixture.HttpClient.GetAsync(url).Result.Content.ReadFromJsonAsync<DictionaryAPIResponse>();
 
             // Assert
-            entity.Data.Results.Should().BeEmpty("the search text is complete bogus, and should not provide any results from the API");
-            entity.Status.Should().Be("Success", "this query contains valid parameters (even though they return zero results), and has been manually tested before");
+            response.Data.Results.Should().BeEmpty("the search text is complete bogus, and should not provide any results from the API");
+            response.Status.Should().Be("Success", "this query contains valid parameters (even though they return zero results), and has been manually tested before");
+        }
+
+        public static IEnumerable<object[]> ReceiveBadRequestForInvalidInputData =>
+            new List<object[]>
+            {
+                                new object[] { "oxford", "invalid.//.request", "en-us", new List<string> { GenericDictionaryAPIRequestHandler.ErrorMessages.InvalidSearchText } },
+                                new object[] { "lexicala", "invalid.//.request", "en", new List<string> { GenericDictionaryAPIRequestHandler.ErrorMessages.InvalidSearchText } },
+                                new object[] { "oxford", "validtext", "invalid", new List<string> { string.Format(GenericDictionaryAPIRequestHandler.ErrorMessages.InvalidLanguageCode, "invalid") } },
+                                new object[] { "lexicala", "validtext", "invalid",  new List<string> { string.Format(GenericDictionaryAPIRequestHandler.ErrorMessages.InvalidLanguageCode, "invalid") } },
+                                new object[] { "oxford", "invalid.//.request", "invalid", new List<string> { GenericDictionaryAPIRequestHandler.ErrorMessages.InvalidSearchText, string.Format(GenericDictionaryAPIRequestHandler.ErrorMessages.InvalidLanguageCode, "invalid") } },
+                                new object[] { "lexicala", "invalid.//.request", "invalid", new List<string> { GenericDictionaryAPIRequestHandler.ErrorMessages.InvalidSearchText, string.Format(GenericDictionaryAPIRequestHandler.ErrorMessages.InvalidLanguageCode, "invalid") } } ,
+            };
+
+        /// <summary>
+        /// Ensure that the proper error notifications are shown when invalid input is given for the API (Bad Request).
+        /// </summary>
+        /// <param name="provider"></param>
+        /// <param name="searchText"></param>
+        /// <param name="languageCode"></param>
+        [Theory, MemberData(nameof(ReceiveBadRequestForInvalidInputData)/*, Skip = "Test consumes external API. Ignore to avoid depleting daily comsumption limits"*/)]
+        public async void ReceiveBadRequestForInvalidInput(string provider, string searchText, string languageCode, List<string> expectedErrorMessages)
+        {
+            // Arrange
+            var url = $"{BaseEndpoint}/{provider}/search?searchText={searchText}&languageCode={languageCode}";
+
+            // Act
+            var response = await _integrationTestFixture.HttpClient.GetAsync(url).Result.Content.ReadFromJsonAsync<BaseResponseModel>();
+
+            // Assert
+            response.Status.Should().Be("Bad Request", "response should be 'Bad Request' because pre-emptive validations for the input should fail");
+            response.Errors.Should().Contain(expectedErrorMessages);
         }
     }
 }
