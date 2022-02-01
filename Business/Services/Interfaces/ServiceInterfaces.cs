@@ -13,6 +13,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Net.Http;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace Business.Services.Interfaces
@@ -44,19 +45,6 @@ namespace Business.Services.Interfaces
 
     #region DICTIONARY API
 
-    /// <summary>
-    /// Besides holding the configurations of the Dictionary APIs located in the config file, contains the logic that sets up and executes the web request to the APIs.
-    /// </summary>
-    public interface IDictionaryAPIRequestHandler
-    {
-        /// <summary>
-        /// Builds the HTTPClient object and makes the web request to the API. Different APIs use different endpoints and have different ways of setting up authentication for the services (i.e., basic auth, simple headers, etc).
-        /// </summary>
-        /// <param name="searchText"></param>
-        /// <param name="targetLanguage">String containing the ISO code for the language (ex: "en-us", "en-gb").</param>
-        /// <returns></returns>
-        Task<HttpResponseMessage> MakeRequestToAPIAsync(string searchText, string targetLanguage);
-    }
 
     /// <summary>
     /// Interface to be used as is (no implementation in it) for types that were mapped via json2csharp (https://json2csharp.com/).

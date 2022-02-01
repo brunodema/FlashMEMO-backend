@@ -24,6 +24,7 @@ using Newtonsoft.Json;
 using Business.Tools.DictionaryAPI.Oxford;
 using Business.Tools.DictionaryAPI.Lexicala;
 using Business.Tools.Exceptions;
+using System.Text.RegularExpressions;
 
 namespace Business.Services.Implementation
 {
@@ -209,14 +210,25 @@ namespace Business.Services.Implementation
     #region DICTIONARY API
 
     #region Lexicala
-    public class LexicalaDictionaryAPIRequestHandler : IDictionaryAPIRequestHandler
+    public class LexicalaDictionaryAPIRequestHandler : GenericDictionaryAPIRequestHandler
     {
-        // with this implementation, it won't be possible to template the constructor of the Dictionary API Controller :/
         public string Username { get; set; }
         public string Password { get; set; }
 
-        public async Task<HttpResponseMessage> MakeRequestToAPIAsync(string searchText, string targetLanguage)
+        public override async Task<HttpResponseMessage> MakeRequestToAPIAsync(string searchText, string targetLanguage)
         {
+            var textValidation = ValidateSearchText(searchText);
+            var codeValidation = ValidateLanguageCode(targetLanguage);
+
+            if (!textValidation.IsValid || !codeValidation.IsValid)
+            {
+                var inputValidationErrors = new List<string>();
+                if(textValidation.Errors is not null) inputValidationErrors.AddRange(textValidation.Errors);
+                if(codeValidation.Errors is not null) inputValidationErrors.AddRange(codeValidation.Errors);
+
+                throw new InputValidationException() { InputValidationErrors = inputValidationErrors };
+            }
+
             using (var client = new HttpClient())
             {
                 client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Basic", Convert.ToBase64String(System.Text.ASCIIEncoding.ASCII.GetBytes($"{Username}:{Password}")));
@@ -228,13 +240,25 @@ namespace Business.Services.Implementation
     #endregion
 
     #region Oxford
-    public class OxfordDictionaryAPIRequestHandler : IDictionaryAPIRequestHandler
+    public class OxfordDictionaryAPIRequestHandler : GenericDictionaryAPIRequestHandler
     {
         public string AppID { get; set; }
         public string AppKey { get; set; }
 
-        public async Task<HttpResponseMessage> MakeRequestToAPIAsync(string searchText, string targetLanguage)
+        public override async Task<HttpResponseMessage> MakeRequestToAPIAsync(string searchText, string targetLanguage)
         {
+            var textValidation = ValidateSearchText(searchText);
+            var codeValidation = ValidateLanguageCode(targetLanguage);
+
+            if (!textValidation.IsValid || !codeValidation.IsValid)
+            {
+                var inputValidationErrors = new List<string>();
+                inputValidationErrors.AddRange(textValidation.Errors);
+                inputValidationErrors.AddRange(codeValidation.Errors);
+
+                throw new InputValidationException() { InputValidationErrors = inputValidationErrors };
+            }
+
             using (var client = new HttpClient())
             {
                 client.DefaultRequestHeaders.Add("app_id", new List<string> { AppID });
@@ -245,6 +269,46 @@ namespace Business.Services.Implementation
         }
     }
     #endregion
+
+    /// <summary>
+    /// Besides holding the configurations of the Dictionary APIs located in the config file, contains the logic that sets up and executes the web request to the APIs.
+    /// </summary>
+    public abstract class GenericDictionaryAPIRequestHandler
+    {
+        /// <summary>
+        /// List of supported languages by the API (2-digit ISO code).
+        /// </summary>
+        public IEnumerable<string> SupportedLanguages { get; set; }
+
+        public virtual ValidatonResult ValidateSearchText(string searchText)
+        {
+            var validationResult = new ValidatonResult();
+
+            var regexValidation = new Regex("^[A-Za-z0-9]*$").Match(searchText).Success;
+            validationResult.IsValid = regexValidation is false;
+            validationResult.Errors = validationResult.IsValid ? null : new List<string>() { "The search text provided is not valid for this API. Only characters (A-Z or a-z) and numbers (0-9) are allowed." };
+
+            return validationResult;
+        }
+
+        public virtual ValidatonResult ValidateLanguageCode(string languageCode)
+        {
+            var validationResult = new ValidatonResult();
+
+            validationResult.IsValid = SupportedLanguages.Contains(languageCode, StringComparer.OrdinalIgnoreCase);
+            validationResult.Errors = validationResult.IsValid ? null : new List<string>() { $"The language code provided ('{languageCode}') is not valid for this API." };
+
+            return validationResult;
+        }
+
+        /// <summary>
+        /// Builds the HTTPClient object and makes the web request to the API. Different APIs use different endpoints and have different ways of setting up authentication for the services (i.e., basic auth, simple headers, etc).
+        /// </summary>
+        /// <param name="searchText"></param>
+        /// <param name="targetLanguage">String containing the ISO code for the language (ex: "en-us", "en-gb").</param>
+        /// <returns></returns>
+        public abstract Task<HttpResponseMessage> MakeRequestToAPIAsync(string searchText, string targetLanguage);
+    }
 
     /// <summary>
     /// Minimalistic object holding information related to the API request made to the dicionary providers of FlashMEMO, and the results obtained by said call.
@@ -362,9 +426,9 @@ namespace Business.Services.Implementation
     public class DictionaryAPIService<TDictionaryAPIResponse> : IDictionaryAPIService<TDictionaryAPIResponse>
         where TDictionaryAPIResponse : IDictionaryAPIResponse
     {
-        private readonly IDictionaryAPIRequestHandler _requestHandler;
+        private readonly GenericDictionaryAPIRequestHandler _requestHandler;
 
-        public DictionaryAPIService(IOptions<IDictionaryAPIRequestHandler> requestHandlerConfig)
+        public DictionaryAPIService(IOptions<GenericDictionaryAPIRequestHandler> requestHandlerConfig)
         {
             _requestHandler = requestHandlerConfig.Value;
         }

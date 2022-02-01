@@ -99,6 +99,11 @@ namespace API.Controllers
             {
                 return Ok(new DictionaryAPIResponse() { Status = "Success", Message = "API results successfully retrieved.", Data = await _service.SearchResults(searchText, languageCode) });
             }
+            catch(InputValidationException e)
+            {
+                return BadRequest(new BaseResponseModel { Status = "Bad Request", Message = e.Message, Errors= e.InputValidationErrors });
+            }
+
             catch (Exception)
             {
                 return StatusCode(500);
