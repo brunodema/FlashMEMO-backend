@@ -193,9 +193,9 @@ namespace Tests.Integration.Implementation
                 {
                     Assert.True(parsedResponse.Data.ResultSize == 0);
                 }
-                else if ((ulong)testData.PageNumber == (ulong)parsedResponse.Data.TotalPages)
+                else if ((ulong)testData.PageNumber == parsedResponse.Data.TotalPages)
                 {
-                    Assert.True((ulong)parsedResponse.Data.ResultSize == parsedResponse.Data.TotalAmount - (parsedResponse.Data.PageIndex - 1) * (ulong)testData.PageSize);
+                    Assert.True(parsedResponse.Data.ResultSize == (int)(parsedResponse.Data.TotalAmount - (ulong)((parsedResponse.Data.PageIndex - 1) * (ulong)testData.PageSize)));
                 }
                 else
                 {

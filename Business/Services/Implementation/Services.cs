@@ -104,9 +104,9 @@ namespace Business.Services.Implementation
     {
         public IEnumerable<CustomSearchAPIImageResult> Results { get; set; }
         public int ResultSize { get; set; }
-        public UInt64 PageIndex { get; set; }
-        public UInt64 TotalAmount { get; set; }
-        public UInt64 TotalPages { get; set; }
+        public ulong PageIndex { get; set; }
+        public ulong TotalAmount { get; set; }
+        public ulong TotalPages { get; set; }
     }
 
     public class CustomSearchAPIServiceOptions
@@ -139,7 +139,7 @@ namespace Business.Services.Implementation
             return !String.IsNullOrEmpty(searchText);
         }
 
-        private List<string> IsInputValid(string searchText, int pageSize, int pageNumber)
+        private List<string> IsInputValid(string searchText, int pageSize, long pageNumber)
         {
             var errorMessages = new List<string>();
 
@@ -159,7 +159,7 @@ namespace Business.Services.Implementation
             return errorMessages;
         }
 
-        public async Task<CustomSearchAPIResponse> Search(string searchText, int pageSize = 10, int pageNumber = 1)
+        public async Task<CustomSearchAPIResponse> Search(string searchText, int pageSize = 10, long pageNumber = 1)
         {
             try
             {

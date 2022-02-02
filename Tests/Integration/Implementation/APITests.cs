@@ -6,6 +6,8 @@ using Xunit;
 using Xunit.Abstractions;
 using FluentAssertions;
 using Business.Services.Implementation;
+using System.Linq;
+using System;
 
 namespace Tests.Integration.Implementation
 {
@@ -97,7 +99,7 @@ namespace Tests.Integration.Implementation
         /// <param name="provider"></param>
         /// <param name="searchText"></param>
         /// <param name="languageCode"></param>
-        [Theory, MemberData(nameof(ReceiveBadRequestForInvalidInputData), Skip = "Test consumes external API. Ignore to avoid depleting daily comsumption limits")]
+        [Theory, MemberData(nameof(ReceiveBadRequestForInvalidInputData))]
         public async void ReceiveBadRequestForInvalidInput(string provider, string searchText, string languageCode, List<string> expectedErrorMessages)
         {
             // Arrange
@@ -149,6 +151,34 @@ namespace Tests.Integration.Implementation
             // Assert
             response.Data.Results.Should().NotBeEmpty("valid data should have been retrieved from this query.");
             response.Status.Should().Be("Success", "this query contains valid parameters, and has been manually tested before");
+        }
+
+        public static IEnumerable<object[]> MakesSuccessfulRequestWithPaginationData =>
+            new List<object[]>
+            {
+                        new object[] { "dogs", null, null },
+                        new object[] { "cats", 9, null },
+                        new object[] { "cows", null, Convert.ToUInt64(2) },
+            };
+
+        /// <summary>
+        /// Ensure that a valid search text yields a valid response from the API.
+        /// </summary>
+        /// <param name="searchText"></param>
+        [Theory, MemberData(nameof(MakesSuccessfulRequestWithPaginationData), Skip = "Test consumes external API. Ignore to avoid depleting daily comsumption limits")]
+        public async void MakesSuccessfulRequestWithPagination(string searchText, int? pageSize, ulong? pageNumber)
+        {
+            // Arrange
+            var url = $"{BaseEndpoint}/search?searchText={searchText}&pageSize={pageSize ?? 10}&pageNumber={pageNumber ?? 1}";
+
+            // Act
+            var response = await _integrationTestFixture.HttpClient.GetAsync(url).Result.Content.ReadFromJsonAsync<PaginatedListResponse<CustomSearchAPIImageResult>>(new System.Text.Json.JsonSerializerOptions() { PropertyNameCaseInsensitive = true });
+
+            // Assert
+            response.Data.Results.Should().NotBeEmpty("valid data should have been retrieved from this query.");
+            response.Status.Should().Be("Success", "this query contains valid parameters, and has been manually tested before");
+            response.Data.ResultSize.Should().Be(pageSize ?? 10, "it should be equal to the value requested to the API, or revert to the default value (10)");
+            response.Data.PageIndex.Should().Be(pageNumber ?? 1, "it should be equal to the value requested to the API, or revert to the default value (10)");
         }
 
         //public static IEnumerable<object[]> MakeRequestWithBrokenSearchTextData =>

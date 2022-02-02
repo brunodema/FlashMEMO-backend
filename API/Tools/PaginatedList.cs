@@ -8,10 +8,10 @@ namespace API.Tools
     public class PaginatedList<T>
     {
         public IList<T> Results { get; set; }
-        public UInt64 PageIndex { get; set; }
-        public UInt64 TotalPages { get; set; }
+        public ulong PageIndex { get; set; }
+        public ulong TotalPages { get; set; }
         public int ResultSize { get; set; }
-        public UInt64 TotalAmount { get; set; }
+        public ulong TotalAmount { get; set; }
 
         public PaginatedList() { }
 
