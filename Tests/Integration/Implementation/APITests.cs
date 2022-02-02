@@ -99,7 +99,7 @@ namespace Tests.Integration.Implementation
         /// <param name="provider"></param>
         /// <param name="searchText"></param>
         /// <param name="languageCode"></param>
-        [Theory, MemberData(nameof(ReceiveBadRequestForInvalidInputData))]
+        [Theory, MemberData(nameof(ReceiveBadRequestForInvalidInputData), Skip = "Test consumes external API. Ignore to avoid depleting daily comsumption limits")]
         public async void ReceiveBadRequestForInvalidInput(string provider, string searchText, string languageCode, List<string> expectedErrorMessages)
         {
             // Arrange
