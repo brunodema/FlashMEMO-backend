@@ -3,7 +3,7 @@ using API.ViewModels;
 using Business.Services.Interfaces;
 using Data.Repository.Interfaces;
 using Data.Tools.Sorting;
-using Data.Tools.Interfaces;
+using Data.Tools.Filtering;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Linq;

@@ -9,7 +9,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using Xunit;
 using Xunit.Abstractions;
-using Data.Tools;
+using Data.Tools.Filtering;
 using FluentAssertions;
 using Data.Tools.Sorting;
 using Data.Models.Implementation;

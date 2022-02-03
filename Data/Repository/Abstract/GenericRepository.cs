@@ -1,7 +1,7 @@
 ﻿using Data.Messages;
 using Data.Repository.Interfaces;
 using Data.Tools.Sorting;
-using Data.Tools.Interfaces;
+using Data.Tools.Filtering;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;

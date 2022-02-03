@@ -1,5 +1,5 @@
 ﻿using Data.Tools.Sorting;
-using Data.Tools.Interfaces;
+using Data.Tools.Filtering;
 using Tests.Integration.Interfaces;
 
 namespace Tests.Integration.Implementation

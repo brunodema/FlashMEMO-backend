@@ -1,5 +1,5 @@
 ﻿using Data.Models.Implementation;
-using Data.Tools;
+using Data.Tools.Filtering;
 using Data.Tools.Sorting;
 using System;
 using System.Collections.Generic;

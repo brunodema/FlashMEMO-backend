@@ -1,5 +1,5 @@
 ﻿using Data.Tools.Sorting;
-using Data.Tools.Interfaces;
+using Data.Tools.Filtering;
 using System;
 using System.Collections.Generic;
 using System.Linq;

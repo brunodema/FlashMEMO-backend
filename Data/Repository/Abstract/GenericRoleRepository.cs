@@ -1,6 +1,6 @@
 ﻿using Data.Messages;
 using Data.Repository.Interfaces;
-using Data.Tools.Interfaces;
+using Data.Tools.Filtering;
 using Data.Tools.Sorting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
