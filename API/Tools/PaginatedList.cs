@@ -4,6 +4,19 @@ using System.Linq;
 
 namespace API.Tools
 {
+    public class LargePaginatedList<T>
+    {
+        public IList<T> Results { get; set; }
+        public string PageIndex { get; set; }
+        public string TotalPages { get; set; }
+        public int ResultSize { get; set; }
+        public string TotalAmount { get; set; }
+        public bool HasPreviousPage { get; set; }
+        public bool HasNextPage { get; set; }
+
+        public LargePaginatedList() { }
+    }
+
     // taken from: https://docs.microsoft.com/en-us/aspnet/core/data/ef-mvc/sort-filter-page?view=aspnetcore-5.0
     public class PaginatedList<T>
     {

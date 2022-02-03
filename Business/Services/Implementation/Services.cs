@@ -103,10 +103,9 @@ namespace Business.Services.Implementation
     public class CustomSearchAPIResponse
     {
         public IEnumerable<CustomSearchAPIImageResult> Results { get; set; }
-        public int ResultSize { get; set; }
-        public ulong PageIndex { get; set; }
-        public ulong TotalAmount { get; set; }
-        public ulong TotalPages { get; set; }
+        public int PageSize { get; set; }
+        public string PageIndex { get; set; }
+        public string TotalAmount { get; set; }
     }
 
     public class CustomSearchAPIServiceOptions
@@ -118,6 +117,12 @@ namespace Business.Services.Implementation
     public class CustomSearchAPIService : IAPIService
     {
         private readonly CustomSearchAPIServiceOptions _options;
+
+        public static class ErrorMessages
+        {
+            public static readonly string InvalidSearchText = "The search text used is not valid. It is either 'null' or empty.";
+            public static readonly string InvalidPageNumber = "The page number has an invalid number (less or equal than 0).";
+        }
 
         public CustomSearchAPIService(IOptions<CustomSearchAPIServiceOptions> options)
         {
@@ -139,27 +144,23 @@ namespace Business.Services.Implementation
             return !String.IsNullOrEmpty(searchText);
         }
 
-        private List<string> IsInputValid(string searchText, int pageSize, long pageNumber)
+        private List<string> IsInputValid(string searchText, long pageNumber)
         {
             var errorMessages = new List<string>();
 
             if (!IsSearchTextValid(searchText))
             {
-                errorMessages.Add("The search text used is not valid. It is either 'null' or empty.");
-            }
-            if (pageSize <= 0 || pageSize > 10) // the GT part is a restriction of the Google API itself
-            {
-                errorMessages.Add("The page size has an invalid number (less or equal than 0, or greater than 10).");
+                errorMessages.Add(ErrorMessages.InvalidSearchText);
             }
             if (pageNumber <= 0)
             {
-                errorMessages.Add("The page size has an invalid number (less or equal than 0).");
+                errorMessages.Add(ErrorMessages.InvalidPageNumber);
             }
 
             return errorMessages;
         }
 
-        public async Task<CustomSearchAPIResponse> Search(string searchText, int pageSize = 10, long pageNumber = 1)
+        public async Task<CustomSearchAPIResponse> Search(string searchText, long pageNumber = 1)
         {
             try
             {
@@ -167,7 +168,7 @@ namespace Business.Services.Implementation
                 {
                     ListRequest listRequest = service.Cse.List();
 
-                    var validationsMessages = IsInputValid(searchText, pageSize, pageNumber);
+                    var validationsMessages = IsInputValid(searchText, pageNumber);
                     if (validationsMessages.Count > 0)
                     {
                         throw new InputValidationException()
@@ -179,18 +180,17 @@ namespace Business.Services.Implementation
                     listRequest.Q = searchText;
                     listRequest.SearchType = ListRequest.SearchTypeEnum.Image;
                     listRequest.Cx = _options.EngineID;
-                    listRequest.Start = (pageSize * pageNumber) - pageSize;
-                    listRequest.Num = pageSize;
+                    listRequest.Start = (10 * pageNumber) - 10;
+                    listRequest.Num = 10;
                     var results = await listRequest.ExecuteAsync();
 
-                    var totalAmount = Convert.ToUInt64(results?.SearchInformation.TotalResults ?? "0");
+                    var totalAmount = results?.SearchInformation.TotalResults ?? "0";
                     return new CustomSearchAPIResponse
                     {
                         Results = results.Items.Select(i => new CustomSearchAPIImageResult() { Title = i.Title, Image = i.Image, Link = i.Link }),
-                        ResultSize = results?.Items?.Count ?? 0,
-                        PageIndex = Convert.ToUInt64(pageNumber),
+                        PageSize = results?.Items?.Count ?? 0,
+                        PageIndex = pageNumber.ToString(),
                         TotalAmount = totalAmount,
-                        TotalPages = Convert.ToUInt64(Math.Ceiling(totalAmount / (double)pageSize))
 
                     };
                 }

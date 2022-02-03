@@ -48,23 +48,22 @@ namespace API.Controllers
 
         [HttpGet]
         [Route("search")]
-        public async Task<IActionResult> Search(string searchText, int pageSize = 10, int pageNumber = 1)
+        public async Task<IActionResult> Search(string searchText, long pageNumber = 1)
         {
             try
             {
-                var results = await _service.Search(searchText, pageSize, pageNumber);
+                var results = await _service.Search(searchText, pageNumber);
 
-                return Ok(new PaginatedListResponse<CustomSearchAPIImageResult>
+                return Ok(new LargePaginatedListResponse<CustomSearchAPIImageResult>
                 {
                     Status = "Success",
                     Message = "API results successfully retrieved.",
-                    Data = new PaginatedList<CustomSearchAPIImageResult>()
+                    Data = new LargePaginatedList<CustomSearchAPIImageResult>()
                     {
                         Results = results.Results.ToList(),
-                        ResultSize = results.ResultSize,
+                        ResultSize = results.PageSize,
                         PageIndex = results.PageIndex,
                         TotalAmount = results.TotalAmount,
-                        TotalPages = results.TotalPages,
                     }
                 });
             }

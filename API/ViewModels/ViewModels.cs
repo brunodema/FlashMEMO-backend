@@ -6,6 +6,12 @@ using System.ComponentModel.DataAnnotations;
 
 namespace API.ViewModels
 {
+    public class LargePaginatedListResponse<TEntity> : BaseResponseModel
+        where TEntity : class
+    {
+        public LargePaginatedList<TEntity> Data { get; set; }
+    }
+
     public class PaginatedListResponse<TEntity> : BaseResponseModel
         where TEntity : class
     {
