@@ -1,9 +1,8 @@
-﻿using Data.Tools;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
 using Data.Context;
-using Data.Tools.Implementation;
+using Data.Tools.Sorting;
 using Data.Repository.Abstract;
 using Data.Models.Implementation;
 

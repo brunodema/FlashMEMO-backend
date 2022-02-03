@@ -9,7 +9,7 @@ using Business.Services.Implementation;
 using System.Linq;
 using System;
 
-namespace Tests.Integration.Implementation
+namespace Tests.Integration.Implementation.API
 {
     #region Dictionary API
     public class DictionaryAPITests : IClassFixture<IntegrationTestFixture>

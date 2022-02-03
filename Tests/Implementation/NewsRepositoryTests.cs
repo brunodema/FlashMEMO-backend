@@ -4,7 +4,7 @@ using System;
 using Xunit;
 using System.Linq;
 using Xunit.Abstractions;
-using Data.Tools.Implementation;
+using Data.Tools.Sorting;
 using FluentAssertions;
 using Data.Models.Implementation;
 using Data.Repository.Implementation;

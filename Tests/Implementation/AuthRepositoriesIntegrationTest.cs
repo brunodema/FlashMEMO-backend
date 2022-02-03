@@ -11,7 +11,7 @@ using Xunit;
 using Xunit.Abstractions;
 using Data.Tools;
 using FluentAssertions;
-using Data.Tools.Implementation;
+using Data.Tools.Sorting;
 using Data.Models.Implementation;
 using Data.Repository.Implementation;
 

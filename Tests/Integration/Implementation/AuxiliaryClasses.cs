@@ -1,4 +1,4 @@
-﻿using Data.Tools.Implementation;
+﻿using Data.Tools.Sorting;
 using Data.Tools.Interfaces;
 using Tests.Integration.Interfaces;
 

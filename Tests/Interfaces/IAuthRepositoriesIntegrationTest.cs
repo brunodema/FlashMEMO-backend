@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq.Expressions;
 using Data.Models.Implementation;
-using Data.Tools.Implementation;
+using Data.Tools.Sorting;
 
 namespace RepositoryTests.Interfaces
 {

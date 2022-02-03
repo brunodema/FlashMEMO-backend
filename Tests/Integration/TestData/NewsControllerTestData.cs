@@ -1,6 +1,6 @@
 ﻿using Data.Models.Implementation;
 using Data.Tools;
-using Data.Tools.Implementation;
+using Data.Tools.Sorting;
 using System;
 using System.Collections.Generic;
 using Tests.Integration.Implementation;

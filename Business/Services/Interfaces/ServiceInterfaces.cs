@@ -4,7 +4,7 @@ using Business.Tools.DictionaryAPI.Lexicala;
 using Business.Tools.DictionaryAPI.Oxford;
 using Business.Tools.Interfaces;
 using Data.Models.Implementation;
-using Data.Tools.Implementation;
+using Data.Tools.Sorting;
 using Data.Tools.Interfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
