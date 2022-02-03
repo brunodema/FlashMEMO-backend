@@ -4,6 +4,11 @@ using System.Linq;
 
 namespace API.Tools
 {
+    /// <summary>
+    /// A paginated list contains information about a paginated query, containing information such as total results, page index, etc. Depending on the API used, the amount of results returned might be extreme (in the order of billions). To follow the same practices as the API owners of such services, the type of the variable associated with this information can be set to something like 'string', which doesn't depend on bit-size.
+    /// </summary>
+    /// <typeparam name="T">Object type returned by the query.</typeparam>
+    /// <typeparam name="QuantityType">Type used to represent information such as page index, or total amount of results. Usual types for this can be 'string' or 'int'.</typeparam>
     public interface IPaginatedList<T, QuantityType>
     {
         public IList<T> Results { get; set; }
