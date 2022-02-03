@@ -4,7 +4,18 @@ using System.Linq;
 
 namespace API.Tools
 {
-    public class LargePaginatedList<T>
+    public interface IPaginatedList<T, QuantityType>
+    {
+        public IList<T> Results { get; set; }
+        public QuantityType PageIndex { get; set; }
+        public QuantityType TotalPages { get; set; }
+        public int ResultSize { get; set; }
+        public QuantityType TotalAmount { get; set; }
+        public bool HasPreviousPage { get; }
+        public bool HasNextPage { get; }
+    }
+
+    public class LargePaginatedList<T> : IPaginatedList<T, string>
     {
         public IList<T> Results { get; set; }
         public string PageIndex { get; set; }
@@ -18,7 +29,7 @@ namespace API.Tools
     }
 
     // taken from: https://docs.microsoft.com/en-us/aspnet/core/data/ef-mvc/sort-filter-page?view=aspnetcore-5.0
-    public class PaginatedList<T>
+    public class PaginatedList<T> : IPaginatedList<T, ulong>
     {
         public IList<T> Results { get; set; }
         public ulong PageIndex { get; set; }
