@@ -23,4 +23,10 @@ namespace Data.Repository.Implementation
         public DeckRepository(FlashMEMOContext context) : base(context) { }
 
     }
+
+    public class FlashcardRepository : GenericRepository<Flashcard, Guid, FlashMEMOContext>
+    {
+        public FlashcardRepository(FlashMEMOContext context) : base(context) { }
+
+    }
 }

@@ -38,6 +38,16 @@ namespace Business.Services.Implementation
         }
     }
 
+    public class FlashcardService : GenericRepositoryService<FlashcardRepository, Guid, Flashcard>
+    {
+        public FlashcardService(FlashcardRepository baseRepository, IOptions<GenericRepositoryServiceOptions> serviceOptions) : base(baseRepository, serviceOptions.Value) { }
+
+        public override ValidatonResult CheckIfEntityIsValid(Flashcard entity)
+        {
+            return new ValidatonResult() { IsValid = true }; // dummy function for now
+        }
+    }
+
     public class NewsService : GenericRepositoryService<NewsRepository, Guid, News>
     {
         public NewsService(NewsRepository baseRepository, IOptions<GenericRepositoryServiceOptions> serviceOptions) : base(baseRepository, serviceOptions.Value) { }
