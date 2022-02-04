@@ -24,6 +24,8 @@ namespace Data.Models.Implementation
 
     public class Deck : IDeck
     {
+        public Deck() { }
+
         public Guid DeckID { get; set; }
         public IEnumerable<IFlashcard> Flashcards { get; set; }
         public ApplicationUser Owner { get; set; }
@@ -41,6 +43,8 @@ namespace Data.Models.Implementation
 
     public class Flashcard : IFlashcard
     {
+        public Flashcard() { }
+
         public Guid FlashcardID { get; set; }
         public ApplicationUser Owner { get; set; }
 
