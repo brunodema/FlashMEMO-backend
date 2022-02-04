@@ -59,8 +59,17 @@ namespace Data.Context
                     .HasForeignKey(rc => rc.RoleId)
                     .IsRequired();
             });
+
+            modelBuilder.Entity<Deck>(deck =>
+            {
+                // A Deck has many Flashcards in it, and each Flashcard can have only one Deck
+                deck.HasMany(d => d.Flashcards)
+                .WithOne();
+            });
         }
         public DbSet<News> News { get; set; }
+        public DbSet<Deck> Decks { get; set; }
+        public DbSet<Flashcard> Flashcards { get; set; }
     }
 }
 
