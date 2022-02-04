@@ -17,4 +17,10 @@ namespace Data.Repository.Implementation
             return base.SearchAndOrderAsync(predicate, new NewsSortOptions(sortType, NewsSortOptions.ColumnOptions.DATE), numRecords);
         }
     }
+
+    public class DeckRepository : GenericRepository<Deck, Guid, FlashMEMOContext>
+    {
+        public DeckRepository(FlashMEMOContext context) : base(context) { }
+
+    }
 }
