@@ -28,6 +28,16 @@ using System.Text.RegularExpressions;
 
 namespace Business.Services.Implementation
 {
+    public class DeckService : GenericRepositoryService<DeckRepository, Guid, Deck>
+    {
+        public DeckService(DeckRepository baseRepository, IOptions<GenericRepositoryServiceOptions> serviceOptions) : base(baseRepository, serviceOptions.Value) { }
+
+        public override ValidatonResult CheckIfEntityIsValid(Deck entity)
+        {
+            return new ValidatonResult() { IsValid = true }; // dummy function for now
+        }
+    }
+
     public class NewsService : GenericRepositoryService<NewsRepository, Guid, News>
     {
         public NewsService(NewsRepository baseRepository, IOptions<GenericRepositoryServiceOptions> serviceOptions) : base(baseRepository, serviceOptions.Value) { }
