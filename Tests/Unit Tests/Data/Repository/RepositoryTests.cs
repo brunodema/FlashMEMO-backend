@@ -22,7 +22,9 @@ namespace Tests.Unit_Tests.Data.Repository
 
         public GenericRepositoryUnitTests(ITestOutputHelper output)
         {
-            // terrible design since context and repository are used throughout the class, but only set on the inherited class. Unfortunately, there is no easy/compact way to do this using fixtures (no time to pass to a member of the child class, resulting in the temporary object being disposed) or other methods (can not initialize repository class here since it uses a constructor with parameters).
+            //terrible design since context and repository are used throughout the class, but only set on the inherited class. Unfortunately, there is no easy/compact way to do this using fixtures(no time to pass to a member of the child class, resulting in the temporary object being disposed) or other methods(can not initialize repository class here since it uses a constructor with parameters).
+
+            // maybe it would work if the repository classes were declared like Repository<News> or Repository<Deck>, so something like _repository = new Repository<TEntity>(_context) could be used?
             _output = output;
             _context = new FlashMEMOContext(new DbContextOptionsBuilder<FlashMEMOContext>().UseInMemoryDatabase(databaseName: "FlashMEMOTest").Options);
         }
