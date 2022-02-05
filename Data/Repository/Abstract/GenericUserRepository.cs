@@ -26,15 +26,15 @@ namespace Data.Repository.Implementation
         }
         public virtual IEnumerable<TEntity> SearchAndOrderAsync(Expression<Func<TEntity, bool>> predicate, GenericSortOptions<TEntity> sortOptions, int numRecords)
         {
-            return sortOptions.GetSortedResults(_userManager.Users.AsNoTracking().Where(predicate)).Take(numRecords);
+            return sortOptions.GetSortedResults(_userManager.Users.Where(predicate)).Take(numRecords);
         }
         public virtual async Task<IEnumerable<TEntity>> SearchAllAsync(Expression<Func<TEntity, bool>> predicate)
         {
-            return await _userManager.Users.AsNoTracking().Where(predicate).ToListAsync();
+            return await _userManager.Users.Where(predicate).ToListAsync();
         }
         public virtual async Task<TEntity> SearchFirstAsync(Expression<Func<TEntity, bool>> predicate)
         {
-            return await _userManager.Users.AsNoTracking().FirstOrDefaultAsync(predicate);
+            return await _userManager.Users.FirstOrDefaultAsync(predicate);
         }
         public virtual IQueryable<TEntity> GetAll()
         {
