@@ -69,4 +69,27 @@ namespace Tests.Unit_Tests.Data.Repository
             base.CreateEntity(entity);
         }
     }
+
+    //// this class is here just to prove if the concept of the generic class works or not for multiple types
+    //public class NewsRepositoryUnitTests : GenericRepositoryUnitTests<NewsRepository, News, Guid>
+    //{
+    //    public NewsRepositoryUnitTests(ITestOutputHelper output) : base(output)
+    //    {
+    //        _context = new FlashMEMOContext(new DbContextOptionsBuilder<FlashMEMOContext>().UseInMemoryDatabase(databaseName: "FlashMEMOTest").Options);
+    //        _repository = new NewsRepository(_context);
+    //    }
+
+    //    public static IEnumerable<object[]> CreateEntityData =>
+    //        new List<object[]>
+    //        {
+    //            new object[] { new News { Title = "title", Subtitle = "subtitle", Content = "content" } },
+    //            new object[] { new News { Title = "title1", Subtitle = "subtitle1", Content = "content1" } },
+    //        };
+
+    //    [Theory, MemberData(nameof(CreateEntityData))]
+    //    public override void CreateEntity(News entity)
+    //    {
+    //        base.CreateEntity(entity);
+    //    }
+    //}
 }
