@@ -37,7 +37,7 @@ namespace Data.Repository.Abstract
         }
         public virtual IQueryable<TEntity> GetAll()
         {
-            return _dbset.AsNoTracking().AsQueryable();
+            return _dbset.AsQueryable();
         }
         public virtual async Task<TEntity> GetByIdAsync(TKey id)
         {
