@@ -16,14 +16,20 @@ namespace Tests.Unit_Tests.Data.Repository
         where RepositoryClass : GenericRepository<TEntity, TKey, FlashMEMOContext>
         where TEntity : class, IDatabaseItem<TKey>
     {
-        protected readonly ITestOutputHelper _output;
-        protected readonly RepositoryClass _repository;
-        protected readonly FlashMEMOContext _context;
+        protected ITestOutputHelper _output;
+        protected RepositoryClass _repository;
+        protected FlashMEMOContext _context;
 
-        public GenericRepositoryUnitTests(ITestOutputHelper output, RepositoryClass repositoryClass)
+        /// <summary>
+        /// Retrieves the database source for the entity associated with the tests. Ex: 'NewsRepository' should retrieve the 'News' DbSet present in the context class, so validations for the reopsitory methods can be cross-checked with functions from the context class.
+        /// </summary>
+        /// <returns></returns>
+        public abstract DbSet<TEntity> GetDbSet();
+
+        public GenericRepositoryUnitTests(ITestOutputHelper output)
         {
+            // terrible design since context and repository are used throughout the class, but only set on the inherited class. Unfortunately, there is no easy/compact way to do this using fixtures (no time to pass to a member of the child class, resulting in the temporary object being disposed) or other methods (can not initialize repository class here since it uses a constructor with parameters).
             _output = output;
-            _repository = repositoryClass;
         }
 
         public async virtual void CreateEntity(TEntity entity)
@@ -31,26 +37,36 @@ namespace Tests.Unit_Tests.Data.Repository
             // Arrange
             // Act
             await _repository.CreateAsync(entity);
-            var entityFromRepository = await _repository.GetByIdAsync(entity.GetId());
+            var entityFromRepository = GetDbSet().Find(entity.GetId());
 
             // Assert
             entity.Should().Be(entityFromRepository);
         }
+
+        //public virtual void ReadEntity() { }
+        //public virtual void UpdateEntity() { }
+        //public virtual void DeleteEntity() { }
 
         public void Dispose()
         {
             _repository?.Dispose();
             _context?.Dispose();
         }
-        //public virtual void ReadEntity() { }
-        //public virtual void UpdateEntity() { }
-        //public virtual void DeleteEntity() { }
     }
 
     public class DeckRepositoryUnitTests : GenericRepositoryUnitTests<DeckRepository, Deck, Guid>
     {
         // Yes, the base constructor is atrocius at the moment, but I couldn't find a better way the repository class
-        public DeckRepositoryUnitTests(ITestOutputHelper output) : base(output, new DeckRepository(new FlashMEMOContext(new DbContextOptionsBuilder<FlashMEMOContext>().UseInMemoryDatabase(databaseName: "FlashMEMOTest").Options))) { }
+        public DeckRepositoryUnitTests(ITestOutputHelper output) : base(output)
+        { 
+            _context = new FlashMEMOContext(new DbContextOptionsBuilder<FlashMEMOContext>().UseInMemoryDatabase(databaseName: "FlashMEMOTest").Options);
+            _repository = new DeckRepository(_context);
+        }
+
+        public override DbSet<Deck> GetDbSet()
+        {
+            return _context.Decks;
+        }
 
         public static IEnumerable<object[]> CreateEntityData =>
             new List<object[]>
