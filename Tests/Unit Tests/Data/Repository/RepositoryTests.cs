@@ -30,6 +30,17 @@ namespace Tests.Unit_Tests.Data.Repository
             _context = new FlashMEMOContext(new DbContextOptionsBuilder<FlashMEMOContext>().UseInMemoryDatabase(databaseName: "FlashMEMOTest").Options);
         }
 
+        /// <summary>
+        /// Used to copy values between two entity objects while at the same time avoiding that the context starts tracking both of them, which leads to exceptions when running the update method. After setting the property values of <paramref name="destination"/> to be equal to the ones from <paramref name="source"/>, it also makes sure that the Id of the object is not changed during the operation, otherwise EF will assign a third Id value when processing the changes at the database.
+        /// </summary>
+        /// <param name="source"></param>
+        /// <param name="destination"></param>
+        protected void SafeEFCopyValuesFromTo(TEntity source, TEntity destination)
+        {
+            source.DbId = destination.DbId; // makes assignment here so the error is not thrown below (i.e., Id gets set to a value different than before)
+            _context.Entry(destination).CurrentValues.SetValues(source);
+        }
+
         public async virtual void CreateEntity(TEntity entity)
         {
             // Arrange
@@ -61,13 +72,13 @@ namespace Tests.Unit_Tests.Data.Repository
 
             // Act
             var entityFromRepository = _context.Set<TEntity>().FirstOrDefault(x => x == previousEntity);
-            entityFromRepository = updatedEntity; // this is causing problems: it starts tracking the fucking updatedentity object
+            SafeEFCopyValuesFromTo(updatedEntity, entityFromRepository);
             await _repository.UpdateAsync(entityFromRepository);
 
             // Assert
             entityFromRepository = _context.Set<TEntity>().Find(entityFromRepository.DbId);
-            entityFromRepository.Should().Be(updatedEntity);
-            entityFromRepository.Should().NotBe(previousEntity);
+            entityFromRepository.Should().BeEquivalentTo(updatedEntity);
+            entityFromRepository.Should().BeEquivalentTo(previousEntity);
         }
         //public virtual void DeleteEntity() { }
 
