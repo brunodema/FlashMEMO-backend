@@ -56,7 +56,6 @@ namespace Tests.Unit_Tests.Data.Repository
 
     public class DeckRepositoryUnitTests : GenericRepositoryUnitTests<DeckRepository, Deck, Guid>
     {
-        // Yes, the base constructor is atrocius at the moment, but I couldn't find a better way the repository class
         public DeckRepositoryUnitTests(ITestOutputHelper output) : base(output)
         { 
             _context = new FlashMEMOContext(new DbContextOptionsBuilder<FlashMEMOContext>().UseInMemoryDatabase(databaseName: "FlashMEMOTest").Options);
