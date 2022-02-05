@@ -80,7 +80,20 @@ namespace Tests.Unit_Tests.Data.Repository
             entityFromRepository.Should().BeEquivalentTo(updatedEntity);
             entityFromRepository.Should().BeEquivalentTo(previousEntity);
         }
-        //public virtual void DeleteEntity() { }
+
+        public async virtual void DeleteEntity(TEntity entity)
+        {
+            // Arrange
+            _context.Set<TEntity>().Add(entity);
+            _context.SaveChanges();
+            _context.Set<TEntity>().Find(entity.DbId).Should().Be(entity);
+
+            // Act
+            await _repository.RemoveByIdAsync(entity.DbId);
+
+            // Assert
+            _context.Set<TEntity>().Find(entity.DbId).Should().BeNull();
+        }
 
         public void Dispose()
         {
@@ -109,6 +122,18 @@ namespace Tests.Unit_Tests.Data.Repository
             base.CreateEntity(entity);
         }
 
+        public static IEnumerable<object[]> ReadEntityData =>
+            new List<object[]>
+            {
+                new object[] { new Deck { Name = "test", Description = "this is a test deck" } },
+            };
+
+        [Theory, MemberData(nameof(ReadEntityData))]
+        public override void ReadEntity(Deck entity)
+        {
+            base.ReadEntity(entity);
+        }
+
         public static IEnumerable<object[]> UpdateEntityData =>
         new List<object[]>
         {
@@ -119,6 +144,18 @@ namespace Tests.Unit_Tests.Data.Repository
         public override void UpdateEntity(Deck previousEntity, Deck updatedEntity)
         {
             base.UpdateEntity(previousEntity, updatedEntity);
+        }
+
+        public static IEnumerable<object[]> DeleteEntityData =>
+        new List<object[]>
+        {
+                new object[] { new Deck { Name = "test deck" } },
+        };
+
+        [Theory, MemberData(nameof(DeleteEntityData))]
+        public override void DeleteEntity(Deck entity)
+        {
+            base.DeleteEntity(entity);
         }
     }
 
@@ -143,6 +180,18 @@ namespace Tests.Unit_Tests.Data.Repository
             base.CreateEntity(entity);
         }
 
+        public static IEnumerable<object[]> ReadEntityData =>
+            new List<object[]>
+            {
+                new object[] { new News { Title = "test news" } },
+            };
+
+        [Theory, MemberData(nameof(ReadEntityData))]
+        public override void ReadEntity(News entity)
+        {
+            base.ReadEntity(entity);
+        }
+
         public static IEnumerable<object[]> UpdateEntityData =>
         new List<object[]>
         {
@@ -153,6 +202,18 @@ namespace Tests.Unit_Tests.Data.Repository
         public override void UpdateEntity(News previousEntity, News updatedEntity)
         {
             base.UpdateEntity(previousEntity, updatedEntity);
+        }
+
+        public static IEnumerable<object[]> DeleteEntityData =>
+        new List<object[]>
+        {
+                new object[] { new News { Title = "title", Subtitle = "subtitle", Content = "content" } },
+        };
+
+        [Theory, MemberData(nameof(DeleteEntityData))]
+        public override void DeleteEntity(News entity)
+        {
+            base.DeleteEntity(entity);
         }
     }
 }
