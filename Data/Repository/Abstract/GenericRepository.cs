@@ -27,14 +27,6 @@ namespace Data.Repository.Abstract
         {
             return sortOptions.GetSortedResults(_dbset.Where(predicate)).Take(numRecords);
         }
-        public virtual async Task<IEnumerable<TEntity>> SearchAllAsync(Expression<Func<TEntity, bool>> predicate)
-        {
-            return await _dbset.Where(predicate).ToListAsync();
-        }
-        public virtual async Task<TEntity> SearchFirstAsync(Expression<Func<TEntity, bool>> predicate)
-        {
-            return await _dbset.FirstOrDefaultAsync(predicate);
-        }
         public virtual IQueryable<TEntity> GetAll()
         {
             return _dbset.AsQueryable();
