@@ -16,10 +16,7 @@ namespace Data.Models.Implementation
         public DateTime CreationDate { get; set; } = DateTime.Now;
         public DateTime LastUpdated { get; set; } = DateTime.Now;
 
-        public Guid GetId()
-        {
-            return NewsID;
-        }
+        public Guid DbId { get => NewsID; set => NewsID = value; }
     }
 
     public class Deck : IDatabaseItem<Guid>
@@ -36,10 +33,7 @@ namespace Data.Models.Implementation
         public DateTime CreationDate { get; set; } = DateTime.Now;
         public DateTime LastUpdated { get; set; } = DateTime.Now;
 
-        public Guid GetId()
-        {
-            return DeckID;
-        }
+        public Guid DbId { get => DeckID; set => DeckID = value; }
     }
 
     public class Flashcard : IDatabaseItem<Guid>
@@ -55,9 +49,6 @@ namespace Data.Models.Implementation
         public DateTime LastUpdated { get; set; } = DateTime.Now;
         public DateTime DueDate { get; set; } = DateTime.Now;
 
-        public Guid GetId()
-        {
-            return FlashcardID;
-        }
+        public Guid DbId { get => FlashcardID; set => FlashcardID = value; }
     }
 }

@@ -2,6 +2,6 @@
 {
     public interface IDatabaseItem<TKey>
     {
-        public TKey GetId();
+        public TKey DbId { get; set; }
     }
 }

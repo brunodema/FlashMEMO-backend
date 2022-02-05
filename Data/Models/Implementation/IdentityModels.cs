@@ -12,20 +12,15 @@ namespace Data.Models.Implementation
         public virtual ICollection<ApplicationUserToken> Tokens { get; set; }
         public virtual ICollection<ApplicationUserRole> UserRoles { get; set; }
 
-        public string GetId()
-        {
-            return Id;
-        }
+        public string DbId { get => Id; set => Id = value; }
     }
 
     public class ApplicationRole : IdentityRole, IDatabaseItem<string>
     {
         public virtual ICollection<ApplicationUserRole> UserRoles { get; set; }
         public virtual ICollection<ApplicationRoleClaim> RoleClaims { get; set; }
-        public string GetId()
-        {
-            return Id;
-        }
+
+        public string DbId { get => Id; set => Id = value; }
     }
 
     public class ApplicationUserRole : IdentityUserRole<string>

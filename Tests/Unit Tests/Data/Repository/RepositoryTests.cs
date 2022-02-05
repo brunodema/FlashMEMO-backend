@@ -7,6 +7,7 @@ using FluentAssertions;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Xunit;
 using Xunit.Abstractions;
 
@@ -34,14 +35,40 @@ namespace Tests.Unit_Tests.Data.Repository
             // Arrange
             // Act
             await _repository.CreateAsync(entity);
-            var entityFromRepository = _context.Set<TEntity>().Find(entity.GetId());
+            var entityFromRepository = _context.Set<TEntity>().Find(entity.DbId);
 
             // Assert
             entity.Should().Be(entityFromRepository);
         }
 
-        //public virtual void ReadEntity() { }
-        //public virtual void UpdateEntity() { }
+        public async virtual void ReadEntity(TEntity entity)
+        {
+            // Arrange
+            _context.Set<TEntity>().Add(entity);
+            _context.SaveChanges();
+
+            // Act
+            var entityFromRepository = await _repository.GetByIdAsync(entity.DbId);
+
+            // Assert
+            entity.Should().Be(entityFromRepository);
+        }
+        public async virtual void UpdateEntity(TEntity previousEntity, TEntity updatedEntity) 
+        {
+            // Arrange
+            _context.Set<TEntity>().Add(previousEntity);
+            _context.SaveChanges();
+
+            // Act
+            var entityFromRepository = _context.Set<TEntity>().FirstOrDefault(x => x == previousEntity);
+            entityFromRepository = updatedEntity; // this is causing problems: it starts tracking the fucking updatedentity object
+            await _repository.UpdateAsync(entityFromRepository);
+
+            // Assert
+            entityFromRepository = _context.Set<TEntity>().Find(entityFromRepository.DbId);
+            entityFromRepository.Should().Be(updatedEntity);
+            entityFromRepository.Should().NotBe(previousEntity);
+        }
         //public virtual void DeleteEntity() { }
 
         public void Dispose()
@@ -70,6 +97,18 @@ namespace Tests.Unit_Tests.Data.Repository
         {
             base.CreateEntity(entity);
         }
+
+        public static IEnumerable<object[]> UpdateEntityData =>
+        new List<object[]>
+        {
+                new object[] { new Deck { Name = "deck", Description = "this is a test deck" }, new Deck { Name = "updated deck", Description = "this is an updated test deck" } },
+        };
+
+        [Theory, MemberData(nameof(UpdateEntityData))]
+        public override void UpdateEntity(Deck previousEntity, Deck updatedEntity)
+        {
+            base.UpdateEntity(previousEntity, updatedEntity);
+        }
     }
 
     // this class is here just to prove if the concept of the generic class works or not for multiple types
@@ -91,6 +130,18 @@ namespace Tests.Unit_Tests.Data.Repository
         public override void CreateEntity(News entity)
         {
             base.CreateEntity(entity);
+        }
+
+        public static IEnumerable<object[]> UpdateEntityData =>
+        new List<object[]>
+        {
+                new object[] { new News { Title = "title", Subtitle = "subtitle", Content = "content" }, new News { Title = "new title", Subtitle = "new subtitle", Content = "new content" } },
+        };
+
+        [Theory, MemberData(nameof(UpdateEntityData))]
+        public override void UpdateEntity(News previousEntity, News updatedEntity)
+        {
+            base.UpdateEntity(previousEntity, updatedEntity);
         }
     }
 }

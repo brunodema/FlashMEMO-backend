@@ -44,7 +44,7 @@ namespace API.Controllers.Abstract
         public async virtual Task<IActionResult> Create(TEntity entity)
         {
             var validationResult = _repositoryService.CheckIfEntityIsValid(entity);
-            bool idAlreadyExists = await _repositoryService.IdAlreadyExists(entity.GetId());
+            bool idAlreadyExists = await _repositoryService.IdAlreadyExists(entity.DbId);
             if (validationResult.IsValid && !idAlreadyExists)
             {
                 await _repositoryService.CreateAsync(entity);

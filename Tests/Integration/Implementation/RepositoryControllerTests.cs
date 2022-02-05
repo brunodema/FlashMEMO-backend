@@ -106,7 +106,7 @@ namespace Tests.Integration.Implementation
                 Assert.Null(parsedResponse.Errors);
 
                 // Undo
-                response = await _integrationTestFixture.HttpClient.PostAsync(DeleteEndpoint, JsonContent.Create(entity.GetId()));
+                response = await _integrationTestFixture.HttpClient.PostAsync(DeleteEndpoint, JsonContent.Create(entity.DbId));
                 parsedResponse = await response.Content.ReadFromJsonAsync<BaseResponseModel>();
                 Assert.True(response.StatusCode == HttpStatusCode.OK);
                 Assert.Null(parsedResponse.Errors);
@@ -249,12 +249,12 @@ namespace Tests.Integration.Implementation
             RunAndReportResults(TestData.UpdatesSuccessfullyTestData, async entity =>
             {
                 // Arrange
-                var entityBefore = await _integrationTestFixture.HttpClient.GetAsync($"{GetEndpoint}/{entity.GetId()}").Result.Content.ReadFromJsonAsync<TEntity>();
+                var entityBefore = await _integrationTestFixture.HttpClient.GetAsync($"{GetEndpoint}/{entity.DbId}").Result.Content.ReadFromJsonAsync<TEntity>();
                 var body = JsonContent.Create(entity);
 
                 // Act
                 var response = await _integrationTestFixture.HttpClient.PutAsync(UpdateEndpoint, body);
-                var afterResponse = await _integrationTestFixture.HttpClient.GetAsync($"{GetEndpoint}/{entity.GetId()}");
+                var afterResponse = await _integrationTestFixture.HttpClient.GetAsync($"{GetEndpoint}/{entity.DbId}");
                 var entityAfter = afterResponse.Content.ReadFromJsonAsync<PaginatedListResponse<TEntity>>().Result.Data.Results.SingleOrDefault();
 
                 // Assert
@@ -265,7 +265,7 @@ namespace Tests.Integration.Implementation
                 // Undo
                 body = JsonContent.Create(entityBefore);
                 await _integrationTestFixture.HttpClient.PutAsync(UpdateEndpoint, body);
-                var entityUndo = await _integrationTestFixture.HttpClient.GetAsync($"{GetEndpoint}/{entity.GetId()}").Result.Content.ReadFromJsonAsync<TEntity>();
+                var entityUndo = await _integrationTestFixture.HttpClient.GetAsync($"{GetEndpoint}/{entity.DbId}").Result.Content.ReadFromJsonAsync<TEntity>();
 
                 // Had to add this tolerance so errors regarding <= 1000ms time differences are not reported.
                 entityBefore.Should().BeEquivalentTo(entityUndo, options => options.Using<DateTime>(ctx => ctx.Subject.Should().BeCloseTo(ctx.Expectation, TimeSpan.FromMilliseconds(1000))).WhenTypeIs<DateTime>());
