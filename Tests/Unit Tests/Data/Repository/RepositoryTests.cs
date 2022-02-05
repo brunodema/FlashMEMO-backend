@@ -41,12 +41,33 @@ namespace Tests.Unit_Tests.Data.Repository
             _context.Entry(destination).CurrentValues.SetValues(source);
         }
 
+        /// <summary>
+        /// Uses context functions to get an entity from the databse (isolate functionality from repository class).
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        protected TEntity GetEntityViaContext(TKey id)
+        {
+            return _context.Set<TEntity>().Find(id);
+        }
+
+        /// <summary>
+        /// Uses context functions to add an entity to the database (isolate functionality from repository class).
+        /// </summary>
+        /// <param name="entity"></param>
+        protected void AddEntityViaContext(TEntity entity)
+        {
+            _context.Set<TEntity>().Add(entity);
+            _context.SaveChanges();
+            _context.Set<TEntity>().Find(entity.DbId).Should().Be(entity);
+        }
+
         public async virtual void CreateEntity(TEntity entity)
         {
             // Arrange
             // Act
             await _repository.CreateAsync(entity);
-            var entityFromRepository = _context.Set<TEntity>().Find(entity.DbId);
+            var entityFromRepository = GetEntityViaContext(entity.DbId);
 
             // Assert
             entity.Should().BeEquivalentTo(entityFromRepository);
@@ -55,8 +76,7 @@ namespace Tests.Unit_Tests.Data.Repository
         public async virtual void ReadEntity(TEntity entity)
         {
             // Arrange
-            _context.Set<TEntity>().Add(entity);
-            _context.SaveChanges();
+            AddEntityViaContext(entity);
 
             // Act
             var entityFromRepository = await _repository.GetByIdAsync(entity.DbId);
@@ -67,16 +87,15 @@ namespace Tests.Unit_Tests.Data.Repository
         public async virtual void UpdateEntity(TEntity previousEntity, TEntity updatedEntity) 
         {
             // Arrange
-            _context.Set<TEntity>().Add(previousEntity);
-            _context.SaveChanges();
+            AddEntityViaContext(previousEntity);
 
             // Act
-            var entityFromRepository = _context.Set<TEntity>().FirstOrDefault(x => x == previousEntity);
+            var entityFromRepository = GetEntityViaContext(previousEntity.DbId);
             SafeEFEntityValueCopy(updatedEntity, entityFromRepository);
             await _repository.UpdateAsync(entityFromRepository);
 
             // Assert
-            entityFromRepository = _context.Set<TEntity>().Find(entityFromRepository.DbId);
+            entityFromRepository = GetEntityViaContext(entityFromRepository.DbId);
             entityFromRepository.Should().BeEquivalentTo(updatedEntity);
             entityFromRepository.Should().BeEquivalentTo(previousEntity);
         }
@@ -84,15 +103,13 @@ namespace Tests.Unit_Tests.Data.Repository
         public async virtual void DeleteEntity(TEntity entity)
         {
             // Arrange
-            _context.Set<TEntity>().Add(entity);
-            _context.SaveChanges();
-            _context.Set<TEntity>().Find(entity.DbId).Should().Be(entity);
+            AddEntityViaContext(entity);
 
             // Act
             await _repository.RemoveByIdAsync(entity.DbId);
 
             // Assert
-            _context.Set<TEntity>().Find(entity.DbId).Should().BeNull();
+            GetEntityViaContext(entity.DbId).Should().BeNull();
         }
 
         public void Dispose()
