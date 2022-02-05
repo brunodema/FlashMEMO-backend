@@ -35,7 +35,7 @@ namespace Tests.Unit_Tests.Data.Repository
         /// </summary>
         /// <param name="source"></param>
         /// <param name="destination"></param>
-        protected void SafeEFCopyValuesFromTo(TEntity source, TEntity destination)
+        protected void SafeEFEntityValueCopy(TEntity source, TEntity destination)
         {
             source.DbId = destination.DbId; // makes assignment here so the error is not thrown below (i.e., Id gets set to a value different than before)
             _context.Entry(destination).CurrentValues.SetValues(source);
@@ -72,7 +72,7 @@ namespace Tests.Unit_Tests.Data.Repository
 
             // Act
             var entityFromRepository = _context.Set<TEntity>().FirstOrDefault(x => x == previousEntity);
-            SafeEFCopyValuesFromTo(updatedEntity, entityFromRepository);
+            SafeEFEntityValueCopy(updatedEntity, entityFromRepository);
             await _repository.UpdateAsync(entityFromRepository);
 
             // Assert
