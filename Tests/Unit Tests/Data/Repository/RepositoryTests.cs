@@ -49,7 +49,7 @@ namespace Tests.Unit_Tests.Data.Repository
             var entityFromRepository = _context.Set<TEntity>().Find(entity.DbId);
 
             // Assert
-            entity.Should().Be(entityFromRepository);
+            entity.Should().BeEquivalentTo(entityFromRepository);
         }
 
         public async virtual void ReadEntity(TEntity entity)
@@ -62,7 +62,7 @@ namespace Tests.Unit_Tests.Data.Repository
             var entityFromRepository = await _repository.GetByIdAsync(entity.DbId);
 
             // Assert
-            entity.Should().Be(entityFromRepository);
+            entity.Should().BeEquivalentTo(entityFromRepository);
         }
         public async virtual void UpdateEntity(TEntity previousEntity, TEntity updatedEntity) 
         {
