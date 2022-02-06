@@ -15,12 +15,11 @@ using Xunit.Abstractions;
 
 namespace Tests.Unit_Tests.Data.Repository
 {
-    public abstract class GenericRepositoryUnitTests<RepositoryClass, TEntity, TKey>  : IDisposable
-        where RepositoryClass : GenericRepository<TEntity, TKey, FlashMEMOContext>
+    public abstract class GenericRepositoryUnitTests<TEntity, TKey>  : IDisposable
         where TEntity : class, IDatabaseItem<TKey>
     {
         protected ITestOutputHelper _output;
-        protected RepositoryClass _repository;
+        protected GenericRepository<TEntity, TKey, FlashMEMOContext> _repository;
         protected FlashMEMOContext _context;
 
         public GenericRepositoryUnitTests(ITestOutputHelper output)
@@ -62,15 +61,6 @@ namespace Tests.Unit_Tests.Data.Repository
             _context.Set<TEntity>().Add(entity);
             _context.SaveChanges();
             _context.Set<TEntity>().Find(entity.DbId).Should().Be(entity);
-        }
-
-        /// <summary>
-        /// Deletes all entries in the DbSet of <typeparamref name="TEntity"/>.
-        /// </summary>
-        protected void ContextCleanup()
-        {
-            _context.Set<TEntity>().RemoveRange(_context.Set<TEntity>().ToList());
-            _context.SaveChanges();
         }
 
         public async virtual void CreateEntity(TEntity entity)
@@ -134,9 +124,6 @@ namespace Tests.Unit_Tests.Data.Repository
             // Assert
             entitiesFromRepository.Should().BeEquivalentTo(entities);
             entitiesFromRepository.Should().HaveCount(entities.Count);
-
-            // Cleanup
-            ContextCleanup();
         }
 
         // guess what: more parallelization problems with xunit! ('GetAll' fails when run together with all tests)
@@ -159,9 +146,6 @@ namespace Tests.Unit_Tests.Data.Repository
 
             // Assert
             entitiesFromRepository.Should().BeEquivalentTo(data.expectedEntities.Take(data.numRecords));
-
-            // Cleanup
-            ContextCleanup();
         }
 
         public void Dispose()
@@ -171,7 +155,7 @@ namespace Tests.Unit_Tests.Data.Repository
         }
     }
 
-    public class DeckRepositoryUnitTests : GenericRepositoryUnitTests<DeckRepository, Deck, Guid>
+    public class DeckRepositoryUnitTests : GenericRepositoryUnitTests<Deck, Guid>
     {
         public DeckRepositoryUnitTests(ITestOutputHelper output) : base(output)
         { 
@@ -271,7 +255,7 @@ namespace Tests.Unit_Tests.Data.Repository
     }
 
     // this class is here just to prove if the concept of the generic class works or not for multiple types
-    public class NewsRepositoryUnitTests : GenericRepositoryUnitTests<NewsRepository, News, Guid>
+    public class NewsRepositoryUnitTests : GenericRepositoryUnitTests<News, Guid>
     {
         public NewsRepositoryUnitTests(ITestOutputHelper output) : base(output)
         {
