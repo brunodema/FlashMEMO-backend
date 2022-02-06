@@ -45,6 +45,35 @@ namespace Data.Tools.Sorting
         }
     }
 
+    public class DeckSortOptions : GenericSortOptions<Deck>
+    {
+        public static class ColumnOptions
+        {
+            public const string NAME = "name";
+            public const string OWNER = "owner";
+            public const string DESCRIPTION = "description";
+            public const string CREATION_DATE = "creationdate";
+            public const string LAST_UPDATED = "lastupdated";
+            public const string FLASHCARDS = "flashcards";
+        }
+        public DeckSortOptions(SortType sortType = SortType.None, string columnToSort = "") : base(sortType, columnToSort) { }
+        public DeckSortOptions() { }
+        protected override void DetermineColumnToSortExpression(string columnToSort = "name")
+        {
+            ColumnToSortExpression = columnToSort.ToLowerInvariant() switch
+            {
+                ColumnOptions.NAME => a => a.Name,
+                ColumnOptions.OWNER => a => a.Owner,
+                ColumnOptions.DESCRIPTION => a => a.Description,
+                ColumnOptions.CREATION_DATE => a => a.CreationDate,
+                ColumnOptions.LAST_UPDATED => a => a.LastUpdated,
+                ColumnOptions.FLASHCARDS => a => a.Flashcards.Count(), // trying to get the count here might lead to trouble...
+                // default will be 'Name'
+                _ => a => a.Name,
+            };
+        }
+    }
+
     public class NewsSortOptions : GenericSortOptions<News>
     {
         public static class ColumnOptions
@@ -56,7 +85,7 @@ namespace Data.Tools.Sorting
         public NewsSortOptions() { }
         protected override void DetermineColumnToSortExpression(string columnToSort = "title")
         {
-            ColumnToSortExpression = columnToSort switch
+            ColumnToSortExpression = columnToSort.ToLowerInvariant() switch
             {
                 ColumnOptions.SUBTITLE => news => news.Subtitle,
                 ColumnOptions.DATE => news => news.CreationDate,
@@ -76,7 +105,7 @@ namespace Data.Tools.Sorting
         public ApplicationUserSortOptions() { }
         protected override void DetermineColumnToSortExpression(string columnToSort = "title")
         {
-            ColumnToSortExpression = columnToSort switch
+            ColumnToSortExpression = columnToSort.ToLowerInvariant() switch
             {
                 ColumnOptions.EMAIL => user => user.Email,
                 // default will be username
