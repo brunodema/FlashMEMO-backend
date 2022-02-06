@@ -145,7 +145,7 @@ namespace Tests.Unit_Tests.Data.Repository
             var entitiesFromRepository = _repository.SearchAndOrder(data.predicate, data.sortOptions, data.numRecords);
 
             // Assert
-            entitiesFromRepository.Should().BeEquivalentTo(data.expectedEntities.Take(data.numRecords));
+            entitiesFromRepository.Should().BeEquivalentTo(data.expectedEntities.Take(data.numRecords), opt => opt.WithStrictOrdering());
         }
 
         public void Dispose()
