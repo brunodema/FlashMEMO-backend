@@ -47,6 +47,13 @@ namespace Business.Services.Abstract
         {
             return await _baseRepository.GetByIdAsync(id);
         }
+
+        /// <summary>
+        /// A 'List' method in FlashMEMO means that all entries from the database are retrieved (i.e., the search predicate returns 'true' for all).
+        /// </summary>
+        /// <param name="sortOptions">Class containing the sort definitions for the specific entity associated with the service.</param>
+        /// <param name="numRecords">Maximum number of records to retrieve.</param>
+        /// <returns></returns>
         public virtual IEnumerable<TEntity> ListAsync(GenericSortOptions<TEntity> sortOptions = null, int numRecords = 1000)
         {
             return _baseRepository.SearchAndOrderAsync(_ => true, sortOptions, numRecords);
