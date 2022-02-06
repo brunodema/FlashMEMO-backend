@@ -18,7 +18,7 @@ namespace Data.Repository.Interfaces
         /// <param name="sortOptions"></param>
         /// <param name="numRecords"></param>
         /// <returns></returns>
-        public IEnumerable<TEntity> SearchAndOrderAsync(Expression<Func<TEntity, bool>> predicate, GenericSortOptions<TEntity> sortOptions, int numRecords);
+        public IEnumerable<TEntity> SearchAndOrder(Expression<Func<TEntity, bool>> predicate, GenericSortOptions<TEntity> sortOptions, int numRecords);
         public IEnumerable<TEntity> SearchAndOrder(IQueryFilterOptions<TEntity> filterOptions, GenericSortOptions<TEntity> sortOptions); // probably will transition towards this one
         public IQueryable<TEntity> GetAll();
         public Task<TEntity> GetByIdAsync(TKey id);

@@ -56,7 +56,7 @@ namespace Business.Services.Abstract
         /// <returns></returns>
         public virtual IEnumerable<TEntity> ListAsync(GenericSortOptions<TEntity> sortOptions = null, int numRecords = 1000)
         {
-            return _baseRepository.SearchAndOrderAsync(_ => true, sortOptions, numRecords);
+            return _baseRepository.SearchAndOrder(_ => true, sortOptions, numRecords);
         }
         public async virtual Task RemoveByIdAsync(TKey guid)
         {

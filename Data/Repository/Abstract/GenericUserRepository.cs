@@ -24,7 +24,7 @@ namespace Data.Repository.Implementation
             _userManager = userManager;
             _context = context;
         }
-        public virtual IEnumerable<TEntity> SearchAndOrderAsync(Expression<Func<TEntity, bool>> predicate, GenericSortOptions<TEntity> sortOptions, int numRecords)
+        public virtual IEnumerable<TEntity> SearchAndOrder(Expression<Func<TEntity, bool>> predicate, GenericSortOptions<TEntity> sortOptions, int numRecords)
         {
             return sortOptions.GetSortedResults(_userManager.Users.Where(predicate)).Take(numRecords);
         }

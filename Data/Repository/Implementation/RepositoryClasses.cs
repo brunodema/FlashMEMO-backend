@@ -14,7 +14,7 @@ namespace Data.Repository.Implementation
 
         public IEnumerable<News> SearchAndOrderByCreationDateAsync(Expression<Func<News, bool>> predicate, SortType sortType, int numRecords)
         {
-            return base.SearchAndOrderAsync(predicate, new NewsSortOptions(sortType, NewsSortOptions.ColumnOptions.DATE), numRecords);
+            return base.SearchAndOrder(predicate, new NewsSortOptions(sortType, NewsSortOptions.ColumnOptions.DATE), numRecords);
         }
     }
 

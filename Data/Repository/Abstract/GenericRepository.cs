@@ -23,7 +23,7 @@ namespace Data.Repository.Abstract
             _context = context;
             _dbset = context.Set<TEntity>();
         }
-        public virtual IEnumerable<TEntity> SearchAndOrderAsync(Expression<Func<TEntity, bool>> predicate, GenericSortOptions<TEntity> sortOptions, int numRecords)
+        public virtual IEnumerable<TEntity> SearchAndOrder(Expression<Func<TEntity, bool>> predicate, GenericSortOptions<TEntity> sortOptions, int numRecords)
         {
             return sortOptions.GetSortedResults(_dbset.Where(predicate)).Take(numRecords);
         }

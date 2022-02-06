@@ -112,6 +112,16 @@ namespace Tests.Unit_Tests.Data.Repository
             GetEntityViaContext(entity.DbId).Should().BeNull();
         }
 
+        //public async virtual void GetAll()
+        //{
+
+        //}
+
+        //public async virtual void SearchAndOrder()
+        //{
+
+        //}
+
         public void Dispose()
         {
             _repository?.Dispose();
