@@ -222,8 +222,9 @@ namespace Tests.Unit_Tests.Data.Repository
         public static IEnumerable<object[]> GetAllEntityData =>
         new List<object[]>
         {
-                new object[] { new List<Deck>(FullEntityList) },
-                new object[] { new List<Deck>() { TestEntity1, TestEntity2, TestEntity3 } }
+                new object[] { new List<Deck>(FullEntityList) }, // full list
+                new object[] { new List<Deck>() { TestEntity1, TestEntity2, TestEntity3 } }, // only some
+                new object[] { new List<Deck>() { } } // nothing
         };
 
         [Theory, MemberData(nameof(GetAllEntityData))]
@@ -239,7 +240,7 @@ namespace Tests.Unit_Tests.Data.Repository
                     new SearchAndOrderTestData
                     {
                         entities = new List<Deck>(FullEntityList),
-                        expectedEntities = FullEntityList.OrderByDescending(e => e.Name).ToList(), // all but entity1
+                        expectedEntities = FullEntityList.OrderByDescending(e => e.Name).ToList(),
                         predicate = _ => true,
                         sortOptions = new DeckSortOptions(SortType.Descending, "name"),
                         numRecords = 10
