@@ -28,6 +28,9 @@ namespace Business.Services.Interfaces
         public IEnumerable<TEntity> GetAsync(Expression<Func<TEntity, bool>> predicate, GenericSortOptions<TEntity> sortOptions, int numRecords = 1000);
         public Task RemoveByIdAsync(TKey guid);
         public IEnumerable<TEntity> SearchAndOrder(IQueryFilterOptions<TEntity> filterOptions, GenericSortOptions<TEntity> sortOptions); // probably will transition towards this one
+
+        // a new method has to be added, to cover the case where we want to retrieve all entries and sort them ('List' method of controller classes)
+
         public ValidatonResult CheckIfEntityIsValid(TEntity entity);
     }
 
