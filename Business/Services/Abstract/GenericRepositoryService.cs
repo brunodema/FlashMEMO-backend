@@ -47,9 +47,9 @@ namespace Business.Services.Abstract
         {
             return await _baseRepository.GetByIdAsync(id);
         }
-        public virtual IEnumerable<TEntity> GetAsync(Expression<Func<TEntity, bool>> predicate = null, GenericSortOptions<TEntity> sortOptions = null, int numRecords = 1000)
+        public virtual IEnumerable<TEntity> ListAsync(GenericSortOptions<TEntity> sortOptions = null, int numRecords = 1000)
         {
-            return _baseRepository.SearchAndOrderAsync(predicate, sortOptions, numRecords);
+            return _baseRepository.SearchAndOrderAsync(_ => true, sortOptions, numRecords);
         }
         public async virtual Task RemoveByIdAsync(TKey guid)
         {
