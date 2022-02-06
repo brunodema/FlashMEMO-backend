@@ -49,7 +49,7 @@ namespace Business.Services.Abstract
         }
 
         /// <summary>
-        /// A 'List' method in FlashMEMO means that all entries from the database are retrieved (i.e., the search predicate returns 'true' for all).
+        /// A 'List' method in FlashMEMO means that no filtering is applied to the queried, only sorting (i.e., the search predicate returns 'true' for all). Used to fetch all entries for a given entity.
         /// </summary>
         /// <param name="sortOptions">Class containing the sort definitions for the specific entity associated with the service.</param>
         /// <param name="numRecords">Maximum number of records to retrieve.</param>
