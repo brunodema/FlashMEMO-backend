@@ -64,6 +64,15 @@ namespace Tests.Unit_Tests.Data.Repository
             _context.Set<TEntity>().Find(entity.DbId).Should().Be(entity);
         }
 
+        /// <summary>
+        /// Deletes all entries in the DbSet of <typeparamref name="TEntity"/>.
+        /// </summary>
+        protected void ContextCleanup()
+        {
+            _context.Set<TEntity>().RemoveRange(_context.Set<TEntity>().ToList());
+            _context.SaveChanges();
+        }
+
         public async virtual void CreateEntity(TEntity entity)
         {
             // Arrange
@@ -127,10 +136,10 @@ namespace Tests.Unit_Tests.Data.Repository
             entitiesFromRepository.Should().HaveCount(entities.Count);
 
             // Cleanup
-            _context.Set<TEntity>().RemoveRange(_context.Set<TEntity>().ToList());
-            _context.SaveChanges();
+            ContextCleanup();
         }
 
+        // guess what: more parallelization problems with xunit! ('GetAll' fails when run together with all tests)
         public class SearchAndOrderTestData
         {
             public List<TEntity> entities { get; set; }
@@ -149,7 +158,10 @@ namespace Tests.Unit_Tests.Data.Repository
             var entitiesFromRepository = _repository.SearchAndOrder(data.predicate, data.sortOptions, data.numRecords);
 
             // Assert
-            entitiesFromRepository.Should().BeEquivalentTo(data.expectedEntities);
+            entitiesFromRepository.Should().BeEquivalentTo(data.expectedEntities.Take(data.numRecords));
+
+            // Cleanup
+            ContextCleanup();
         }
 
         public void Dispose()
@@ -236,26 +248,26 @@ namespace Tests.Unit_Tests.Data.Repository
             base.GetAll(decks);
         }
 
-        //public static IEnumerable<object[]> SearchAndOrderEntityData =>
-        //new List<object[]>
-        //{
-        //        new object[] { 
-        //            new SearchAndOrderTestData
-        //            {
-        //                entities = new List<Deck>(FullEntityList),
-        //                expectedEntities = new List<Deck>(FullEntityList.Where(d => d.Name != TestEntity1.Name)), // all but entity1
-        //                predicate = _ => true,
-        //                sortOptions = new Sortop
+        public static IEnumerable<object[]> SearchAndOrderEntityData =>
+        new List<object[]>
+        {
+                new object[] {
+                    new SearchAndOrderTestData
+                    {
+                        entities = new List<Deck>(FullEntityList),
+                        expectedEntities = FullEntityList.OrderByDescending(e => e.Name).ToList(), // all but entity1
+                        predicate = _ => true,
+                        sortOptions = new DeckSortOptions(SortType.Descending, "name"),
+                        numRecords = 10
+                    }
+                },
+        };
 
-        //            }
-        //        },
-        //};
-
-        //[Theory, MemberData(nameof(SearchAndOrderEntityData))]
-        //public override void SearchAndOrder(SearchAndOrderTestData data)
-        //{
-        //    base.SearchAndOrder(data);
-        //}
+        [Theory, MemberData(nameof(SearchAndOrderEntityData))]
+        public override void SearchAndOrder(SearchAndOrderTestData data)
+        {
+            base.SearchAndOrder(data);
+        }
     }
 
     // this class is here just to prove if the concept of the generic class works or not for multiple types
