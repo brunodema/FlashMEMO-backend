@@ -3,11 +3,13 @@ using Data.Models.Implementation;
 using Data.Repository.Abstract;
 using Data.Repository.Implementation;
 using Data.Repository.Interfaces;
+using Data.Tools.Sorting;
 using FluentAssertions;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using Xunit;
 using Xunit.Abstractions;
 
@@ -112,15 +114,43 @@ namespace Tests.Unit_Tests.Data.Repository
             GetEntityViaContext(entity.DbId).Should().BeNull();
         }
 
-        //public async virtual void GetAll()
-        //{
+        public virtual void GetAll(List<TEntity> entities)
+        {
+            // Arrange
+            entities.ForEach(e => AddEntityViaContext(e));
 
-        //}
+            // Act
+            var entitiesFromRepository = _repository.GetAll();
 
-        //public async virtual void SearchAndOrder()
-        //{
+            // Assert
+            entitiesFromRepository.Should().BeEquivalentTo(entities);
+            entitiesFromRepository.Should().HaveCount(entities.Count);
 
-        //}
+            // Cleanup
+            _context.Set<TEntity>().RemoveRange(_context.Set<TEntity>().ToList());
+            _context.SaveChanges();
+        }
+
+        public class SearchAndOrderTestData
+        {
+            public List<TEntity> entities { get; set; }
+            public List<TEntity> expectedEntities { get; set; }
+            public Expression<Func<TEntity, bool>> predicate { get; set; }
+            public GenericSortOptions<TEntity> sortOptions { get; set; }
+            public int numRecords { get; set; }
+        }
+
+        public virtual void SearchAndOrder(SearchAndOrderTestData data)
+        {
+            // Arrange
+            data.entities.ForEach(e => AddEntityViaContext(e));
+
+            // Act
+            var entitiesFromRepository = _repository.SearchAndOrder(data.predicate, data.sortOptions, data.numRecords);
+
+            // Assert
+            entitiesFromRepository.Should().BeEquivalentTo(data.expectedEntities);
+        }
 
         public void Dispose()
         {
@@ -184,6 +214,48 @@ namespace Tests.Unit_Tests.Data.Repository
         {
             base.DeleteEntity(entity);
         }
+
+        private static readonly Deck TestEntity1 = new() { Name = "test deck 1", CreationDate = DateTime.Now.Subtract(TimeSpan.FromDays(1)), Description = "A" };
+        private static readonly Deck TestEntity2 = new() { Name = "test deck 2", CreationDate = DateTime.Now.Subtract(TimeSpan.FromDays(2)), Description = "B" };
+        private static readonly Deck TestEntity3 = new() { Name = "test deck 3", CreationDate = DateTime.Now.Subtract(TimeSpan.FromDays(3)), Description = "C" };
+        private static readonly Deck TestEntity4 = new() { Name = "test deck 4", CreationDate = DateTime.Now.Subtract(TimeSpan.FromDays(4)), Description = "D" };
+        private static readonly Deck TestEntity5 = new() { Name = "test deck 5", CreationDate = DateTime.Now.Subtract(TimeSpan.FromDays(5)), Description = "E" };
+
+        private static readonly List<Deck> FullEntityList = new() { TestEntity1, TestEntity2, TestEntity3, TestEntity4, TestEntity5 };
+
+        public static IEnumerable<object[]> GetAllEntityData =>
+        new List<object[]>
+        {
+                new object[] { new List<Deck>(FullEntityList) },
+                new object[] { new List<Deck>() { TestEntity1, TestEntity2, TestEntity3 } }
+        };
+
+        [Theory, MemberData(nameof(GetAllEntityData))]
+        public override void GetAll(List<Deck> decks)
+        {
+            base.GetAll(decks);
+        }
+
+        //public static IEnumerable<object[]> SearchAndOrderEntityData =>
+        //new List<object[]>
+        //{
+        //        new object[] { 
+        //            new SearchAndOrderTestData
+        //            {
+        //                entities = new List<Deck>(FullEntityList),
+        //                expectedEntities = new List<Deck>(FullEntityList.Where(d => d.Name != TestEntity1.Name)), // all but entity1
+        //                predicate = _ => true,
+        //                sortOptions = new Sortop
+
+        //            }
+        //        },
+        //};
+
+        //[Theory, MemberData(nameof(SearchAndOrderEntityData))]
+        //public override void SearchAndOrder(SearchAndOrderTestData data)
+        //{
+        //    base.SearchAndOrder(data);
+        //}
     }
 
     // this class is here just to prove if the concept of the generic class works or not for multiple types
