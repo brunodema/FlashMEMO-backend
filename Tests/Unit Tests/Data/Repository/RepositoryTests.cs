@@ -126,33 +126,48 @@ namespace Tests.Unit_Tests.Data.Repository
             entitiesFromRepository.Should().HaveCount(entities.Count);
         }
 
-        // guess what: more parallelization problems with xunit! ('GetAll' fails when run together with all tests)
+        /// <summary>
+        /// This class states explicitly both the input data and the expected data instead of using LINQ of the input, so the intent of the tests can be better visualized. 
+        /// </summary>
         public class SearchAndOrderTestData
         {
-            public List<TEntity> entities { get; set; }
-            public List<TEntity> expectedEntities { get; set; }
-            public Expression<Func<TEntity, bool>> predicate { get; set; }
-            public GenericSortOptions<TEntity> sortOptions { get; set; }
-            public int numRecords { get; set; }
+            public List<TEntity> entities { get; set; } = null;
+            public List<TEntity> expectedEntities { get; set; } = null;
+            public Expression<Func<TEntity, bool>> predicate { get; set; } = _ => true;
+            public GenericSortOptions<TEntity> sortOptions { get; set; } = null;
+            public int numRecords { get; set; } = 10;
         }
 
-        public virtual void SearchAndOrder(SearchAndOrderTestData data)
+        /// <summary>
+        /// Tests the 'SearchAndOrder' endpoint, but only the ordering aspect (easier to show intent of tests).
+        /// </summary>
+        /// <param name="data"></param>
+        public virtual void SearchAndOrder_ValidateOrdering(SearchAndOrderTestData data)
         {
             // Arrange
             data.entities.ForEach(e => AddEntityViaContext(e));
 
             // Act
-            var entitiesFromRepository = _repository.SearchAndOrder(data.predicate, data.sortOptions, data.numRecords);
+            var entitiesFromRepository = _repository.SearchAndOrder(_ => true, data.sortOptions, data.numRecords);
 
             // Assert
-            if (data.sortOptions is null)
-            {
-                entitiesFromRepository.Should().BeEquivalentTo(data.expectedEntities.Take(data.numRecords)); // no need for strict ordering if no sorting was specified
-            }
-            else
-            {
-                entitiesFromRepository.Should().BeEquivalentTo(data.expectedEntities.Take(data.numRecords), opt => opt.WithStrictOrdering());
-            }
+            entitiesFromRepository.Should().BeEquivalentTo(data.expectedEntities.Take(data.numRecords), opt => opt.WithStrictOrdering());
+        }
+
+        /// <summary>
+        /// Tests the 'SearchAndOrder' endpoint, but only the filtering aspect (easier to show intent of tests).
+        /// </summary>
+        /// <param name="data"></param>
+        public virtual void SearchAndOrder_ValidateFiltering(SearchAndOrderTestData data)
+        {
+            // Arrange
+            data.entities.ForEach(e => AddEntityViaContext(e));
+
+            // Act
+            var entitiesFromRepository = _repository.SearchAndOrder(data.predicate, null, data.numRecords);
+
+            // Assert
+            entitiesFromRepository.Should().BeEquivalentTo(data.expectedEntities.Take(data.numRecords)); // no need for strict ordering if no sorting was specified
         }
 
         public void Dispose()
@@ -222,17 +237,23 @@ namespace Tests.Unit_Tests.Data.Repository
         private static readonly ApplicationUser TestUser1 = new ApplicationUser() { Email = "testuser1@email.com", UserName = "testuser1" };
         private static readonly ApplicationUser TestUser2 = new ApplicationUser() { Email = "testuser2@email.com", UserName = "testuser2" };
 
-        private static readonly Flashcard TestFlashcard1 = new() { Level = 1, FrontContent = "front1", BackContent = "back1", CreationDate = DateTime.Now.Subtract(TimeSpan.FromDays(1)), DueDate = DateTime.Now.Add(TimeSpan.FromDays(1)), LastUpdated = DateTime.Now.Subtract(TimeSpan.FromDays(1)) };
-        private static readonly Flashcard TestFlashcard2 = new() { Level = 1, FrontContent = "front2", BackContent = "back2", CreationDate = DateTime.Now.Subtract(TimeSpan.FromDays(2)), DueDate = DateTime.Now.Add(TimeSpan.FromDays(2)), LastUpdated = DateTime.Now.Subtract(TimeSpan.FromDays(2)) };
-        private static readonly Flashcard TestFlashcard3 = new() { Level = 1, FrontContent = "front3", BackContent = "back3", CreationDate = DateTime.Now.Subtract(TimeSpan.FromDays(3)), DueDate = DateTime.Now.Add(TimeSpan.FromDays(3)), LastUpdated = DateTime.Now.Subtract(TimeSpan.FromDays(3)) };
+        // 10 different flashcards since one deck can have many flashcards, but a flashcard can have only one deck (thinking about business rules, a flashcard should be copied from a deck to another, if necessary)
+        private static readonly Flashcard TestFlashcard1 = new() { };
+        private static readonly Flashcard TestFlashcard2 = new() { };
+        private static readonly Flashcard TestFlashcard3 = new() { };
+        private static readonly Flashcard TestFlashcard4 = new() { };
+        private static readonly Flashcard TestFlashcard5 = new() { };
+        private static readonly Flashcard TestFlashcard6 = new() { };
+        private static readonly Flashcard TestFlashcard7 = new() { };
+        private static readonly Flashcard TestFlashcard8 = new() { };
+        private static readonly Flashcard TestFlashcard9 = new() { };
+        private static readonly Flashcard TestFlashcard10 = new() { };
 
-        private static readonly List<Flashcard> FullFlashcardList = new() { TestFlashcard1, TestFlashcard2, TestFlashcard3 };
-
-        private static readonly Deck TestEntity1 = new() { Name = "test deck 1", CreationDate = DateTime.Now.Subtract(TimeSpan.FromDays(1)), LastUpdated = DateTime.Now.Subtract(TimeSpan.FromDays(1)), Owner = TestUser1, Flashcards = FullFlashcardList, Description = "E" };
-        private static readonly Deck TestEntity2 = new() { Name = "test deck 2", CreationDate = DateTime.Now.Subtract(TimeSpan.FromDays(2)), LastUpdated = DateTime.Now.Subtract(TimeSpan.FromDays(2)), Owner = TestUser1, Flashcards = new List<Flashcard> { TestFlashcard1 }, Description = "D" };
-        private static readonly Deck TestEntity3 = new() { Name = "test deck 3", CreationDate = DateTime.Now.Subtract(TimeSpan.FromDays(3)), LastUpdated = DateTime.Now.Subtract(TimeSpan.FromDays(3)), Owner = TestUser2, Flashcards = FullFlashcardList, Description = "C" };
-        private static readonly Deck TestEntity4 = new() { Name = "test deck 4", CreationDate = DateTime.Now.Subtract(TimeSpan.FromDays(4)), LastUpdated = DateTime.Now.Subtract(TimeSpan.FromDays(4)), Owner = TestUser2, Flashcards = new List<Flashcard> { TestFlashcard2 }, Description = "B" };
-        private static readonly Deck TestEntity5 = new() { Name = "test deck 5", CreationDate = DateTime.Now.Subtract(TimeSpan.FromDays(5)), LastUpdated = DateTime.Now.Subtract(TimeSpan.FromDays(5)), Owner = TestUser2, Flashcards = new List<Flashcard> { TestFlashcard3 }, Description = "A" };
+        private static readonly Deck TestEntity1 = new() { Name = "test deck 1", CreationDate = DateTime.Now.Subtract(TimeSpan.FromDays(1)), LastUpdated = DateTime.Now.Subtract(TimeSpan.FromDays(1)), Owner = TestUser1, Flashcards = new List<Flashcard> { TestFlashcard1, TestFlashcard2, TestFlashcard3, TestFlashcard4 }, Description = "E" };
+        private static readonly Deck TestEntity2 = new() { Name = "test deck 2", CreationDate = DateTime.Now.Subtract(TimeSpan.FromDays(2)), LastUpdated = DateTime.Now.Subtract(TimeSpan.FromDays(2)), Owner = TestUser1, Flashcards = new List<Flashcard> { TestFlashcard5, TestFlashcard6, TestFlashcard7 }, Description = "D" };
+        private static readonly Deck TestEntity3 = new() { Name = "test deck 3", CreationDate = DateTime.Now.Subtract(TimeSpan.FromDays(3)), LastUpdated = DateTime.Now.Subtract(TimeSpan.FromDays(3)), Owner = TestUser2, Flashcards = new List<Flashcard> { TestFlashcard8, TestFlashcard9 }, Description = "C" };
+        private static readonly Deck TestEntity4 = new() { Name = "test deck 4", CreationDate = DateTime.Now.Subtract(TimeSpan.FromDays(4)), LastUpdated = DateTime.Now.Subtract(TimeSpan.FromDays(4)), Owner = TestUser2, Flashcards = new List<Flashcard> { TestFlashcard10 }, Description = "B" };
+        private static readonly Deck TestEntity5 = new() { Name = "test deck 5", CreationDate = DateTime.Now.Subtract(TimeSpan.FromDays(5)), LastUpdated = DateTime.Now.Subtract(TimeSpan.FromDays(5)), Owner = TestUser2, Flashcards = new List<Flashcard>(), Description = "A" };
 
         private static readonly List<Deck> FullEntityList = new() { TestEntity1, TestEntity2, TestEntity3, TestEntity4, TestEntity5 };
 
@@ -250,16 +271,41 @@ namespace Tests.Unit_Tests.Data.Repository
             base.GetAll(decks);
         }
 
-        // I will be explicitly stating the expected results to better visualize the expected behavior of these tests. I could easilly just used LINQ functions for this, but I think that doing this way is more 'conceptually correct'.
-        public static IEnumerable<object[]> SearchAndOrderEntityData =>
+        public static IEnumerable<object[]> SearchAndOrder_ValidateOrderingData =>
         new List<object[]>
         {
                 new object[] {
                     new SearchAndOrderTestData
                     {
                         entities = new List<Deck>(FullEntityList),
-                        expectedEntities = new List<Deck> { TestEntity5, TestEntity4, TestEntity3, TestEntity2, TestEntity1 }, // should order properly
-                        predicate = _ => true,
+                        expectedEntities = new List<Deck>(FullEntityList),
+                        sortOptions = new DeckSortOptions(SortType.Descending, "flashcards"),
+                        numRecords = 10
+                    },
+                },
+                new object[] {
+                    new SearchAndOrderTestData
+                    {
+                        entities = new List<Deck>(FullEntityList),
+                        expectedEntities = new List<Deck>() { TestEntity5, TestEntity4, TestEntity3, TestEntity2, TestEntity1 },
+                        sortOptions = new DeckSortOptions(SortType.Ascending, "flashcards"),
+                        numRecords = 10
+                    },
+                },
+                new object[] {
+                    new SearchAndOrderTestData
+                    {
+                        entities = new List<Deck>(FullEntityList),
+                        expectedEntities = new List<Deck>() { TestEntity5, TestEntity4 },
+                        sortOptions = new DeckSortOptions(SortType.Ascending, "flashcards"),
+                        numRecords = 2
+                    },
+                },
+                new object[] {
+                    new SearchAndOrderTestData
+                    {
+                        entities = new List<Deck>(FullEntityList),
+                        expectedEntities = new List<Deck> { TestEntity5, TestEntity4, TestEntity3, TestEntity2, TestEntity1 },
                         sortOptions = new DeckSortOptions(SortType.Descending, "name"),
                         numRecords = 10
                     },
@@ -268,9 +314,8 @@ namespace Tests.Unit_Tests.Data.Repository
                     new SearchAndOrderTestData
                     {
                         entities = new List<Deck>(FullEntityList),
-                        expectedEntities = new List<Deck> { TestEntity5, TestEntity4, TestEntity3, TestEntity2, TestEntity1 }, // should order properly
-                        predicate = _ => true,
-                        sortOptions = new DeckSortOptions(SortType.Ascending, "description"),
+                        expectedEntities = new List<Deck>(FullEntityList),
+                        sortOptions = new DeckSortOptions(SortType.Ascending, "name"),
                         numRecords = 10
                     },
                 },
@@ -278,28 +323,37 @@ namespace Tests.Unit_Tests.Data.Repository
                     new SearchAndOrderTestData
                     {
                         entities = new List<Deck>(FullEntityList),
-                        expectedEntities = new List<Deck> { TestEntity5, TestEntity4, },
-                        predicate = _ => true,
-                        sortOptions = new DeckSortOptions(SortType.Ascending, "description"),
-                        numRecords = 2 // same as previous test, but with limited nubmer of records
-                    },
-                },
-                new object[] {
-                    new SearchAndOrderTestData
-                    {
-                        entities = new List<Deck>(FullEntityList),
-                        expectedEntities = new List<Deck> { TestEntity5, TestEntity4 },
-                        predicate = e => e.Description == "A" || e.Description == "B", // should filter by property
-                        sortOptions = null,
+                        expectedEntities = new List<Deck>(FullEntityList),
+                        sortOptions = new DeckSortOptions(SortType.Ascending, "invalid"), // should revert to default column (same as previous test case)
                         numRecords = 10
                     },
                 }
         };
 
-        [Theory, MemberData(nameof(SearchAndOrderEntityData))]
-        public override void SearchAndOrder(SearchAndOrderTestData data)
+        [Theory, MemberData(nameof(SearchAndOrder_ValidateOrderingData))]
+        public override void SearchAndOrder_ValidateOrdering(SearchAndOrderTestData data)
         {
-            base.SearchAndOrder(data);
+            base.SearchAndOrder_ValidateOrdering(data);
+        }
+
+        public static IEnumerable<object[]> SearchAndOrder_ValidateFilteringData =>
+        new List<object[]>
+        {
+                new object[] {
+                    new SearchAndOrderTestData
+                    {
+                        entities = new List<Deck>(FullEntityList),
+                        expectedEntities = new List<Deck> { TestEntity1 },
+                        predicate = e => e.Name == "test deck 1",
+                        numRecords = 10
+                    },
+                }
+        };
+
+        [Theory, MemberData(nameof(SearchAndOrder_ValidateFilteringData))]
+        public override void SearchAndOrder_ValidateFiltering(SearchAndOrderTestData data)
+        {
+            base.SearchAndOrder_ValidateFiltering(data);
         }
     }
 

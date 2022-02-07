@@ -25,8 +25,8 @@ namespace Data.Models.Implementation
 
         public Guid DeckID { get; set; }
 
-        public IEnumerable<Flashcard> Flashcards { get; set; }
-        public ApplicationUser Owner { get; set; }
+        public IEnumerable<Flashcard> Flashcards { get; set; } = new List<Flashcard>();
+        public ApplicationUser Owner { get; set; } = null;
 
         public string Name { get; set; } = "";
         public string Description { get; set; } = "";
