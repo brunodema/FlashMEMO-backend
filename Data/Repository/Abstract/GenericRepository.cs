@@ -23,9 +23,9 @@ namespace Data.Repository.Abstract
             _context = context;
             _dbset = context.Set<TEntity>();
         }
-        public virtual IEnumerable<TEntity> SearchAndOrder(Expression<Func<TEntity, bool>> predicate, GenericSortOptions<TEntity> sortOptions, int numRecords)
+        public virtual IEnumerable<TEntity> SearchAndOrder(Expression<Func<TEntity, bool>> predicate, GenericSortOptions<TEntity> sortOptions = null, int numRecords = 10)
         {
-            return sortOptions.GetSortedResults(_dbset.Where(predicate)).Take(numRecords);
+            return sortOptions?.GetSortedResults(_dbset.Where(predicate)).Take(numRecords) ?? _dbset.Where(predicate).Take(numRecords);
         }
         public virtual IQueryable<TEntity> GetAll()
         {
