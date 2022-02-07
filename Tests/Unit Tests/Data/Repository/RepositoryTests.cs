@@ -234,7 +234,6 @@ namespace Tests.Unit_Tests.Data.Repository
         private static readonly Deck TestEntity4 = new() { Name = "test deck 4", CreationDate = DateTime.Now.Subtract(TimeSpan.FromDays(4)), LastUpdated = DateTime.Now.Subtract(TimeSpan.FromDays(4)), Owner = TestUser2, Flashcards = new List<Flashcard> { TestFlashcard2 }, Description = "B" };
         private static readonly Deck TestEntity5 = new() { Name = "test deck 5", CreationDate = DateTime.Now.Subtract(TimeSpan.FromDays(5)), LastUpdated = DateTime.Now.Subtract(TimeSpan.FromDays(5)), Owner = TestUser2, Flashcards = new List<Flashcard> { TestFlashcard3 }, Description = "A" };
 
-
         private static readonly List<Deck> FullEntityList = new() { TestEntity1, TestEntity2, TestEntity3, TestEntity4, TestEntity5 };
 
         public static IEnumerable<object[]> GetAllEntityData =>
@@ -251,7 +250,7 @@ namespace Tests.Unit_Tests.Data.Repository
             base.GetAll(decks);
         }
 
-        // I will be explicatelly stating the expected results to better visualize the expected behavior of these tests. I could easilly just used LINQ functions for this, but I think that doing this way is more 'conceptually correct'.
+        // I will be explicitly stating the expected results to better visualize the expected behavior of these tests. I could easilly just used LINQ functions for this, but I think that doing this way is more 'conceptually correct'.
         public static IEnumerable<object[]> SearchAndOrderEntityData =>
         new List<object[]>
         {
