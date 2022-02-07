@@ -218,11 +218,22 @@ namespace Tests.Unit_Tests.Data.Repository
             base.DeleteEntity(entity);
         }
 
-        private static readonly Deck TestEntity1 = new() { Name = "test deck 1", CreationDate = DateTime.Now.Subtract(TimeSpan.FromDays(1)), Description = "E" };
-        private static readonly Deck TestEntity2 = new() { Name = "test deck 2", CreationDate = DateTime.Now.Subtract(TimeSpan.FromDays(2)), Description = "D" };
-        private static readonly Deck TestEntity3 = new() { Name = "test deck 3", CreationDate = DateTime.Now.Subtract(TimeSpan.FromDays(3)), Description = "C" };
-        private static readonly Deck TestEntity4 = new() { Name = "test deck 4", CreationDate = DateTime.Now.Subtract(TimeSpan.FromDays(4)), Description = "B" };
-        private static readonly Deck TestEntity5 = new() { Name = "test deck 5", CreationDate = DateTime.Now.Subtract(TimeSpan.FromDays(5)), Description = "A" };
+        // test data
+        private static readonly ApplicationUser TestUser1 = new ApplicationUser() { Email = "testuser1@email.com", UserName = "testuser1" };
+        private static readonly ApplicationUser TestUser2 = new ApplicationUser() { Email = "testuser2@email.com", UserName = "testuser2" };
+
+        private static readonly Flashcard TestFlashcard1 = new() { Level = 1, FrontContent = "front1", BackContent = "back1", CreationDate = DateTime.Now.Subtract(TimeSpan.FromDays(1)), DueDate = DateTime.Now.Add(TimeSpan.FromDays(1)), LastUpdated = DateTime.Now.Subtract(TimeSpan.FromDays(1)) };
+        private static readonly Flashcard TestFlashcard2 = new() { Level = 1, FrontContent = "front2", BackContent = "back2", CreationDate = DateTime.Now.Subtract(TimeSpan.FromDays(2)), DueDate = DateTime.Now.Add(TimeSpan.FromDays(2)), LastUpdated = DateTime.Now.Subtract(TimeSpan.FromDays(2)) };
+        private static readonly Flashcard TestFlashcard3 = new() { Level = 1, FrontContent = "front3", BackContent = "back3", CreationDate = DateTime.Now.Subtract(TimeSpan.FromDays(3)), DueDate = DateTime.Now.Add(TimeSpan.FromDays(3)), LastUpdated = DateTime.Now.Subtract(TimeSpan.FromDays(3)) };
+
+        private static readonly List<Flashcard> FullFlashcardList = new() { TestFlashcard1, TestFlashcard2, TestFlashcard3 };
+
+        private static readonly Deck TestEntity1 = new() { Name = "test deck 1", CreationDate = DateTime.Now.Subtract(TimeSpan.FromDays(1)), LastUpdated = DateTime.Now.Subtract(TimeSpan.FromDays(1)), Owner = TestUser1, Flashcards = FullFlashcardList, Description = "E" };
+        private static readonly Deck TestEntity2 = new() { Name = "test deck 2", CreationDate = DateTime.Now.Subtract(TimeSpan.FromDays(2)), LastUpdated = DateTime.Now.Subtract(TimeSpan.FromDays(2)), Owner = TestUser1, Flashcards = new List<Flashcard> { TestFlashcard1 }, Description = "D" };
+        private static readonly Deck TestEntity3 = new() { Name = "test deck 3", CreationDate = DateTime.Now.Subtract(TimeSpan.FromDays(3)), LastUpdated = DateTime.Now.Subtract(TimeSpan.FromDays(3)), Owner = TestUser2, Flashcards = FullFlashcardList, Description = "C" };
+        private static readonly Deck TestEntity4 = new() { Name = "test deck 4", CreationDate = DateTime.Now.Subtract(TimeSpan.FromDays(4)), LastUpdated = DateTime.Now.Subtract(TimeSpan.FromDays(4)), Owner = TestUser2, Flashcards = new List<Flashcard> { TestFlashcard2 }, Description = "B" };
+        private static readonly Deck TestEntity5 = new() { Name = "test deck 5", CreationDate = DateTime.Now.Subtract(TimeSpan.FromDays(5)), LastUpdated = DateTime.Now.Subtract(TimeSpan.FromDays(5)), Owner = TestUser2, Flashcards = new List<Flashcard> { TestFlashcard3 }, Description = "A" };
+
 
         private static readonly List<Deck> FullEntityList = new() { TestEntity1, TestEntity2, TestEntity3, TestEntity4, TestEntity5 };
 
