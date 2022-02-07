@@ -145,7 +145,14 @@ namespace Tests.Unit_Tests.Data.Repository
             var entitiesFromRepository = _repository.SearchAndOrder(data.predicate, data.sortOptions, data.numRecords);
 
             // Assert
-            entitiesFromRepository.Should().BeEquivalentTo(data.expectedEntities.Take(data.numRecords), opt => opt.WithStrictOrdering());
+            if (data.sortOptions is null)
+            {
+                entitiesFromRepository.Should().BeEquivalentTo(data.expectedEntities.Take(data.numRecords)); // no need for strict ordering if no sorting was specified
+            }
+            else
+            {
+                entitiesFromRepository.Should().BeEquivalentTo(data.expectedEntities.Take(data.numRecords), opt => opt.WithStrictOrdering());
+            }
         }
 
         public void Dispose()
@@ -211,11 +218,11 @@ namespace Tests.Unit_Tests.Data.Repository
             base.DeleteEntity(entity);
         }
 
-        private static readonly Deck TestEntity1 = new() { Name = "test deck 1", CreationDate = DateTime.Now.Subtract(TimeSpan.FromDays(1)), Description = "A" };
-        private static readonly Deck TestEntity2 = new() { Name = "test deck 2", CreationDate = DateTime.Now.Subtract(TimeSpan.FromDays(2)), Description = "B" };
+        private static readonly Deck TestEntity1 = new() { Name = "test deck 1", CreationDate = DateTime.Now.Subtract(TimeSpan.FromDays(1)), Description = "E" };
+        private static readonly Deck TestEntity2 = new() { Name = "test deck 2", CreationDate = DateTime.Now.Subtract(TimeSpan.FromDays(2)), Description = "D" };
         private static readonly Deck TestEntity3 = new() { Name = "test deck 3", CreationDate = DateTime.Now.Subtract(TimeSpan.FromDays(3)), Description = "C" };
-        private static readonly Deck TestEntity4 = new() { Name = "test deck 4", CreationDate = DateTime.Now.Subtract(TimeSpan.FromDays(4)), Description = "D" };
-        private static readonly Deck TestEntity5 = new() { Name = "test deck 5", CreationDate = DateTime.Now.Subtract(TimeSpan.FromDays(5)), Description = "E" };
+        private static readonly Deck TestEntity4 = new() { Name = "test deck 4", CreationDate = DateTime.Now.Subtract(TimeSpan.FromDays(4)), Description = "B" };
+        private static readonly Deck TestEntity5 = new() { Name = "test deck 5", CreationDate = DateTime.Now.Subtract(TimeSpan.FromDays(5)), Description = "A" };
 
         private static readonly List<Deck> FullEntityList = new() { TestEntity1, TestEntity2, TestEntity3, TestEntity4, TestEntity5 };
 
@@ -233,6 +240,7 @@ namespace Tests.Unit_Tests.Data.Repository
             base.GetAll(decks);
         }
 
+        // I will be explicatelly stating the expected results to better visualize the expected behavior of these tests. I could easilly just used LINQ functions for this, but I think that doing this way is more 'conceptually correct'.
         public static IEnumerable<object[]> SearchAndOrderEntityData =>
         new List<object[]>
         {
@@ -240,12 +248,42 @@ namespace Tests.Unit_Tests.Data.Repository
                     new SearchAndOrderTestData
                     {
                         entities = new List<Deck>(FullEntityList),
-                        expectedEntities = FullEntityList.OrderByDescending(e => e.Name).ToList(),
+                        expectedEntities = new List<Deck> { TestEntity5, TestEntity4, TestEntity3, TestEntity2, TestEntity1 }, // should order properly
                         predicate = _ => true,
                         sortOptions = new DeckSortOptions(SortType.Descending, "name"),
                         numRecords = 10
-                    }
+                    },
                 },
+                new object[] {
+                    new SearchAndOrderTestData
+                    {
+                        entities = new List<Deck>(FullEntityList),
+                        expectedEntities = new List<Deck> { TestEntity5, TestEntity4, TestEntity3, TestEntity2, TestEntity1 }, // should order properly
+                        predicate = _ => true,
+                        sortOptions = new DeckSortOptions(SortType.Ascending, "description"),
+                        numRecords = 10
+                    },
+                },
+                new object[] {
+                    new SearchAndOrderTestData
+                    {
+                        entities = new List<Deck>(FullEntityList),
+                        expectedEntities = new List<Deck> { TestEntity5, TestEntity4, },
+                        predicate = _ => true,
+                        sortOptions = new DeckSortOptions(SortType.Ascending, "description"),
+                        numRecords = 2 // same as previous test, but with limited nubmer of records
+                    },
+                },
+                new object[] {
+                    new SearchAndOrderTestData
+                    {
+                        entities = new List<Deck>(FullEntityList),
+                        expectedEntities = new List<Deck> { TestEntity5, TestEntity4 },
+                        predicate = e => e.Description == "A" || e.Description == "B", // should filter by property
+                        sortOptions = null,
+                        numRecords = 10
+                    },
+                }
         };
 
         [Theory, MemberData(nameof(SearchAndOrderEntityData))]
