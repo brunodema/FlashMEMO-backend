@@ -23,8 +23,19 @@ namespace Data.Repository.Abstract
             _context = context;
             _dbset = context.Set<TEntity>();
         }
+        /// <summary>
+        /// After applying filtering according to the provided <paramref name="predicate"/>, and ordering the results by the especified <paramref name="sortOptions"/>, returns a collection of at most <paramref name="numRecords"/>. If <paramref name="numRecords"/> is a negative number, it returns the full collection instead.
+        /// </summary>
+        /// <param name="predicate"></param>
+        /// <param name="sortOptions"></param>
+        /// <param name="numRecords"> Maximum numnber of records to be returned. If less than 0, returns all records instead.</param>
+        /// <returns></returns>
         public virtual IEnumerable<TEntity> SearchAndOrder(Expression<Func<TEntity, bool>> predicate, GenericSortOptions<TEntity> sortOptions = null, int numRecords = 10)
         {
+            if (numRecords < 0)
+            {
+                return sortOptions?.GetSortedResults(_dbset.Where(predicate)) ?? _dbset.Where(predicate);
+            }
             return sortOptions?.GetSortedResults(_dbset.Where(predicate)).Take(numRecords) ?? _dbset.Where(predicate).Take(numRecords);
         }
         public virtual IQueryable<TEntity> GetAll()

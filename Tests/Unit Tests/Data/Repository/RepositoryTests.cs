@@ -148,7 +148,7 @@ namespace Tests.Unit_Tests.Data.Repository
             entities.ForEach(e => AddEntityViaContext(e));
 
             // Act
-            var entitiesFromRepository = _repository.SearchAndOrder(_ => true, sortOptions, 10);
+            var entitiesFromRepository = _repository.SearchAndOrder(_ => true, sortOptions, -1);
 
             // Assert
             entitiesFromRepository.Should().BeEquivalentTo(entities);
@@ -290,6 +290,10 @@ namespace Tests.Unit_Tests.Data.Repository
                 new object[] { new List<Deck>(FullEntityList), new DeckSortOptions(SortType.Descending, "description") },
                 new object[] { new List<Deck>(FullEntityList), new DeckSortOptions(SortType.Ascending, "owner") },
                 new object[] { new List<Deck>(FullEntityList), new DeckSortOptions(SortType.Descending, "owner") },
+                new object[] { new List<Deck>(FullEntityList), new DeckSortOptions(SortType.Ascending, "creationdate") },
+                new object[] { new List<Deck>(FullEntityList), new DeckSortOptions(SortType.Descending, "creationdate") },
+                new object[] { new List<Deck>(FullEntityList), new DeckSortOptions(SortType.Ascending, "lastupdated") },
+                new object[] { new List<Deck>(FullEntityList), new DeckSortOptions(SortType.Descending, "lastupdated") },
         };
 
         [Theory, MemberData(nameof(SearchAndOrder_ValidateOrderingData))]

@@ -157,12 +157,10 @@ namespace RepositoryTests.Implementation
         [InlineData(1, SortType.Ascending)]
         [InlineData(0, SortType.Ascending)]
         [InlineData(4, SortType.Ascending)]
-        [InlineData(-1, SortType.Ascending)]
         [InlineData(50, SortType.Descending)]
         [InlineData(1, SortType.Descending)]
         [InlineData(0, SortType.Descending)]
         [InlineData(4, SortType.Descending)]
-        [InlineData(-1, SortType.Descending)]
         public void SearchAndOrderByCreationDateAsync_ProperlyGetDataAndOrderAccordignly(int numRecords, SortType sortType)
         {
             var response = _repositoryFixture._repository.SearchAndOrderByCreationDateAsync(_ => true, sortType, numRecords);
