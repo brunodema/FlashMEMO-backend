@@ -6,8 +6,10 @@ using Data.Repository.Interfaces;
 using Data.Tools.Sorting;
 using FluentAssertions;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Linq.Expressions;
 using Xunit;
@@ -60,7 +62,7 @@ namespace Tests.Unit_Tests.Data.Repository
         {
             _context.Set<TEntity>().Add(entity);
             _context.SaveChanges();
-            _context.Set<TEntity>().Find(entity.DbId).Should().Be(entity);
+            _context.Set<TEntity>().Find(entity.DbId).Should().BeEquivalentTo(entity);
         }
 
         public async virtual void CreateEntity(TEntity entity)
@@ -98,7 +100,6 @@ namespace Tests.Unit_Tests.Data.Repository
             // Assert
             entityFromRepository = GetEntityViaContext(entityFromRepository.DbId);
             entityFromRepository.Should().BeEquivalentTo(updatedEntity);
-            entityFromRepository.Should().BeEquivalentTo(previousEntity); // the fuck
         }
 
         public async virtual void DeleteEntity(TEntity entity)
@@ -127,18 +128,10 @@ namespace Tests.Unit_Tests.Data.Repository
         }
 
         /// <summary>
-        /// This class is only here because C# is retarded and does not allow Expressions to be declared in loco. Therefore, I must create a strongly-typed object so that the lambda (Func) I declare later is automatically converted into an Expression.
-        /// </summary>
-        public class ValidateFilteringTestData
-        {
-            public List<TEntity> entities { get; set; }
-            public Expression<Func<TEntity, bool>> predicate { get; set; }
-        }
-
-        /// <summary>
         /// Tests the 'SearchAndOrder' endpoint, but only the ordering aspect (easier to show intent of tests).
         /// </summary>
-        /// <param name="data"></param>
+        /// <param name="entities"></param>
+        /// <param name="sortOptions"></param>
         public virtual void SearchAndOrder_ValidateOrdering(List<TEntity> entities, GenericSortOptions<TEntity> sortOptions)
         {
             // Arrange
@@ -148,18 +141,32 @@ namespace Tests.Unit_Tests.Data.Repository
             var entitiesFromRepository = _repository.SearchAndOrder(_ => true, sortOptions, -1);
 
             // Assert
-            entitiesFromRepository.Should().BeEquivalentTo(entities);
-            if (sortOptions.SortType is SortType.Ascending)
+            entitiesFromRepository.Should().BeEquivalentTo(entities).And.HaveCount(entities.Count);
+
+            switch (sortOptions.SortType)
             {
-                entitiesFromRepository.Should().BeInAscendingOrder(sortOptions.GetColumnToSort());
-            }
-            else
-            {
-                entitiesFromRepository.Should().BeInDescendingOrder(sortOptions.GetColumnToSort());
+                case SortType.Ascending:
+                    entitiesFromRepository.Should().BeInAscendingOrder(sortOptions.GetColumnToSort());
+                    break;
+                case SortType.Descending:
+                    entitiesFromRepository.Should().BeInDescendingOrder(sortOptions.GetColumnToSort());
+                    break;
             }
         }
 
+        /// <summary>
+        /// This class is only here because C# is retarded and does not allow Expressions to be declared in loco. Therefore, I must create a strongly-typed object so that the lambda (Func) I declare later is automatically converted into an Expression.
+        /// </summary>
+        public class ValidateFilteringTestData
+        {
+            public List<TEntity> entities { get; set; }
+            public Expression<Func<TEntity, bool>> predicate { get; set; }
+        }
 
+        /// <summary>
+        /// Tests the 'SearchAndOrder' endpoint, but only the filtering aspect (easier to show intent of tests).
+        /// </summary>
+        /// <param name="testData"></param>
         public virtual void SearchAndOrder_ValidateFiltering(ValidateFilteringTestData testData)
         {
             // Arrange
