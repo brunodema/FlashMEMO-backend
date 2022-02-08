@@ -98,7 +98,7 @@ namespace Tests.Unit_Tests.Data.Repository
             // Assert
             entityFromRepository = GetEntityViaContext(entityFromRepository.DbId);
             entityFromRepository.Should().BeEquivalentTo(updatedEntity);
-            entityFromRepository.Should().BeEquivalentTo(previousEntity);
+            entityFromRepository.Should().BeEquivalentTo(previousEntity); // the fuck
         }
 
         public async virtual void DeleteEntity(TEntity entity)
@@ -127,15 +127,12 @@ namespace Tests.Unit_Tests.Data.Repository
         }
 
         /// <summary>
-        /// This class states explicitly both the input data and the expected data instead of using LINQ of the input, so the intent of the tests can be better visualized. 
+        /// This class is only here because C# is retarded and does not allow Expressions to be declared in loco. Therefore, I must create a strongly-typed object so that the lambda (Func) I declare later is automatically converted into an Expression.
         /// </summary>
-        public class SearchAndOrderTestData
+        public class ValidateFilteringTestData
         {
-            public List<TEntity> entities { get; set; } = null;
-            public List<TEntity> expectedEntities { get; set; } = null;
-            public Expression<Func<TEntity, bool>> predicate { get; set; } = _ => true;
-            public GenericSortOptions<TEntity> sortOptions { get; set; } = null;
-            public int numRecords { get; set; } = 10;
+            public List<TEntity> entities { get; set; }
+            public Expression<Func<TEntity, bool>> predicate { get; set; }
         }
 
         /// <summary>
@@ -162,20 +159,17 @@ namespace Tests.Unit_Tests.Data.Repository
             }
         }
 
-        /// <summary>
-        /// Tests the 'SearchAndOrder' endpoint, but only the filtering aspect (easier to show intent of tests).
-        /// </summary>
-        /// <param name="data"></param>
-        public virtual void SearchAndOrder_ValidateFiltering(SearchAndOrderTestData data)
+
+        public virtual void SearchAndOrder_ValidateFiltering(ValidateFilteringTestData testData)
         {
             // Arrange
-            data.entities.ForEach(e => AddEntityViaContext(e));
+            testData.entities.ForEach(e => AddEntityViaContext(e));
 
             // Act
-            var entitiesFromRepository = _repository.SearchAndOrder(data.predicate, null, data.numRecords);
+            var entitiesFromRepository = _repository.SearchAndOrder(testData.predicate, null, -1);
 
             // Assert
-            entitiesFromRepository.Should().BeEquivalentTo(data.expectedEntities.Take(data.numRecords)); // no need for strict ordering if no sorting was specified
+            entitiesFromRepository.Should().BeEquivalentTo(entitiesFromRepository.AsQueryable().Where(testData.predicate)); // no need for strict ordering if no sorting was specified
         }
 
         public void Dispose()
@@ -305,21 +299,13 @@ namespace Tests.Unit_Tests.Data.Repository
         public static IEnumerable<object[]> SearchAndOrder_ValidateFilteringData =>
         new List<object[]>
         {
-                new object[] {
-                    new SearchAndOrderTestData
-                    {
-                        entities = new List<Deck>(FullEntityList),
-                        expectedEntities = new List<Deck> { TestEntity1 },
-                        predicate = e => e.Name == "test deck 1",
-                        numRecords = 10
-                    },
-                }
+            new object[] { new ValidateFilteringTestData { entities = FullEntityList, predicate = _ => true } },
         };
 
         [Theory, MemberData(nameof(SearchAndOrder_ValidateFilteringData))]
-        public override void SearchAndOrder_ValidateFiltering(SearchAndOrderTestData data)
+        public override void SearchAndOrder_ValidateFiltering(ValidateFilteringTestData testData)
         {
-            base.SearchAndOrder_ValidateFiltering(data);
+            base.SearchAndOrder_ValidateFiltering(testData);
         }
     }
 
