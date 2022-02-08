@@ -1,6 +1,7 @@
 ﻿using Data.Repository.Interfaces;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Data.Models.Implementation
 {
@@ -34,6 +35,11 @@ namespace Data.Models.Implementation
         public DateTime LastUpdated { get; set; } = DateTime.Now;
 
         public Guid DbId { get => DeckID; set => DeckID = value; }
+
+        /// <summary>
+        /// Work-around so errors are not thrown while unit-testing. More especifically, as far as I know, if a method is used for a selector lambda (ex: set the property to order a collection by), FluentAssertions will not allow such thing. However, a property that wraps a method works.
+        /// </summary>
+        public int FlashcardCount { get => Flashcards.Count(); set => FlashcardCount = value; }
     }
 
     public class Flashcard : IDatabaseItem<Guid>

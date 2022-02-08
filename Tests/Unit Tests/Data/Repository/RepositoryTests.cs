@@ -15,7 +15,7 @@ using Xunit.Abstractions;
 
 namespace Tests.Unit_Tests.Data.Repository
 {
-    public abstract class GenericRepositoryUnitTests<TEntity, TKey>  : IDisposable
+    public abstract class GenericRepositoryUnitTests<TEntity, TKey> : IDisposable
         where TEntity : class, IDatabaseItem<TKey>
     {
         protected ITestOutputHelper _output;
@@ -142,16 +142,24 @@ namespace Tests.Unit_Tests.Data.Repository
         /// Tests the 'SearchAndOrder' endpoint, but only the ordering aspect (easier to show intent of tests).
         /// </summary>
         /// <param name="data"></param>
-        public virtual void SearchAndOrder_ValidateOrdering(SearchAndOrderTestData data)
+        public virtual void SearchAndOrder_ValidateOrdering(List<TEntity> entities, GenericSortOptions<TEntity> sortOptions)
         {
             // Arrange
-            data.entities.ForEach(e => AddEntityViaContext(e));
+            entities.ForEach(e => AddEntityViaContext(e));
 
             // Act
-            var entitiesFromRepository = _repository.SearchAndOrder(_ => true, data.sortOptions, data.numRecords);
+            var entitiesFromRepository = _repository.SearchAndOrder(_ => true, sortOptions, 10);
 
             // Assert
-            entitiesFromRepository.Should().BeEquivalentTo(data.expectedEntities.Take(data.numRecords), opt => opt.WithStrictOrdering());
+            entitiesFromRepository.Should().BeEquivalentTo(entities);
+            if (sortOptions.SortType is SortType.Ascending)
+            {
+                entitiesFromRepository.Should().BeInAscendingOrder(sortOptions.GetColumnToSort());
+            }
+            else
+            {
+                entitiesFromRepository.Should().BeInDescendingOrder(sortOptions.GetColumnToSort());
+            }
         }
 
         /// <summary>
@@ -274,66 +282,20 @@ namespace Tests.Unit_Tests.Data.Repository
         public static IEnumerable<object[]> SearchAndOrder_ValidateOrderingData =>
         new List<object[]>
         {
-                new object[] {
-                    new SearchAndOrderTestData
-                    {
-                        entities = new List<Deck>(FullEntityList),
-                        expectedEntities = new List<Deck>(FullEntityList),
-                        sortOptions = new DeckSortOptions(SortType.Descending, "flashcards"),
-                        numRecords = 10
-                    },
-                },
-                new object[] {
-                    new SearchAndOrderTestData
-                    {
-                        entities = new List<Deck>(FullEntityList),
-                        expectedEntities = new List<Deck>() { TestEntity5, TestEntity4, TestEntity3, TestEntity2, TestEntity1 },
-                        sortOptions = new DeckSortOptions(SortType.Ascending, "flashcards"),
-                        numRecords = 10
-                    },
-                },
-                new object[] {
-                    new SearchAndOrderTestData
-                    {
-                        entities = new List<Deck>(FullEntityList),
-                        expectedEntities = new List<Deck>() { TestEntity5, TestEntity4 },
-                        sortOptions = new DeckSortOptions(SortType.Ascending, "flashcards"),
-                        numRecords = 2
-                    },
-                },
-                new object[] {
-                    new SearchAndOrderTestData
-                    {
-                        entities = new List<Deck>(FullEntityList),
-                        expectedEntities = new List<Deck> { TestEntity5, TestEntity4, TestEntity3, TestEntity2, TestEntity1 },
-                        sortOptions = new DeckSortOptions(SortType.Descending, "name"),
-                        numRecords = 10
-                    },
-                },
-                new object[] {
-                    new SearchAndOrderTestData
-                    {
-                        entities = new List<Deck>(FullEntityList),
-                        expectedEntities = new List<Deck>(FullEntityList),
-                        sortOptions = new DeckSortOptions(SortType.Ascending, "name"),
-                        numRecords = 10
-                    },
-                },
-                new object[] {
-                    new SearchAndOrderTestData
-                    {
-                        entities = new List<Deck>(FullEntityList),
-                        expectedEntities = new List<Deck>(FullEntityList),
-                        sortOptions = new DeckSortOptions(SortType.Ascending, "invalid"), // should revert to default column (same as previous test case)
-                        numRecords = 10
-                    },
-                }
+                new object[] { new List<Deck>(FullEntityList), new DeckSortOptions(SortType.Ascending, "name") },
+                new object[] { new List<Deck>(FullEntityList), new DeckSortOptions(SortType.Descending, "name") },
+                new object[] { new List<Deck>(FullEntityList), new DeckSortOptions(SortType.Ascending, "flashcards") },
+                new object[] { new List<Deck>(FullEntityList), new DeckSortOptions(SortType.Descending, "flashcards") },
+                new object[] { new List<Deck>(FullEntityList), new DeckSortOptions(SortType.Ascending, "description") },
+                new object[] { new List<Deck>(FullEntityList), new DeckSortOptions(SortType.Descending, "description") },
+                new object[] { new List<Deck>(FullEntityList), new DeckSortOptions(SortType.Ascending, "owner") },
+                new object[] { new List<Deck>(FullEntityList), new DeckSortOptions(SortType.Descending, "owner") },
         };
 
         [Theory, MemberData(nameof(SearchAndOrder_ValidateOrderingData))]
-        public override void SearchAndOrder_ValidateOrdering(SearchAndOrderTestData data)
+        public override void SearchAndOrder_ValidateOrdering(List<Deck> entities, GenericSortOptions<Deck> sortOptions)
         {
-            base.SearchAndOrder_ValidateOrdering(data);
+            base.SearchAndOrder_ValidateOrdering(entities, sortOptions);
         }
 
         public static IEnumerable<object[]> SearchAndOrder_ValidateFilteringData =>
