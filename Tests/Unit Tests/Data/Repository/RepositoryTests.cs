@@ -177,7 +177,6 @@ namespace Tests.Unit_Tests.Data.Repository
 
             // Assert
             entitiesFromRepository.Should().BeEquivalentTo(testData.entities.AsQueryable().Where(testData.predicate));
-            _output.WriteLine($"Number of results returned from method is: {entitiesFromRepository.Count()}");
         }
 
         public void Dispose()
