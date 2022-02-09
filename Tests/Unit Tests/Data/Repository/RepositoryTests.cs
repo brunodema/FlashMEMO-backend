@@ -155,7 +155,7 @@ namespace Tests.Unit_Tests.Data.Repository
         }
 
         /// <summary>
-        /// This class is only here because C# is retarded and does not allow Expressions to be declared in loco. Therefore, I must create a strongly-typed object so that the lambda (Func) I declare later is automatically converted into an Expression.
+        /// This class is only here because C# is dumb and does not allow Expressions to be declared in loco. Therefore, I must create a strongly-typed object so that the lambda (Func) I declare later is automatically converted into an Expression.
         /// </summary>
         public class ValidateFilteringTestData
         {
