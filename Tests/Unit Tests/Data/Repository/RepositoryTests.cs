@@ -198,11 +198,6 @@ namespace Tests.Unit_Tests.Data.Repository
             {
                 new object[] { new Deck { Name = "test", Description = "this is a test deck" } },
                 new object[] { new Deck { Name = "test number two", Description = "this is another test deck" } },
-                new object[] { new Deck { Name = "test number two", Description = "this is another test deck" } },
-                new object[] { new Deck { Name = "test number two", Description = "this is another test deck" } },
-                new object[] { new Deck { Name = "test number two", Description = "this is another test deck" } },
-                new object[] { new Deck { Name = "test number two", Description = "this is another test deck" } },
-                new object[] { new Deck { Name = "test number two", Description = "this is another test deck" } },
             };
 
         [Theory, MemberData(nameof(CreateEntityData))]
