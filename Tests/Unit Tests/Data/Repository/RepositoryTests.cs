@@ -189,7 +189,7 @@ namespace Tests.Unit_Tests.Data.Repository
     public class DeckRepositoryUnitTests : GenericRepositoryUnitTests<Deck, Guid>
     {
         public DeckRepositoryUnitTests(ITestOutputHelper output) : base(output)
-        { 
+        {
             _repository = new DeckRepository(_context);
         }
 
@@ -197,7 +197,12 @@ namespace Tests.Unit_Tests.Data.Repository
             new List<object[]>
             {
                 new object[] { new Deck { Name = "test", Description = "this is a test deck" } },
-                new object[] { new Deck { Name = "test number two", Description = "this is another test deck" } }
+                new object[] { new Deck { Name = "test number two", Description = "this is another test deck" } },
+                new object[] { new Deck { Name = "test number two", Description = "this is another test deck" } },
+                new object[] { new Deck { Name = "test number two", Description = "this is another test deck" } },
+                new object[] { new Deck { Name = "test number two", Description = "this is another test deck" } },
+                new object[] { new Deck { Name = "test number two", Description = "this is another test deck" } },
+                new object[] { new Deck { Name = "test number two", Description = "this is another test deck" } },
             };
 
         [Theory, MemberData(nameof(CreateEntityData))]

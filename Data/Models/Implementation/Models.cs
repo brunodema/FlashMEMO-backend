@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Xunit.Abstractions;
 
 namespace Data.Models.Implementation
 {
@@ -20,11 +21,11 @@ namespace Data.Models.Implementation
         public Guid DbId { get => NewsID; set => NewsID = value; }
     }
 
-    public class Deck : IDatabaseItem<Guid>
+    public class Deck : IDatabaseItem<Guid>, IXunitSerializable
     {
         public Deck() { }
 
-        public Guid DeckID { get; set; }
+        public Guid DeckID { get; set; } = Guid.NewGuid();
 
         public IEnumerable<Flashcard> Flashcards { get; set; } = new List<Flashcard>();
         public ApplicationUser Owner { get; set; } = null;
@@ -40,6 +41,23 @@ namespace Data.Models.Implementation
         /// Work-around so errors are not thrown while unit-testing. More especifically, as far as I know, if a method is used for a selector lambda (ex: set the property to order a collection by), FluentAssertions will not allow such thing. However, a property that wraps a method works.
         /// </summary>
         public int FlashcardCount { get => Flashcards.Count(); set => FlashcardCount = value; }
+
+        /// <summary>
+        /// According to the internet: "The Deserialize method is, I think, used if you have your test cases stored in an external file that is read in by XUnit.  For our case, it doesn’t matter, so we can just leave it blank". Source: https://darchuk.net/2019/04/12/serializing-xunit-test-cases/.
+        /// </summary>
+        /// <param name="info"></param>
+        public void Deserialize(IXunitSerializationInfo info) { }
+
+        public void Serialize(IXunitSerializationInfo info)
+        {
+            info.AddValue(nameof(DeckID), DeckID.ToString());
+            info.AddValue(nameof(Owner), Owner?.UserName ?? "");
+            info.AddValue(nameof(FlashcardCount), FlashcardCount.ToString());
+            info.AddValue(nameof(Name), Name);
+            info.AddValue(nameof(Description), Description);
+            info.AddValue(nameof(CreationDate), CreationDate.ToString());
+            info.AddValue(nameof(LastUpdated), LastUpdated.ToString());
+        }
     }
 
     public class Flashcard : IDatabaseItem<Guid>
