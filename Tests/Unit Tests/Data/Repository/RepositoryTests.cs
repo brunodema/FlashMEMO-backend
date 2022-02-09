@@ -176,7 +176,8 @@ namespace Tests.Unit_Tests.Data.Repository
             var entitiesFromRepository = _repository.SearchAndOrder(testData.predicate, null, -1);
 
             // Assert
-            entitiesFromRepository.Should().BeEquivalentTo(entitiesFromRepository.AsQueryable().Where(testData.predicate)); // no need for strict ordering if no sorting was specified
+            entitiesFromRepository.Should().BeEquivalentTo(testData.entities.AsQueryable().Where(testData.predicate));
+            _output.WriteLine($"Number of results returned from method is: {entitiesFromRepository.Count()}");
         }
 
         public void Dispose()
@@ -307,6 +308,12 @@ namespace Tests.Unit_Tests.Data.Repository
         new List<object[]>
         {
             new object[] { new ValidateFilteringTestData { entities = FullEntityList, predicate = _ => true } },
+            new object[] { new ValidateFilteringTestData { entities = FullEntityList, predicate = e => e.Name == "test deck 1" } },
+            new object[] { new ValidateFilteringTestData { entities = FullEntityList, predicate = e => e.Owner.UserName.Contains("user2") } },
+            new object[] { new ValidateFilteringTestData { entities = FullEntityList, predicate = e => e.FlashcardCount > 1 } },
+            new object[] { new ValidateFilteringTestData { entities = FullEntityList, predicate = e => e.Description == "A" || e.Description == "B" } },
+            new object[] { new ValidateFilteringTestData { entities = FullEntityList, predicate = e => e.CreationDate < DateTime.Now.AddDays(-2) } },
+            new object[] { new ValidateFilteringTestData { entities = FullEntityList, predicate = e => e.LastUpdated > DateTime.Now } }
         };
 
         [Theory, MemberData(nameof(SearchAndOrder_ValidateFilteringData))]
