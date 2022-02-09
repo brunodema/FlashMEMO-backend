@@ -114,17 +114,17 @@ namespace Tests.Unit_Tests.Data.Repository
             GetEntityViaContext(entity.DbId).Should().BeNull();
         }
 
-        public virtual void GetAll(List<TEntity> entities)
+        public virtual void GetAll(TEntity[] entities)
         {
             // Arrange
-            entities.ForEach(e => AddEntityViaContext(e));
+            entities.ToList().ForEach(e => AddEntityViaContext(e));
 
             // Act
             var entitiesFromRepository = _repository.GetAll();
 
             // Assert
             entitiesFromRepository.Should().BeEquivalentTo(entities);
-            entitiesFromRepository.Should().HaveCount(entities.Count);
+            entitiesFromRepository.Should().HaveCount(entities.Length);
         }
 
         /// <summary>
@@ -269,13 +269,13 @@ namespace Tests.Unit_Tests.Data.Repository
         public static IEnumerable<object[]> GetAllEntityData =>
         new List<object[]>
         {
-                new object[] { new List<Deck>(FullEntityList) }, // full list
-                new object[] { new List<Deck>() { TestEntity1, TestEntity2, TestEntity3 } }, // only some
-                new object[] { new List<Deck>() { } } // nothing
+                new object[] { FullEntityList.ToArray() }, // full list
+                new object[] { new Deck[] { TestEntity1, TestEntity2, TestEntity3 } }, // only some
+                new object[] { new Deck[] { } } // nothing
         };
 
         [Theory, MemberData(nameof(GetAllEntityData))]
-        public override void GetAll(List<Deck> decks)
+        public override void GetAll(Deck[] decks)
         {
             base.GetAll(decks);
         }
