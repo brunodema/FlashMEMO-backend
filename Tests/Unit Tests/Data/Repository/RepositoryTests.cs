@@ -87,7 +87,7 @@ namespace Tests.Unit_Tests.Data.Repository
             // Assert
             entity.Should().BeEquivalentTo(entityFromRepository);
         }
-        public async virtual void UpdateEntity(TEntity previousEntity, TEntity updatedEntity) 
+        public async virtual void UpdateEntity(TEntity previousEntity, TEntity updatedEntity)
         {
             // Arrange
             AddEntityViaContext(previousEntity);

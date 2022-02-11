@@ -21,26 +21,9 @@ namespace Data.Models.Implementation
         public DateTime LastUpdated { get; set; } = DateTime.Now;
 
         public Guid DbId { get => NewsID; set => NewsID = value; }
-
-        /// <summary>
-        /// According to the internet: "The Deserialize method is, I think, used if you have your test cases stored in an external file that is read in by XUnit.  For our case, it doesn’t matter, so we can just leave it blank". Source: https://darchuk.net/2019/04/12/serializing-xunit-test-cases/.
-        /// </summary>
-        /// <param name="info"></param>
-        public void Deserialize(IXunitSerializationInfo info) { }
-
-        public void Serialize(IXunitSerializationInfo info)
-        {
-            info.AddValue(nameof(NewsID), NewsID.ToString());
-            info.AddValue(nameof(Title), Title);
-            info.AddValue(nameof(Subtitle), Subtitle);
-            info.AddValue(nameof(ThumbnailPath), ThumbnailPath);
-            info.AddValue(nameof(Content), Content);
-            info.AddValue(nameof(CreationDate), CreationDate.ToString());
-            info.AddValue(nameof(LastUpdated), LastUpdated.ToString());
-        }
     }
 
-    public class Deck : IDatabaseItem<Guid>, IXunitSerializable
+    public class Deck : IDatabaseItem<Guid>
     {
         public Deck() { }
 
@@ -60,23 +43,6 @@ namespace Data.Models.Implementation
         /// Work-around so errors are not thrown while unit-testing. More especifically, as far as I know, if a method is used for a selector lambda (ex: set the property to order a collection by), FluentAssertions will not allow such thing. However, a property that wraps a method works.
         /// </summary>
         public int FlashcardCount { get => Flashcards.Count(); set => FlashcardCount = value; }
-
-        /// <summary>
-        /// According to the internet: "The Deserialize method is, I think, used if you have your test cases stored in an external file that is read in by XUnit.  For our case, it doesn’t matter, so we can just leave it blank". Source: https://darchuk.net/2019/04/12/serializing-xunit-test-cases/.
-        /// </summary>
-        /// <param name="info"></param>
-        public void Deserialize(IXunitSerializationInfo info) { }
-
-        public void Serialize(IXunitSerializationInfo info)
-        {
-            info.AddValue(nameof(DeckID), DeckID.ToString());
-            info.AddValue(nameof(Owner), Owner?.UserName ?? "");
-            info.AddValue(nameof(FlashcardCount), FlashcardCount.ToString());
-            info.AddValue(nameof(Name), Name);
-            info.AddValue(nameof(Description), Description);
-            info.AddValue(nameof(CreationDate), CreationDate.ToString());
-            info.AddValue(nameof(LastUpdated), LastUpdated.ToString());
-        }
     }
 
     public class Flashcard : IDatabaseItem<Guid>
@@ -93,22 +59,5 @@ namespace Data.Models.Implementation
         public DateTime DueDate { get; set; } = DateTime.Now;
 
         public Guid DbId { get => FlashcardID; set => FlashcardID = value; }
-
-        /// <summary>
-        /// According to the internet: "The Deserialize method is, I think, used if you have your test cases stored in an external file that is read in by XUnit.  For our case, it doesn’t matter, so we can just leave it blank". Source: https://darchuk.net/2019/04/12/serializing-xunit-test-cases/.
-        /// </summary>
-        /// <param name="info"></param>
-        public void Deserialize(IXunitSerializationInfo info) { }
-
-        public void Serialize(IXunitSerializationInfo info)
-        {
-            info.AddValue(nameof(FlashcardID), FlashcardID.ToString());
-            info.AddValue(nameof(Level), Level.ToString());
-            info.AddValue(nameof(FrontContent), FrontContent);
-            info.AddValue(nameof(BackContent), BackContent);
-            info.AddValue(nameof(CreationDate), CreationDate.ToString());
-            info.AddValue(nameof(LastUpdated), LastUpdated.ToString());
-            info.AddValue(nameof(DueDate), LastUpdated.ToString());
-        }
     }
 }
