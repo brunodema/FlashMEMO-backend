@@ -193,12 +193,14 @@ namespace Tests.Unit_Tests.Data.Repository
             _repository = new DeckRepository(_context);
         }
 
-        public static IEnumerable<object[]> CreateEntityData =>
-            new List<object[]>
+        public static IEnumerable<object[]> CreateEntityData
+        {
+            get
             {
-                new object[] { new Deck { Name = "test", Description = "this is a test deck" } },
-                new object[] { new Deck { Name = "test number two", Description = "this is another test deck" } },
-            };
+                yield return new object[] { new Deck { Name = "test", Description = "this is a test deck" } };
+                yield return new object[] { new Deck { Name = "test number two", Description = "this is another test deck" } };
+            }
+        }
 
         [Theory, MemberData(nameof(CreateEntityData))]
         public override void CreateEntity(Deck entity)
@@ -320,6 +322,15 @@ namespace Tests.Unit_Tests.Data.Repository
         {
             base.SearchAndOrder_ValidateFiltering(testData);
         }
+
+
+        /*
+         * When I eventually come back to this project, the next short-term steps are:
+         * 
+         * - Remove those Serialization class interfaces from FlashMEMO objects, since they seem to be target only for Visual Studio, and Visual Studio is pretty shitty dealing with them.
+         * - Improve the existing unit tests for DeckRepository, and do the same thing for NewsRepository (ensure that the abstraction works for multiple repository classes).
+        */
+
     }
 
     // this class is here just to prove if the concept of the generic class works or not for multiple types
