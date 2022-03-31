@@ -116,6 +116,8 @@ namespace Tests.Unit_Tests.Data.Repository
 
         public virtual void GetAll(TEntity[] entities)
         {
+            _output.WriteLine($"Input data has length of {entities.Length} is: {JsonConvert.SerializeObject(entities)}");
+
             // Arrange
             entities.ToList().ForEach(e => AddEntityViaContext(e));
 
@@ -125,6 +127,8 @@ namespace Tests.Unit_Tests.Data.Repository
             // Assert
             entitiesFromRepository.Should().BeEquivalentTo(entities);
             entitiesFromRepository.Should().HaveCount(entities.Length);
+
+            _output.WriteLine($"Data returned by the test method has length of {entitiesFromRepository.Count()} and is: {JsonConvert.SerializeObject(entitiesFromRepository)}");
         }
 
         /// <summary>
@@ -134,6 +138,9 @@ namespace Tests.Unit_Tests.Data.Repository
         /// <param name="sortOptions"></param>
         public virtual void SearchAndOrder_ValidateOrdering(List<TEntity> entities, GenericSortOptions<TEntity> sortOptions)
         {
+            _output.WriteLine($"Sorting requested is: {JsonConvert.SerializeObject(sortOptions)}");
+            _output.WriteLine($"Input data has length of {entities.Count} is: {JsonConvert.SerializeObject(entities)}");
+
             // Arrange
             entities.ForEach(e => AddEntityViaContext(e));
 
@@ -152,6 +159,8 @@ namespace Tests.Unit_Tests.Data.Repository
                     entitiesFromRepository.Should().BeInDescendingOrder(sortOptions.GetColumnToSort());
                     break;
             }
+
+            _output.WriteLine($"Data returned by the test method has length of {entitiesFromRepository.Count()} and is: {JsonConvert.SerializeObject(entitiesFromRepository)}");
         }
 
         /// <summary>
@@ -170,6 +179,7 @@ namespace Tests.Unit_Tests.Data.Repository
         public virtual void SearchAndOrder_ValidateFiltering(ValidateFilteringTestData testData)
         {
             _output.WriteLine($"Filtering requested is: {JsonConvert.SerializeObject(testData.predicate.ToString())}");
+            _output.WriteLine($"Input data has length of {testData.entities.Count} is: {JsonConvert.SerializeObject(testData.entities)}");
 
             // Arrange
             testData.entities.ForEach(e => AddEntityViaContext(e));
@@ -180,7 +190,7 @@ namespace Tests.Unit_Tests.Data.Repository
             // Assert
             entitiesFromRepository.Should().BeEquivalentTo(testData.entities.AsQueryable().Where(testData.predicate));
 
-            _output.WriteLine($"Data returned by the test method is: {JsonConvert.SerializeObject(entitiesFromRepository)}");
+            _output.WriteLine($"Data returned by the test method has length of {entitiesFromRepository.Count()} and is: {JsonConvert.SerializeObject(entitiesFromRepository)}");
         }
 
         public void Dispose()
