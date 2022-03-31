@@ -336,15 +336,6 @@ namespace Tests.Unit_Tests.Data.Repository
         {
             base.SearchAndOrder_ValidateFiltering(testData);
         }
-
-
-        /*
-         * When I eventually come back to this project, the next short-term steps are:
-         * 
-         * - Remove those Serialization class interfaces from FlashMEMO objects, since they seem to be target only for Visual Studio, and Visual Studio is pretty shitty dealing with them.
-         * - Improve the existing unit tests for DeckRepository, and do the same thing for NewsRepository (ensure that the abstraction works for multiple repository classes).
-        */
-
     }
 
     // this class is here just to prove if the concept of the generic class works or not for multiple types
