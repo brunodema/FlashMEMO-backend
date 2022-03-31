@@ -389,5 +389,71 @@ namespace Tests.Unit_Tests.Data.Repository
         {
             base.DeleteEntity(entity);
         }
+
+        // specific test data
+        // using static DateTimes here to try to improve readability (no implicit calculations based on days/whatever)
+
+        private static readonly News TestEntity1 = new News() { Content = "content1", Subtitle = "subtitle1", Title = "title1", LastUpdated = DateTime.Parse("01-01-2001"), CreationDate = DateTime.Parse("01-01-2001") };
+        private static readonly News TestEntity2 = new News() { Content = "content2", Subtitle = "subtitle2", Title = "title2", LastUpdated = DateTime.Parse("01-01-2002"), CreationDate = DateTime.Parse("01-01-2002") };
+        private static readonly News TestEntity3 = new News() { Content = "content3", Subtitle = "subtitle3", Title = "title3", LastUpdated = DateTime.Parse("01-01-2003"), CreationDate = DateTime.Parse("01-01-2003") };
+        private static readonly News TestEntity4 = new News() { Content = "content4", Subtitle = "subtitle4", Title = "title4", LastUpdated = DateTime.Parse("01-01-2004"), CreationDate = DateTime.Parse("01-01-2004") };
+
+        private static readonly List<News> FullEntityList = new() { TestEntity1, TestEntity2, TestEntity3, TestEntity4 };
+
+        public static IEnumerable<object[]> GetAllEntityData =>
+        new List<object[]>
+        {
+                new object[] { FullEntityList.ToArray() }, // full list
+                new object[] { new News[] { TestEntity1, TestEntity2, TestEntity3 } }, // only some
+                new object[] { new News[] { } } // nothing
+        };
+
+        [Theory, MemberData(nameof(GetAllEntityData))]
+        public override void GetAll(News[] decks)
+        {
+            base.GetAll(decks);
+        }
+
+        public static IEnumerable<object[]> SearchAndOrder_ValidateOrderingData =>
+        new List<object[]>
+        {
+                new object[] { new List<News>(FullEntityList), new NewsSortOptions(SortType.Ascending, "title") },
+                new object[] { new List<News>(FullEntityList), new NewsSortOptions(SortType.Ascending, "subtitle") },
+                new object[] { new List<News>(FullEntityList), new NewsSortOptions(SortType.Ascending, "date") },
+                new object[] { new List<News>(FullEntityList), new NewsSortOptions(SortType.Descending, "title") },
+                new object[] { new List<News>(FullEntityList), new NewsSortOptions(SortType.Descending, "subtitle") },
+                new object[] { new List<News>(FullEntityList), new NewsSortOptions(SortType.Descending, "date") },
+
+                // these seem to be missing, should revert to 'title' at the moment
+                new object[] { new List<News>(FullEntityList), new NewsSortOptions(SortType.Ascending, "creationdate") },
+                new object[] { new List<News>(FullEntityList), new NewsSortOptions(SortType.Ascending, "lastupdated") },
+                new object[] { new List<News>(FullEntityList), new NewsSortOptions(SortType.Ascending, "content") },
+        };
+
+        [Theory, MemberData(nameof(SearchAndOrder_ValidateOrderingData))]
+        public override void SearchAndOrder_ValidateOrdering(List<News> entities, GenericSortOptions<News> sortOptions)
+        {
+            base.SearchAndOrder_ValidateOrdering(entities, sortOptions);
+        }
+
+        public static IEnumerable<object[]> SearchAndOrder_ValidateFilteringData =>
+        new List<object[]>
+        {
+            new object[] { new ValidateFilteringTestData { entities = FullEntityList, predicate = _ => true } },
+            new object[] { new ValidateFilteringTestData { entities = FullEntityList, predicate = e => e.Title == "title1" } },
+            new object[] { new ValidateFilteringTestData { entities = FullEntityList, predicate = e => e.Title == "title2" } },
+            new object[] { new ValidateFilteringTestData { entities = FullEntityList, predicate = e => e.Subtitle == "subtitle3" } },
+            new object[] { new ValidateFilteringTestData { entities = FullEntityList, predicate = e => e.Content == "content4" } },
+            new object[] { new ValidateFilteringTestData { entities = FullEntityList, predicate = e => e.CreationDate == DateTime.Parse("01-01-2001") } },
+            new object[] { new ValidateFilteringTestData { entities = FullEntityList, predicate = e => e.LastUpdated == DateTime.Parse("01-01-2002") } },
+            new object[] { new ValidateFilteringTestData { entities = FullEntityList, predicate = e => e.Title == "should return nothing" },
+            }
+        };
+
+        [Theory, MemberData(nameof(SearchAndOrder_ValidateFilteringData))]
+        public override void SearchAndOrder_ValidateFiltering(ValidateFilteringTestData testData)
+        {
+            base.SearchAndOrder_ValidateFiltering(testData);
+        }
     }
 }
