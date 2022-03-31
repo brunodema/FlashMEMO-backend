@@ -169,6 +169,8 @@ namespace Tests.Unit_Tests.Data.Repository
         /// <param name="testData"></param>
         public virtual void SearchAndOrder_ValidateFiltering(ValidateFilteringTestData testData)
         {
+            _output.WriteLine($"Filtering requested is: {JsonConvert.SerializeObject(testData.predicate.ToString())}");
+
             // Arrange
             testData.entities.ForEach(e => AddEntityViaContext(e));
 
@@ -177,6 +179,8 @@ namespace Tests.Unit_Tests.Data.Repository
 
             // Assert
             entitiesFromRepository.Should().BeEquivalentTo(testData.entities.AsQueryable().Where(testData.predicate));
+
+            _output.WriteLine($"Data returned by the test method is: {JsonConvert.SerializeObject(entitiesFromRepository)}");
         }
 
         public void Dispose()
