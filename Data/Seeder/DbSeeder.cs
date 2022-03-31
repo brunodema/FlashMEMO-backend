@@ -42,8 +42,8 @@ namespace Data.Seeder
                 {
                     UserName = "sysadmin",
                     NormalizedUserName = "SYSADMIN",
-                    Email = "sysadmin@flashmemo.com",
-                    NormalizedEmail = "SYSADMIN@FLASHMEMO.COM",
+                    Email = "sysadmin@flashmemo.edu",
+                    NormalizedEmail = "SYSADMIN@FLASHMEMO.EDU",
 
                 };
                 user.PasswordHash = new PasswordHasher<ApplicationUser>().HashPassword(user, "Flashmemo@123");
@@ -88,8 +88,8 @@ namespace Data.Seeder
 
         public async Task InitializeDatabaseAsync(bool forceBootstrap = false)
         {
-            await SeedRoles(forceBootstrap ? false : !_context.Users.Any());
-            await SeedUsers(forceBootstrap ? false : !_context.Roles.Any());
+            await SeedRoles(forceBootstrap ? false : !_context.Roles.Any());
+            await SeedUsers(forceBootstrap ? false : !_context.Users.Any());
             await SeedNews(forceBootstrap ? false : !_context.News.Any());
         }
     }
