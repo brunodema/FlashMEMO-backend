@@ -25,6 +25,7 @@ using Business.Tools.DictionaryAPI.Oxford;
 using Business.Tools.DictionaryAPI.Lexicala;
 using Business.Tools.Exceptions;
 using System.Text.RegularExpressions;
+using System.Numerics;
 
 namespace Business.Services.Implementation
 {
@@ -120,12 +121,18 @@ namespace Business.Services.Implementation
         public CustomSearchAPIImageResult() { }
     }
 
+    /// <summary>
+    /// This 'Response' class must exist here because otherwise there would be a circular dependency between the business layer and the API one. This class pretty much is a clone of a large paginated list.
+    /// </summary>
     public class CustomSearchAPIResponse
     {
         public IEnumerable<CustomSearchAPIImageResult> Results { get; set; }
         public int PageSize { get; set; }
         public string PageIndex { get; set; }
         public string TotalAmount { get; set; }
+        public string TotalPages { get; set; }
+        public bool HasPreviousPage { get; set; }
+        public bool HasNextPage { get; set; }
     }
 
     public class CustomSearchAPIServiceOptions
@@ -201,17 +208,23 @@ namespace Business.Services.Implementation
                     listRequest.SearchType = ListRequest.SearchTypeEnum.Image;
                     listRequest.Cx = _options.EngineID;
                     listRequest.Start = (10 * pageNumber) - 10;
-                    listRequest.Num = 10;
+                    listRequest.Num = 10; // another interesting thing: if there are 10 results per page, and total number of results in the range of billions, this API is not ready to deal with the entire range of results pointed by the response. Not that it matters too much, but still...
+
                     var results = await listRequest.ExecuteAsync();
 
-                    var totalAmount = results?.SearchInformation.TotalResults ?? "0";
+                    // this crazyness here is to *attempt* to avoid integer overflow, which is something that gave me a lot of headache in this API. BTW, there is no guarantee that the calculation below won't cause overflows - we just hope it doesn't
+                    var parsedTotalResults = BigInteger.Parse(results.SearchInformation.TotalResults);
+                    var totalPages =  (parsedTotalResults / 10).ToString();
+
                     return new CustomSearchAPIResponse
                     {
                         Results = results.Items.Select(i => new CustomSearchAPIImageResult() { Title = i.Title, Image = i.Image, Link = i.Link }),
                         PageSize = results?.Items?.Count ?? 0,
                         PageIndex = pageNumber.ToString(),
-                        TotalAmount = totalAmount,
-
+                        TotalPages = totalPages,
+                        TotalAmount = results?.SearchInformation.TotalResults ?? "0",
+                        HasPreviousPage = results.Queries.PreviousPage?.Any() ?? false, // the 'null' check would be sufficient here, considering how Google returns the data (ex: 'PreviousPage' returns 'null')
+                        HasNextPage = results.Queries.NextPage?.Any() ?? false,
                     };
                 }
             }

@@ -64,7 +64,10 @@ namespace API.Controllers
                         Results = results.Results.ToList(),
                         ResultSize = results.PageSize,
                         PageIndex = results.PageIndex,
+                        TotalPages = results.TotalPages,
                         TotalAmount = results.TotalAmount,
+                        HasPreviousPage = results.HasPreviousPage,
+                        HasNextPage = results.HasNextPage,
                     }
                 });
             }
