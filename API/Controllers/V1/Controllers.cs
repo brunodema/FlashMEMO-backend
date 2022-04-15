@@ -188,13 +188,10 @@ namespace API.Controllers
         {
             ICollection<ApplicationUserRole> roles = new List<ApplicationUserRole>();
 
-            if (await _authService.AreCredentialsValidAsync(new FlashMEMOCredentials { Email = model.Email, PasswordHash = model.Password }))
+            var authenticatedUser = await _authService.AreCredentialsValidAsync(new FlashMEMOCredentials { Email = model.Email, PasswordHash = model.Password });
+            if (authenticatedUser is not null)
             {
-                var token = _JWTService.CreateLoginToken(new ApplicationUser
-                {
-                    Email = model.Email,
-                    UserRoles = roles
-                });
+                var token = _JWTService.CreateLoginToken(authenticatedUser);
 
                 return Ok(new LoginResponseModel { Status = "Success", Message = "User has logged in", JWTToken = token });
             }

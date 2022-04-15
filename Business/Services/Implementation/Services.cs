@@ -92,9 +92,10 @@ namespace Business.Services.Implementation
             var claims = new List<Claim>
             {
                 new Claim(ClaimTypes.Email, user.Email),
-                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
+                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+                new Claim("username", user.UserName) // this is potentially dangerous, but showing the entire schema name on the decoded jwt looked ridiculous
             };
-            foreach (var role in user.UserRoles)
+            foreach (var role in user.UserRoles ?? Enumerable.Empty<ApplicationUserRole>())
             {
                 claims.Add(new Claim(ClaimTypes.Role, role.RoleId));
             }
@@ -225,6 +226,8 @@ namespace Business.Services.Implementation
                         TotalAmount = results?.SearchInformation.TotalResults ?? "0",
                         HasPreviousPage = results.Queries.PreviousPage?.Any() ?? false, // the 'null' check would be sufficient here, considering how Google returns the data (ex: 'PreviousPage' returns 'null')
                         HasNextPage = results.Queries.NextPage?.Any() ?? false,
+
+                        // EXTREMELY IMPORTANT: GIVEN THAT THE LACK OF PROPERTIES CAUSED PROBLEMS ON THE FRONT-END (HAS NEXT/PREVIOUS PAGE, TOTALPAGES), ADD TESTS RELATED TO THIS!!!
                     };
                 }
             }
@@ -513,14 +516,14 @@ namespace Business.Services.Implementation
             _roleRepository = roleRepository;
         }
 
-        public async Task<bool> AreCredentialsValidAsync(IFlashMEMOCredentials credentials)
+        public async Task<ApplicationUser> AreCredentialsValidAsync(IFlashMEMOCredentials credentials)
         {
             if (await UserAlreadyExistsAsync(credentials.Email))
             {
-                if (await GetUserByEmailAndCheckCredentialsAsync(credentials)) return true;
+                if (await GetUserByEmailAndCheckCredentialsAsync(credentials)) return _applicationUserRepository.GetAll().SingleOrDefault(u => u.Email == credentials.Email); // this is horrible design, only doing this instead of creating the appropriate function in the repository class to speed up development on the front-end
             }
 
-            return false;
+            return null;
         }
 
         public async Task<IdentityResult> CreateUserAsync(ApplicationUser user, string cleanPassword)

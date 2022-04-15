@@ -78,7 +78,12 @@ namespace Business.Services.Interfaces
     {
         public Task<bool> UserAlreadyExistsAsync(string email);
         public Task<IdentityResult> CreateUserAsync(ApplicationUser user, string cleanPassword);
-        public Task<bool> AreCredentialsValidAsync(IFlashMEMOCredentials credentials);
+        /// <summary>
+        /// Checks is the provided credentials are valid, returning the user object is so. Otherwise, returns null.
+        /// </summary>
+        /// <param name="credentials">An email + password combination.</param>
+        /// <returns>The user associated with the email if authentication is successful, or null instead.</returns>
+        public Task<ApplicationUser> AreCredentialsValidAsync(IFlashMEMOCredentials credentials);
     }
     #endregion
 
