@@ -50,7 +50,7 @@ namespace Data.Seeder
                 await _userStore.CreateAsync(user);
 
                 // samples generated with generatedata.com
-                var userSeeder = JsonConvert.DeserializeObject<News[]>(File.ReadAllText($"{_seederPath}/Users.json"));
+                var userSeeder = JsonConvert.DeserializeObject<ApplicationUser[]>(File.ReadAllText($"{_seederPath}/Users.json"));
                 await _context.AddRangeAsync(userSeeder);
             }
             await _context.SaveChangesAsync();
@@ -88,9 +88,9 @@ namespace Data.Seeder
 
         public async Task InitializeDatabaseAsync(bool forceBootstrap = false)
         {
-            await SeedRoles(forceBootstrap ? false : !_context.Roles.Any());
-            await SeedUsers(forceBootstrap ? false : !_context.Users.Any());
-            await SeedNews(forceBootstrap ? false : !_context.News.Any());
+            await SeedRoles(forceBootstrap ? true : !_context.Roles.Any());
+            await SeedUsers(forceBootstrap ? true : !_context.Users.Any());
+            await SeedNews(forceBootstrap ? true : !_context.News.Any());
         }
     }
 }

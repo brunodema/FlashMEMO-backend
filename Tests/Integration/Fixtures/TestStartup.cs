@@ -35,7 +35,7 @@ namespace Tests.Integration.Fixtures
             public const int TimeToExpiration = 300;
             public const string Secret = "mysecretmysecret";
             // Seeder
-            public const string SeederPath = "../../..//../Data/Seeder";
+            public const string SeederPath = "../../../../Data/Seeder";
         }
 
         public TestStartup(IConfiguration configuration)
@@ -198,7 +198,7 @@ namespace Tests.Integration.Fixtures
                 endpoints.MapControllers();
             });
 
-            var seeder = new DbSeeder(provider, "../../../../Data/Seeder");
+            var seeder = new DbSeeder(provider, InteralConfigs.SeederPath);
             seeder.InitializeDatabaseAsync().Wait();
         }
     }
