@@ -18,8 +18,10 @@ using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.DevTools;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Net.Http;
+using System.Threading;
 using System.Threading.Tasks;
 
 using DevToolsSessionDomains = OpenQA.Selenium.DevTools.V96.DevToolsSessionDomains;
@@ -107,9 +109,9 @@ namespace API.Controllers
             {
                 return Ok(new DictionaryAPIResponse() { Status = "Success", Message = "API results successfully retrieved.", Data = await _service.SearchResults(searchText, languageCode) });
             }
-            catch(InputValidationException e)
+            catch (InputValidationException e)
             {
-                return BadRequest(new BaseResponseModel { Status = "Bad Request", Message = e.Message, Errors= e.InputValidationErrors });
+                return BadRequest(new BaseResponseModel { Status = "Bad Request", Message = e.Message, Errors = e.InputValidationErrors });
             }
 
             catch (Exception)
@@ -249,7 +251,8 @@ namespace API.Controllers
             var devToolsSession = session.GetVersionSpecificDomains<DevToolsSessionDomains>();
             await devToolsSession.Network.Enable(new Network.EnableCommandSettings());
 
-            devToolsSession.Network.ResponseReceived += (object sender, Network.ResponseReceivedEventArgs args) => {
+            devToolsSession.Network.ResponseReceived += (object sender, Network.ResponseReceivedEventArgs args) =>
+            {
                 if (args.Type == Network.ResourceType.Media)
                 {
                     audioLinks.Add($"{args.Response.Url}");
@@ -259,12 +262,11 @@ namespace API.Controllers
             driver.Url = $"https://forvo.com/search/{keyword}/{languageCode}/";
             driver.FindElement(OpenQA.Selenium.By.ClassName("play")).Click();
 
-            while (audioLinks.Count < 1)
-            {
+            var timer = Stopwatch.StartNew();
+            bool spinUntil = SpinWait.SpinUntil(() => audioLinks.Count > 0, TimeSpan.FromSeconds(15));
+            timer.Stop();
 
-            }
-
-            return Ok(new DataResponseModel<object> { Status = "Sucess", Message = "You managed to get here!", Data = audioLinks });
+            return Ok(new DataResponseModel<object> { Status = "Sucess", Message = "You managed to get here!", Data = new { audioLinks, timer.Elapsed, spinUntil } });
 
         }
     }
