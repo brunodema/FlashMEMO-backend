@@ -14,10 +14,16 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
+using OpenQA.Selenium.Chrome;
+using OpenQA.Selenium.DevTools;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using System.Threading.Tasks;
+
+using DevToolsSessionDomains = OpenQA.Selenium.DevTools.V96.DevToolsSessionDomains;
+using Network = OpenQA.Selenium.DevTools.V96.Network;
 
 namespace API.Controllers
 {
@@ -205,6 +211,61 @@ namespace API.Controllers
         public IActionResult Test()
         {
             return Ok(new BaseResponseModel { Status = "Sucess", Message = "You managed to get here!" });
+        }
+    }
+
+    /// <summary>
+    /// Toying around with this first... hehehe
+    /// </summary>
+    [ApiController]
+    [ApiVersion("1.0")]
+    [Route("api/v{version:apiVersion}/[controller]")]
+    public class RedactedAPIController : ControllerBase
+    {
+        // private readonly IJWTService _JWTService; ---> will need to import some sort of service in the future
+        private readonly HttpClient _client;
+
+        public RedactedAPIController(HttpClient httpClient) : base()
+        {
+            _client = httpClient;
+        }
+
+        // Whatever the hell this is, this happened thanks to these resources: https://www.youtube.com/watch?v=m3Hgu2CW_Co and https://github.com/executeautomation/Selenium4NetCore/blob/master/Selenium4NetCoreProj/UnitTest1.cs.
+
+        [HttpGet]
+        [Route("test")]
+        public async Task<IActionResult> Test(string keyword, string languageCode)
+        {
+            var audioLinks = new List<string>();
+
+            var chromeOptions = new ChromeOptions();
+            chromeOptions.AddArguments("--headless");
+
+            var driver = new ChromeDriver(chromeOptions);
+
+            var devTools = driver as IDevTools;
+            var session = devTools.GetDevToolsSession();
+
+            var devToolsSession = session.GetVersionSpecificDomains<DevToolsSessionDomains>();
+            await devToolsSession.Network.Enable(new Network.EnableCommandSettings());
+
+            devToolsSession.Network.ResponseReceived += (object sender, Network.ResponseReceivedEventArgs args) => {
+                if (args.Type == Network.ResourceType.Media)
+                {
+                    audioLinks.Add($"{args.Response.Url}");
+                }
+            };
+
+            driver.Url = $"https://forvo.com/search/{keyword}/{languageCode}/";
+            driver.FindElement(OpenQA.Selenium.By.ClassName("play")).Click();
+
+            while (audioLinks.Count < 1)
+            {
+
+            }
+
+            return Ok(new DataResponseModel<object> { Status = "Sucess", Message = "You managed to get here!", Data = lol });
+
         }
     }
 }
