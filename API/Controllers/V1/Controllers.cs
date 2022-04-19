@@ -263,6 +263,7 @@ namespace API.Controllers
             driver.FindElement(OpenQA.Selenium.By.ClassName("play")).Click();
 
             var timer = Stopwatch.StartNew();
+            // this is implementation is probably very wrong... but it works, for now. What I mean with 'it works': waits until array reaches pre-determined state, without waiting the full timeout period, if possible.
             bool spinUntil = SpinWait.SpinUntil(() => audioLinks.Count > 0, TimeSpan.FromSeconds(15));
             timer.Stop();
 
