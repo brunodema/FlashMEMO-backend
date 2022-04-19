@@ -16,7 +16,7 @@ namespace Business.Services.Interfaces
     /// Interface to hold lexical metadata for internal FlashMEMO API calls. Ex: Audio API calls always require a keyword and a target language to provide results. There are many other places where this interface could be applied to make the code more readable... this will be added to FlashMEMO's to-do list.
     /// </summary>
     /// <typeparam name="T">Type representing the API's return type. Ex: Audio API will return a list of links to audio files.</typeparam>
-    public interface ILexicalAPIResult<T> where T : class
+    public interface ILexicalAPIDTO<T> where T : class
     {
         string SearchText { get; set; }
         string LanguageCode { get; set; }
@@ -111,7 +111,7 @@ namespace Business.Services.Interfaces
     }
 
     #region AUDIO API
-    public interface IAudioAPIServiceResponse : ILexicalAPIResult<string[]>
+    public interface IAudioAPIServiceResponse : ILexicalAPIDTO<string[]>
     {
     }
 

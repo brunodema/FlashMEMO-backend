@@ -350,7 +350,7 @@ namespace Business.Services.Implementation
     /// <summary>
     /// Minimalistic object holding information related to the API request made to the dicionary providers of FlashMEMO, and the results obtained by said call.
     /// </summary>
-    public class DictionaryAPIDTO
+    public class DictionaryAPIDTO : ILexicalAPIDTO<List<DictionaryAPIResult>>
     {
         public string SearchText { get; set; }
         /// <summary>
