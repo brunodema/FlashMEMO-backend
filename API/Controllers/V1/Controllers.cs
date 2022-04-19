@@ -266,7 +266,7 @@ namespace API.Controllers
             bool spinUntil = SpinWait.SpinUntil(() => audioLinks.Count > 0, TimeSpan.FromSeconds(15));
             timer.Stop();
 
-            return Ok(new DataResponseModel<object> { Status = "Sucess", Message = "You managed to get here!", Data = new { audioLinks, timer.Elapsed, spinUntil } });
+            return Ok(new DataResponseModel<object> { Status = "Success", Message = "You managed to get here!", Data = new { audioLinks, timer.Elapsed, spinUntil } });
 
         }
     }
