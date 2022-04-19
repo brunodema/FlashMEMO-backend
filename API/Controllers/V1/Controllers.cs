@@ -264,7 +264,7 @@ namespace API.Controllers
 
             }
 
-            return Ok(new DataResponseModel<object> { Status = "Sucess", Message = "You managed to get here!", Data = lol });
+            return Ok(new DataResponseModel<object> { Status = "Sucess", Message = "You managed to get here!", Data = audioLinks });
 
         }
     }
