@@ -73,4 +73,13 @@ namespace API.ViewModels
     {
         public string JWTToken { get; set; }
     }
+
+    /// <summary>
+    /// Class that mimics what was originally implemented in the front-end. There are many controllers that end up responding with basic metadata ('BaseResponseModel'), and the data of interest. This class aims to faciliate this setup.
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    public class DataResponseModel<T> : BaseResponseModel
+    {
+        public T Data { get; set; }
+    }
 }
