@@ -1,7 +1,5 @@
 ﻿using Business.Services.Implementation;
 using Business.Tools;
-using Business.Tools.DictionaryAPI.Lexicala;
-using Business.Tools.DictionaryAPI.Oxford;
 using Business.Tools.Interfaces;
 using Data.Models.Implementation;
 using Data.Tools.Sorting;
@@ -10,14 +8,21 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Linq.Expressions;
-using System.Net.Http;
-using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace Business.Services.Interfaces
 {
+    /// <summary>
+    /// Interface to hold lexical metadata for internal FlashMEMO API calls. Ex: Audio API calls always require a keyword and a target language to provide results. There are many other places where this interface could be applied to make the code more readable... this will be added to FlashMEMO's to-do list.
+    /// </summary>
+    /// <typeparam name="T">Type representing the API's return type. Ex: Audio API will return a list of links to audio files.</typeparam>
+    public interface ILexicalAPIResult<T> where T : class
+    {
+        string SearchText { get; set; }
+        string LanguageCode { get; set; }
+        T Results { get; set; }
+    }
+
     public interface IRepositoryService<TEntity, TKey>
         where TEntity : class
     {
@@ -104,4 +109,21 @@ namespace Business.Services.Interfaces
         /// <exception cref="NotImplementedException"></exception>
         HttpResponse CheckPeriodComsumption();
     }
+
+    #region AUDIO API
+    public interface IAudioAPIServiceResponse : ILexicalAPIResult<string[]>
+    {
+    }
+
+    public interface IAudioAPIService : IAPIService
+    {
+        /// <summary>
+        /// Uses the internal lexical audio provider to retrieve a pronunciation file from external services. Returns a list of strings containing links to audio files hosted outside FlashMEMO.
+        /// </summary>
+        /// <param name="keyword">Target word for pronunciation search.</param>
+        /// <param name="languageCode">Language code to be used for the search. In theory can allow searches as: pronunciation of 'hello' in spanish.</param>
+        /// <returns></returns>
+        IAudioAPIServiceResponse searchAudio(string keyword, string languageCode);
+    }
+    #endregion
 }

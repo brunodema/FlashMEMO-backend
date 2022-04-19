@@ -543,4 +543,8 @@ namespace Business.Services.Implementation
             return await _applicationUserRepository.CheckPasswordAsync(user.Id, credentials.PasswordHash);
         }
     }
+
+    #region AUDIO API
+
+    #endregion
 }
