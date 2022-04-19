@@ -353,9 +353,6 @@ namespace Business.Services.Implementation
     public class DictionaryAPIDTO : ILexicalAPIDTO<List<DictionaryAPIResult>>
     {
         public string SearchText { get; set; }
-        /// <summary>
-        /// String containing the ISO code for the language (ex: "en-us", "en-gb").
-        /// </summary>
         public string LanguageCode { get; set; }
         public List<DictionaryAPIResult> Results { get; set; }
     }

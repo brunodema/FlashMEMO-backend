@@ -18,8 +18,17 @@ namespace Business.Services.Interfaces
     /// <typeparam name="T">Type representing the API's return type. Ex: Audio API will return a list of links to audio files.</typeparam>
     public interface ILexicalAPIDTO<T> where T : class
     {
+        /// <summary>
+        /// Original search text used for the lexical query.
+        /// </summary>
         string SearchText { get; set; }
+        /// <summary>
+        /// String containing the ISO code for the language (ex: "en-us", "en-gb").
+        /// </summary>
         string LanguageCode { get; set; }
+        /// <summary>
+        /// Results obtained by the API. Can be a a list of dictionary objects, a list of audio files, etc.
+        /// </summary>
         T Results { get; set; }
     }
 
