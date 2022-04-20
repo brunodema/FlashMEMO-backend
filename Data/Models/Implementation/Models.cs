@@ -32,7 +32,7 @@ namespace Data.Models.Implementation
 
         public IEnumerable<Flashcard> Flashcards { get; set; } = new List<Flashcard>();
         public ApplicationUser Owner { get; set; } = null;
-        public Language Language { get; set; } = new Language();
+        public Language Language { get; set; } = null;
 
         public string Name { get; set; } = "";
         public string Description { get; set; } = "";
