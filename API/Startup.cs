@@ -24,6 +24,7 @@ using Data.Models.Implementation;
 using API.ViewModels;
 using Business.Tools.DictionaryAPI.Lexicala;
 using Business.Tools.DictionaryAPI.Oxford;
+using System.Text.Json.Serialization;
 
 namespace API
 {
@@ -48,7 +49,8 @@ namespace API
                 );
             }); // try to remove any CORS problems (k8s deployment)
 
-            services.AddControllers();
+            services.AddControllers().AddJsonOptions(o => o.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter()));
+
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "API", Version = "v1" });
@@ -147,11 +149,13 @@ namespace API
             services.AddScoped<IAuthService, AuthService>();
 
             services.AddScoped<NewsService>();
-
+            // Image API
             services.AddScoped<CustomSearchAPIService>();
-
+            // Dictionary API
             services.AddScoped<IDictionaryAPIService<LexicalaAPIResponseModel>, DictionaryAPIService<LexicalaAPIResponseModel>>();
             services.AddScoped<IDictionaryAPIService<OxfordAPIResponseModel>, DictionaryAPIService<OxfordAPIResponseModel>>();
+            // Audio API
+            services.AddScoped<AudioAPIService>();
 
             services.AddScoped<ApplicationUserRepository>();
             services.AddScoped<RoleRepository>();

@@ -224,50 +224,20 @@ namespace API.Controllers
     [Route("api/v{version:apiVersion}/[controller]")]
     public class RedactedAPIController : ControllerBase
     {
-        // private readonly IJWTService _JWTService; ---> will need to import some sort of service in the future
-        private readonly HttpClient _client;
+        private readonly IAudioAPIService _audioAPIService;
 
-        public RedactedAPIController(HttpClient httpClient) : base()
+        public RedactedAPIController(IAudioAPIService audioAPIService) : base()
         {
-            _client = httpClient;
+            _audioAPIService = audioAPIService;
         }
 
-        // Whatever the hell this is, this happened thanks to these resources: https://www.youtube.com/watch?v=m3Hgu2CW_Co and https://github.com/executeautomation/Selenium4NetCore/blob/master/Selenium4NetCoreProj/UnitTest1.cs.
-
         [HttpGet]
-        [Route("test")]
-        public async Task<IActionResult> Test(string keyword, string languageCode)
+        [Route("search")]
+        public async Task<IActionResult> Search(string keyword, string languageCode, AudioAPIProviderType provider)
         {
-            var audioLinks = new List<string>();
+            var results = await _audioAPIService.SearchAudioAsync(keyword, languageCode, provider);
 
-            var chromeOptions = new ChromeOptions();
-            chromeOptions.AddArguments("--headless");
-
-            var driver = new ChromeDriver(chromeOptions);
-
-            var devTools = driver as IDevTools;
-            var session = devTools.GetDevToolsSession();
-
-            var devToolsSession = session.GetVersionSpecificDomains<DevToolsSessionDomains>();
-            await devToolsSession.Network.Enable(new Network.EnableCommandSettings());
-
-            devToolsSession.Network.ResponseReceived += (object sender, Network.ResponseReceivedEventArgs args) =>
-            {
-                if (args.Type == Network.ResourceType.Media)
-                {
-                    audioLinks.Add($"{args.Response.Url}");
-                }
-            };
-
-            driver.Url = $"https://forvo.com/search/{keyword}/{languageCode}/";
-            driver.FindElement(OpenQA.Selenium.By.ClassName("play")).Click();
-
-            var timer = Stopwatch.StartNew();
-            // this is implementation is probably very wrong... but it works, for now. What I mean with 'it works': waits until array reaches pre-determined state, without waiting the full timeout period, if possible.
-            bool spinUntil = SpinWait.SpinUntil(() => audioLinks.Count > 0, TimeSpan.FromSeconds(15));
-            timer.Stop();
-
-            return Ok(new DataResponseModel<object> { Status = "Success", Message = "You managed to get here!", Data = new { audioLinks, timer.Elapsed, spinUntil } });
+            return Ok(new DataResponseModel<ILexicalAPIDTO<IAudioAPIResult>> { Status = "Success", Message = "You managed to get here!", Data = results });
 
         }
     }
