@@ -157,4 +157,12 @@ namespace Business.Services.Interfaces
         Task<ILexicalAPIDTO<IAudioAPIResult>> SearchAudioAsync(string keyword, string languageCode, AudioAPIProviderType provider);
     }
     #endregion
+
+    #region Language Service
+    public interface ILanguageService
+    {
+        bool LanguageExists(string languageCode);
+    }
+
+    #endregion
 }

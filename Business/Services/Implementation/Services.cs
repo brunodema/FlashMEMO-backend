@@ -37,11 +37,23 @@ namespace Business.Services.Implementation
 {
     public class DeckService : GenericRepositoryService<DeckRepository, Guid, Deck>
     {
-        public DeckService(DeckRepository baseRepository, IOptions<GenericRepositoryServiceOptions> serviceOptions) : base(baseRepository, serviceOptions.Value) { }
+        private readonly LanguageService _languageService;
+        private readonly AuthService _authService;
+
+        public DeckService(DeckRepository baseRepository, LanguageService languageService, AuthService authService, IOptions<GenericRepositoryServiceOptions> serviceOptions) : base(baseRepository, serviceOptions.Value) 
+        {
+            _languageService = languageService;
+            _authService = authService;
+        }
 
         public override ValidatonResult CheckIfEntityIsValid(Deck entity)
         {
-            return new ValidatonResult() { IsValid = true }; // dummy function for now
+            List<string> errors = new();
+
+            if (!_languageService.LanguageExists(entity.Language?.ISOCode ?? null)) errors.Add("The language code provided is not valid.");
+            if(!_authService.UserAlreadyExistsAsync(entity.Owner?.Email ?? null).Result) errors.Add($"The user owner does not seem to exist within FlashMEMO.");
+
+            return new ValidatonResult() { IsValid = errors.Count == 0, Errors = errors };
         }
     }
 
@@ -620,6 +632,26 @@ namespace Business.Services.Implementation
                 default:
                     throw new Exception($"Audio API provider '{provider}' does not exist.");
             }
+        }
+    }
+    #endregion
+
+    #region Language Service
+    /// <summary>
+    /// Service containing auxiliary functions related to languages within FlashMEMO.
+    /// </summary>
+    public class LanguageService : ILanguageService
+    {
+        private readonly LanguageRepository _languageRepository;
+
+        public LanguageService(LanguageRepository languageRepository)
+        {
+            _languageRepository = languageRepository;
+        }
+
+        public bool LanguageExists(string languageCode)
+        {
+            return _languageRepository.GetAll().Any(l => l.ISOCode == languageCode);
         }
     }
     #endregion
