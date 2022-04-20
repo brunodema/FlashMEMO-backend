@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using System.ComponentModel;
 
 namespace Business.Services.Interfaces
 {
@@ -153,7 +154,7 @@ namespace Business.Services.Interfaces
         /// <param name="keyword">Target word for pronunciation search.</param>
         /// <param name="languageCode">Language code to be used for the search. In theory can allow searches as: pronunciation of 'hello' in spanish.</param>
         /// <returns>List of links with pronunciation audios.</returns>
-        Task<ILexicalAPIDTO<IAudioAPIResult>> searchAudioAsync(string keyword, string languageCode, AudioAPIProviderType provider);
+        Task<ILexicalAPIDTO<IAudioAPIResult>> SearchAudioAsync(string keyword, string languageCode, AudioAPIProviderType provider);
     }
     #endregion
 }

@@ -573,11 +573,13 @@ namespace Business.Services.Implementation
             throw new NotImplementedException();
         }
 
-        public async Task<ILexicalAPIDTO<IAudioAPIResult>> searchAudioAsync(string keyword, string languageCode, AudioAPIProviderType provider)
+        public async Task<ILexicalAPIDTO<IAudioAPIResult>> SearchAudioAsync(string keyword, string languageCode, AudioAPIProviderType provider)
         {
             switch (provider)
             {
                 case AudioAPIProviderType.REDACTED:
+                    // Whatever the hell this is, this happened thanks to these resources: https://www.youtube.com/watch?v=m3Hgu2CW_Co and https://github.com/executeautomation/Selenium4NetCore/blob/master/Selenium4NetCoreProj/UnitTest1.cs.
+
                     // probably will put this inside an individual AudioAPIProvider class in the future. During concept design, this is acceptable
                     var audioLinks = new List<string>();
 
