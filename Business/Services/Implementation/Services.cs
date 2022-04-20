@@ -550,15 +550,15 @@ namespace Business.Services.Implementation
     #region AUDIO API
     public class AudioAPIResult : IAudioAPIResult
     {
-        public List<string> AudioLinks { get; set; }
-        public string ProcessingTime { get; set; }
+        public List<string> AudioLinks { get; set; } = new List<string>();
+        public string ProcessingTime { get; set; } = "";
     }
 
     public class AudioAPIDTO : ILexicalAPIDTO<IAudioAPIResult>
     {
-        public string SearchText { get; set; }
-        public string LanguageCode { get; set; }
-        public IAudioAPIResult Results { get; set; }
+        public string SearchText { get; set; } = "";
+        public string LanguageCode { get; set; } = "";
+        public IAudioAPIResult Results { get; set; } = new AudioAPIResult();
     }
 
     public class AudioAPIService : IAudioAPIService

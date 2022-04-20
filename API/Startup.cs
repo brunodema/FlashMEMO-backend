@@ -49,6 +49,7 @@ namespace API
                 );
             }); // try to remove any CORS problems (k8s deployment)
 
+            // implementation to show enums as string taken from here: https://github.com/domaindrivendev/Swashbuckle.AspNetCore/issues/1269
             services.AddControllers().AddJsonOptions(o => o.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter()));
 
             services.AddSwaggerGen(c =>
@@ -155,7 +156,7 @@ namespace API
             services.AddScoped<IDictionaryAPIService<LexicalaAPIResponseModel>, DictionaryAPIService<LexicalaAPIResponseModel>>();
             services.AddScoped<IDictionaryAPIService<OxfordAPIResponseModel>, DictionaryAPIService<OxfordAPIResponseModel>>();
             // Audio API
-            services.AddScoped<AudioAPIService>();
+            services.AddScoped<IAudioAPIService, AudioAPIService>();
 
             services.AddScoped<ApplicationUserRepository>();
             services.AddScoped<RoleRepository>();
