@@ -121,6 +121,28 @@ namespace Business.Services.Interfaces
 
     #region AUDIO API
     /// <summary>
+    /// Enum declaring the available pronunciation providers.
+    /// </summary>
+    public enum AudioAPIProviderType
+    {
+        REDACTED,
+    }
+
+    /// <summary>
+    /// Interface representing an individual result object returned by Audio API providers. Contains the list of links with pronunciation resources, and the time the back-end took to process it.
+    /// </summary>
+    public interface IAudioAPIResult
+    {
+        /// <summary>
+        /// List of audio resources retrieved by the API.
+        /// </summary>
+        List<string> AudioLinks { get; set; }
+        /// <summary>
+        /// Time it took for the back-end to do its API 'magic' and get the audio resource. Note: from now on, all numbers returned to the front-end by FlashMEMO classes will be of 'string' type, to avoid issues with overflow, or whatever (even if the risk is low for the majoritiy of cases).
+        /// </summary>
+        string ProcessingTime { get; set; }
+    }
+    /// <summary>
     /// Interface holding the main functionalities of an Audio API service. This interface is assumed to be used for providers restricted to pronunciation resources, as many dictionary ones also provide pronunciation with their results, when applicable. In this case, the controllers will be responsible for routing the calls to the appropriate internal services (ex: search dictionary entry using Oxford API, but filter only audio link result).
     /// </summary>
     public interface IAudioAPIService : IAPIService
@@ -131,7 +153,7 @@ namespace Business.Services.Interfaces
         /// <param name="keyword">Target word for pronunciation search.</param>
         /// <param name="languageCode">Language code to be used for the search. In theory can allow searches as: pronunciation of 'hello' in spanish.</param>
         /// <returns>List of links with pronunciation audios.</returns>
-        ILexicalAPIDTO<string[]> searchAudio(string keyword, string languageCode);
+        Task<ILexicalAPIDTO<IAudioAPIResult>> searchAudioAsync(string keyword, string languageCode, AudioAPIProviderType provider);
     }
     #endregion
 }
