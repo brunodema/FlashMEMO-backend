@@ -1,0 +1,42 @@
+[
+  {
+    "Name": "English",
+    "ISOCode": "en"
+  },
+  {
+    "Name": "Portuguese",
+    "ISOCode": "pt"
+  },
+  {
+    "Name": "Spanish",
+    "ISOCode": "es"
+  },
+  {
+    "Name": "Italian",
+    "ISOCode": "it"
+  },
+  {
+    "Name": "French",
+    "ISOCode": "fr"
+  },
+  {
+    "Name": "German",
+    "ISOCode": "de"
+  },
+  {
+    "Name": "Dutch",
+    "ISOCode": "nl"
+  },
+  {
+    "Name": "Russian",
+    "ISOCode": "ru"
+  },
+  {
+    "Name": "Chinese",
+    "ISOCode": "ch"
+  },
+  {
+    "Name": "Hindi",
+    "ISOCode": "hi"
+  }
+]

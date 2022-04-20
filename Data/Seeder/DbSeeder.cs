@@ -8,6 +8,7 @@ using Data.Context;
 using System.IO;
 using Data.Models.Implementation;
 using Newtonsoft.Json;
+using static Data.Models.Implementation.StaticModels;
 
 namespace Data.Seeder
 {
@@ -86,11 +87,23 @@ namespace Data.Seeder
             await _context.SaveChangesAsync();
         }
 
+        private async Task SeedLanguages(bool forceBootstrap)
+        {
+            if (forceBootstrap)
+            {
+                // samples generated with generatedata.com
+                var languageSeeder = JsonConvert.DeserializeObject<Language[]>(File.ReadAllText($"{_seederPath}/Languages.json"));
+                await _context.AddRangeAsync(languageSeeder);
+            }
+            await _context.SaveChangesAsync();
+        }
+
         public async Task InitializeDatabaseAsync(bool forceBootstrap = false)
         {
             await SeedRoles(forceBootstrap ? true : !_context.Roles.Any());
             await SeedUsers(forceBootstrap ? true : !_context.Users.Any());
             await SeedNews(forceBootstrap ? true : !_context.News.Any());
+            await SeedLanguages(forceBootstrap ? true : !_context.Languages.Any());
         }
     }
 }
