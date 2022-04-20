@@ -5,6 +5,7 @@ using Data.Context;
 using Data.Tools.Sorting;
 using Data.Repository.Abstract;
 using Data.Models.Implementation;
+using static Data.Models.Implementation.StaticModels;
 
 namespace Data.Repository.Implementation
 {
@@ -26,6 +27,13 @@ namespace Data.Repository.Implementation
     public class FlashcardRepository : GenericRepository<Flashcard, Guid, FlashMEMOContext>
     {
         public FlashcardRepository(FlashMEMOContext context) : base(context) { }
+    }
 
+    /// <summary>
+    /// Even though this entity is not supposed to be managed indirectly, it certainly helps to use the existing interfaces to set up a repository for it.
+    /// </summary>
+    public class LanguageRepository : GenericRepository<Language, Guid, FlashMEMOContext>
+    {
+        public LanguageRepository(FlashMEMOContext context) : base(context) { }
     }
 }
