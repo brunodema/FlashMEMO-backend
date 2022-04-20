@@ -45,6 +45,31 @@ namespace Data.Tools.Sorting
         }
     }
 
+    public class FlashcardSortOptions : GenericSortOptions<Flashcard>
+    {
+        public static class ColumnOptions
+        {
+            public const string DUE_DATE = "duedate";
+            public const string LEVEL = "level";
+            public const string CREATION_DATE = "creationdate";
+            public const string LAST_UPDATED = "lastupdated";
+        }
+        public FlashcardSortOptions(SortType sortType = SortType.None, string columnToSort = "") : base(sortType, columnToSort) { }
+        public FlashcardSortOptions() { }
+        protected override void DetermineColumnToSortExpression(string columnToSort = "name")
+        {
+            ColumnToSortExpression = columnToSort.ToLowerInvariant() switch
+            {
+                ColumnOptions.DUE_DATE => f => f.DueDate,
+                ColumnOptions.LEVEL => f => f.Level,
+                ColumnOptions.CREATION_DATE => f => f.CreationDate,
+                ColumnOptions.LAST_UPDATED => f => f.LastUpdated,
+                // default will be 'duedate'
+                _ => a => a.DueDate,
+            };
+        }
+    }
+
     public class DeckSortOptions : GenericSortOptions<Deck>
     {
         public static class ColumnOptions

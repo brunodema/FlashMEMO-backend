@@ -45,6 +45,32 @@ namespace API.Controllers
     [ApiController]
     [ApiVersion("1.0")]
     [Route("api/v{version:apiVersion}/[controller]")]
+    public class DeckController : GenericRepositoryController<Deck, Guid, DeckFilterOptions, DeckSortOptions>
+    {
+        private readonly DeckService _deckService;
+
+        public DeckController(DeckService deckService) : base(deckService)
+        {
+            _deckService = deckService;
+        }
+    }
+
+    [ApiController]
+    [ApiVersion("1.0")]
+    [Route("api/v{version:apiVersion}/[controller]")]
+    public class FlashcardController : GenericRepositoryController<Flashcard, Guid, FlashcardFilterOptions, FlashcardSortOptions>
+    {
+        private readonly FlashcardService _flashcardService;
+
+        public FlashcardController(FlashcardService flashcardService) : base(flashcardService)
+        {
+            _flashcardService = flashcardService;
+        }
+    }
+
+    [ApiController]
+    [ApiVersion("1.0")]
+    [Route("api/v{version:apiVersion}/[controller]")]
     public class ImageAPIController : ControllerBase
 
     {
