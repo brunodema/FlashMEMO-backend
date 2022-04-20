@@ -1,6 +1,7 @@
 ﻿using Data.Models.Implementation;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using static Data.Models.Implementation.StaticModels;
 
 namespace Data.Context
 {
@@ -70,6 +71,15 @@ namespace Data.Context
         public DbSet<News> News { get; set; }
         public DbSet<Deck> Decks { get; set; }
         public DbSet<Flashcard> Flashcards { get; set; }
+        public DbSet<Language> Languages { get; set; }
+
+        /*
+         * Whenever something new is added/updated, do this:
+         * 1. Open Package-Manager Console
+         * 2. Add-Migration ${NAME_DESCRIBING_WHAT_CHANGED}
+         * 3. Update-Database
+         */
+
     }
 }
 

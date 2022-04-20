@@ -2,7 +2,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Xunit.Abstractions;
 using static Data.Tools.FlashcardTools;
 
 namespace Data.Models.Implementation
