@@ -542,6 +542,22 @@ namespace Business.Services.Implementation
     }
 
     #region AUDIO API
+    public class AudioAPIService : IAudioAPIService
+    {
+        public HttpResponse CheckAvailability()
+        {
+            throw new NotImplementedException();
+        }
 
+        public HttpResponse CheckPeriodComsumption()
+        {
+            throw new NotImplementedException();
+        }
+
+        public ILexicalAPIDTO<string[]> searchAudio(string keyword, string languageCode)
+        {
+            throw new NotImplementedException();
+        }
+    }
     #endregion
 }

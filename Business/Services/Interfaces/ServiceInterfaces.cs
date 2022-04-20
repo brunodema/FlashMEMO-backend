@@ -120,10 +120,9 @@ namespace Business.Services.Interfaces
     }
 
     #region AUDIO API
-    public interface IAudioAPIServiceResponse : ILexicalAPIDTO<string[]>
-    {
-    }
-
+    /// <summary>
+    /// Interface holding the main functionalities of an Audio API service. This interface is assumed to be used for providers restricted to pronunciation resources, as many dictionary ones also provide pronunciation with their results, when applicable. In this case, the controllers will be responsible for routing the calls to the appropriate internal services (ex: search dictionary entry using Oxford API, but filter only audio link result).
+    /// </summary>
     public interface IAudioAPIService : IAPIService
     {
         /// <summary>
@@ -131,8 +130,8 @@ namespace Business.Services.Interfaces
         /// </summary>
         /// <param name="keyword">Target word for pronunciation search.</param>
         /// <param name="languageCode">Language code to be used for the search. In theory can allow searches as: pronunciation of 'hello' in spanish.</param>
-        /// <returns></returns>
-        IAudioAPIServiceResponse searchAudio(string keyword, string languageCode);
+        /// <returns>List of links with pronunciation audios.</returns>
+        ILexicalAPIDTO<string[]> searchAudio(string keyword, string languageCode);
     }
     #endregion
 }
