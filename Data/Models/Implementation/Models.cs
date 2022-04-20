@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using static Data.Models.Implementation.StaticModels;
 using static Data.Tools.FlashcardTools;
 
 namespace Data.Models.Implementation
@@ -31,6 +32,7 @@ namespace Data.Models.Implementation
 
         public IEnumerable<Flashcard> Flashcards { get; set; } = new List<Flashcard>();
         public ApplicationUser Owner { get; set; } = null;
+        public Language Language { get; set; } = new Language();
 
         public string Name { get; set; } = "";
         public string Description { get; set; } = "";
