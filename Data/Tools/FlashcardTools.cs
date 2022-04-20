@@ -1,6 +1,6 @@
 ﻿namespace Data.Tools
 {
-    public class FlashcardTools
+    public static class FlashcardTools
     {
         /// <summary>
         /// Possible internal layout that can be chosen for the Flashcard contents. Values replicated from the ones existing on the front-end.

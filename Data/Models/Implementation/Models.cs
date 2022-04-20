@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Xunit.Abstractions;
+using static Data.Tools.FlashcardTools;
 
 namespace Data.Models.Implementation
 {
@@ -52,8 +53,10 @@ namespace Data.Models.Implementation
         public Guid FlashcardID { get; set; } = new Guid();
 
         public int Level { get; set; } = 0;
-        public string FrontContent { get; set; } = "";
-        public string BackContent { get; set; } = "";
+        public FlashcardContentLayout ContentLayout { get; set; } = FlashcardContentLayout.SINGLE;
+        public string Content1 { get; set; } = "";
+        public string Content2 { get; set; } = "";
+        public string Content3 { get; set; } = "";
         public DateTime CreationDate { get; set; } = DateTime.Now;
         public DateTime LastUpdated { get; set; } = DateTime.Now;
         public DateTime DueDate { get; set; } = DateTime.Now;
