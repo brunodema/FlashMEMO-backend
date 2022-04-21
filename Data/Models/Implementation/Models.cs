@@ -33,7 +33,7 @@ namespace Data.Models.Implementation
 
         public List<Flashcard> Flashcards { get; set; } = new List<Flashcard>();
         public ApplicationUser Owner { get; set; } = null;
-        public Guid OwnerId { get; set; } = Guid.Empty;
+        public string OwnerId { get; set; } = Guid.Empty.ToString();
         public Language Language { get; set; } = null;
         public Guid LanguageId { get; set; } = Guid.Empty;
 
