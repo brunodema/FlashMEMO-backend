@@ -1,9 +1,8 @@
 ﻿using Data.Repository.Interfaces;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Text.Json.Serialization;
 using static Data.Models.Implementation.StaticModels;
 using static Data.Tools.FlashcardTools;
 
@@ -51,6 +50,10 @@ namespace Data.Models.Implementation
         public Flashcard() { }
 
         public Guid FlashcardID { get; set; } = new Guid();
+
+        [JsonIgnore]
+        public Deck Deck { get; set; } = null;
+        public Guid DeckId { get; set; } = Guid.Empty;
 
         public int Level { get; set; } = 0;
         public FlashcardContentLayout ContentLayout { get; set; } = FlashcardContentLayout.SINGLE;
