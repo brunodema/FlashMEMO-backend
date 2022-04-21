@@ -1,10 +1,6 @@
 ﻿using Data.Models.Implementation;
 using Data.Repository.Interfaces;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using static Data.Tools.FlashcardTools;
 
 namespace Data.Models.DTOs
