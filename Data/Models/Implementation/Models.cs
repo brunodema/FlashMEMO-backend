@@ -55,6 +55,8 @@ namespace Data.Models.Implementation
 
         public Guid FlashcardID { get; set; } = new Guid();
 
+        public Deck Deck { get; set; } = null;
+
         public int Level { get; set; } = 0;
         public FlashcardContentLayout ContentLayout { get; set; } = FlashcardContentLayout.SINGLE;
         public string Content1 { get; set; } = "";
