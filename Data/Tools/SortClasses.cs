@@ -92,7 +92,7 @@ namespace Data.Tools.Sorting
                 ColumnOptions.DESCRIPTION => a => a.Description,
                 ColumnOptions.CREATION_DATE => a => a.CreationDate,
                 ColumnOptions.LAST_UPDATED => a => a.LastUpdated,
-                ColumnOptions.FLASHCARDS => a => a.FlashcardCount, // trying to get the count here might lead to trouble...
+                ColumnOptions.FLASHCARDS => a => a.Flashcards.Count, // trying to get the count here might lead to trouble...
                 // default will be 'Name'
                 _ => a => a.Name,
             };
