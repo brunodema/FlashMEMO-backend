@@ -326,7 +326,7 @@ namespace Tests.Unit_Tests.Data.Repository
             new object[] { new ValidateFilteringTestData { entities = FullEntityList, predicate = _ => true } },
             new object[] { new ValidateFilteringTestData { entities = FullEntityList, predicate = e => e.Name == "test deck 1" } },
             new object[] { new ValidateFilteringTestData { entities = FullEntityList, predicate = e => e.Owner.UserName.Contains("user2") } },
-            new object[] { new ValidateFilteringTestData { entities = FullEntityList, predicate = e => e.FlashcardCount > 1 } },
+            new object[] { new ValidateFilteringTestData { entities = FullEntityList, predicate = e => e.Flashcards.Count > 1 } },
             new object[] { new ValidateFilteringTestData { entities = FullEntityList, predicate = e => e.Description == "A" || e.Description == "B" } },
             new object[] { new ValidateFilteringTestData { entities = FullEntityList, predicate = e => e.CreationDate < DateTime.Now.AddDays(-2) } },
             new object[] { new ValidateFilteringTestData { entities = FullEntityList, predicate = e => e.LastUpdated > DateTime.Now } }
