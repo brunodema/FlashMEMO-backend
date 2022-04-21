@@ -99,17 +99,17 @@ namespace Tests.Integration.Implementation
 
                 // Act
                 var response = await _integrationTestFixture.HttpClient.PostAsync(CreateEndpoint, body);
-                var parsedResponse = await response.Content.ReadFromJsonAsync<BaseResponseModel>();
+                var parsedResponse = await response.Content.ReadFromJsonAsync<DataResponseModel<TKey>>();
 
                 // Assert
                 Assert.True(response.StatusCode == HttpStatusCode.OK);
                 Assert.Null(parsedResponse.Errors);
 
                 // Undo
-                response = await _integrationTestFixture.HttpClient.PostAsync(DeleteEndpoint, JsonContent.Create(entity.DbId));
-                parsedResponse = await response.Content.ReadFromJsonAsync<BaseResponseModel>();
+                response = await _integrationTestFixture.HttpClient.PostAsync(DeleteEndpoint, JsonContent.Create(parsedResponse.Data));
+                var deleteResponse = await response.Content.ReadFromJsonAsync<BaseResponseModel>();
                 Assert.True(response.StatusCode == HttpStatusCode.OK);
-                Assert.Null(parsedResponse.Errors);
+                Assert.Null(deleteResponse.Errors);
             });
         }
         [Fact]
@@ -209,7 +209,7 @@ namespace Tests.Integration.Implementation
             RunAndReportResults(TestData.ReportsValidationErrorsWhenCreatingTestData, async testData =>
             {
                 // Arrange
-                var body = JsonContent.Create(testData.Entiy);
+                var body = JsonContent.Create(testData.Entity);
 
                 // Act
                 var response = await _integrationTestFixture.HttpClient.PostAsync(CreateEndpoint, body);
@@ -227,10 +227,10 @@ namespace Tests.Integration.Implementation
             RunAndReportResults(TestData.ReportsValidationErrorsWhenUpdatingTestData, async testData =>
             {
                 // Arrange
-                var body = JsonContent.Create(testData.Entiy);
+                var body = JsonContent.Create(testData.Entity);
 
                 // Act
-                var response = await _integrationTestFixture.HttpClient.PutAsync(UpdateEndpoint, body);
+                var response = await _integrationTestFixture.HttpClient.PutAsync($"{UpdateEndpoint}/{testData.Entity.DbId}", body);
                 var parsedResponse = await response.Content.ReadFromJsonAsync<BaseResponseModel>();
 
                 // Assert
@@ -253,7 +253,7 @@ namespace Tests.Integration.Implementation
                 var body = JsonContent.Create(entity);
 
                 // Act
-                var response = await _integrationTestFixture.HttpClient.PutAsync(UpdateEndpoint, body);
+                var response = await _integrationTestFixture.HttpClient.PutAsync($"{UpdateEndpoint}/{entity.DbId}", body);
                 var afterResponse = await _integrationTestFixture.HttpClient.GetAsync($"{GetEndpoint}/{entity.DbId}");
                 var entityAfter = afterResponse.Content.ReadFromJsonAsync<PaginatedListResponse<TEntity>>().Result.Data.Results.SingleOrDefault();
 

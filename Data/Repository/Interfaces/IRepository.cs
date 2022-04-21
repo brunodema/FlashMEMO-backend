@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Data.Repository.Interfaces
 {
-    public interface IRepository<TEntity, TKey, TContextResult> 
+    public interface IRepository<TEntity, TKey, TIdentityResult> 
         where TEntity : class, IDatabaseItem<TKey>
     {
         /// <summary>
@@ -23,8 +23,8 @@ namespace Data.Repository.Interfaces
         public IQueryable<TEntity> GetAll();
         public Task<TEntity> GetByIdAsync(TKey id);
         // CRUD
-        public Task<TContextResult> CreateAsync(TEntity entity);
-        public Task<TContextResult> UpdateAsync(TEntity entity);
+        public Task<TIdentityResult> CreateAsync(TEntity entity);
+        public Task<TIdentityResult> UpdateAsync(TEntity entity);
         public Task RemoveByIdAsync(TKey guid);
         public Task<int> SaveChangesAsync();
         public void Dispose();

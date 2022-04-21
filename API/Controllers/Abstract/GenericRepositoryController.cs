@@ -8,11 +8,13 @@ using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Data.Models.DTOs;
 
 namespace API.Controllers.Abstract
 {
-    public abstract class GenericRepositoryController<TEntity, TKey, TFilterOptions, TSortOptions> : ControllerBase
+    public abstract class GenericRepositoryController<TEntity, TKey, TDTO, TFilterOptions, TSortOptions> : ControllerBase
         where TEntity : class, IDatabaseItem<TKey>
+        where TDTO : IModelDTO<TEntity, TKey>
         where TFilterOptions : IQueryFilterOptions<TEntity>
         where TSortOptions : GenericSortOptions<TEntity>
     {
@@ -41,14 +43,17 @@ namespace API.Controllers.Abstract
 
         [HttpPost]
         [Route("create")]
-        public async virtual Task<IActionResult> Create(TEntity entity)
+        public async virtual Task<IActionResult> Create(TDTO entityDTO)
         {
+            var entity = entityDTO.CreateFromDTO();
+
             var validationResult = _repositoryService.CheckIfEntityIsValid(entity);
             bool idAlreadyExists = await _repositoryService.IdAlreadyExists(entity.DbId);
+
             if (validationResult.IsValid && !idAlreadyExists)
             {
-                await _repositoryService.CreateAsync(entity);
-                return Ok(new BaseResponseModel { Status = "Success", Message = $"{entity.GetType().Name} created successfully." });
+                var brandNewId = await _repositoryService.CreateAsync(entity);
+                return Ok(new DataResponseModel<TKey> { Status = "Success", Message = $"{entity.GetType().Name} created successfully.", Data = brandNewId });
             }
             var errors = validationResult.Errors;
             if (idAlreadyExists)
@@ -59,14 +64,17 @@ namespace API.Controllers.Abstract
         }
 
         [HttpPut]
-        [Route("update")]
-        public async virtual Task<IActionResult> Update(TEntity entity)
+        [Route("update/{id}")]
+        public async virtual Task<IActionResult> Update(TKey id, TDTO entityDTO)
         {
+            var entity = entityDTO.CreateFromDTO();
+            entity.DbId = id;
+
             var validationResult = _repositoryService.CheckIfEntityIsValid(entity);
             if (validationResult.IsValid)
             {
-                await _repositoryService.UpdateAsync(entity);
-                return Ok(new BaseResponseModel { Status = "Success", Message = $"{entity.GetType().Name} updated successfully." });
+                var changedEntityId = await _repositoryService.UpdateAsync(entity);
+                return Ok(new DataResponseModel<TKey> { Status = "Success", Message = $"{entity.GetType().Name} updated successfully.", Data = changedEntityId });
             }
             return BadRequest(new BaseResponseModel { Status = "Error", Message = $"Validation errors occured when updating {entity.GetType().Name}.", Errors = validationResult.Errors });
         }

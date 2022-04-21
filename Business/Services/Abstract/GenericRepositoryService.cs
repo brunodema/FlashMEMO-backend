@@ -30,18 +30,18 @@ namespace Business.Services.Abstract
             _baseRepository = baseRepository;
             _serviceOptions = serviceOptions;
         }
-        public async virtual Task CreateAsync(TEntity entity, object[] auxParams = null) // to cover the 'CreateUserAsync' case (requires password)
+        public async virtual Task<TKey> CreateAsync(TEntity entity, object[] auxParams = null) // to cover the 'CreateUserAsync' case (requires password)
         {
             var validationResult = CheckIfEntityIsValid(entity);
             if (!validationResult.IsValid)
             {
                 throw new EntityValidationException { ServiceValidationErrors = validationResult.Errors };
             }
-            await _baseRepository.CreateAsync(entity);
+            return await _baseRepository.CreateAsync(entity);
         }
-        public async virtual Task UpdateAsync(TEntity entity)
+        public async virtual Task<TKey> UpdateAsync(TEntity entity)
         {
-            await _baseRepository.UpdateAsync(entity);
+            return await _baseRepository.UpdateAsync(entity);
         }
         public async virtual Task<TEntity> GetbyIdAsync(TKey id)
         {
