@@ -25,10 +25,10 @@ namespace API.Controllers.Abstract
 
         [HttpGet]
         [Route("list")]
-        public virtual IActionResult List(int pageSize, int? pageNumber, [FromQuery] TSortOptions sortOptions = null)
+        public virtual IActionResult List(int? pageSize, int? pageNumber, [FromQuery] TSortOptions sortOptions = null)
         {
             var data = _repositoryService.ListAsync(sortOptions);
-            return Ok(new PaginatedListResponse<TEntity> { Status = "Sucess", Data = PaginatedList<TEntity>.Create(data, pageNumber ?? 1, pageSize) });
+            return Ok(new PaginatedListResponse<TEntity> { Status = "Sucess", Data = PaginatedList<TEntity>.Create(data, pageNumber ?? 1, pageSize ?? 10) });
         }
 
         [HttpGet]
