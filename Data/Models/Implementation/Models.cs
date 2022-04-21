@@ -23,7 +23,7 @@ namespace Data.Models.Implementation
         public DateTime CreationDate { get; set; } = DateTime.Now;
         public DateTime LastUpdated { get; set; } = DateTime.Now;
 
-        [NotMapped]
+        [NotMapped, JsonIgnore]
         public Guid DbId { get => NewsID; set => NewsID = value; }
     }
 
@@ -48,7 +48,7 @@ namespace Data.Models.Implementation
         public DateTime CreationDate { get; set; } = DateTime.Now;
         public DateTime LastUpdated { get; set; } = DateTime.Now;
 
-        [NotMapped]
+        [NotMapped, JsonIgnore]
         public Guid DbId { get => DeckID; set => DeckID = value; }
     }
 
@@ -56,6 +56,7 @@ namespace Data.Models.Implementation
     {
         public Flashcard() { }
 
+        [JsonIgnore]
         public Guid FlashcardID { get; set; } = new Guid();
 
         [JsonIgnore]
@@ -71,7 +72,7 @@ namespace Data.Models.Implementation
         public DateTime LastUpdated { get; set; } = DateTime.Now;
         public DateTime DueDate { get; set; } = DateTime.Now;
 
-        [NotMapped]
+        [NotMapped, JsonIgnore]
         public Guid DbId { get => FlashcardID; set => FlashcardID = value; }
     }
 }
