@@ -24,7 +24,7 @@ using Data.Models.Implementation;
 using API.ViewModels;
 using Business.Tools.DictionaryAPI.Lexicala;
 using Business.Tools.DictionaryAPI.Oxford;
-using System.Text.Json.Serialization;
+using Newtonsoft.Json.Converters;
 
 namespace API
 {
@@ -49,8 +49,9 @@ namespace API
                 );
             }); // try to remove any CORS problems (k8s deployment)
 
-            // implementation to show enums as string taken from here: https://github.com/domaindrivendev/Swashbuckle.AspNetCore/issues/1269
-            services.AddControllers().AddJsonOptions(o => o.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter()));
+            // implementation to show enums as string taken from here: https://stackoverflow.com/questions/2441290/javascriptserializer-json-serialization-of-enum-as-string. Originally used the system JSON serializer, later changed to Newtonsoft to avoid too much dependency mingling...
+            services.AddControllers().AddNewtonsoftJson(o => o.SerializerSettings.Converters.Add(new StringEnumConverter()));
+            services.AddSwaggerGenNewtonsoftSupport();
 
             services.AddSwaggerGen(c =>
             {

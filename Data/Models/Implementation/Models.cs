@@ -13,6 +13,7 @@ namespace Data.Models.Implementation
         // kids, ALWAYS set default values for properties in the database. This will avoid errors when dealing with ICollection items + LINQ, especially for cases when the current member of the lambda being analyzed is a "null" item. 
         public News() { }
 
+        [JsonIgnore]
         public Guid NewsID { get; set; } = new Guid();
 
         public string Title { get; set; } = "";
@@ -30,11 +31,17 @@ namespace Data.Models.Implementation
     {
         public Deck() { }
 
+        [JsonIgnore]
         public Guid DeckID { get; set; } = new Guid();
 
+        [JsonIgnore]
         public List<Flashcard> Flashcards { get; set; } = new List<Flashcard>();
+        [JsonIgnore]
         public ApplicationUser Owner { get; set; } = null;
+        public Guid OwnerId { get; set; } = Guid.Empty;
+        [JsonIgnore]
         public Language Language { get; set; } = null;
+        public Guid LanguageId { get; set; } = Guid.Empty;
 
         public string Name { get; set; } = "";
         public string Description { get; set; } = "";
