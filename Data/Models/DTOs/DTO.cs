@@ -12,7 +12,7 @@ namespace Data.Models.DTOs
 
     public class DeckDTO : IModelDTO<Deck, Guid>
     {
-        public Guid OwnerId { get; set; } = Guid.Empty;
+        public string OwnerId { get; set; } = Guid.Empty.ToString();
         public Guid LanguageId { get; set; } = Guid.Empty;
         public string Name { get; set; } = "";
         public string Description { get; set; } = "";
