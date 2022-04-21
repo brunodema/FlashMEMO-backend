@@ -117,7 +117,7 @@ namespace Tests.Unit_Tests.Data.Repository
 
         public virtual void GetAll(TEntity[] entities)
         {
-            _output.WriteLine($"Input data has length of {entities.Length} is: {JsonConvert.SerializeObject(entities)}");
+            _output.WriteLine($"Input data has length of {entities.Length} is: {JsonConvert.SerializeObject(entities, settings: new JsonSerializerSettings() { ReferenceLoopHandling = ReferenceLoopHandling.Ignore })}");
 
             // Arrange
             entities.ToList().ForEach(e => AddEntityViaContext(e));
@@ -129,7 +129,7 @@ namespace Tests.Unit_Tests.Data.Repository
             entitiesFromRepository.Should().BeEquivalentTo(entities);
             entitiesFromRepository.Should().HaveCount(entities.Length);
 
-            _output.WriteLine($"Data returned by the test method has length of {entitiesFromRepository.Count()} and is: {JsonConvert.SerializeObject(entitiesFromRepository)}");
+            _output.WriteLine($"Data returned by the test method has length of {entitiesFromRepository.Count()} and is: {JsonConvert.SerializeObject(entitiesFromRepository, settings: new JsonSerializerSettings() { ReferenceLoopHandling = ReferenceLoopHandling.Ignore })}");
         }
 
         /// <summary>
@@ -140,7 +140,7 @@ namespace Tests.Unit_Tests.Data.Repository
         public virtual void SearchAndOrder_ValidateOrdering(List<TEntity> entities, GenericSortOptions<TEntity> sortOptions)
         {
             _output.WriteLine($"Sorting requested is: {JsonConvert.SerializeObject(sortOptions)}");
-            _output.WriteLine($"Input data has length of {entities.Count} is: {JsonConvert.SerializeObject(entities)}");
+            _output.WriteLine($"Input data has length of {entities.Count} is: {JsonConvert.SerializeObject(entities, settings: new JsonSerializerSettings() { ReferenceLoopHandling = ReferenceLoopHandling.Ignore })}");
 
             // Arrange
             entities.ForEach(e => AddEntityViaContext(e));
@@ -161,7 +161,7 @@ namespace Tests.Unit_Tests.Data.Repository
                     break;
             }
 
-            _output.WriteLine($"Data returned by the test method has length of {entitiesFromRepository.Count()} and is: {JsonConvert.SerializeObject(entitiesFromRepository)}");
+            _output.WriteLine($"Data returned by the test method has length of {entitiesFromRepository.Count()} and is: {JsonConvert.SerializeObject(entitiesFromRepository, settings: new JsonSerializerSettings() { ReferenceLoopHandling = ReferenceLoopHandling.Ignore })}");
         }
 
         /// <summary>
@@ -180,7 +180,7 @@ namespace Tests.Unit_Tests.Data.Repository
         public virtual void SearchAndOrder_ValidateFiltering(ValidateFilteringTestData testData)
         {
             _output.WriteLine($"Filtering requested is: {JsonConvert.SerializeObject(testData.predicate.ToString())}");
-            _output.WriteLine($"Input data has length of {testData.entities.Count} is: {JsonConvert.SerializeObject(testData.entities)}");
+            _output.WriteLine($"Input data has length of {testData.entities.Count} is: {JsonConvert.SerializeObject(testData.entities, settings: new JsonSerializerSettings() { ReferenceLoopHandling = ReferenceLoopHandling.Ignore })}");
 
             // Arrange
             testData.entities.ForEach(e => AddEntityViaContext(e));
@@ -191,7 +191,7 @@ namespace Tests.Unit_Tests.Data.Repository
             // Assert
             entitiesFromRepository.Should().BeEquivalentTo(testData.entities.AsQueryable().Where(testData.predicate));
 
-            _output.WriteLine($"Data returned by the test method has length of {entitiesFromRepository.Count()} and is: {JsonConvert.SerializeObject(entitiesFromRepository)}");
+            _output.WriteLine($"Data returned by the test method has length of {entitiesFromRepository.Count()} and is: {JsonConvert.SerializeObject(entitiesFromRepository, settings: new JsonSerializerSettings() { ReferenceLoopHandling = ReferenceLoopHandling.Ignore })}");
         }
 
         public void Dispose()
