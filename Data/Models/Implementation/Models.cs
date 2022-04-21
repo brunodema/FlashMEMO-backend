@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
+using System.Text.Json.Serialization;
 using static Data.Models.Implementation.StaticModels;
 using static Data.Tools.FlashcardTools;
 
@@ -31,7 +32,7 @@ namespace Data.Models.Implementation
 
         public Guid DeckID { get; set; } = new Guid();
 
-        public IEnumerable<Flashcard> Flashcards { get; set; } = new List<Flashcard>();
+        public List<Flashcard> Flashcards { get; set; } = new List<Flashcard>();
         public ApplicationUser Owner { get; set; } = null;
         public Language Language { get; set; } = null;
 
@@ -41,12 +42,6 @@ namespace Data.Models.Implementation
         public DateTime LastUpdated { get; set; } = DateTime.Now;
 
         public Guid DbId { get => DeckID; set => DeckID = value; }
-
-        /// <summary>
-        /// Work-around so errors are not thrown while unit-testing. More especifically, as far as I know, if a method is used for a selector lambda (ex: set the property to order a collection by), FluentAssertions will not allow such thing. However, a property that wraps a method works.
-        /// </summary>
-        [NotMapped]
-        public int FlashcardCount { get => Flashcards.Count(); set => FlashcardCount = value; }
     }
 
     public class Flashcard : IDatabaseItem<Guid>
@@ -54,8 +49,6 @@ namespace Data.Models.Implementation
         public Flashcard() { }
 
         public Guid FlashcardID { get; set; } = new Guid();
-
-        public Deck Deck { get; set; } = null;
 
         public int Level { get; set; } = 0;
         public FlashcardContentLayout ContentLayout { get; set; } = FlashcardContentLayout.SINGLE;
