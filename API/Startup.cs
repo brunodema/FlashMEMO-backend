@@ -138,18 +138,20 @@ namespace API
                     .MigrationsAssembly("API")
                     .EnableRetryOnFailure(5));
             });
-            // options configuration
+            // Options Configuration
             services.Configure<JWTServiceOptions>(Configuration.GetSection("JWT"));
             services.Configure<CustomSearchAPIServiceOptions>(Configuration.GetSection("GoogleCustomSearchAPI"));
             services.Configure<OxfordDictionaryAPIRequestHandler>(Configuration.GetSection("OxfordDictionaryAPI"));
             services.Configure<LexicalaDictionaryAPIRequestHandler>(Configuration.GetSection("LexicalaDictionaryAPI"));
             services.Configure<GenericRepositoryServiceOptions>(Configuration.GetSection("BaseRepositoryServiceOptions"));
-            // custom services
+            // Custom Services
             services.AddHttpClient();
             services.AddScoped<IJWTService, JWTService>();
             services.AddScoped<IAuthService, AuthService>();
-
             services.AddScoped<NewsService>();
+            services.AddScoped<DeckService>();
+            services.AddScoped<FlashcardService>();
+            services.AddScoped<LanguageService>();
             // Image API
             services.AddScoped<CustomSearchAPIService>();
             // Dictionary API
@@ -157,10 +159,14 @@ namespace API
             services.AddScoped<IDictionaryAPIService<OxfordAPIResponseModel>, DictionaryAPIService<OxfordAPIResponseModel>>();
             // Audio API
             services.AddScoped<IAudioAPIService, AudioAPIService>();
-
+            // Repositories (are used in Controllers, for instance)
             services.AddScoped<ApplicationUserRepository>();
             services.AddScoped<RoleRepository>();
             services.AddScoped<NewsRepository>();
+            services.AddScoped<DeckRepository>();
+            services.AddScoped<FlashcardRepository>();
+            services.AddScoped<LanguageRepository>();
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
