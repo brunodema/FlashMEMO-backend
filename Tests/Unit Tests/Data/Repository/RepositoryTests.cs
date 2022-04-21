@@ -550,14 +550,14 @@ namespace Tests.Unit_Tests.Data.Repository
         new List<object[]>
         {
                 new object[] { new List<Flashcard>(FullEntityList), new FlashcardSortOptions(SortType.Ascending, "duedate") },
-                new object[] { new List<Flashcard>(FullEntityList), new FlashcardSortOptions(SortType.Ascending, "duedate") },
+                new object[] { new List<Flashcard>(FullEntityList), new FlashcardSortOptions(SortType.Descending, "duedate") },
                 new object[] { new List<Flashcard>(FullEntityList), new FlashcardSortOptions(SortType.Ascending, "level") },
                 new object[] { new List<Flashcard>(FullEntityList), new FlashcardSortOptions(SortType.Descending, "level") },
+                new object[] { new List<Flashcard>(FullEntityList), new FlashcardSortOptions(SortType.Ascending, "creationdate") },
                 new object[] { new List<Flashcard>(FullEntityList), new FlashcardSortOptions(SortType.Descending, "creationdate") },
-                new object[] { new List<Flashcard>(FullEntityList), new FlashcardSortOptions(SortType.Descending, "creationdate") },
+                new object[] { new List<Flashcard>(FullEntityList), new FlashcardSortOptions(SortType.Ascending, "lastupdated") },
                 new object[] { new List<Flashcard>(FullEntityList), new FlashcardSortOptions(SortType.Descending, "lastupdated") },
-                new object[] { new List<Flashcard>(FullEntityList), new FlashcardSortOptions(SortType.Descending, "lastupdated") },
-                new object[] { new List<Flashcard>(FullEntityList), new FlashcardSortOptions(SortType.Descending, "invalid") },
+                new object[] { new List<Flashcard>(FullEntityList), new FlashcardSortOptions(SortType.Ascending, "invalid") },
                 new object[] { new List<Flashcard>(FullEntityList), new FlashcardSortOptions(SortType.Descending, "invalid") },
 
         };
