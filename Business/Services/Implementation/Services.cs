@@ -38,9 +38,9 @@ namespace Business.Services.Implementation
     public class DeckService : GenericRepositoryService<DeckRepository, Guid, Deck>
     {
         private readonly LanguageService _languageService;
-        private readonly AuthService _authService;
+        private readonly IAuthService _authService;
 
-        public DeckService(DeckRepository baseRepository, LanguageService languageService, AuthService authService, IOptions<GenericRepositoryServiceOptions> serviceOptions) : base(baseRepository, serviceOptions.Value) 
+        public DeckService(DeckRepository baseRepository, LanguageService languageService, IAuthService authService, IOptions<GenericRepositoryServiceOptions> serviceOptions) : base(baseRepository, serviceOptions.Value) 
         {
             _languageService = languageService;
             _authService = authService;
