@@ -1,5 +1,4 @@
 ﻿using Data.Repository.Interfaces;
-using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -13,7 +12,6 @@ namespace Data.Models.Implementation
         // kids, ALWAYS set default values for properties in the database. This will avoid errors when dealing with ICollection items + LINQ, especially for cases when the current member of the lambda being analyzed is a "null" item. 
         public News() { }
 
-        [JsonIgnore]
         public Guid NewsID { get; set; } = new Guid();
 
         public string Title { get; set; } = "";
@@ -23,7 +21,7 @@ namespace Data.Models.Implementation
         public DateTime CreationDate { get; set; } = DateTime.Now;
         public DateTime LastUpdated { get; set; } = DateTime.Now;
 
-        [NotMapped, JsonIgnore]
+        [NotMapped]
         public Guid DbId { get => NewsID; set => NewsID = value; }
     }
 
@@ -31,15 +29,11 @@ namespace Data.Models.Implementation
     {
         public Deck() { }
 
-        [JsonIgnore]
         public Guid DeckID { get; set; } = new Guid();
 
-        [JsonIgnore]
         public List<Flashcard> Flashcards { get; set; } = new List<Flashcard>();
-        [JsonIgnore]
         public ApplicationUser Owner { get; set; } = null;
         public Guid OwnerId { get; set; } = Guid.Empty;
-        [JsonIgnore]
         public Language Language { get; set; } = null;
         public Guid LanguageId { get; set; } = Guid.Empty;
 
@@ -48,7 +42,7 @@ namespace Data.Models.Implementation
         public DateTime CreationDate { get; set; } = DateTime.Now;
         public DateTime LastUpdated { get; set; } = DateTime.Now;
 
-        [NotMapped, JsonIgnore]
+        [NotMapped]
         public Guid DbId { get => DeckID; set => DeckID = value; }
     }
 
@@ -56,10 +50,8 @@ namespace Data.Models.Implementation
     {
         public Flashcard() { }
 
-        [JsonIgnore]
         public Guid FlashcardID { get; set; } = new Guid();
 
-        [JsonIgnore]
         public Deck Deck { get; set; } = null;
         public Guid DeckId { get; set; } = Guid.Empty;
 
@@ -72,7 +64,7 @@ namespace Data.Models.Implementation
         public DateTime LastUpdated { get; set; } = DateTime.Now;
         public DateTime DueDate { get; set; } = DateTime.Now;
 
-        [NotMapped, JsonIgnore]
+        [NotMapped]
         public Guid DbId { get => FlashcardID; set => FlashcardID = value; }
     }
 }
