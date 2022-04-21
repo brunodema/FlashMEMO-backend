@@ -7,6 +7,7 @@ namespace Data.Models.DTOs
 {
     public interface IModelDTO<T, TKey> where T : IDatabaseItem<TKey>
     {
+        T CreateFromDTO();
     }
 
     public class DeckDTO : IModelDTO<Deck, Guid>
@@ -17,6 +18,21 @@ namespace Data.Models.DTOs
         public string Description { get; set; } = "";
         public DateTime CreationDate { get; set; } = DateTime.Now;
         public DateTime LastUpdated { get; set; } = DateTime.Now;
+
+        public Deck CreateFromDTO()
+        {
+            return new Deck()
+            {
+                OwnerId = OwnerId,
+                LanguageId = LanguageId,
+                Name = Name,
+                Description = Description,
+                CreationDate = CreationDate,
+                LastUpdated = LastUpdated,
+
+                DeckID = Guid.Empty,
+            };
+        }
     }
 
     public class NewsDTO : IModelDTO<News, Guid>
@@ -27,6 +43,21 @@ namespace Data.Models.DTOs
         public string Content { get; set; } = "";
         public DateTime CreationDate { get; set; } = DateTime.Now;
         public DateTime LastUpdated { get; set; } = DateTime.Now;
+
+        public News CreateFromDTO()
+        {
+            return new News()
+            {
+                Title = Title,
+                Subtitle = Subtitle,
+                ThumbnailPath = ThumbnailPath,
+                Content = Content,
+                CreationDate = CreationDate,
+                LastUpdated = LastUpdated,
+
+                NewsID = Guid.Empty,
+            };
+        }
     }
 
     public class FlashcardDTO : IModelDTO<Flashcard, Guid>
@@ -40,5 +71,23 @@ namespace Data.Models.DTOs
         public DateTime CreationDate { get; set; } = DateTime.Now;
         public DateTime LastUpdated { get; set; } = DateTime.Now;
         public DateTime DueDate { get; set; } = DateTime.Now;
+
+        public Flashcard CreateFromDTO()
+        {
+            return new Flashcard()
+            {
+                DeckId = DeckId,
+                Level = Level,
+                ContentLayout = ContentLayout,
+                Content1 = Content1,
+                Content2 = Content2,
+                Content3 = Content3,
+                CreationDate = CreationDate,
+                LastUpdated = LastUpdated,
+                DueDate = DueDate,
+
+                FlashcardID = Guid.Empty
+            };
+        }
     }
 }
