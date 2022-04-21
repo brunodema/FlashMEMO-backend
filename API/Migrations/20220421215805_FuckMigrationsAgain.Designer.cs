@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace API.Migrations
 {
     [DbContext(typeof(FlashMEMOContext))]
-    [Migration("20220421214006_UpdateWhateverIDidRecently")]
-    partial class UpdateWhateverIDidRecently
+    [Migration("20220421215805_FuckMigrationsAgain")]
+    partial class FuckMigrationsAgain
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -247,17 +247,14 @@ namespace API.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("text");
 
-                    b.Property<Guid>("OwnerId")
-                        .HasColumnType("uuid");
-
-                    b.Property<string>("OwnerId1")
+                    b.Property<string>("OwnerId")
                         .HasColumnType("text");
 
                     b.HasKey("DeckID");
 
                     b.HasIndex("LanguageId");
 
-                    b.HasIndex("OwnerId1");
+                    b.HasIndex("OwnerId");
 
                     b.ToTable("Decks");
                 });
@@ -424,7 +421,7 @@ namespace API.Migrations
 
                     b.HasOne("Data.Models.Implementation.ApplicationUser", "Owner")
                         .WithMany()
-                        .HasForeignKey("OwnerId1");
+                        .HasForeignKey("OwnerId");
 
                     b.Navigation("Language");
 
