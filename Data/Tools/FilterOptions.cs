@@ -6,7 +6,7 @@ using static Data.Models.Implementation.StaticModels;
 
 namespace Data.Tools.Filtering
 {
-    public interface IQueryFilterOptions<TEntiy> where TEntiy : class
+    public interface IQueryFilterOptions<TEntity> where TEntity : class
     {
         /// <summary>
         /// Returns the full URL to be used for the query, according to TEntity's properties and specific filters (ex: FromDate <= x <= ToDate)
@@ -14,7 +14,7 @@ namespace Data.Tools.Filtering
         /// <returns>Full URL to be used for the query.</returns>
         public string BuildQueryURL();
 
-        public IEnumerable<TEntiy> GetFilteredResults(IQueryable<TEntiy> elements);
+        public IEnumerable<TEntity> GetFilteredResults(IQueryable<TEntity> elements);
     }
 
     public class DeckFilterOptions : IQueryFilterOptions<Deck>
