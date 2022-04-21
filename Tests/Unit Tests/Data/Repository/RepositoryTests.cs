@@ -14,6 +14,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using Xunit;
 using Xunit.Abstractions;
+using static Data.Tools.FlashcardTools;
 
 namespace Tests.Unit_Tests.Data.Repository
 {
@@ -461,4 +462,128 @@ namespace Tests.Unit_Tests.Data.Repository
             base.SearchAndOrder_ValidateFiltering(testData);
         }
     }
+
+    #region Flashcard
+    // this class is here just to prove if the concept of the generic class works or not for multiple types
+    public class FlashcardRepositoryUnitTests : GenericRepositoryUnitTests<Flashcard, Guid>
+    {
+        public FlashcardRepositoryUnitTests(ITestOutputHelper output) : base(output)
+        {
+            _repository = new FlashcardRepository(_context);
+        }
+
+        public static IEnumerable<object[]> CreateEntityData =>
+            new List<object[]>
+            {
+                new object[] { new Flashcard { Level = 0, ContentLayout = FlashcardContentLayout.SINGLE, Content1 = "<p>Here is some content!</p>", CreationDate = DateTime.Parse("01-01-2001") } },
+                new object[] { new Flashcard { Level = 0, ContentLayout = FlashcardContentLayout.TRIPLE_BLOCK, Content1 = "<p>Here is some content!</p>", Content2 = "<p>Here is more content!</p>", Content3 = "<p>Here is even more content!</p>", CreationDate = DateTime.Parse("01-01-2001") } },
+            };
+
+        [Theory, MemberData(nameof(CreateEntityData))]
+        public override void CreateEntity(Flashcard entity)
+        {
+            base.CreateEntity(entity);
+        }
+
+        public static IEnumerable<object[]> ReadEntityData =>
+            new List<object[]>
+            {
+                new object[] { new Flashcard { Level = 0, ContentLayout = FlashcardContentLayout.SINGLE, Content1 = "<p>Here is some content!</p>" } },
+            };
+
+        [Theory, MemberData(nameof(ReadEntityData))]
+        public override void ReadEntity(Flashcard entity)
+        {
+            base.ReadEntity(entity);
+        }
+
+        public static IEnumerable<object[]> UpdateEntityData =>
+        new List<object[]>
+        {
+                new object[] { new Flashcard { Level = 0, ContentLayout = FlashcardContentLayout.SINGLE, Content1 = "<p>Here is some content!</p>" }, new Flashcard { Level = 1, ContentLayout = FlashcardContentLayout.SINGLE, Content1 = "<p>Updated content!</p>" } },
+                new object[] { new Flashcard { Level = 0, ContentLayout = FlashcardContentLayout.SINGLE, Content1 = "<p>Here is some content!</p>" }, new Flashcard { Level = 3, ContentLayout = FlashcardContentLayout.TRIPLE_BLOCK, Content1 = "<p>Updated content!</p>", Content2 = "<p>More updated content!</p>", Content3 = "<p>Even more updated content!</p>" } },
+        };
+
+        [Theory, MemberData(nameof(UpdateEntityData))]
+        public override void UpdateEntity(Flashcard previousEntity, Flashcard updatedEntity)
+        {
+            base.UpdateEntity(previousEntity, updatedEntity);
+        }
+
+        public static IEnumerable<object[]> DeleteEntityData =>
+        new List<object[]>
+        {
+                new object[] { new Flashcard { Level = 0, ContentLayout = FlashcardContentLayout.SINGLE, Content1 = "<p>Here is some content!</p>" } },
+        };
+
+        [Theory, MemberData(nameof(DeleteEntityData))]
+        public override void DeleteEntity(Flashcard entity)
+        {
+            base.DeleteEntity(entity);
+        }
+
+        // specific test data
+        // using static DateTimes here to try to improve readability (no implicit calculations based on days/whatever)
+
+        private static readonly Flashcard TestEntity1 = new Flashcard { Level = 0, ContentLayout = FlashcardContentLayout.SINGLE, Content1 = "<p>Here is some content!</p>", LastUpdated = DateTime.Parse("01-01-2002"), CreationDate = DateTime.Parse("01-01-2002"), DueDate = DateTime.Parse("01-01-2002") };
+        private static readonly Flashcard TestEntity2 = new Flashcard { Level = 1, ContentLayout = FlashcardContentLayout.VERTICAL_SPLIT, Content1 = "<p>Here is some content!</p>", Content2 = "<p>Here is some content!2</p>", LastUpdated = DateTime.Parse("02-01-2002"), CreationDate = DateTime.Parse("01-01-2002"), DueDate = DateTime.Parse("03-01-2002") };
+        private static readonly Flashcard TestEntity3 = new Flashcard { Level = 2, ContentLayout = FlashcardContentLayout.TRIPLE_BLOCK, Content1 = "<p>Here is some content!</p>", Content2 = "<p>Here is some content!2</p>", Content3 = "<p>Here is some content!3</p>", LastUpdated = DateTime.Parse("03-01-2002"), CreationDate = DateTime.Parse("01-01-2002"), DueDate = DateTime.Parse("04-01-2002") };
+        private static readonly Flashcard TestEntity4 = new Flashcard { Level = 3, ContentLayout = FlashcardContentLayout.FULL_CARD, Content1 = "<p>Here is some content!</p>", Content2 = "<p>Here is some content!2</p>", Content3 = "<p>Here is some content!3</p>", LastUpdated = DateTime.Parse("03-01-2002"), CreationDate = DateTime.Parse("03-01-2002"), DueDate = DateTime.Parse("05-01-2002") };
+
+        private static readonly List<Flashcard> FullEntityList = new() { TestEntity1, TestEntity2, TestEntity3, TestEntity4 };
+
+        public static IEnumerable<object[]> GetAllEntityData =>
+        new List<object[]>
+        {
+                new object[] { FullEntityList.ToArray() }, // full list
+                new object[] { new Flashcard[] { TestEntity1, TestEntity2, TestEntity3 } }, // only some
+                new object[] { new Flashcard[] { } } // nothing
+        };
+
+        [Theory, MemberData(nameof(GetAllEntityData))]
+        public override void GetAll(Flashcard[] entities)
+        {
+            base.GetAll(entities);
+        }
+
+        public static IEnumerable<object[]> SearchAndOrder_ValidateOrderingData =>
+        new List<object[]>
+        {
+                new object[] { new List<Flashcard>(FullEntityList), new FlashcardSortOptions(SortType.Ascending, "duedate") },
+                new object[] { new List<Flashcard>(FullEntityList), new FlashcardSortOptions(SortType.Ascending, "duedate") },
+                new object[] { new List<Flashcard>(FullEntityList), new FlashcardSortOptions(SortType.Ascending, "level") },
+                new object[] { new List<Flashcard>(FullEntityList), new FlashcardSortOptions(SortType.Descending, "level") },
+                new object[] { new List<Flashcard>(FullEntityList), new FlashcardSortOptions(SortType.Descending, "creationdate") },
+                new object[] { new List<Flashcard>(FullEntityList), new FlashcardSortOptions(SortType.Descending, "creationdate") },
+                new object[] { new List<Flashcard>(FullEntityList), new FlashcardSortOptions(SortType.Descending, "lastupdated") },
+                new object[] { new List<Flashcard>(FullEntityList), new FlashcardSortOptions(SortType.Descending, "lastupdated") },
+                new object[] { new List<Flashcard>(FullEntityList), new FlashcardSortOptions(SortType.Descending, "invalid") },
+                new object[] { new List<Flashcard>(FullEntityList), new FlashcardSortOptions(SortType.Descending, "invalid") },
+
+        };
+
+        [Theory, MemberData(nameof(SearchAndOrder_ValidateOrderingData))]
+        public override void SearchAndOrder_ValidateOrdering(List<Flashcard> entities, GenericSortOptions<Flashcard> sortOptions)
+        {
+            base.SearchAndOrder_ValidateOrdering(entities, sortOptions);
+        }
+
+        public static IEnumerable<object[]> SearchAndOrder_ValidateFilteringData =>
+        new List<object[]>
+        {
+            new object[] { new ValidateFilteringTestData { entities = FullEntityList, predicate = _ => true } },
+            new object[] { new ValidateFilteringTestData { entities = FullEntityList, predicate = e => e.Level == 1 } },
+            new object[] { new ValidateFilteringTestData { entities = FullEntityList, predicate = e => e.CreationDate > DateTime.Parse("01-01-2001") } },
+            new object[] { new ValidateFilteringTestData { entities = FullEntityList, predicate = e => e.LastUpdated == DateTime.Parse("01-01-2002") } },
+            new object[] { new ValidateFilteringTestData { entities = FullEntityList, predicate = e => e.DueDate < DateTime.Parse("03-01-2002") } },
+        };
+        
+
+        [Theory, MemberData(nameof(SearchAndOrder_ValidateFilteringData))]
+        public override void SearchAndOrder_ValidateFiltering(ValidateFilteringTestData testData)
+        {
+            base.SearchAndOrder_ValidateFiltering(testData);
+        }
+    }
+    #endregion
 }
