@@ -60,7 +60,7 @@ namespace API.Tools
             }
         }
 
-        public static PaginatedList<T> Create(IEnumerable<T> source, int pageIndex, int pageSize)
+        public static PaginatedList<T> Create(IEnumerable<T> source, int pageIndex = 1, int pageSize = 10)
         {
             var count = source.Count();
             var items = source.Skip((pageIndex - 1) * pageSize).Take(pageSize).ToList();
