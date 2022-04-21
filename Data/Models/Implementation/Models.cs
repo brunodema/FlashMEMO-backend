@@ -1,6 +1,7 @@
 ﻿using Data.Repository.Interfaces;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using static Data.Models.Implementation.StaticModels;
 using static Data.Tools.FlashcardTools;
@@ -44,6 +45,7 @@ namespace Data.Models.Implementation
         /// <summary>
         /// Work-around so errors are not thrown while unit-testing. More especifically, as far as I know, if a method is used for a selector lambda (ex: set the property to order a collection by), FluentAssertions will not allow such thing. However, a property that wraps a method works.
         /// </summary>
+        [NotMapped]
         public int FlashcardCount { get => Flashcards.Count(); set => FlashcardCount = value; }
     }
 
