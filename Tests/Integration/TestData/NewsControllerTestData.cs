@@ -102,20 +102,22 @@ namespace Tests.Integration.TestData
             get
             {
                 return new List<ValidationErrorsWhenCreatingData<News>> {
+                    /* This first test has been deprecated since Id is not a valid input for the 'Create' endpoint anymore. The reason for this is that it makes no sense for the front-end to provide a valid Guid when reaching out to the back-end... who should take care of the Guid are the internal mechanics (service/repository). */
+
+                    //new ValidationErrorsWhenCreatingData<News> {
+                    //    Entity = new News {
+                    //        NewsID = Guid.Parse("D2792985-E573-4A67-64C4-54F6ACECBBFC"), // GUID already exists, can't be used to create a new entity
+                    //        Title = "Test News",
+                    //        Subtitle = "This is a test news",
+                    //        Content = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Vel fringilla est ullamcorper eget nulla facilisi etiam dignissim. Orci sagittis eu volutpat odio facilisis mauris sit amet massa. Tincidunt vitae semper quis lectus nulla. Accumsan tortor posuere ac ut consequat semper viverra. Dictum non consectetur a erat. Tellus molestie nunc non blandit massa enim. Mauris a diam maecenas sed. Viverra aliquet eget sit amet tellus cras. A pellentesque sit amet porttitor eget.",
+                    //        CreationDate = DateTime.Now,
+                    //        LastUpdated = DateTime.Now
+                    //    },
+                    //    Message = "Validation errors occured when creating News.",
+                    //    Errors = new string[]{ "The provided ID points to an already existing object." }
+                    //},
                     new ValidationErrorsWhenCreatingData<News> {
-                        Entiy = new News {
-                            NewsID = Guid.Parse("D2792985-E573-4A67-64C4-54F6ACECBBFC"), // GUID already exists, can't be used to create a new entity
-                            Title = "Test News",
-                            Subtitle = "This is a test news",
-                            Content = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Vel fringilla est ullamcorper eget nulla facilisi etiam dignissim. Orci sagittis eu volutpat odio facilisis mauris sit amet massa. Tincidunt vitae semper quis lectus nulla. Accumsan tortor posuere ac ut consequat semper viverra. Dictum non consectetur a erat. Tellus molestie nunc non blandit massa enim. Mauris a diam maecenas sed. Viverra aliquet eget sit amet tellus cras. A pellentesque sit amet porttitor eget.",
-                            CreationDate = DateTime.Now,
-                            LastUpdated = DateTime.Now
-                        },
-                        Message = "Validation errors occured when creating News.",
-                        Errors = new string[]{ "The provided ID points to an already existing object." }
-                    },
-                    new ValidationErrorsWhenCreatingData<News> {
-                        Entiy = new News {
+                        Entity = new News {
                             NewsID = Guid.NewGuid(),
                             Title = "Test News",
                             Subtitle = "This is a test news",
@@ -136,7 +138,7 @@ namespace Tests.Integration.TestData
             {
                 return new List<ValidationErrorsWhenCreatingData<News>> {
                     new ValidationErrorsWhenCreatingData<News> {
-                        Entiy = new News {
+                        Entity = new News {
                             NewsID = Guid.NewGuid(), // does not exist
                             Title = "Test News",
                             Subtitle = "This is a test news",
@@ -148,7 +150,7 @@ namespace Tests.Integration.TestData
                         Errors = null // once char limits for title/subtitle/content and datetime checks are implemented, come back to this method
                     },
                     new ValidationErrorsWhenCreatingData<News> {
-                        Entiy = new News {
+                        Entity = new News {
                             NewsID = Guid.Parse("82da5e95-a4ac-436f-aba7-211a3f7343ee"), // does not exist
                             Title = "Test News",
                             Subtitle = "This is a test news",
@@ -160,7 +162,7 @@ namespace Tests.Integration.TestData
                         Errors = null // once char limits for title/subtitle/content and datetime checks are implemented, come back to this method
                     },
                     new ValidationErrorsWhenCreatingData<News> {
-                        Entiy = new News {
+                        Entity = new News {
                             NewsID = Guid.Parse("00000000-0000-0000-0000-000000000001"), // does not exist - so, funny fact. Apparently, an empty guid (the one full of zeros) will always return a default object, so that can't be used for testing, since it will make this fail. Threfore, something like this has to be used.
                             Title = "Test News",
                             Subtitle = "This is a test news",

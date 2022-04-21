@@ -7,6 +7,7 @@ using Business.Tools;
 using Business.Tools.DictionaryAPI.Lexicala;
 using Business.Tools.DictionaryAPI.Oxford;
 using Business.Tools.Exceptions;
+using Data.Models.DTOs;
 using Data.Models.Implementation;
 using Data.Tools.Filtering;
 using Data.Tools.Sorting;
@@ -32,7 +33,7 @@ namespace API.Controllers
     [ApiController]
     [ApiVersion("1.0")]
     [Route("api/v{version:apiVersion}/[controller]")]
-    public class NewsController : GenericRepositoryController<News, Guid, NewsFilterOptions, NewsSortOptions>
+    public class NewsController : GenericRepositoryController<News, Guid, NewsDTO, NewsFilterOptions, NewsSortOptions>
     {
         private readonly NewsService _newsService;
 
@@ -45,7 +46,7 @@ namespace API.Controllers
     [ApiController]
     [ApiVersion("1.0")]
     [Route("api/v{version:apiVersion}/[controller]")]
-    public class DeckController : GenericRepositoryController<Deck, Guid, DeckFilterOptions, DeckSortOptions>
+    public class DeckController : GenericRepositoryController<Deck, Guid, DeckDTO, DeckFilterOptions, DeckSortOptions>
     {
         private readonly DeckService _deckService;
 
@@ -58,7 +59,7 @@ namespace API.Controllers
     [ApiController]
     [ApiVersion("1.0")]
     [Route("api/v{version:apiVersion}/[controller]")]
-    public class FlashcardController : GenericRepositoryController<Flashcard, Guid, FlashcardFilterOptions, FlashcardSortOptions>
+    public class FlashcardController : GenericRepositoryController<Flashcard, Guid, FlashcardDTO, FlashcardFilterOptions, FlashcardSortOptions>
     {
         private readonly FlashcardService _flashcardService;
 

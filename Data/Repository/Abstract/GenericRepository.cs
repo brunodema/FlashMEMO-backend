@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace Data.Repository.Abstract
 {
-    public abstract class GenericRepository<TEntity, TKey, DatabaseContext> : IRepository<TEntity, TKey, bool>
+    public abstract class GenericRepository<TEntity, TKey, DatabaseContext> : IRepository<TEntity, TKey, TKey>
         where TEntity : class, IDatabaseItem<TKey>
         where DatabaseContext : DbContext
     {
@@ -47,17 +47,17 @@ namespace Data.Repository.Abstract
             return await _dbset.FindAsync(id);
         }
         // CRUD
-        public virtual async Task<bool> CreateAsync(TEntity entity)
+        public virtual async Task<TKey> CreateAsync(TEntity entity)
         {
             _dbset.Add(entity);
             await SaveChangesAsync();
-            return true;
+            return entity.DbId;
         }
-        public virtual async Task<bool> UpdateAsync(TEntity entity)
+        public virtual async Task<TKey> UpdateAsync(TEntity entity)
         {
             _dbset.Update(entity);
             await SaveChangesAsync();
-            return true;
+            return entity.DbId;
         }
         public virtual async Task RemoveByIdAsync(TKey guid)
         {

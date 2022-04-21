@@ -3,23 +3,23 @@ using Data.Tools.Filtering;
 
 namespace Tests.Integration.Interfaces
 {
-    public interface IExpectedValidationErrorsForEntity<TEntiy>
+    public interface IExpectedValidationErrorsForEntity<TEntity>
     {
-        public TEntiy Entiy { get; set; }
+        public TEntity Entity { get; set; }
         public string Message { get; set; }
         public string[] Errors { get; set; }
     }
-    public interface IPageData<TEntiy>
+    public interface IPageData<TEntity>
     {
         public int PageSize { get; set; }
         public int PageNumber { get; set; }
     }
 
-    public interface ISearchParameters<TEntiy>
-        where TEntiy : class
+    public interface ISearchParameters<TEntity>
+        where TEntity : class
     {
         public int PageSize { get; set; }
-        public GenericSortOptions<TEntiy> SortOptions { get; set; }
-        public IQueryFilterOptions<TEntiy> FilterOptions { get; set; }
+        public GenericSortOptions<TEntity> SortOptions { get; set; }
+        public IQueryFilterOptions<TEntity> FilterOptions { get; set; }
     }
 }

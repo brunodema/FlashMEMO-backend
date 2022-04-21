@@ -16,24 +16,24 @@ namespace Tests.Integration.Implementation
         /// </summary>
         public const string TestFailed = "Test #{0} has failed. Exception: {1}";
     }
-    public class ValidationErrorsWhenCreatingData<TEntiy> : IExpectedValidationErrorsForEntity<TEntiy>
+    public class ValidationErrorsWhenCreatingData<TEntity> : IExpectedValidationErrorsForEntity<TEntity>
     {
-        public TEntiy Entiy { get; set; }
+        public TEntity Entity { get; set; }
         public string Message { get; set; }
         public string[] Errors { get; set; }
     }
-    public class GetsSpecifiedNumberOfRecordsPerPageData<TEntiy> : IPageData<TEntiy>
+    public class GetsSpecifiedNumberOfRecordsPerPageData<TEntity> : IPageData<TEntity>
     {
         public int PageSize { get; set; }
         public int PageNumber { get; set; }
     }
 
-    public class SearchParameters<TEntiy> : ISearchParameters<TEntiy>
-        where TEntiy : class
+    public class SearchParameters<TEntity> : ISearchParameters<TEntity>
+        where TEntity : class
     {
         public int PageSize { get; set; }
-        public GenericSortOptions<TEntiy> SortOptions { get; set; }
-        public IQueryFilterOptions<TEntiy> FilterOptions { get; set; }
+        public GenericSortOptions<TEntity> SortOptions { get; set; }
+        public IQueryFilterOptions<TEntity> FilterOptions { get; set; }
 
     }
 }
