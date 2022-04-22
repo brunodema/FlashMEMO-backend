@@ -58,9 +58,9 @@ namespace Business.Services.Abstract
         {
             return _baseRepository.SearchAndOrder(_ => true, sortOptions, numRecords);
         }
-        public async virtual Task RemoveByIdAsync(TKey guid)
+        public async virtual Task<TKey> RemoveByIdAsync(TKey guid)
         {
-            await _baseRepository.RemoveByIdAsync(guid);
+            return await _baseRepository.RemoveByIdAsync(guid);
         }
         public abstract ValidatonResult CheckIfEntityIsValid(TEntity entity);
 

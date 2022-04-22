@@ -57,15 +57,17 @@ namespace Data.Repository.Implementation
             await SaveChangesAsync();
             return result;
         }
-        public virtual async Task RemoveByIdAsync(TKey guid)
+        public virtual async Task<IdentityResult> RemoveByIdAsync(TKey guid)
         {
             var entity = await _userManager.FindByIdAsync(guid.ToString());
             if (entity == null)
             {
                 throw new Exception(RepositoryExceptionMessages.NullObjectInvalidID);
             }
-            await _userManager.DeleteAsync(entity);
+            var ret = await _userManager.DeleteAsync(entity);
             await SaveChangesAsync();
+
+            return ret;
         }
         public async Task<int> SaveChangesAsync()
         {

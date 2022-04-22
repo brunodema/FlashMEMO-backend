@@ -59,15 +59,17 @@ namespace Data.Repository.Abstract
             await SaveChangesAsync();
             return entity.DbId;
         }
-        public virtual async Task RemoveByIdAsync(TKey guid)
+        public virtual async Task<TKey> RemoveByIdAsync(TKey guid)
         {
             var entity = await _dbset.FindAsync(guid);
             if (entity == null)
             {
                 throw new Exception(RepositoryExceptionMessages.NullObjectInvalidID);
             }
-            _dbset.Remove(entity);
+            var ret =_dbset.Remove(entity);
             await SaveChangesAsync();
+
+            return ret.State == EntityState.Deleted ? entity.DbId : default(TKey);
         }
         public async Task<int> SaveChangesAsync()
         {
