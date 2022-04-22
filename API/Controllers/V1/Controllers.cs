@@ -260,7 +260,7 @@ namespace API.Controllers
 
         [HttpGet]
         [Route("search")]
-        public async Task<IActionResult> Search(string keyword, string languageCode, AudioAPIProviderType provider)
+        public async Task<IActionResult> Search(string keyword, string languageCode, AudioAPIProviderType provider = AudioAPIProviderType.REDACTED)
         {
             var results = await _audioAPIService.SearchAudioAsync(keyword, languageCode, provider);
 
