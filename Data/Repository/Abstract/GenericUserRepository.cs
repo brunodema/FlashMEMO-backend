@@ -1,5 +1,4 @@
-﻿using Data.Messages;
-using Data.Repository.Interfaces;
+﻿using Data.Repository.Interfaces;
 using Data.Tools.Sorting;
 using Data.Tools.Filtering;
 using Microsoft.AspNetCore.Identity;
@@ -9,6 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
+using Data.Tools.Exceptions.Repository;
 
 namespace Data.Repository.Implementation
 {
@@ -62,7 +62,7 @@ namespace Data.Repository.Implementation
             var entity = await _userManager.FindByIdAsync(guid.ToString());
             if (entity == null)
             {
-                throw new Exception(RepositoryExceptionMessages.NullObjectInvalidID);
+                throw new ObjectNotFoundWithId<TKey>(guid);
             }
             var ret = await _userManager.DeleteAsync(entity);
             await SaveChangesAsync();

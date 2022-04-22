@@ -1,5 +1,4 @@
-﻿using Data.Messages;
-using Data.Repository.Interfaces;
+﻿using Data.Repository.Interfaces;
 using Data.Tools.Sorting;
 using Data.Tools.Filtering;
 using Microsoft.EntityFrameworkCore;
@@ -8,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
+using Data.Tools.Exceptions.Repository;
 
 namespace Data.Repository.Abstract
 {
@@ -64,7 +64,7 @@ namespace Data.Repository.Abstract
             var entity = await _dbset.FindAsync(guid);
             if (entity == null)
             {
-                throw new Exception(RepositoryExceptionMessages.NullObjectInvalidID);
+                throw new ObjectNotFoundWithId<TKey>(guid);
             }
             var ret =_dbset.Remove(entity);
             await SaveChangesAsync();

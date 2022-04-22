@@ -1,5 +1,5 @@
-﻿using Data.Messages;
-using Data.Repository.Interfaces;
+﻿using Data.Repository.Interfaces;
+using Data.Tools.Exceptions.Repository;
 using Data.Tools.Filtering;
 using Data.Tools.Sorting;
 using Microsoft.AspNetCore.Identity;
@@ -62,7 +62,7 @@ namespace Data.Repository.Implementation
             var entity = await _roleManager.FindByIdAsync(guid.ToString());
             if (entity == null)
             {
-                throw new Exception(RepositoryExceptionMessages.NullObjectInvalidID);
+                throw new ObjectNotFoundWithId<TKey>(guid);
             }
             var ret = await _roleManager.DeleteAsync(entity);
             await SaveChangesAsync();

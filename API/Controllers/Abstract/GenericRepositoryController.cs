@@ -9,6 +9,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Data.Models.DTOs;
+using System;
+using Data.Tools.Exceptions.Repository;
 
 namespace API.Controllers.Abstract
 {
@@ -89,8 +91,19 @@ namespace API.Controllers.Abstract
         [Route("delete")]
         public async virtual Task<IActionResult> Delete([FromBody] TKey id)
         {
-            await _repositoryService.RemoveByIdAsync(id);
-            return Ok(new BaseResponseModel { Status = "Success", Message = $"Object deleted successfully." });
+            try
+            {
+                var ret = await _repositoryService.RemoveByIdAsync(id);
+                return Ok(new BaseResponseModel { Status = "Success", Message = $"Object deleted successfully." });
+            }
+            catch (ObjectNotFoundWithId<TKey> ex)
+            {
+                return NotFound(new BaseResponseModel { Status = "Not Found", Message = "Object was not deleted. Please make sure that the Id provided is valid.", Errors = new List<string>() { ex.Message } });
+            }
+            catch (Exception)
+            {
+                return StatusCode(500);
+            }
         }
 
         [HttpGet]

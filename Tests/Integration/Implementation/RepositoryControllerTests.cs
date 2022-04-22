@@ -1,5 +1,4 @@
-﻿using Data.Messages;
-using Data.Repository.Interfaces;
+﻿using Data.Repository.Interfaces;
 using System;
 using System.Linq;
 using System.Net;
@@ -14,6 +13,7 @@ using System.Threading.Tasks;
 using Tests.Integration.TestData;
 using Data.Models.Implementation;
 using API.ViewModels;
+using Data.Tools.Exceptions.Repository;
 
 namespace Tests.Integration.Implementation
 {
@@ -149,8 +149,9 @@ namespace Tests.Integration.Implementation
                 var parsedResponse = await response.Content.ReadFromJsonAsync<BaseResponseModel>();
 
                 // Assert
-                Assert.True(response.StatusCode == HttpStatusCode.InternalServerError);
-                Assert.True(parsedResponse.Message == RepositoryExceptionMessages.NullObjectInvalidID);
+                Assert.True(response.StatusCode == HttpStatusCode.NotFound);
+                Assert.True(parsedResponse.Message == "Object was not deleted. Please make sure that the Id provided is valid.");
+                Assert.Contains(ObjectNotFoundWithId<TKey>.DefaultExceptionMessage, parsedResponse.Errors);
             });
         }
         [Fact]
