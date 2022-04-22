@@ -51,6 +51,7 @@ namespace Data.Tools.Sorting
         {
             public const string DUE_DATE = "duedate";
             public const string LEVEL = "level";
+            public const string ANSWER = "answer";
             public const string CREATION_DATE = "creationdate";
             public const string LAST_UPDATED = "lastupdated";
         }
@@ -62,6 +63,7 @@ namespace Data.Tools.Sorting
             {
                 ColumnOptions.DUE_DATE => f => f.DueDate,
                 ColumnOptions.LEVEL => f => f.Level,
+                ColumnOptions.ANSWER => f => f.Answer,
                 ColumnOptions.CREATION_DATE => f => f.CreationDate,
                 ColumnOptions.LAST_UPDATED => f => f.LastUpdated,
                 // default will be 'duedate'
