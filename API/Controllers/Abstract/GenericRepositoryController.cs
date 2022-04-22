@@ -36,7 +36,7 @@ namespace API.Controllers.Abstract
         public virtual IActionResult List(int pageSize = GenericRepositoryControllerDefaults.DefaultPageSize, int pageNumber = GenericRepositoryControllerDefaults.DefaultPageIndex, [FromQuery] TSortOptions sortOptions = null)
         {
             var data = _repositoryService.ListAsync(sortOptions);
-            return Ok(new PaginatedListResponse<TEntity> { Status = "Sucess", Data = PaginatedList<TEntity>.Create(data, pageNumber, pageSize) });
+            return Ok(new PaginatedListResponse<TEntity> { Status = "Success", Data = PaginatedList<TEntity>.Create(data, pageNumber, pageSize) });
         }
 
         [HttpGet]
@@ -44,7 +44,7 @@ namespace API.Controllers.Abstract
         public async virtual Task<IActionResult> Get(TKey id)
         {
             var data = await _repositoryService.GetbyIdAsync(id);
-            return Ok(new DataResponseModel<TEntity> { Status = "Sucess", Data = data });
+            return Ok(new DataResponseModel<TEntity> { Status = "Success", Data = data });
         }
 
         [HttpPost]
@@ -100,7 +100,7 @@ namespace API.Controllers.Abstract
             var data = _repositoryService.SearchAndOrder(filterOptions, sortOptions);
             data = filterOptions.GetFilteredResults(data.AsQueryable());
 
-            return Ok(new PaginatedListResponse<TEntity> { Status = "Sucess", Data = PaginatedList<TEntity>.Create(data, pageNumber, pageSize) });
+            return Ok(new PaginatedListResponse<TEntity> { Status = "Success", Data = PaginatedList<TEntity>.Create(data, pageNumber, pageSize) });
         }
     }
 }
