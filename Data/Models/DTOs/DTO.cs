@@ -64,6 +64,7 @@ namespace Data.Models.DTOs
     {
         public Guid DeckId { get; set; } = Guid.Empty;
         public int Level { get; set; } = 0;
+        public string Answer { get; set; } = "";
         public FlashcardContentLayout ContentLayout { get; set; } = FlashcardContentLayout.SINGLE;
         public string Content1 { get; set; } = "";
         public string Content2 { get; set; } = "";
@@ -78,6 +79,7 @@ namespace Data.Models.DTOs
             {
                 DeckId = DeckId,
                 Level = Level,
+                Answer = Answer,
                 ContentLayout = ContentLayout,
                 Content1 = Content1,
                 Content2 = Content2,

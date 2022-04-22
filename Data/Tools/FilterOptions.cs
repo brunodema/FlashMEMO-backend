@@ -79,6 +79,7 @@ namespace Data.Tools.Filtering
         public Guid FlashcardID { get; set; } = new Guid();
 
         public int Level { get; set; } = -1;
+        public string Answer { get; set; } = "";
         public DateTime? FromCreationDate { get; set; } = null;
         public DateTime? ToCreationDate { get; set; } = null;
         public DateTime? FromLastUpdated { get; set; } = null;
@@ -91,6 +92,7 @@ namespace Data.Tools.Filtering
             string queryParams = "";
 
             if (Level > -1) queryParams = String.Concat(queryParams, $"&Level={Level}");
+            if (!String.IsNullOrEmpty(Answer)) queryParams = String.Concat(queryParams, $"&Answer={Answer}");
             if (FromCreationDate != null) queryParams = String.Concat(queryParams, $"&FromCreationDate={FromCreationDate.Value.ToString("yyyy-MM-dd")}");
             if (ToCreationDate != null) queryParams = String.Concat(queryParams, $"&ToDate={ToCreationDate.Value.ToString("yyyy-MM-dd")}");
             if (FromLastUpdated != null) queryParams = String.Concat(queryParams, $"&FromDate={FromLastUpdated.Value.ToString("yyyy-MM-dd")}");
@@ -116,6 +118,10 @@ namespace Data.Tools.Filtering
             if (Level > -1)
             {
                 elements = elements.Where(x => x.Level == Level);
+            }
+            if (String.IsNullOrEmpty(Answer))
+            {
+                elements = elements.Where(x => x.Answer == Answer);
             }
 
             return elements;
