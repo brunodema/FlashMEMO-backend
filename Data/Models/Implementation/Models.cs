@@ -60,6 +60,7 @@ namespace Data.Models.Implementation
         public string Content1 { get; set; } = "";
         public string Content2 { get; set; } = "";
         public string Content3 { get; set; } = "";
+        public string Answer { get; set; } = "";
         public DateTime CreationDate { get; set; } = DateTime.Now;
         public DateTime LastUpdated { get; set; } = DateTime.Now;
         public DateTime DueDate { get; set; } = DateTime.Now;
