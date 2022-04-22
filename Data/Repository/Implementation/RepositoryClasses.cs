@@ -32,7 +32,7 @@ namespace Data.Repository.Implementation
     /// <summary>
     /// Even though this entity is not supposed to be managed indirectly, it certainly helps to use the existing interfaces to set up a repository for it.
     /// </summary>
-    public class LanguageRepository : GenericRepository<Language, Guid, FlashMEMOContext>
+    public class LanguageRepository : GenericRepository<Language, string, FlashMEMOContext>
     {
         public LanguageRepository(FlashMEMOContext context) : base(context) { }
     }

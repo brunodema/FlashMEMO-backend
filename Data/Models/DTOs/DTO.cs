@@ -13,7 +13,7 @@ namespace Data.Models.DTOs
     public class DeckDTO : IModelDTO<Deck, Guid>
     {
         public string OwnerId { get; set; } = Guid.Empty.ToString();
-        public Guid LanguageId { get; set; } = Guid.Empty;
+        public string LanguageId { get; set; } = "";
         public string Name { get; set; } = "";
         public string Description { get; set; } = "";
         public DateTime CreationDate { get; set; } = DateTime.Now;
@@ -24,7 +24,7 @@ namespace Data.Models.DTOs
             return new Deck()
             {
                 OwnerId = OwnerId,
-                LanguageId = LanguageId,
+                LanguageISOCode = LanguageId,
                 Name = Name,
                 Description = Description,
                 CreationDate = CreationDate,

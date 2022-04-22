@@ -35,7 +35,7 @@ namespace Data.Models.Implementation
         public ApplicationUser Owner { get; set; } = null;
         public string OwnerId { get; set; } = Guid.Empty.ToString();
         public Language Language { get; set; } = null;
-        public Guid LanguageId { get; set; } = Guid.Empty;
+        public string LanguageISOCode { get; set; } = "";
 
         public string Name { get; set; } = "";
         public string Description { get; set; } = "";
