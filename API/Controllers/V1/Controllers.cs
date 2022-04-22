@@ -239,7 +239,7 @@ namespace API.Controllers
         [Route("test")]
         public IActionResult Test()
         {
-            return Ok(new BaseResponseModel { Status = "Sucess", Message = "You managed to get here!" });
+            return Ok(new BaseResponseModel { Status = "Success", Message = "You managed to get here!" });
         }
     }
 
