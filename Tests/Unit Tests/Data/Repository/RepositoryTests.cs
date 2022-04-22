@@ -24,6 +24,7 @@ namespace Tests.Unit_Tests.Data.Repository
         protected ITestOutputHelper _output;
         protected GenericRepository<TEntity, TKey, FlashMEMOContext> _repository;
         protected FlashMEMOContext _context;
+        protected JsonSerializerSettings _serializerSettings = new JsonSerializerSettings() { ReferenceLoopHandling = ReferenceLoopHandling.Ignore, Formatting = Formatting.Indented };
 
         public GenericRepositoryUnitTests(ITestOutputHelper output)
         {
@@ -117,7 +118,7 @@ namespace Tests.Unit_Tests.Data.Repository
 
         public virtual void GetAll(TEntity[] entities)
         {
-            _output.WriteLine($"Input data has length of {entities.Length} is: {JsonConvert.SerializeObject(entities, settings: new JsonSerializerSettings() { ReferenceLoopHandling = ReferenceLoopHandling.Ignore })}");
+            _output.WriteLine($"Input data has length of {entities.Length} is: {JsonConvert.SerializeObject(entities, _serializerSettings)}");
 
             // Arrange
             entities.ToList().ForEach(e => AddEntityViaContext(e));
@@ -129,7 +130,7 @@ namespace Tests.Unit_Tests.Data.Repository
             entitiesFromRepository.Should().BeEquivalentTo(entities);
             entitiesFromRepository.Should().HaveCount(entities.Length);
 
-            _output.WriteLine($"Data returned by the test method has length of {entitiesFromRepository.Count()} and is: {JsonConvert.SerializeObject(entitiesFromRepository, settings: new JsonSerializerSettings() { ReferenceLoopHandling = ReferenceLoopHandling.Ignore })}");
+            _output.WriteLine($"Data returned by the test method has length of {entitiesFromRepository.Count()} and is: {JsonConvert.SerializeObject(entitiesFromRepository, _serializerSettings)}");
         }
 
         /// <summary>
@@ -140,7 +141,7 @@ namespace Tests.Unit_Tests.Data.Repository
         public virtual void SearchAndOrder_ValidateOrdering(List<TEntity> entities, GenericSortOptions<TEntity> sortOptions)
         {
             _output.WriteLine($"Sorting requested is: {JsonConvert.SerializeObject(sortOptions)}");
-            _output.WriteLine($"Input data has length of {entities.Count} is: {JsonConvert.SerializeObject(entities, settings: new JsonSerializerSettings() { ReferenceLoopHandling = ReferenceLoopHandling.Ignore })}");
+            _output.WriteLine($"Input data has length of {entities.Count} is: {JsonConvert.SerializeObject(entities, _serializerSettings)}");
 
             // Arrange
             entities.ForEach(e => AddEntityViaContext(e));
@@ -161,7 +162,7 @@ namespace Tests.Unit_Tests.Data.Repository
                     break;
             }
 
-            _output.WriteLine($"Data returned by the test method has length of {entitiesFromRepository.Count()} and is: {JsonConvert.SerializeObject(entitiesFromRepository, settings: new JsonSerializerSettings() { ReferenceLoopHandling = ReferenceLoopHandling.Ignore })}");
+            _output.WriteLine($"Data returned by the test method has length of {entitiesFromRepository.Count()} and is: {JsonConvert.SerializeObject(entitiesFromRepository, _serializerSettings)}");
         }
 
         /// <summary>
@@ -180,7 +181,7 @@ namespace Tests.Unit_Tests.Data.Repository
         public virtual void SearchAndOrder_ValidateFiltering(ValidateFilteringTestData testData)
         {
             _output.WriteLine($"Filtering requested is: {JsonConvert.SerializeObject(testData.predicate.ToString())}");
-            _output.WriteLine($"Input data has length of {testData.entities.Count} is: {JsonConvert.SerializeObject(testData.entities, settings: new JsonSerializerSettings() { ReferenceLoopHandling = ReferenceLoopHandling.Ignore })}");
+            _output.WriteLine($"Input data has length of {testData.entities.Count} is: {JsonConvert.SerializeObject(testData.entities, _serializerSettings)}");
 
             // Arrange
             testData.entities.ForEach(e => AddEntityViaContext(e));
@@ -191,7 +192,7 @@ namespace Tests.Unit_Tests.Data.Repository
             // Assert
             entitiesFromRepository.Should().BeEquivalentTo(testData.entities.AsQueryable().Where(testData.predicate));
 
-            _output.WriteLine($"Data returned by the test method has length of {entitiesFromRepository.Count()} and is: {JsonConvert.SerializeObject(entitiesFromRepository, settings: new JsonSerializerSettings() { ReferenceLoopHandling = ReferenceLoopHandling.Ignore })}");
+            _output.WriteLine($"Data returned by the test method has length of {entitiesFromRepository.Count()} and is: {JsonConvert.SerializeObject(entitiesFromRepository, _serializerSettings)}");
         }
 
         public void Dispose()
@@ -475,7 +476,7 @@ namespace Tests.Unit_Tests.Data.Repository
         public static IEnumerable<object[]> CreateEntityData =>
             new List<object[]>
             {
-                new object[] { new Flashcard { Level = 0, ContentLayout = FlashcardContentLayout.SINGLE, Content1 = "<p>Here is some content!</p>", CreationDate = DateTime.Parse("01-01-2001") } },
+                new object[] { new Flashcard { Level = 0, Answer = "Answer #1", ContentLayout = FlashcardContentLayout.SINGLE, Content1 = "<p>Here is some content!</p>", CreationDate = DateTime.Parse("01-01-2001") } },
                 new object[] { new Flashcard { Level = 0, ContentLayout = FlashcardContentLayout.TRIPLE_BLOCK, Content1 = "<p>Here is some content!</p>", Content2 = "<p>Here is more content!</p>", Content3 = "<p>Here is even more content!</p>", CreationDate = DateTime.Parse("01-01-2001") } },
             };
 
@@ -527,8 +528,8 @@ namespace Tests.Unit_Tests.Data.Repository
 
         private static readonly Flashcard TestEntity1 = new Flashcard { Level = 0, ContentLayout = FlashcardContentLayout.SINGLE, Content1 = "<p>Here is some content!</p>", LastUpdated = DateTime.Parse("01-01-2002"), CreationDate = DateTime.Parse("01-01-2002"), DueDate = DateTime.Parse("01-01-2002") };
         private static readonly Flashcard TestEntity2 = new Flashcard { Level = 1, ContentLayout = FlashcardContentLayout.VERTICAL_SPLIT, Content1 = "<p>Here is some content!</p>", Content2 = "<p>Here is some content!2</p>", LastUpdated = DateTime.Parse("02-01-2002"), CreationDate = DateTime.Parse("01-01-2002"), DueDate = DateTime.Parse("03-01-2002") };
-        private static readonly Flashcard TestEntity3 = new Flashcard { Level = 2, ContentLayout = FlashcardContentLayout.TRIPLE_BLOCK, Content1 = "<p>Here is some content!</p>", Content2 = "<p>Here is some content!2</p>", Content3 = "<p>Here is some content!3</p>", LastUpdated = DateTime.Parse("03-01-2002"), CreationDate = DateTime.Parse("01-01-2002"), DueDate = DateTime.Parse("04-01-2002") };
-        private static readonly Flashcard TestEntity4 = new Flashcard { Level = 3, ContentLayout = FlashcardContentLayout.FULL_CARD, Content1 = "<p>Here is some content!</p>", Content2 = "<p>Here is some content!2</p>", Content3 = "<p>Here is some content!3</p>", LastUpdated = DateTime.Parse("03-01-2002"), CreationDate = DateTime.Parse("03-01-2002"), DueDate = DateTime.Parse("05-01-2002") };
+        private static readonly Flashcard TestEntity3 = new Flashcard { Level = 2, Answer = "Answer #1", ContentLayout = FlashcardContentLayout.TRIPLE_BLOCK, Content1 = "<p>Here is some content!</p>", Content2 = "<p>Here is some content!2</p>", Content3 = "<p>Here is some content!3</p>", LastUpdated = DateTime.Parse("03-01-2002"), CreationDate = DateTime.Parse("01-01-2002"), DueDate = DateTime.Parse("04-01-2002") };
+        private static readonly Flashcard TestEntity4 = new Flashcard { Level = 3, Answer = "Answer #2", ContentLayout = FlashcardContentLayout.FULL_CARD, Content1 = "<p>Here is some content!</p>", Content2 = "<p>Here is some content!2</p>", Content3 = "<p>Here is some content!3</p>", LastUpdated = DateTime.Parse("03-01-2002"), CreationDate = DateTime.Parse("03-01-2002"), DueDate = DateTime.Parse("05-01-2002") };
 
         private static readonly List<Flashcard> FullEntityList = new() { TestEntity1, TestEntity2, TestEntity3, TestEntity4 };
 
@@ -553,6 +554,8 @@ namespace Tests.Unit_Tests.Data.Repository
                 new object[] { new List<Flashcard>(FullEntityList), new FlashcardSortOptions(SortType.Descending, "duedate") },
                 new object[] { new List<Flashcard>(FullEntityList), new FlashcardSortOptions(SortType.Ascending, "level") },
                 new object[] { new List<Flashcard>(FullEntityList), new FlashcardSortOptions(SortType.Descending, "level") },
+                new object[] { new List<Flashcard>(FullEntityList), new FlashcardSortOptions(SortType.Ascending, "answer") },
+                new object[] { new List<Flashcard>(FullEntityList), new FlashcardSortOptions(SortType.Descending, "answer") },
                 new object[] { new List<Flashcard>(FullEntityList), new FlashcardSortOptions(SortType.Ascending, "creationdate") },
                 new object[] { new List<Flashcard>(FullEntityList), new FlashcardSortOptions(SortType.Descending, "creationdate") },
                 new object[] { new List<Flashcard>(FullEntityList), new FlashcardSortOptions(SortType.Ascending, "lastupdated") },
@@ -573,6 +576,7 @@ namespace Tests.Unit_Tests.Data.Repository
         {
             new object[] { new ValidateFilteringTestData { entities = FullEntityList, predicate = _ => true } },
             new object[] { new ValidateFilteringTestData { entities = FullEntityList, predicate = e => e.Level == 1 } },
+            new object[] { new ValidateFilteringTestData { entities = FullEntityList, predicate = e => e.Answer == "Answer #1" } },
             new object[] { new ValidateFilteringTestData { entities = FullEntityList, predicate = e => e.CreationDate > DateTime.Parse("01-01-2001") } },
             new object[] { new ValidateFilteringTestData { entities = FullEntityList, predicate = e => e.LastUpdated == DateTime.Parse("01-01-2002") } },
             new object[] { new ValidateFilteringTestData { entities = FullEntityList, predicate = e => e.DueDate < DateTime.Parse("03-01-2002") } },
