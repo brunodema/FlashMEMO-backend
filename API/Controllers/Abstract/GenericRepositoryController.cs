@@ -12,6 +12,13 @@ using Data.Models.DTOs;
 
 namespace API.Controllers.Abstract
 {
+    public class GenericRepositoryControllerDefaults
+    {
+        public const int DefaultPageSize = 10;
+        public const int DefaultPageIndex = 1;
+
+    }
+
     public abstract class GenericRepositoryController<TEntity, TKey, TDTO, TFilterOptions, TSortOptions> : ControllerBase
         where TEntity : class, IDatabaseItem<TKey>
         where TDTO : IModelDTO<TEntity, TKey>
@@ -27,10 +34,10 @@ namespace API.Controllers.Abstract
 
         [HttpGet]
         [Route("list")]
-        public virtual IActionResult List(int? pageSize, int? pageNumber, [FromQuery] TSortOptions sortOptions = null)
+        public virtual IActionResult List(int pageSize = GenericRepositoryControllerDefaults.DefaultPageSize, int pageNumber = GenericRepositoryControllerDefaults.DefaultPageIndex, [FromQuery] TSortOptions sortOptions = null)
         {
             var data = _repositoryService.ListAsync(sortOptions);
-            return Ok(new PaginatedListResponse<TEntity> { Status = "Sucess", Data = PaginatedList<TEntity>.Create(data, pageNumber ?? 1, pageSize ?? 10) });
+            return Ok(new PaginatedListResponse<TEntity> { Status = "Sucess", Data = PaginatedList<TEntity>.Create(data, pageNumber, pageSize) });
         }
 
         [HttpGet]
@@ -38,7 +45,7 @@ namespace API.Controllers.Abstract
         public async virtual Task<IActionResult> Get(TKey id)
         {
             var data = await _repositoryService.GetbyIdAsync(id);
-            return Ok(new PaginatedListResponse<TEntity> { Status = "Sucess", Data = PaginatedList<TEntity>.Create(new List<TEntity> { data }, 1, 1) });
+            return Ok(new DataResponseModel<TEntity> { Status = "Sucess", Data = data });
         }
 
         [HttpPost]
@@ -89,12 +96,12 @@ namespace API.Controllers.Abstract
 
         [HttpGet]
         [Route("search")]
-        public virtual IActionResult Search(int pageSize, int? pageNumber, [FromQuery] TFilterOptions filterOptions, [FromQuery] TSortOptions sortOptions = null)
+        public virtual IActionResult Search([FromQuery] TFilterOptions filterOptions, [FromQuery] TSortOptions sortOptions = null, int pageSize = GenericRepositoryControllerDefaults.DefaultPageSize, int pageNumber = GenericRepositoryControllerDefaults.DefaultPageIndex)
         {
             var data = _repositoryService.SearchAndOrder(filterOptions, sortOptions);
             data = filterOptions.GetFilteredResults(data.AsQueryable());
 
-            return Ok(new PaginatedListResponse<TEntity> { Status = "Sucess", Data = PaginatedList<TEntity>.Create(data, pageNumber ?? 1, pageSize) });
+            return Ok(new PaginatedListResponse<TEntity> { Status = "Sucess", Data = PaginatedList<TEntity>.Create(data, pageNumber, pageSize) });
         }
     }
 }

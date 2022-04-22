@@ -255,7 +255,7 @@ namespace Tests.Integration.Implementation
                 // Act
                 var response = await _integrationTestFixture.HttpClient.PutAsync($"{UpdateEndpoint}/{entity.DbId}", body);
                 var afterResponse = await _integrationTestFixture.HttpClient.GetAsync($"{GetEndpoint}/{entity.DbId}");
-                var entityAfter = afterResponse.Content.ReadFromJsonAsync<PaginatedListResponse<TEntity>>().Result.Data.Results.SingleOrDefault();
+                var entityAfter = afterResponse.Content.ReadFromJsonAsync<DataResponseModel<TEntity>>().Result.Data;
 
                 // Assert
                 Assert.True(response.StatusCode == HttpStatusCode.OK);
@@ -264,7 +264,7 @@ namespace Tests.Integration.Implementation
 
                 // Undo
                 body = JsonContent.Create(entityBefore);
-                await _integrationTestFixture.HttpClient.PutAsync(UpdateEndpoint, body);
+                await _integrationTestFixture.HttpClient.PutAsync($"{UpdateEndpoint}/{entity.DbId}", body);
                 var entityUndo = await _integrationTestFixture.HttpClient.GetAsync($"{GetEndpoint}/{entity.DbId}").Result.Content.ReadFromJsonAsync<TEntity>();
 
                 // Had to add this tolerance so errors regarding <= 1000ms time differences are not reported.

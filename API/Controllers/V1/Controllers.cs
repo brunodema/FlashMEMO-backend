@@ -84,11 +84,11 @@ namespace API.Controllers
 
         [HttpGet]
         [Route("search")]
-        public async Task<IActionResult> Search(string searchText, long pageNumber = 1)
+        public async Task<IActionResult> Search(string searchText, long pageIndex = 1)
         {
             try
             {
-                var results = await _service.Search(searchText, pageNumber);
+                var results = await _service.Search(searchText, pageIndex);
 
                 return Ok(new LargePaginatedListResponse<CustomSearchAPIImageResult>
                 {
@@ -109,7 +109,6 @@ namespace API.Controllers
             catch (InputValidationException e)
             {
                 return BadRequest(new BaseResponseModel { Status = "Bad Request", Message = e.Message, Errors = e.InputValidationErrors });
-                throw;
             }
             catch (Exception)
             {

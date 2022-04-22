@@ -171,7 +171,7 @@ namespace Tests.Integration.Implementation.API
         public async void MakesSuccessfulRequestWithPagination(string searchText, long? pageNumber)
         {
             // Arrange
-            var url = $"{BaseEndpoint}/search?searchText={searchText}&pageNumber={pageNumber ?? 1}";
+            var url = $"{BaseEndpoint}/search?searchText={searchText}&pageIndex={pageNumber ?? 1}";
 
             // Act
             var response = await _integrationTestFixture.HttpClient.GetAsync(url).Result.Content.ReadFromJsonAsync<LargePaginatedListResponse<CustomSearchAPIImageResult>>(new System.Text.Json.JsonSerializerOptions() { PropertyNameCaseInsensitive = true });
