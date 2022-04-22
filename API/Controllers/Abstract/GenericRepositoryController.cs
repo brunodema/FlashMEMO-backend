@@ -16,7 +16,6 @@ namespace API.Controllers.Abstract
     {
         public const int DefaultPageSize = 10;
         public const int DefaultPageIndex = 1;
-
     }
 
     public abstract class GenericRepositoryController<TEntity, TKey, TDTO, TFilterOptions, TSortOptions> : ControllerBase
