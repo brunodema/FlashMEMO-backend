@@ -23,6 +23,7 @@ using System;
 using System.Threading.Tasks;
 using System.Linq;
 using Business.Tools;
+using OpenQA.Selenium;
 
 namespace Business.Services.Implementation
 {
@@ -441,44 +442,51 @@ namespace Business.Services.Implementation
             switch (provider)
             {
                 case AudioAPIProviderType.REDACTED:
-                    // Whatever the hell this is, this happened thanks to these resources: https://www.youtube.com/watch?v=m3Hgu2CW_Co and https://github.com/executeautomation/Selenium4NetCore/blob/master/Selenium4NetCoreProj/UnitTest1.cs.
-
-                    // probably will put this inside an individual AudioAPIProvider class in the future. During concept design, this is acceptable
-                    var audioLinks = new List<string>();
-
-                    var chromeOptions = new ChromeOptions();
-                    chromeOptions.AddArguments("--headless");
-
-                    var driver = new ChromeDriver(chromeOptions);
-
-                    var devTools = driver as IDevTools;
-                    var session = devTools.GetDevToolsSession();
-
-                    var devToolsSession = session.GetVersionSpecificDomains<DevToolsSessionDomains>();
-                    await devToolsSession.Network.Enable(new Network.EnableCommandSettings());
-
-                    devToolsSession.Network.ResponseReceived += (object sender, Network.ResponseReceivedEventArgs args) =>
+                    try
                     {
-                        if (args.Type == Network.ResourceType.Media)
+                        // Whatever the hell this is, this happened thanks to these resources: https://www.youtube.com/watch?v=m3Hgu2CW_Co and https://github.com/executeautomation/Selenium4NetCore/blob/master/Selenium4NetCoreProj/UnitTest1.cs.
+
+                        // probably will put this inside an individual AudioAPIProvider class in the future. During concept design, this is acceptable
+                        var audioLinks = new List<string>();
+
+                        var chromeOptions = new ChromeOptions();
+                        chromeOptions.AddArguments("--headless");
+
+                        var driver = new ChromeDriver(chromeOptions);
+
+                        var devTools = driver as IDevTools;
+                        var session = devTools.GetDevToolsSession();
+
+                        var devToolsSession = session.GetVersionSpecificDomains<DevToolsSessionDomains>();
+                        await devToolsSession.Network.Enable(new Network.EnableCommandSettings());
+
+                        devToolsSession.Network.ResponseReceived += (object sender, Network.ResponseReceivedEventArgs args) =>
                         {
-                            audioLinks.Add($"{args.Response.Url}");
+                            if (args.Type == Network.ResourceType.Media)
+                            {
+                                audioLinks.Add($"{args.Response.Url}");
+                            }
+                        };
+
+                        driver.Url = $"https://forvo.com/word/{keyword}/#{languageCode}/";
+
+                        var pronunciations = driver.FindElement(OpenQA.Selenium.By.ClassName("show-all-pronunciations")).FindElements(OpenQA.Selenium.By.ClassName("play"));
+                        foreach (var item in pronunciations)
+                        {
+                            item.Click();
                         }
-                    };
 
-                    driver.Url = $"https://forvo.com/word/{keyword}/#{languageCode}/";
+                        var timer = Stopwatch.StartNew();
+                        // this is implementation is probably very wrong... but it works, for now. What I mean with 'it works': waits until array reaches pre-determined state, without waiting the full timeout period, if possible.
+                        bool spinUntil = SpinWait.SpinUntil(() => audioLinks.Count == pronunciations.Count, TimeSpan.FromSeconds(15));
+                        timer.Stop();
 
-                    var pronunciations = driver.FindElement(OpenQA.Selenium.By.ClassName("show-all-pronunciations")).FindElements(OpenQA.Selenium.By.ClassName("play"));
-                    foreach (var item in pronunciations)
-                    {
-                        item.Click();
+                        return new AudioAPIDTO() { SearchText = keyword, LanguageCode = languageCode, Results = { AudioLinks = audioLinks, ProcessingTime = timer.Elapsed.ToString() } };
                     }
-
-                    var timer = Stopwatch.StartNew();
-                    // this is implementation is probably very wrong... but it works, for now. What I mean with 'it works': waits until array reaches pre-determined state, without waiting the full timeout period, if possible.
-                    bool spinUntil = SpinWait.SpinUntil(() => audioLinks.Count == pronunciations.Count, TimeSpan.FromSeconds(15));
-                    timer.Stop();
-
-                    return new AudioAPIDTO() { SearchText = keyword, LanguageCode = languageCode, Results = { AudioLinks = audioLinks, ProcessingTime = timer.Elapsed.ToString() } };
+                    catch (NoSuchElementException) // this should mean that no results were found
+                    {
+                        return new AudioAPIDTO() { SearchText = keyword, LanguageCode = languageCode, Results = { AudioLinks = { }, ProcessingTime = "0" } };
+                    }
 
                 default:
                     throw new Exception($"Audio API provider '{provider}' does not exist.");
