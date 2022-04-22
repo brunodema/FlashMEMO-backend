@@ -63,7 +63,7 @@ namespace Business.Services.Implementation
 
         public override ValidatonResult CheckIfEntityIsValid(Flashcard entity)
         {
-            return new ValidatonResult() { IsValid = true }; // I actually went through this one, and saw that there is no immediate need to implement complex checks for Flashcard objects. Yes, there are some properties which could profit from some extra logic (ex: 'Content' columns should match the chosen layout, 'Level' should not be negative, date checks, etc), but adding that would be distracting right now.
+            return new ValidatonResult() { IsValid = true }; // I actually went through this one (21/04), and saw that there is no immediate need to implement complex checks for Flashcard objects. Yes, there are some properties which could profit from some extra logic (ex: 'Content' columns should match the chosen layout, 'Level' should not be negative, date checks, etc), but adding that would be distracting right now.
         }
     }
 
