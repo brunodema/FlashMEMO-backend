@@ -235,7 +235,7 @@ namespace Tests.Integration.Implementation
                 var parsedResponse = await response.Content.ReadFromJsonAsync<BaseResponseModel>();
 
                 // Assert
-                Assert.True(response.StatusCode == HttpStatusCode.InternalServerError);
+                Assert.True(response.StatusCode == HttpStatusCode.BadRequest);
                 Assert.True(parsedResponse.Message == testData.Message);
                 parsedResponse.Errors.Should().BeEquivalentTo(testData.Errors);
             });

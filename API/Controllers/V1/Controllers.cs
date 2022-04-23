@@ -33,6 +33,19 @@ namespace API.Controllers
     [ApiController]
     [ApiVersion("1.0")]
     [Route("api/v{version:apiVersion}/[controller]")]
+    public class RoleController : GenericRepositoryController<ApplicationRole, string, RoleDTO, RoleFilterOptions, RoleSortOptions>
+    {
+        private readonly RoleService _roleService;
+
+        public RoleController(RoleService roleService) : base(roleService)
+        {
+            _roleService = roleService;
+        }
+    }
+
+    [ApiController]
+    [ApiVersion("1.0")]
+    [Route("api/v{version:apiVersion}/[controller]")]
     public class UserController : GenericRepositoryController<ApplicationUser, string, UserDTO, UserFilterOptions, UserSortOptions>
     {
         private readonly UserService _userService;

@@ -17,6 +17,23 @@ using System.Threading.Tasks;
 
 namespace Business.Services.Implementation
 {
+    public class RoleService : GenericRepositoryService<RoleRepository, string, ApplicationRole>
+    {
+        private readonly RoleRepository _roleRepository;
+
+        public RoleService(RoleRepository roleRepository, IOptions<GenericRepositoryServiceOptions> serviceOptions) : base(roleRepository, serviceOptions.Value)
+        {
+            _roleRepository = roleRepository;
+        }
+
+        public override ValidatonResult CheckIfEntityIsValid(ApplicationRole entity)
+        {
+            List<string> errors = new();
+
+            return new ValidatonResult() { IsValid = errors.Count == 0, Errors = errors }; // dummy function for now
+        }
+    }
+
     public class UserService : GenericRepositoryService<ApplicationUserRepository, string, ApplicationUser>
     {
         private readonly ApplicationUserRepository _userRepository;
@@ -59,7 +76,7 @@ namespace Business.Services.Implementation
             if (!_languageService.LanguageExists(entity.LanguageISOCode ?? null)) errors.Add("The language code provided is not valid.");
             if(!_authService.UserExistsAsync(entity.OwnerId ?? null).Result) errors.Add($"The user owner does not seem to exist within FlashMEMO.");
 
-            return new ValidatonResult() { IsValid = errors.Count == 0, Errors = errors }; // dummy function for now
+            return new ValidatonResult() { IsValid = errors.Count == 0, Errors = errors };
         }
     }
 

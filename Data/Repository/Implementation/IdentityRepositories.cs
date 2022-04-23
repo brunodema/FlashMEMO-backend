@@ -101,10 +101,77 @@ namespace Data.Repository.Implementation
         }
     }
 
-    public class RoleRepository : GenericRoleRepository<ApplicationRole, string, FlashMEMOContext>
+    public interface IRoleRepository<TRoleType>
     {
-        public RoleRepository(FlashMEMOContext context, RoleManager<ApplicationRole> roleManager) : base(context, roleManager)
+        public Task<TRoleType> GetByRoleNameAsync(string roleName);
+    }
+
+    public class RoleRepository : GenericRepository<ApplicationRole, string, FlashMEMOContext>, IRoleRepository<ApplicationRole>
+    {
+        protected RoleManager<ApplicationRole> _roleManager;
+
+        public RoleRepository(FlashMEMOContext context, RoleManager<ApplicationRole> roleManager) : base(context)
         {
+            _roleManager = roleManager;
+        }
+
+        public override IEnumerable<ApplicationRole> SearchAndOrder(Expression<Func<ApplicationRole, bool>> predicate, GenericSortOptions<ApplicationRole> sortOptions = null, int numRecords = 10)
+        {
+            if (numRecords < 0)
+            {
+                return sortOptions?.GetSortedResults(_roleManager.Roles.Where(predicate)) ?? _roleManager.Roles.Where(predicate);
+            }
+            return sortOptions?.GetSortedResults(_roleManager.Roles.Where(predicate)).Take(numRecords) ?? _roleManager.Roles.Where(predicate).Take(numRecords);
+        }
+
+        public override IQueryable<ApplicationRole> GetAll()
+        {
+            return _roleManager.Roles.AsQueryable();
+        }
+
+        public override async Task<ApplicationRole> GetByIdAsync(string id)
+        {
+            return await _roleManager.FindByIdAsync(id);
+        }
+
+        // CRUD
+        public override async Task<string> CreateAsync(ApplicationRole entity)
+        {
+            await _roleManager.CreateAsync(entity);
+            await SaveChangesAsync();
+            return entity.DbId;
+        }
+
+        public override async Task<string> UpdateAsync(ApplicationRole entity)
+        {
+            await _roleManager.UpdateAsync(entity);
+            await SaveChangesAsync();
+            return entity.DbId;
+        }
+
+        public override async Task<string> RemoveByIdAsync(string guid)
+        {
+            var entity = await GetByIdAsync(guid);
+            if (entity == null)
+            {
+                throw new ObjectNotFoundWithId<string>(guid);
+            }
+            var ret = await _roleManager.DeleteAsync(entity);
+            await SaveChangesAsync();
+
+            return ret.Succeeded ? entity.DbId : default(string);
+        }
+
+        public override void Dispose()
+        {
+            _context?.Dispose();
+            _roleManager.Dispose();
+        }
+
+        // IRoleRepository stuff
+        public async Task<ApplicationRole> GetByRoleNameAsync(string roleName)
+        {
+            return await _roleManager.FindByNameAsync(roleName);
         }
     }
 }

@@ -146,7 +146,7 @@ namespace Tests.Integration.TestData
                             CreationDate = DateTime.Now,
                             LastUpdated = DateTime.Now
                         },
-                        Message = "Attempted to update or delete an entity that does not exist in the store.",
+                        Message = "No valid object was retrieved from the database with the provided Id. Please check if it is correct.",
                         Errors = null // once char limits for title/subtitle/content and datetime checks are implemented, come back to this method
                     },
                     new ValidationErrorsWhenCreatingData<News> {
@@ -158,7 +158,7 @@ namespace Tests.Integration.TestData
                             CreationDate = DateTime.Now,
                             LastUpdated = DateTime.Now
                         },
-                        Message = "Attempted to update or delete an entity that does not exist in the store.",
+                        Message = "No valid object was retrieved from the database with the provided Id. Please check if it is correct.",
                         Errors = null // once char limits for title/subtitle/content and datetime checks are implemented, come back to this method
                     },
                     new ValidationErrorsWhenCreatingData<News> {
@@ -170,7 +170,7 @@ namespace Tests.Integration.TestData
                             CreationDate = DateTime.Now,
                             LastUpdated = DateTime.Now
                         },
-                        Message = "Attempted to update or delete an entity that does not exist in the store.",
+                        Message = "No valid object was retrieved from the database with the provided Id. Please check if it is correct.",
                         Errors = null // once char limits for title/subtitle/content and datetime checks are implemented, come back to this method
                     }
                 };

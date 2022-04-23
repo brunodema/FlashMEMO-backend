@@ -22,7 +22,7 @@ namespace API.Controllers.Abstract
     }
 
     public abstract class GenericRepositoryController<TEntity, TKey, TDTO, TFilterOptions, TSortOptions> : ControllerBase
-        where TEntity : class, IDatabaseItem<TKey>
+        where TEntity : class, IDatabaseItem<TKey>, new()
         where TDTO : IModelDTO<TEntity, TKey>
         where TFilterOptions : IQueryFilterOptions<TEntity>
         where TSortOptions : GenericSortOptions<TEntity>
@@ -52,7 +52,8 @@ namespace API.Controllers.Abstract
 
         protected async Task<TKey> AttemptEntityCreation(TDTO entityDTO)
         {
-            var entity = entityDTO.CreateFromDTO();
+            var entity = new TEntity();
+            entityDTO.PassValuesToEntity(entity);
 
             var validationResult = _repositoryService.CheckIfEntityIsValid(entity);
             bool idAlreadyExists = await _repositoryService.IdAlreadyExists(entity.DbId);
@@ -94,16 +95,23 @@ namespace API.Controllers.Abstract
         [Route("update/{id}")]
         public async virtual Task<IActionResult> Update(TKey id, TDTO entityDTO)
         {
-            var entity = entityDTO.CreateFromDTO();
-            entity.DbId = id;
+            var entity = new TEntity();
+            entityDTO.PassValuesToEntity(entity);
 
             var validationResult = _repositoryService.CheckIfEntityIsValid(entity);
             if (validationResult.IsValid)
             {
-                var changedEntityId = await _repositoryService.UpdateAsync(entity);
-                return Ok(new DataResponseModel<TKey> { Status = "Success", Message = $"{entity.GetType().Name} updated successfully.", Data = changedEntityId });
+                // apparently I have to do this, otherwise errors such as 'Database operation expected to affect 1 row(s) but actually affected 0 row(s)' end up happening. Plus, this seems to be the standard used by EF Core (1. get object, 2. change it, 3. update at database)
+                var entityFromDb = await _repositoryService.GetbyIdAsync(id);
+
+                if (entityFromDb == null) return BadRequest(new BaseResponseModel { Status = "Bad Request", Message = $"No valid object was retrieved from the database with the provided Id. Please check if it is correct." });
+
+                entityDTO.PassValuesToEntity(entityFromDb);
+
+                var changedEntityId = await _repositoryService.UpdateAsync(entityFromDb);
+                return Ok(new DataResponseModel<TKey> { Status = "Success", Message = $"Object updated successfully.", Data = changedEntityId });
             }
-            return BadRequest(new BaseResponseModel { Status = "Error", Message = $"Validation errors occured when updating {entity.GetType().Name}.", Errors = validationResult.Errors });
+            return BadRequest(new BaseResponseModel { Status = "Bad Request", Message = $"Validation errors occured when updating object.", Errors = validationResult.Errors });
         }
 
         [HttpPost]

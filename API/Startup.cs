@@ -156,6 +156,7 @@ namespace API
             services.AddScoped<FlashcardService>();
             services.AddScoped<LanguageService>();
             services.AddScoped<UserService>();
+            services.AddScoped<RoleService>();
             // Image API
             services.AddScoped<CustomSearchAPIService>();
             // Dictionary API

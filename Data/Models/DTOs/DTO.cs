@@ -8,7 +8,26 @@ namespace Data.Models.DTOs
 {
     public interface IModelDTO<T, TKey> where T : IDatabaseItem<TKey>
     {
-        T CreateFromDTO();
+        void PassValuesToEntity(T entity);
+    }
+
+    public class RoleDTO : IModelDTO<ApplicationRole, string>
+    {
+        [Required]
+        public string Name { get; set; }
+
+        public ApplicationRole CreateFromDTO()
+        {
+            return new ApplicationRole()
+            {
+                Name = Name
+            };
+        }
+
+        public void PassValuesToEntity(ApplicationRole entity)
+        {
+            entity.Name = Name;
+        }
     }
 
     public class UserDTO : IModelDTO<ApplicationUser, string>
@@ -23,14 +42,11 @@ namespace Data.Models.DTOs
         [RegularExpression(@"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^\da-zA-Z]).{8,15}$", ErrorMessage = "Password must be between 6 and 20 characters and contain one uppercase letter, one lowercase letter, one digit and one special character.")]
         public string Password { get; set; }
 
-        public ApplicationUser CreateFromDTO()
+        public void PassValuesToEntity(ApplicationUser entity)
         {
-            return new ApplicationUser()
-            {
-                Email = Email,
-                UserName = Username,
-                // does not use password here: it is set on the DTO so the endpoint is properly formed, but who does the actual assignment is the service, after the user has been created
-            };
+            entity.Email = Email;
+            entity.UserName = Username;
+            // does not use password here: it is set on the DTO so the endpoint is properly formed, but who does the actual assignment is the service, after the user has been created
         }
     }
 
@@ -43,19 +59,14 @@ namespace Data.Models.DTOs
         public DateTime CreationDate { get; set; } = DateTime.Now;
         public DateTime LastUpdated { get; set; } = DateTime.Now;
 
-        public Deck CreateFromDTO()
+        public void PassValuesToEntity(Deck entity)
         {
-            return new Deck()
-            {
-                OwnerId = OwnerId,
-                LanguageISOCode = LanguageId,
-                Name = Name,
-                Description = Description,
-                CreationDate = CreationDate,
-                LastUpdated = LastUpdated,
-
-                DeckID = Guid.Empty,
-            };
+            entity.OwnerId = OwnerId;
+            entity.LanguageISOCode = LanguageId;
+            entity.Name = Name;
+            entity.Description = Description;
+            entity.CreationDate = CreationDate;
+            entity.LastUpdated = LastUpdated;
         }
     }
 
@@ -68,19 +79,14 @@ namespace Data.Models.DTOs
         public DateTime CreationDate { get; set; } = DateTime.Now;
         public DateTime LastUpdated { get; set; } = DateTime.Now;
 
-        public News CreateFromDTO()
+        public void PassValuesToEntity(News entity)
         {
-            return new News()
-            {
-                Title = Title,
-                Subtitle = Subtitle,
-                ThumbnailPath = ThumbnailPath,
-                Content = Content,
-                CreationDate = CreationDate,
-                LastUpdated = LastUpdated,
-
-                NewsID = Guid.Empty,
-            };
+            entity.Title = Title;
+            entity.Subtitle = Subtitle;
+            entity.ThumbnailPath = ThumbnailPath;
+            entity.Content = Content;
+            entity.CreationDate = CreationDate;
+            entity.LastUpdated = LastUpdated;
         }
     }
 
@@ -97,23 +103,18 @@ namespace Data.Models.DTOs
         public DateTime LastUpdated { get; set; } = DateTime.Now;
         public DateTime DueDate { get; set; } = DateTime.Now;
 
-        public Flashcard CreateFromDTO()
+        public void PassValuesToEntity(Flashcard entity)
         {
-            return new Flashcard()
-            {
-                DeckId = DeckId,
-                Level = Level,
-                Answer = Answer,
-                ContentLayout = ContentLayout,
-                Content1 = Content1,
-                Content2 = Content2,
-                Content3 = Content3,
-                CreationDate = CreationDate,
-                LastUpdated = LastUpdated,
-                DueDate = DueDate,
-
-                FlashcardID = Guid.Empty
-            };
+            entity.DeckId = DeckId;
+            entity.Level = Level;
+            entity.Answer = Answer;
+            entity.ContentLayout = ContentLayout;
+            entity.Content1 = Content1;
+            entity.Content2 = Content2;
+            entity.Content3 = Content3;
+            entity.CreationDate = CreationDate;
+            entity.LastUpdated = LastUpdated;
+            entity.DueDate = DueDate;
         }
     }
 }

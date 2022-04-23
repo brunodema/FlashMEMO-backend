@@ -309,12 +309,10 @@ namespace RepositoryTests.Implementation
             [InlineData(1, SortType.Ascending)]
             [InlineData(0, SortType.Ascending)]
             [InlineData(4, SortType.Ascending)]
-            [InlineData(-1, SortType.Ascending)]
             [InlineData(50, SortType.Descending)]
             [InlineData(1, SortType.Descending)]
             [InlineData(0, SortType.Descending)]
             [InlineData(4, SortType.Descending)]
-            [InlineData(-1, SortType.Descending)]
             public void Role_SearchAndOrderAsync_AssertThatItWorksProperly(int numRecords, SortType sortType)
             {
                 /// Arrange
@@ -339,7 +337,7 @@ namespace RepositoryTests.Implementation
             {
                 // Arrange
                 // Act
-                var response = await _authRepositoryFixture._roleRepository.SearchFirstAsync(role => role.Name == roleName);
+                var response = await _authRepositoryFixture._roleRepository.GetByRoleNameAsync(roleName);
 
                 // Assert
                 bool isResponseNull = response == null;

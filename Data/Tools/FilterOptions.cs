@@ -17,6 +17,30 @@ namespace Data.Tools.Filtering
         public IEnumerable<TEntity> GetFilteredResults(IQueryable<TEntity> elements);
     }
 
+    public class RoleFilterOptions : IQueryFilterOptions<ApplicationRole>
+    {
+        public string Name { get; set; }
+
+        public string BuildQueryURL()
+        {
+            string queryParams = "";
+
+            if (Name != null) queryParams = String.Concat(queryParams, $"&Name={Name}");
+
+            return queryParams;
+        }
+
+        public IEnumerable<ApplicationRole> GetFilteredResults(IQueryable<ApplicationRole> elements)
+        {
+            if (Name != null)
+            {
+                elements = elements.Where(x => x.Name.Contains(Name));
+            }
+
+            return elements;
+        }
+    }
+
     public class UserFilterOptions : IQueryFilterOptions<ApplicationUser>
     {
         public string Email { get; set; }
