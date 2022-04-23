@@ -34,6 +34,11 @@ namespace Business.Services.Implementation
 
             return new ValidatonResult() { IsValid = errors.Count == 0, Errors = errors };
         }
+
+        public async Task AddInitialPasswordToUser(ApplicationUser user, string password)
+        {
+            await _userRepository.SetInitialPasswordAsync(user, password);
+        }
     }
 
     public class DeckService : GenericRepositoryService<DeckRepository, Guid, Deck>

@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 using Data.Models.DTOs;
 using System;
 using Data.Tools.Exceptions.Repository;
+using Business.Tools.Exceptions;
 
 namespace API.Controllers.Abstract
 {
@@ -49,9 +50,7 @@ namespace API.Controllers.Abstract
             return Ok(new DataResponseModel<TEntity> { Status = "Success", Data = data });
         }
 
-        [HttpPost]
-        [Route("create")]
-        public async virtual Task<IActionResult> Create(TDTO entityDTO)
+        protected async Task<TKey> AttemptEntityCreation(TDTO entityDTO)
         {
             var entity = entityDTO.CreateFromDTO();
 
@@ -60,15 +59,35 @@ namespace API.Controllers.Abstract
 
             if (validationResult.IsValid && !idAlreadyExists)
             {
-                var brandNewId = await _repositoryService.CreateAsync(entity);
-                return Ok(new DataResponseModel<TKey> { Status = "Success", Message = $"{entity.GetType().Name} created successfully.", Data = brandNewId });
+                return await _repositoryService.CreateAsync(entity);
             }
             var errors = validationResult.Errors;
             if (idAlreadyExists)
             {
                 errors.Add("The provided ID points to an already existing object.");
             }
-            return BadRequest(new BaseResponseModel { Status = "Error", Message = $"Validation errors occured when creating {entity.GetType().Name}.", Errors = errors });
+
+            throw new EntityValidationException() { ServiceValidationErrors = errors };
+        }
+
+        [HttpPost]
+        [Route("create")]
+        public async virtual Task<IActionResult> Create(TDTO entityDTO)
+        {
+            try
+            {
+                var brandNewId = await AttemptEntityCreation(entityDTO);
+                if (brandNewId != null) return Ok(new DataResponseModel<TKey> { Status = "Success", Message = $"object created successfully.", Data = brandNewId });
+                return BadRequest(new BaseResponseModel { Status = "Bad Request", Message = $"Object was not able to be created within the database." });
+            }
+            catch (EntityValidationException ex)
+            {
+                return BadRequest(new BaseResponseModel { Status = "Error", Message = $"Validation errors occured when creating object.", Errors = ex.ServiceValidationErrors });
+            }
+            catch (Exception)
+            {
+                throw;
+            }
         }
 
         [HttpPut]

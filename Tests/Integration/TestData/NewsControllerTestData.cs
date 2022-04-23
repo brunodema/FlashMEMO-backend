@@ -125,7 +125,7 @@ namespace Tests.Integration.TestData
                             CreationDate = DateTime.Now,
                             LastUpdated = DateTime.Now.Subtract(TimeSpan.FromSeconds(1)) // this should make it fail
                         },
-                        Message = "Validation errors occured when creating News.",
+                        Message = "Validation errors occured when creating object.",
                         Errors = new string[]{ "The last updated date must be more recent than the creation date." }
                     }
                 };

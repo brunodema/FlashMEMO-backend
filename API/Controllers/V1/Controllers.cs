@@ -41,6 +41,31 @@ namespace API.Controllers
         {
             _userService = userService;
         }
+
+        /// <summary>
+        /// This method ends up being pretty much a copy of the base one, just adding logic to set the initial password after creating the object.
+        /// </summary>
+        /// <param name="entityDTO"></param>
+        /// <returns></returns>
+        public async override Task<IActionResult> Create(UserDTO entityDTO)
+        {
+            try
+            {
+                var brandNewId = await AttemptEntityCreation(entityDTO);
+                await _userService.AddInitialPasswordToUser(await _userService.GetbyIdAsync(brandNewId), entityDTO.Password); // extra step
+
+                if (brandNewId != null) return Ok(new DataResponseModel<string> { Status = "Success", Message = $"object created successfully.", Data = brandNewId });
+                return BadRequest(new BaseResponseModel { Status = "Bad Request", Message = $"Object was not able to be created within the database." });
+            }
+            catch (EntityValidationException ex)
+            {
+                return BadRequest(new BaseResponseModel { Status = "Error", Message = $"Validation errors occured when creating object.", Errors = ex.ServiceValidationErrors });
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
     }
 
     [ApiController]
@@ -209,7 +234,7 @@ namespace API.Controllers
             if (!ModelState.IsValid)
             {
                 var errorList = ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage).ToList();
-                return BadRequest(new BaseResponseModel { Status = "Bad Request", Message = "User creation failed. Please check user details and try again.", Errors = errorList  });
+                return BadRequest(new BaseResponseModel { Status = "Bad Request", Message = "User creation failed. Please check user details and try again.", Errors = errorList });
             }
 
             if (await _authService.EmailAlreadyRegisteredAsync(model.Email))
