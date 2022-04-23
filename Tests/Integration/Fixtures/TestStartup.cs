@@ -150,7 +150,7 @@ namespace Tests.Integration.Fixtures
 
             // custom services
             services.AddScoped<IJWTService, JWTService>();
-            services.AddScoped<IAuthService, AuthService>();
+            services.AddScoped<IAuthService<string>, AuthService>();
             services.AddScoped<NewsService>();
             services.AddScoped<ApplicationUserRepository>();
             services.AddScoped<RoleRepository>();

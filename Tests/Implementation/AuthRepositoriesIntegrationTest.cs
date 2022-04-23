@@ -202,8 +202,8 @@ namespace RepositoryTests.Implementation
             [InlineData(50, SortType.Ascending)]
             [InlineData(1, SortType.Ascending)]
             [InlineData(0, SortType.Ascending)]
-            [InlineData(4, SortType.Ascending)]
-            [InlineData(-1, SortType.Ascending)]
+            [InlineData(4, SortType.Ascending)] 
+            [InlineData(-1, SortType.Ascending)] //1
             [InlineData(50, SortType.Descending)]
             [InlineData(1, SortType.Descending)]
             [InlineData(0, SortType.Descending)]
@@ -212,9 +212,9 @@ namespace RepositoryTests.Implementation
             public void User_SearchAndOrderAsync_AssertThatItGetsProperlySorted(int numRecords, SortType sortType)
             {
                 /// Arrange
-                var response = _authRepositoryFixture._applicationUserRepository.SearchAndOrder(_ => true, new ApplicationUserSortOptions(sortType), numRecords);
+                var response = _authRepositoryFixture._applicationUserRepository.SearchAndOrder(_ => true, new ApplicationUserSortOptions(sortType), numRecords); // OK, so I had to make an update here because I updated the behavior for the inderlying 'SearchAndOrder' function sometime ago, so it considers all records if the 'numRecords' parameter is less than 0. What is really weird is that this function was working before making the transition towards an ApplicationUserRepository based on GenericRepository. Thank god the goal of this transition is precisely making these old tests deprecated...
 
-                Assert.True(response.Count() <= (numRecords < 0 ? 0 : numRecords));
+                Assert.True(response.Count() <= (numRecords < 0 ? _authRepositoryFixture._applicationUserRepository.GetAll().Count() : numRecords));
                 if (sortType == SortType.Ascending)
                 {
                     response.Should().BeEquivalentTo(response.OrderBy(user => user.UserName));
@@ -233,7 +233,7 @@ namespace RepositoryTests.Implementation
             {
                 // Arrange
                 // Act
-                var response = await _authRepositoryFixture._applicationUserRepository.SearchFirstAsync(u => u.Email == email);
+                var response = await _authRepositoryFixture._applicationUserRepository.GetByEmailAsync(email);
 
                 // Assert
                 bool isResponseNull = response == null;

@@ -79,7 +79,7 @@ namespace Data.Repository.Abstract
         {
             _context?.Dispose();
         }
-        public IEnumerable<TEntity> SearchAndOrder(IQueryFilterOptions<TEntity> filterOptions, GenericSortOptions<TEntity> sortOptions)
+        public virtual IEnumerable<TEntity> SearchAndOrder(IQueryFilterOptions<TEntity> filterOptions, GenericSortOptions<TEntity> sortOptions)
         {
             return sortOptions.GetSortedResults(filterOptions.GetFilteredResults(GetAll()).AsQueryable());
         }

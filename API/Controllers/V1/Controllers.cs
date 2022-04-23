@@ -181,9 +181,9 @@ namespace API.Controllers
     public class AuthController : ControllerBase
     {
         private readonly IJWTService _JWTService;
-        private readonly IAuthService _authService;
+        private readonly IAuthService<string> _authService;
 
-        public AuthController(IJWTService JWTService, IAuthService authService) : base()
+        public AuthController(IJWTService JWTService, IAuthService<string> authService) : base()
         {
             _JWTService = JWTService;
             _authService = authService;
@@ -193,6 +193,12 @@ namespace API.Controllers
         [Route("register")]
         public async Task<IActionResult> Register([FromBody] RegisterRequestModel model)
         {
+            if (!ModelState.IsValid)
+            {
+                var errorList = ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage).ToList();
+                return BadRequest(new BaseResponseModel { Status = "Bad Request", Message = "User creation failed. Please check user details and try again.", Errors = errorList  });
+            }
+
             if (await _authService.EmailAlreadyRegisteredAsync(model.Email))
             {
                 return StatusCode(StatusCodes.Status500InternalServerError, new BaseResponseModel { Status = "Error", Message = "Email already exists in the database. Please use an unique email for registration, or contact one of our administrator to recover your password/account." });
@@ -205,13 +211,7 @@ namespace API.Controllers
                 UserName = model.Email,
             };
 
-            var result = await _authService.CreateUserAsync(user, model.Password);
-            if (!result.Succeeded)
-            {
-                var errorList = result.Errors.Select(e => e.Description);
-                return StatusCode(StatusCodes.Status500InternalServerError, new BaseResponseModel { Status = "Error", Message = "User creation failed. Please check user details and try again.", Errors = errorList });
-            }
-
+            var brandNewId = await _authService.CreateUserAsync(user, model.Password);
             return Ok(new BaseResponseModel { Status = "Success", Message = "User created successfully." });
         }
 

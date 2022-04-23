@@ -59,7 +59,7 @@ namespace API
                 c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
                 {
                     In = ParameterLocation.Header,
-                    Description = "Please insert JWT with Bearer into field",
+                    Description = "Please insert JWT with Bearer into field (FOR THE LOVE OF GOD TYPE 'BEARER' AND A WHITESPACE BEFORE THE TOKEN)",
                     Name = "Authorization",
                     Type = SecuritySchemeType.ApiKey
                 });
@@ -148,7 +148,7 @@ namespace API
             // Custom Services
             services.AddHttpClient();
             services.AddScoped<IJWTService, JWTService>();
-            services.AddScoped<IAuthService, AuthService>();
+            services.AddScoped<IAuthService<string>, AuthService>();
             services.AddScoped<NewsService>();
             services.AddScoped<DeckService>();
             services.AddScoped<FlashcardService>();

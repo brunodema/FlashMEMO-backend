@@ -20,9 +20,9 @@ namespace Business.Services.Implementation
     public class DeckService : GenericRepositoryService<DeckRepository, Guid, Deck>
     {
         private readonly LanguageService _languageService;
-        private readonly IAuthService _authService;
+        private readonly IAuthService<string> _authService;
 
-        public DeckService(DeckRepository baseRepository, LanguageService languageService, IAuthService authService, IOptions<GenericRepositoryServiceOptions> serviceOptions) : base(baseRepository, serviceOptions.Value) 
+        public DeckService(DeckRepository baseRepository, LanguageService languageService, IAuthService<string> authService, IOptions<GenericRepositoryServiceOptions> serviceOptions) : base(baseRepository, serviceOptions.Value) 
         {
             _languageService = languageService;
             _authService = authService;
@@ -116,7 +116,7 @@ namespace Business.Services.Implementation
     {
 
     }
-    public class AuthService : IAuthService
+    public class AuthService : IAuthService<string>
     {
         private readonly IAuthServiceOptions _options;
         private readonly ApplicationUserRepository _applicationUserRepository;
@@ -138,16 +138,16 @@ namespace Business.Services.Implementation
             return null;
         }
 
-        public async Task<IdentityResult> CreateUserAsync(ApplicationUser user, string cleanPassword)
+        public async Task<string> CreateUserAsync(ApplicationUser user, string cleanPassword)
         {
             var result = await _applicationUserRepository.CreateAsync(user);
-            await _applicationUserRepository.SetInitialPassword(user.Id, cleanPassword);
+            await _applicationUserRepository.SetInitialPasswordAsync(user, cleanPassword);
             return result;
         }
 
         public async Task<bool> EmailAlreadyRegisteredAsync(string email)
         {
-            return (await _applicationUserRepository.SearchFirstAsync(u => u.Email == email)) != null;
+            return (await _applicationUserRepository.GetByEmailAsync(email)) != null;
         }
 
         public async Task<bool> UserExistsAsync(string id)
@@ -157,8 +157,8 @@ namespace Business.Services.Implementation
 
         public async Task<bool> GetUserByEmailAndCheckCredentialsAsync(IFlashMEMOCredentials credentials)
         {
-            var user = await _applicationUserRepository.SearchFirstAsync(u => u.Email == credentials.Email);
-            return await _applicationUserRepository.CheckPasswordAsync(user.Id, credentials.PasswordHash);
+            var user = await _applicationUserRepository.GetByEmailAsync(credentials.Email);
+            return await _applicationUserRepository.CheckPasswordAsync(user, credentials.PasswordHash);
         }
     }
 

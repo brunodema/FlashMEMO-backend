@@ -89,11 +89,11 @@ namespace Business.Services.Interfaces
     public interface IAuthServiceOptions
     {
     }
-    public interface IAuthService
+    public interface IAuthService<TKey>
     {
         public Task<bool> EmailAlreadyRegisteredAsync(string email);
         public Task<bool> UserExistsAsync(string email);
-        public Task<IdentityResult> CreateUserAsync(ApplicationUser user, string cleanPassword);
+        public Task<TKey> CreateUserAsync(ApplicationUser user, string cleanPassword);
         /// <summary>
         /// Checks is the provided credentials are valid, returning the user object is so. Otherwise, returns null.
         /// </summary>
