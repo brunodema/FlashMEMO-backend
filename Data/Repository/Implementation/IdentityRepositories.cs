@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Identity;
 
 namespace Data.Repository.Implementation
 {
-    public class ApplicationUserRepository : GenericUserRepository<ApplicationUser, string, FlashMEMOContext>
+    public class ApplicationUserRepository : GenericUserRepository<ApplicationUser, FlashMEMOContext>
     {
         public ApplicationUserRepository(FlashMEMOContext context, UserManager<ApplicationUser> userManager) : base(context, userManager)
         {
