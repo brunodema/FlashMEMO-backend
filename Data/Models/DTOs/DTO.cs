@@ -1,6 +1,7 @@
 ﻿using Data.Models.Implementation;
 using Data.Repository.Interfaces;
 using System;
+using System.ComponentModel.DataAnnotations;
 using static Data.Tools.FlashcardTools;
 
 namespace Data.Models.DTOs
@@ -12,8 +13,17 @@ namespace Data.Models.DTOs
 
     public class UserDTO : IModelDTO<ApplicationUser, string>
     {
+        [Required]
+        [EmailAddress]
         public string Email { get; set; }
+        [Required]
         public string Username { get; set; }
+
+        // regex stolen from here: https://stackoverflow.com/questions/5859632/regular-expression-for-password-validation
+        [Required]
+        [RegularExpression(@"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^\da-zA-Z]).{8,15}$", ErrorMessage = "Password must be between 6 and 20 characters and contain one uppercase letter, one lowercase letter, one digit and one special character.")]
+
+        [DataType(DataType.Password)]
         public string Password { get; set; }
 
         public ApplicationUser CreateFromDTO()
