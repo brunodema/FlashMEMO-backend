@@ -12,8 +12,8 @@ using Data.Tools.Exceptions.Repository;
 
 namespace Data.Repository.Implementation
 {
-    public class GenericUserRepository<TEntity, TKey, DatabaseContext> : IRepository<TEntity, TKey, IdentityResult>
-        where TEntity : IdentityUser<string>, IDatabaseItem<TKey>
+    public class GenericUserRepository<TEntity, DatabaseContext> : IRepository<TEntity, string, IdentityResult>
+        where TEntity : IdentityUser<string>, IDatabaseItem<string>
         where DatabaseContext : DbContext
     {
         protected readonly UserManager<TEntity> _userManager;
@@ -40,9 +40,9 @@ namespace Data.Repository.Implementation
         {
             return _userManager.Users.AsQueryable();
         }
-        public virtual async Task<TEntity> GetByIdAsync(TKey id)
+        public virtual async Task<TEntity> GetByIdAsync(string id)
         {
-            return await _userManager.FindByIdAsync(id.ToString());
+            return await _userManager.FindByIdAsync(id);
         }
         // CRUD
         public virtual async Task<IdentityResult> CreateAsync(TEntity entity)
@@ -57,12 +57,12 @@ namespace Data.Repository.Implementation
             await SaveChangesAsync();
             return result;
         }
-        public virtual async Task<IdentityResult> RemoveByIdAsync(TKey guid)
+        public virtual async Task<IdentityResult> RemoveByIdAsync(string guid)
         {
-            var entity = await _userManager.FindByIdAsync(guid.ToString());
+            var entity = await _userManager.FindByIdAsync(guid);
             if (entity == null)
             {
-                throw new ObjectNotFoundWithId<TKey>(guid);
+                throw new ObjectNotFoundWithId<string>(guid);
             }
             var ret = await _userManager.DeleteAsync(entity);
             await SaveChangesAsync();
@@ -83,14 +83,14 @@ namespace Data.Repository.Implementation
         }
 
         // Custom functions
-        public async Task SetInitialPassword(TKey id, string password)
+        public async Task SetInitialPassword(string id, string password)
         {
-            var user = await _userManager.FindByIdAsync(id.ToString());
+            var user = await _userManager.FindByIdAsync(id);
             await _userManager.AddPasswordAsync(user, password);
         }
-        public async Task<bool> CheckPasswordAsync(TKey id, string password)
+        public async Task<bool> CheckPasswordAsync(string id, string password)
         {
-            var user = await _userManager.FindByIdAsync(id.ToString());
+            var user = await _userManager.FindByIdAsync(id);
             return await _userManager.CheckPasswordAsync(user, password);
         }
     }
