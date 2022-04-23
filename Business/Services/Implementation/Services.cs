@@ -17,6 +17,25 @@ using System.Threading.Tasks;
 
 namespace Business.Services.Implementation
 {
+    public class UserService : GenericRepositoryService<ApplicationUserRepository, string, ApplicationUser>
+    {
+        private readonly ApplicationUserRepository _userRepository;
+
+        public UserService(ApplicationUserRepository userRepository, IOptions<GenericRepositoryServiceOptions> serviceOptions) : base(userRepository, serviceOptions.Value)
+        {
+            _userRepository = userRepository;
+        }
+
+        public override ValidatonResult CheckIfEntityIsValid(ApplicationUser entity)
+        {
+            List<string> errors = new();
+
+            if (_userRepository.GetByEmailAsync(entity.Email).Result != null) errors.Add("An user already exists with the provided email.");
+
+            return new ValidatonResult() { IsValid = errors.Count == 0, Errors = errors };
+        }
+    }
+
     public class DeckService : GenericRepositoryService<DeckRepository, Guid, Deck>
     {
         private readonly LanguageService _languageService;
