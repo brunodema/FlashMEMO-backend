@@ -32,10 +32,10 @@ namespace Data.Tools.Filtering
         {
             string queryParams = "";
 
-            if (OwnerEmail != null) queryParams = String.Concat(queryParams, $"&Owner={OwnerEmail}");
-            if (LanguageCode != null) queryParams = String.Concat(queryParams, $"&Language={LanguageCode}");
+            if (OwnerEmail != null) queryParams = String.Concat(queryParams, $"&OwnerEmail={OwnerEmail}");
+            if (LanguageCode != null) queryParams = String.Concat(queryParams, $"&LanguageCode={LanguageCode}");
             if (Name != null) queryParams = String.Concat(queryParams, $"&Name={Name}");
-            if (Description != null) queryParams = String.Concat(queryParams, $"&Desc={Description}");
+            if (Description != null) queryParams = String.Concat(queryParams, $"&Description={Description}");
             if (FromCreationDate != null) queryParams = String.Concat(queryParams, $"&FromCreationDate={FromCreationDate.Value.ToString("yyyy-MM-dd")}");
             if (ToCreationDate != null) queryParams = String.Concat(queryParams, $"&ToCreationDate={ToCreationDate.Value.ToString("yyyy-MM-dd")}");
             if (FromLastUpdated != null) queryParams = String.Concat(queryParams, $"&FromLastUpdated={FromLastUpdated.Value.ToString("yyyy-MM-dd")}");
@@ -94,11 +94,11 @@ namespace Data.Tools.Filtering
             if (Level > -1) queryParams = String.Concat(queryParams, $"&Level={Level}");
             if (!String.IsNullOrEmpty(Answer)) queryParams = String.Concat(queryParams, $"&Answer={Answer}");
             if (FromCreationDate != null) queryParams = String.Concat(queryParams, $"&FromCreationDate={FromCreationDate.Value.ToString("yyyy-MM-dd")}");
-            if (ToCreationDate != null) queryParams = String.Concat(queryParams, $"&ToDate={ToCreationDate.Value.ToString("yyyy-MM-dd")}");
-            if (FromLastUpdated != null) queryParams = String.Concat(queryParams, $"&FromDate={FromLastUpdated.Value.ToString("yyyy-MM-dd")}");
-            if (ToLastUpdated != null) queryParams = String.Concat(queryParams, $"&ToDate={ToLastUpdated.Value.ToString("yyyy-MM-dd")}");
-            if (FromDueDate != null) queryParams = String.Concat(queryParams, $"&FromDate={FromDueDate.Value.ToString("yyyy-MM-dd")}");
-            if (ToDueDate != null) queryParams = String.Concat(queryParams, $"&ToDate={ToDueDate.Value.ToString("yyyy-MM-dd")}");
+            if (ToCreationDate != null) queryParams = String.Concat(queryParams, $"&ToCreationDate={ToCreationDate.Value.ToString("yyyy-MM-dd")}");
+            if (FromLastUpdated != null) queryParams = String.Concat(queryParams, $"&FromLastUpdated={FromLastUpdated.Value.ToString("yyyy-MM-dd")}");
+            if (ToLastUpdated != null) queryParams = String.Concat(queryParams, $"&ToLastUpdated={ToLastUpdated.Value.ToString("yyyy-MM-dd")}");
+            if (FromDueDate != null) queryParams = String.Concat(queryParams, $"&FromDueDate={FromDueDate.Value.ToString("yyyy-MM-dd")}");
+            if (ToDueDate != null) queryParams = String.Concat(queryParams, $"&ToDueDate={ToDueDate.Value.ToString("yyyy-MM-dd")}");
 
             return queryParams;
         }
