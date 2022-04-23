@@ -193,7 +193,7 @@ namespace API.Controllers
         [Route("register")]
         public async Task<IActionResult> Register([FromBody] RegisterRequestModel model)
         {
-            if (await _authService.UserAlreadyExistsAsync(model.Email))
+            if (await _authService.EmailAlreadyRegisteredAsync(model.Email))
             {
                 return StatusCode(StatusCodes.Status500InternalServerError, new BaseResponseModel { Status = "Error", Message = "Email already exists in the database. Please use an unique email for registration, or contact one of our administrator to recover your password/account." });
             }

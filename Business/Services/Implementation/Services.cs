@@ -32,8 +32,8 @@ namespace Business.Services.Implementation
         {
             List<string> errors = new();
 
-            if (!_languageService.LanguageExists(entity.Language?.ISOCode ?? null)) errors.Add("The language code provided is not valid.");
-            if(!_authService.UserAlreadyExistsAsync(entity.Owner?.Email ?? null).Result) errors.Add($"The user owner does not seem to exist within FlashMEMO.");
+            if (!_languageService.LanguageExists(entity.LanguageISOCode ?? null)) errors.Add("The language code provided is not valid.");
+            if(!_authService.UserExistsAsync(entity.OwnerId ?? null).Result) errors.Add($"The user owner does not seem to exist within FlashMEMO.");
 
             return new ValidatonResult() { IsValid = errors.Count == 0, Errors = errors }; // dummy function for now
         }
@@ -131,11 +131,10 @@ namespace Business.Services.Implementation
 
         public async Task<ApplicationUser> AreCredentialsValidAsync(IFlashMEMOCredentials credentials)
         {
-            if (await UserAlreadyExistsAsync(credentials.Email))
+            if (await EmailAlreadyRegisteredAsync(credentials.Email))
             {
                 if (await GetUserByEmailAndCheckCredentialsAsync(credentials)) return _applicationUserRepository.GetAll().SingleOrDefault(u => u.Email == credentials.Email); // this is horrible design, only doing this instead of creating the appropriate function in the repository class to speed up development on the front-end
             }
-
             return null;
         }
 
@@ -146,10 +145,16 @@ namespace Business.Services.Implementation
             return result;
         }
 
-        public async Task<bool> UserAlreadyExistsAsync(string email)
+        public async Task<bool> EmailAlreadyRegisteredAsync(string email)
         {
             return (await _applicationUserRepository.SearchFirstAsync(u => u.Email == email)) != null;
         }
+
+        public async Task<bool> UserExistsAsync(string id)
+        {
+            return (await _applicationUserRepository.GetByIdAsync(id)) != null;
+        }
+
         public async Task<bool> GetUserByEmailAndCheckCredentialsAsync(IFlashMEMOCredentials credentials)
         {
             var user = await _applicationUserRepository.SearchFirstAsync(u => u.Email == credentials.Email);
