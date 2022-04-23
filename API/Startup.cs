@@ -139,6 +139,9 @@ namespace API
                     .MigrationsAssembly("API")
                     .EnableRetryOnFailure(5));
             });
+
+            services.AddHttpClient();
+
             // Options Configuration
             services.Configure<JWTServiceOptions>(Configuration.GetSection("JWT"));
             services.Configure<CustomSearchAPIServiceOptions>(Configuration.GetSection("GoogleCustomSearchAPI"));
@@ -146,13 +149,13 @@ namespace API
             services.Configure<LexicalaDictionaryAPIRequestHandler>(Configuration.GetSection("LexicalaDictionaryAPI"));
             services.Configure<GenericRepositoryServiceOptions>(Configuration.GetSection("BaseRepositoryServiceOptions"));
             // Custom Services
-            services.AddHttpClient();
             services.AddScoped<IJWTService, JWTService>();
             services.AddScoped<IAuthService<string>, AuthService>();
             services.AddScoped<NewsService>();
             services.AddScoped<DeckService>();
             services.AddScoped<FlashcardService>();
             services.AddScoped<LanguageService>();
+            services.AddScoped<UserService>();
             // Image API
             services.AddScoped<CustomSearchAPIService>();
             // Dictionary API

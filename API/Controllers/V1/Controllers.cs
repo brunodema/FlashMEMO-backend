@@ -33,6 +33,19 @@ namespace API.Controllers
     [ApiController]
     [ApiVersion("1.0")]
     [Route("api/v{version:apiVersion}/[controller]")]
+    public class UserController : GenericRepositoryController<ApplicationUser, string, UserDTO, UserFilterOptions, UserSortOptions>
+    {
+        private readonly UserService _userService;
+
+        public UserController(UserService userService) : base(userService)
+        {
+            _userService = userService;
+        }
+    }
+
+    [ApiController]
+    [ApiVersion("1.0")]
+    [Route("api/v{version:apiVersion}/[controller]")]
     public class NewsController : GenericRepositoryController<News, Guid, NewsDTO, NewsFilterOptions, NewsSortOptions>
     {
         private readonly NewsService _newsService;

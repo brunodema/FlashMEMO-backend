@@ -17,6 +17,36 @@ namespace Data.Tools.Filtering
         public IEnumerable<TEntity> GetFilteredResults(IQueryable<TEntity> elements);
     }
 
+    public class UserFilterOptions : IQueryFilterOptions<ApplicationUser>
+    {
+        public string Email { get; set; }
+        public string Username { get; set; }
+
+        public string BuildQueryURL()
+        {
+            string queryParams = "";
+
+            if (Email != null) queryParams = String.Concat(queryParams, $"&Email={Email}");
+            if (Username != null) queryParams = String.Concat(queryParams, $"&Username={Username}");
+
+            return queryParams;
+        }
+
+        public IEnumerable<ApplicationUser> GetFilteredResults(IQueryable<ApplicationUser> elements)
+        {
+            if (Email != null)
+            {
+                elements = elements.Where(x => x.Email.Contains(Email));
+            }
+            if (Username != null)
+            {
+                elements = elements.Where(x => x.UserName.Contains(Username));
+            }
+
+            return elements;
+        }
+    }
+
     public class DeckFilterOptions : IQueryFilterOptions<Deck>
     {
         public string OwnerEmail { get; set; } = null;

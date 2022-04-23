@@ -10,6 +10,23 @@ namespace Data.Models.DTOs
         T CreateFromDTO();
     }
 
+    public class UserDTO : IModelDTO<ApplicationUser, string>
+    {
+        public string Email { get; set; }
+        public string Username { get; set; }
+        public string Password { get; set; }
+
+        public ApplicationUser CreateFromDTO()
+        {
+            return new ApplicationUser()
+            {
+                Email = Email,
+                UserName = Username,
+                // does not use password here: it is set on the DTO so the endpoint is properly formed, but who does the actual assignment is the service, after the user has been created
+            };
+        }
+    }
+
     public class DeckDTO : IModelDTO<Deck, Guid>
     {
         public string OwnerId { get; set; } = Guid.Empty.ToString();

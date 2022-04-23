@@ -45,6 +45,27 @@ namespace Data.Tools.Sorting
         }
     }
 
+    public class UserSortOptions : GenericSortOptions<ApplicationUser>
+    {
+        public static class ColumnOptions
+        {
+            public const string EMAIL = "email";
+            public const string USERNAME = "username";
+        }
+        public UserSortOptions(SortType sortType = SortType.None, string columnToSort = "") : base(sortType, columnToSort) { }
+        public UserSortOptions() { }
+        protected override void DetermineColumnToSortExpression(string columnToSort = "email")
+        {
+            ColumnToSortExpression = columnToSort.ToLowerInvariant() switch
+            {
+                ColumnOptions.EMAIL => u => u.Email,
+                ColumnOptions.USERNAME => u => u.UserName,
+                // default will be 'email'
+                _ => u => u.Email,
+            };
+        }
+    }
+
     public class FlashcardSortOptions : GenericSortOptions<Flashcard>
     {
         public static class ColumnOptions
