@@ -526,18 +526,22 @@ namespace Tests.Unit_Tests.Data.Repository
         // specific test data
         // using static DateTimes here to try to improve readability (no implicit calculations based on days/whatever)
 
-        private static readonly Flashcard TestEntity1 = new Flashcard { Level = 0, FrontContentLayout = FlashcardContentLayout.SINGLE, Content1 = "<p>Here is some content!</p>", LastUpdated = DateTime.Parse("01-01-2002"), CreationDate = DateTime.Parse("01-01-2002"), DueDate = DateTime.Parse("01-01-2002"), BackContentLayout = FlashcardContentLayout.SINGLE, Content4 = "<p>Here is some content!</p>" };
-        private static readonly Flashcard TestEntity2 = new Flashcard { Level = 1, FrontContentLayout = FlashcardContentLayout.VERTICAL_SPLIT, Content1 = "<p>Here is some content!</p>", Content2 = "<p>Here is some content!2</p>", LastUpdated = DateTime.Parse("02-01-2002"), CreationDate = DateTime.Parse("01-01-2002"), DueDate = DateTime.Parse("03-01-2002"), BackContentLayout = FlashcardContentLayout.SINGLE, Content4 = "<p>Here is some content!</p>" };
-        private static readonly Flashcard TestEntity3 = new Flashcard { Level = 2, Answer = "Answer #1", FrontContentLayout = FlashcardContentLayout.TRIPLE_BLOCK, Content1 = "<p>Here is some content!</p>", Content2 = "<p>Here is some content!2</p>", Content3 = "<p>Here is some content!3</p>", LastUpdated = DateTime.Parse("03-01-2002"), CreationDate = DateTime.Parse("01-01-2002"), DueDate = DateTime.Parse("04-01-2002"), BackContentLayout = FlashcardContentLayout.SINGLE, Content4 = "<p>Here is some content!</p>" };
-        private static readonly Flashcard TestEntity4 = new Flashcard { Level = 3, Answer = "Answer #2", FrontContentLayout = FlashcardContentLayout.FULL_CARD, Content1 = "<p>Here is some content!</p>", Content2 = "<p>Here is some content!2</p>", Content3 = "<p>Here is some content!3</p>", LastUpdated = DateTime.Parse("03-01-2002"), CreationDate = DateTime.Parse("03-01-2002"), DueDate = DateTime.Parse("05-01-2002"), BackContentLayout = FlashcardContentLayout.SINGLE, Content4 = "<p>Here is some content!</p>" };
+        private static readonly DateTime ReferenceDate = DateTime.Parse("01-01-2002");
 
-        private static readonly List<Flashcard> FullEntityList = new() { TestEntity1, TestEntity2, TestEntity3, TestEntity4 };
+        private static readonly Flashcard TestEntity1 = new Flashcard { Level = 0, FrontContentLayout = FlashcardContentLayout.SINGLE, Content1 = "<p>Here is some content!</p>", LastUpdated = ReferenceDate, CreationDate = ReferenceDate, DueDate = ReferenceDate, BackContentLayout = FlashcardContentLayout.SINGLE, Content4 = "<p>Here is some content!</p>" };
+        private static readonly Flashcard TestEntity2 = new Flashcard { Level = 1, FrontContentLayout = FlashcardContentLayout.VERTICAL_SPLIT, Content1 = "<p>Here is some content!</p>", Content2 = "<p>Here is some content!2</p>", LastUpdated = ReferenceDate.AddDays(1), CreationDate = ReferenceDate, DueDate = ReferenceDate.AddDays(2), BackContentLayout = FlashcardContentLayout.SINGLE, Content4 = "<p>Here is some content!</p>" };
+        private static readonly Flashcard TestEntity3 = new Flashcard { Level = 2, Answer = "Answer #1", FrontContentLayout = FlashcardContentLayout.TRIPLE_BLOCK, Content1 = "<p>Here is some content!</p>", Content2 = "<p>Here is some content!2</p>", Content3 = "<p>Here is some content!3</p>", LastUpdated = ReferenceDate.AddDays(2), CreationDate = ReferenceDate, DueDate = ReferenceDate.AddDays(4), BackContentLayout = FlashcardContentLayout.SINGLE, Content4 = "<p>Here is some content!</p>" };
+        private static readonly Flashcard TestEntity4 = new Flashcard { Level = 3, Answer = "Answer #2", FrontContentLayout = FlashcardContentLayout.FULL_CARD, Content1 = "<p>Here is some content!</p>", Content2 = "<p>Here is some content!2</p>", Content3 = "<p>Here is some content!3</p>", LastUpdated = ReferenceDate.AddDays(2), CreationDate = ReferenceDate.AddDays(2), DueDate = ReferenceDate.AddDays(5), BackContentLayout = FlashcardContentLayout.SINGLE, Content4 = "<p>Here is some content!</p>" };
+        private static readonly Flashcard TestEntity5 = new Flashcard { Level = 4, Answer = "Answer #3", FrontContentLayout = FlashcardContentLayout.SINGLE, Content1 = "<p>Here is some content!</p>", LastUpdated = ReferenceDate.AddDays(4), CreationDate = ReferenceDate.AddDays(4), DueDate = ReferenceDate.AddDays(19), BackContentLayout = FlashcardContentLayout.HORIZONTAL_SPLIT, Content4 = "<p>Here is some content!</p>", Content5 = "<p>Here is some content!</p>" };
+        private static readonly Flashcard TestEntity6 = new Flashcard { Level = 5, FrontContentLayout = FlashcardContentLayout.FULL_CARD, Content1 = "<p>Here is some content!</p>", Content2 = "<p>Here is some content!2</p>", Content3 = "<p>Here is some content!3</p>", LastUpdated = ReferenceDate.AddDays(2), CreationDate = ReferenceDate.AddDays(2), DueDate = ReferenceDate.AddDays(5), BackContentLayout = FlashcardContentLayout.FULL_CARD, Content4 = "<p>Here is some content!</p>", Content5 = "<p>Here is some content!</p>", Content6 = "<p>Here is some content!</p>" };
+
+        private static readonly List<Flashcard> FullEntityList = new() { TestEntity1, TestEntity2, TestEntity3, TestEntity4, TestEntity5, TestEntity6 };
 
         public static IEnumerable<object[]> GetAllEntityData =>
         new List<object[]>
         {
                 new object[] { FullEntityList.ToArray() }, // full list
-                new object[] { new Flashcard[] { TestEntity1, TestEntity2, TestEntity3 } }, // only some
+                new object[] { new Flashcard[] { TestEntity1, TestEntity2, TestEntity3, TestEntity4 } }, // only some
                 new object[] { new Flashcard[] { } } // nothing
         };
 
@@ -577,9 +581,12 @@ namespace Tests.Unit_Tests.Data.Repository
             new object[] { new ValidateFilteringTestData { entities = FullEntityList, predicate = _ => true } },
             new object[] { new ValidateFilteringTestData { entities = FullEntityList, predicate = e => e.Level == 1 } },
             new object[] { new ValidateFilteringTestData { entities = FullEntityList, predicate = e => e.Answer == "Answer #1" } },
-            new object[] { new ValidateFilteringTestData { entities = FullEntityList, predicate = e => e.CreationDate > DateTime.Parse("01-01-2001") } },
-            new object[] { new ValidateFilteringTestData { entities = FullEntityList, predicate = e => e.LastUpdated == DateTime.Parse("01-01-2002") } },
-            new object[] { new ValidateFilteringTestData { entities = FullEntityList, predicate = e => e.DueDate < DateTime.Parse("03-01-2002") } },
+            new object[] { new ValidateFilteringTestData { entities = FullEntityList, predicate = e => e.Content1 == "<p>Here is some content!</p>" } },
+            new object[] { new ValidateFilteringTestData { entities = FullEntityList, predicate = e => e.Content2 == "<p>Here is some content!2</p>" } },
+            new object[] { new ValidateFilteringTestData { entities = FullEntityList, predicate = e => e.Content1 == "<p>Here is some content!</p>" && e.Content6 == "<p>Here is some content!</p>" } },
+            new object[] { new ValidateFilteringTestData { entities = FullEntityList, predicate = e => e.CreationDate > ReferenceDate.AddDays(-360) } },
+            new object[] { new ValidateFilteringTestData { entities = FullEntityList, predicate = e => e.LastUpdated == ReferenceDate } },
+            new object[] { new ValidateFilteringTestData { entities = FullEntityList, predicate = e => e.DueDate < ReferenceDate.AddDays(2) } },
         };
 
 
