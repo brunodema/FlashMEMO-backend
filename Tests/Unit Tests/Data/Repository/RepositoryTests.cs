@@ -475,9 +475,9 @@ namespace Tests.Unit_Tests.Data.Repository
 
         public static IEnumerable<object[]> CreateEntityData =>
             new List<object[]>
-            {
-                new object[] { new Flashcard { Level = 0, Answer = "Answer #1", ContentLayout = FlashcardContentLayout.SINGLE, Content1 = "<p>Here is some content!</p>", CreationDate = DateTime.Parse("01-01-2001") } },
-                new object[] { new Flashcard { Level = 0, ContentLayout = FlashcardContentLayout.TRIPLE_BLOCK, Content1 = "<p>Here is some content!</p>", Content2 = "<p>Here is more content!</p>", Content3 = "<p>Here is even more content!</p>", CreationDate = DateTime.Parse("01-01-2001") } },
+            { 
+                new object[] { new Flashcard { Level = 0, Answer = "Answer #1", FrontContentLayout = FlashcardContentLayout.SINGLE, Content1 = "<p>Here is some content!</p>", CreationDate = DateTime.Parse("01-01-2001"), BackContentLayout = FlashcardContentLayout.SINGLE, Content4 = "<p>Here is some content!</p>" } },
+                new object[] { new Flashcard { Level = 0, FrontContentLayout = FlashcardContentLayout.TRIPLE_BLOCK, Content1 = "<p>Here is some content!</p>", Content2 = "<p>Here is more content!</p>", Content3 = "<p>Here is even more content!</p>", CreationDate = DateTime.Parse("01-01-2001"), BackContentLayout = FlashcardContentLayout.SINGLE, Content4 = "<p>Here is some content!</p>" } },
             };
 
         [Theory, MemberData(nameof(CreateEntityData))]
@@ -489,7 +489,7 @@ namespace Tests.Unit_Tests.Data.Repository
         public static IEnumerable<object[]> ReadEntityData =>
             new List<object[]>
             {
-                new object[] { new Flashcard { Level = 0, ContentLayout = FlashcardContentLayout.SINGLE, Content1 = "<p>Here is some content!</p>" } },
+                new object[] { new Flashcard { Level = 0, FrontContentLayout = FlashcardContentLayout.SINGLE, Content1 = "<p>Here is some content!</p>", BackContentLayout = FlashcardContentLayout.SINGLE, Content4 = "<p>Here is some content!</p>" } },
             };
 
         [Theory, MemberData(nameof(ReadEntityData))]
@@ -501,8 +501,8 @@ namespace Tests.Unit_Tests.Data.Repository
         public static IEnumerable<object[]> UpdateEntityData =>
         new List<object[]>
         {
-                new object[] { new Flashcard { Level = 0, ContentLayout = FlashcardContentLayout.SINGLE, Content1 = "<p>Here is some content!</p>" }, new Flashcard { Level = 1, ContentLayout = FlashcardContentLayout.SINGLE, Content1 = "<p>Updated content!</p>" } },
-                new object[] { new Flashcard { Level = 0, ContentLayout = FlashcardContentLayout.SINGLE, Content1 = "<p>Here is some content!</p>" }, new Flashcard { Level = 3, ContentLayout = FlashcardContentLayout.TRIPLE_BLOCK, Content1 = "<p>Updated content!</p>", Content2 = "<p>More updated content!</p>", Content3 = "<p>Even more updated content!</p>" } },
+                new object[] { new Flashcard { Level = 0, FrontContentLayout = FlashcardContentLayout.SINGLE, Content1 = "<p>Here is some content!</p>" }, new Flashcard { Level = 1, FrontContentLayout = FlashcardContentLayout.SINGLE, Content1 = "<p>Updated content!</p>", BackContentLayout = FlashcardContentLayout.SINGLE, Content4 = "<p>Here is some content!</p>" } },
+                new object[] { new Flashcard { Level = 0, FrontContentLayout = FlashcardContentLayout.SINGLE, Content1 = "<p>Here is some content!</p>" }, new Flashcard { Level = 3, FrontContentLayout = FlashcardContentLayout.TRIPLE_BLOCK, Content1 = "<p>Updated content!</p>", Content2 = "<p>More updated content!</p>", Content3 = "<p>Even more updated content!</p>", BackContentLayout = FlashcardContentLayout.SINGLE, Content4 = "<p>Here is some content!</p>" } },
         };
 
         [Theory, MemberData(nameof(UpdateEntityData))]
@@ -514,7 +514,7 @@ namespace Tests.Unit_Tests.Data.Repository
         public static IEnumerable<object[]> DeleteEntityData =>
         new List<object[]>
         {
-                new object[] { new Flashcard { Level = 0, ContentLayout = FlashcardContentLayout.SINGLE, Content1 = "<p>Here is some content!</p>" } },
+                new object[] { new Flashcard { Level = 0, FrontContentLayout = FlashcardContentLayout.SINGLE, Content1 = "<p>Here is some content!</p>" } },
         };
 
         [Theory, MemberData(nameof(DeleteEntityData))]
@@ -526,10 +526,10 @@ namespace Tests.Unit_Tests.Data.Repository
         // specific test data
         // using static DateTimes here to try to improve readability (no implicit calculations based on days/whatever)
 
-        private static readonly Flashcard TestEntity1 = new Flashcard { Level = 0, ContentLayout = FlashcardContentLayout.SINGLE, Content1 = "<p>Here is some content!</p>", LastUpdated = DateTime.Parse("01-01-2002"), CreationDate = DateTime.Parse("01-01-2002"), DueDate = DateTime.Parse("01-01-2002") };
-        private static readonly Flashcard TestEntity2 = new Flashcard { Level = 1, ContentLayout = FlashcardContentLayout.VERTICAL_SPLIT, Content1 = "<p>Here is some content!</p>", Content2 = "<p>Here is some content!2</p>", LastUpdated = DateTime.Parse("02-01-2002"), CreationDate = DateTime.Parse("01-01-2002"), DueDate = DateTime.Parse("03-01-2002") };
-        private static readonly Flashcard TestEntity3 = new Flashcard { Level = 2, Answer = "Answer #1", ContentLayout = FlashcardContentLayout.TRIPLE_BLOCK, Content1 = "<p>Here is some content!</p>", Content2 = "<p>Here is some content!2</p>", Content3 = "<p>Here is some content!3</p>", LastUpdated = DateTime.Parse("03-01-2002"), CreationDate = DateTime.Parse("01-01-2002"), DueDate = DateTime.Parse("04-01-2002") };
-        private static readonly Flashcard TestEntity4 = new Flashcard { Level = 3, Answer = "Answer #2", ContentLayout = FlashcardContentLayout.FULL_CARD, Content1 = "<p>Here is some content!</p>", Content2 = "<p>Here is some content!2</p>", Content3 = "<p>Here is some content!3</p>", LastUpdated = DateTime.Parse("03-01-2002"), CreationDate = DateTime.Parse("03-01-2002"), DueDate = DateTime.Parse("05-01-2002") };
+        private static readonly Flashcard TestEntity1 = new Flashcard { Level = 0, FrontContentLayout = FlashcardContentLayout.SINGLE, Content1 = "<p>Here is some content!</p>", LastUpdated = DateTime.Parse("01-01-2002"), CreationDate = DateTime.Parse("01-01-2002"), DueDate = DateTime.Parse("01-01-2002"), BackContentLayout = FlashcardContentLayout.SINGLE, Content4 = "<p>Here is some content!</p>" };
+        private static readonly Flashcard TestEntity2 = new Flashcard { Level = 1, FrontContentLayout = FlashcardContentLayout.VERTICAL_SPLIT, Content1 = "<p>Here is some content!</p>", Content2 = "<p>Here is some content!2</p>", LastUpdated = DateTime.Parse("02-01-2002"), CreationDate = DateTime.Parse("01-01-2002"), DueDate = DateTime.Parse("03-01-2002"), BackContentLayout = FlashcardContentLayout.SINGLE, Content4 = "<p>Here is some content!</p>" };
+        private static readonly Flashcard TestEntity3 = new Flashcard { Level = 2, Answer = "Answer #1", FrontContentLayout = FlashcardContentLayout.TRIPLE_BLOCK, Content1 = "<p>Here is some content!</p>", Content2 = "<p>Here is some content!2</p>", Content3 = "<p>Here is some content!3</p>", LastUpdated = DateTime.Parse("03-01-2002"), CreationDate = DateTime.Parse("01-01-2002"), DueDate = DateTime.Parse("04-01-2002"), BackContentLayout = FlashcardContentLayout.SINGLE, Content4 = "<p>Here is some content!</p>" };
+        private static readonly Flashcard TestEntity4 = new Flashcard { Level = 3, Answer = "Answer #2", FrontContentLayout = FlashcardContentLayout.FULL_CARD, Content1 = "<p>Here is some content!</p>", Content2 = "<p>Here is some content!2</p>", Content3 = "<p>Here is some content!3</p>", LastUpdated = DateTime.Parse("03-01-2002"), CreationDate = DateTime.Parse("03-01-2002"), DueDate = DateTime.Parse("05-01-2002"), BackContentLayout = FlashcardContentLayout.SINGLE, Content4 = "<p>Here is some content!</p>" };
 
         private static readonly List<Flashcard> FullEntityList = new() { TestEntity1, TestEntity2, TestEntity3, TestEntity4 };
 
@@ -581,7 +581,7 @@ namespace Tests.Unit_Tests.Data.Repository
             new object[] { new ValidateFilteringTestData { entities = FullEntityList, predicate = e => e.LastUpdated == DateTime.Parse("01-01-2002") } },
             new object[] { new ValidateFilteringTestData { entities = FullEntityList, predicate = e => e.DueDate < DateTime.Parse("03-01-2002") } },
         };
-        
+
 
         [Theory, MemberData(nameof(SearchAndOrder_ValidateFilteringData))]
         public override void SearchAndOrder_ValidateFiltering(ValidateFilteringTestData testData)

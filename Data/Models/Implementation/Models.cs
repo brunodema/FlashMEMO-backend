@@ -56,10 +56,14 @@ namespace Data.Models.Implementation
         public Guid DeckId { get; set; } = Guid.Empty;
 
         public int Level { get; set; } = 0;
-        public FlashcardContentLayout ContentLayout { get; set; } = FlashcardContentLayout.SINGLE;
+        public FlashcardContentLayout FrontContentLayout { get; set; } = FlashcardContentLayout.SINGLE;
+        public FlashcardContentLayout BackContentLayout { get; set; } = FlashcardContentLayout.SINGLE;
         public string Content1 { get; set; } = "";
         public string Content2 { get; set; } = "";
         public string Content3 { get; set; } = "";
+        public string Content4 { get; set; } = "";
+        public string Content5 { get; set; } = "";
+        public string Content6 { get; set; } = "";
         public string Answer { get; set; } = "";
         public DateTime CreationDate { get; set; } = DateTime.Now;
         public DateTime LastUpdated { get; set; } = DateTime.Now;
