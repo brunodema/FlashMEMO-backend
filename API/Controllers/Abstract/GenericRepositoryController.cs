@@ -92,7 +92,7 @@ namespace API.Controllers.Abstract
         }
 
         [HttpPut]
-        [Route("update/{id}")]
+        [Route("{id}")]
         public async virtual Task<IActionResult> Update(TKey id, TDTO entityDTO)
         {
             var entity = new TEntity();
