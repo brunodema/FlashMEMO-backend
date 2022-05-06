@@ -12,15 +12,21 @@ using static Data.Tools.FlashcardTools;
 
 namespace Data.Context
 {
+    public class FlashMEMOContextOptions
+    {
+        public string SeederPath { get; set; }
+    }
+
     public class FlashMEMOContext : IdentityDbContext<
         ApplicationUser, ApplicationRole, string,
         ApplicationUserClaim, ApplicationUserRole, ApplicationUserLogin,
         ApplicationRoleClaim, ApplicationUserToken>
     {
-        private readonly string _seederPath = "../Data/Seeder";
+        private readonly string _seederPath;
 
-        public FlashMEMOContext(DbContextOptions<FlashMEMOContext> options) : base(options)
+        public FlashMEMOContext(DbContextOptions<FlashMEMOContext> options, FlashMEMOContextOptions contextOptions) : base(options)
         {
+            _seederPath = contextOptions.SeederPath;
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

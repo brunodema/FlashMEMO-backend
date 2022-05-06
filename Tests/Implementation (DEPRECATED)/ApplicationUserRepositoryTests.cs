@@ -16,7 +16,7 @@ namespace RepositoryTests.Implementation
         public ApplicationUserRepositoryFixture()
         {
             var options = new DbContextOptionsBuilder<FlashMEMOContext>().UseInMemoryDatabase(databaseName: Guid.NewGuid().ToString()).Options;
-            var context = new FlashMEMOContext(options);
+            var context = new FlashMEMOContext(options, new FlashMEMOContextOptions { SeederPath = "../../../../Data/Seeder" });
             var userManager = new UserManager<ApplicationUser>(
                 new UserStore<ApplicationUser>(context),
                 null,

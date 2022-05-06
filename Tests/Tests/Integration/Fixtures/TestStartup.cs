@@ -21,7 +21,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
-using Tests.Integration.TestData;
 
 namespace Tests.Integration.Fixtures
 {
@@ -134,6 +133,7 @@ namespace Tests.Integration.Fixtures
                 });
             // database configuration
             services.AddDbContext<FlashMEMOContext>(options => options.UseInMemoryDatabase("TestDB"));
+            services.AddSingleton(new FlashMEMOContextOptions { SeederPath = "../../../../Data/Seeder" }); // https://stackoverflow.com/questions/66383701/passing-parameter-to-dbcontext-with-di
 
             // options configuration
             services.Configure<JWTServiceOptions>(config =>
@@ -156,8 +156,6 @@ namespace Tests.Integration.Fixtures
             services.AddScoped<RoleRepository>();
             services.AddScoped<NewsRepository>();
             services.AddScoped<CustomSearchAPIService>();
-
-            services.AddScoped<NewsControllerTestData>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -197,9 +195,6 @@ namespace Tests.Integration.Fixtures
             {
                 endpoints.MapControllers();
             });
-
-            var seeder = new DbSeeder(provider, InteralConfigs.SeederPath);
-            seeder.InitializeDatabaseAsync().Wait();
         }
     }
 }

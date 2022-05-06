@@ -24,7 +24,7 @@ namespace RepositoryTests.Implementation
         public RoleRepositoryFixture()
         {
             var options = new DbContextOptionsBuilder<FlashMEMOContext>().UseInMemoryDatabase(databaseName: "RoleRepositoryFixture").Options;
-            var context = new FlashMEMOContext(options);
+            var context = new FlashMEMOContext(options, new FlashMEMOContextOptions { SeederPath = "../../../../Data/Seeder" });
             var roleManager = new RoleManager<ApplicationRole>(
                 new RoleStore<ApplicationRole>(context),
                 null,

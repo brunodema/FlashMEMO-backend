@@ -42,7 +42,7 @@ namespace RepositoryTests.Implementation
             public AuthRepositoryFixture()
             {
                 var options = new DbContextOptionsBuilder<FlashMEMOContext>().UseInMemoryDatabase(databaseName: "AuthRepositoryFixture").Options;
-                var context = new FlashMEMOContext(options);
+                var context = new FlashMEMOContext(options, new FlashMEMOContextOptions { SeederPath = "../../../../Data/Seeder" });
                 var roleManager = new RoleManager<ApplicationRole>(
                     new RoleStore<ApplicationRole>(context),
                     null,

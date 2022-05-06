@@ -140,6 +140,7 @@ namespace API
                     .MigrationsAssembly("API")
                     .EnableRetryOnFailure(5));
             });
+            services.AddSingleton(new FlashMEMOContextOptions { SeederPath = Configuration.GetValue<string>("seederPath") }); // https://stackoverflow.com/questions/66383701/passing-parameter-to-dbcontext-with-di
 
             services.AddHttpClient();
 
