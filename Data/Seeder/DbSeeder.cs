@@ -117,14 +117,12 @@ namespace Data.Seeder
 
         public async Task InitializeDatabaseAsync(bool forceBootstrap = false)
         {
-            _context.Database.Migrate();
-
-            //await SeedRoles(forceBootstrap ? true : !_context.Roles.Any());
-            //await SeedNews(forceBootstrap ? true : !_context.News.Any());
-            //await SeedLanguages(forceBootstrap ? true : !_context.Languages.Any());
-            //SeedUsers(forceBootstrap ? true : !_context.Users.Any()).Wait();
-            //SeedDecks(forceBootstrap ? true : !_context.Decks.Any()).Wait();
-            //SeedFlashcards(forceBootstrap ? true : !_context.Flashcards.Any()).Wait();
+            await SeedRoles(forceBootstrap ? true : !_context.Roles.Any());
+            await SeedNews(forceBootstrap ? true : !_context.News.Any());
+            await SeedLanguages(forceBootstrap ? true : !_context.Languages.Any());
+            SeedUsers(forceBootstrap ? true : !_context.Users.Any()).Wait();
+            SeedDecks(forceBootstrap ? true : !_context.Decks.Any()).Wait();
+            SeedFlashcards(forceBootstrap ? true : !_context.Flashcards.Any()).Wait();
         }
     }
 }
