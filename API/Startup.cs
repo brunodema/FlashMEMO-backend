@@ -210,11 +210,6 @@ namespace API
             {
                 endpoints.MapControllers();
             });
-
-            //AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
-
-            //var seeder = new DbSeeder(provider, Configuration.GetValue<string>("seederPath"));
-            //seeder.InitializeDatabaseAsync().Wait();
         }
     }
 }
