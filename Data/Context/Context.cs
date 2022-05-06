@@ -4,7 +4,9 @@ using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using static Data.Models.Implementation.StaticModels;
 using static Data.Tools.FlashcardTools;
 
@@ -81,11 +83,19 @@ namespace Data.Context
             modelBuilder.Entity<Deck>()
                 .HasData(JsonConvert.DeserializeObject<Deck[]>(File.ReadAllText($"{_seederPath}/Decks.json"), new JsonSerializerSettings { DateTimeZoneHandling = DateTimeZoneHandling.Utc }));
 
-            //modelBuilder.Entity<Flashcard>()
-            //    .HasData(JsonConvert.DeserializeObject<Flashcard[]>(File.ReadAllText($"{_seederPath}/Flashcards.json"), new JsonSerializerSettings { DateTimeZoneHandling = DateTimeZoneHandling.Utc }));
             modelBuilder.Entity<Flashcard>().Property(e => e.FrontContentLayout).HasConversion(
                v => v.ToString(),
                v => (FlashcardContentLayout)Enum.Parse(typeof(FlashcardContentLayout), v));
+
+
+            //var a = JsonConvert.DeserializeObject<List<Flashcard>>(File.ReadAllText($"{_seederPath}/Flashcards.json"), new JsonSerializerSettings { DateTimeZoneHandling = DateTimeZoneHandling.Utc });
+            //var aaa = a.Take(250);
+
+            //modelBuilder.Entity<Flashcard>()
+            //    .HasData(aaa);
+
+            modelBuilder.Entity<Flashcard>()
+                .HasData(JsonConvert.DeserializeObject<List<Flashcard>>(File.ReadAllText($"{_seederPath}/Flashcards.json"), new JsonSerializerSettings { DateTimeZoneHandling = DateTimeZoneHandling.Utc }));
         }
         public DbSet<News> News { get; set; }
         public DbSet<Deck> Decks { get; set; }
