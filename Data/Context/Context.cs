@@ -87,15 +87,8 @@ namespace Data.Context
                v => v.ToString(),
                v => (FlashcardContentLayout)Enum.Parse(typeof(FlashcardContentLayout), v));
 
-
-            //var a = JsonConvert.DeserializeObject<List<Flashcard>>(File.ReadAllText($"{_seederPath}/Flashcards.json"), new JsonSerializerSettings { DateTimeZoneHandling = DateTimeZoneHandling.Utc });
-            //var aaa = a.Take(250);
-
-            //modelBuilder.Entity<Flashcard>()
-            //    .HasData(aaa);
-
             modelBuilder.Entity<Flashcard>()
-                .HasData(JsonConvert.DeserializeObject<List<Flashcard>>(File.ReadAllText($"{_seederPath}/Flashcards.json"), new JsonSerializerSettings { DateTimeZoneHandling = DateTimeZoneHandling.Utc }));
+                .HasData(JsonConvert.DeserializeObject<Flashcard[]>(File.ReadAllText($"{_seederPath}/Flashcards.json"), new JsonSerializerSettings { DateTimeZoneHandling = DateTimeZoneHandling.Utc }));
         }
         public DbSet<News> News { get; set; }
         public DbSet<Deck> Decks { get; set; }
