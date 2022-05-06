@@ -3,6 +3,7 @@ using System;
 using Data.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,10 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace API.Migrations
 {
     [DbContext(typeof(FlashMEMOContext))]
-    partial class FlashMEMOContextModelSnapshot : ModelSnapshot
+    [Migration("20220506015439_FML2")]
+    partial class FML2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -144,12 +146,12 @@ namespace API.Migrations
                         {
                             Id = "B4553CAB-7997-1DE5-F7E3-90A7BC1DA167",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "6ad2e22c-a5ed-4436-80a4-64bcd92fb11d",
+                            ConcurrencyStamp = "27ed83c5-5c00-4766-915f-ee05e359a721",
                             Email = "sysadmin@flashmemo.edu",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "405ffa85-2feb-450a-85d5-f41df54a54ef",
+                            SecurityStamp = "e57aec56-d08d-46d8-bfe8-f56cb3cede7f",
                             TwoFactorEnabled = false,
                             UserId = "00000000-0000-0000-0000-000000000000",
                             UserName = "sysadmin"
@@ -158,12 +160,12 @@ namespace API.Migrations
                         {
                             Id = "9FBC287A-C113-EBA3-526F-4AE7CEACBDE8",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "ad078cbb-eec6-4200-bd27-9460e0a25aa9",
+                            ConcurrencyStamp = "eb6bf882-9c93-4f81-a03d-dec55c603387",
                             Email = "dapibus.ligula@hotmail.couk",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "86125193-8133-4bce-99fd-1747c1d638cd",
+                            SecurityStamp = "7f9bce20-cdbc-4525-bbc2-491adf7dd45e",
                             TwoFactorEnabled = false,
                             UserId = "00000000-0000-0000-0000-000000000000",
                             UserName = "demantova111"
@@ -172,12 +174,12 @@ namespace API.Migrations
                         {
                             Id = "E4C3E116-C71A-7B3B-CA32-159AE97C8456",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "fab7e24c-1d62-4ca7-a5d0-a2d5a840780f",
+                            ConcurrencyStamp = "07b08efb-da00-4d3b-a67a-edcd28abf765",
                             Email = "accumsan.convallis.ante@outlook.couk",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "c8873976-de32-4460-9ccd-d36fa6d450f8",
+                            SecurityStamp = "3f197e73-5fc7-4bf9-92bb-a5234c6da760",
                             TwoFactorEnabled = false,
                             UserId = "00000000-0000-0000-0000-000000000000",
                             UserName = "eck3"
@@ -186,12 +188,12 @@ namespace API.Migrations
                         {
                             Id = "9F87EEA2-25CB-13B8-13B7-CA1A69CA68B4",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "516c5f67-1c35-485b-9a5c-b00110463861",
+                            ConcurrencyStamp = "bd509519-1f7c-4f68-a20a-8ba01d453ffb",
                             Email = "lacus.mauris@aol.couk",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "a9c3e9da-c1a1-4ad9-b036-cd045209b24d",
+                            SecurityStamp = "8e5e24dd-2a39-454d-8403-2c3bad6d4034",
                             TwoFactorEnabled = false,
                             UserId = "00000000-0000-0000-0000-000000000000",
                             UserName = "demantova"
@@ -200,12 +202,12 @@ namespace API.Migrations
                         {
                             Id = "62DAAEBC-F2F5-4D16-533A-AD176D7EA7B7",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "1c9274e9-5275-403e-8c8d-28f0eadbfe67",
+                            ConcurrencyStamp = "478ef678-6908-45ba-9735-f6bf29f1aa21",
                             Email = "sed.dictum.eleifend@hotmail.org",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "9bfa3d3a-890b-4ad5-a06d-bf54f4a8466e",
+                            SecurityStamp = "4cc0593f-bdcd-4a6a-9ba5-38f6ba4218f6",
                             TwoFactorEnabled = false,
                             UserId = "00000000-0000-0000-0000-000000000000",
                             UserName = "eck2333"
@@ -214,12 +216,12 @@ namespace API.Migrations
                         {
                             Id = "9CBF5FEE-EE6E-5F1D-3E53-2389AD983EA2",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "40f6fe8c-dec8-4b56-b448-b53e987ee633",
+                            ConcurrencyStamp = "7d15889d-dee5-4ec5-b609-85115658fbec",
                             Email = "leo.morbi@google.org",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "695dd77e-6b1a-42f3-9b89-66a45da12207",
+                            SecurityStamp = "5c66bd78-e148-4998-a446-5eb5886820f6",
                             TwoFactorEnabled = false,
                             UserId = "00000000-0000-0000-0000-000000000000",
                             UserName = "eckkkkert"
@@ -228,12 +230,12 @@ namespace API.Migrations
                         {
                             Id = "6BBD068B-B258-EB0A-2132-BEB9BAEA886E",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "0bad3109-7202-4cda-94a5-a1793de37316",
+                            ConcurrencyStamp = "69a0f3ba-3062-4b52-909e-178e29da1f47",
                             Email = "viverra.donec@hotmail.com",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "378495e6-26a8-4604-ac0e-a1c93b0dbcf6",
+                            SecurityStamp = "7ef1c9fe-b9e3-48f0-8f5c-1c586eede900",
                             TwoFactorEnabled = false,
                             UserId = "00000000-0000-0000-0000-000000000000",
                             UserName = "vekvert"
@@ -242,12 +244,12 @@ namespace API.Migrations
                         {
                             Id = "0004E137-13A5-5129-AA50-5A856A2A86F7",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "4a0c927c-3a2b-4ef9-b916-9e98f8585077",
+                            ConcurrencyStamp = "e0c3809e-a8e9-4498-b93b-86f7de369b6c",
                             Email = "ligula.eu@icloud.com",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "6005a7bc-828f-4bf0-8d46-1abf8b52cc32",
+                            SecurityStamp = "3f2b80c1-0c36-455a-af7d-b261f1183974",
                             TwoFactorEnabled = false,
                             UserId = "00000000-0000-0000-0000-000000000000",
                             UserName = "bruno_demantova"
@@ -256,12 +258,12 @@ namespace API.Migrations
                         {
                             Id = "5881A9B3-912A-8F1A-C5FA-0855A0563E23",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "01b6f72b-b3d7-4ba4-8dd3-2bbcaca2d4f3",
+                            ConcurrencyStamp = "0c8c5511-e136-4536-89a5-7d0dbd7dbeed",
                             Email = "non.dui@hotmail.org",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "ddad2ab2-4d6b-44b5-8126-5febdf56e64c",
+                            SecurityStamp = "4855ac84-b500-4371-83cd-ee443d63d5c0",
                             TwoFactorEnabled = false,
                             UserId = "00000000-0000-0000-0000-000000000000",
                             UserName = "dema100"
@@ -270,12 +272,12 @@ namespace API.Migrations
                         {
                             Id = "BD696EC2-1BE1-FFB1-3FC1-883C2D247875",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "dc2800b0-670d-4431-918f-12904eb8f1e5",
+                            ConcurrencyStamp = "bc034eda-6360-415f-a89b-49b73ac03d39",
                             Email = "aliquam@hotmail.com",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "c1ccea4f-6391-4973-bb0e-30dc29041a00",
+                            SecurityStamp = "4ca7911e-3a64-42c0-90cd-c8da225a3e5d",
                             TwoFactorEnabled = false,
                             UserId = "00000000-0000-0000-0000-000000000000",
                             UserName = "bruno79"
@@ -394,258 +396,6 @@ namespace API.Migrations
                     b.HasIndex("OwnerId");
 
                     b.ToTable("Decks");
-
-                    b.HasData(
-                        new
-                        {
-                            DeckID = new Guid("e5b4bb88-f528-7535-f9be-d9f11be3db54"),
-                            CreationDate = new DateTime(2020, 10, 27, 17, 48, 41, 0, DateTimeKind.Utc),
-                            Description = "Proin vel arcu",
-                            LanguageISOCode = "ch",
-                            LastUpdated = new DateTime(2021, 12, 23, 20, 54, 46, 0, DateTimeKind.Utc),
-                            Name = "French Italian Portuguese Study Quiet",
-                            OwnerId = "9CBF5FEE-EE6E-5F1D-3E53-2389AD983EA2"
-                        },
-                        new
-                        {
-                            DeckID = new Guid("913df528-fb15-529e-5017-dae1c74758d9"),
-                            CreationDate = new DateTime(2020, 6, 23, 23, 28, 55, 0, DateTimeKind.Utc),
-                            Description = "semper pretium neque. Morbi quis urna. Nunc quis arcu vel quam dignissim pharetra.",
-                            LanguageISOCode = "ch",
-                            LastUpdated = new DateTime(2022, 3, 12, 7, 6, 58, 0, DateTimeKind.Utc),
-                            Name = "User",
-                            OwnerId = "BD696EC2-1BE1-FFB1-3FC1-883C2D247875"
-                        },
-                        new
-                        {
-                            DeckID = new Guid("29717e54-7223-f856-cebe-5e5ee2f187b1"),
-                            CreationDate = new DateTime(2021, 3, 10, 20, 34, 15, 0, DateTimeKind.Utc),
-                            Description = "ad litora torquent per conubia nostra, per inceptos hymenaeos. Mauris ut quam vel sapien imperdiet ornare. In faucibus. Morbi vehicula. Pellentesque tincidunt tempus risus. Donec egestas. Duis ac arcu. Nunc mauris. Morbi non sapien molestie orci tincidunt adipiscing. Mauris molestie",
-                            LanguageISOCode = "it",
-                            LastUpdated = new DateTime(2022, 2, 22, 13, 43, 12, 0, DateTimeKind.Utc),
-                            Name = "Italian Portuguese",
-                            OwnerId = "5881A9B3-912A-8F1A-C5FA-0855A0563E23"
-                        },
-                        new
-                        {
-                            DeckID = new Guid("d1852714-14aa-e991-d981-a7ea75a6a1e9"),
-                            CreationDate = new DateTime(2020, 6, 5, 20, 16, 3, 0, DateTimeKind.Utc),
-                            Description = "placerat. Cras dictum ultricies ligula. Nullam enim. Sed nulla ante, iaculis nec, eleifend non, dapibus rutrum, justo. Praesent luctus. Curabitur egestas nunc sed libero. Proin sed turpis nec mauris blandit mattis. Cras eget nisi dictum augue malesuada malesuada. Integer id magna",
-                            LanguageISOCode = "pt",
-                            LastUpdated = new DateTime(2021, 4, 26, 7, 18, 28, 0, DateTimeKind.Utc),
-                            Name = "Quiet User Text Grammar",
-                            OwnerId = "5881A9B3-912A-8F1A-C5FA-0855A0563E23"
-                        },
-                        new
-                        {
-                            DeckID = new Guid("4942c531-e221-1d68-18d4-dc53b48eb51c"),
-                            CreationDate = new DateTime(2021, 1, 30, 18, 45, 46, 0, DateTimeKind.Utc),
-                            Description = "dictum eleifend, nunc risus varius orci, in consequat enim diam vel arcu. Curabitur ut odio vel est tempor bibendum. Donec felis orci, adipiscing non, luctus sit amet, faucibus ut, nulla. Cras eu tellus eu augue",
-                            LanguageISOCode = "en",
-                            LastUpdated = new DateTime(2021, 7, 11, 5, 50, 48, 0, DateTimeKind.Utc),
-                            Name = "Italian Portuguese",
-                            OwnerId = "62DAAEBC-F2F5-4D16-533A-AD176D7EA7B7"
-                        },
-                        new
-                        {
-                            DeckID = new Guid("0e275d7c-c765-a566-c091-3ac90c4f2a72"),
-                            CreationDate = new DateTime(2020, 10, 21, 6, 49, 21, 0, DateTimeKind.Utc),
-                            Description = "Mauris vel turpis. Aliquam adipiscing lobortis risus. In mi pede, nonummy ut, molestie in, tempus eu, ligula. Aenean euismod mauris eu elit. Nulla facilisi. Sed neque. Sed eget lacus. Mauris non dui nec urna suscipit nonummy. Fusce fermentum fermentum arcu. Vestibulum ante ipsum primis in",
-                            LanguageISOCode = "ch",
-                            LastUpdated = new DateTime(2021, 11, 5, 7, 13, 44, 0, DateTimeKind.Utc),
-                            Name = "French Italian Portuguese",
-                            OwnerId = "9CBF5FEE-EE6E-5F1D-3E53-2389AD983EA2"
-                        },
-                        new
-                        {
-                            DeckID = new Guid("fcc0aa0a-d588-625a-64be-5e6dc8b06dbb"),
-                            CreationDate = new DateTime(2020, 11, 26, 22, 21, 8, 0, DateTimeKind.Utc),
-                            Description = "dictum eleifend, nunc risus varius orci, in consequat enim diam vel arcu. Curabitur ut odio vel est tempor bibendum. Donec felis orci, adipiscing non, luctus sit amet, faucibus ut, nulla. Cras eu tellus eu augue porttitor interdum. Sed auctor",
-                            LanguageISOCode = "fr",
-                            LastUpdated = new DateTime(2022, 2, 23, 7, 32, 7, 0, DateTimeKind.Utc),
-                            Name = "Quiet User Text Grammar",
-                            OwnerId = "BD696EC2-1BE1-FFB1-3FC1-883C2D247875"
-                        },
-                        new
-                        {
-                            DeckID = new Guid("2a763e3c-0411-1fd6-2719-681eca29259e"),
-                            CreationDate = new DateTime(2021, 1, 14, 11, 44, 24, 0, DateTimeKind.Utc),
-                            Description = "a ultricies adipiscing, enim mi tempor lorem, eget mollis lectus pede et risus. Quisque libero lacus, varius et, euismod et, commodo at, libero. Morbi",
-                            LanguageISOCode = "hi",
-                            LastUpdated = new DateTime(2021, 5, 4, 0, 37, 29, 0, DateTimeKind.Utc),
-                            Name = "Italian Portuguese Study Quiet",
-                            OwnerId = "6BBD068B-B258-EB0A-2132-BEB9BAEA886E"
-                        },
-                        new
-                        {
-                            DeckID = new Guid("ad56c6b4-4791-7982-4ac7-cca45243607e"),
-                            CreationDate = new DateTime(2021, 1, 18, 21, 59, 23, 0, DateTimeKind.Utc),
-                            Description = "massa. Suspendisse eleifend. Cras sed leo. Cras vehicula aliquet libero. Integer in magna. Phasellus dolor elit, pellentesque a, facilisis non, bibendum sed, est. Nunc laoreet lectus quis massa. Mauris vestibulum, neque sed dictum eleifend, nunc risus varius orci, in",
-                            LanguageISOCode = "it",
-                            LastUpdated = new DateTime(2021, 11, 1, 14, 14, 18, 0, DateTimeKind.Utc),
-                            Name = "Adjective Lexical Dictionary Audio",
-                            OwnerId = "9F87EEA2-25CB-13B8-13B7-CA1A69CA68B4"
-                        },
-                        new
-                        {
-                            DeckID = new Guid("85b91a36-6d3d-8578-1b4e-98389a57e1ac"),
-                            CreationDate = new DateTime(2020, 10, 15, 18, 6, 39, 0, DateTimeKind.Utc),
-                            Description = "amet luctus vulputate, nisi sem semper erat, in consectetuer ipsum nunc id enim. Curabitur massa. Vestibulum accumsan neque et nunc. Quisque",
-                            LanguageISOCode = "fr",
-                            LastUpdated = new DateTime(2021, 10, 10, 12, 19, 18, 0, DateTimeKind.Utc),
-                            Name = "Study Quiet User Text Grammar",
-                            OwnerId = "9F87EEA2-25CB-13B8-13B7-CA1A69CA68B4"
-                        },
-                        new
-                        {
-                            DeckID = new Guid("5db32645-4444-63aa-c1dc-c059789b215e"),
-                            CreationDate = new DateTime(2020, 6, 11, 11, 45, 32, 0, DateTimeKind.Utc),
-                            Description = "odio semper cursus. Integer mollis. Integer tincidunt aliquam arcu. Aliquam ultrices iaculis",
-                            LanguageISOCode = "pt",
-                            LastUpdated = new DateTime(2022, 3, 6, 4, 17, 3, 0, DateTimeKind.Utc),
-                            Name = "Test",
-                            OwnerId = "62DAAEBC-F2F5-4D16-533A-AD176D7EA7B7"
-                        },
-                        new
-                        {
-                            DeckID = new Guid("1280cd10-110e-d2c5-bbba-f6eea2c1b3e4"),
-                            CreationDate = new DateTime(2021, 1, 24, 6, 42, 59, 0, DateTimeKind.Utc),
-                            Description = "dictum magna. Ut tincidunt orci quis lectus. Nullam suscipit, est ac facilisis facilisis, magna tellus faucibus",
-                            LanguageISOCode = "it",
-                            LastUpdated = new DateTime(2021, 7, 8, 3, 37, 35, 0, DateTimeKind.Utc),
-                            Name = "Adjective Lexical",
-                            OwnerId = "62DAAEBC-F2F5-4D16-533A-AD176D7EA7B7"
-                        },
-                        new
-                        {
-                            DeckID = new Guid("092bf87d-9de3-1bea-4fc5-f76294251979"),
-                            CreationDate = new DateTime(2021, 3, 27, 3, 17, 12, 0, DateTimeKind.Utc),
-                            Description = "Donec vitae erat vel pede blandit congue. In scelerisque scelerisque dui. Suspendisse ac metus vitae velit egestas lacinia. Sed congue, elit sed consequat auctor, nunc nulla vulputate dui, nec tempus mauris erat eget ipsum. Suspendisse sagittis. Nullam vitae diam. Proin dolor. Nulla semper tellus id",
-                            LanguageISOCode = "pt",
-                            LastUpdated = new DateTime(2021, 10, 14, 3, 3, 6, 0, DateTimeKind.Utc),
-                            Name = "Grammar Adjective Lexical Dictionary",
-                            OwnerId = "6BBD068B-B258-EB0A-2132-BEB9BAEA886E"
-                        },
-                        new
-                        {
-                            DeckID = new Guid("9963db07-6539-8a5e-aa87-b14c6dbd7631"),
-                            CreationDate = new DateTime(2021, 3, 28, 14, 35, 19, 0, DateTimeKind.Utc),
-                            Description = "Mauris eu turpis. Nulla aliquet. Proin velit. Sed malesuada augue ut lacus. Nulla tincidunt, neque vitae semper egestas, urna justo faucibus lectus, a sollicitudin orci sem eget massa. Suspendisse eleifend. Cras sed leo. Cras vehicula aliquet libero. Integer in magna. Phasellus dolor elit, pellentesque a, facilisis non, bibendum sed,",
-                            LanguageISOCode = "en",
-                            LastUpdated = new DateTime(2021, 10, 31, 11, 53, 14, 0, DateTimeKind.Utc),
-                            Name = "Deck English",
-                            OwnerId = "B4553CAB-7997-1DE5-F7E3-90A7BC1DA167"
-                        },
-                        new
-                        {
-                            DeckID = new Guid("2a4424cc-2c1d-1309-a647-be27769a91c9"),
-                            CreationDate = new DateTime(2020, 6, 17, 13, 1, 52, 0, DateTimeKind.Utc),
-                            Description = "Vivamus euismod urna. Nullam lobortis quam a felis ullamcorper viverra. Maecenas iaculis aliquet diam. Sed diam lorem, auctor quis, tristique ac, eleifend vitae, erat. Vivamus nisi. Mauris nulla. Integer urna. Vivamus molestie dapibus ligula. Aliquam erat volutpat. Nulla dignissim. Maecenas ornare egestas ligula. Nullam feugiat",
-                            LanguageISOCode = "ch",
-                            LastUpdated = new DateTime(2022, 2, 22, 22, 42, 40, 0, DateTimeKind.Utc),
-                            Name = "Deck English French",
-                            OwnerId = "9F87EEA2-25CB-13B8-13B7-CA1A69CA68B4"
-                        },
-                        new
-                        {
-                            DeckID = new Guid("336bbabc-4a14-b13c-2958-3c98335a354f"),
-                            CreationDate = new DateTime(2021, 1, 28, 16, 5, 27, 0, DateTimeKind.Utc),
-                            Description = "bibendum fermentum metus. Aenean sed pede nec ante blandit viverra. Donec tempus, lorem fringilla ornare placerat, orci lacus vestibulum lorem, sit amet ultricies sem magna nec quam. Curabitur vel lectus. Cum sociis natoque",
-                            LanguageISOCode = "en",
-                            LastUpdated = new DateTime(2021, 8, 12, 1, 37, 0, 0, DateTimeKind.Utc),
-                            Name = "Study Quiet User Text",
-                            OwnerId = "BD696EC2-1BE1-FFB1-3FC1-883C2D247875"
-                        },
-                        new
-                        {
-                            DeckID = new Guid("bcac69c2-5a7d-74c9-e58a-792964b6ece9"),
-                            CreationDate = new DateTime(2021, 2, 20, 1, 22, 22, 0, DateTimeKind.Utc),
-                            Description = "dignissim pharetra. Nam ac nulla. In tincidunt congue turpis. In condimentum. Donec at arcu. Vestibulum ante ipsum",
-                            LanguageISOCode = "en",
-                            LastUpdated = new DateTime(2021, 8, 6, 15, 0, 33, 0, DateTimeKind.Utc),
-                            Name = "Dictionary",
-                            OwnerId = "9CBF5FEE-EE6E-5F1D-3E53-2389AD983EA2"
-                        },
-                        new
-                        {
-                            DeckID = new Guid("454177ec-70a4-e637-5d69-46202503c7f5"),
-                            CreationDate = new DateTime(2021, 1, 10, 13, 0, 44, 0, DateTimeKind.Utc),
-                            Description = "Proin vel arcu eu odio tristique pharetra. Quisque ac libero nec ligula consectetuer",
-                            LanguageISOCode = "hi",
-                            LastUpdated = new DateTime(2021, 5, 9, 15, 31, 18, 0, DateTimeKind.Utc),
-                            Name = "Text Grammar",
-                            OwnerId = "6BBD068B-B258-EB0A-2132-BEB9BAEA886E"
-                        },
-                        new
-                        {
-                            DeckID = new Guid("18d5f976-3c81-1711-ccd3-1ba2e7caa24c"),
-                            CreationDate = new DateTime(2020, 8, 6, 9, 31, 21, 0, DateTimeKind.Utc),
-                            Description = "turpis. Nulla aliquet. Proin velit. Sed malesuada augue ut lacus. Nulla tincidunt, neque vitae semper egestas, urna justo faucibus lectus, a sollicitudin orci sem eget massa.",
-                            LanguageISOCode = "it",
-                            LastUpdated = new DateTime(2022, 1, 30, 5, 47, 40, 0, DateTimeKind.Utc),
-                            Name = "Study Quiet",
-                            OwnerId = "BD696EC2-1BE1-FFB1-3FC1-883C2D247875"
-                        },
-                        new
-                        {
-                            DeckID = new Guid("81775da8-5104-21db-2b55-e1a1d8b4764a"),
-                            CreationDate = new DateTime(2020, 10, 31, 16, 40, 7, 0, DateTimeKind.Utc),
-                            Description = "pharetra ut, pharetra sed, hendrerit a, arcu. Sed et libero. Proin mi. Aliquam gravida mauris ut mi. Duis risus odio, auctor vitae, aliquet nec, imperdiet nec, leo. Morbi neque tellus, imperdiet non, vestibulum nec, euismod in, dolor. Fusce feugiat.",
-                            LanguageISOCode = "hi",
-                            LastUpdated = new DateTime(2021, 10, 19, 6, 16, 2, 0, DateTimeKind.Utc),
-                            Name = "Italian Portuguese Study",
-                            OwnerId = "0004E137-13A5-5129-AA50-5A856A2A86F7"
-                        },
-                        new
-                        {
-                            DeckID = new Guid("5df3869c-a2e7-88dc-4e4d-9c3fb0049ff6"),
-                            CreationDate = new DateTime(2020, 12, 25, 10, 32, 21, 0, DateTimeKind.Utc),
-                            Description = "Donec est. Nunc ullamcorper, velit in aliquet lobortis, nisi nibh lacinia orci, consectetuer",
-                            LanguageISOCode = "it",
-                            LastUpdated = new DateTime(2021, 12, 23, 20, 30, 46, 0, DateTimeKind.Utc),
-                            Name = "Adjective Lexical Dictionary Audio",
-                            OwnerId = "B4553CAB-7997-1DE5-F7E3-90A7BC1DA167"
-                        },
-                        new
-                        {
-                            DeckID = new Guid("e43b711b-c5ca-ad30-4910-98eec7afd1a9"),
-                            CreationDate = new DateTime(2020, 11, 28, 14, 28, 55, 0, DateTimeKind.Utc),
-                            Description = "tincidunt, neque vitae semper egestas, urna justo faucibus lectus, a sollicitudin orci sem eget massa. Suspendisse eleifend. Cras sed leo. Cras vehicula aliquet libero. Integer in magna. Phasellus dolor elit, pellentesque",
-                            LanguageISOCode = "pt",
-                            LastUpdated = new DateTime(2022, 2, 28, 2, 10, 57, 0, DateTimeKind.Utc),
-                            Name = "Portuguese Study Quiet",
-                            OwnerId = "B4553CAB-7997-1DE5-F7E3-90A7BC1DA167"
-                        },
-                        new
-                        {
-                            DeckID = new Guid("1f511e25-e470-6b8c-a283-c5f44fc61936"),
-                            CreationDate = new DateTime(2021, 4, 17, 22, 55, 25, 0, DateTimeKind.Utc),
-                            Description = "ac mattis velit justo nec ante. Maecenas mi felis,",
-                            LanguageISOCode = "ch",
-                            LastUpdated = new DateTime(2022, 1, 21, 14, 57, 45, 0, DateTimeKind.Utc),
-                            Name = "Text Grammar",
-                            OwnerId = "9FBC287A-C113-EBA3-526F-4AE7CEACBDE8"
-                        },
-                        new
-                        {
-                            DeckID = new Guid("1a44b87e-15c9-9ab6-2ba3-74623b8a1513"),
-                            CreationDate = new DateTime(2020, 9, 19, 5, 33, 56, 0, DateTimeKind.Utc),
-                            Description = "magnis dis parturient montes, nascetur ridiculus mus. Donec",
-                            LanguageISOCode = "hi",
-                            LastUpdated = new DateTime(2021, 8, 31, 5, 17, 51, 0, DateTimeKind.Utc),
-                            Name = "Portuguese",
-                            OwnerId = "5881A9B3-912A-8F1A-C5FA-0855A0563E23"
-                        },
-                        new
-                        {
-                            DeckID = new Guid("569698b2-60f5-4abe-4a8d-ec21259cb152"),
-                            CreationDate = new DateTime(2020, 5, 7, 1, 8, 23, 0, DateTimeKind.Utc),
-                            Description = "hendrerit neque. In ornare sagittis felis. Donec tempor, est ac mattis semper, dui lectus rutrum urna, nec luctus felis purus ac tellus. Suspendisse sed dolor. Fusce mi lorem, vehicula et, rutrum",
-                            LanguageISOCode = "en",
-                            LastUpdated = new DateTime(2021, 7, 2, 12, 43, 20, 0, DateTimeKind.Utc),
-                            Name = "Portuguese Study Quiet User",
-                            OwnerId = "62DAAEBC-F2F5-4D16-533A-AD176D7EA7B7"
-                        });
                 });
 
             modelBuilder.Entity("Data.Models.Implementation.Flashcard", b =>
@@ -687,9 +437,8 @@ namespace API.Migrations
                     b.Property<DateTime>("DueDate")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<string>("FrontContentLayout")
-                        .IsRequired()
-                        .HasColumnType("text");
+                    b.Property<int>("FrontContentLayout")
+                        .HasColumnType("integer");
 
                     b.Property<DateTime>("LastUpdated")
                         .HasColumnType("timestamp with time zone");

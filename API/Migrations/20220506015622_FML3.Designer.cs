@@ -3,6 +3,7 @@ using System;
 using Data.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,10 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace API.Migrations
 {
     [DbContext(typeof(FlashMEMOContext))]
-    partial class FlashMEMOContextModelSnapshot : ModelSnapshot
+    [Migration("20220506015622_FML3")]
+    partial class FML3
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -144,12 +146,12 @@ namespace API.Migrations
                         {
                             Id = "B4553CAB-7997-1DE5-F7E3-90A7BC1DA167",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "6ad2e22c-a5ed-4436-80a4-64bcd92fb11d",
+                            ConcurrencyStamp = "caef0599-37b3-411d-a446-e5c3729145a7",
                             Email = "sysadmin@flashmemo.edu",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "405ffa85-2feb-450a-85d5-f41df54a54ef",
+                            SecurityStamp = "9bbd9b34-1f35-4419-8b7d-162c705e78e5",
                             TwoFactorEnabled = false,
                             UserId = "00000000-0000-0000-0000-000000000000",
                             UserName = "sysadmin"
@@ -158,12 +160,12 @@ namespace API.Migrations
                         {
                             Id = "9FBC287A-C113-EBA3-526F-4AE7CEACBDE8",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "ad078cbb-eec6-4200-bd27-9460e0a25aa9",
+                            ConcurrencyStamp = "9ed25a27-fbfe-4669-baf9-a34f3b9e8168",
                             Email = "dapibus.ligula@hotmail.couk",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "86125193-8133-4bce-99fd-1747c1d638cd",
+                            SecurityStamp = "a759de2d-35fa-43bc-ab24-8310ccd238c9",
                             TwoFactorEnabled = false,
                             UserId = "00000000-0000-0000-0000-000000000000",
                             UserName = "demantova111"
@@ -172,12 +174,12 @@ namespace API.Migrations
                         {
                             Id = "E4C3E116-C71A-7B3B-CA32-159AE97C8456",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "fab7e24c-1d62-4ca7-a5d0-a2d5a840780f",
+                            ConcurrencyStamp = "e6d6ec0f-7d7e-4287-ac1f-ff63364d6333",
                             Email = "accumsan.convallis.ante@outlook.couk",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "c8873976-de32-4460-9ccd-d36fa6d450f8",
+                            SecurityStamp = "27a4ff73-9c21-4e1d-ad34-090f0547f58d",
                             TwoFactorEnabled = false,
                             UserId = "00000000-0000-0000-0000-000000000000",
                             UserName = "eck3"
@@ -186,12 +188,12 @@ namespace API.Migrations
                         {
                             Id = "9F87EEA2-25CB-13B8-13B7-CA1A69CA68B4",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "516c5f67-1c35-485b-9a5c-b00110463861",
+                            ConcurrencyStamp = "cfa7ba25-55e1-498b-831a-1331dc8ae1fd",
                             Email = "lacus.mauris@aol.couk",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "a9c3e9da-c1a1-4ad9-b036-cd045209b24d",
+                            SecurityStamp = "79f3a13e-3161-425f-b021-fd91b908731f",
                             TwoFactorEnabled = false,
                             UserId = "00000000-0000-0000-0000-000000000000",
                             UserName = "demantova"
@@ -200,12 +202,12 @@ namespace API.Migrations
                         {
                             Id = "62DAAEBC-F2F5-4D16-533A-AD176D7EA7B7",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "1c9274e9-5275-403e-8c8d-28f0eadbfe67",
+                            ConcurrencyStamp = "589110bc-b923-4739-97f1-3e2ea88e8a50",
                             Email = "sed.dictum.eleifend@hotmail.org",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "9bfa3d3a-890b-4ad5-a06d-bf54f4a8466e",
+                            SecurityStamp = "abd5c2ed-47f7-4e50-a8a9-f66c1fe86882",
                             TwoFactorEnabled = false,
                             UserId = "00000000-0000-0000-0000-000000000000",
                             UserName = "eck2333"
@@ -214,12 +216,12 @@ namespace API.Migrations
                         {
                             Id = "9CBF5FEE-EE6E-5F1D-3E53-2389AD983EA2",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "40f6fe8c-dec8-4b56-b448-b53e987ee633",
+                            ConcurrencyStamp = "c9982c87-f807-4895-96e9-8e23efa4e3cb",
                             Email = "leo.morbi@google.org",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "695dd77e-6b1a-42f3-9b89-66a45da12207",
+                            SecurityStamp = "2922d95f-d9ac-4255-9f94-9adc727f16c4",
                             TwoFactorEnabled = false,
                             UserId = "00000000-0000-0000-0000-000000000000",
                             UserName = "eckkkkert"
@@ -228,12 +230,12 @@ namespace API.Migrations
                         {
                             Id = "6BBD068B-B258-EB0A-2132-BEB9BAEA886E",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "0bad3109-7202-4cda-94a5-a1793de37316",
+                            ConcurrencyStamp = "7c86e256-3781-4cac-8acd-75a43175ffae",
                             Email = "viverra.donec@hotmail.com",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "378495e6-26a8-4604-ac0e-a1c93b0dbcf6",
+                            SecurityStamp = "49b51aee-c435-43a1-ba88-b27c97452f27",
                             TwoFactorEnabled = false,
                             UserId = "00000000-0000-0000-0000-000000000000",
                             UserName = "vekvert"
@@ -242,12 +244,12 @@ namespace API.Migrations
                         {
                             Id = "0004E137-13A5-5129-AA50-5A856A2A86F7",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "4a0c927c-3a2b-4ef9-b916-9e98f8585077",
+                            ConcurrencyStamp = "b73e7249-b177-4003-a2fa-034cfc564cbf",
                             Email = "ligula.eu@icloud.com",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "6005a7bc-828f-4bf0-8d46-1abf8b52cc32",
+                            SecurityStamp = "d387ed35-9fe2-40e0-8902-b44e84c83000",
                             TwoFactorEnabled = false,
                             UserId = "00000000-0000-0000-0000-000000000000",
                             UserName = "bruno_demantova"
@@ -256,12 +258,12 @@ namespace API.Migrations
                         {
                             Id = "5881A9B3-912A-8F1A-C5FA-0855A0563E23",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "01b6f72b-b3d7-4ba4-8dd3-2bbcaca2d4f3",
+                            ConcurrencyStamp = "d8413489-6d36-48b8-9b34-4ec83f633756",
                             Email = "non.dui@hotmail.org",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "ddad2ab2-4d6b-44b5-8126-5febdf56e64c",
+                            SecurityStamp = "344bcc29-b845-4c01-a483-cd4215c7e1de",
                             TwoFactorEnabled = false,
                             UserId = "00000000-0000-0000-0000-000000000000",
                             UserName = "dema100"
@@ -270,12 +272,12 @@ namespace API.Migrations
                         {
                             Id = "BD696EC2-1BE1-FFB1-3FC1-883C2D247875",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "dc2800b0-670d-4431-918f-12904eb8f1e5",
+                            ConcurrencyStamp = "4866f1cd-5782-4daf-b4bb-2b424154f54a",
                             Email = "aliquam@hotmail.com",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "c1ccea4f-6391-4973-bb0e-30dc29041a00",
+                            SecurityStamp = "27c75d47-a6f7-405c-8271-2403a1abfa04",
                             TwoFactorEnabled = false,
                             UserId = "00000000-0000-0000-0000-000000000000",
                             UserName = "bruno79"
@@ -687,9 +689,8 @@ namespace API.Migrations
                     b.Property<DateTime>("DueDate")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<string>("FrontContentLayout")
-                        .IsRequired()
-                        .HasColumnType("text");
+                    b.Property<int>("FrontContentLayout")
+                        .HasColumnType("integer");
 
                     b.Property<DateTime>("LastUpdated")
                         .HasColumnType("timestamp with time zone");

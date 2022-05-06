@@ -9,6 +9,7 @@ using System.IO;
 using Data.Models.Implementation;
 using Newtonsoft.Json;
 using static Data.Models.Implementation.StaticModels;
+using Microsoft.EntityFrameworkCore;
 
 namespace Data.Seeder
 {
@@ -31,7 +32,7 @@ namespace Data.Seeder
         {
             _context = serviceProvider.GetService<FlashMEMOContext>();
             _roleStore = new RoleStore<ApplicationRole>(_context);
-            _userStore = new UserStore<ApplicationUser>(_context);
+            _userStore = new UserStore<Models.Implementation.ApplicationUser>(_context);
             _seederPath = seederPath;
         }
 
@@ -39,19 +40,7 @@ namespace Data.Seeder
         {
             if (forceBootstrap)
             {
-                var user = new ApplicationUser
-                {
-                    UserName = "sysadmin",
-                    NormalizedUserName = "SYSADMIN",
-                    Email = "sysadmin@flashmemo.edu",
-                    NormalizedEmail = "SYSADMIN@FLASHMEMO.EDU",
-
-                };
-                user.PasswordHash = new PasswordHasher<ApplicationUser>().HashPassword(user, "Flashmemo@123");
-                await _userStore.CreateAsync(user);
-
-                // samples generated with generatedata.com
-                var userSeeder = JsonConvert.DeserializeObject<ApplicationUser[]>(File.ReadAllText($"{_seederPath}/Users.json"));
+                var userSeeder = JsonConvert.DeserializeObject<IdentityUser[]>(File.ReadAllText($"{_seederPath}/Users.json"));
                 await _context.AddRangeAsync(userSeeder);
             }
             await _context.SaveChangesAsync();
@@ -98,12 +87,44 @@ namespace Data.Seeder
             await _context.SaveChangesAsync();
         }
 
+        private async Task SeedDecks(bool forceBootstrap)
+        {
+            if (forceBootstrap)
+            {
+                // samples generated with generatedata.com
+                var deckSeeder = JsonConvert.DeserializeObject<Deck[]>(File.ReadAllText($"{_seederPath}/Decks.json"));
+                deckSeeder.Select(s => { s.CreationDate = s.CreationDate.ToUniversalTime(); return s; }).ToList();
+                deckSeeder.Select(s => { s.LastUpdated = s.LastUpdated.ToUniversalTime(); return s; }).ToList();
+                deckSeeder.Select(s => { s.OwnerId = s.OwnerId.ToLower(); return s; }).ToList();
+                await _context.AddRangeAsync(deckSeeder);
+            }
+            await _context.SaveChangesAsync();
+        }
+
+        private async Task SeedFlashcards(bool forceBootstrap)
+        {
+            if (forceBootstrap)
+            {
+                // samples generated with generatedata.com
+                var flashcardSeeder = JsonConvert.DeserializeObject<Flashcard[]>(File.ReadAllText($"{_seederPath}/Flashcard.json"));
+                flashcardSeeder.Select(s => { s.CreationDate = s.CreationDate.ToUniversalTime(); return s; }).ToList();
+                flashcardSeeder.Select(s => { s.DueDate = s.DueDate.ToUniversalTime(); return s; }).ToList();
+                flashcardSeeder.Select(s => { s.LastUpdated = s.CreationDate.ToUniversalTime(); return s; }).ToList();
+                await _context.AddRangeAsync(flashcardSeeder);
+            }
+            await _context.SaveChangesAsync();
+        }
+
         public async Task InitializeDatabaseAsync(bool forceBootstrap = false)
         {
-            await SeedRoles(forceBootstrap ? true : !_context.Roles.Any());
-            await SeedUsers(forceBootstrap ? true : !_context.Users.Any());
-            await SeedNews(forceBootstrap ? true : !_context.News.Any());
-            await SeedLanguages(forceBootstrap ? true : !_context.Languages.Any());
+            _context.Database.Migrate();
+
+            //await SeedRoles(forceBootstrap ? true : !_context.Roles.Any());
+            //await SeedNews(forceBootstrap ? true : !_context.News.Any());
+            //await SeedLanguages(forceBootstrap ? true : !_context.Languages.Any());
+            //SeedUsers(forceBootstrap ? true : !_context.Users.Any()).Wait();
+            //SeedDecks(forceBootstrap ? true : !_context.Decks.Any()).Wait();
+            //SeedFlashcards(forceBootstrap ? true : !_context.Flashcards.Any()).Wait();
         }
     }
 }

@@ -476,8 +476,8 @@ namespace Tests.Unit_Tests.Data.Repository
         public static IEnumerable<object[]> CreateEntityData =>
             new List<object[]>
             { 
-                new object[] { new Flashcard { Level = 0, Answer = "Answer #1", FrontContentLayout = FlashcardContentLayout.SINGLE, Content1 = "<p>Here is some content!</p>", CreationDate = DateTime.Parse("01-01-2001"), BackContentLayout = FlashcardContentLayout.SINGLE, Content4 = "<p>Here is some content!</p>" } },
-                new object[] { new Flashcard { Level = 0, FrontContentLayout = FlashcardContentLayout.TRIPLE_BLOCK, Content1 = "<p>Here is some content!</p>", Content2 = "<p>Here is more content!</p>", Content3 = "<p>Here is even more content!</p>", CreationDate = DateTime.Parse("01-01-2001"), BackContentLayout = FlashcardContentLayout.SINGLE, Content4 = "<p>Here is some content!</p>" } },
+                new object[] { new Flashcard { Level = 0, Answer = "Answer #1", FrontContentLayout = FlashcardContentLayout.SINGLE_BLOCK, Content1 = "<p>Here is some content!</p>", CreationDate = DateTime.Parse("01-01-2001"), BackContentLayout = FlashcardContentLayout.SINGLE_BLOCK, Content4 = "<p>Here is some content!</p>" } },
+                new object[] { new Flashcard { Level = 0, FrontContentLayout = FlashcardContentLayout.TRIPLE_BLOCK, Content1 = "<p>Here is some content!</p>", Content2 = "<p>Here is more content!</p>", Content3 = "<p>Here is even more content!</p>", CreationDate = DateTime.Parse("01-01-2001"), BackContentLayout = FlashcardContentLayout.SINGLE_BLOCK, Content4 = "<p>Here is some content!</p>" } },
             };
 
         [Theory, MemberData(nameof(CreateEntityData))]
@@ -489,7 +489,7 @@ namespace Tests.Unit_Tests.Data.Repository
         public static IEnumerable<object[]> ReadEntityData =>
             new List<object[]>
             {
-                new object[] { new Flashcard { Level = 0, FrontContentLayout = FlashcardContentLayout.SINGLE, Content1 = "<p>Here is some content!</p>", BackContentLayout = FlashcardContentLayout.SINGLE, Content4 = "<p>Here is some content!</p>" } },
+                new object[] { new Flashcard { Level = 0, FrontContentLayout = FlashcardContentLayout.SINGLE_BLOCK, Content1 = "<p>Here is some content!</p>", BackContentLayout = FlashcardContentLayout.SINGLE_BLOCK, Content4 = "<p>Here is some content!</p>" } },
             };
 
         [Theory, MemberData(nameof(ReadEntityData))]
@@ -501,8 +501,8 @@ namespace Tests.Unit_Tests.Data.Repository
         public static IEnumerable<object[]> UpdateEntityData =>
         new List<object[]>
         {
-                new object[] { new Flashcard { Level = 0, FrontContentLayout = FlashcardContentLayout.SINGLE, Content1 = "<p>Here is some content!</p>" }, new Flashcard { Level = 1, FrontContentLayout = FlashcardContentLayout.SINGLE, Content1 = "<p>Updated content!</p>", BackContentLayout = FlashcardContentLayout.SINGLE, Content4 = "<p>Here is some content!</p>" } },
-                new object[] { new Flashcard { Level = 0, FrontContentLayout = FlashcardContentLayout.SINGLE, Content1 = "<p>Here is some content!</p>" }, new Flashcard { Level = 3, FrontContentLayout = FlashcardContentLayout.TRIPLE_BLOCK, Content1 = "<p>Updated content!</p>", Content2 = "<p>More updated content!</p>", Content3 = "<p>Even more updated content!</p>", BackContentLayout = FlashcardContentLayout.SINGLE, Content4 = "<p>Here is some content!</p>" } },
+                new object[] { new Flashcard { Level = 0, FrontContentLayout = FlashcardContentLayout.SINGLE_BLOCK, Content1 = "<p>Here is some content!</p>" }, new Flashcard { Level = 1, FrontContentLayout = FlashcardContentLayout.SINGLE_BLOCK, Content1 = "<p>Updated content!</p>", BackContentLayout = FlashcardContentLayout.SINGLE_BLOCK, Content4 = "<p>Here is some content!</p>" } },
+                new object[] { new Flashcard { Level = 0, FrontContentLayout = FlashcardContentLayout.SINGLE_BLOCK, Content1 = "<p>Here is some content!</p>" }, new Flashcard { Level = 3, FrontContentLayout = FlashcardContentLayout.TRIPLE_BLOCK, Content1 = "<p>Updated content!</p>", Content2 = "<p>More updated content!</p>", Content3 = "<p>Even more updated content!</p>", BackContentLayout = FlashcardContentLayout.SINGLE_BLOCK, Content4 = "<p>Here is some content!</p>" } },
         };
 
         [Theory, MemberData(nameof(UpdateEntityData))]
@@ -514,7 +514,7 @@ namespace Tests.Unit_Tests.Data.Repository
         public static IEnumerable<object[]> DeleteEntityData =>
         new List<object[]>
         {
-                new object[] { new Flashcard { Level = 0, FrontContentLayout = FlashcardContentLayout.SINGLE, Content1 = "<p>Here is some content!</p>" } },
+                new object[] { new Flashcard { Level = 0, FrontContentLayout = FlashcardContentLayout.SINGLE_BLOCK, Content1 = "<p>Here is some content!</p>" } },
         };
 
         [Theory, MemberData(nameof(DeleteEntityData))]
@@ -528,11 +528,11 @@ namespace Tests.Unit_Tests.Data.Repository
 
         private static readonly DateTime ReferenceDate = DateTime.Parse("01-01-2002");
 
-        private static readonly Flashcard TestEntity1 = new Flashcard { Level = 0, FrontContentLayout = FlashcardContentLayout.SINGLE, Content1 = "<p>Here is some content!</p>", LastUpdated = ReferenceDate, CreationDate = ReferenceDate, DueDate = ReferenceDate, BackContentLayout = FlashcardContentLayout.SINGLE, Content4 = "<p>Here is some content!</p>" };
-        private static readonly Flashcard TestEntity2 = new Flashcard { Level = 1, FrontContentLayout = FlashcardContentLayout.VERTICAL_SPLIT, Content1 = "<p>Here is some content!</p>", Content2 = "<p>Here is some content!2</p>", LastUpdated = ReferenceDate.AddDays(1), CreationDate = ReferenceDate, DueDate = ReferenceDate.AddDays(2), BackContentLayout = FlashcardContentLayout.SINGLE, Content4 = "<p>Here is some content!</p>" };
-        private static readonly Flashcard TestEntity3 = new Flashcard { Level = 2, Answer = "Answer #1", FrontContentLayout = FlashcardContentLayout.TRIPLE_BLOCK, Content1 = "<p>Here is some content!</p>", Content2 = "<p>Here is some content!2</p>", Content3 = "<p>Here is some content!3</p>", LastUpdated = ReferenceDate.AddDays(2), CreationDate = ReferenceDate, DueDate = ReferenceDate.AddDays(4), BackContentLayout = FlashcardContentLayout.SINGLE, Content4 = "<p>Here is some content!</p>" };
-        private static readonly Flashcard TestEntity4 = new Flashcard { Level = 3, Answer = "Answer #2", FrontContentLayout = FlashcardContentLayout.FULL_CARD, Content1 = "<p>Here is some content!</p>", Content2 = "<p>Here is some content!2</p>", Content3 = "<p>Here is some content!3</p>", LastUpdated = ReferenceDate.AddDays(2), CreationDate = ReferenceDate.AddDays(2), DueDate = ReferenceDate.AddDays(5), BackContentLayout = FlashcardContentLayout.SINGLE, Content4 = "<p>Here is some content!</p>" };
-        private static readonly Flashcard TestEntity5 = new Flashcard { Level = 4, Answer = "Answer #3", FrontContentLayout = FlashcardContentLayout.SINGLE, Content1 = "<p>Here is some content!</p>", LastUpdated = ReferenceDate.AddDays(4), CreationDate = ReferenceDate.AddDays(4), DueDate = ReferenceDate.AddDays(19), BackContentLayout = FlashcardContentLayout.HORIZONTAL_SPLIT, Content4 = "<p>Here is some content!</p>", Content5 = "<p>Here is some content!</p>" };
+        private static readonly Flashcard TestEntity1 = new Flashcard { Level = 0, FrontContentLayout = FlashcardContentLayout.SINGLE_BLOCK, Content1 = "<p>Here is some content!</p>", LastUpdated = ReferenceDate, CreationDate = ReferenceDate, DueDate = ReferenceDate, BackContentLayout = FlashcardContentLayout.SINGLE_BLOCK, Content4 = "<p>Here is some content!</p>" };
+        private static readonly Flashcard TestEntity2 = new Flashcard { Level = 1, FrontContentLayout = FlashcardContentLayout.VERTICAL_SPLIT, Content1 = "<p>Here is some content!</p>", Content2 = "<p>Here is some content!2</p>", LastUpdated = ReferenceDate.AddDays(1), CreationDate = ReferenceDate, DueDate = ReferenceDate.AddDays(2), BackContentLayout = FlashcardContentLayout.SINGLE_BLOCK, Content4 = "<p>Here is some content!</p>" };
+        private static readonly Flashcard TestEntity3 = new Flashcard { Level = 2, Answer = "Answer #1", FrontContentLayout = FlashcardContentLayout.TRIPLE_BLOCK, Content1 = "<p>Here is some content!</p>", Content2 = "<p>Here is some content!2</p>", Content3 = "<p>Here is some content!3</p>", LastUpdated = ReferenceDate.AddDays(2), CreationDate = ReferenceDate, DueDate = ReferenceDate.AddDays(4), BackContentLayout = FlashcardContentLayout.SINGLE_BLOCK, Content4 = "<p>Here is some content!</p>" };
+        private static readonly Flashcard TestEntity4 = new Flashcard { Level = 3, Answer = "Answer #2", FrontContentLayout = FlashcardContentLayout.FULL_CARD, Content1 = "<p>Here is some content!</p>", Content2 = "<p>Here is some content!2</p>", Content3 = "<p>Here is some content!3</p>", LastUpdated = ReferenceDate.AddDays(2), CreationDate = ReferenceDate.AddDays(2), DueDate = ReferenceDate.AddDays(5), BackContentLayout = FlashcardContentLayout.SINGLE_BLOCK, Content4 = "<p>Here is some content!</p>" };
+        private static readonly Flashcard TestEntity5 = new Flashcard { Level = 4, Answer = "Answer #3", FrontContentLayout = FlashcardContentLayout.SINGLE_BLOCK, Content1 = "<p>Here is some content!</p>", LastUpdated = ReferenceDate.AddDays(4), CreationDate = ReferenceDate.AddDays(4), DueDate = ReferenceDate.AddDays(19), BackContentLayout = FlashcardContentLayout.HORIZONTAL_SPLIT, Content4 = "<p>Here is some content!</p>", Content5 = "<p>Here is some content!</p>" };
         private static readonly Flashcard TestEntity6 = new Flashcard { Level = 5, FrontContentLayout = FlashcardContentLayout.FULL_CARD, Content1 = "<p>Here is some content!</p>", Content2 = "<p>Here is some content!2</p>", Content3 = "<p>Here is some content!3</p>", LastUpdated = ReferenceDate.AddDays(2), CreationDate = ReferenceDate.AddDays(2), DueDate = ReferenceDate.AddDays(5), BackContentLayout = FlashcardContentLayout.FULL_CARD, Content4 = "<p>Here is some content!</p>", Content5 = "<p>Here is some content!</p>", Content6 = "<p>Here is some content!</p>" };
 
         private static readonly List<Flashcard> FullEntityList = new() { TestEntity1, TestEntity2, TestEntity3, TestEntity4, TestEntity5, TestEntity6 };

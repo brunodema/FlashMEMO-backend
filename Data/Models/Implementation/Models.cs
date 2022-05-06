@@ -56,8 +56,8 @@ namespace Data.Models.Implementation
         public Guid DeckId { get; set; } = Guid.Empty;
 
         public int Level { get; set; } = 0;
-        public FlashcardContentLayout FrontContentLayout { get; set; } = FlashcardContentLayout.SINGLE;
-        public FlashcardContentLayout BackContentLayout { get; set; } = FlashcardContentLayout.SINGLE;
+        public FlashcardContentLayout FrontContentLayout { get; set; } = FlashcardContentLayout.SINGLE_BLOCK;
+        public FlashcardContentLayout BackContentLayout { get; set; } = FlashcardContentLayout.SINGLE_BLOCK;
         public string Content1 { get; set; } = "";
         public string Content2 { get; set; } = "";
         public string Content3 { get; set; } = "";

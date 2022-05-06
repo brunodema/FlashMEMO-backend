@@ -7,7 +7,7 @@
         /// </summary>
         public enum FlashcardContentLayout
         {
-            SINGLE,
+            SINGLE_BLOCK,
             HORIZONTAL_SPLIT,
             TRIPLE_BLOCK,
             VERTICAL_SPLIT,

@@ -1,6 +1,9 @@
 ﻿using Data.Repository.Interfaces;
 using Microsoft.AspNetCore.Identity;
+using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using Xunit.Abstractions;
 
 namespace Data.Models.Implementation
@@ -13,6 +16,9 @@ namespace Data.Models.Implementation
         public virtual ICollection<ApplicationUserToken> Tokens { get; set; }
         public virtual ICollection<ApplicationUserRole> UserRoles { get; set; }
 
+        public string UserId { get; set; } = Guid.Empty.ToString();
+
+        [NotMapped]
         public string DbId { get => Id; set => Id = value; }
     }
 
@@ -21,6 +27,7 @@ namespace Data.Models.Implementation
         public virtual ICollection<ApplicationUserRole> UserRoles { get; set; } = new List<ApplicationUserRole>();
         public virtual ICollection<ApplicationRoleClaim> RoleClaims { get; set; } = new List<ApplicationRoleClaim>();
 
+        [NotMapped]
         public string DbId { get => Id; set => Id = value; }
     }
 

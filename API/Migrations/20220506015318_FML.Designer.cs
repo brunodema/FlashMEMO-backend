@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace API.Migrations
 {
     [DbContext(typeof(FlashMEMOContext))]
-    [Migration("20220421215805_FuckMigrationsAgain")]
-    partial class FuckMigrationsAgain
+    [Migration("20220506015318_FML")]
+    partial class FML
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -31,9 +31,6 @@ namespace API.Migrations
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
-                        .HasColumnType("text");
-
-                    b.Property<string>("DbId")
                         .HasColumnType("text");
 
                     b.Property<string>("Name")
@@ -90,9 +87,6 @@ namespace API.Migrations
                         .IsConcurrencyToken()
                         .HasColumnType("text");
 
-                    b.Property<string>("DbId")
-                        .HasColumnType("text");
-
                     b.Property<string>("Email")
                         .HasMaxLength(256)
                         .HasColumnType("character varying(256)");
@@ -129,6 +123,9 @@ namespace API.Migrations
                     b.Property<bool>("TwoFactorEnabled")
                         .HasColumnType("boolean");
 
+                    b.Property<string>("UserId")
+                        .HasColumnType("text");
+
                     b.Property<string>("UserName")
                         .HasMaxLength(256)
                         .HasColumnType("character varying(256)");
@@ -143,6 +140,148 @@ namespace API.Migrations
                         .HasDatabaseName("UserNameIndex");
 
                     b.ToTable("AspNetUsers", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "B4553CAB-7997-1DE5-F7E3-90A7BC1DA167",
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "e6cb6f60-faf4-48db-922c-3b856b364cb6",
+                            Email = "sysadmin@flashmemo.edu",
+                            EmailConfirmed = false,
+                            LockoutEnabled = false,
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "b2e17235-14ab-4019-814f-ed32722f98a8",
+                            TwoFactorEnabled = false,
+                            UserId = "00000000-0000-0000-0000-000000000000",
+                            UserName = "sysadmin"
+                        },
+                        new
+                        {
+                            Id = "9FBC287A-C113-EBA3-526F-4AE7CEACBDE8",
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "3316fc18-2bfc-4ba0-bc0d-19f3e5bdc1fe",
+                            Email = "dapibus.ligula@hotmail.couk",
+                            EmailConfirmed = false,
+                            LockoutEnabled = false,
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "c8373423-aff8-4b0b-b326-527d9a806eaf",
+                            TwoFactorEnabled = false,
+                            UserId = "00000000-0000-0000-0000-000000000000",
+                            UserName = "demantova111"
+                        },
+                        new
+                        {
+                            Id = "E4C3E116-C71A-7B3B-CA32-159AE97C8456",
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "b1e9f126-f110-4e49-9392-dd728097ad93",
+                            Email = "accumsan.convallis.ante@outlook.couk",
+                            EmailConfirmed = false,
+                            LockoutEnabled = false,
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "515e64d6-51bb-4194-b6a6-ad0e9244b687",
+                            TwoFactorEnabled = false,
+                            UserId = "00000000-0000-0000-0000-000000000000",
+                            UserName = "eck3"
+                        },
+                        new
+                        {
+                            Id = "9F87EEA2-25CB-13B8-13B7-CA1A69CA68B4",
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "05420f21-e85f-44db-8f09-7e0c799e53ad",
+                            Email = "lacus.mauris@aol.couk",
+                            EmailConfirmed = false,
+                            LockoutEnabled = false,
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "4f11dbbe-6f78-4666-af0f-fb1854b43e6e",
+                            TwoFactorEnabled = false,
+                            UserId = "00000000-0000-0000-0000-000000000000",
+                            UserName = "demantova"
+                        },
+                        new
+                        {
+                            Id = "62DAAEBC-F2F5-4D16-533A-AD176D7EA7B7",
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "500af424-f48b-4cd4-be4f-bf07d14298e1",
+                            Email = "sed.dictum.eleifend@hotmail.org",
+                            EmailConfirmed = false,
+                            LockoutEnabled = false,
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "43b54cb3-806a-4f8a-ad6b-90c7e8600334",
+                            TwoFactorEnabled = false,
+                            UserId = "00000000-0000-0000-0000-000000000000",
+                            UserName = "eck2333"
+                        },
+                        new
+                        {
+                            Id = "9CBF5FEE-EE6E-5F1D-3E53-2389AD983EA2",
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "0f41afec-6994-46be-9caf-2e9b504a6fbd",
+                            Email = "leo.morbi@google.org",
+                            EmailConfirmed = false,
+                            LockoutEnabled = false,
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "84a90ea3-e1ac-4bc8-afdd-3319f5a38471",
+                            TwoFactorEnabled = false,
+                            UserId = "00000000-0000-0000-0000-000000000000",
+                            UserName = "eckkkkert"
+                        },
+                        new
+                        {
+                            Id = "6BBD068B-B258-EB0A-2132-BEB9BAEA886E",
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "3f7adf0c-185f-41ff-a44f-0458c26d0a05",
+                            Email = "viverra.donec@hotmail.com",
+                            EmailConfirmed = false,
+                            LockoutEnabled = false,
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "601c948c-8c94-4b19-b292-65d5c3dd31ac",
+                            TwoFactorEnabled = false,
+                            UserId = "00000000-0000-0000-0000-000000000000",
+                            UserName = "vekvert"
+                        },
+                        new
+                        {
+                            Id = "0004E137-13A5-5129-AA50-5A856A2A86F7",
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "67bb126f-fb2e-4054-968d-33fdf914355b",
+                            Email = "ligula.eu@icloud.com",
+                            EmailConfirmed = false,
+                            LockoutEnabled = false,
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "0c99448a-4f5d-4bce-9b42-31fa7648e18e",
+                            TwoFactorEnabled = false,
+                            UserId = "00000000-0000-0000-0000-000000000000",
+                            UserName = "bruno_demantova"
+                        },
+                        new
+                        {
+                            Id = "5881A9B3-912A-8F1A-C5FA-0855A0563E23",
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "90a2dd3a-9d33-41d9-b029-20e822c474a5",
+                            Email = "non.dui@hotmail.org",
+                            EmailConfirmed = false,
+                            LockoutEnabled = false,
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "4e70711b-2ad6-47cf-a8b6-50f0d9a41d12",
+                            TwoFactorEnabled = false,
+                            UserId = "00000000-0000-0000-0000-000000000000",
+                            UserName = "dema100"
+                        },
+                        new
+                        {
+                            Id = "BD696EC2-1BE1-FFB1-3FC1-883C2D247875",
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "5d4494d9-393e-484e-b167-ad8c4cf3387f",
+                            Email = "aliquam@hotmail.com",
+                            EmailConfirmed = false,
+                            LockoutEnabled = false,
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "5edc9724-f834-4ad6-9b2b-df6a6d9fda24",
+                            TwoFactorEnabled = false,
+                            UserId = "00000000-0000-0000-0000-000000000000",
+                            UserName = "bruno79"
+                        });
                 });
 
             modelBuilder.Entity("Data.Models.Implementation.ApplicationUserClaim", b =>
@@ -238,8 +377,8 @@ namespace API.Migrations
                     b.Property<string>("Description")
                         .HasColumnType("text");
 
-                    b.Property<Guid>("LanguageId")
-                        .HasColumnType("uuid");
+                    b.Property<string>("LanguageISOCode")
+                        .HasColumnType("text");
 
                     b.Property<DateTime>("LastUpdated")
                         .HasColumnType("timestamp with time zone");
@@ -252,7 +391,7 @@ namespace API.Migrations
 
                     b.HasKey("DeckID");
 
-                    b.HasIndex("LanguageId");
+                    b.HasIndex("LanguageISOCode");
 
                     b.HasIndex("OwnerId");
 
@@ -265,6 +404,12 @@ namespace API.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
+                    b.Property<string>("Answer")
+                        .HasColumnType("text");
+
+                    b.Property<int>("BackContentLayout")
+                        .HasColumnType("integer");
+
                     b.Property<string>("Content1")
                         .HasColumnType("text");
 
@@ -274,8 +419,14 @@ namespace API.Migrations
                     b.Property<string>("Content3")
                         .HasColumnType("text");
 
-                    b.Property<int>("ContentLayout")
-                        .HasColumnType("integer");
+                    b.Property<string>("Content4")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Content5")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Content6")
+                        .HasColumnType("text");
 
                     b.Property<DateTime>("CreationDate")
                         .HasColumnType("timestamp with time zone");
@@ -285,6 +436,9 @@ namespace API.Migrations
 
                     b.Property<DateTime>("DueDate")
                         .HasColumnType("timestamp with time zone");
+
+                    b.Property<int>("FrontContentLayout")
+                        .HasColumnType("integer");
 
                     b.Property<DateTime>("LastUpdated")
                         .HasColumnType("timestamp with time zone");
@@ -330,22 +484,72 @@ namespace API.Migrations
 
             modelBuilder.Entity("Data.Models.Implementation.StaticModels+Language", b =>
                 {
-                    b.Property<Guid>("LanguageId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
-
-                    b.Property<Guid>("DbId")
-                        .HasColumnType("uuid");
-
                     b.Property<string>("ISOCode")
                         .HasColumnType("text");
 
                     b.Property<string>("Name")
                         .HasColumnType("text");
 
-                    b.HasKey("LanguageId");
+                    b.HasKey("ISOCode");
 
                     b.ToTable("Languages");
+
+                    b.HasData(
+                        new
+                        {
+                            ISOCode = "N/A",
+                            Name = "N/A"
+                        },
+                        new
+                        {
+                            ISOCode = "en",
+                            Name = "English"
+                        },
+                        new
+                        {
+                            ISOCode = "pt",
+                            Name = "Portuguese"
+                        },
+                        new
+                        {
+                            ISOCode = "es",
+                            Name = "Spanish"
+                        },
+                        new
+                        {
+                            ISOCode = "it",
+                            Name = "Italian"
+                        },
+                        new
+                        {
+                            ISOCode = "fr",
+                            Name = "French"
+                        },
+                        new
+                        {
+                            ISOCode = "de",
+                            Name = "German"
+                        },
+                        new
+                        {
+                            ISOCode = "nl",
+                            Name = "Dutch"
+                        },
+                        new
+                        {
+                            ISOCode = "ru",
+                            Name = "Russian"
+                        },
+                        new
+                        {
+                            ISOCode = "ch",
+                            Name = "Chinese"
+                        },
+                        new
+                        {
+                            ISOCode = "hi",
+                            Name = "Hindi"
+                        });
                 });
 
             modelBuilder.Entity("Data.Models.Implementation.ApplicationRoleClaim", b =>
@@ -415,9 +619,7 @@ namespace API.Migrations
                 {
                     b.HasOne("Data.Models.Implementation.StaticModels+Language", "Language")
                         .WithMany()
-                        .HasForeignKey("LanguageId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("LanguageISOCode");
 
                     b.HasOne("Data.Models.Implementation.ApplicationUser", "Owner")
                         .WithMany()
