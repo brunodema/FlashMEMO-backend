@@ -83,7 +83,7 @@ namespace Tests.Tests.Integration.Abstract
             using (var scope = _fixture.Host.Services.CreateScope())
             {
                 var dbContext = scope.ServiceProvider.GetService<FlashMEMOContext>();
-                dbContext.Database.EnsureCreated();
+                dbContext.Database.EnsureCreated(); // must do this to actually seed the data
             }
         }
 
