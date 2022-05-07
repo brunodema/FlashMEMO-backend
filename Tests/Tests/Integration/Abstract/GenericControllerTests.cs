@@ -166,46 +166,30 @@ namespace Tests.Tests.Integration.Abstract
     {
         public NewsControllerTests(IntegrationTestFixture fixture, ITestOutputHelper output) : base(fixture, output) { }
 
-        public static IEnumerable<object[]> CreateEntityData
+        public static IEnumerable<object[]> CRDData
         {
             get
             {
                 yield return new object[] { new NewsDTO { Title = "Title", Subtitle = "Subtitle", Content = "Content" } };
                 yield return new object[] { new NewsDTO { Title = "Title 2", Subtitle = "Subtitle 2", Content = "Content 2",  } };
+                yield return new object[] { new NewsDTO { Title = "Title 3", Content = "Content 3" } };
+                yield return new object[] { new NewsDTO { Subtitle = "Subtitle 4", CreationDate = DateTime.UtcNow, LastUpdated = DateTime.UtcNow } };
             }
         }
 
-        [Theory, MemberData(nameof(CreateEntityData))]
+        [Theory, MemberData(nameof(CRDData))]
         public async override Task CreateEntity(NewsDTO dto)
         {
             await base.CreateEntity(dto);
         }
 
-        public static IEnumerable<object[]> GetEntityData
-        {
-            get
-            {
-                yield return new object[] { new NewsDTO { Title = "Title", Subtitle = "Subtitle", Content = "Content" } };
-                yield return new object[] { new NewsDTO { Title = "Title 2", Subtitle = "Subtitle 2", Content = "Content 2", } };
-            }
-        }
-
-        [Theory, MemberData(nameof(GetEntityData))]
+        [Theory, MemberData(nameof(CRDData))]
         public async override Task GetEntity(NewsDTO dto)
         {
             await base.GetEntity(dto);
         }
 
-        public static IEnumerable<object[]> DeleteEntityData
-        {
-            get
-            {
-                yield return new object[] { new NewsDTO { Title = "Title", Subtitle = "Subtitle", Content = "Content" } };
-                yield return new object[] { new NewsDTO { Title = "Title 2", Subtitle = "Subtitle 2", Content = "Content 2", } };
-            }
-        }
-
-        [Theory, MemberData(nameof(DeleteEntityData))]
+        [Theory, MemberData(nameof(CRDData))]
         public async override Task DeleteEntity(NewsDTO dto)
         {
             await base.DeleteEntity(dto);
