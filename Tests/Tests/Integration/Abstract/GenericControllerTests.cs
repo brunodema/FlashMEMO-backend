@@ -16,11 +16,13 @@ using FluentAssertions;
 using Microsoft.Extensions.DependencyInjection;
 using Data.Repository.Implementation;
 using Xunit.Abstractions;
+using Data.Models.DTOs;
 
 namespace Tests.Tests.Integration.Abstract
 {
-    public class GenericControllerTests<T, TKey> : IClassFixture<IntegrationTestFixture>
-        where T : class, IDatabaseItem<TKey>
+    public class GenericControllerTests<T, TKey, TDTO> : IClassFixture<IntegrationTestFixture>
+        where T : class, IDatabaseItem<TKey>, new()
+        where TDTO : IModelDTO<T, TKey>
     {
         protected IntegrationTestFixture _fixture;
         protected HttpClient _client;
@@ -59,16 +61,16 @@ namespace Tests.Tests.Integration.Abstract
             _output = output;
         }
 
-        public virtual async Task CreateEntity(T entity)
+        public virtual async Task CreateEntity(TDTO dto)
         {
             // Arrange
+            var entity = new T();
+            dto.PassValuesToEntity(entity);
             var id = AddToContext(entity);
 
             // Act
             var response = await _client.GetAsync($"{_baseEndpoint}/{id}");
             var parsedResponse = await response.Content.ReadFromJsonAsync<DataResponseModel<T>>();
-            var lol = await response.Content.ReadAsStringAsync();
-            var dflfdl = await (await _client.GetAsync($"{_baseEndpoint}/list?pageSize=100")).Content.ReadAsStringAsync();
 
             // Assert
             parsedResponse.Status.Should().Be("Success");
@@ -79,7 +81,7 @@ namespace Tests.Tests.Integration.Abstract
         }
     }
 
-    public class NewsControllerTests : GenericControllerTests<News, Guid>
+    public class NewsControllerTests : GenericControllerTests<News, Guid, NewsDTO>
     {
         public NewsControllerTests(IntegrationTestFixture fixture, ITestOutputHelper output) : base(fixture, output) { }
 
@@ -87,15 +89,15 @@ namespace Tests.Tests.Integration.Abstract
         {
             get
             {
-                yield return new object[] { new News { Title = "Title", Subtitle = "Subtitle", Content = "Content" } };
-                yield return new object[] { new News { Title = "Title 2", Subtitle = "Subtitle 2", Content = "Content 2",  } };
+                yield return new object[] { new NewsDTO { Title = "Title", Subtitle = "Subtitle", Content = "Content" } };
+                yield return new object[] { new NewsDTO { Title = "Title 2", Subtitle = "Subtitle 2", Content = "Content 2",  } };
             }
         }
 
         [Theory, MemberData(nameof(CreateEntityData))]
-        public async override Task CreateEntity(News entity)
+        public async override Task CreateEntity(NewsDTO dto)
         {
-            await base.CreateEntity(entity);
+            await base.CreateEntity(dto);
         }
     }
 }
