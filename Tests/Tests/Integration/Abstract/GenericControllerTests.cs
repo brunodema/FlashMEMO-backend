@@ -142,6 +142,24 @@ namespace Tests.Tests.Integration.Abstract
             parsedResponse.Status.Should().Be("Success");
             entityFromContext.Should().BeNull();
         }
+
+        public virtual async Task UpdateEntity(TDTO dto, TDTO updatedDTO)
+        {
+            // Arrange
+            var entity = new T();
+            dto.PassValuesToEntity(entity);
+            var id = AddToContext(entity);
+
+            // Act
+            var response = await _client.PutAsync($"{_baseEndpoint}/{id}", JsonContent.Create(updatedDTO));
+            var parsedResponse = await response.Content.ReadFromJsonAsync<BaseResponseModel>();
+            var entityFromContext = GetFromContext(id);
+
+            // Assert
+            parsedResponse.Status.Should().Be("Success");
+            entityFromContext.Should().BeEquivalentTo(updatedDTO);
+            entityFromContext.Should().NotBeEquivalentTo(entity);
+        }
     }
 
     public class NewsControllerTests : GenericControllerTests<News, Guid, NewsDTO>
@@ -191,6 +209,21 @@ namespace Tests.Tests.Integration.Abstract
         public async override Task DeleteEntity(NewsDTO dto)
         {
             await base.DeleteEntity(dto);
+        }
+
+        public static IEnumerable<object[]> UpdateEntityData
+        {
+            get
+            {
+                yield return new object[] { new NewsDTO { Title = "Title", Subtitle = "Subtitle", Content = "Content" }, new NewsDTO { Title = "Updated Title", Subtitle = "Updated Subtitle", Content = "Updated Content" } };
+                yield return new object[] { new NewsDTO { Title = "Title 2", Subtitle = "Subtitle 2", Content = "Content 2", }, new NewsDTO { ThumbnailPath = "../../DoesntExistFolder/image.img" } };
+            }
+        }
+
+        [Theory, MemberData(nameof(UpdateEntityData))]
+        public async override Task UpdateEntity(NewsDTO dto, NewsDTO updatedDTO)
+        {
+            await base.UpdateEntity(dto, updatedDTO);
         }
     }
 }
