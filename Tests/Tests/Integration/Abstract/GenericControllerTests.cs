@@ -26,11 +26,11 @@ namespace Tests.Tests.Integration.Abstract
     {
         protected IntegrationTestFixture _fixture;
         protected HttpClient _client;
-        protected FlashMEMOContext _context;
         protected ITestOutputHelper _output;
 
         protected string _baseEndpoint = $"/api/v1/{typeof(T).Name}";
         protected string _createEndpoint;
+        protected string _deleteEndpoint;
 
         /// <summary>
         /// Directly adds an object to the DB, bypassing the Repository class and/or any other interfaces (services, controllers, etc).
@@ -39,9 +39,22 @@ namespace Tests.Tests.Integration.Abstract
         /// <returns>The Id of the newly created object, which is teh current return value of the associated functions in the Repository classes.</returns>
         private TKey AddToContext(T entity)
         {
-            var id = _context.Add(entity).Entity.DbId;
-            _context.SaveChanges();
-            return id;
+            using (var scope = _fixture.Host.Services.CreateScope())
+            {
+                var dbContext = scope.ServiceProvider.GetService<FlashMEMOContext>();
+                var id = dbContext.Add(entity).Entity.DbId;
+                dbContext.SaveChanges();
+                return id;
+            }
+        }
+
+        private T GetFromContext(TKey id)
+        {
+            using (var scope = _fixture.Host.Services.CreateScope())
+            {
+                var dbContext = scope.ServiceProvider.GetService<FlashMEMOContext>();
+                return dbContext.Find<T>(id);
+            }
         }
 
         /// <summary>
@@ -50,19 +63,28 @@ namespace Tests.Tests.Integration.Abstract
         /// <param name="entity">Object to be removed from the DB.</param>
         private void RemoveFromContext(T entity)
         {
-            _context.Remove(entity);
-            _context.SaveChanges();
+            using (var scope = _fixture.Host.Services.CreateScope())
+            {
+                var dbContext = scope.ServiceProvider.GetService<FlashMEMOContext>();
+                dbContext.Remove(entity);
+                dbContext.SaveChanges();
+            }
         }
 
         public GenericControllerTests(IntegrationTestFixture fixture, ITestOutputHelper output)
         {
             _fixture = fixture;
             _client = fixture.HttpClient;
-            _context = fixture.Host.Services.GetService<FlashMEMOContext>(); // spaghetti taken from here (which apparently is the correct approach): https://stackoverflow.com/questions/32459670/resolving-instances-with-asp-net-core-di-from-within-configureservices.
-            _context.Database.EnsureCreated(); // required to actullay seed the data into the virtual DB
             _output = output;
 
             _createEndpoint = $"{_baseEndpoint}/create";
+            _deleteEndpoint = $"{_baseEndpoint}/delete";
+
+            using (var scope = _fixture.Host.Services.CreateScope())
+            {
+                var dbContext = scope.ServiceProvider.GetService<FlashMEMOContext>();
+                dbContext.Database.EnsureCreated();
+            }
         }
 
         public virtual async Task CreateEntity(TDTO dto)
@@ -74,7 +96,7 @@ namespace Tests.Tests.Integration.Abstract
             // Act
             var response = await _client.PostAsync($"{_createEndpoint}", JsonContent.Create(dto));
             var parsedResponse = await response.Content.ReadFromJsonAsync<DataResponseModel<TKey>>();
-            var entityFromContext = _context.Find<T>(parsedResponse.Data);
+            var entityFromContext = GetFromContext(parsedResponse.Data);
             entity.DbId = entityFromContext.DbId; // I assign the DB Id to the original object so I don't get errors such as 'NewsId do not match between objects)'.
 
             // Assert
@@ -102,6 +124,23 @@ namespace Tests.Tests.Integration.Abstract
 
             // Undo
             RemoveFromContext(entity);
+        }
+
+        public virtual async Task DeleteEntity(TDTO dto)
+        {
+            // Arrange
+            var entity = new T();
+            dto.PassValuesToEntity(entity);
+            var id = AddToContext(entity);
+
+            // Act
+            var response = await _client.PostAsync($"{_deleteEndpoint}", JsonContent.Create(id));
+            var parsedResponse = await response.Content.ReadFromJsonAsync<BaseResponseModel>();
+            var entityFromContext = GetFromContext(id);
+
+            // Assert
+            parsedResponse.Status.Should().Be("Success");
+            entityFromContext.Should().BeNull();
         }
     }
 
@@ -133,10 +172,25 @@ namespace Tests.Tests.Integration.Abstract
             }
         }
 
-        [Theory, MemberData(nameof(CreateEntityData))]
+        [Theory, MemberData(nameof(GetEntityData))]
         public async override Task GetEntity(NewsDTO dto)
         {
             await base.GetEntity(dto);
+        }
+
+        public static IEnumerable<object[]> DeleteEntityData
+        {
+            get
+            {
+                yield return new object[] { new NewsDTO { Title = "Title", Subtitle = "Subtitle", Content = "Content" } };
+                yield return new object[] { new NewsDTO { Title = "Title 2", Subtitle = "Subtitle 2", Content = "Content 2", } };
+            }
+        }
+
+        [Theory, MemberData(nameof(DeleteEntityData))]
+        public async override Task DeleteEntity(NewsDTO dto)
+        {
+            await base.DeleteEntity(dto);
         }
     }
 }
