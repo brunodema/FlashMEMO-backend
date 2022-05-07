@@ -27,34 +27,55 @@ namespace Tests.Tests.Integration.Abstract
         protected FlashMEMOContext _context;
         protected ITestOutputHelper _output;
 
-        protected string BaseEndpoint { get; set; } = $"/api/v1/{typeof(T).Name}";
+        protected string _baseEndpoint = $"/api/v1/{typeof(T).Name}";
+
+        /// <summary>
+        /// Directly adds an object to the DB, bypassing the Repository class and/or any other interfaces (services, controllers, etc).
+        /// </summary>
+        /// <param name="entity">Object to be added into the DB.</param>
+        /// <returns>The Id of the newly created object, which is teh current return value of the associated functions in the Repository classes.</returns>
+        private TKey AddToContext(T entity)
+        {
+            var id = _context.Add(entity).Entity.DbId;
+            _context.SaveChanges();
+            return id;
+        }
+        /// <summary>
+        /// Directly removes an object from the DB, bypassing the Repository class and/or any other interfaces (services, controllers, etc).
+        /// </summary>
+        /// <param name="entity">Object to be removed from the DB.</param>
+        private void RemoveFromContext(T entity)
+        {
+            _context.Remove(entity);
+            _context.SaveChanges();
+        }
 
         public GenericControllerTests(IntegrationTestFixture fixture, ITestOutputHelper output)
         {
             _fixture = fixture;
             _client = fixture.HttpClient;
-            _context = fixture.Host.Services.GetService<FlashMEMOContext>(); // spaghetti taken from here (which apparently is the correct approach): https://stackoverflow.com/questions/32459670/resolving-instances-with-asp-net-core-di-from-within-configureservices. Plus, I use 'TRepository' here because the service can't be grabbed using the generic class (ends up being 'null').
-            _context.Database.EnsureCreated();
+            _context = fixture.Host.Services.GetService<FlashMEMOContext>(); // spaghetti taken from here (which apparently is the correct approach): https://stackoverflow.com/questions/32459670/resolving-instances-with-asp-net-core-di-from-within-configureservices.
+            _context.Database.EnsureCreated(); // required to actullay seed the data into the virtual DB
             _output = output;
-    }
+        }
 
         public virtual async Task CreateEntity(T entity)
         {
             // Arrange
-            var id = _context.Add(entity).Entity.DbId;
-            _context.SaveChanges();
+            var id = AddToContext(entity);
 
             // Act
-            var response = await _client.GetAsync($"{BaseEndpoint}/{id}");
+            var response = await _client.GetAsync($"{_baseEndpoint}/{id}");
             var parsedResponse = await response.Content.ReadFromJsonAsync<DataResponseModel<T>>();
             var lol = await response.Content.ReadAsStringAsync();
-            var dflfdl = await (await _client.GetAsync($"{BaseEndpoint}/list?pageSize=100")).Content.ReadAsStringAsync();
+            var dflfdl = await (await _client.GetAsync($"{_baseEndpoint}/list?pageSize=100")).Content.ReadAsStringAsync();
 
             // Assert
             parsedResponse.Status.Should().Be("Success");
             parsedResponse.Data.Should().BeEquivalentTo(entity);
 
-            _output.WriteLine($"Number of records on DB is: {_context.News.Count()}");
+            // Undo
+            RemoveFromContext(entity);
         }
     }
 
