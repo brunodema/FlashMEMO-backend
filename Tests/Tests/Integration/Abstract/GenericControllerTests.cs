@@ -30,6 +30,7 @@ namespace Tests.Tests.Integration.Abstract
         protected ITestOutputHelper _output;
 
         protected string _baseEndpoint = $"/api/v1/{typeof(T).Name}";
+        protected string _createEndpoint;
 
         /// <summary>
         /// Directly adds an object to the DB, bypassing the Repository class and/or any other interfaces (services, controllers, etc).
@@ -42,6 +43,7 @@ namespace Tests.Tests.Integration.Abstract
             _context.SaveChanges();
             return id;
         }
+
         /// <summary>
         /// Directly removes an object from the DB, bypassing the Repository class and/or any other interfaces (services, controllers, etc).
         /// </summary>
@@ -59,9 +61,31 @@ namespace Tests.Tests.Integration.Abstract
             _context = fixture.Host.Services.GetService<FlashMEMOContext>(); // spaghetti taken from here (which apparently is the correct approach): https://stackoverflow.com/questions/32459670/resolving-instances-with-asp-net-core-di-from-within-configureservices.
             _context.Database.EnsureCreated(); // required to actullay seed the data into the virtual DB
             _output = output;
+
+            _createEndpoint = $"{_baseEndpoint}/create";
         }
 
         public virtual async Task CreateEntity(TDTO dto)
+        {
+            // Arrange
+            var entity = new T();
+            dto.PassValuesToEntity(entity); // in this case, this 'entity' object is used only for comparison later
+
+            // Act
+            var response = await _client.PostAsync($"{_createEndpoint}", JsonContent.Create(dto));
+            var parsedResponse = await response.Content.ReadFromJsonAsync<DataResponseModel<TKey>>();
+            var entityFromContext = _context.Find<T>(parsedResponse.Data);
+            entity.DbId = entityFromContext.DbId; // I assign the DB Id to the original object so I don't get errors such as 'NewsId do not match between objects)'.
+
+            // Assert
+            parsedResponse.Status.Should().Be("Success");
+            entityFromContext.Should().BeEquivalentTo(entity);
+
+            // Undo
+            RemoveFromContext(entityFromContext);
+        }
+
+        public virtual async Task GetEntity(TDTO dto)
         {
             // Arrange
             var entity = new T();
@@ -98,6 +122,21 @@ namespace Tests.Tests.Integration.Abstract
         public async override Task CreateEntity(NewsDTO dto)
         {
             await base.CreateEntity(dto);
+        }
+
+        public static IEnumerable<object[]> GetEntityData
+        {
+            get
+            {
+                yield return new object[] { new NewsDTO { Title = "Title", Subtitle = "Subtitle", Content = "Content" } };
+                yield return new object[] { new NewsDTO { Title = "Title 2", Subtitle = "Subtitle 2", Content = "Content 2", } };
+            }
+        }
+
+        [Theory, MemberData(nameof(CreateEntityData))]
+        public async override Task GetEntity(NewsDTO dto)
+        {
+            await base.GetEntity(dto);
         }
     }
 }
