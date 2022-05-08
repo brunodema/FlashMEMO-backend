@@ -15,6 +15,7 @@ using System.Linq.Expressions;
 using Xunit;
 using Xunit.Abstractions;
 using static Data.Tools.FlashcardTools;
+using static Tests.Tools;
 
 namespace Tests.Unit_Tests.Data.Repository
 {
@@ -166,19 +167,10 @@ namespace Tests.Unit_Tests.Data.Repository
         }
 
         /// <summary>
-        /// This class is only here because C# is dumb and does not allow Expressions to be declared in loco. Therefore, I must create a strongly-typed object so that the lambda (Func) I declare later is automatically converted into an Expression.
-        /// </summary>
-        public class ValidateFilteringTestData
-        {
-            public List<TEntity> entities { get; set; }
-            public Expression<Func<TEntity, bool>> predicate { get; set; }
-        }
-
-        /// <summary>
         /// Tests the 'SearchAndOrder' endpoint, but only the filtering aspect (easier to show intent of tests).
         /// </summary>
         /// <param name="testData"></param>
-        public virtual void SearchAndOrder_ValidateFiltering(ValidateFilteringTestData testData)
+        public virtual void SearchAndOrder_ValidateFiltering(ValidateFilteringTestData<TEntity> testData)
         {
             _output.WriteLine($"Filtering requested is: {JsonConvert.SerializeObject(testData.predicate.ToString())}");
             _output.WriteLine($"Input data has length of {testData.entities.Count} is: {JsonConvert.SerializeObject(testData.entities, _serializerSettings)}");
@@ -324,17 +316,17 @@ namespace Tests.Unit_Tests.Data.Repository
         public static IEnumerable<object[]> SearchAndOrder_ValidateFilteringData =>
         new List<object[]>
         {
-            new object[] { new ValidateFilteringTestData { entities = FullEntityList, predicate = _ => true } },
-            new object[] { new ValidateFilteringTestData { entities = FullEntityList, predicate = e => e.Name == "test deck 1" } },
-            new object[] { new ValidateFilteringTestData { entities = FullEntityList, predicate = e => e.Owner.UserName.Contains("user2") } },
-            new object[] { new ValidateFilteringTestData { entities = FullEntityList, predicate = e => e.Flashcards.Count > 1 } },
-            new object[] { new ValidateFilteringTestData { entities = FullEntityList, predicate = e => e.Description == "A" || e.Description == "B" } },
-            new object[] { new ValidateFilteringTestData { entities = FullEntityList, predicate = e => e.CreationDate < DateTime.Now.AddDays(-2) } },
-            new object[] { new ValidateFilteringTestData { entities = FullEntityList, predicate = e => e.LastUpdated > DateTime.Now } }
+            new object[] { new ValidateFilteringTestData<Deck> { entities = FullEntityList, predicate = _ => true } },
+            new object[] { new ValidateFilteringTestData<Deck> { entities = FullEntityList, predicate = e => e.Name == "test deck 1" } },
+            new object[] { new ValidateFilteringTestData<Deck> { entities = FullEntityList, predicate = e => e.Owner.UserName.Contains("user2") } },
+            new object[] { new ValidateFilteringTestData<Deck> { entities = FullEntityList, predicate = e => e.Flashcards.Count > 1 } },
+            new object[] { new ValidateFilteringTestData<Deck> { entities = FullEntityList, predicate = e => e.Description == "A" || e.Description == "B" } },
+            new object[] { new ValidateFilteringTestData<Deck> { entities = FullEntityList, predicate = e => e.CreationDate < DateTime.Now.AddDays(-2) } },
+            new object[] { new ValidateFilteringTestData<Deck> { entities = FullEntityList, predicate = e => e.LastUpdated > DateTime.Now } }
         };
 
         [Theory, MemberData(nameof(SearchAndOrder_ValidateFilteringData))]
-        public override void SearchAndOrder_ValidateFiltering(ValidateFilteringTestData testData)
+        public override void SearchAndOrder_ValidateFiltering(ValidateFilteringTestData<Deck> testData)
         {
             base.SearchAndOrder_ValidateFiltering(testData);
         }
@@ -446,19 +438,19 @@ namespace Tests.Unit_Tests.Data.Repository
         public static IEnumerable<object[]> SearchAndOrder_ValidateFilteringData =>
         new List<object[]>
         {
-            new object[] { new ValidateFilteringTestData { entities = FullEntityList, predicate = _ => true } },
-            new object[] { new ValidateFilteringTestData { entities = FullEntityList, predicate = e => e.Title == "title1" } },
-            new object[] { new ValidateFilteringTestData { entities = FullEntityList, predicate = e => e.Title == "title2" } },
-            new object[] { new ValidateFilteringTestData { entities = FullEntityList, predicate = e => e.Subtitle == "subtitle3" } },
-            new object[] { new ValidateFilteringTestData { entities = FullEntityList, predicate = e => e.Content == "content4" } },
-            new object[] { new ValidateFilteringTestData { entities = FullEntityList, predicate = e => e.CreationDate == DateTime.Parse("01-01-2001") } },
-            new object[] { new ValidateFilteringTestData { entities = FullEntityList, predicate = e => e.LastUpdated == DateTime.Parse("01-01-2002") } },
-            new object[] { new ValidateFilteringTestData { entities = FullEntityList, predicate = e => e.Title == "should return nothing" },
+            new object[] { new ValidateFilteringTestData<News> { entities = FullEntityList, predicate = _ => true } },
+            new object[] { new ValidateFilteringTestData<News> { entities = FullEntityList, predicate = e => e.Title == "title1" } },
+            new object[] { new ValidateFilteringTestData<News> { entities = FullEntityList, predicate = e => e.Title == "title2" } },
+            new object[] { new ValidateFilteringTestData<News> { entities = FullEntityList, predicate = e => e.Subtitle == "subtitle3" } },
+            new object[] { new ValidateFilteringTestData<News> { entities = FullEntityList, predicate = e => e.Content == "content4" } },
+            new object[] { new ValidateFilteringTestData<News> { entities = FullEntityList, predicate = e => e.CreationDate == DateTime.Parse("01-01-2001") } },
+            new object[] { new ValidateFilteringTestData<News> { entities = FullEntityList, predicate = e => e.LastUpdated == DateTime.Parse("01-01-2002") } },
+            new object[] { new ValidateFilteringTestData<News> { entities = FullEntityList, predicate = e => e.Title == "should return nothing" },
             }
         };
 
         [Theory, MemberData(nameof(SearchAndOrder_ValidateFilteringData))]
-        public override void SearchAndOrder_ValidateFiltering(ValidateFilteringTestData testData)
+        public override void SearchAndOrder_ValidateFiltering(ValidateFilteringTestData<News> testData)
         {
             base.SearchAndOrder_ValidateFiltering(testData);
         }
@@ -578,20 +570,20 @@ namespace Tests.Unit_Tests.Data.Repository
         public static IEnumerable<object[]> SearchAndOrder_ValidateFilteringData =>
         new List<object[]>
         {
-            new object[] { new ValidateFilteringTestData { entities = FullEntityList, predicate = _ => true } },
-            new object[] { new ValidateFilteringTestData { entities = FullEntityList, predicate = e => e.Level == 1 } },
-            new object[] { new ValidateFilteringTestData { entities = FullEntityList, predicate = e => e.Answer == "Answer #1" } },
-            new object[] { new ValidateFilteringTestData { entities = FullEntityList, predicate = e => e.Content1 == "<p>Here is some content!</p>" } },
-            new object[] { new ValidateFilteringTestData { entities = FullEntityList, predicate = e => e.Content2 == "<p>Here is some content!2</p>" } },
-            new object[] { new ValidateFilteringTestData { entities = FullEntityList, predicate = e => e.Content1 == "<p>Here is some content!</p>" && e.Content6 == "<p>Here is some content!</p>" } },
-            new object[] { new ValidateFilteringTestData { entities = FullEntityList, predicate = e => e.CreationDate > ReferenceDate.AddDays(-360) } },
-            new object[] { new ValidateFilteringTestData { entities = FullEntityList, predicate = e => e.LastUpdated == ReferenceDate } },
-            new object[] { new ValidateFilteringTestData { entities = FullEntityList, predicate = e => e.DueDate < ReferenceDate.AddDays(2) } },
+            new object[] { new ValidateFilteringTestData<Flashcard> { entities = FullEntityList, predicate = _ => true } },
+            new object[] { new ValidateFilteringTestData<Flashcard> { entities = FullEntityList, predicate = e => e.Level == 1 } },
+            new object[] { new ValidateFilteringTestData<Flashcard> { entities = FullEntityList, predicate = e => e.Answer == "Answer #1" } },
+            new object[] { new ValidateFilteringTestData<Flashcard> { entities = FullEntityList, predicate = e => e.Content1 == "<p>Here is some content!</p>" } },
+            new object[] { new ValidateFilteringTestData<Flashcard> { entities = FullEntityList, predicate = e => e.Content2 == "<p>Here is some content!2</p>" } },
+            new object[] { new ValidateFilteringTestData<Flashcard> { entities = FullEntityList, predicate = e => e.Content1 == "<p>Here is some content!</p>" && e.Content6 == "<p>Here is some content!</p>" } },
+            new object[] { new ValidateFilteringTestData<Flashcard> { entities = FullEntityList, predicate = e => e.CreationDate > ReferenceDate.AddDays(-360) } },
+            new object[] { new ValidateFilteringTestData<Flashcard> { entities = FullEntityList, predicate = e => e.LastUpdated == ReferenceDate } },
+            new object[] { new ValidateFilteringTestData<Flashcard> { entities = FullEntityList, predicate = e => e.DueDate < ReferenceDate.AddDays(2) } },
         };
 
 
         [Theory, MemberData(nameof(SearchAndOrder_ValidateFilteringData))]
-        public override void SearchAndOrder_ValidateFiltering(ValidateFilteringTestData testData)
+        public override void SearchAndOrder_ValidateFiltering(ValidateFilteringTestData<Flashcard> testData)
         {
             base.SearchAndOrder_ValidateFiltering(testData);
         }
