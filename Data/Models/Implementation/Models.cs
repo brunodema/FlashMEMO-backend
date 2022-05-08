@@ -23,6 +23,22 @@ namespace Data.Models.Implementation
 
         [NotMapped]
         public Guid DbId { get => NewsID; set => NewsID = value; }
+
+        public override bool Equals(object obj)
+        {
+            return obj is News model &&
+                   Title == model.Title &&
+                   Subtitle == model.Subtitle &&
+            ThumbnailPath == model.ThumbnailPath &&
+            Content == model.Content &&
+            CreationDate == model.CreationDate &&
+            LastUpdated == model.LastUpdated;
+        }
+
+        public override int GetHashCode()
+        {
+            return HashCode.Combine(NewsID, Subtitle, ThumbnailPath, Content, CreationDate, LastUpdated);
+        }
     }
 
     public class Deck : IDatabaseItem<Guid>

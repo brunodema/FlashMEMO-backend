@@ -171,7 +171,7 @@ namespace Tests.Integration.Implementation.API
         public async void MakesSuccessfulRequestWithPagination(string searchText, long? pageNumber)
         {
             // Arrange
-            var url = $"{BaseEndpoint}/search?searchText={searchText}&pageIndex={pageNumber ?? 1}";
+            var url = $"{BaseEndpoint}/search?searchText={searchText}&pageNumber={pageNumber ?? 1}";
 
             // Act
             var response = await _integrationTestFixture.HttpClient.GetAsync(url).Result.Content.ReadFromJsonAsync<LargePaginatedListResponse<CustomSearchAPIImageResult>>(new System.Text.Json.JsonSerializerOptions() { PropertyNameCaseInsensitive = true });
@@ -179,7 +179,7 @@ namespace Tests.Integration.Implementation.API
             // Assert
             response.Data.Results.Should().NotBeEmpty("valid data should have been retrieved from this query.");
             response.Status.Should().Be("Success", "this query contains valid parameters, and has been manually tested before");
-            response.Data.PageIndex.Should().Be(pageNumber?.ToString() ?? "1", "it should be equal to the value requested to the API, or revert to the default value (1)");
+            response.Data.PageNumber.Should().Be(pageNumber?.ToString() ?? "1", "it should be equal to the value requested to the API, or revert to the default value (1)");
         }
 
         public static IEnumerable<object[]> MakeRequestWithBrokenSearchTextData =>

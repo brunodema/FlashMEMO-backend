@@ -12,7 +12,7 @@ namespace API.Tools
     public interface IPaginatedList<T, QuantityType>
     {
         public IList<T> Results { get; set; }
-        public QuantityType PageIndex { get; set; }
+        public QuantityType PageNumber { get; set; }
         public QuantityType TotalPages { get; set; }
         public int ResultSize { get; set; }
         public QuantityType TotalAmount { get; set; }
@@ -23,7 +23,7 @@ namespace API.Tools
     public class LargePaginatedList<T> : IPaginatedList<T, string>
     {
         public IList<T> Results { get; set; }
-        public string PageIndex { get; set; }
+        public string PageNumber { get; set; }
         public string TotalPages { get; set; }
         public int ResultSize { get; set; }
         public string TotalAmount { get; set; }
@@ -37,7 +37,7 @@ namespace API.Tools
     public class PaginatedList<T> : IPaginatedList<T, ulong>
     {
         public IList<T> Results { get; set; }
-        public ulong PageIndex { get; set; }
+        public ulong PageNumber { get; set; }
         public ulong TotalPages { get; set; }
         public int ResultSize { get; set; }
         public ulong TotalAmount { get; set; }
@@ -48,7 +48,7 @@ namespace API.Tools
         {
             get
             {
-                return (PageIndex > 1);
+                return (PageNumber > 1);
             }
         }
 
@@ -56,17 +56,17 @@ namespace API.Tools
         {
             get
             {
-                return (PageIndex < TotalPages);
+                return (PageNumber < TotalPages);
             }
         }
 
-        public static PaginatedList<T> Create(IEnumerable<T> source, int pageIndex = 1, int pageSize = 10)
+        public static PaginatedList<T> Create(IEnumerable<T> source, int pageNumber = 1, int pageSize = 10)
         {
             var count = source.Count();
-            var items = source.Skip((pageIndex - 1) * pageSize).Take(pageSize).ToList();
+            var items = source.Skip((pageNumber - 1) * pageSize).Take(pageSize).ToList();
             return new PaginatedList<T>
             {
-                PageIndex = Convert.ToUInt64(pageIndex),
+                PageNumber = Convert.ToUInt64(pageNumber),
                 TotalPages = Convert.ToUInt64(Math.Ceiling(count / (double)pageSize)),
                 TotalAmount = Convert.ToUInt64(count),
                 ResultSize = items.Count,

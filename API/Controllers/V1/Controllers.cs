@@ -135,11 +135,11 @@ namespace API.Controllers
 
         [HttpGet]
         [Route("search")]
-        public async Task<IActionResult> Search(string searchText, long pageIndex = 1)
+        public async Task<IActionResult> Search(string searchText, long pageNumber = 1)
         {
             try
             {
-                var results = await _service.Search(searchText, pageIndex);
+                var results = await _service.Search(searchText, pageNumber);
 
                 return Ok(new LargePaginatedListResponse<CustomSearchAPIImageResult>
                 {
@@ -149,7 +149,7 @@ namespace API.Controllers
                     {
                         Results = results.Results.ToList(),
                         ResultSize = results.PageSize,
-                        PageIndex = results.PageIndex,
+                        PageNumber = results.PageNumber,
                         TotalPages = results.TotalPages,
                         TotalAmount = results.TotalAmount,
                         HasPreviousPage = results.HasPreviousPage,
