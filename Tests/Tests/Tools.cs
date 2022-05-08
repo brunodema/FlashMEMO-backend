@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Data.Tools.Sorting;
+using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
 
@@ -11,8 +12,10 @@ namespace Tests
         /// </summary>
         public class ValidateFilteringTestData<T>
         {
-            public List<T> entities { get; set; }
+            public List<T> entities { get; set; } = new List<T>();
             public Expression<Func<T, bool>> predicate { get; set; }
+            public Expression<Func<T, object>> sortPredicate { get; set; }
+            public SortType sortType { get; set; } = SortType.None;
         }
     }
 }

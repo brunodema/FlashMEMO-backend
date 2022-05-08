@@ -17,6 +17,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Data.Repository.Implementation;
 using Xunit.Abstractions;
 using Data.Models.DTOs;
+using static Tests.Tools;
+using Newtonsoft.Json;
 
 namespace Tests.Tests.Integration.Abstract
 {
@@ -27,11 +29,13 @@ namespace Tests.Tests.Integration.Abstract
         protected IntegrationTestFixture _fixture;
         protected HttpClient _client;
         protected ITestOutputHelper _output;
+        protected JsonSerializerSettings _serializerSettings = new JsonSerializerSettings() { ReferenceLoopHandling = ReferenceLoopHandling.Ignore, Formatting = Formatting.Indented };
 
         protected string _baseEndpoint = $"/api/v1/{typeof(T).Name}";
         protected string _createEndpoint;
         protected string _deleteEndpoint;
         protected string _listEndpoint;
+        protected string _searchEndpoint;
 
         /// <summary>
         /// Directly adds an object to the DB, bypassing the Repository class and/or any other interfaces (services, controllers, etc).
@@ -91,6 +95,7 @@ namespace Tests.Tests.Integration.Abstract
             _createEndpoint = $"{_baseEndpoint}/create";
             _deleteEndpoint = $"{_baseEndpoint}/delete";
             _listEndpoint = $"{_baseEndpoint}/list";
+            _searchEndpoint = $"{_baseEndpoint}/search";
 
             //using (var scope = _fixture.Host.Services.CreateScope())
             //{
@@ -203,15 +208,61 @@ namespace Tests.Tests.Integration.Abstract
                 parsedResponse.Data.TotalPages.Should().Be((ulong)maxIndex);
                 parsedResponse.Data.PageNumber.Should().Be((ulong)i);
                 parsedResponse.Data.Results.Count.Should().BeLessThanOrEqualTo(pageSize);
+                parsedResponse.Data.HasPreviousPage.Should().Be(i == 1 ? false : true);
+                parsedResponse.Data.HasNextPage.Should().Be(i == maxIndex ? false : true);
 
                 parsedResponse.Data.Results.Should().NotIntersectWith(retrievedEntities);
                 parsedResponse.Data.Results.Should().IntersectWith(entityList); // EXTREMELY IMPORTANT: THIS METHOD ONLY WORKS IF 'Equal' and (probably) 'GetHashCode' ARE OVERLOADED IN THE ENTITY. OTHERWISE IT FUCKS UP THE COMPARISONS. I discovered that once I start noticing that even two identical collections didn't 'intersect'... amazing how much headache testing in .NET can give
 
+                retrievedEntities.AddRange(parsedResponse.Data.Results);
+            }
+
+            // Undo
+            RemoveFromContext(retrievedEntities);
+        }
+
+        public virtual async Task SearchEntity(List<TDTO> dtoList, string queryParams, int pageSize, ValidateFilteringTestData<T> expectedFiltering)
+        {
+            // Arrange
+            var entityList = new List<T>();
+            for (int i = 0; i < dtoList.Count; i++)
+            {
+                entityList.Add(new T());
+                dtoList[i].PassValuesToEntity(entityList[i]);
+                entityList[i].DbId = AddToContext(entityList[i]);
+            }
+            entityList = entityList.Where(x => expectedFiltering.predicate.Compile()(x)).ToList();
+            if (expectedFiltering.sortType == Data.Tools.Sorting.SortType.Ascending) entityList = entityList.OrderBy(expectedFiltering.sortPredicate.Compile()).ToList();
+            if (expectedFiltering.sortType == Data.Tools.Sorting.SortType.Descending) entityList = entityList.OrderByDescending(expectedFiltering.sortPredicate.Compile()).ToList();
+
+            var retrievedEntities = new List<T>();
+
+            // Act
+            // Assert
+            var maxIndex = Math.Ceiling((decimal)dtoList.Count / (decimal)pageSize);
+            for (int i = 1; i <= maxIndex; i++)
+            {
+                var pageOptionsQueryParams = $"{(String.IsNullOrEmpty(queryParams) ? "?" : "&")}pageSize={pageSize}&pageNumber=1";
+                var response = await _client.GetAsync($"{_searchEndpoint}{queryParams}{pageOptionsQueryParams}");
+                var parsedResponse = await response.Content.ReadFromJsonAsync<PaginatedListResponse<T>>();
+
+                parsedResponse.Status.Should().Be("Success");
+                parsedResponse.Errors?.Count().Should().Be(0);
+                parsedResponse.Data.ResultSize.Should().BeLessThanOrEqualTo(pageSize);
+                parsedResponse.Data.TotalAmount.Should().BeLessThanOrEqualTo((ulong)dtoList.Count);
+                parsedResponse.Data.TotalPages.Should().Be((ulong)maxIndex);
+                parsedResponse.Data.PageNumber.Should().Be((ulong)i);
+                parsedResponse.Data.Results.Count.Should().BeLessThanOrEqualTo(pageSize);
                 parsedResponse.Data.HasPreviousPage.Should().Be(i == 1 ? false : true);
                 parsedResponse.Data.HasNextPage.Should().Be(i == maxIndex ? false : true);
 
+                parsedResponse.Data.Results.Should().NotIntersectWith(retrievedEntities);
+                parsedResponse.Data.Results.Should().IntersectWith(entityList);
+
                 retrievedEntities.AddRange(parsedResponse.Data.Results);
             }
+
+            _output.WriteLine($"Retrieved entities throughout the test were: {JsonConvert.SerializeObject(retrievedEntities, _serializerSettings)}");
 
             // Undo
             RemoveFromContext(retrievedEntities);
@@ -230,7 +281,7 @@ namespace Tests.Tests.Integration.Abstract
             get
             {
                 yield return new object[] { new NewsDTO { Title = "Title", Subtitle = "Subtitle", Content = "Content" } };
-                yield return new object[] { new NewsDTO { Title = "Title 2", Subtitle = "Subtitle 2", Content = "Content 2",  } };
+                yield return new object[] { new NewsDTO { Title = "Title 2", Subtitle = "Subtitle 2", Content = "Content 2", } };
                 yield return new object[] { new NewsDTO { Title = "Title 3", Content = "Content 3" } };
                 yield return new object[] { new NewsDTO { Subtitle = "Subtitle 4", CreationDate = DateTime.UtcNow, LastUpdated = DateTime.UtcNow } };
             }
@@ -288,7 +339,7 @@ namespace Tests.Tests.Integration.Abstract
             get
             {
                 yield return new object[] { dTOs, 1 };
-                yield return new object[] { dTOs, 100};
+                yield return new object[] { dTOs, 100 };
                 yield return new object[] { dTOs, 5 };
                 yield return new object[] { dTOs, 7 };
                 yield return new object[] { dTOs, 10 };
@@ -299,6 +350,31 @@ namespace Tests.Tests.Integration.Abstract
         public async override Task ListEntity(List<NewsDTO> dtoList, int pageSize)
         {
             await base.ListEntity(dtoList, pageSize);
+        }
+
+        public static IEnumerable<object[]> SearchEntityData
+        {
+            get
+            {
+                yield return new object[] { dTOs, "?title=Title&orderBy=title&sortType=Ascending&columnToSort=title", 10, new ValidateFilteringTestData<News>() {
+                    predicate = n => n.Title.Contains("Title"),
+                    sortPredicate = n => n.Title,
+                    sortType = Data.Tools.Sorting.SortType.Ascending
+                }
+            };
+                yield return new object[] { dTOs, "?title=Title2&columnToSort=title&sortType=Descending", 100, new ValidateFilteringTestData<News>() {
+                    predicate = n => n.Title.Contains("Title2"),
+                    sortPredicate = n => n.Title,
+                    sortType = Data.Tools.Sorting.SortType.Descending
+                }
+            };
+            }
+        }
+
+        [Theory, MemberData(nameof(SearchEntityData))]
+        public async override Task SearchEntity(List<NewsDTO> dtoList, string queryParams, int pageSize, ValidateFilteringTestData<News> expectedFiltering)
+        {
+            await base.SearchEntity(dtoList, queryParams, pageSize, expectedFiltering);
         }
     }
 }
