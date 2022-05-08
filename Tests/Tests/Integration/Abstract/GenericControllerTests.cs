@@ -189,16 +189,26 @@ namespace Tests.Tests.Integration.Abstract
             var retrievedEntities = new List<T>();
 
             // Act
-            for (int i = 1; i <= Math.Ceiling((decimal)dtoList.Count / (decimal)pageSize); i++)
+            var maxIndex = Math.Ceiling((decimal)dtoList.Count / (decimal)pageSize);
+            for (int i = 1; i <= maxIndex; i++)
             {
                 var response = await _client.GetAsync($"{_listEndpoint}?pageSize={pageSize}&pageNumber={i}");
                 var parsedResponse = await response.Content.ReadFromJsonAsync<PaginatedListResponse<T>>();
 
                 // Assert
                 parsedResponse.Status.Should().Be("Success");
+                parsedResponse.Errors?.Count().Should().Be(0);
+                parsedResponse.Data.ResultSize.Should().BeLessThanOrEqualTo(pageSize);
+                parsedResponse.Data.TotalAmount.Should().Be((ulong)dtoList.Count);
+                parsedResponse.Data.TotalPages.Should().Be((ulong)maxIndex);
+                parsedResponse.Data.PageNumber.Should().Be((ulong)i);
                 parsedResponse.Data.Results.Count.Should().BeLessThanOrEqualTo(pageSize);
+
                 parsedResponse.Data.Results.Should().NotIntersectWith(retrievedEntities);
                 parsedResponse.Data.Results.Should().IntersectWith(entityList); // EXTREMELY IMPORTANT: THIS METHOD ONLY WORKS IF 'Equal' and (probably) 'GetHashCode' ARE OVERLOADED IN THE ENTITY. OTHERWISE IT FUCKS UP THE COMPARISONS. I discovered that once I start noticing that even two identical collections didn't 'intersect'... amazing how much headache testing in .NET can give
+
+                parsedResponse.Data.HasPreviousPage.Should().Be(i == 1 ? false : true);
+                parsedResponse.Data.HasNextPage.Should().Be(i == maxIndex ? false : true);
 
                 retrievedEntities.AddRange(parsedResponse.Data.Results);
             }
