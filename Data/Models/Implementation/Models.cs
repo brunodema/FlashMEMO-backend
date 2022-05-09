@@ -60,6 +60,23 @@ namespace Data.Models.Implementation
 
         [NotMapped]
         public Guid DbId { get => DeckID; set => DeckID = value; }
+
+        public override bool Equals(object obj)
+        {
+            return obj is Deck model &&
+                   DeckID == model.DeckID &&
+                   OwnerId == model.OwnerId &&
+                LanguageISOCode == model.LanguageISOCode &&
+                Name == model.Name &&
+                Description == model.Description &&
+                CreationDate == model.CreationDate &&
+                LastUpdated == model.LastUpdated;
+        }
+
+        public override int GetHashCode()
+        {
+            return HashCode.Combine(DeckID, OwnerId, LanguageISOCode, Name, Description, CreationDate, LastUpdated);
+        }
     }
 
     public class Flashcard : IDatabaseItem<Guid>
