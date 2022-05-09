@@ -20,6 +20,7 @@ using Data.Models.DTOs;
 using static Tests.Tools;
 using Newtonsoft.Json;
 using Business.Services.Implementation;
+using static Data.Models.Implementation.StaticModels;
 
 namespace Tests.Tests.Integration.Abstract
 {
@@ -438,4 +439,170 @@ namespace Tests.Tests.Integration.Abstract
             await base.TestEntityValidations(dtoList, expectedValidations);
         }
     }
+
+    public class DeckControllerTests : GenericControllerTests<Deck, Guid, DeckDTO>
+    {
+        private static readonly Language TestLanguage1 = new Language { Name = "English", ISOCode = "en" };
+        private static readonly Language TestLanguage2 = new Language { Name = "French", ISOCode = "fr" };
+        private static readonly Language TestLanguage3 = new Language { Name = "Italian", ISOCode = "it" };
+
+        private static readonly ApplicationUser TestUser1 = new ApplicationUser { Id = Guid.NewGuid().ToString(), UserName = "admin", Email = "admin@flashmemo.edu" };
+        private static readonly ApplicationUser TestUser2 = new ApplicationUser { Id = Guid.NewGuid().ToString(), UserName = "user", Email = "user@flashmemo.edu" };
+        private static readonly ApplicationUser TestUser3 = new ApplicationUser { Id = Guid.NewGuid().ToString(), UserName = "manager", Email = "manager@flashmemo.edu" };
+
+        public DeckControllerTests(IntegrationTestFixture fixture, ITestOutputHelper output) : base(fixture, output)
+        {
+            using (var scope = _fixture.Host.Services.CreateScope())
+            {
+                var dbContext = scope.ServiceProvider.GetService<FlashMEMOContext>();
+
+                // this disgusting implementation is required because (1) no 'AddOrUpdate' method exists in the EF Core stuff anymore (despite claims of it on the internet), and because (2) the 'Update' method doesn't actually add instead of updating when providing a non-existent object (it should, though) 
+                foreach (var item in new List<Language>() { TestLanguage1, TestLanguage2, TestLanguage3 })
+                {
+                    if (dbContext.Find<Language>(item.ISOCode) == null) dbContext.Add(item);
+                }
+                foreach (var item in new List<ApplicationUser>() { TestUser1, TestUser2, TestUser3 })
+                {
+                    if (dbContext.Find<ApplicationUser>(item.Id) == null) dbContext.Add(item);
+                }
+
+                dbContext.SaveChanges();
+            }
+        }
+
+        /// <summary>
+        /// Data to be used in Create, Read, and Delete tests.
+        /// </summary>
+        public static IEnumerable<object[]> CRDData
+        {
+            get
+            {
+                yield return new object[] { new DeckDTO { Name = "Deck", Description = "This is the description", LanguageId = "en", OwnerId = TestUser1.Id  } };
+            }
+        }
+
+        [Theory, MemberData(nameof(CRDData))]
+        public async override Task CreateEntity(DeckDTO dto)
+        {
+            await base.CreateEntity(dto);
+        }
+
+        [Theory, MemberData(nameof(CRDData))]
+        public async override Task GetEntity(DeckDTO dto)
+        {
+            await base.GetEntity(dto);
+        }
+
+        [Theory, MemberData(nameof(CRDData))]
+        public async override Task DeleteEntity(DeckDTO dto)
+        {
+            await base.DeleteEntity(dto);
+        }
+
+        //public static IEnumerable<object[]> UpdateEntityData
+        //{
+        //    get
+        //    {
+        //        yield return new object[] { new NewsDTO { Title = "Title", Subtitle = "Subtitle", Content = "Content" }, new NewsDTO { Title = "Updated Title", Subtitle = "Updated Subtitle", Content = "Updated Content" } };
+        //        yield return new object[] { new NewsDTO { Title = "Title 2", Subtitle = "Subtitle 2", Content = "Content 2", }, new NewsDTO { ThumbnailPath = "../../DoesntExistFolder/image.img" } };
+        //    }
+        //}
+
+        //[Theory, MemberData(nameof(UpdateEntityData))]
+        //public async override Task UpdateEntity(NewsDTO dto, NewsDTO updatedDTO)
+        //{
+        //    await base.UpdateEntity(dto, updatedDTO);
+        //}
+
+        //static List<NewsDTO> dTOs = new List<NewsDTO>()
+        //{
+        //    new NewsDTO { Title = "Title", Content = "Content", Subtitle = "Subtitle" },
+        //    new NewsDTO { Title = "Spaced Title", Content = "Spaced Content", Subtitle = "Spaced Subtitle" },
+        //    new NewsDTO { Title = "Title", Content = "Content", Subtitle = "Subtitle", CreationDate = DateTime.Parse("2000-01-01+00"), LastUpdated = DateTime.Parse("2000-01-01+00") },
+        //    new NewsDTO { Title = "Title", Content = "Content", Subtitle = "Subtitle", CreationDate = DateTime.Parse("2000-01-01T23:59:59+00"), LastUpdated = DateTime.Parse("2000-01-01T23:59:59+00") },
+        //    new NewsDTO { Title = "Title", Content = "Content", Subtitle = "Subtitle", CreationDate = DateTime.Parse("2000-01-02+00"), LastUpdated = DateTime.Parse("2000-01-02+00") },
+        //    new NewsDTO { Title = "Title", Content = "Content", Subtitle = "Subtitle", CreationDate = DateTime.Parse("2000-01-03+00"), LastUpdated = DateTime.Parse("2000-01-03+00") },
+        //    new NewsDTO { Title = "Title2", Content = "Content2", Subtitle = "Subtitle2" },
+        //    new NewsDTO { Title = "Title3", Content = "Content3", Subtitle = "Subtitle3" },
+        //    new NewsDTO { Title = "Title4", Content = "Content4", Subtitle = "Subtitle4" },
+        //    new NewsDTO { Title = "Title5", Content = "Content5", Subtitle = "Subtitle5" },
+        //    new NewsDTO { Title = "Title6", Content = "Content6", Subtitle = "Subtitle6" },
+        //    new NewsDTO { Title = "Title7", Content = "Content7", Subtitle = "Subtitle7" },
+        //    new NewsDTO { Title = "Title8", Content = "Content8", Subtitle = "Subtitle8" },
+        //    new NewsDTO { Title = "Title9", Content = "Content9", Subtitle = "Subtitle9" },
+        //    new NewsDTO { Title = "Title10", Content = "Content10", Subtitle = "Subtitle10" },
+        //};
+
+        //public static IEnumerable<object[]> ListEntityData
+        //{
+        //    get
+        //    {
+        //        yield return new object[] { dTOs, 1 };
+        //        yield return new object[] { dTOs, 100 };
+        //        yield return new object[] { dTOs, 5 };
+        //        yield return new object[] { dTOs, 7 };
+        //        yield return new object[] { dTOs, 10 };
+        //    }
+        //}
+
+        //[Theory, MemberData(nameof(ListEntityData))]
+        //public async override Task ListEntity(List<NewsDTO> dtoList, int pageSize)
+        //{
+        //    await base.ListEntity(dtoList, pageSize);
+        //}
+
+        //public static IEnumerable<object[]> SearchEntityData
+        //{
+        //    get
+        //    {
+        //        yield return new object[] { dTOs, "?title=Title2&columnToSort=title&sortType=Descending", 100, new ValidateFilteringTestData<News>() {
+        //            predicate = n => n.Title.Contains("Title2"),
+        //            sortPredicate = n => n.Title,
+        //            sortType = Data.Tools.Sorting.SortType.Descending
+        //        }
+        //    };
+        //        yield return new object[] { dTOs, "?title=Title&orderBy=title&sortType=Ascending&columnToSort=title", 10, new ValidateFilteringTestData<News>() {
+        //            predicate = n => n.Title.Contains("Title"),
+        //            sortPredicate = n => n.Title,
+        //            sortType = Data.Tools.Sorting.SortType.Ascending
+        //        }
+        //    };
+        //        yield return new object[] { dTOs, "?FromDate=2000-01-01&ToDate=2000-01-01&Title=Title&Subtitle=Subtitle&Content=Content", 100, new ValidateFilteringTestData<News>() {
+        //            predicate = n => n.Title.Contains("Title") &&
+        //            n.Subtitle.Contains("Subtitle") &&
+        //            n.Content.Contains("Content") &&
+        //            n.CreationDate >= DateTime.Parse("2000-01-01T00:00:00+00").ToUniversalTime() &&
+        //            n.CreationDate <= DateTime.Parse("2000-01-01T23:59:59+00").ToUniversalTime()
+        //        }
+        //    };
+        //        yield return new object[] { dTOs, "?Title=Spaced%20Title", 100, new ValidateFilteringTestData<News>() {
+        //            predicate = n => n.Title.Contains("Spaced Title")
+        //        }
+        //    };
+        //    }
+        //}
+
+        //[Theory, MemberData(nameof(SearchEntityData))]
+        //public async override Task SearchEntity(List<NewsDTO> dtoList, string queryParams, int pageSize, ValidateFilteringTestData<News> expectedFiltering)
+        //{
+        //    await base.SearchEntity(dtoList, queryParams, pageSize, expectedFiltering);
+        //}
+
+        //public static IEnumerable<object[]> TestEntityValidationsData
+        //{
+        //    get
+        //    {
+        //        yield return new object[] { new NewsDTO { Title = "Title", Content = "Content", Subtitle = "Subtitle", CreationDate = DateTime.Parse("2000-01-02+00"), LastUpdated = DateTime.Parse("2000-01-01+00") }, new List<string>() { NewsService.ExceptionMessages.CreationDateMoreRecentThanLastUpdated }
+        //        };
+        //    }
+        //}
+
+        //[Theory, MemberData(nameof(TestEntityValidationsData))]
+        //public async override Task TestEntityValidations(NewsDTO dtoList, List<string> expectedValidations)
+        //{
+        //    await base.TestEntityValidations(dtoList, expectedValidations);
+        //}
+    }
 }
+
+

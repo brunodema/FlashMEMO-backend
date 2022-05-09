@@ -152,10 +152,15 @@ namespace Tests.Integration.Fixtures
             services.AddScoped<IJWTService, JWTService>();
             services.AddScoped<IAuthService<string>, AuthService>();
             services.AddScoped<NewsService>();
+            services.AddScoped<CustomSearchAPIService>();
+            services.AddScoped<DeckService>();
+            services.AddScoped<LanguageService>();
+
             services.AddScoped<ApplicationUserRepository>();
             services.AddScoped<RoleRepository>();
             services.AddScoped<NewsRepository>();
-            services.AddScoped<CustomSearchAPIService>();
+            services.AddScoped<DeckRepository>();
+            services.AddScoped<LanguageRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
