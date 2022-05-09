@@ -218,7 +218,7 @@ namespace Tests.Tests.Integration.Abstract
             }
 
             // Undo
-            RemoveFromContext(retrievedEntities);
+            RemoveFromContext(entityList);
         }
 
         public virtual async Task SearchEntity(List<TDTO> dtoList, string queryParams, int pageSize, ValidateFilteringTestData<T> expectedFiltering)
@@ -231,18 +231,18 @@ namespace Tests.Tests.Integration.Abstract
                 dtoList[i].PassValuesToEntity(entityList[i]);
                 entityList[i].DbId = AddToContext(entityList[i]);
             }
-            entityList = entityList.Where(x => expectedFiltering.predicate.Compile()(x)).ToList();
-            if (expectedFiltering.sortType == Data.Tools.Sorting.SortType.Ascending) entityList = entityList.OrderBy(expectedFiltering.sortPredicate.Compile()).ToList();
-            if (expectedFiltering.sortType == Data.Tools.Sorting.SortType.Descending) entityList = entityList.OrderByDescending(expectedFiltering.sortPredicate.Compile()).ToList();
+            var processedEntities = entityList.Where(x => expectedFiltering.predicate.Compile()(x)).ToList();
+            if (expectedFiltering.sortType == Data.Tools.Sorting.SortType.Ascending) processedEntities = entityList.OrderBy(expectedFiltering.sortPredicate.Compile()).ToList();
+            if (expectedFiltering.sortType == Data.Tools.Sorting.SortType.Descending) processedEntities = entityList.OrderByDescending(expectedFiltering.sortPredicate.Compile()).ToList();
 
             var retrievedEntities = new List<T>();
 
             // Act
             // Assert
-            var maxIndex = Math.Ceiling((decimal)dtoList.Count / (decimal)pageSize);
+            var maxIndex = Math.Max(Math.Ceiling((decimal)processedEntities.Count / (decimal)pageSize), 1);
             for (int i = 1; i <= maxIndex; i++)
             {
-                var pageOptionsQueryParams = $"{(String.IsNullOrEmpty(queryParams) ? "?" : "&")}pageSize={pageSize}&pageNumber=1";
+                var pageOptionsQueryParams = $"{(String.IsNullOrEmpty(queryParams) ? "?" : "&")}pageSize={pageSize}&pageNumber={i}";
                 var response = await _client.GetAsync($"{_searchEndpoint}{queryParams}{pageOptionsQueryParams}");
                 var parsedResponse = await response.Content.ReadFromJsonAsync<PaginatedListResponse<T>>();
 
@@ -257,7 +257,8 @@ namespace Tests.Tests.Integration.Abstract
                 parsedResponse.Data.HasNextPage.Should().Be(i == maxIndex ? false : true);
 
                 parsedResponse.Data.Results.Should().NotIntersectWith(retrievedEntities);
-                parsedResponse.Data.Results.Should().IntersectWith(entityList);
+                if (processedEntities.Count > 0) parsedResponse.Data.Results.Should().IntersectWith(processedEntities);
+
 
                 retrievedEntities.AddRange(parsedResponse.Data.Results);
             }
@@ -265,7 +266,7 @@ namespace Tests.Tests.Integration.Abstract
             _output.WriteLine($"Retrieved entities throughout the test were: {JsonConvert.SerializeObject(retrievedEntities, _serializerSettings)}");
 
             // Undo
-            RemoveFromContext(retrievedEntities);
+            RemoveFromContext(entityList);
         }
     }
 
@@ -323,6 +324,9 @@ namespace Tests.Tests.Integration.Abstract
         static List<NewsDTO> dTOs = new List<NewsDTO>()
         {
             new NewsDTO { Title = "Title", Content = "Content", Subtitle = "Subtitle" },
+            new NewsDTO { Title = "Title", Content = "Content", Subtitle = "Subtitle", CreationDate = DateTime.Parse("2000-01-01+00"), LastUpdated = DateTime.Parse("2000-01-01+00") },
+            new NewsDTO { Title = "Title", Content = "Content", Subtitle = "Subtitle", CreationDate = DateTime.Parse("2000-01-02+00"), LastUpdated = DateTime.Parse("2000-01-02+00") },
+            new NewsDTO { Title = "Title", Content = "Content", Subtitle = "Subtitle", CreationDate = DateTime.Parse("2000-01-03+00"), LastUpdated = DateTime.Parse("2000-01-03+00") },
             new NewsDTO { Title = "Title2", Content = "Content2", Subtitle = "Subtitle2" },
             new NewsDTO { Title = "Title3", Content = "Content3", Subtitle = "Subtitle3" },
             new NewsDTO { Title = "Title4", Content = "Content4", Subtitle = "Subtitle4" },
@@ -356,16 +360,24 @@ namespace Tests.Tests.Integration.Abstract
         {
             get
             {
+                yield return new object[] { dTOs, "?title=Title2&columnToSort=title&sortType=Descending", 100, new ValidateFilteringTestData<News>() {
+                    predicate = n => n.Title.Contains("Title2"),
+                    sortPredicate = n => n.Title,
+                    sortType = Data.Tools.Sorting.SortType.Descending
+                }
+            };
                 yield return new object[] { dTOs, "?title=Title&orderBy=title&sortType=Ascending&columnToSort=title", 10, new ValidateFilteringTestData<News>() {
                     predicate = n => n.Title.Contains("Title"),
                     sortPredicate = n => n.Title,
                     sortType = Data.Tools.Sorting.SortType.Ascending
                 }
             };
-                yield return new object[] { dTOs, "?title=Title2&columnToSort=title&sortType=Descending", 100, new ValidateFilteringTestData<News>() {
-                    predicate = n => n.Title.Contains("Title2"),
-                    sortPredicate = n => n.Title,
-                    sortType = Data.Tools.Sorting.SortType.Descending
+                yield return new object[] { dTOs, "?FromDate=2000-01-01&ToDate=2000-01-01&Title=Title&Subtitle=Subtitle&Content=Content", 100, new ValidateFilteringTestData<News>() {
+                    predicate = n => n.Title.Contains("Title") &&
+                    n.Subtitle.Contains("Subtitle") &&
+                    n.Content.Contains("Content") &&
+                    n.CreationDate >= DateTime.Parse("2000-01-01T00:00:00+00").ToUniversalTime() &&
+                    n.CreationDate <= DateTime.Parse("2000-01-01T23:59:59+00").ToUniversalTime()
                 }
             };
             }
