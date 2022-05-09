@@ -83,7 +83,7 @@ namespace API.Controllers.Abstract
             }
             catch (EntityValidationException ex)
             {
-                return BadRequest(new BaseResponseModel { Status = "Error", Message = $"Validation errors occured when creating object.", Errors = ex.ServiceValidationErrors });
+                return BadRequest(new BaseResponseModel { Status = "Bad Request", Message = $"Validation errors occured when creating object.", Errors = ex.ServiceValidationErrors });
             }
             catch (Exception)
             {
