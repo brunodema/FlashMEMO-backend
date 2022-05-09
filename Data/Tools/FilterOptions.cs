@@ -207,11 +207,11 @@ namespace Data.Tools.Filtering
         {
             var processedFromDate = FromDate ?? DateTime.MinValue.Date;
             var processedToDate = ToDate ?? DateTime.MaxValue.Date;
-            if (processedToDate.Date == processedFromDate.Date) // used to handle specific dates (instead of range). Sets 'from' to midnight, and 'to' to 23:59:59
-            {
-                processedFromDate = new DateTime(processedFromDate.Year, processedFromDate.Month, processedFromDate.Day, 0, 0 ,0);
-                processedToDate = new DateTime(processedToDate.Year, processedFromDate.Month, processedFromDate.Day, 23, 59, 59);
-            }
+
+            // used tp focus on the date itself, instead of specifics (hour, minute, etc)
+            processedFromDate = new DateTime(processedFromDate.Year, processedFromDate.Month, processedFromDate.Day, 0, 0, 0);
+            processedToDate = new DateTime(processedToDate.Year, processedFromDate.Month, processedFromDate.Day, 23, 59, 59);
+
 
             elements = elements.Where(x => x.CreationDate >= processedFromDate.ToUniversalTime() && x.CreationDate <= processedToDate.ToUniversalTime());
 
