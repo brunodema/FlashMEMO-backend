@@ -491,8 +491,8 @@ namespace Tests.Tests.Integration.Abstract
         {
             get
             {
-                yield return new object[] { new DeckDTO { Name = "Deck", Description = "This is the description", LanguageId = TestLanguage1.ISOCode, OwnerId = TestUser1.Id  } };
-                yield return new object[] { new DeckDTO { Name = "Deck", Description = "This is the description", LanguageId = TestLanguage2.ISOCode, OwnerId = TestUser2.Id} };
+                yield return new object[] { new DeckDTO { Name = "Deck", Description = "This is the description", LanguageISOCode = TestLanguage1.ISOCode, OwnerId = TestUser1.Id  } };
+                yield return new object[] { new DeckDTO { Name = "Deck", Description = "This is the description", LanguageISOCode = TestLanguage2.ISOCode, OwnerId = TestUser2.Id} };
             }
         }
 
@@ -514,20 +514,20 @@ namespace Tests.Tests.Integration.Abstract
             await base.DeleteEntity(dto);
         }
 
-        //public static IEnumerable<object[]> UpdateEntityData
-        //{
-        //    get
-        //    {
-        //        yield return new object[] { new NewsDTO { Title = "Title", Subtitle = "Subtitle", Content = "Content" }, new NewsDTO { Title = "Updated Title", Subtitle = "Updated Subtitle", Content = "Updated Content" } };
-        //        yield return new object[] { new NewsDTO { Title = "Title 2", Subtitle = "Subtitle 2", Content = "Content 2", }, new NewsDTO { ThumbnailPath = "../../DoesntExistFolder/image.img" } };
-        //    }
-        //}
+        public static IEnumerable<object[]> UpdateEntityData
+        {
+            get
+            {
+                yield return new object[] { new DeckDTO { Name = "Deck", Description = "This is the description", LanguageISOCode = TestLanguage1.ISOCode, OwnerId = TestUser1.Id }, new DeckDTO { Name = "Deck", Description = "This is the updated description", LanguageISOCode = TestLanguage1.ISOCode, OwnerId = TestUser1.Id } };
+                yield return new object[] { new DeckDTO { Name = "Deck", Description = "This is the description", LanguageISOCode = TestLanguage1.ISOCode, OwnerId = TestUser1.Id }, new DeckDTO { Name = "Deck", Description = "This is the updated description", LanguageISOCode = TestLanguage2.ISOCode, OwnerId = TestUser2.Id } };
+            }
+        }
 
-        //[Theory, MemberData(nameof(UpdateEntityData))]
-        //public async override Task UpdateEntity(NewsDTO dto, NewsDTO updatedDTO)
-        //{
-        //    await base.UpdateEntity(dto, updatedDTO);
-        //}
+        [Theory, MemberData(nameof(UpdateEntityData))]
+        public async override Task UpdateEntity(DeckDTO dto, DeckDTO updatedDTO)
+        {
+            await base.UpdateEntity(dto, updatedDTO);
+        }
 
         //static List<NewsDTO> dTOs = new List<NewsDTO>()
         //{
