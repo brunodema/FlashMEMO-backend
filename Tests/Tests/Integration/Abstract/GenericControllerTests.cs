@@ -529,79 +529,53 @@ namespace Tests.Tests.Integration.Abstract
             await base.UpdateEntity(dto, updatedDTO);
         }
 
-        //static List<NewsDTO> dTOs = new List<NewsDTO>()
-        //{
-        //    new NewsDTO { Title = "Title", Content = "Content", Subtitle = "Subtitle" },
-        //    new NewsDTO { Title = "Spaced Title", Content = "Spaced Content", Subtitle = "Spaced Subtitle" },
-        //    new NewsDTO { Title = "Title", Content = "Content", Subtitle = "Subtitle", CreationDate = DateTime.Parse("2000-01-01+00"), LastUpdated = DateTime.Parse("2000-01-01+00") },
-        //    new NewsDTO { Title = "Title", Content = "Content", Subtitle = "Subtitle", CreationDate = DateTime.Parse("2000-01-01T23:59:59+00"), LastUpdated = DateTime.Parse("2000-01-01T23:59:59+00") },
-        //    new NewsDTO { Title = "Title", Content = "Content", Subtitle = "Subtitle", CreationDate = DateTime.Parse("2000-01-02+00"), LastUpdated = DateTime.Parse("2000-01-02+00") },
-        //    new NewsDTO { Title = "Title", Content = "Content", Subtitle = "Subtitle", CreationDate = DateTime.Parse("2000-01-03+00"), LastUpdated = DateTime.Parse("2000-01-03+00") },
-        //    new NewsDTO { Title = "Title2", Content = "Content2", Subtitle = "Subtitle2" },
-        //    new NewsDTO { Title = "Title3", Content = "Content3", Subtitle = "Subtitle3" },
-        //    new NewsDTO { Title = "Title4", Content = "Content4", Subtitle = "Subtitle4" },
-        //    new NewsDTO { Title = "Title5", Content = "Content5", Subtitle = "Subtitle5" },
-        //    new NewsDTO { Title = "Title6", Content = "Content6", Subtitle = "Subtitle6" },
-        //    new NewsDTO { Title = "Title7", Content = "Content7", Subtitle = "Subtitle7" },
-        //    new NewsDTO { Title = "Title8", Content = "Content8", Subtitle = "Subtitle8" },
-        //    new NewsDTO { Title = "Title9", Content = "Content9", Subtitle = "Subtitle9" },
-        //    new NewsDTO { Title = "Title10", Content = "Content10", Subtitle = "Subtitle10" },
-        //};
+        static List<DeckDTO> dTOs = new List<DeckDTO>() {
+            new DeckDTO { Name = "Deck", Description = "This is the description", LanguageISOCode = TestLanguage1.ISOCode, OwnerId = TestUser1.Id  },
+            new DeckDTO { Name = "Deck 2", Description = "This is the description 2", LanguageISOCode = TestLanguage2.ISOCode, OwnerId = TestUser2.Id  },
+            new DeckDTO { Name = "Deck 3", Description = "This is the description 3", LanguageISOCode = TestLanguage3.ISOCode, OwnerId = TestUser3.Id  }
+        };
 
-        //public static IEnumerable<object[]> ListEntityData
-        //{
-        //    get
-        //    {
-        //        yield return new object[] { dTOs, 1 };
-        //        yield return new object[] { dTOs, 100 };
-        //        yield return new object[] { dTOs, 5 };
-        //        yield return new object[] { dTOs, 7 };
-        //        yield return new object[] { dTOs, 10 };
-        //    }
-        //}
+        public static IEnumerable<object[]> ListEntityData
+        {
+            get
+            {
+                yield return new object[] { dTOs, 1 };
+                yield return new object[] { dTOs, 100 };
+                yield return new object[] { dTOs, 5 };
+                yield return new object[] { dTOs, 7 };
+                yield return new object[] { dTOs, 10 };
+            }
+        }
 
-        //[Theory, MemberData(nameof(ListEntityData))]
-        //public async override Task ListEntity(List<NewsDTO> dtoList, int pageSize)
-        //{
-        //    await base.ListEntity(dtoList, pageSize);
-        //}
+        [Theory, MemberData(nameof(ListEntityData))]
+        public async override Task ListEntity(List<DeckDTO> dtoList, int pageSize)
+        {
+            await base.ListEntity(dtoList, pageSize);
+        }
 
-        //public static IEnumerable<object[]> SearchEntityData
-        //{
-        //    get
-        //    {
-        //        yield return new object[] { dTOs, "?title=Title2&columnToSort=title&sortType=Descending", 100, new ValidateFilteringTestData<News>() {
-        //            predicate = n => n.Title.Contains("Title2"),
-        //            sortPredicate = n => n.Title,
-        //            sortType = Data.Tools.Sorting.SortType.Descending
-        //        }
-        //    };
-        //        yield return new object[] { dTOs, "?title=Title&orderBy=title&sortType=Ascending&columnToSort=title", 10, new ValidateFilteringTestData<News>() {
-        //            predicate = n => n.Title.Contains("Title"),
-        //            sortPredicate = n => n.Title,
-        //            sortType = Data.Tools.Sorting.SortType.Ascending
-        //        }
-        //    };
-        //        yield return new object[] { dTOs, "?FromDate=2000-01-01&ToDate=2000-01-01&Title=Title&Subtitle=Subtitle&Content=Content", 100, new ValidateFilteringTestData<News>() {
-        //            predicate = n => n.Title.Contains("Title") &&
-        //            n.Subtitle.Contains("Subtitle") &&
-        //            n.Content.Contains("Content") &&
-        //            n.CreationDate >= DateTime.Parse("2000-01-01T00:00:00+00").ToUniversalTime() &&
-        //            n.CreationDate <= DateTime.Parse("2000-01-01T23:59:59+00").ToUniversalTime()
-        //        }
-        //    };
-        //        yield return new object[] { dTOs, "?Title=Spaced%20Title", 100, new ValidateFilteringTestData<News>() {
-        //            predicate = n => n.Title.Contains("Spaced Title")
-        //        }
-        //    };
-        //    }
-        //}
+        public static IEnumerable<object[]> SearchEntityData
+        {
+            get
+            {
+                yield return new object[] {
+                    dTOs,
+                    "?name=Deck&columnToSort=name&sortType=Descending",
+                    100,
+                    new ValidateFilteringTestData<Deck>()
+                    {
+                        predicate = n => n.Name.Contains("Deck"),
+                        sortPredicate = n => n.Name,
+                        sortType = Data.Tools.Sorting.SortType.Descending
+                    }
+                };
+            }
+        }
 
-        //[Theory, MemberData(nameof(SearchEntityData))]
-        //public async override Task SearchEntity(List<NewsDTO> dtoList, string queryParams, int pageSize, ValidateFilteringTestData<News> expectedFiltering)
-        //{
-        //    await base.SearchEntity(dtoList, queryParams, pageSize, expectedFiltering);
-        //}
+        [Theory, MemberData(nameof(SearchEntityData))]
+        public async override Task SearchEntity(List<DeckDTO> dtoList, string queryParams, int pageSize, ValidateFilteringTestData<Deck> expectedFiltering)
+        {
+            await base.SearchEntity(dtoList, queryParams, pageSize, expectedFiltering);
+        }
 
         //public static IEnumerable<object[]> TestEntityValidationsData
         //{
