@@ -92,6 +92,11 @@ namespace Business.Services.Implementation
 
     public class NewsService : GenericRepositoryService<NewsRepository, Guid, News>
     {
+        public static class ExceptionMessages
+        {
+            public static readonly string CreationDateMoreRecentThanLastUpdated = "The last updated date must be more recent than the creation date";
+        }
+
         public NewsService(NewsRepository baseRepository, IOptions<GenericRepositoryServiceOptions> serviceOptions) : base(baseRepository, serviceOptions.Value) { }
         public override ValidatonResult CheckIfEntityIsValid(News entity)
         {
@@ -100,7 +105,7 @@ namespace Business.Services.Implementation
             List<string> errors = new();
             if (!areDatesValid)
             {
-                errors.Add("The last updated date must be more recent than the creation date.");
+                errors.Add(ExceptionMessages.CreationDateMoreRecentThanLastUpdated);
             }
 
             return new ValidatonResult 

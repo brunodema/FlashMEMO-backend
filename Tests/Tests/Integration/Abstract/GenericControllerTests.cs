@@ -19,6 +19,7 @@ using Xunit.Abstractions;
 using Data.Models.DTOs;
 using static Tests.Tools;
 using Newtonsoft.Json;
+using Business.Services.Implementation;
 
 namespace Tests.Tests.Integration.Abstract
 {
@@ -268,6 +269,33 @@ namespace Tests.Tests.Integration.Abstract
             // Undo
             RemoveFromContext(entityList);
         }
+
+        public virtual async Task TestEntityValidations(TDTO dto, List<string> expectedValidations)
+        {
+            // Arrange
+            var dummyEntity = new T();
+            var id = AddToContext(dummyEntity);
+
+            // Act
+            var createResponse = await _client.PostAsync($"{_createEndpoint}", JsonContent.Create(dto));
+            var createParsedResponse = await createResponse.Content.ReadFromJsonAsync<BaseResponseModel>();
+            var updateResponse = await _client.PutAsync($"{_baseEndpoint}/{id}", JsonContent.Create(dto));
+            var updateParsedResponse = await updateResponse.Content.ReadFromJsonAsync<BaseResponseModel>();
+
+            // Assert
+            createParsedResponse.Status.Should().Be("Bad Request");
+            createParsedResponse.Errors.Should().NotBeNullOrEmpty();
+            createParsedResponse.Errors.Should().HaveCount(expectedValidations.Count);
+            createParsedResponse.Errors.Should().Contain(expectedValidations);
+
+            updateParsedResponse.Status.Should().Be("Bad Request");
+            updateParsedResponse.Errors.Should().NotBeNullOrEmpty();
+            updateParsedResponse.Errors.Should().HaveCount(expectedValidations.Count);
+            updateParsedResponse.Errors.Should().Contain(expectedValidations);
+
+            // Undo
+            RemoveFromContext(dummyEntity);
+        }
     }
 
     public class NewsControllerTests : GenericControllerTests<News, Guid, NewsDTO>
@@ -324,7 +352,9 @@ namespace Tests.Tests.Integration.Abstract
         static List<NewsDTO> dTOs = new List<NewsDTO>()
         {
             new NewsDTO { Title = "Title", Content = "Content", Subtitle = "Subtitle" },
+            new NewsDTO { Title = "Spaced Title", Content = "Spaced Content", Subtitle = "Spaced Subtitle" },
             new NewsDTO { Title = "Title", Content = "Content", Subtitle = "Subtitle", CreationDate = DateTime.Parse("2000-01-01+00"), LastUpdated = DateTime.Parse("2000-01-01+00") },
+            new NewsDTO { Title = "Title", Content = "Content", Subtitle = "Subtitle", CreationDate = DateTime.Parse("2000-01-01T23:59:59+00"), LastUpdated = DateTime.Parse("2000-01-01T23:59:59+00") },
             new NewsDTO { Title = "Title", Content = "Content", Subtitle = "Subtitle", CreationDate = DateTime.Parse("2000-01-02+00"), LastUpdated = DateTime.Parse("2000-01-02+00") },
             new NewsDTO { Title = "Title", Content = "Content", Subtitle = "Subtitle", CreationDate = DateTime.Parse("2000-01-03+00"), LastUpdated = DateTime.Parse("2000-01-03+00") },
             new NewsDTO { Title = "Title2", Content = "Content2", Subtitle = "Subtitle2" },
@@ -380,6 +410,10 @@ namespace Tests.Tests.Integration.Abstract
                     n.CreationDate <= DateTime.Parse("2000-01-01T23:59:59+00").ToUniversalTime()
                 }
             };
+                yield return new object[] { dTOs, "?Title=Spaced%20Title", 100, new ValidateFilteringTestData<News>() {
+                    predicate = n => n.Title.Contains("Spaced Title")
+                }
+            };
             }
         }
 
@@ -387,6 +421,21 @@ namespace Tests.Tests.Integration.Abstract
         public async override Task SearchEntity(List<NewsDTO> dtoList, string queryParams, int pageSize, ValidateFilteringTestData<News> expectedFiltering)
         {
             await base.SearchEntity(dtoList, queryParams, pageSize, expectedFiltering);
+        }
+
+        public static IEnumerable<object[]> TestEntityValidationsData
+        {
+            get
+            {
+                yield return new object[] { new NewsDTO { Title = "Title", Content = "Content", Subtitle = "Subtitle", CreationDate = DateTime.Parse("2000-01-02+00"), LastUpdated = DateTime.Parse("2000-01-01+00") }, new List<string>() { NewsService.ExceptionMessages.CreationDateMoreRecentThanLastUpdated }
+                };
+            }
+        }
+
+        [Theory, MemberData(nameof(TestEntityValidationsData))]
+        public async override Task TestEntityValidations(NewsDTO dtoList, List<string> expectedValidations)
+        {
+            await base.TestEntityValidations(dtoList, expectedValidations);
         }
     }
 }
