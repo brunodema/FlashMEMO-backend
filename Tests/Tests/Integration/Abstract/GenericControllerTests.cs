@@ -40,6 +40,20 @@ namespace Tests.Tests.Integration.Abstract
         protected string _searchEndpoint;
 
         /// <summary>
+        /// This disgusting implementation is required because (1) no 'AddOrUpdate' method exists in the EF Core stuff anymore (despite claims of it on the internet), and because (2) the 'Update' method doesn't actually add instead of updating when providing a non-existent object (it should, though) 
+        /// </summary>
+        /// <param name="entity"></param>
+        protected void AddIfNecessary<Type, Key>(Type entity) where Type : class, IDatabaseItem<Key>
+        {
+            using (var scope = _fixture.Host.Services.CreateScope())
+            {
+                var dbContext = scope.ServiceProvider.GetService<FlashMEMOContext>();
+                if (dbContext.Find<Type>(entity.DbId) == null) dbContext.Add(entity);
+                dbContext.SaveChanges();
+            }   
+        }
+
+        /// <summary>
         /// Directly adds an object to the DB, bypassing the Repository class and/or any other interfaces (services, controllers, etc).
         /// </summary>
         /// <param name="entity">Object to be added into the DB.</param>
@@ -459,11 +473,11 @@ namespace Tests.Tests.Integration.Abstract
                 // this disgusting implementation is required because (1) no 'AddOrUpdate' method exists in the EF Core stuff anymore (despite claims of it on the internet), and because (2) the 'Update' method doesn't actually add instead of updating when providing a non-existent object (it should, though) 
                 foreach (var item in new List<Language>() { TestLanguage1, TestLanguage2, TestLanguage3 })
                 {
-                    if (dbContext.Find<Language>(item.ISOCode) == null) dbContext.Add(item);
+                    AddIfNecessary<Language, string>(item);
                 }
                 foreach (var item in new List<ApplicationUser>() { TestUser1, TestUser2, TestUser3 })
                 {
-                    if (dbContext.Find<ApplicationUser>(item.Id) == null) dbContext.Add(item);
+                    AddIfNecessary<ApplicationUser, string>(item);
                 }
 
                 dbContext.SaveChanges();
