@@ -491,7 +491,8 @@ namespace Tests.Tests.Integration.Abstract
         {
             get
             {
-                yield return new object[] { new DeckDTO { Name = "Deck", Description = "This is the description", LanguageId = "en", OwnerId = TestUser1.Id  } };
+                yield return new object[] { new DeckDTO { Name = "Deck", Description = "This is the description", LanguageId = TestLanguage1.ISOCode, OwnerId = TestUser1.Id  } };
+                yield return new object[] { new DeckDTO { Name = "Deck", Description = "This is the description", LanguageId = TestLanguage2.ISOCode, OwnerId = TestUser2.Id} };
             }
         }
 
