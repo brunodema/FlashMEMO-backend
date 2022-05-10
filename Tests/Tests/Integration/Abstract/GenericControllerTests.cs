@@ -285,7 +285,7 @@ namespace Tests.Tests.Integration.Abstract
             RemoveFromContext(entityList);
         }
 
-        public virtual async Task TestEntityValidations(TDTO dto, List<string> expectedValidations)
+        public virtual async Task TestCreateAndUpdateValidations(TDTO dto, List<string> expectedValidations)
         {
             // Arrange
             var dummyEntity = new T();
@@ -311,6 +311,8 @@ namespace Tests.Tests.Integration.Abstract
             // Undo
             RemoveFromContext(dummyEntity);
         }
+
+        // add test for Remove validations (invalid Id), Get validations (invalid Id)
     }
 
     public class NewsControllerTests : GenericControllerTests<News, Guid, NewsDTO>
@@ -448,9 +450,9 @@ namespace Tests.Tests.Integration.Abstract
         }
 
         [Theory, MemberData(nameof(TestEntityValidationsData))]
-        public async override Task TestEntityValidations(NewsDTO dtoList, List<string> expectedValidations)
+        public async override Task TestCreateAndUpdateValidations(NewsDTO dtoList, List<string> expectedValidations)
         {
-            await base.TestEntityValidations(dtoList, expectedValidations);
+            await base.TestCreateAndUpdateValidations(dtoList, expectedValidations);
         }
     }
 
