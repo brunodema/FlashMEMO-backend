@@ -205,9 +205,15 @@ namespace Data.Tools.Filtering
 
         public IEnumerable<News> GetFilteredResults(IQueryable<News> elements)
         {
-            var processedFromDate = FromDate ?? DateTime.MinValue;
-            var processedToDate = ToDate ?? DateTime.MaxValue;
-            elements = elements.Where(x => x.CreationDate >= processedFromDate && x.CreationDate <= processedToDate);
+            var processedFromDate = FromDate ?? DateTime.MinValue.Date;
+            var processedToDate = ToDate ?? DateTime.MaxValue.Date;
+
+            // used tp focus on the date itself, instead of specifics (hour, minute, etc)
+            processedFromDate = new DateTime(processedFromDate.Year, processedFromDate.Month, processedFromDate.Day, 0, 0, 0);
+            processedToDate = new DateTime(processedToDate.Year, processedFromDate.Month, processedFromDate.Day, 23, 59, 59);
+
+
+            elements = elements.Where(x => x.CreationDate >= processedFromDate.ToUniversalTime() && x.CreationDate <= processedToDate.ToUniversalTime());
 
             if (Title != null)
             {

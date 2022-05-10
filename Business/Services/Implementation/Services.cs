@@ -2,6 +2,7 @@
 using Business.Services.Interfaces;
 using Business.Tools;
 using Business.Tools.Interfaces;
+using Business.Tools.Validations;
 using Data.Models.Implementation;
 using Data.Repository.Implementation;
 using Microsoft.AspNetCore.Identity;
@@ -16,7 +17,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace Business.Services.Implementation
-{
+{ 
     public class RoleService : GenericRepositoryService<RoleRepository, string, ApplicationRole>
     {
         private readonly RoleRepository _roleRepository;
@@ -73,8 +74,14 @@ namespace Business.Services.Implementation
         {
             List<string> errors = new();
 
-            if (!_languageService.LanguageExists(entity.LanguageISOCode ?? null)) errors.Add("The language code provided is not valid.");
-            if(!_authService.UserExistsAsync(entity.OwnerId ?? null).Result) errors.Add($"The user owner does not seem to exist within FlashMEMO.");
+            bool areDatesValid = entity.CreationDate <= entity.LastUpdated;
+            if (!areDatesValid)
+            {
+                errors.Add(ServiceValidationMessages.CreationDateMoreRecentThanLastUpdated);
+            }
+
+            if (!_languageService.LanguageExists(entity.LanguageISOCode ?? null)) errors.Add(ServiceValidationMessages.InvalidLanguageCode);
+            if(!_authService.UserExistsAsync(entity.OwnerId ?? null).Result) errors.Add(ServiceValidationMessages.InvalidUserId);
 
             return new ValidatonResult() { IsValid = errors.Count == 0, Errors = errors };
         }
@@ -95,12 +102,12 @@ namespace Business.Services.Implementation
         public NewsService(NewsRepository baseRepository, IOptions<GenericRepositoryServiceOptions> serviceOptions) : base(baseRepository, serviceOptions.Value) { }
         public override ValidatonResult CheckIfEntityIsValid(News entity)
         {
-            bool areDatesValid = entity.CreationDate <= entity.LastUpdated;
-
             List<string> errors = new();
+
+            bool areDatesValid = entity.CreationDate <= entity.LastUpdated;
             if (!areDatesValid)
             {
-                errors.Add("The last updated date must be more recent than the creation date.");
+                errors.Add(ServiceValidationMessages.CreationDateMoreRecentThanLastUpdated);
             }
 
             return new ValidatonResult 

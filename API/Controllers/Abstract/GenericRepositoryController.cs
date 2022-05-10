@@ -12,13 +12,22 @@ using Data.Models.DTOs;
 using System;
 using Data.Tools.Exceptions.Repository;
 using Business.Tools.Exceptions;
+using API.Controllers.Messages;
+
+namespace API.Controllers.Messages
+{
+    public static class ErrorMessages
+    {
+        public static readonly string NoObjectAssociatedWithId = "The provided Id does not correspond to a valid object within the FlashMEMO database.";
+    }
+}
 
 namespace API.Controllers.Abstract
 {
     public class GenericRepositoryControllerDefaults
     {
         public const int DefaultPageSize = 10;
-        public const int DefaultPageIndex = 1;
+        public const int DefaultPageNumber = 1;
     }
 
     public abstract class GenericRepositoryController<TEntity, TKey, TDTO, TFilterOptions, TSortOptions> : ControllerBase
@@ -36,7 +45,7 @@ namespace API.Controllers.Abstract
 
         [HttpGet]
         [Route("list")]
-        public virtual IActionResult List(int pageSize = GenericRepositoryControllerDefaults.DefaultPageSize, int pageNumber = GenericRepositoryControllerDefaults.DefaultPageIndex, [FromQuery] TSortOptions sortOptions = null)
+        public virtual IActionResult List(int pageSize = GenericRepositoryControllerDefaults.DefaultPageSize, int pageNumber = GenericRepositoryControllerDefaults.DefaultPageNumber, [FromQuery] TSortOptions sortOptions = null)
         {
             var data = _repositoryService.ListAsync(sortOptions);
             return Ok(new PaginatedListResponse<TEntity> { Status = "Success", Data = PaginatedList<TEntity>.Create(data, pageNumber, pageSize) });
@@ -46,8 +55,17 @@ namespace API.Controllers.Abstract
         [Route("{id}")]
         public async virtual Task<IActionResult> Get(TKey id)
         {
-            var data = await _repositoryService.GetbyIdAsync(id);
-            return Ok(new DataResponseModel<TEntity> { Status = "Success", Data = data });
+            try
+            {
+                var ret = await _repositoryService.GetbyIdAsync(id);
+                if (ret == null) return BadRequest(new BaseResponseModel { Status = "Bad Request", Message = $"Object was not able to be retrieved from the database.", Errors = new List<string>() { ErrorMessages.NoObjectAssociatedWithId } });
+
+                return Ok(new DataResponseModel<TEntity> { Status = "Success", Message = $"Object deleted successfully.", Data = ret });
+            }
+            catch (Exception)
+            {
+                throw;
+            }
         }
 
         protected async Task<TKey> AttemptEntityCreation(TDTO entityDTO)
@@ -83,7 +101,7 @@ namespace API.Controllers.Abstract
             }
             catch (EntityValidationException ex)
             {
-                return BadRequest(new BaseResponseModel { Status = "Error", Message = $"Validation errors occured when creating object.", Errors = ex.ServiceValidationErrors });
+                return BadRequest(new BaseResponseModel { Status = "Bad Request", Message = $"Validation errors occured when creating object.", Errors = ex.ServiceValidationErrors });
             }
             catch (Exception)
             {
@@ -121,21 +139,21 @@ namespace API.Controllers.Abstract
             try
             {
                 var ret = await _repositoryService.RemoveByIdAsync(id);
+
+                // This comparison is JANKY AS FUCK, but it works. Why do I use it? Because C# is overly complicated and doesn't allow me to set 'TKey' as either 'class' or 'struct' easily. 
+                if (ret.ToString() == default(TKey).ToString()) return BadRequest(new BaseResponseModel { Status = "Bad Request", Message = $"Object was not able to be removed from the database.", Errors = new List<string>() { ErrorMessages.NoObjectAssociatedWithId } });
+
                 return Ok(new BaseResponseModel { Status = "Success", Message = $"Object deleted successfully." });
-            }
-            catch (ObjectNotFoundWithId<TKey> ex)
-            {
-                return NotFound(new BaseResponseModel { Status = "Not Found", Message = "Object was not deleted. Please make sure that the Id provided is valid.", Errors = new List<string>() { ex.Message } });
             }
             catch (Exception)
             {
-                return StatusCode(500);
+                throw;
             }
         }
 
         [HttpGet]
         [Route("search")]
-        public virtual IActionResult Search([FromQuery] TFilterOptions filterOptions, [FromQuery] TSortOptions sortOptions = null, int pageSize = GenericRepositoryControllerDefaults.DefaultPageSize, int pageNumber = GenericRepositoryControllerDefaults.DefaultPageIndex)
+        public virtual IActionResult Search([FromQuery] TFilterOptions filterOptions, [FromQuery] TSortOptions sortOptions = null, int pageSize = GenericRepositoryControllerDefaults.DefaultPageSize, int pageNumber = GenericRepositoryControllerDefaults.DefaultPageNumber)
         {
             var data = _repositoryService.SearchAndOrder(filterOptions, sortOptions);
             data = filterOptions.GetFilteredResults(data.AsQueryable());

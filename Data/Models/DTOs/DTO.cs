@@ -53,7 +53,7 @@ namespace Data.Models.DTOs
     public class DeckDTO : IModelDTO<Deck, Guid>
     {
         public string OwnerId { get; set; } = Guid.Empty.ToString();
-        public string LanguageId { get; set; } = "";
+        public string LanguageISOCode { get; set; } = "";
         public string Name { get; set; } = "";
         public string Description { get; set; } = "";
         public DateTime CreationDate { get; set; } = DateTime.Now;
@@ -62,7 +62,7 @@ namespace Data.Models.DTOs
         public void PassValuesToEntity(Deck entity)
         {
             entity.OwnerId = OwnerId;
-            entity.LanguageISOCode = LanguageId;
+            entity.LanguageISOCode = LanguageISOCode;
             entity.Name = Name;
             entity.Description = Description;
             entity.CreationDate = CreationDate;
@@ -95,8 +95,8 @@ namespace Data.Models.DTOs
         public Guid DeckId { get; set; } = Guid.Empty;
         public int Level { get; set; } = 0;
         public string Answer { get; set; } = "";
-        public FlashcardContentLayout FrontContentLayout { get; set; } = FlashcardContentLayout.SINGLE;
-        public FlashcardContentLayout BackContentLayout { get; set; } = FlashcardContentLayout.SINGLE;
+        public FlashcardContentLayout FrontContentLayout { get; set; } = FlashcardContentLayout.SINGLE_BLOCK;
+        public FlashcardContentLayout BackContentLayout { get; set; } = FlashcardContentLayout.SINGLE_BLOCK;
         public string Content1 { get; set; } = "";
         public string Content2 { get; set; } = "";
         public string Content3 { get; set; } = "";

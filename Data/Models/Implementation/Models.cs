@@ -23,6 +23,22 @@ namespace Data.Models.Implementation
 
         [NotMapped]
         public Guid DbId { get => NewsID; set => NewsID = value; }
+
+        public override bool Equals(object obj)
+        {
+            return obj is News model &&
+                   Title == model.Title &&
+                   Subtitle == model.Subtitle &&
+            ThumbnailPath == model.ThumbnailPath &&
+            Content == model.Content &&
+            CreationDate == model.CreationDate &&
+            LastUpdated == model.LastUpdated;
+        }
+
+        public override int GetHashCode()
+        {
+            return HashCode.Combine(NewsID, Subtitle, ThumbnailPath, Content, CreationDate, LastUpdated);
+        }
     }
 
     public class Deck : IDatabaseItem<Guid>
@@ -44,6 +60,23 @@ namespace Data.Models.Implementation
 
         [NotMapped]
         public Guid DbId { get => DeckID; set => DeckID = value; }
+
+        public override bool Equals(object obj)
+        {
+            return obj is Deck model &&
+                   DeckID == model.DeckID &&
+                   OwnerId == model.OwnerId &&
+                LanguageISOCode == model.LanguageISOCode &&
+                Name == model.Name &&
+                Description == model.Description &&
+                CreationDate == model.CreationDate &&
+                LastUpdated == model.LastUpdated;
+        }
+
+        public override int GetHashCode()
+        {
+            return HashCode.Combine(DeckID, OwnerId, LanguageISOCode, Name, Description, CreationDate, LastUpdated);
+        }
     }
 
     public class Flashcard : IDatabaseItem<Guid>
@@ -56,8 +89,8 @@ namespace Data.Models.Implementation
         public Guid DeckId { get; set; } = Guid.Empty;
 
         public int Level { get; set; } = 0;
-        public FlashcardContentLayout FrontContentLayout { get; set; } = FlashcardContentLayout.SINGLE;
-        public FlashcardContentLayout BackContentLayout { get; set; } = FlashcardContentLayout.SINGLE;
+        public FlashcardContentLayout FrontContentLayout { get; set; } = FlashcardContentLayout.SINGLE_BLOCK;
+        public FlashcardContentLayout BackContentLayout { get; set; } = FlashcardContentLayout.SINGLE_BLOCK;
         public string Content1 { get; set; } = "";
         public string Content2 { get; set; } = "";
         public string Content3 { get; set; } = "";

@@ -44,7 +44,7 @@ namespace Business.Services.Implementation
     {
         public IEnumerable<CustomSearchAPIImageResult> Results { get; set; }
         public int PageSize { get; set; }
-        public string PageIndex { get; set; }
+        public string PageNumber { get; set; }
         public string TotalAmount { get; set; }
         public string TotalPages { get; set; }
         public bool HasPreviousPage { get; set; }
@@ -136,7 +136,7 @@ namespace Business.Services.Implementation
                     {
                         Results = results.Items.Select(i => new CustomSearchAPIImageResult() { Title = i.Title, Image = i.Image, Link = i.Link }),
                         PageSize = results?.Items?.Count ?? 0,
-                        PageIndex = pageNumber.ToString(),
+                        PageNumber = pageNumber.ToString(),
                         TotalPages = totalPages,
                         TotalAmount = results?.SearchInformation.TotalResults ?? "0",
                         HasPreviousPage = results.Queries.PreviousPage?.Any() ?? false, // the 'null' check would be sufficient here, considering how Google returns the data (ex: 'PreviousPage' returns 'null')
@@ -175,7 +175,10 @@ namespace Business.Services.Implementation
                 throw new InputValidationException() { InputValidationErrors = inputValidationErrors };
             }
 
-            using (var client = new HttpClient())
+            HttpClientHandler clientHandler = new HttpClientHandler();
+            clientHandler.ServerCertificateCustomValidationCallback = (sender, cert, chain, sslPolicyErrors) => { return true; };
+
+            using (var client = new HttpClient(clientHandler))
             {
                 client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Basic", Convert.ToBase64String(System.Text.ASCIIEncoding.ASCII.GetBytes($"{Username}:{Password}")));
 

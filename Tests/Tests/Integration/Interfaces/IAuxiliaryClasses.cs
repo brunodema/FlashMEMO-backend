@@ -3,12 +3,6 @@ using Data.Tools.Filtering;
 
 namespace Tests.Integration.Interfaces
 {
-    public interface IExpectedValidationErrorsForEntity<TEntity>
-    {
-        public TEntity Entity { get; set; }
-        public string Message { get; set; }
-        public string[] Errors { get; set; }
-    }
     public interface IPageData<TEntity>
     {
         public int PageSize { get; set; }

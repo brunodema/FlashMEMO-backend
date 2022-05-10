@@ -135,10 +135,12 @@ namespace API
             // database configuration
             services.AddDbContext<FlashMEMOContext>(o =>
             {
+                o.EnableSensitiveDataLogging();
                 o.UseNpgsql(Configuration.GetConnectionString("Postgres"), options => options
                     .MigrationsAssembly("API")
                     .EnableRetryOnFailure(5));
             });
+            services.AddSingleton(new FlashMEMOContextOptions { SeederPath = Configuration.GetValue<string>("seederPath") }); // https://stackoverflow.com/questions/66383701/passing-parameter-to-dbcontext-with-di
 
             services.AddHttpClient();
 
@@ -209,9 +211,6 @@ namespace API
             {
                 endpoints.MapControllers();
             });
-
-            var seeder = new DbSeeder(provider, Configuration.GetValue<string>("seederPath"));
-            seeder.InitializeDatabaseAsync().Wait();
         }
     }
 }

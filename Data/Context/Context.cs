@@ -1,17 +1,32 @@
 ﻿using Data.Models.Implementation;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 using static Data.Models.Implementation.StaticModels;
+using static Data.Tools.FlashcardTools;
 
 namespace Data.Context
 {
+    public class FlashMEMOContextOptions
+    {
+        public string SeederPath { get; set; }
+    }
+
     public class FlashMEMOContext : IdentityDbContext<
         ApplicationUser, ApplicationRole, string,
         ApplicationUserClaim, ApplicationUserRole, ApplicationUserLogin,
         ApplicationRoleClaim, ApplicationUserToken>
     {
-        public FlashMEMOContext(DbContextOptions<FlashMEMOContext> options) : base(options)
-        { 
+        private readonly string _seederPath;
+
+        public FlashMEMOContext(DbContextOptions<FlashMEMOContext> options, FlashMEMOContextOptions contextOptions) : base(options)
+        {
+            _seederPath = contextOptions.SeederPath;
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -60,6 +75,26 @@ namespace Data.Context
                     .HasForeignKey(rc => rc.RoleId)
                     .IsRequired();
             });
+
+            //modelBuilder.Entity<ApplicationRole>()
+            modelBuilder.Entity<ApplicationUser>()
+                .HasData(JsonConvert.DeserializeObject<ApplicationUser[]>(File.ReadAllText($"{_seederPath}/Users.json")));
+
+            modelBuilder.Entity<Language>()
+                .HasData(JsonConvert.DeserializeObject<Language[]>(File.ReadAllText($"{_seederPath}/Languages.json")));
+
+            modelBuilder.Entity<News>()
+                .HasData(JsonConvert.DeserializeObject<News[]>(File.ReadAllText($"{_seederPath}/News.json"), new JsonSerializerSettings { DateTimeZoneHandling = DateTimeZoneHandling.Utc }));
+
+            modelBuilder.Entity<Deck>()
+                .HasData(JsonConvert.DeserializeObject<Deck[]>(File.ReadAllText($"{_seederPath}/Decks.json"), new JsonSerializerSettings { DateTimeZoneHandling = DateTimeZoneHandling.Utc }));
+
+            modelBuilder.Entity<Flashcard>().Property(e => e.FrontContentLayout).HasConversion(
+               v => v.ToString(),
+               v => (FlashcardContentLayout)Enum.Parse(typeof(FlashcardContentLayout), v));
+
+            modelBuilder.Entity<Flashcard>()
+                .HasData(JsonConvert.DeserializeObject<Flashcard[]>(File.ReadAllText($"{_seederPath}/Flashcards.json"), new JsonSerializerSettings { DateTimeZoneHandling = DateTimeZoneHandling.Utc }));
         }
         public DbSet<News> News { get; set; }
         public DbSet<Deck> Decks { get; set; }
