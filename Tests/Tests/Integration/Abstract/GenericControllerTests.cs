@@ -50,7 +50,7 @@ namespace Tests.Tests.Integration.Abstract
                 var dbContext = scope.ServiceProvider.GetService<FlashMEMOContext>();
                 if (dbContext.Find<Type>(entity.DbId) == null) dbContext.Add(entity);
                 dbContext.SaveChanges();
-            }   
+            }
         }
 
         /// <summary>
@@ -444,7 +444,7 @@ namespace Tests.Tests.Integration.Abstract
         {
             get
             {
-                yield return new object[] { new NewsDTO { Title = "Title", Content = "Content", Subtitle = "Subtitle", CreationDate = DateTime.Parse("2000-01-02+00"), LastUpdated = DateTime.Parse("2000-01-01+00") }, new List<string>() { NewsService.ExceptionMessages.CreationDateMoreRecentThanLastUpdated }
+                yield return new object[] { new NewsDTO { Title = "Title", Content = "Content", Subtitle = "Subtitle", CreationDate = DateTime.Parse("2000-01-02+00"), LastUpdated = DateTime.Parse("2000-01-01+00") }, new List<string>() { ServiceValidationMessages.CreationDateMoreRecentThanLastUpdated }
                 };
             }
         }
@@ -493,8 +493,8 @@ namespace Tests.Tests.Integration.Abstract
         {
             get
             {
-                yield return new object[] { new DeckDTO { Name = "Deck", Description = "This is the description", LanguageISOCode = TestLanguage1.ISOCode, OwnerId = TestUser1.Id  } };
-                yield return new object[] { new DeckDTO { Name = "Deck", Description = "This is the description", LanguageISOCode = TestLanguage2.ISOCode, OwnerId = TestUser2.Id} };
+                yield return new object[] { new DeckDTO { Name = "Deck", Description = "This is the description", LanguageISOCode = TestLanguage1.ISOCode, OwnerId = TestUser1.Id } };
+                yield return new object[] { new DeckDTO { Name = "Deck", Description = "This is the description", LanguageISOCode = TestLanguage2.ISOCode, OwnerId = TestUser2.Id } };
             }
         }
 
@@ -579,20 +579,45 @@ namespace Tests.Tests.Integration.Abstract
             await base.SearchEntity(dtoList, queryParams, pageSize, expectedFiltering);
         }
 
-        //public static IEnumerable<object[]> TestEntityValidationsData
-        //{
-        //    get
-        //    {
-        //        yield return new object[] { new NewsDTO { Title = "Title", Content = "Content", Subtitle = "Subtitle", CreationDate = DateTime.Parse("2000-01-02+00"), LastUpdated = DateTime.Parse("2000-01-01+00") }, new List<string>() { NewsService.ExceptionMessages.CreationDateMoreRecentThanLastUpdated }
-        //        };
-        //    }
-        //}
+        public static IEnumerable<object[]> TestCreateAndUpdateValidationsData
+        {
+            get
+            {
+                yield return new object[]
+                {
+                    new DeckDTO { Name = "Deck", Description = "This is the description", LanguageISOCode = TestLanguage1.ISOCode, OwnerId = TestUser1.Id, CreationDate = DateTime.Parse("2000-01-02"), LastUpdated = DateTime.Parse("2000-01-01")
+                    },
+                    new List<string>()
+                    {
+                        ServiceValidationMessages.CreationDateMoreRecentThanLastUpdated
+                    }
+                };
+                yield return new object[]
+                {
+                    new DeckDTO { Name = "Deck", Description = "This is the description", LanguageISOCode = "invalid", OwnerId = TestUser1.Id,
+                    },
+                    new List<string>()
+                    {
+                        ServiceValidationMessages.InvalidLanguageCode
+                    }
+                };
+                yield return new object[]
+                {
+                    new DeckDTO { Name = "Deck", Description = "This is the description", LanguageISOCode = TestLanguage1.ISOCode, OwnerId = Guid.Empty.ToString()
+                    },
+                    new List<string>()
+                    {
+                        ServiceValidationMessages.InvalidUserId
+                    }
+                };
+            }
+        }
 
-        //[Theory, MemberData(nameof(TestEntityValidationsData))]
-        //public async override Task TestEntityValidations(NewsDTO dtoList, List<string> expectedValidations)
-        //{
-        //    await base.TestEntityValidations(dtoList, expectedValidations);
-        //}
+        [Theory, MemberData(nameof(TestCreateAndUpdateValidationsData))]
+        public async override Task TestCreateAndUpdateValidations(DeckDTO dtoList, List<string> expectedValidations)
+        {
+            await base.TestCreateAndUpdateValidations(dtoList, expectedValidations);
+        }
     }
 }
 

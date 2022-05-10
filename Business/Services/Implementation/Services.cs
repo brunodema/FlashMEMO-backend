@@ -17,6 +17,13 @@ using System.Threading.Tasks;
 
 namespace Business.Services.Implementation
 {
+    public class ServiceValidationMessages
+    {
+        public static readonly string CreationDateMoreRecentThanLastUpdated = "The last updated date must be more recent than the creation date";
+        public static readonly string InvalidLanguageCode = "The language code provided is not valid.";
+        public static readonly string InvalidUserId = "The user provided does not seem to exist within FlashMEMO.";
+    }
+   
     public class RoleService : GenericRepositoryService<RoleRepository, string, ApplicationRole>
     {
         private readonly RoleRepository _roleRepository;
@@ -73,8 +80,14 @@ namespace Business.Services.Implementation
         {
             List<string> errors = new();
 
-            if (!_languageService.LanguageExists(entity.LanguageISOCode ?? null)) errors.Add("The language code provided is not valid.");
-            if(!_authService.UserExistsAsync(entity.OwnerId ?? null).Result) errors.Add($"The user owner does not seem to exist within FlashMEMO.");
+            bool areDatesValid = entity.CreationDate <= entity.LastUpdated;
+            if (!areDatesValid)
+            {
+                errors.Add(ServiceValidationMessages.CreationDateMoreRecentThanLastUpdated);
+            }
+
+            if (!_languageService.LanguageExists(entity.LanguageISOCode ?? null)) errors.Add(ServiceValidationMessages.InvalidLanguageCode);
+            if(!_authService.UserExistsAsync(entity.OwnerId ?? null).Result) errors.Add(ServiceValidationMessages.InvalidUserId);
 
             return new ValidatonResult() { IsValid = errors.Count == 0, Errors = errors };
         }
@@ -92,20 +105,15 @@ namespace Business.Services.Implementation
 
     public class NewsService : GenericRepositoryService<NewsRepository, Guid, News>
     {
-        public static class ExceptionMessages
-        {
-            public static readonly string CreationDateMoreRecentThanLastUpdated = "The last updated date must be more recent than the creation date";
-        }
-
         public NewsService(NewsRepository baseRepository, IOptions<GenericRepositoryServiceOptions> serviceOptions) : base(baseRepository, serviceOptions.Value) { }
         public override ValidatonResult CheckIfEntityIsValid(News entity)
         {
-            bool areDatesValid = entity.CreationDate <= entity.LastUpdated;
-
             List<string> errors = new();
+
+            bool areDatesValid = entity.CreationDate <= entity.LastUpdated;
             if (!areDatesValid)
             {
-                errors.Add(ExceptionMessages.CreationDateMoreRecentThanLastUpdated);
+                errors.Add(ServiceValidationMessages.CreationDateMoreRecentThanLastUpdated);
             }
 
             return new ValidatonResult 
