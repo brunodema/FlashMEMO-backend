@@ -25,7 +25,7 @@ using Business.Tools.Validations;
 
 namespace Tests.Tests.Integration.Abstract
 {
-    public class GenericControllerTests<T, TKey, TDTO> : IClassFixture<IntegrationTestFixture>
+    public abstract class GenericControllerTests<T, TKey, TDTO> : IClassFixture<IntegrationTestFixture>
         where T : class, IDatabaseItem<TKey>, new()
         where TDTO : IModelDTO<T, TKey>
     {
@@ -313,13 +313,27 @@ namespace Tests.Tests.Integration.Abstract
             RemoveFromContext(dummyEntity);
         }
 
-        /// <summary>
-        /// DISCLAIMER: this method shouldn't have to be overwritten in the test classes themselves, since their full behavior could be tested here directly. However, if I declare this method with all of its test attributes ('Theory', etc), the test runner will attempt to instantiate this abstract class, and this of course will piss off C#.
-        /// </summary>
-        /// <param name="invalidId"></param>
-        /// <param name="expectedValidations"></param>
-        /// <returns></returns>
-        public virtual async Task TestGetAndRemoveInvalidIdValidations(TKey invalidId, List<string> expectedValidations)
+        public static IEnumerable<object[]> TestGetAndRemoveInvalidIdValidationsData
+        {
+            get
+            {
+                yield return new object[]
+                {
+                    null, new List<string>() { API.Controllers.Messages.ErrorMessages.NoObjectAssociatedWithId }
+                };
+                yield return new object[]
+                {
+                    Guid.Empty, new List<string>() { API.Controllers.Messages.ErrorMessages.NoObjectAssociatedWithId },
+                };
+                yield return new object[]
+                {
+                    Guid.NewGuid(), new List<string>() { API.Controllers.Messages.ErrorMessages.NoObjectAssociatedWithId },
+                };
+            }
+        }
+
+        [Theory, MemberData(nameof(TestGetAndRemoveInvalidIdValidationsData))]
+        public async Task TestGetAndRemoveInvalidIdValidations(TKey invalidId, List<string> expectedValidations)
         {
             // Arrange
 
@@ -484,30 +498,30 @@ namespace Tests.Tests.Integration.Abstract
             await base.TestCreateAndUpdateValidations(dtoList, expectedValidations);
         }
 
-        public static IEnumerable<object[]> TestGetAndRemoveInvalidIdValidationsData
-        {
-            get
-            {
-                yield return new object[]
-                {
-                    null, new List<string>() { API.Controllers.Messages.ErrorMessages.NoObjectAssociatedWithId }
-                };
-                yield return new object[]
-                {
-                    Guid.Empty, new List<string>() { API.Controllers.Messages.ErrorMessages.NoObjectAssociatedWithId },
-                };
-                yield return new object[]
-                {
-                    Guid.NewGuid(), new List<string>() { API.Controllers.Messages.ErrorMessages.NoObjectAssociatedWithId },
-                };
-            }
-        }
+        //public static IEnumerable<object[]> TestGetAndRemoveInvalidIdValidationsData
+        //{
+        //    get
+        //    {
+        //        yield return new object[]
+        //        {
+        //            null, new List<string>() { API.Controllers.Messages.ErrorMessages.NoObjectAssociatedWithId }
+        //        };
+        //        yield return new object[]
+        //        {
+        //            Guid.Empty, new List<string>() { API.Controllers.Messages.ErrorMessages.NoObjectAssociatedWithId },
+        //        };
+        //        yield return new object[]
+        //        {
+        //            Guid.NewGuid(), new List<string>() { API.Controllers.Messages.ErrorMessages.NoObjectAssociatedWithId },
+        //        };
+        //    }
+        //}
 
-        [Theory, MemberData(nameof(TestGetAndRemoveInvalidIdValidationsData))]
-        public async override Task TestGetAndRemoveInvalidIdValidations(Guid invalidId, List<string> expectedValidations)
-        {
-            await base.TestGetAndRemoveInvalidIdValidations(invalidId, expectedValidations);
-        }
+        //[Theory, MemberData(nameof(TestGetAndRemoveInvalidIdValidationsData))]
+        //public async override Task TestGetAndRemoveInvalidIdValidations(Guid invalidId, List<string> expectedValidations)
+        //{
+        //    await base.TestGetAndRemoveInvalidIdValidations(invalidId, expectedValidations);
+        //}
     }
 
     public class DeckControllerTests : GenericControllerTests<Deck, Guid, DeckDTO>
@@ -673,30 +687,30 @@ namespace Tests.Tests.Integration.Abstract
             await base.TestCreateAndUpdateValidations(dto, expectedValidations);
         }
 
-        public static IEnumerable<object[]> TestGetAndRemoveInvalidIdValidationsData
-        {
-            get
-            {
-                yield return new object[]
-                {
-                    null, new List<string>() { API.Controllers.Messages.ErrorMessages.NoObjectAssociatedWithId }
-                };
-                yield return new object[]
-                {
-                    Guid.Empty, new List<string>() { API.Controllers.Messages.ErrorMessages.NoObjectAssociatedWithId },
-                };
-                yield return new object[]
-                {
-                    Guid.NewGuid(), new List<string>() { API.Controllers.Messages.ErrorMessages.NoObjectAssociatedWithId },
-                };
-            }
-        }
+        //public static IEnumerable<object[]> TestGetAndRemoveInvalidIdValidationsData
+        //{
+        //    get
+        //    {
+        //        yield return new object[]
+        //        {
+        //            null, new List<string>() { API.Controllers.Messages.ErrorMessages.NoObjectAssociatedWithId }
+        //        };
+        //        yield return new object[]
+        //        {
+        //            Guid.Empty, new List<string>() { API.Controllers.Messages.ErrorMessages.NoObjectAssociatedWithId },
+        //        };
+        //        yield return new object[]
+        //        {
+        //            Guid.NewGuid(), new List<string>() { API.Controllers.Messages.ErrorMessages.NoObjectAssociatedWithId },
+        //        };
+        //    }
+        //}
 
-        [Theory, MemberData(nameof(TestGetAndRemoveInvalidIdValidationsData))]
-        public async override Task TestGetAndRemoveInvalidIdValidations(Guid invalidId, List<string> expectedValidations)
-        {
-            await base.TestGetAndRemoveInvalidIdValidations(invalidId, expectedValidations);
-        }
+        //[Theory, MemberData(nameof(TestGetAndRemoveInvalidIdValidationsData))]
+        //public async override Task TestGetAndRemoveInvalidIdValidations(Guid invalidId, List<string> expectedValidations)
+        //{
+        //    await base.TestGetAndRemoveInvalidIdValidations(invalidId, expectedValidations);
+        //}
     }
 }
 
