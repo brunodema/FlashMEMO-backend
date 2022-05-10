@@ -62,14 +62,12 @@ namespace Data.Repository.Abstract
         public virtual async Task<TKey> RemoveByIdAsync(TKey guid)
         {
             var entity = await _dbset.FindAsync(guid);
-            if (entity == null)
-            {
-                throw new ObjectNotFoundWithId<TKey>(guid);
-            }
-            var ret =_dbset.Remove(entity);
-            await SaveChangesAsync();
+            if (entity == null) return default(TKey);
 
-            return ret.State == EntityState.Deleted ? entity.DbId : default(TKey);
+            _dbset.Remove(entity);
+            var ret = await SaveChangesAsync();
+
+            return ret > 0 ? entity.DbId : default(TKey);
         }
         public async Task<int> SaveChangesAsync()
         {

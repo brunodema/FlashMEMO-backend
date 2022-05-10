@@ -12,6 +12,15 @@ using Data.Models.DTOs;
 using System;
 using Data.Tools.Exceptions.Repository;
 using Business.Tools.Exceptions;
+using API.Controllers.Messages;
+
+namespace API.Controllers.Messages
+{
+    public static class ErrorMessages
+    {
+        public static readonly string NoObjectAssociatedWithId = "The provided Id does not correspond to a valid object within the FlashMEMO database.";
+    }
+}
 
 namespace API.Controllers.Abstract
 {
@@ -46,8 +55,17 @@ namespace API.Controllers.Abstract
         [Route("{id}")]
         public async virtual Task<IActionResult> Get(TKey id)
         {
-            var data = await _repositoryService.GetbyIdAsync(id);
-            return Ok(new DataResponseModel<TEntity> { Status = "Success", Data = data });
+            try
+            {
+                var ret = await _repositoryService.GetbyIdAsync(id);
+                if (ret == null) return BadRequest(new BaseResponseModel { Status = "Bad Request", Message = $"Object was not able to be retrieved from the database.", Errors = new List<string>() { ErrorMessages.NoObjectAssociatedWithId } });
+
+                return Ok(new DataResponseModel<TEntity> { Status = "Success", Message = $"Object deleted successfully.", Data = ret });
+            }
+            catch (Exception)
+            {
+                throw;
+            }
         }
 
         protected async Task<TKey> AttemptEntityCreation(TDTO entityDTO)
@@ -121,15 +139,15 @@ namespace API.Controllers.Abstract
             try
             {
                 var ret = await _repositoryService.RemoveByIdAsync(id);
+
+                // This comparison is JANKY AS FUCK, but it works. Why do I use it? Because C# is overly complicated and doesn't allow me to set 'TKey' as either 'class' or 'struct' easily. 
+                if (ret.ToString() == default(TKey).ToString()) return BadRequest(new BaseResponseModel { Status = "Bad Request", Message = $"Object was not able to be removed from the database.", Errors = new List<string>() { ErrorMessages.NoObjectAssociatedWithId } });
+
                 return Ok(new BaseResponseModel { Status = "Success", Message = $"Object deleted successfully." });
-            }
-            catch (ObjectNotFoundWithId<TKey> ex)
-            {
-                return NotFound(new BaseResponseModel { Status = "Not Found", Message = "Object was not deleted. Please make sure that the Id provided is valid.", Errors = new List<string>() { ex.Message } });
             }
             catch (Exception)
             {
-                return StatusCode(500);
+                throw;
             }
         }
 

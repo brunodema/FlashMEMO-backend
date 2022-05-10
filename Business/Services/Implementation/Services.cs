@@ -2,6 +2,7 @@
 using Business.Services.Interfaces;
 using Business.Tools;
 using Business.Tools.Interfaces;
+using Business.Tools.Validations;
 using Data.Models.Implementation;
 using Data.Repository.Implementation;
 using Microsoft.AspNetCore.Identity;
@@ -16,14 +17,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace Business.Services.Implementation
-{
-    public class ServiceValidationMessages
-    {
-        public static readonly string CreationDateMoreRecentThanLastUpdated = "The last updated date must be more recent than the creation date";
-        public static readonly string InvalidLanguageCode = "The language code provided is not valid.";
-        public static readonly string InvalidUserId = "The user provided does not seem to exist within FlashMEMO.";
-    }
-   
+{ 
     public class RoleService : GenericRepositoryService<RoleRepository, string, ApplicationRole>
     {
         private readonly RoleRepository _roleRepository;

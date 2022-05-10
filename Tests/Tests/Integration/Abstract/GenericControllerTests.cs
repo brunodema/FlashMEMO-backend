@@ -21,6 +21,7 @@ using static Tests.Tools;
 using Newtonsoft.Json;
 using Business.Services.Implementation;
 using static Data.Models.Implementation.StaticModels;
+using Business.Tools.Validations;
 
 namespace Tests.Tests.Integration.Abstract
 {
@@ -312,7 +313,35 @@ namespace Tests.Tests.Integration.Abstract
             RemoveFromContext(dummyEntity);
         }
 
-        // add test for Remove validations (invalid Id), Get validations (invalid Id)
+        /// <summary>
+        /// DISCLAIMER: this method shouldn't have to be overwritten in the test classes themselves, since their full behavior could be tested here directly. However, if I declare this method with all of its test attributes ('Theory', etc), the test runner will attempt to instantiate this abstract class, and this of course will piss off C#.
+        /// </summary>
+        /// <param name="invalidId"></param>
+        /// <param name="expectedValidations"></param>
+        /// <returns></returns>
+        public virtual async Task TestGetAndRemoveInvalidIdValidations(TKey invalidId, List<string> expectedValidations)
+        {
+            // Arrange
+
+            // Act
+            var getResponse = await _client.GetAsync($"{_baseEndpoint}/{invalidId}");
+            var getParsedResponse = await getResponse.Content.ReadFromJsonAsync<BaseResponseModel>();
+            var deleteResponse = await _client.PostAsync($"{_deleteEndpoint}", JsonContent.Create(invalidId));
+            var deleteParsedResponse = await deleteResponse.Content.ReadFromJsonAsync<BaseResponseModel>();
+
+            // Assert
+            getParsedResponse.Status.Should().Be("Bad Request");
+            getParsedResponse.Errors.Should().NotBeNullOrEmpty();
+            getParsedResponse.Errors.Should().HaveCount(expectedValidations.Count);
+            getParsedResponse.Errors.Should().Contain(expectedValidations);
+
+            deleteParsedResponse.Status.Should().Be("Bad Request");
+            deleteParsedResponse.Errors.Should().NotBeNullOrEmpty();
+            deleteParsedResponse.Errors.Should().HaveCount(expectedValidations.Count);
+            deleteParsedResponse.Errors.Should().Contain(expectedValidations);
+
+            // Undo
+        }
     }
 
     public class NewsControllerTests : GenericControllerTests<News, Guid, NewsDTO>
@@ -453,6 +482,31 @@ namespace Tests.Tests.Integration.Abstract
         public async override Task TestCreateAndUpdateValidations(NewsDTO dtoList, List<string> expectedValidations)
         {
             await base.TestCreateAndUpdateValidations(dtoList, expectedValidations);
+        }
+
+        public static IEnumerable<object[]> TestGetAndRemoveInvalidIdValidationsData
+        {
+            get
+            {
+                yield return new object[]
+                {
+                    null, new List<string>() { API.Controllers.Messages.ErrorMessages.NoObjectAssociatedWithId }
+                };
+                yield return new object[]
+                {
+                    Guid.Empty, new List<string>() { API.Controllers.Messages.ErrorMessages.NoObjectAssociatedWithId },
+                };
+                yield return new object[]
+                {
+                    Guid.NewGuid(), new List<string>() { API.Controllers.Messages.ErrorMessages.NoObjectAssociatedWithId },
+                };
+            }
+        }
+
+        [Theory, MemberData(nameof(TestGetAndRemoveInvalidIdValidationsData))]
+        public async override Task TestGetAndRemoveInvalidIdValidations(Guid invalidId, List<string> expectedValidations)
+        {
+            await base.TestGetAndRemoveInvalidIdValidations(invalidId, expectedValidations);
         }
     }
 
@@ -614,9 +668,34 @@ namespace Tests.Tests.Integration.Abstract
         }
 
         [Theory, MemberData(nameof(TestCreateAndUpdateValidationsData))]
-        public async override Task TestCreateAndUpdateValidations(DeckDTO dtoList, List<string> expectedValidations)
+        public async override Task TestCreateAndUpdateValidations(DeckDTO dto, List<string> expectedValidations)
         {
-            await base.TestCreateAndUpdateValidations(dtoList, expectedValidations);
+            await base.TestCreateAndUpdateValidations(dto, expectedValidations);
+        }
+
+        public static IEnumerable<object[]> TestGetAndRemoveInvalidIdValidationsData
+        {
+            get
+            {
+                yield return new object[]
+                {
+                    null, new List<string>() { API.Controllers.Messages.ErrorMessages.NoObjectAssociatedWithId }
+                };
+                yield return new object[]
+                {
+                    Guid.Empty, new List<string>() { API.Controllers.Messages.ErrorMessages.NoObjectAssociatedWithId },
+                };
+                yield return new object[]
+                {
+                    Guid.NewGuid(), new List<string>() { API.Controllers.Messages.ErrorMessages.NoObjectAssociatedWithId },
+                };
+            }
+        }
+
+        [Theory, MemberData(nameof(TestGetAndRemoveInvalidIdValidationsData))]
+        public async override Task TestGetAndRemoveInvalidIdValidations(Guid invalidId, List<string> expectedValidations)
+        {
+            await base.TestGetAndRemoveInvalidIdValidations(invalidId, expectedValidations);
         }
     }
 }
