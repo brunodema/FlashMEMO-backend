@@ -497,31 +497,6 @@ namespace Tests.Tests.Integration.Abstract
         {
             await base.TestCreateAndUpdateValidations(dtoList, expectedValidations);
         }
-
-        //public static IEnumerable<object[]> TestGetAndRemoveInvalidIdValidationsData
-        //{
-        //    get
-        //    {
-        //        yield return new object[]
-        //        {
-        //            null, new List<string>() { API.Controllers.Messages.ErrorMessages.NoObjectAssociatedWithId }
-        //        };
-        //        yield return new object[]
-        //        {
-        //            Guid.Empty, new List<string>() { API.Controllers.Messages.ErrorMessages.NoObjectAssociatedWithId },
-        //        };
-        //        yield return new object[]
-        //        {
-        //            Guid.NewGuid(), new List<string>() { API.Controllers.Messages.ErrorMessages.NoObjectAssociatedWithId },
-        //        };
-        //    }
-        //}
-
-        //[Theory, MemberData(nameof(TestGetAndRemoveInvalidIdValidationsData))]
-        //public async override Task TestGetAndRemoveInvalidIdValidations(Guid invalidId, List<string> expectedValidations)
-        //{
-        //    await base.TestGetAndRemoveInvalidIdValidations(invalidId, expectedValidations);
-        //}
     }
 
     public class DeckControllerTests : GenericControllerTests<Deck, Guid, DeckDTO>
@@ -686,31 +661,6 @@ namespace Tests.Tests.Integration.Abstract
         {
             await base.TestCreateAndUpdateValidations(dto, expectedValidations);
         }
-
-        //public static IEnumerable<object[]> TestGetAndRemoveInvalidIdValidationsData
-        //{
-        //    get
-        //    {
-        //        yield return new object[]
-        //        {
-        //            null, new List<string>() { API.Controllers.Messages.ErrorMessages.NoObjectAssociatedWithId }
-        //        };
-        //        yield return new object[]
-        //        {
-        //            Guid.Empty, new List<string>() { API.Controllers.Messages.ErrorMessages.NoObjectAssociatedWithId },
-        //        };
-        //        yield return new object[]
-        //        {
-        //            Guid.NewGuid(), new List<string>() { API.Controllers.Messages.ErrorMessages.NoObjectAssociatedWithId },
-        //        };
-        //    }
-        //}
-
-        //[Theory, MemberData(nameof(TestGetAndRemoveInvalidIdValidationsData))]
-        //public async override Task TestGetAndRemoveInvalidIdValidations(Guid invalidId, List<string> expectedValidations)
-        //{
-        //    await base.TestGetAndRemoveInvalidIdValidations(invalidId, expectedValidations);
-        //}
     }
 }
 
