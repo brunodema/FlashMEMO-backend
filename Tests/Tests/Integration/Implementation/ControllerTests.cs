@@ -13,6 +13,7 @@ using Tests.Tests.Integration.Abstract;
 using Xunit;
 using Xunit.Abstractions;
 using static Data.Models.Implementation.StaticModels;
+using static Data.Tools.FlashcardTools;
 using static Tests.Tools;
 
 namespace Tests.Tests.Integration.Implementation
@@ -320,5 +321,267 @@ namespace Tests.Tests.Integration.Implementation
         {
             await base.TestCreateAndUpdateValidations(dto, expectedValidations);
         }
+    }
+
+    public class FlashcardControllerTests : GenericControllerTests<Flashcard, Guid, FlashcardDTO>
+    {
+        private static readonly Language TestLanguage1 = new Language { Name = "English", ISOCode = "en" };
+        private static readonly Language TestLanguage2 = new Language { Name = "French", ISOCode = "fr" };
+        private static readonly Language TestLanguage3 = new Language { Name = "Italian", ISOCode = "it" };
+
+        private static readonly ApplicationUser TestUser1 = new ApplicationUser { Id = Guid.NewGuid().ToString(), UserName = "admin", Email = "admin@flashmemo.edu" };
+        private static readonly ApplicationUser TestUser2 = new ApplicationUser { Id = Guid.NewGuid().ToString(), UserName = "user", Email = "user@flashmemo.edu" };
+        private static readonly ApplicationUser TestUser3 = new ApplicationUser { Id = Guid.NewGuid().ToString(), UserName = "manager", Email = "manager@flashmemo.edu" };
+
+        private static readonly Deck TestDeck1 = new Deck { DeckID = Guid.NewGuid(), LanguageISOCode = TestLanguage1.ISOCode, OwnerId = TestUser1.Id, Name = "Deck", Description = "This is a test deck" };
+        private static readonly Deck TestDeck2 = new Deck { DeckID = Guid.NewGuid(), LanguageISOCode = TestLanguage2.ISOCode, OwnerId = TestUser2.Id, Name = "Deck", Description = "This is a test deck" };
+        private static readonly Deck TestDeck3 = new Deck { DeckID = Guid.NewGuid(), LanguageISOCode = TestLanguage3.ISOCode, OwnerId = TestUser3.Id, Name = "Deck", Description = "This is a test deck" };
+
+        public FlashcardControllerTests(IntegrationTestFixture fixture, ITestOutputHelper output) : base(fixture, output)
+        {
+            using (var scope = _fixture.Host.Services.CreateScope())
+            {
+                var dbContext = scope.ServiceProvider.GetService<FlashMEMOContext>();
+
+                // this disgusting implementation is required because (1) no 'AddOrUpdate' method exists in the EF Core stuff anymore (despite claims of it on the internet), and because (2) the 'Update' method doesn't actually add instead of updating when providing a non-existent object (it should, though) 
+                foreach (var item in new List<Language>() { TestLanguage1, TestLanguage2, TestLanguage3 })
+                {
+                    AddIfNecessary<Language, string>(item);
+                }
+                foreach (var item in new List<ApplicationUser>() { TestUser1, TestUser2, TestUser3 })
+                {
+                    AddIfNecessary<ApplicationUser, string>(item);
+                }
+                foreach (var item in new List<Deck>() { TestDeck1, TestDeck2, TestDeck3 })
+                {
+                    AddIfNecessary<Deck, Guid>(item);
+                }
+
+                dbContext.SaveChanges();
+            }
+        }
+
+        /// <summary>
+        /// Data to be used in Create, Read, and Delete tests.
+        /// </summary>
+        public static IEnumerable<object[]> CRDData
+        {
+            get
+            {
+                yield return new object[] { new FlashcardDTO
+                {
+                    DeckId = TestDeck1.DeckID,
+                    Level = 0, Answer = "Answer",
+                    FrontContentLayout = FlashcardContentLayout.SINGLE_BLOCK,
+                    BackContentLayout = FlashcardContentLayout.SINGLE_BLOCK,
+                    Content1 = "Front Content",
+                    Content4 = "Back Content",
+                    CreationDate = DateTime.Parse("2020-01-01"),
+                    LastUpdated = DateTime.Parse("2020-01-01"),
+                    DueDate = DateTime.Parse("2020-01-02"),
+                }
+                };
+            }
+        }
+
+        [Theory, MemberData(nameof(CRDData))]
+        public async override Task CreateEntity(FlashcardDTO dto)
+        {
+            await base.CreateEntity(dto);
+        }
+
+        [Theory, MemberData(nameof(CRDData))]
+        public async override Task GetEntity(FlashcardDTO dto)
+        {
+            await base.GetEntity(dto);
+        }
+
+        [Theory, MemberData(nameof(CRDData))]
+        public async override Task DeleteEntity(FlashcardDTO dto)
+        {
+            await base.DeleteEntity(dto);
+        }
+
+        public static IEnumerable<object[]> UpdateEntityData
+        {
+            get
+            {
+                yield return new object[] { new FlashcardDTO
+                {
+                    DeckId = TestDeck1.DeckID,
+                    Level = 0, Answer = "Answer",
+                    FrontContentLayout = FlashcardContentLayout.SINGLE_BLOCK,
+                    BackContentLayout = FlashcardContentLayout.SINGLE_BLOCK,
+                    Content1 = "Front Content",
+                    Content4 = "Back Content",
+                    CreationDate = DateTime.Parse("2020-01-01"),
+                    LastUpdated = DateTime.Parse("2020-01-01"),
+                    DueDate = DateTime.Parse("2020-01-02"),
+                },
+                new FlashcardDTO
+                {
+                    DeckId = TestDeck1.DeckID,
+                    Level = 0, Answer = "Updated Answer",
+                    FrontContentLayout = FlashcardContentLayout.SINGLE_BLOCK,
+                    BackContentLayout = FlashcardContentLayout.SINGLE_BLOCK,
+                    Content1 = "Updated Front Content",
+                    Content4 = "Updated Back Content",
+                }
+                };
+            }
+        }
+
+        [Theory, MemberData(nameof(UpdateEntityData))]
+        public async override Task UpdateEntity(FlashcardDTO dto, FlashcardDTO updatedDTO)
+        {
+            await base.UpdateEntity(dto, updatedDTO);
+        }
+
+        static List<FlashcardDTO> dTOs = new List<FlashcardDTO>() {
+            new FlashcardDTO
+            {
+                DeckId = TestDeck1.DeckID,
+                Level = 0, 
+                Answer = "Answer",
+                FrontContentLayout = FlashcardContentLayout.SINGLE_BLOCK,
+                BackContentLayout = FlashcardContentLayout.SINGLE_BLOCK,
+                Content1 = "Front Content",
+                Content4 = "Back Content",
+                CreationDate = DateTime.Parse("2020-01-01"),
+                LastUpdated = DateTime.Parse("2020-01-01"),
+                DueDate = DateTime.Parse("2020-01-02"),
+            },
+            new FlashcardDTO
+            {
+                DeckId = TestDeck1.DeckID,
+                Level = 1,
+                Answer = "Answer",
+                FrontContentLayout = FlashcardContentLayout.TRIPLE_BLOCK,
+                BackContentLayout = FlashcardContentLayout.FULL_CARD,
+                Content1 = "Front Content 1",
+                Content2 = "https://audio.file/file.mp3",
+                Content3 = "https://image.file/file.img",
+                Content4 = "Back Content Back Content Back Content Back Content Back Content Back Content Back Content Back Content. Back Content Back Content Back Content Back Content. Back Content Back ContentBack Content. Back Content Back Content Back Content Back Content Back Content Back Content Back Content Back Content Back Content Back Content Back Content Back Content Back Content Back Content Back Content Back Content",
+                Content5 = "<p>Back Content</p>",
+                Content6 = "Back Content 6",
+            },
+            new FlashcardDTO
+            {
+                DeckId = TestDeck1.DeckID,
+                Level = 2, 
+                Answer = "Answer",
+                FrontContentLayout = FlashcardContentLayout.SINGLE_BLOCK,
+                BackContentLayout = FlashcardContentLayout.SINGLE_BLOCK,
+                Content1 = "Front Content",
+                Content4 = "Back Content",
+                CreationDate = DateTime.Parse("2020-01-01"),
+                LastUpdated = DateTime.Parse("2020-01-01"),
+            },
+            new FlashcardDTO
+            {
+                DeckId = TestDeck1.DeckID,
+                Level = 3, 
+                 FrontContentLayout = FlashcardContentLayout.SINGLE_BLOCK,
+                BackContentLayout = FlashcardContentLayout.SINGLE_BLOCK,
+                Content1 = "Front Content",
+                Content4 = "Back Content",
+            },
+            new FlashcardDTO
+            {
+                DeckId = TestDeck1.DeckID,
+                Level = 4,
+                Answer = "Complicated Answer",
+                FrontContentLayout = FlashcardContentLayout.VERTICAL_SPLIT,
+                BackContentLayout = FlashcardContentLayout.HORIZONTAL_SPLIT,
+                Content1 = "Front Content 1",
+                Content2 = "Front Content 2",
+                Content4 = "Back Content 1",
+                Content5 = "Back Content 2",
+            },
+        };
+
+        public static IEnumerable<object[]> ListEntityData
+        {
+            get
+            {
+                yield return new object[] { dTOs, 1 };
+                yield return new object[] { dTOs, 100 };
+                yield return new object[] { dTOs, 5 };
+                yield return new object[] { dTOs, 7 };
+                yield return new object[] { dTOs, 10 };
+            }
+        }
+
+        [Theory, MemberData(nameof(ListEntityData))]
+        public async override Task ListEntity(List<FlashcardDTO> dtoList, int pageSize)
+        {
+            await base.ListEntity(dtoList, pageSize);
+        }
+
+        public static IEnumerable<object[]> SearchEntityData
+        {
+            get
+            {
+                yield return new object[] {
+                    dTOs,
+                    "?answer=Complicated%20Answer&columnToSort=answer&sortType=Descending",
+                    100,
+                    new ValidateFilteringTestData<Flashcard>()
+                    {
+                        predicate = n => n.Answer.Contains("Complicated Answer"),
+                        sortPredicate = n => n.Answer,
+                        sortType = Data.Tools.Sorting.SortType.Descending
+                    }
+                };
+            }
+        }
+
+        [Theory, MemberData(nameof(SearchEntityData))]
+        public async override Task SearchEntity(List<FlashcardDTO> dtoList, string queryParams, int pageSize, ValidateFilteringTestData<Flashcard> expectedFiltering)
+        {
+            await base.SearchEntity(dtoList, queryParams, pageSize, expectedFiltering);
+        }
+
+        //public static IEnumerable<object[]> TestCreateAndUpdateValidationsData
+        //{
+        //    get
+        //    {
+        //        yield return new object[]
+        //        {
+        //            new DeckDTO { Name = "Deck", Description = "This is the description", LanguageISOCode = TestLanguage1.ISOCode, OwnerId = TestUser1.Id, CreationDate = DateTime.Parse("2000-01-02"), LastUpdated = DateTime.Parse("2000-01-01")
+        //            },
+        //            new List<string>()
+        //            {
+        //                ServiceValidationMessages.CreationDateMoreRecentThanLastUpdated
+        //            }
+        //        };
+        //        yield return new object[]
+        //        {
+        //            new DeckDTO { Name = "Deck", Description = "This is the description", LanguageISOCode = "invalid", OwnerId = TestUser1.Id,
+        //            },
+        //            new List<string>()
+        //            {
+        //                ServiceValidationMessages.InvalidLanguageCode
+        //            }
+        //        };
+        //        yield return new object[]
+        //        {
+        //            new DeckDTO { Name = "Deck", Description = "This is the description", LanguageISOCode = TestLanguage1.ISOCode, OwnerId = Guid.Empty.ToString()
+        //            },
+        //            new List<string>()
+        //            {
+        //                ServiceValidationMessages.InvalidUserId
+        //            }
+        //        };
+        //    }
+        //}
+
+        //[Theory, MemberData(nameof(TestCreateAndUpdateValidationsData))]
+        //public async override Task TestCreateAndUpdateValidations(DeckDTO dto, List<string> expectedValidations)
+        //{
+        //    await base.TestCreateAndUpdateValidations(dto, expectedValidations);
+        //}
+
+        // IMPORTANT: CREATE TEST TO ENSURE THAT LASTUPDATED BECOMES A PROPERTY THAT IS NOT AFFECTED BY MANUAL ASSIGNEMENTS (BACK-END SHOULD ASSIGN IT)
     }
 }

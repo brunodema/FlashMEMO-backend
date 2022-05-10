@@ -155,12 +155,14 @@ namespace Tests.Integration.Fixtures
             services.AddScoped<CustomSearchAPIService>();
             services.AddScoped<DeckService>();
             services.AddScoped<LanguageService>();
+            services.AddScoped<FlashcardService>();
 
             services.AddScoped<ApplicationUserRepository>();
             services.AddScoped<RoleRepository>();
             services.AddScoped<NewsRepository>();
             services.AddScoped<DeckRepository>();
             services.AddScoped<LanguageRepository>();
+            services.AddScoped<FlashcardRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

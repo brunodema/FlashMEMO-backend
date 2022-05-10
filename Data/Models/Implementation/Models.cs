@@ -104,5 +104,31 @@ namespace Data.Models.Implementation
 
         [NotMapped]
         public Guid DbId { get => FlashcardID; set => FlashcardID = value; }
+
+        public override bool Equals(object obj)
+        {
+            return obj is Flashcard model &&
+                FlashcardID == model.FlashcardID &&
+                DeckId == model.DeckId &&
+                Level == model.Level &&
+                FrontContentLayout == model.FrontContentLayout &&
+                BackContentLayout == model.BackContentLayout &&
+                Content1 == model.Content1 &&
+                Content2 == model.Content2 &&
+                Content3 == model.Content3 &&
+                Content4 == model.Content4 &&
+                Content5 == model.Content5 &&
+                Content6 == model.Content6 &&
+                Answer == model.Answer &&
+                CreationDate == model.CreationDate &&
+                LastUpdated == model.LastUpdated &&
+                DueDate == model.DueDate;
+        }
+
+        public override int GetHashCode()
+        {
+            // ATTENTION: the 'Combine' method doesn't have any overload with more than 8 arguments, therefore I chose the following ones for the function. TBH, what I'm currently using for these 'Combine' arguments are probably overkill... I should try to understand this better in the future.
+            return HashCode.Combine(FlashcardID, Content1, Content2, Content3, Content4, Content5, Content6, Answer);
+        }
     }
 }
