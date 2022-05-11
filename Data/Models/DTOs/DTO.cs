@@ -131,10 +131,12 @@ namespace Data.Models.DTOs
     {
         public FlashcardDTOValidator()
         {
-            RuleFor(x => x.DeckId).NotNull().NotEmpty().NotEqual(Guid.Empty);
+            RuleFor(x => x.DeckId).NotEmpty().NotEqual(Guid.Empty);
             RuleFor(x => x.Level).GreaterThanOrEqualTo(0);
             RuleFor(x => x.DueDate).GreaterThanOrEqualTo((x) => x.CreationDate);
             RuleFor(x => x.LastUpdated).GreaterThanOrEqualTo((x) => x.CreationDate);
+            RuleFor(x => x.Content1).NotEmpty().WithMessage("Main front content can not be empty.");
+            RuleFor(x => x.Content4).NotEmpty().WithMessage("Main back content can not be empty.");
 
             When(flaschard => flaschard.FrontContentLayout == FlashcardContentLayout.HORIZONTAL_SPLIT || flaschard.FrontContentLayout == FlashcardContentLayout.VERTICAL_SPLIT, () => {
                 RuleFor(flaschard => flaschard.Content2).NotNull().NotEmpty();

@@ -25,6 +25,9 @@ using API.ViewModels;
 using Business.Tools.DictionaryAPI.Lexicala;
 using Business.Tools.DictionaryAPI.Oxford;
 using Newtonsoft.Json.Converters;
+using FluentValidation.AspNetCore;
+using FluentValidation;
+using Data.Models.DTOs;
 
 namespace API
 {
@@ -93,13 +96,14 @@ namespace API
             });
 
             services.AddMvc()
-        .ConfigureApiBehaviorOptions(options =>
-        {
-            options.InvalidModelStateResponseFactory = actionContext =>
-            {
-                return new BadRequestObjectResult(new BaseResponseModel { Status = "Bad Request", Message = "Validation errors have ocurred when processing the request", Errors = actionContext.ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage) });
-            };
-        });
+                .AddFluentValidation()
+                .ConfigureApiBehaviorOptions(options =>
+                {
+                    options.InvalidModelStateResponseFactory = actionContext =>
+                    {
+                        return new BadRequestObjectResult(new BaseResponseModel { Status = "Bad Request", Message = "Validation errors have ocurred when processing the request", Errors = actionContext.ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage) });
+                    };
+                });
 
             // identity config
             services.AddIdentity<ApplicationUser, ApplicationRole>(opt =>
@@ -173,6 +177,9 @@ namespace API
             services.AddScoped<DeckRepository>();
             services.AddScoped<FlashcardRepository>();
             services.AddScoped<LanguageRepository>();
+
+            // Validators
+            services.AddTransient<IValidator<FlashcardDTO>, FlashcardDTOValidator>();
 
         }
 
