@@ -18,6 +18,7 @@ using static Tests.Tools;
 
 namespace Tests.Tests.Integration.Implementation
 {
+    [Collection("Sequential")]
     public class NewsControllerTests : GenericControllerTests<News, Guid, NewsDTO>
     {
         public NewsControllerTests(IntegrationTestFixture fixture, ITestOutputHelper output) : base(fixture, output) { }
@@ -159,15 +160,16 @@ namespace Tests.Tests.Integration.Implementation
         }
     }
 
+    [Collection("Sequential")]
     public class DeckControllerTests : GenericControllerTests<Deck, Guid, DeckDTO>
     {
         private static readonly Language TestLanguage1 = new Language { Name = "English", ISOCode = "en" };
         private static readonly Language TestLanguage2 = new Language { Name = "French", ISOCode = "fr" };
         private static readonly Language TestLanguage3 = new Language { Name = "Italian", ISOCode = "it" };
 
-        private static readonly ApplicationUser TestUser1 = new ApplicationUser { Id = Guid.NewGuid().ToString(), UserName = "deck.admin", Email = "deck.admin@flashmemo.edu" };
-        private static readonly ApplicationUser TestUser2 = new ApplicationUser { Id = Guid.NewGuid().ToString(), UserName = "deck.user", Email = "deck.user@flashmemo.edu" };
-        private static readonly ApplicationUser TestUser3 = new ApplicationUser { Id = Guid.NewGuid().ToString(), UserName = "deck.manager", Email = "deck.manager@flashmemo.edu" };
+        private static readonly ApplicationUser TestUser1 = new ApplicationUser { Id = Guid.NewGuid().ToString(), UserName = "admin", Email = "admin@flashmemo.edu" };
+        private static readonly ApplicationUser TestUser2 = new ApplicationUser { Id = Guid.NewGuid().ToString(), UserName = "user", Email = "user@flashmemo.edu" };
+        private static readonly ApplicationUser TestUser3 = new ApplicationUser { Id = Guid.NewGuid().ToString(), UserName = "manager", Email = "manager@flashmemo.edu" };
 
         public DeckControllerTests(IntegrationTestFixture fixture, ITestOutputHelper output) : base(fixture, output)
         {
@@ -323,15 +325,16 @@ namespace Tests.Tests.Integration.Implementation
         }
     }
 
+    [Collection("Sequential")]
     public class FlashcardControllerTests : GenericControllerTests<Flashcard, Guid, FlashcardDTO>
     {
         private static readonly Language TestLanguage1 = new Language { Name = "English", ISOCode = "en" };
         private static readonly Language TestLanguage2 = new Language { Name = "French", ISOCode = "fr" };
         private static readonly Language TestLanguage3 = new Language { Name = "Italian", ISOCode = "it" };
 
-        private static readonly ApplicationUser TestUser1 = new ApplicationUser { Id = Guid.NewGuid().ToString(), UserName = "flashcard.admin", Email = "flashcard.admin@flashmemo.edu" };
-        private static readonly ApplicationUser TestUser2 = new ApplicationUser { Id = Guid.NewGuid().ToString(), UserName = "flashcard.user", Email = "flashcard.user@flashmemo.edu" };
-        private static readonly ApplicationUser TestUser3 = new ApplicationUser { Id = Guid.NewGuid().ToString(), UserName = "flashcard.manager", Email = "flashcard.manager@flashmemo.edu" };
+        private static readonly ApplicationUser TestUser1 = new ApplicationUser { Id = Guid.NewGuid().ToString(), UserName = "admin", Email = "admin@flashmemo.edu" };
+        private static readonly ApplicationUser TestUser2 = new ApplicationUser { Id = Guid.NewGuid().ToString(), UserName = "user", Email = "user@flashmemo.edu" };
+        private static readonly ApplicationUser TestUser3 = new ApplicationUser { Id = Guid.NewGuid().ToString(), UserName = "manager", Email = "manager@flashmemo.edu" };
 
         private static readonly Deck TestDeck1 = new Deck { DeckID = Guid.NewGuid(), LanguageISOCode = TestLanguage1.ISOCode, OwnerId = TestUser1.Id, Name = "Deck", Description = "This is a test deck" };
         private static readonly Deck TestDeck2 = new Deck { DeckID = Guid.NewGuid(), LanguageISOCode = TestLanguage2.ISOCode, OwnerId = TestUser2.Id, Name = "Deck", Description = "This is a test deck" };
@@ -549,7 +552,6 @@ namespace Tests.Tests.Integration.Implementation
                 yield return new object[] { new FlashcardDTO { }, new List<string>() 
                 {
                     "'Deck Id' must not be empty.",
-                    "'Deck Id' must not be equal to '00000000-0000-0000-0000-000000000000'.",
                     "Main front content can not be empty.",
                     "Main back content can not be empty."
                 } };
@@ -559,7 +561,6 @@ namespace Tests.Tests.Integration.Implementation
                 }, new List<string>() 
                 {
                     "'Deck Id' must not be empty.",
-                    "'Deck Id' must not be equal to '00000000-0000-0000-0000-000000000000'.",
                     "Main front content can not be empty.",
                     "Main back content can not be empty."
                 } };
@@ -571,24 +572,87 @@ namespace Tests.Tests.Integration.Implementation
                     "Main front content can not be empty.",
                     "Main back content can not be empty."
                 } };
-
                 // one test to trigger service validation around non-existing Deck
+                yield return new object[]  { new FlashcardDTO
+                {
+                    DeckId = Guid.NewGuid(), // will generate bogus id
+                    Content1 = "Content1",
+                    Content4 = "Content4"
+                }, new List<string>()
+                {
+                    ServiceValidationMessages.InvalidDeckId
+                } };
 
-                // one test to check validations for complex layouts (Content 2-3 and Content 5-6)
+                // one test to check validations for complex layouts #1 (Content 2-3 and Content 5-6)
+                yield return new object[]  { new FlashcardDTO
+                {
+                    DeckId = TestDeck1.DeckID,
+                    Content1 = "Content1",
+                    Content4 = "Content4",
+                    FrontContentLayout = FlashcardContentLayout.HORIZONTAL_SPLIT,
+                    BackContentLayout = FlashcardContentLayout.VERTICAL_SPLIT,
+                }, new List<string>()
+                {
+                    "'Content2' must not be empty.",
+                    "'Content5' must not be empty."
+                } };
+
+                // one test to check validations for complex layouts #2 (Content 2-3 and Content 5-6)
+                yield return new object[]  { new FlashcardDTO
+                {
+                    DeckId = TestDeck1.DeckID,
+                    Content1 = "Content1",
+                    Content4 = "Content4",
+                    FrontContentLayout = FlashcardContentLayout.TRIPLE_BLOCK,
+                    BackContentLayout = FlashcardContentLayout.FULL_CARD,
+                }, new List<string>()
+                {
+                    "'Content2' must not be empty.",
+                    "'Content3' must not be empty.",
+                    "'Content5' must not be empty.",
+                    "'Content6' must not be empty."
+                } };
 
                 // one test to check LastUpdated GEQ CreationDate
+                yield return new object[]  { new FlashcardDTO
+                {
+                    DeckId = TestDeck1.DeckID,
+                    Content1 = "Content1",
+                    Content4 = "Content4",
+                    CreationDate = DateTime.Parse("2000-01-01"),
+                    LastUpdated = DateTime.Parse("1999-01-01"),
+                }, new List<string>()
+                {
+                    "'Last Updated' must be greater than or equal to '01/01/2000 00:00:00'."
+                } };
 
                 // one test to check DueDate GEQ CreationDate
+                yield return new object[]  { new FlashcardDTO
+                {
+                    DeckId = TestDeck2.DeckID,
+                    Content1 = "Content1",
+                    Content4 = "Content4",
+                    CreationDate = DateTime.Parse("2000-01-01"),
+                    DueDate = DateTime.Parse("1999-01-01"),
+                }, new List<string>()
+                {
+                    "'Due Date' must be greater than or equal to '01/01/2000 00:00:00'."
+                } };
 
-                // one test to validate negative Level
-
-
-                //yield return new object[]  { new FlashcardDTO
-                //{
-                //    DeckId = Guid.NewGuid(), // must trigger service validation (no matching Deck)
-                //    Content1 = "Content1",
-                //    Content4 = "Content4"
-                //} };
+                // one to test both LastUpdated and DueDate
+                yield return new object[]  { new FlashcardDTO
+                {
+                    DeckId = TestDeck3.DeckID,
+                    Content1 = "Content1",
+                    Content4 = "Content4",
+                    CreationDate = DateTime.Parse("2000-01-01"),
+                    DueDate = DateTime.Parse("1999-01-01"),
+                    LastUpdated = DateTime.Parse("1999-01-01"),
+                }, new List<string>()
+                {
+                    "'Last Updated' must be greater than or equal to '01/01/2000 00:00:00'.",
+                    "'Due Date' must be greater than or equal to '01/01/2000 00:00:00'."
+                } };
             }
         }
 
@@ -597,7 +661,5 @@ namespace Tests.Tests.Integration.Implementation
         {
             await base.TestCreateAndUpdateValidations(dto, expectedValidations);
         }
-
-        // IMPORTANT: CREATE TEST TO ENSURE THAT LASTUPDATED BECOMES A PROPERTY THAT IS NOT AFFECTED BY MANUAL ASSIGNEMENTS (BACK-END SHOULD ASSIGN IT)
     }
 }
