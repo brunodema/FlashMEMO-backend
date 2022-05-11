@@ -129,14 +129,20 @@ namespace Data.Models.DTOs
 
     public class FlashcardDTOValidator : AbstractValidator<FlashcardDTO>
     {
+        public class ValidationMessages
+        {
+            public static readonly string FrontContentEmpty = "Main front content can not be empty.";
+            public static readonly string BackContentEmpty = "Main back content can not be empty.";
+        }
+
         public FlashcardDTOValidator()
         {
             RuleFor(x => x.DeckId).NotEmpty().NotEqual(Guid.Empty);
             RuleFor(x => x.Level).GreaterThanOrEqualTo(0);
             RuleFor(x => x.DueDate).GreaterThanOrEqualTo((x) => x.CreationDate);
             RuleFor(x => x.LastUpdated).GreaterThanOrEqualTo((x) => x.CreationDate);
-            RuleFor(x => x.Content1).NotEmpty().WithMessage("Main front content can not be empty.");
-            RuleFor(x => x.Content4).NotEmpty().WithMessage("Main back content can not be empty.");
+            RuleFor(x => x.Content1).NotEmpty().WithMessage(ValidationMessages.FrontContentEmpty);
+            RuleFor(x => x.Content4).NotEmpty().WithMessage(ValidationMessages.BackContentEmpty);
 
             When(flaschard => flaschard.FrontContentLayout == FlashcardContentLayout.HORIZONTAL_SPLIT || flaschard.FrontContentLayout == FlashcardContentLayout.VERTICAL_SPLIT, () => {
                 RuleFor(flaschard => flaschard.Content2).NotNull().NotEmpty();

@@ -441,7 +441,7 @@ namespace Tests.Tests.Integration.Implementation
             new FlashcardDTO
             {
                 DeckId = TestDeck1.DeckID,
-                Level = 0, 
+                Level = 0,
                 Answer = "Answer",
                 FrontContentLayout = FlashcardContentLayout.SINGLE_BLOCK,
                 BackContentLayout = FlashcardContentLayout.SINGLE_BLOCK,
@@ -468,7 +468,7 @@ namespace Tests.Tests.Integration.Implementation
             new FlashcardDTO
             {
                 DeckId = TestDeck1.DeckID,
-                Level = 2, 
+                Level = 2,
                 Answer = "Answer",
                 FrontContentLayout = FlashcardContentLayout.SINGLE_BLOCK,
                 BackContentLayout = FlashcardContentLayout.SINGLE_BLOCK,
@@ -480,7 +480,7 @@ namespace Tests.Tests.Integration.Implementation
             new FlashcardDTO
             {
                 DeckId = TestDeck1.DeckID,
-                Level = 3, 
+                Level = 3,
                  FrontContentLayout = FlashcardContentLayout.SINGLE_BLOCK,
                 BackContentLayout = FlashcardContentLayout.SINGLE_BLOCK,
                 Content1 = "Front Content",
@@ -542,45 +542,61 @@ namespace Tests.Tests.Integration.Implementation
             await base.SearchEntity(dtoList, queryParams, pageSize, expectedFiltering);
         }
 
-        //public static IEnumerable<object[]> TestCreateAndUpdateValidationsData
-        //{
-        //    get
-        //    {
-        //        yield return new object[]
-        //        {
-        //            new DeckDTO { Name = "Deck", Description = "This is the description", LanguageISOCode = TestLanguage1.ISOCode, OwnerId = TestUser1.Id, CreationDate = DateTime.Parse("2000-01-02"), LastUpdated = DateTime.Parse("2000-01-01")
-        //            },
-        //            new List<string>()
-        //            {
-        //                ServiceValidationMessages.CreationDateMoreRecentThanLastUpdated
-        //            }
-        //        };
-        //        yield return new object[]
-        //        {
-        //            new DeckDTO { Name = "Deck", Description = "This is the description", LanguageISOCode = "invalid", OwnerId = TestUser1.Id,
-        //            },
-        //            new List<string>()
-        //            {
-        //                ServiceValidationMessages.InvalidLanguageCode
-        //            }
-        //        };
-        //        yield return new object[]
-        //        {
-        //            new DeckDTO { Name = "Deck", Description = "This is the description", LanguageISOCode = TestLanguage1.ISOCode, OwnerId = Guid.Empty.ToString()
-        //            },
-        //            new List<string>()
-        //            {
-        //                ServiceValidationMessages.InvalidUserId
-        //            }
-        //        };
-        //    }
-        //}
+        public static IEnumerable<object[]> TestCreateAndUpdateValidationsData
+        {
+            get
+            {
+                yield return new object[] { new FlashcardDTO { }, new List<string>() 
+                {
+                    "'Deck Id' must not be empty.",
+                    "'Deck Id' must not be equal to '00000000-0000-0000-0000-000000000000'.",
+                    "Main front content can not be empty.",
+                    "Main back content can not be empty."
+                } };
+                yield return new object[]  { new FlashcardDTO
+                {
+                    DeckId = Guid.Empty,
+                }, new List<string>() 
+                {
+                    "'Deck Id' must not be empty.",
+                    "'Deck Id' must not be equal to '00000000-0000-0000-0000-000000000000'.",
+                    "Main front content can not be empty.",
+                    "Main back content can not be empty."
+                } };
+                yield return new object[]  { new FlashcardDTO
+                {
+                    DeckId = Guid.NewGuid(),
+                }, new List<string>()
+                {
+                    "Main front content can not be empty.",
+                    "Main back content can not be empty."
+                } };
 
-        //[Theory, MemberData(nameof(TestCreateAndUpdateValidationsData))]
-        //public async override Task TestCreateAndUpdateValidations(DeckDTO dto, List<string> expectedValidations)
-        //{
-        //    await base.TestCreateAndUpdateValidations(dto, expectedValidations);
-        //}
+                // one test to trigger service validation around non-existing Deck
+
+                // one test to check validations for complex layouts (Content 2-3 and Content 5-6)
+
+                // one test to check LastUpdated GEQ CreationDate
+
+                // one test to check DueDate GEQ CreationDate
+
+                // one test to validate negative Level
+
+
+                //yield return new object[]  { new FlashcardDTO
+                //{
+                //    DeckId = Guid.NewGuid(), // must trigger service validation (no matching Deck)
+                //    Content1 = "Content1",
+                //    Content4 = "Content4"
+                //} };
+            }
+        }
+
+    [Theory, MemberData(nameof(TestCreateAndUpdateValidationsData))]
+        public async override Task TestCreateAndUpdateValidations(FlashcardDTO dto, List<string> expectedValidations)
+        {
+            await base.TestCreateAndUpdateValidations(dto, expectedValidations);
+        }
 
         // IMPORTANT: CREATE TEST TO ENSURE THAT LASTUPDATED BECOMES A PROPERTY THAT IS NOT AFFECTED BY MANUAL ASSIGNEMENTS (BACK-END SHOULD ASSIGN IT)
     }
