@@ -6,9 +6,12 @@ using API.ViewModels;
 using Business.Services.Implementation;
 using Business.Services.Interfaces;
 using Data.Context;
+using Data.Models.DTOs;
 using Data.Models.Implementation;
 using Data.Repository.Implementation;
 using Data.Seeder;
+using FluentValidation;
+using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics;
@@ -87,18 +90,20 @@ namespace Tests.Integration.Fixtures
                 o.SubstituteApiVersionInUrl = true;
             });
 
-            services.AddMvc().ConfigureApiBehaviorOptions(options =>
-            {
-                options.InvalidModelStateResponseFactory = actionContext =>
+            services.AddMvc()
+                .AddFluentValidation()
+                .ConfigureApiBehaviorOptions(options =>
                 {
-                    return new BadRequestObjectResult(new BaseResponseModel { Status = "Bad Request", Message = "Validation errors have ocurred when processing the request", Errors = actionContext.ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage) });
-                };
-            })
-            .AddApplicationPart(typeof(NewsController).Assembly)
-            .AddApplicationPart(typeof(AuthController).Assembly)
-            .AddApplicationPart(typeof(OxfordDictionaryAPIController).Assembly)
-            .AddApplicationPart(typeof(LexicalaDictionaryAPIController).Assembly)
-            .AddApplicationPart(typeof(ImageAPIController).Assembly);
+                    options.InvalidModelStateResponseFactory = actionContext =>
+                    {
+                        return new BadRequestObjectResult(new BaseResponseModel { Status = "Bad Request", Message = "Validation errors have ocurred when processing the request", Errors = actionContext.ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage) });
+                    };
+                })
+                .AddApplicationPart(typeof(NewsController).Assembly) // why am I doing this again?
+                .AddApplicationPart(typeof(AuthController).Assembly)
+                .AddApplicationPart(typeof(OxfordDictionaryAPIController).Assembly)
+                .AddApplicationPart(typeof(LexicalaDictionaryAPIController).Assembly)
+                .AddApplicationPart(typeof(ImageAPIController).Assembly);
 
             // identity config
             services.AddIdentity<ApplicationUser, ApplicationRole>(opt =>
@@ -163,6 +168,9 @@ namespace Tests.Integration.Fixtures
             services.AddScoped<DeckRepository>();
             services.AddScoped<LanguageRepository>();
             services.AddScoped<FlashcardRepository>();
+
+            // Validators
+            services.AddTransient<IValidator<FlashcardDTO>, FlashcardDTOValidator>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

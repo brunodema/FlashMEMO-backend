@@ -1,5 +1,6 @@
 ﻿using Data.Models.Implementation;
 using Data.Repository.Interfaces;
+using FluentValidation;
 using System;
 using System.ComponentModel.DataAnnotations;
 using static Data.Tools.FlashcardTools;
@@ -125,4 +126,39 @@ namespace Data.Models.DTOs
             entity.DueDate = DueDate;
         }
     }
+
+    public class FlashcardDTOValidator : AbstractValidator<FlashcardDTO>
+    {
+        public class ValidationMessages
+        {
+            public static readonly string FrontContentEmpty = "Main front content can not be empty.";
+            public static readonly string BackContentEmpty = "Main back content can not be empty.";
+        }
+
+        public FlashcardDTOValidator()
+        {
+            RuleFor(x => x.DeckId).NotEmpty();
+            RuleFor(x => x.Level).GreaterThanOrEqualTo(0);
+            RuleFor(x => x.DueDate).GreaterThanOrEqualTo((x) => x.CreationDate);
+            RuleFor(x => x.LastUpdated).GreaterThanOrEqualTo((x) => x.CreationDate);
+            RuleFor(x => x.Content1).NotEmpty().WithMessage(ValidationMessages.FrontContentEmpty);
+            RuleFor(x => x.Content4).NotEmpty().WithMessage(ValidationMessages.BackContentEmpty);
+
+            When(flaschard => flaschard.FrontContentLayout == FlashcardContentLayout.HORIZONTAL_SPLIT || flaschard.FrontContentLayout == FlashcardContentLayout.VERTICAL_SPLIT, () => {
+                RuleFor(flaschard => flaschard.Content2).NotEmpty();
+            });
+            When(flaschard => flaschard.FrontContentLayout == FlashcardContentLayout.TRIPLE_BLOCK || flaschard.FrontContentLayout == FlashcardContentLayout.FULL_CARD, () => {
+                RuleFor(flaschard => flaschard.Content2).NotEmpty();
+                RuleFor(flaschard => flaschard.Content3).NotEmpty();
+            });
+            When(flaschard => flaschard.BackContentLayout == FlashcardContentLayout.HORIZONTAL_SPLIT || flaschard.BackContentLayout == FlashcardContentLayout.VERTICAL_SPLIT, () => {
+                RuleFor(flaschard => flaschard.Content5).NotEmpty();
+            });
+            When(flaschard => flaschard.BackContentLayout == FlashcardContentLayout.TRIPLE_BLOCK || flaschard.BackContentLayout == FlashcardContentLayout.FULL_CARD, () => {
+                RuleFor(flaschard => flaschard.Content5).NotEmpty();
+                RuleFor(flaschard => flaschard.Content6).NotEmpty();
+            });
+        }
+    }
+
 }

@@ -89,11 +89,21 @@ namespace Business.Services.Implementation
 
     public class FlashcardService : GenericRepositoryService<FlashcardRepository, Guid, Flashcard>
     {
-        public FlashcardService(FlashcardRepository baseRepository, IOptions<GenericRepositoryServiceOptions> serviceOptions) : base(baseRepository, serviceOptions.Value) { }
+        private readonly DeckService _deckService;
+
+        public FlashcardService(FlashcardRepository baseRepository, DeckService deckService, IOptions<GenericRepositoryServiceOptions> serviceOptions) : base(baseRepository, serviceOptions.Value) 
+        {
+            _deckService = deckService;
+        }
 
         public override ValidatonResult CheckIfEntityIsValid(Flashcard entity)
         {
-            return new ValidatonResult() { IsValid = true }; // I actually went through this one (21/04), and saw that there is no immediate need to implement complex checks for Flashcard objects. Yes, there are some properties which could profit from some extra logic (ex: 'Content' columns should match the chosen layout, 'Level' should not be negative, date checks, etc), but adding that would be distracting right now.
+            // check if DeckId leads to a valid Deck
+            var deck = _deckService.GetbyIdAsync(entity.DeckId).Result;
+
+            if (deck == null) return new ValidatonResult() { IsValid = false, Errors = new() { ServiceValidationMessages.InvalidDeckId } };
+
+            return new ValidatonResult() { IsValid = true };
         }
     }
 
