@@ -566,7 +566,7 @@ namespace Tests.Tests.Integration.Implementation
                 } };
                 yield return new object[]  { new FlashcardDTO
                 {
-                    DeckId = Guid.NewGuid(),
+                    DeckId = Guid.NewGuid(), // even though this is an invalid Id, the content ones will precede (Fluent Validations)
                 }, new List<string>()
                 {
                     "Main front content can not be empty.",
@@ -581,6 +581,18 @@ namespace Tests.Tests.Integration.Implementation
                 }, new List<string>()
                 {
                     ServiceValidationMessages.InvalidDeckId
+                } };
+
+                // one test to check for negative levels
+                yield return new object[]  { new FlashcardDTO
+                {
+                    DeckId = Guid.NewGuid(), // will generate bogus id
+                    Content1 = "Content1",
+                    Content4 = "Content4",
+                    Level = -1,
+                }, new List<string>()
+                {
+                    "'Level' must be greater than or equal to '0'."
                 } };
 
                 // one test to check validations for complex layouts #1 (Content 2-3 and Content 5-6)
