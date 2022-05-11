@@ -25,8 +25,8 @@ using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 
-using DevToolsSessionDomains = OpenQA.Selenium.DevTools.V96.DevToolsSessionDomains;
-using Network = OpenQA.Selenium.DevTools.V96.Network;
+using DevToolsSessionDomains = OpenQA.Selenium.DevTools.V101.DevToolsSessionDomains;
+using Network = OpenQA.Selenium.DevTools.V101.Network;
 
 namespace API.Controllers
 {

@@ -165,9 +165,9 @@ namespace Tests.Tests.Integration.Implementation
         private static readonly Language TestLanguage2 = new Language { Name = "French", ISOCode = "fr" };
         private static readonly Language TestLanguage3 = new Language { Name = "Italian", ISOCode = "it" };
 
-        private static readonly ApplicationUser TestUser1 = new ApplicationUser { Id = Guid.NewGuid().ToString(), UserName = "admin", Email = "admin@flashmemo.edu" };
-        private static readonly ApplicationUser TestUser2 = new ApplicationUser { Id = Guid.NewGuid().ToString(), UserName = "user", Email = "user@flashmemo.edu" };
-        private static readonly ApplicationUser TestUser3 = new ApplicationUser { Id = Guid.NewGuid().ToString(), UserName = "manager", Email = "manager@flashmemo.edu" };
+        private static readonly ApplicationUser TestUser1 = new ApplicationUser { Id = Guid.NewGuid().ToString(), UserName = "deck.admin", Email = "deck.admin@flashmemo.edu" };
+        private static readonly ApplicationUser TestUser2 = new ApplicationUser { Id = Guid.NewGuid().ToString(), UserName = "deck.user", Email = "deck.user@flashmemo.edu" };
+        private static readonly ApplicationUser TestUser3 = new ApplicationUser { Id = Guid.NewGuid().ToString(), UserName = "deck.manager", Email = "deck.manager@flashmemo.edu" };
 
         public DeckControllerTests(IntegrationTestFixture fixture, ITestOutputHelper output) : base(fixture, output)
         {
@@ -329,9 +329,9 @@ namespace Tests.Tests.Integration.Implementation
         private static readonly Language TestLanguage2 = new Language { Name = "French", ISOCode = "fr" };
         private static readonly Language TestLanguage3 = new Language { Name = "Italian", ISOCode = "it" };
 
-        private static readonly ApplicationUser TestUser1 = new ApplicationUser { Id = Guid.NewGuid().ToString(), UserName = "admin", Email = "admin@flashmemo.edu" };
-        private static readonly ApplicationUser TestUser2 = new ApplicationUser { Id = Guid.NewGuid().ToString(), UserName = "user", Email = "user@flashmemo.edu" };
-        private static readonly ApplicationUser TestUser3 = new ApplicationUser { Id = Guid.NewGuid().ToString(), UserName = "manager", Email = "manager@flashmemo.edu" };
+        private static readonly ApplicationUser TestUser1 = new ApplicationUser { Id = Guid.NewGuid().ToString(), UserName = "flashcard.admin", Email = "flashcard.admin@flashmemo.edu" };
+        private static readonly ApplicationUser TestUser2 = new ApplicationUser { Id = Guid.NewGuid().ToString(), UserName = "flashcard.user", Email = "flashcard.user@flashmemo.edu" };
+        private static readonly ApplicationUser TestUser3 = new ApplicationUser { Id = Guid.NewGuid().ToString(), UserName = "flashcard.manager", Email = "flashcard.manager@flashmemo.edu" };
 
         private static readonly Deck TestDeck1 = new Deck { DeckID = Guid.NewGuid(), LanguageISOCode = TestLanguage1.ISOCode, OwnerId = TestUser1.Id, Name = "Deck", Description = "This is a test deck" };
         private static readonly Deck TestDeck2 = new Deck { DeckID = Guid.NewGuid(), LanguageISOCode = TestLanguage2.ISOCode, OwnerId = TestUser2.Id, Name = "Deck", Description = "This is a test deck" };
