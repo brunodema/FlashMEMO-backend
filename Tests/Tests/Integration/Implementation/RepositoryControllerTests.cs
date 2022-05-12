@@ -18,6 +18,7 @@ using static Tests.Tools;
 
 namespace Tests.Tests.Integration.Implementation
 {
+    [Collection("Sequential")]
     public class NewsControllerTests : GenericControllerTests<News, Guid, NewsDTO>
     {
         public NewsControllerTests(IntegrationTestFixture fixture, ITestOutputHelper output) : base(fixture, output) { }
@@ -159,6 +160,7 @@ namespace Tests.Tests.Integration.Implementation
         }
     }
 
+    [Collection("Sequential")]
     public class DeckControllerTests : GenericControllerTests<Deck, Guid, DeckDTO>
     {
         private static readonly Language TestLanguage1 = new Language { Name = "English", ISOCode = "en" };
@@ -323,6 +325,7 @@ namespace Tests.Tests.Integration.Implementation
         }
     }
 
+    [Collection("Sequential")]
     public class FlashcardControllerTests : GenericControllerTests<Flashcard, Guid, FlashcardDTO>
     {
         private static readonly Language TestLanguage1 = new Language { Name = "English", ISOCode = "en" };
@@ -542,39 +545,111 @@ namespace Tests.Tests.Integration.Implementation
             await base.SearchEntity(dtoList, queryParams, pageSize, expectedFiltering);
         }
 
-        //public static IEnumerable<object[]> TestCreateAndUpdateValidationsData
-        //{
-        //    get
-        //    {
-        //        yield return new object[]
-        //        {
-        //            new DeckDTO { Name = "Deck", Description = "This is the description", LanguageISOCode = TestLanguage1.ISOCode, OwnerId = TestUser1.Id, CreationDate = DateTime.Parse("2000-01-02"), LastUpdated = DateTime.Parse("2000-01-01")
-        //            },
-        //            new List<string>()
-        //            {
-        //                ServiceValidationMessages.CreationDateMoreRecentThanLastUpdated
-        //            }
-        //        };
-        //        yield return new object[]
-        //        {
-        //            new DeckDTO { Name = "Deck", Description = "This is the description", LanguageISOCode = "invalid", OwnerId = TestUser1.Id,
-        //            },
-        //            new List<string>()
-        //            {
-        //                ServiceValidationMessages.InvalidLanguageCode
-        //            }
-        //        };
-        //        yield return new object[]
-        //        {
-        //            new DeckDTO { Name = "Deck", Description = "This is the description", LanguageISOCode = TestLanguage1.ISOCode, OwnerId = Guid.Empty.ToString()
-        //            },
-        //            new List<string>()
-        //            {
-        //                ServiceValidationMessages.InvalidUserId
-        //            }
-        //        };
-        //    }
-        //}
+        public static IEnumerable<object[]> TestCreateAndUpdateValidationsData
+        {
+            get
+            {
+                yield return new object[] { new FlashcardDTO { }, new List<string>() 
+                {
+                    "'Deck Id' must not be empty.",
+                    "Main front content can not be empty.",
+                    "Main back content can not be empty."
+                } };
+                yield return new object[]  { new FlashcardDTO
+                {
+                    DeckId = Guid.Empty,
+                }, new List<string>() 
+                {
+                    "'Deck Id' must not be empty.",
+                    "Main front content can not be empty.",
+                    "Main back content can not be empty."
+                } };
+                yield return new object[]  { new FlashcardDTO
+                {
+                    DeckId = Guid.NewGuid(), // even though this is an invalid Id, the content ones will precede (Fluent Validations)
+                }, new List<string>()
+                {
+                    "Main front content can not be empty.",
+                    "Main back content can not be empty."
+                } };
+                // one test to trigger service validation around non-existing Deck
+                yield return new object[]  { new FlashcardDTO
+                {
+                    DeckId = Guid.NewGuid(), // will generate bogus id
+                    Content1 = "Content1",
+                    Content4 = "Content4"
+                }, new List<string>()
+                {
+                    ServiceValidationMessages.InvalidDeckId
+                } };
+
+                // one test to check for negative levels
+                yield return new object[]  { new FlashcardDTO
+                {
+                    DeckId = Guid.NewGuid(), // will generate bogus id
+                    Content1 = "Content1",
+                    Content4 = "Content4",
+                    Level = -1,
+                }, new List<string>()
+                {
+                    "'Level' must be greater than or equal to '0'."
+                } };
+
+                // one test to check validations for complex layouts #1 (Content 2-3 and Content 5-6)
+                yield return new object[]  { new FlashcardDTO
+                {
+                    DeckId = TestDeck1.DeckID,
+                    Content1 = "Content1",
+                    Content4 = "Content4",
+                    FrontContentLayout = FlashcardContentLayout.HORIZONTAL_SPLIT,
+                    BackContentLayout = FlashcardContentLayout.VERTICAL_SPLIT,
+                }, new List<string>()
+                {
+                    "'Content2' must not be empty.",
+                    "'Content5' must not be empty."
+                } };
+
+                // one test to check validations for complex layouts #2 (Content 2-3 and Content 5-6)
+                yield return new object[]  { new FlashcardDTO
+                {
+                    DeckId = TestDeck1.DeckID,
+                    Content1 = "Content1",
+                    Content4 = "Content4",
+                    FrontContentLayout = FlashcardContentLayout.TRIPLE_BLOCK,
+                    BackContentLayout = FlashcardContentLayout.FULL_CARD,
+                }, new List<string>()
+                {
+                    "'Content2' must not be empty.",
+                    "'Content3' must not be empty.",
+                    "'Content5' must not be empty.",
+                    "'Content6' must not be empty."
+                } };
+
+                // one test to check LastUpdated GEQ CreationDate
+                yield return new object[]  { new FlashcardDTO
+                {
+                    DeckId = TestDeck1.DeckID,
+                    Content1 = "Content1",
+                    Content4 = "Content4",
+                    CreationDate = DateTime.Parse("2000-01-01"),
+                    LastUpdated = DateTime.Parse("1999-01-01"),
+                }, new List<string>()
+                {
+                    "'Last Updated' must be greater than or equal to '01/01/2000 00:00:00'."
+                } };
+
+                // one test to check DueDate GEQ CreationDate
+                yield return new object[]  { new FlashcardDTO
+                {
+                    DeckId = TestDeck2.DeckID,
+                    Content1 = "Content1",
+                    Content4 = "Content4",
+                    CreationDate = DateTime.Parse("2000-01-01"),
+                    DueDate = DateTime.Parse("1999-01-01"),
+                }, new List<string>()
+                {
+                    "'Due Date' must be greater than or equal to '01/01/2000 00:00:00'."
+                } };
 
                 // one test to check for negative levels
                 yield return new object[]  { new FlashcardDTO
@@ -661,6 +736,10 @@ namespace Tests.Tests.Integration.Implementation
             }
         }
 
-        // IMPORTANT: CREATE TEST TO ENSURE THAT LASTUPDATED BECOMES A PROPERTY THAT IS NOT AFFECTED BY MANUAL ASSIGNEMENTS (BACK-END SHOULD ASSIGN IT)
+    [Theory, MemberData(nameof(TestCreateAndUpdateValidationsData))]
+        public async override Task TestCreateAndUpdateValidations(FlashcardDTO dto, List<string> expectedValidations)
+        {
+            await base.TestCreateAndUpdateValidations(dto, expectedValidations);
+        }
     }
 }
