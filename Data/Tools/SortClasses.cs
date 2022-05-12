@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using static Data.Models.Implementation.StaticModels;
 
 namespace Data.Tools.Sorting
 {
@@ -42,6 +43,27 @@ namespace Data.Tools.Sorting
         public Expression<Func<TEntity, object>> GetColumnToSort()
         {
             return ColumnToSortExpression;
+        }
+    }
+
+    public class LanguageSortOptions : GenericSortOptions<Language>
+    {
+        public static class ColumnOptions
+        {
+            public const string ISOCODE = "ISOCode";
+            public const string NAME = "name";
+        }
+        public LanguageSortOptions(SortType sortType = SortType.None, string columnToSort = "") : base(sortType, columnToSort) { }
+        public LanguageSortOptions() { }
+        protected override void DetermineColumnToSortExpression(string columnToSort = ColumnOptions.NAME)
+        {
+            ColumnToSortExpression = columnToSort.ToLowerInvariant() switch
+            {
+                ColumnOptions.ISOCODE => u => u.ISOCode,
+                ColumnOptions.NAME => u => u.Name,
+                // default will be 'email'
+                _ => u => u.Name,
+            };
         }
     }
 
