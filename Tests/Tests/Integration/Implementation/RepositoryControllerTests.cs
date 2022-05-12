@@ -598,7 +598,7 @@ namespace Tests.Tests.Integration.Implementation
                 // one test to check validations for complex layouts #1 (Content 2-3 and Content 5-6)
                 yield return new object[]  { new FlashcardDTO
                 {
-                    DeckId = TestDeck1.DeckID,
+                    DeckId = TestDeck1.DeckId,
                     Content1 = "Content1",
                     Content4 = "Content4",
                     FrontContentLayout = FlashcardContentLayout.HORIZONTAL_SPLIT,
@@ -612,7 +612,7 @@ namespace Tests.Tests.Integration.Implementation
                 // one test to check validations for complex layouts #2 (Content 2-3 and Content 5-6)
                 yield return new object[]  { new FlashcardDTO
                 {
-                    DeckId = TestDeck1.DeckID,
+                    DeckId = TestDeck1.DeckId,
                     Content1 = "Content1",
                     Content4 = "Content4",
                     FrontContentLayout = FlashcardContentLayout.TRIPLE_BLOCK,
@@ -628,7 +628,7 @@ namespace Tests.Tests.Integration.Implementation
                 // one test to check LastUpdated GEQ CreationDate
                 yield return new object[]  { new FlashcardDTO
                 {
-                    DeckId = TestDeck1.DeckID,
+                    DeckId = TestDeck1.DeckId,
                     Content1 = "Content1",
                     Content4 = "Content4",
                     CreationDate = DateTime.Parse("2000-01-01"),
@@ -641,7 +641,7 @@ namespace Tests.Tests.Integration.Implementation
                 // one test to check DueDate GEQ CreationDate
                 yield return new object[]  { new FlashcardDTO
                 {
-                    DeckId = TestDeck2.DeckID,
+                    DeckId = TestDeck2.DeckId,
                     Content1 = "Content1",
                     Content4 = "Content4",
                     CreationDate = DateTime.Parse("2000-01-01"),
