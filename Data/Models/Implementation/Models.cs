@@ -1,4 +1,5 @@
 ﻿using Data.Repository.Interfaces;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -12,7 +13,7 @@ namespace Data.Models.Implementation
         // kids, ALWAYS set default values for properties in the database. This will avoid errors when dealing with ICollection items + LINQ, especially for cases when the current member of the lambda being analyzed is a "null" item. 
         public News() { }
 
-        public Guid NewsID { get; set; } = Guid.Empty;
+        public Guid NewsId { get; set; } = Guid.Empty;
 
         public string Title { get; set; } = "";
         public string Subtitle { get; set; } = "";
@@ -22,7 +23,7 @@ namespace Data.Models.Implementation
         public DateTime LastUpdated { get; set; } = DateTime.Now;
 
         [NotMapped]
-        public Guid DbId { get => NewsID; set => NewsID = value; }
+        public Guid DbId { get => NewsId; set => NewsId = value; }
 
         public override bool Equals(object obj)
         {
@@ -37,7 +38,7 @@ namespace Data.Models.Implementation
 
         public override int GetHashCode()
         {
-            return HashCode.Combine(NewsID, Subtitle, ThumbnailPath, Content, CreationDate, LastUpdated);
+            return HashCode.Combine(NewsId, Subtitle, ThumbnailPath, Content, CreationDate, LastUpdated);
         }
     }
 
@@ -45,11 +46,14 @@ namespace Data.Models.Implementation
     {
         public Deck() { }
 
-        public Guid DeckID { get; set; } = Guid.Empty;
+        public Guid DeckId { get; set; } = Guid.Empty;
 
+        [JsonIgnore]
         public List<Flashcard> Flashcards { get; set; } = new List<Flashcard>();
+        [JsonIgnore]
         public ApplicationUser Owner { get; set; } = null;
         public string OwnerId { get; set; } = Guid.Empty.ToString();
+        [JsonIgnore]
         public Language Language { get; set; } = null;
         public string LanguageISOCode { get; set; } = "";
 
@@ -58,13 +62,14 @@ namespace Data.Models.Implementation
         public DateTime CreationDate { get; set; } = DateTime.Now;
         public DateTime LastUpdated { get; set; } = DateTime.Now;
 
+        [JsonIgnore]
         [NotMapped]
-        public Guid DbId { get => DeckID; set => DeckID = value; }
+        public Guid DbId { get => DeckId; set => DeckId = value; }
 
         public override bool Equals(object obj)
         {
             return obj is Deck model &&
-                   DeckID == model.DeckID &&
+                   DeckId == model.DeckId &&
                    OwnerId == model.OwnerId &&
                 LanguageISOCode == model.LanguageISOCode &&
                 Name == model.Name &&
@@ -75,7 +80,7 @@ namespace Data.Models.Implementation
 
         public override int GetHashCode()
         {
-            return HashCode.Combine(DeckID, OwnerId, LanguageISOCode, Name, Description, CreationDate, LastUpdated);
+            return HashCode.Combine(DeckId, OwnerId, LanguageISOCode, Name, Description, CreationDate, LastUpdated);
         }
     }
 

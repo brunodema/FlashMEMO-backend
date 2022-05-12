@@ -333,9 +333,9 @@ namespace Tests.Tests.Integration.Implementation
         private static readonly ApplicationUser TestUser2 = new ApplicationUser { Id = Guid.NewGuid().ToString(), UserName = "user", Email = "user@flashmemo.edu" };
         private static readonly ApplicationUser TestUser3 = new ApplicationUser { Id = Guid.NewGuid().ToString(), UserName = "manager", Email = "manager@flashmemo.edu" };
 
-        private static readonly Deck TestDeck1 = new Deck { DeckID = Guid.NewGuid(), LanguageISOCode = TestLanguage1.ISOCode, OwnerId = TestUser1.Id, Name = "Deck", Description = "This is a test deck" };
-        private static readonly Deck TestDeck2 = new Deck { DeckID = Guid.NewGuid(), LanguageISOCode = TestLanguage2.ISOCode, OwnerId = TestUser2.Id, Name = "Deck", Description = "This is a test deck" };
-        private static readonly Deck TestDeck3 = new Deck { DeckID = Guid.NewGuid(), LanguageISOCode = TestLanguage3.ISOCode, OwnerId = TestUser3.Id, Name = "Deck", Description = "This is a test deck" };
+        private static readonly Deck TestDeck1 = new Deck { DeckId = Guid.NewGuid(), LanguageISOCode = TestLanguage1.ISOCode, OwnerId = TestUser1.Id, Name = "Deck", Description = "This is a test deck" };
+        private static readonly Deck TestDeck2 = new Deck { DeckId = Guid.NewGuid(), LanguageISOCode = TestLanguage2.ISOCode, OwnerId = TestUser2.Id, Name = "Deck", Description = "This is a test deck" };
+        private static readonly Deck TestDeck3 = new Deck { DeckId = Guid.NewGuid(), LanguageISOCode = TestLanguage3.ISOCode, OwnerId = TestUser3.Id, Name = "Deck", Description = "This is a test deck" };
 
         public FlashcardControllerTests(IntegrationTestFixture fixture, ITestOutputHelper output) : base(fixture, output)
         {
@@ -370,7 +370,7 @@ namespace Tests.Tests.Integration.Implementation
             {
                 yield return new object[] { new FlashcardDTO
                 {
-                    DeckId = TestDeck1.DeckID,
+                    DeckId = TestDeck1.DeckId,
                     Level = 0, Answer = "Answer",
                     FrontContentLayout = FlashcardContentLayout.SINGLE_BLOCK,
                     BackContentLayout = FlashcardContentLayout.SINGLE_BLOCK,
@@ -408,7 +408,7 @@ namespace Tests.Tests.Integration.Implementation
             {
                 yield return new object[] { new FlashcardDTO
                 {
-                    DeckId = TestDeck1.DeckID,
+                    DeckId = TestDeck1.DeckId,
                     Level = 0, Answer = "Answer",
                     FrontContentLayout = FlashcardContentLayout.SINGLE_BLOCK,
                     BackContentLayout = FlashcardContentLayout.SINGLE_BLOCK,
@@ -420,7 +420,7 @@ namespace Tests.Tests.Integration.Implementation
                 },
                 new FlashcardDTO
                 {
-                    DeckId = TestDeck1.DeckID,
+                    DeckId = TestDeck1.DeckId,
                     Level = 0, Answer = "Updated Answer",
                     FrontContentLayout = FlashcardContentLayout.SINGLE_BLOCK,
                     BackContentLayout = FlashcardContentLayout.SINGLE_BLOCK,
@@ -440,8 +440,8 @@ namespace Tests.Tests.Integration.Implementation
         static List<FlashcardDTO> dTOs = new List<FlashcardDTO>() {
             new FlashcardDTO
             {
-                DeckId = TestDeck1.DeckID,
-                Level = 0, 
+                DeckId = TestDeck1.DeckId,
+                Level = 0,
                 Answer = "Answer",
                 FrontContentLayout = FlashcardContentLayout.SINGLE_BLOCK,
                 BackContentLayout = FlashcardContentLayout.SINGLE_BLOCK,
@@ -453,7 +453,7 @@ namespace Tests.Tests.Integration.Implementation
             },
             new FlashcardDTO
             {
-                DeckId = TestDeck1.DeckID,
+                DeckId = TestDeck1.DeckId,
                 Level = 1,
                 Answer = "Answer",
                 FrontContentLayout = FlashcardContentLayout.TRIPLE_BLOCK,
@@ -467,8 +467,8 @@ namespace Tests.Tests.Integration.Implementation
             },
             new FlashcardDTO
             {
-                DeckId = TestDeck1.DeckID,
-                Level = 2, 
+                DeckId = TestDeck1.DeckId,
+                Level = 2,
                 Answer = "Answer",
                 FrontContentLayout = FlashcardContentLayout.SINGLE_BLOCK,
                 BackContentLayout = FlashcardContentLayout.SINGLE_BLOCK,
@@ -479,8 +479,8 @@ namespace Tests.Tests.Integration.Implementation
             },
             new FlashcardDTO
             {
-                DeckId = TestDeck1.DeckID,
-                Level = 3, 
+                DeckId = TestDeck1.DeckId,
+                Level = 3,
                  FrontContentLayout = FlashcardContentLayout.SINGLE_BLOCK,
                 BackContentLayout = FlashcardContentLayout.SINGLE_BLOCK,
                 Content1 = "Front Content",
@@ -488,7 +488,7 @@ namespace Tests.Tests.Integration.Implementation
             },
             new FlashcardDTO
             {
-                DeckId = TestDeck1.DeckID,
+                DeckId = TestDeck1.DeckId,
                 Level = 4,
                 Answer = "Complicated Answer",
                 FrontContentLayout = FlashcardContentLayout.VERTICAL_SPLIT,
@@ -576,11 +576,90 @@ namespace Tests.Tests.Integration.Implementation
         //    }
         //}
 
-        //[Theory, MemberData(nameof(TestCreateAndUpdateValidationsData))]
-        //public async override Task TestCreateAndUpdateValidations(DeckDTO dto, List<string> expectedValidations)
-        //{
-        //    await base.TestCreateAndUpdateValidations(dto, expectedValidations);
-        //}
+                // one test to check for negative levels
+                yield return new object[]  { new FlashcardDTO
+                {
+                    DeckId = Guid.NewGuid(), // will generate bogus id
+                    Content1 = "Content1",
+                    Content4 = "Content4",
+                    Level = -1,
+                }, new List<string>()
+                {
+                    "'Level' must be greater than or equal to '0'."
+                } };
+
+                // one test to check validations for complex layouts #1 (Content 2-3 and Content 5-6)
+                yield return new object[]  { new FlashcardDTO
+                {
+                    DeckId = TestDeck1.DeckId,
+                    Content1 = "Content1",
+                    Content4 = "Content4",
+                    FrontContentLayout = FlashcardContentLayout.HORIZONTAL_SPLIT,
+                    BackContentLayout = FlashcardContentLayout.VERTICAL_SPLIT,
+                }, new List<string>()
+                {
+                    "'Content2' must not be empty.",
+                    "'Content5' must not be empty."
+                } };
+
+                // one test to check validations for complex layouts #2 (Content 2-3 and Content 5-6)
+                yield return new object[]  { new FlashcardDTO
+                {
+                    DeckId = TestDeck1.DeckId,
+                    Content1 = "Content1",
+                    Content4 = "Content4",
+                    FrontContentLayout = FlashcardContentLayout.TRIPLE_BLOCK,
+                    BackContentLayout = FlashcardContentLayout.FULL_CARD,
+                }, new List<string>()
+                {
+                    "'Content2' must not be empty.",
+                    "'Content3' must not be empty.",
+                    "'Content5' must not be empty.",
+                    "'Content6' must not be empty."
+                } };
+
+                // one test to check LastUpdated GEQ CreationDate
+                yield return new object[]  { new FlashcardDTO
+                {
+                    DeckId = TestDeck1.DeckId,
+                    Content1 = "Content1",
+                    Content4 = "Content4",
+                    CreationDate = DateTime.Parse("2000-01-01"),
+                    LastUpdated = DateTime.Parse("1999-01-01"),
+                }, new List<string>()
+                {
+                    "'Last Updated' must be greater than or equal to '01/01/2000 00:00:00'."
+                } };
+
+                // one test to check DueDate GEQ CreationDate
+                yield return new object[]  { new FlashcardDTO
+                {
+                    DeckId = TestDeck2.DeckId,
+                    Content1 = "Content1",
+                    Content4 = "Content4",
+                    CreationDate = DateTime.Parse("2000-01-01"),
+                    DueDate = DateTime.Parse("1999-01-01"),
+                }, new List<string>()
+                {
+                    "'Due Date' must be greater than or equal to '01/01/2000 00:00:00'."
+                } };
+
+                // one to test both LastUpdated and DueDate
+                yield return new object[]  { new FlashcardDTO
+                {
+                    DeckId = TestDeck3.DeckId,
+                    Content1 = "Content1",
+                    Content4 = "Content4",
+                    CreationDate = DateTime.Parse("2000-01-01"),
+                    DueDate = DateTime.Parse("1999-01-01"),
+                    LastUpdated = DateTime.Parse("1999-01-01"),
+                }, new List<string>()
+                {
+                    "'Last Updated' must be greater than or equal to '01/01/2000 00:00:00'.",
+                    "'Due Date' must be greater than or equal to '01/01/2000 00:00:00'."
+                } };
+            }
+        }
 
         // IMPORTANT: CREATE TEST TO ENSURE THAT LASTUPDATED BECOMES A PROPERTY THAT IS NOT AFFECTED BY MANUAL ASSIGNEMENTS (BACK-END SHOULD ASSIGN IT)
     }
