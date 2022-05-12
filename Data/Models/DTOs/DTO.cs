@@ -3,6 +3,7 @@ using Data.Repository.Interfaces;
 using FluentValidation;
 using System;
 using System.ComponentModel.DataAnnotations;
+using static Data.Models.Implementation.StaticModels;
 using static Data.Tools.FlashcardTools;
 
 namespace Data.Models.DTOs
@@ -161,4 +162,29 @@ namespace Data.Models.DTOs
         }
     }
 
+    public class LanguageDTO : IModelDTO<Language, string>
+    {
+        public string ISOCode { get; set; } = "";
+        public string Name { get; set; } = "";
+
+        public void PassValuesToEntity(Language entity)
+        {
+            entity.ISOCode = ISOCode;
+            entity.Name = Name;
+        }
+    }
+
+    public class LanguageDTOValidator : AbstractValidator<LanguageDTO>
+    {
+        public class ValidationMessages
+        {
+            // nothing necessary for now
+        }
+
+        public LanguageDTOValidator()
+        {
+            RuleFor(x => x.ISOCode).NotEmpty();
+            RuleFor(x => x.Name).NotEmpty();
+        }
+    }
 }

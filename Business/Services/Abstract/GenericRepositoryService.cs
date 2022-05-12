@@ -23,7 +23,7 @@ namespace Business.Services.Abstract
         where TRepositoryType : GenericRepository<TEntity, TKey, FlashMEMOContext>
         where TEntity : class, IDatabaseItem<TKey>
     {
-        private readonly TRepositoryType _baseRepository;
+        protected readonly TRepositoryType _baseRepository;
         private readonly GenericRepositoryServiceOptions _serviceOptions;
         public GenericRepositoryService(TRepositoryType baseRepository, GenericRepositoryServiceOptions serviceOptions)
         {

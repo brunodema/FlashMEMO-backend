@@ -10,6 +10,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.ComponentModel;
+using static Data.Models.Implementation.StaticModels;
 
 namespace Business.Services.Interfaces
 {

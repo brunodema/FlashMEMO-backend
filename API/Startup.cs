@@ -180,6 +180,7 @@ namespace API
 
             // Validators
             services.AddTransient<IValidator<FlashcardDTO>, FlashcardDTOValidator>();
+            services.AddTransient<IValidator<LanguageDTO>, LanguageDTOValidator>();
 
         }
 

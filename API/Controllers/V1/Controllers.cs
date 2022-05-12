@@ -19,6 +19,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using static Data.Models.Implementation.StaticModels;
 
 namespace API.Controllers
 {
@@ -70,6 +71,19 @@ namespace API.Controllers
             {
                 throw;
             }
+        }
+    }
+
+    [ApiController]
+    [ApiVersion("1.0")]
+    [Route("api/v{version:apiVersion}/[controller]")]
+    public class LanguageController : GenericRepositoryController<Language, string, LanguageDTO, LanguageFilterOptions, LanguageSortOptions>
+    {
+        private readonly LanguageService _roleService;
+
+        public LanguageController(LanguageService roleService) : base(roleService)
+        {
+            _roleService = roleService;
         }
     }
 

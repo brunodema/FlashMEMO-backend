@@ -15,17 +15,14 @@ using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
+using static Data.Models.Implementation.StaticModels;
 
 namespace Business.Services.Implementation
 { 
     public class RoleService : GenericRepositoryService<RoleRepository, string, ApplicationRole>
     {
-        private readonly RoleRepository _roleRepository;
 
-        public RoleService(RoleRepository roleRepository, IOptions<GenericRepositoryServiceOptions> serviceOptions) : base(roleRepository, serviceOptions.Value)
-        {
-            _roleRepository = roleRepository;
-        }
+        public RoleService(RoleRepository roleRepository, IOptions<GenericRepositoryServiceOptions> serviceOptions) : base(roleRepository, serviceOptions.Value) { }
 
         public override ValidatonResult CheckIfEntityIsValid(ApplicationRole entity)
         {
@@ -37,25 +34,20 @@ namespace Business.Services.Implementation
 
     public class UserService : GenericRepositoryService<ApplicationUserRepository, string, ApplicationUser>
     {
-        private readonly ApplicationUserRepository _userRepository;
-
-        public UserService(ApplicationUserRepository userRepository, IOptions<GenericRepositoryServiceOptions> serviceOptions) : base(userRepository, serviceOptions.Value)
-        {
-            _userRepository = userRepository;
-        }
+        public UserService(ApplicationUserRepository userRepository, IOptions<GenericRepositoryServiceOptions> serviceOptions) : base(userRepository, serviceOptions.Value) { }
 
         public override ValidatonResult CheckIfEntityIsValid(ApplicationUser entity)
         {
             List<string> errors = new();
 
-            if (_userRepository.GetByEmailAsync(entity.Email).Result != null) errors.Add("An user already exists with the provided email.");
+            if (_baseRepository.GetByEmailAsync(entity.Email).Result != null) errors.Add("An user already exists with the provided email.");
 
             return new ValidatonResult() { IsValid = errors.Count == 0, Errors = errors };
         }
 
         public async Task AddInitialPasswordToUser(ApplicationUser user, string password)
         {
-            await _userRepository.SetInitialPasswordAsync(user, password);
+            await _baseRepository.SetInitialPasswordAsync(user, password);
         }
     }
 
@@ -224,18 +216,18 @@ namespace Business.Services.Implementation
     /// <summary>
     /// Service containing auxiliary functions related to languages within FlashMEMO.
     /// </summary>
-    public class LanguageService : ILanguageService
+    public class LanguageService : GenericRepositoryService<LanguageRepository, string, Language>, ILanguageService
     {
-        private readonly LanguageRepository _languageRepository;
+        public LanguageService(LanguageRepository baseRepository, IOptions<GenericRepositoryServiceOptions> serviceOptions) : base(baseRepository, serviceOptions.Value) { }
 
-        public LanguageService(LanguageRepository languageRepository)
+        public override ValidatonResult CheckIfEntityIsValid(Language entity)
         {
-            _languageRepository = languageRepository;
+            return new ValidatonResult() { IsValid = true }; // no internal validations to run
         }
 
         public bool LanguageExists(string languageCode)
         {
-            return _languageRepository.GetAll().Any(l => l.ISOCode == languageCode);
+            return _baseRepository.GetAll().Any(l => l.ISOCode == languageCode);
         }
     }
     #endregion
