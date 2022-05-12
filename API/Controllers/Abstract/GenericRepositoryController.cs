@@ -60,7 +60,7 @@ namespace API.Controllers.Abstract
                 var ret = await _repositoryService.GetbyIdAsync(id);
                 if (ret == null) return BadRequest(new BaseResponseModel { Status = "Bad Request", Message = $"Object was not able to be retrieved from the database.", Errors = new List<string>() { ErrorMessages.NoObjectAssociatedWithId } });
 
-                return Ok(new DataResponseModel<TEntity> { Status = "Success", Message = $"Object deleted successfully.", Data = ret });
+                return Ok(new DataResponseModel<TEntity> { Status = "Success", Message = $"Object retrieved successfully.", Data = ret });
             }
             catch (Exception)
             {
