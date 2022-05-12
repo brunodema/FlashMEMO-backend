@@ -17,6 +17,36 @@ namespace Data.Tools.Filtering
         public IEnumerable<TEntity> GetFilteredResults(IQueryable<TEntity> elements);
     }
 
+    public class LanguageFilterOptions : IQueryFilterOptions<Language>
+    {
+        public string ISOCode { get; set; }
+        public string Name { get; set; }
+
+        public string BuildQueryURL()
+        {
+            string queryParams = "";
+
+            if (ISOCode != null) queryParams = String.Concat(queryParams, $"&LanguageISOCode={ISOCode}");
+            if (Name != null) queryParams = String.Concat(queryParams, $"&Name={Name}");
+
+            return queryParams;
+        }
+
+        public IEnumerable<Language> GetFilteredResults(IQueryable<Language> elements)
+        {
+            if (ISOCode != null)
+            {
+                elements = elements.Where(x => x.ISOCode.Contains(ISOCode));
+            }
+            if (Name != null)
+            {
+                elements = elements.Where(x => x.Name.Contains(Name));
+            }
+
+            return elements;
+        }
+    }
+
     public class RoleFilterOptions : IQueryFilterOptions<ApplicationRole>
     {
         public string Name { get; set; }
