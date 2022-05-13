@@ -124,6 +124,15 @@ namespace API.Controllers
         {
             _flashcardService = flashcardService;
         }
+
+        [HttpGet]
+        [Route("GetAllFlashcardsFromDeck/{deckId}")]
+        public IActionResult GetAllFlashcardsFromDeck(Guid deckId)
+        {
+            var ret = _flashcardService.GetAllFlashcardsFromDeck(deckId);
+
+            return Ok(new DataResponseModel<List<Flashcard>>() { Status = "Success", Message = "Flashcards retrieved successfully.", Data = ret });
+        }
     }
 
     [ApiController]

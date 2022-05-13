@@ -97,6 +97,11 @@ namespace Business.Services.Implementation
 
             return new ValidatonResult() { IsValid = true };
         }
+
+        public List<Flashcard> GetAllFlashcardsFromDeck(Guid deckId)
+        {
+            return _baseRepository.GetAll().Where(x => x.DeckId == deckId).ToList();
+        }
     }
 
     public class NewsService : GenericRepositoryService<NewsRepository, Guid, News>

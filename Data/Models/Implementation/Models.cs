@@ -88,8 +88,9 @@ namespace Data.Models.Implementation
     {
         public Flashcard() { }
 
-        public Guid FlashcardID { get; set; } = Guid.Empty;
+        public Guid FlashcardId { get; set; } = Guid.Empty;
 
+        [JsonIgnore]
         public Deck Deck { get; set; } = null;
         public Guid DeckId { get; set; } = Guid.Empty;
 
@@ -108,12 +109,12 @@ namespace Data.Models.Implementation
         public DateTime DueDate { get; set; } = DateTime.Now;
 
         [NotMapped]
-        public Guid DbId { get => FlashcardID; set => FlashcardID = value; }
+        public Guid DbId { get => FlashcardId; set => FlashcardId = value; }
 
         public override bool Equals(object obj)
         {
             return obj is Flashcard model &&
-                FlashcardID == model.FlashcardID &&
+                FlashcardId == model.FlashcardId &&
                 DeckId == model.DeckId &&
                 Level == model.Level &&
                 FrontContentLayout == model.FrontContentLayout &&
@@ -133,7 +134,7 @@ namespace Data.Models.Implementation
         public override int GetHashCode()
         {
             // ATTENTION: the 'Combine' method doesn't have any overload with more than 8 arguments, therefore I chose the following ones for the function. TBH, what I'm currently using for these 'Combine' arguments are probably overkill... I should try to understand this better in the future.
-            return HashCode.Combine(FlashcardID, Content1, Content2, Content3, Content4, Content5, Content6, Answer);
+            return HashCode.Combine(FlashcardId, Content1, Content2, Content3, Content4, Content5, Content6, Answer);
         }
     }
 }
