@@ -19,7 +19,7 @@ namespace Business.Tools.Exceptions
     /// </summary>
     public class EntityValidationException : Exception
     {
-        public EntityValidationException() : base("The service could successfully validate the entity.") { }
+        public EntityValidationException() : base("The service could not successfully validate the entity.") { }
         public List<string> ServiceValidationErrors { get; set; } = null;
     }
 
