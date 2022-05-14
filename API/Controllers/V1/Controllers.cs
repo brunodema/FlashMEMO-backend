@@ -267,7 +267,7 @@ namespace API.Controllers
 
             if (await _authService.EmailAlreadyRegisteredAsync(model.Email))
             {
-                return StatusCode(StatusCodes.Status500InternalServerError, new BaseResponseModel { Status = "Error", Message = "Email already exists in the database. Please use an unique email for registration, or contact one of our administrator to recover your password/account." });
+                return BadRequest(new BaseResponseModel { Status = "Bad Request", Message = "Email already exists in the database. Please use an unique email for registration, or contact one of our administrator to recover your password/account.", Errors = new List<string>() { "Email already exists in the database. Please use an unique email for registration, or contact one of our administrator to recover your password/account." } });
             }
 
             ApplicationUser user = new ApplicationUser()
@@ -296,7 +296,7 @@ namespace API.Controllers
                 return Ok(new LoginResponseModel { Status = "Success", Message = "User has logged in", JWTToken = token });
             }
 
-            return Unauthorized(new LoginResponseModel { Status = "Error", Message = "The provided credentials could not be validated" });
+            return Unauthorized(new LoginResponseModel { Status = "Unauthorized", Message = "The provided credentials could not be validated" });
         }
 
         [HttpGet]

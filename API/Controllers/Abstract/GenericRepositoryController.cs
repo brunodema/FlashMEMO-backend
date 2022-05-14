@@ -134,7 +134,7 @@ namespace API.Controllers.Abstract
 
         [HttpPost]
         [Route("delete")]
-        public async virtual Task<IActionResult> Delete([FromBody] TKey id)
+        public async virtual Task<IActionResult> Delete([FromBody]TKey id)
         {
             try
             {

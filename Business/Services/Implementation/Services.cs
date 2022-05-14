@@ -18,7 +18,7 @@ using System.Threading.Tasks;
 using static Data.Models.Implementation.StaticModels;
 
 namespace Business.Services.Implementation
-{ 
+{
     public class RoleService : GenericRepositoryService<RoleRepository, string, ApplicationRole>
     {
 
@@ -56,7 +56,7 @@ namespace Business.Services.Implementation
         private readonly LanguageService _languageService;
         private readonly IAuthService<string> _authService;
 
-        public DeckService(DeckRepository baseRepository, LanguageService languageService, IAuthService<string> authService, IOptions<GenericRepositoryServiceOptions> serviceOptions) : base(baseRepository, serviceOptions.Value) 
+        public DeckService(DeckRepository baseRepository, LanguageService languageService, IAuthService<string> authService, IOptions<GenericRepositoryServiceOptions> serviceOptions) : base(baseRepository, serviceOptions.Value)
         {
             _languageService = languageService;
             _authService = authService;
@@ -73,7 +73,7 @@ namespace Business.Services.Implementation
             }
 
             if (!_languageService.LanguageExists(entity.LanguageISOCode ?? null)) errors.Add(ServiceValidationMessages.InvalidLanguageCode);
-            if(!_authService.UserExistsAsync(entity.OwnerId ?? null).Result) errors.Add(ServiceValidationMessages.InvalidUserId);
+            if (!_authService.UserExistsAsync(entity.OwnerId ?? null).Result) errors.Add(ServiceValidationMessages.InvalidUserId);
 
             return new ValidatonResult() { IsValid = errors.Count == 0, Errors = errors };
         }
@@ -83,7 +83,7 @@ namespace Business.Services.Implementation
     {
         private readonly DeckService _deckService;
 
-        public FlashcardService(FlashcardRepository baseRepository, DeckService deckService, IOptions<GenericRepositoryServiceOptions> serviceOptions) : base(baseRepository, serviceOptions.Value) 
+        public FlashcardService(FlashcardRepository baseRepository, DeckService deckService, IOptions<GenericRepositoryServiceOptions> serviceOptions) : base(baseRepository, serviceOptions.Value)
         {
             _deckService = deckService;
         }
@@ -117,7 +117,7 @@ namespace Business.Services.Implementation
                 errors.Add(ServiceValidationMessages.CreationDateMoreRecentThanLastUpdated);
             }
 
-            return new ValidatonResult 
+            return new ValidatonResult
             {
                 IsValid = areDatesValid,
                 Errors = errors
@@ -148,6 +148,7 @@ namespace Business.Services.Implementation
             {
                 new Claim(ClaimTypes.Email, user.Email),
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+                                new Claim(JwtRegisteredClaimNames.Sub, user.Id),
                 new Claim("username", user.UserName) // this is potentially dangerous, but showing the entire schema name on the decoded jwt looked ridiculous
             };
             foreach (var role in user.UserRoles ?? Enumerable.Empty<ApplicationUserRole>())
