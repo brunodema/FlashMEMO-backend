@@ -28,6 +28,7 @@ using Newtonsoft.Json.Converters;
 using FluentValidation.AspNetCore;
 using FluentValidation;
 using Data.Models.DTOs;
+using System.Collections.Generic;
 
 namespace API
 {
@@ -205,7 +206,7 @@ namespace API
                 var exception = context.Features
                     .Get<IExceptionHandlerPathFeature>()
                     .Error;
-                var response = new BaseResponseModel { Status = "Internal Error", Message = exception.Message };
+                var response = new BaseResponseModel { Status = "Internal Error", Message = "The back-end server of FlashMEMO ran into a problem.", Errors = new List<string>() { exception.Message } };
                 await context.Response.WriteAsJsonAsync(response);
             }));
 
