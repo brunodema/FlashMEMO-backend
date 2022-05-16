@@ -106,18 +106,41 @@ namespace API.Controllers
     public class DeckController : GenericRepositoryController<Deck, Guid, DeckDTO, DeckFilterOptions, DeckSortOptions>
     {
         private readonly DeckService _deckService;
+        private readonly FlashcardService _flashcardService;
 
-        public DeckController(DeckService deckService) : base(deckService)
+        public DeckController(DeckService deckService, FlashcardService flashcardService) : base(deckService)
         {
             _deckService = deckService;
+            _flashcardService = flashcardService;
         }
 
         [HttpGet]
-        [Route("getAllDecksFromUser/{ownerId}")]
-        public IActionResult GetAllDecksFromUser(string ownerId)
+        [Route("list/extended")]
+        public IActionResult GetExtendedDeckInfo([FromQuery]string ownerId = null)
         {
-            var decksFromUser = _deckService.GetAllDecksFromUser(ownerId);
-            return Ok(new DataResponseModel<List<Deck>>() { Status = "Success", Message = "Decks from user retrieved.", Data = decksFromUser });
+            var decks = new List<Deck>();
+            if (ownerId == null) decks = _deckService.List().ToList() ;
+            else decks = _deckService.GetAllDecksFromUser(ownerId);
+
+            var extendedInfoList = new List<ExtendedDeckInfoDTO>();
+            decks.ForEach(deck =>
+            {
+                var flashcardsFromDeck = _flashcardService.GetAllFlashcardsFromDeck(deck.DeckId);
+                extendedInfoList.Add(new ExtendedDeckInfoDTO()
+                {
+                    DeckId = deck.DeckId,
+                    CreationDate = deck.CreationDate,
+                    Description = deck.Description,
+                    LanguageISOCode = deck.LanguageISOCode,
+                    Name = deck.Name,
+                    OwnerId = deck.OwnerId,
+                    LastUpdated = deck.LastUpdated,
+                    FlashcardCount = flashcardsFromDeck.Count,
+                    DueFlashcardCount = flashcardsFromDeck.Where(flashcard => flashcard.DueDate <= DateTime.Now).Count()
+                });
+            });
+
+            return Ok(new DataResponseModel<List<ExtendedDeckInfoDTO>>() { Status = "Success", Message = "Decks from user retrieved.", Data = extendedInfoList });
         }
     }
 

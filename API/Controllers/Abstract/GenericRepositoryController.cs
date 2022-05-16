@@ -47,7 +47,7 @@ namespace API.Controllers.Abstract
         [Route("list")]
         public virtual IActionResult List(int pageSize = GenericRepositoryControllerDefaults.DefaultPageSize, int pageNumber = GenericRepositoryControllerDefaults.DefaultPageNumber, [FromQuery] TSortOptions sortOptions = null)
         {
-            var data = _repositoryService.ListAsync(sortOptions);
+            var data = _repositoryService.List(sortOptions);
             return Ok(new PaginatedListResponse<TEntity> { Status = "Success", Data = PaginatedList<TEntity>.Create(data, pageNumber, pageSize) });
         }
 

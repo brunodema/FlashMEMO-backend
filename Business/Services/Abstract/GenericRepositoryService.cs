@@ -54,7 +54,7 @@ namespace Business.Services.Abstract
         /// <param name="sortOptions">Class containing the sort definitions for the specific entity associated with the service.</param>
         /// <param name="numRecords">Maximum number of records to retrieve.</param>
         /// <returns></returns>
-        public virtual IEnumerable<TEntity> ListAsync(GenericSortOptions<TEntity> sortOptions = null, int numRecords = 1000)
+        public virtual IEnumerable<TEntity> List(GenericSortOptions<TEntity> sortOptions = null, int numRecords = 1000)
         {
             return _baseRepository.SearchAndOrder(_ => true, sortOptions, numRecords);
         }

@@ -41,7 +41,7 @@ namespace Business.Services.Interfaces
         public Task<TKey> CreateAsync(TEntity entity, object[] auxParams = null); // to cover the 'CreateUserAsync' case (requires password)
         public Task<TKey> UpdateAsync(TEntity entity);
         public Task<TEntity> GetbyIdAsync(TKey id);
-        public IEnumerable<TEntity> ListAsync(GenericSortOptions<TEntity> sortOptions, int numRecords = 1000);
+        public IEnumerable<TEntity> List(GenericSortOptions<TEntity> sortOptions, int numRecords = 1000);
         public Task<TKey> RemoveByIdAsync(TKey guid);
         public IEnumerable<TEntity> SearchAndOrder(IQueryFilterOptions<TEntity> filterOptions, GenericSortOptions<TEntity> sortOptions); // probably will transition towards this one
 
