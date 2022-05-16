@@ -111,6 +111,14 @@ namespace API.Controllers
         {
             _deckService = deckService;
         }
+
+        [HttpGet]
+        [Route("getAllDecksFromUser/{ownerId}")]
+        public IActionResult GetAllDecksFromUser(string ownerId)
+        {
+            var decksFromUser = _deckService.GetAllDecksFromUser(ownerId);
+            return Ok(new DataResponseModel<List<Deck>>() { Status = "Success", Message = "Decks from user retrieved.", Data = decksFromUser });
+        }
     }
 
     [ApiController]

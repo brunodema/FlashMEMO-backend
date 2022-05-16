@@ -77,6 +77,11 @@ namespace Business.Services.Implementation
 
             return new ValidatonResult() { IsValid = errors.Count == 0, Errors = errors };
         }
+
+        public List<Deck> GetAllDecksFromUser(string ownerId)
+        {
+            return _baseRepository.GetAll().Where(deck => deck.OwnerId == ownerId).ToList();
+        }
     }
 
     public class FlashcardService : GenericRepositoryService<FlashcardRepository, Guid, Flashcard>
