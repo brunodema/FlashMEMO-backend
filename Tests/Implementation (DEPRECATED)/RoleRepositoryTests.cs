@@ -7,6 +7,7 @@ using Xunit;
 using Xunit.Abstractions;
 using Data.Models.Implementation;
 using Data.Repository.Implementation;
+using Microsoft.Extensions.Options;
 
 namespace RepositoryTests.Implementation
 {
@@ -24,7 +25,7 @@ namespace RepositoryTests.Implementation
         public RoleRepositoryFixture()
         {
             var options = new DbContextOptionsBuilder<FlashMEMOContext>().UseInMemoryDatabase(databaseName: "RoleRepositoryFixture").Options;
-            var context = new FlashMEMOContext(options, new FlashMEMOContextOptions { SeederPath = "../../../../Data/Seeder" });
+            var context = new FlashMEMOContext(options, Options.Create(new FlashMEMOContextOptions { SeederPath = "../../../../Data/Seeder", DefaultUserPassword = "Default@Password123" }));
             var roleManager = new RoleManager<ApplicationRole>(
                 new RoleStore<ApplicationRole>(context),
                 null,

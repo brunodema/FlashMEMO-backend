@@ -16,8 +16,6 @@ namespace Data.Models.Implementation
         public virtual ICollection<ApplicationUserToken> Tokens { get; set; }
         public virtual ICollection<ApplicationUserRole> UserRoles { get; set; }
 
-        public string UserId { get; set; } = Guid.Empty.ToString();
-
         [NotMapped]
         public string DbId { get => Id; set => Id = value; }
     }

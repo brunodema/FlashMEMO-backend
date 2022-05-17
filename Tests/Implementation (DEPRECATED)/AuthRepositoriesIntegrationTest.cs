@@ -14,6 +14,7 @@ using FluentAssertions;
 using Data.Tools.Sorting;
 using Data.Models.Implementation;
 using Data.Repository.Implementation;
+using Microsoft.Extensions.Options;
 
 namespace RepositoryTests.Implementation
 {
@@ -42,7 +43,7 @@ namespace RepositoryTests.Implementation
             public AuthRepositoryFixture()
             {
                 var options = new DbContextOptionsBuilder<FlashMEMOContext>().UseInMemoryDatabase(databaseName: "AuthRepositoryFixture").Options;
-                var context = new FlashMEMOContext(options, new FlashMEMOContextOptions { SeederPath = "../../../../Data/Seeder" });
+                var context = new FlashMEMOContext(options, Options.Create(new FlashMEMOContextOptions { SeederPath = "../../../../Data/Seeder", DefaultUserPassword = "Default@Password123" }));
                 var roleManager = new RoleManager<ApplicationRole>(
                     new RoleStore<ApplicationRole>(context),
                     null,

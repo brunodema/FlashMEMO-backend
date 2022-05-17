@@ -1,6 +1,8 @@
 ﻿using Data.Models.Implementation;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using System;
@@ -15,6 +17,7 @@ namespace Data.Context
     public class FlashMEMOContextOptions
     {
         public string SeederPath { get; set; }
+        public string DefaultUserPassword { get; set; }
     }
 
     public class FlashMEMOContext : IdentityDbContext<
@@ -22,11 +25,11 @@ namespace Data.Context
         ApplicationUserClaim, ApplicationUserRole, ApplicationUserLogin,
         ApplicationRoleClaim, ApplicationUserToken>
     {
-        private readonly string _seederPath;
+        private readonly IOptions<FlashMEMOContextOptions> _contextOptions;
 
-        public FlashMEMOContext(DbContextOptions<FlashMEMOContext> options, FlashMEMOContextOptions contextOptions) : base(options)
+        public FlashMEMOContext(DbContextOptions<FlashMEMOContext> options, IOptions<FlashMEMOContextOptions> contextOptions) : base(options)
         {
-            _seederPath = contextOptions.SeederPath;
+            _contextOptions = contextOptions;
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -77,24 +80,30 @@ namespace Data.Context
             });
 
             //modelBuilder.Entity<ApplicationRole>()
+
             modelBuilder.Entity<ApplicationUser>()
-                .HasData(JsonConvert.DeserializeObject<ApplicationUser[]>(File.ReadAllText($"{_seederPath}/Users.json")));
+                .HasData(JsonConvert.DeserializeObject<ApplicationUser[]>(File.ReadAllText($"{_contextOptions.Value.SeederPath}/Users.json")).Select(u => {
+                    u.PasswordHash = new PasswordHasher<ApplicationUser>().HashPassword(u, _contextOptions.Value.DefaultUserPassword);
+                    u.NormalizedUserName = u.UserName.ToUpper();
+                    u.NormalizedEmail = u.Email.ToUpper();
+                    return u;
+                }));
 
             modelBuilder.Entity<Language>()
-                .HasData(JsonConvert.DeserializeObject<Language[]>(File.ReadAllText($"{_seederPath}/Languages.json")));
+                .HasData(JsonConvert.DeserializeObject<Language[]>(File.ReadAllText($"{_contextOptions.Value.SeederPath}/Languages.json")));
 
             modelBuilder.Entity<News>()
-                .HasData(JsonConvert.DeserializeObject<News[]>(File.ReadAllText($"{_seederPath}/News.json"), new JsonSerializerSettings { DateTimeZoneHandling = DateTimeZoneHandling.Utc }));
+                .HasData(JsonConvert.DeserializeObject<News[]>(File.ReadAllText($"{_contextOptions.Value.SeederPath}/News.json"), new JsonSerializerSettings { DateTimeZoneHandling = DateTimeZoneHandling.Utc }));
 
             modelBuilder.Entity<Deck>()
-                .HasData(JsonConvert.DeserializeObject<Deck[]>(File.ReadAllText($"{_seederPath}/Decks.json"), new JsonSerializerSettings { DateTimeZoneHandling = DateTimeZoneHandling.Utc }));
+                .HasData(JsonConvert.DeserializeObject<Deck[]>(File.ReadAllText($"{_contextOptions.Value.SeederPath}/Decks.json"), new JsonSerializerSettings { DateTimeZoneHandling = DateTimeZoneHandling.Utc }));
 
             modelBuilder.Entity<Flashcard>().Property(e => e.FrontContentLayout).HasConversion(
                v => v.ToString(),
                v => (FlashcardContentLayout)Enum.Parse(typeof(FlashcardContentLayout), v));
 
             modelBuilder.Entity<Flashcard>()
-                .HasData(JsonConvert.DeserializeObject<Flashcard[]>(File.ReadAllText($"{_seederPath}/Flashcards.json"), new JsonSerializerSettings { DateTimeZoneHandling = DateTimeZoneHandling.Utc }));
+                .HasData(JsonConvert.DeserializeObject<Flashcard[]>(File.ReadAllText($"{_contextOptions.Value.SeederPath}/Flashcards.json"), new JsonSerializerSettings { DateTimeZoneHandling = DateTimeZoneHandling.Utc }));
         }
         public DbSet<News> News { get; set; }
         public DbSet<Deck> Decks { get; set; }

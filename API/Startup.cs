@@ -13,7 +13,6 @@ using Microsoft.OpenApi.Models;
 using System;
 using System.Linq;
 using System.Text;
-using Data.Seeder;
 using Business.Services.Interfaces;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Http;
@@ -145,7 +144,6 @@ namespace API
                     .MigrationsAssembly("API")
                     .EnableRetryOnFailure(5));
             });
-            services.AddSingleton(new FlashMEMOContextOptions { SeederPath = Configuration.GetValue<string>("seederPath") }); // https://stackoverflow.com/questions/66383701/passing-parameter-to-dbcontext-with-di
 
             services.AddHttpClient();
 
@@ -155,6 +153,7 @@ namespace API
             services.Configure<OxfordDictionaryAPIRequestHandler>(Configuration.GetSection("OxfordDictionaryAPI"));
             services.Configure<LexicalaDictionaryAPIRequestHandler>(Configuration.GetSection("LexicalaDictionaryAPI"));
             services.Configure<GenericRepositoryServiceOptions>(Configuration.GetSection("BaseRepositoryServiceOptions"));
+            services.Configure<FlashMEMOContextOptions>(Configuration.GetSection("FlashMEMOContextOptions"));
             // Custom Services
             services.AddScoped<IJWTService, JWTService>();
             services.AddScoped<IAuthService<string>, AuthService>();
@@ -182,7 +181,6 @@ namespace API
             // Validators
             services.AddTransient<IValidator<FlashcardDTO>, FlashcardDTOValidator>();
             services.AddTransient<IValidator<LanguageDTO>, LanguageDTOValidator>();
-
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -220,6 +218,15 @@ namespace API
             {
                 endpoints.MapControllers();
             });
+
+            // only enable this code if debugging the migration process is necessary
+            //using (var scope = app.ApplicationServices.CreateScope())
+            //{
+            //    var services = scope.ServiceProvider;
+            //    var dbContext = services.GetRequiredService<FlashMEMOContext>();
+
+            //    dbContext.Database.Migrate();
+            //}
         }
     }
 }

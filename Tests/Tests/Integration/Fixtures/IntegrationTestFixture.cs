@@ -20,7 +20,7 @@ namespace Tests.Integration.Fixtures
                 {
                     webHost.UseTestServer();
                     Console.WriteLine(System.IO.Directory.GetCurrentDirectory());
-                    webHost.UseStartup<TestStartup>().UseConfiguration(new ConfigurationBuilder().AddJsonFile("apisettings.json", optional: true).Build());
+                    webHost.UseStartup<TestStartup>().UseConfiguration(new ConfigurationBuilder().AddJsonFile("apisettings.json", optional: true).AddJsonFile("dbsettings.json", optional: true).Build());
                 });
             ConfigureInternals();
         }
