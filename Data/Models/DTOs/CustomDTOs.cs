@@ -19,6 +19,7 @@ namespace Data.Models.DTOs
         public string Id { get; set; } = "";
         public string Name { get; set; } = "";
         public string Surname { get; set; } = "";
+        public string Username { get; set; } = "";
         public string Email { get; set; }
 
         public ReducedUserDTO() { }
@@ -29,6 +30,7 @@ namespace Data.Models.DTOs
             Email = user.Email;
             Name = user.Name;
             Surname = user.Surname;
+            Username = user.UserName;
         }
     }
 }

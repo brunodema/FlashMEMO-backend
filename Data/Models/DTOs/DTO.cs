@@ -32,26 +32,6 @@ namespace Data.Models.DTOs
         }
     }
 
-    public class UserDTO : IModelDTO<ApplicationUser, string>
-    {
-        [Required]
-        [EmailAddress]
-        public string Email { get; set; }
-        [Required]
-        public string Username { get; set; }
-        // regex stolen from here: https://stackoverflow.com/questions/5859632/regular-expression-for-password-validation
-        [Required]
-        [RegularExpression(@"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^\da-zA-Z]).{8,15}$", ErrorMessage = "Password must be between 6 and 20 characters and contain one uppercase letter, one lowercase letter, one digit and one special character.")]
-        public string Password { get; set; }
-
-        public void PassValuesToEntity(ApplicationUser entity)
-        {
-            entity.Email = Email;
-            entity.UserName = Username;
-            // does not use password here: it is set on the DTO so the endpoint is properly formed, but who does the actual assignment is the service, after the user has been created
-        }
-    }
-
     public class DeckDTO : IModelDTO<Deck, Guid>
     {
         public string OwnerId { get; set; } = Guid.Empty.ToString();
@@ -185,6 +165,47 @@ namespace Data.Models.DTOs
         {
             RuleFor(x => x.ISOCode).NotEmpty();
             RuleFor(x => x.Name).NotEmpty();
+        }
+    }
+
+    public class UserDTO : IModelDTO<ApplicationUser, string>
+    {
+        [Required]
+        [EmailAddress]
+        public string Email { get; set; }
+        [Required]
+        public string Username { get; set; }
+        public string Name { get; set; }
+        public string Surname { get; set; }
+        // regex stolen from here: https://stackoverflow.com/questions/5859632/regular-expression-for-password-validation
+        [Required]
+        [RegularExpression(@"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^\da-zA-Z]).{8,15}$", ErrorMessage = "Password must be between 6 and 20 characters and contain one uppercase letter, one lowercase letter, one digit and one special character.")]
+        public string Password { get; set; }
+
+        public void PassValuesToEntity(ApplicationUser entity)
+        {
+            entity.Email = Email;
+            entity.UserName = Username;
+            entity.Name = Name;
+            entity.Surname = Surname;
+            // does not use password here: it is set on the DTO so the endpoint is properly formed, but who does the actual assignment is the service, after the user has been created
+        }
+    }
+
+    public class UserDTOValidator : AbstractValidator<UserDTO>
+    {
+        public class ValidationMessages
+        {
+            public static readonly string InvalidPasswordFormat = "Password must be between 6 and 20 characters and contain one uppercase letter, one lowercase letter, one digit and one special character.";
+        }
+
+        public UserDTOValidator()
+        {
+            RuleFor(x => x.Name).NotEmpty();
+            RuleFor(x => x.Surname).NotEmpty();
+            RuleFor(x => x.Username).NotEmpty();
+            RuleFor(x => x.Email).EmailAddress();
+            RuleFor(x => x.Password).Matches(@"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^\da-zA-Z]).{8,15}$").WithMessage(ValidationMessages.InvalidPasswordFormat);
         }
     }
 }

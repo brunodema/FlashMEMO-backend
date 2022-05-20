@@ -181,6 +181,7 @@ namespace API
             // Validators
             services.AddTransient<IValidator<FlashcardDTO>, FlashcardDTOValidator>();
             services.AddTransient<IValidator<LanguageDTO>, LanguageDTOValidator>();
+            services.AddTransient<IValidator<UserDTO>, UserDTOValidator>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

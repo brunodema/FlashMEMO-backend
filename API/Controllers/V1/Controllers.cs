@@ -65,7 +65,7 @@ namespace API.Controllers
             }
             catch (EntityValidationException ex)
             {
-                return BadRequest(new BaseResponseModel { Status = "Error", Message = $"Validation errors occured when creating object.", Errors = ex.ServiceValidationErrors });
+                return BadRequest(new BaseResponseModel { Status = "Bad Request", Message = $"Validation errors occured when creating object.", Errors = ex.ServiceValidationErrors });
             }
             catch (Exception)
             {
@@ -77,24 +77,35 @@ namespace API.Controllers
         [Route("{id}")]
         public async override Task<IActionResult> Get(string id)
         {
-            var actionResult = base.Get(id);
-            var response = (DataResponseModel<ApplicationUser>)actionResult.Result;
+            var actionResult = await base.Get(id) as ObjectResult;
+            if (actionResult.StatusCode == 200)
+            {
+                var response = (DataResponseModel<ApplicationUser>)actionResult.Value;
 
-            var user = new ReducedUserDTO(response.Data);
+                var user = new ReducedUserDTO(response.Data);
 
-            return Ok(new DataResponseModel<ReducedUserDTO>() { Status = "Success", Message = "User retrieved successfully.", Data = user });
+                return Ok(new DataResponseModel<ReducedUserDTO>() { Status = "Success", Message = "User retrieved successfully.", Data = user });
+            }
+
+            return actionResult;
         }
 
         [HttpGet]
         [Route("list")]
         public override IActionResult List(int pageSize = GenericRepositoryControllerDefaults.DefaultPageSize, int pageNumber = GenericRepositoryControllerDefaults.DefaultPageNumber, [FromQuery] UserSortOptions sortOptions = null)
         {
-            var actionResult = base.List(pageSize, pageNumber, sortOptions);
-            var response = (DataResponseModel<List<ApplicationUser>>)actionResult;
+            var actionResult = base.List(pageSize, pageNumber, sortOptions) as ObjectResult;
+            if (actionResult.StatusCode == 200)
+            {
+                var response = (PaginatedListResponse<ApplicationUser>)actionResult.Value;
 
-            var users = response.Data.Select(user => new ReducedUserDTO(user)).ToList();
+                var users = response.Data.Results.Select(user => new ReducedUserDTO(user)).ToList();
 
-            return Ok(new DataResponseModel<List<ReducedUserDTO>>() { Status = "Success", Message = "User retrieved successfully.", Data = users });
+                return Ok(new DataResponseModel<List<ReducedUserDTO>>() { Status = "Success", Message = "User retrieved successfully.", Data = users });
+            }
+
+            return actionResult;
+
         }
     }
 
@@ -308,32 +319,6 @@ namespace API.Controllers
         {
             _JWTService = JWTService;
             _authService = authService;
-        }
-
-        [HttpPost]
-        [Route("register")]
-        public async Task<IActionResult> Register([FromBody] RegisterRequestModel model)
-        {
-            if (!ModelState.IsValid)
-            {
-                var errorList = ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage).ToList();
-                return BadRequest(new BaseResponseModel { Status = "Bad Request", Message = "User creation failed. Please check user details and try again.", Errors = errorList });
-            }
-
-            if (await _authService.EmailAlreadyRegisteredAsync(model.Email))
-            {
-                return BadRequest(new BaseResponseModel { Status = "Bad Request", Message = "Email already exists in the database. Please use an unique email for registration, or contact one of our administrator to recover your password/account.", Errors = new List<string>() { "Email already exists in the database. Please use an unique email for registration, or contact one of our administrator to recover your password/account." } });
-            }
-
-            ApplicationUser user = new ApplicationUser()
-            {
-                Email = model.Email,
-                SecurityStamp = Guid.NewGuid().ToString(),
-                UserName = model.Email,
-            };
-
-            var brandNewId = await _authService.CreateUserAsync(user, model.Password);
-            return Ok(new BaseResponseModel { Status = "Success", Message = "User created successfully." });
         }
 
 

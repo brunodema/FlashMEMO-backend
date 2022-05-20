@@ -42,6 +42,7 @@ namespace Business.Services.Implementation
             List<string> errors = new();
 
             if (_baseRepository.GetByEmailAsync(entity.Email).Result != null) errors.Add("An user already exists with the provided email.");
+            if (_baseRepository.GetByUserNameAsync(entity.UserName).Result != null) errors.Add("An user already exists with the provided username.");
 
             return new ValidatonResult() { IsValid = errors.Count == 0, Errors = errors };
         }

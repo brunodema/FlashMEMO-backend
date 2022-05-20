@@ -15,6 +15,7 @@ namespace Data.Repository.Implementation
     {
         Task SetInitialPasswordAsync(TUserType user, string newPassword);
         Task<TUserType> GetByEmailAsync(string email);
+        Task<TUserType> GetByUserNameAsync(string username);
         Task<bool> CheckPasswordAsync(TUserType user, string password);
     }
 
@@ -90,6 +91,11 @@ namespace Data.Repository.Implementation
         public async Task<ApplicationUser> GetByEmailAsync(string email)
         {
             return await _userManager.FindByEmailAsync(email);
+        }
+
+        public async Task<ApplicationUser> GetByUserNameAsync(string username)
+        {
+            return await _userManager.FindByNameAsync(username);
         }
 
         public async Task<bool> CheckPasswordAsync(ApplicationUser user, string password)
