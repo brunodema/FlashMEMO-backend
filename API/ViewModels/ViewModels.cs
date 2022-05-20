@@ -61,8 +61,7 @@ namespace API.ViewModels
     public class LoginRequestModel
     {
         [Required(ErrorMessage = "Field {0} is required")]
-        [EmailAddress(ErrorMessage = "Field {0} format is invalid")]
-        public string Email { get; set; }
+        public string Username { get; set; }
 
         [Required(ErrorMessage = "Field {0} is required")]
         [StringLength(100, ErrorMessage = "Field {0} requires an amount of characters between {2} and {1}", MinimumLength = 6)]

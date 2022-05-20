@@ -154,9 +154,10 @@ namespace Business.Services.Implementation
             var claims = new List<Claim>
             {
                 new Claim(ClaimTypes.Email, user.Email),
-                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
-                                new Claim(JwtRegisteredClaimNames.Sub, user.Id),
-                new Claim("username", user.UserName) // this is potentially dangerous, but showing the entire schema name on the decoded jwt looked ridiculous
+                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()), 
+                new Claim(JwtRegisteredClaimNames.Sub, user.Id),
+                new Claim(JwtRegisteredClaimNames.UniqueName, user.UserName),
+                new Claim(JwtRegisteredClaimNames.Name, user.Name),
             };
             foreach (var role in user.UserRoles ?? Enumerable.Empty<ApplicationUserRole>())
             {
@@ -194,10 +195,13 @@ namespace Business.Services.Implementation
 
         public async Task<ApplicationUser> AreCredentialsValidAsync(IFlashMEMOCredentials credentials)
         {
-            if (await EmailAlreadyRegisteredAsync(credentials.Email))
+            var user = await _applicationUserRepository.GetByUserNameAsync(credentials.Username);
+            if (user != null)
             {
-                if (await GetUserByEmailAndCheckCredentialsAsync(credentials)) return _applicationUserRepository.GetAll().SingleOrDefault(u => u.Email == credentials.Email); // this is horrible design, only doing this instead of creating the appropriate function in the repository class to speed up development on the front-end
+                if (await _applicationUserRepository.CheckPasswordAsync(user, credentials.Password)) 
+                    return user;
             }
+
             return null;
         }
 
@@ -218,10 +222,10 @@ namespace Business.Services.Implementation
             return (await _applicationUserRepository.GetByIdAsync(id)) != null;
         }
 
-        public async Task<bool> GetUserByEmailAndCheckCredentialsAsync(IFlashMEMOCredentials credentials)
+        public async Task<bool> GetUserByUserNameAndCheckCredentialsAsync(IFlashMEMOCredentials credentials)
         {
-            var user = await _applicationUserRepository.GetByEmailAsync(credentials.Email);
-            return await _applicationUserRepository.CheckPasswordAsync(user, credentials.PasswordHash);
+            var user = await _applicationUserRepository.GetByUserNameAsync(credentials.Username);
+            return await _applicationUserRepository.CheckPasswordAsync(user, credentials.Password);
         }
     }
 
