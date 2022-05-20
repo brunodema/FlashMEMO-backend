@@ -72,6 +72,30 @@ namespace API.Controllers
                 throw;
             }
         }
+
+        [HttpGet]
+        [Route("{id}")]
+        public async override Task<IActionResult> Get(string id)
+        {
+            var actionResult = base.Get(id);
+            var response = (DataResponseModel<ApplicationUser>)actionResult.Result;
+
+            var user = new ReducedUserDTO(response.Data);
+
+            return Ok(new DataResponseModel<ReducedUserDTO>() { Status = "Success", Message = "User retrieved successfully.", Data = user });
+        }
+
+        [HttpGet]
+        [Route("list")]
+        public override IActionResult List(int pageSize = GenericRepositoryControllerDefaults.DefaultPageSize, int pageNumber = GenericRepositoryControllerDefaults.DefaultPageNumber, [FromQuery] UserSortOptions sortOptions = null)
+        {
+            var actionResult = base.List(pageSize, pageNumber, sortOptions);
+            var response = (DataResponseModel<List<ApplicationUser>>)actionResult;
+
+            var users = response.Data.Select(user => new ReducedUserDTO(user)).ToList();
+
+            return Ok(new DataResponseModel<List<ReducedUserDTO>>() { Status = "Success", Message = "User retrieved successfully.", Data = users });
+        }
     }
 
     [ApiController]
