@@ -101,7 +101,7 @@ namespace API.Controllers
 
                 var users = response.Data.Results.Select(user => new ReducedUserDTO(user)).ToList();
 
-                return Ok(new DataResponseModel<List<ReducedUserDTO>>() { Status = "Success", Message = "User retrieved successfully.", Data = users });
+                return Ok(new PaginatedListResponse<ReducedUserDTO>() { Status = "Success", Message = "User retrieved successfully.", Data = PaginatedList<ReducedUserDTO>.Create(users, pageNumber, pageSize) });
             }
 
             return actionResult;
@@ -328,7 +328,7 @@ namespace API.Controllers
         {
             ICollection<ApplicationUserRole> roles = new List<ApplicationUserRole>();
 
-            var authenticatedUser = await _authService.AreCredentialsValidAsync(new FlashMEMOCredentials { Email = model.Email, PasswordHash = model.Password });
+            var authenticatedUser = await _authService.AreCredentialsValidAsync(new FlashMEMOCredentials { Username = model.Username, Password = model.Password });
             if (authenticatedUser is not null)
             {
                 var token = _JWTService.CreateLoginToken(authenticatedUser);
