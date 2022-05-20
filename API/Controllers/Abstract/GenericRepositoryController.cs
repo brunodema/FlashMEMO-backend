@@ -10,7 +10,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using Data.Models.DTOs;
 using System;
-using Data.Tools.Exceptions.Repository;
 using Business.Tools.Exceptions;
 using API.Controllers.Messages;
 
@@ -141,7 +140,7 @@ namespace API.Controllers.Abstract
                 var ret = await _repositoryService.RemoveByIdAsync(id);
 
                 // This comparison is JANKY AS FUCK, but it works. Why do I use it? Because C# is overly complicated and doesn't allow me to set 'TKey' as either 'class' or 'struct' easily. 
-                if (ret.ToString() == default(TKey).ToString()) return BadRequest(new BaseResponseModel { Status = "Bad Request", Message = $"Object was not able to be removed from the database.", Errors = new List<string>() { ErrorMessages.NoObjectAssociatedWithId } });
+                if (ret?.ToString() == default(TKey)?.ToString()) return BadRequest(new BaseResponseModel { Status = "Bad Request", Message = $"Object was not able to be removed from the database.", Errors = new List<string>() { ErrorMessages.NoObjectAssociatedWithId } });
 
                 return Ok(new BaseResponseModel { Status = "Success", Message = $"Object deleted successfully." });
             }

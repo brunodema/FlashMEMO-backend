@@ -1,11 +1,8 @@
 ﻿using Data.Context;
 using Data.Models.Implementation;
 using Data.Repository.Abstract;
-using Data.Tools.Exceptions.Repository;
-using Data.Tools.Filtering;
 using Data.Tools.Sorting;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -69,7 +66,7 @@ namespace Data.Repository.Implementation
             var entity = await GetByIdAsync(guid);
             if (entity == null)
             {
-                throw new ObjectNotFoundWithId<string>(guid);
+                return default(string);
             }
             var ret = await _userManager.DeleteAsync(entity);
             await SaveChangesAsync();
@@ -154,7 +151,7 @@ namespace Data.Repository.Implementation
             var entity = await GetByIdAsync(guid);
             if (entity == null)
             {
-                throw new ObjectNotFoundWithId<string>(guid);
+                return default(string);
             }
             var ret = await _roleManager.DeleteAsync(entity);
             await SaveChangesAsync();
