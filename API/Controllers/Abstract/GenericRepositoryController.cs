@@ -114,6 +114,7 @@ namespace API.Controllers.Abstract
         {
             var entity = new TEntity();
             entityDTO.PassValuesToEntity(entity);
+            entity.DbId = id;
 
             var validationResult = _repositoryService.CheckIfEntityIsValid(entity);
             if (validationResult.IsValid)
@@ -133,7 +134,7 @@ namespace API.Controllers.Abstract
 
         [HttpPost]
         [Route("delete")]
-        public async virtual Task<IActionResult> Delete([FromBody]TKey id)
+        public async virtual Task<IActionResult> Delete([FromBody] TKey id)
         {
             try
             {
