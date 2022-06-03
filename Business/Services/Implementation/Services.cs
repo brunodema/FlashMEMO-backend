@@ -41,8 +41,18 @@ namespace Business.Services.Implementation
         {
             List<string> errors = new();
 
-            if (_baseRepository.GetByEmailAsync(entity.Email).Result != null) errors.Add("An user already exists with the provided email.");
-            if (_baseRepository.GetByUserNameAsync(entity.UserName).Result != null) errors.Add("An user already exists with the provided username.");
+            var userByEmail = _baseRepository.GetByEmailAsync(entity.Email).Result;
+            var userByUsername = _baseRepository.GetByUserNameAsync(entity.UserName).Result;
+            var userById = _baseRepository.GetByIdAsync(entity.Id).Result;
+
+            if (userByEmail != null)
+            {
+                if ((userById?.Email ?? userByEmail.Email) != userByEmail.Email) errors.Add("An user already exists with the provided email.");
+            }
+            if (userByUsername != null)
+            {
+                if ((userById?.UserName ?? userByUsername.UserName) != userByUsername.UserName) errors.Add("An user already exists with the provided username.");
+            }
 
             return new ValidatonResult() { IsValid = errors.Count == 0, Errors = errors };
         }
@@ -154,7 +164,7 @@ namespace Business.Services.Implementation
             var claims = new List<Claim>
             {
                 new Claim(ClaimTypes.Email, user.Email),
-                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()), 
+                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
                 new Claim(JwtRegisteredClaimNames.Sub, user.Id),
                 new Claim(JwtRegisteredClaimNames.UniqueName, user.UserName),
                 new Claim(JwtRegisteredClaimNames.Name, user.Name),
@@ -198,7 +208,7 @@ namespace Business.Services.Implementation
             var user = await _applicationUserRepository.GetByUserNameAsync(credentials.Username);
             if (user != null)
             {
-                if (await _applicationUserRepository.CheckPasswordAsync(user, credentials.Password)) 
+                if (await _applicationUserRepository.CheckPasswordAsync(user, credentials.Password))
                     return user;
             }
 

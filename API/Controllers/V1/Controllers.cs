@@ -11,6 +11,7 @@ using Data.Models.DTOs;
 using Data.Models.Implementation;
 using Data.Tools.Filtering;
 using Data.Tools.Sorting;
+using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -71,6 +72,30 @@ namespace API.Controllers
             {
                 throw;
             }
+        }
+
+        [HttpPut]
+        [Route("{id}")]
+        public async override Task<IActionResult> Update(string id, [CustomizeValidator(Properties = "Email, Username, Name, Surname")] UserDTO entityDTO)
+        {
+            if (!String.IsNullOrEmpty(entityDTO.Password))
+            {
+                var passwordValidatorResult = new UserDTOValidator().Validate(entityDTO);
+                if (!passwordValidatorResult.IsValid)
+                {
+                    return BadRequest(new BaseResponseModel() { Status = "Bad Request", Message = "Validation Errors have occurred while processing your request.", Errors = passwordValidatorResult.Errors.Select(x => x.ErrorMessage) });
+                }
+            }
+
+            var actionResult = await base.Update(id, entityDTO) as ObjectResult;
+            if (actionResult.StatusCode == 200)
+            {
+                var response = (DataResponseModel<string>)actionResult.Value;
+
+                return Ok(new DataResponseModel<string>() { Status = "Success", Message = "User updated successfully.", Data = id });
+            }
+
+            return actionResult;
         }
 
         [HttpGet]
@@ -151,10 +176,10 @@ namespace API.Controllers
 
         [HttpGet]
         [Route("list/extended")]
-        public IActionResult GetExtendedDeckInfo([FromQuery]string ownerId = null)
+        public IActionResult GetExtendedDeckInfo([FromQuery] string ownerId = null)
         {
             var decks = new List<Deck>();
-            if (ownerId == null) decks = _deckService.List().ToList() ;
+            if (ownerId == null) decks = _deckService.List().ToList();
             else decks = _deckService.GetAllDecksFromUser(ownerId);
 
             var extendedInfoList = new List<ExtendedDeckInfoDTO>();
