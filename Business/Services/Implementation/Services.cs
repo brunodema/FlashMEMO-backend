@@ -45,13 +45,29 @@ namespace Business.Services.Implementation
             var userByUsername = _baseRepository.GetByUserNameAsync(entity.UserName).Result;
             var userById = _baseRepository.GetByIdAsync(entity.Id).Result;
 
-            if (userByEmail != null)
+            if (userById != null)
             {
-                if ((userById?.Email ?? userByEmail.Email) != userByEmail.Email) errors.Add("An user already exists with the provided email.");
+                // this means that the user already exists (update mode)
+                if (userByEmail != null)
+                {
+                    if (userById.Id != userByEmail.Id) errors.Add("An user already exists with the provided email.");
+                }
+                if (userByUsername != null)
+                {
+                    if (userById.Id != userByUsername.Id) errors.Add("An user already exists with the provided username.");
+                }
             }
-            if (userByUsername != null)
+            else
             {
-                if ((userById?.UserName ?? userByUsername.UserName) != userByUsername.UserName) errors.Add("An user already exists with the provided username.");
+                // this means that the user does not exist (create mode)
+                if (userByEmail != null)
+                {
+                    errors.Add("An user already exists with the provided email.");
+                }
+                if (userByUsername != null)
+                {
+                    errors.Add("An user already exists with the provided username.");
+                }
             }
 
             return new ValidatonResult() { IsValid = errors.Count == 0, Errors = errors };
