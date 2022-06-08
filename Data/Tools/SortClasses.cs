@@ -50,7 +50,7 @@ namespace Data.Tools.Sorting
     {
         public static class ColumnOptions
         {
-            public const string ISOCODE = "ISOCode";
+            public const string ISOCODE = "isocode";
             public const string NAME = "name";
         }
         public LanguageSortOptions(SortType sortType = SortType.None, string columnToSort = "") : base(sortType, columnToSort) { }
@@ -149,7 +149,7 @@ namespace Data.Tools.Sorting
         public static class ColumnOptions
         {
             public const string SUBTITLE = "subtitle";
-            public const string DATE = "date";
+            public const string DATE = "creationdate";
         }
         public NewsSortOptions(SortType sortType = SortType.None, string columnToSort = "") : base(sortType, columnToSort) { }
         public NewsSortOptions() { }
