@@ -15,6 +15,10 @@ namespace Data.Models.Implementation
 
         public Guid NewsId { get; set; } = Guid.Empty;
 
+        [JsonIgnore]
+        public ApplicationUser Owner { get; set; } = null;
+        public string OwnerId { get; set; } = Guid.Empty.ToString();
+
         public string Title { get; set; } = "";
         public string Subtitle { get; set; } = "";
         public string ThumbnailPath { get; set; } = "";
