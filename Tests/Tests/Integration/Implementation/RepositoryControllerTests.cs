@@ -1,4 +1,5 @@
-﻿using Business.Tools.Validations;
+﻿using Business.Services.Implementation;
+using Business.Tools.Validations;
 using Data.Context;
 using Data.Models.DTOs;
 using Data.Models.Implementation;
@@ -21,12 +22,26 @@ namespace Tests.Tests.Integration.Implementation
     [Collection("Sequential")]
     public class NewsControllerTests : GenericControllerTests<News, Guid, NewsDTO>
     {
-        public NewsControllerTests(IntegrationTestFixture fixture, ITestOutputHelper output) : base(fixture, output) { }
-
         // User data to be used accross tests.
         private static readonly ApplicationUser TestUser1 = new ApplicationUser { Id = Guid.NewGuid().ToString(), UserName = "admin", Email = "admin@flashmemo.edu" };
         private static readonly ApplicationUser TestUser2 = new ApplicationUser { Id = Guid.NewGuid().ToString(), UserName = "user", Email = "user@flashmemo.edu" };
         private static readonly ApplicationUser TestUser3 = new ApplicationUser { Id = Guid.NewGuid().ToString(), UserName = "manager", Email = "manager@flashmemo.edu" };
+
+        public NewsControllerTests(IntegrationTestFixture fixture, ITestOutputHelper output) : base(fixture, output)
+        {
+            using (var scope = _fixture.Host.Services.CreateScope())
+            {
+                var dbContext = scope.ServiceProvider.GetService<FlashMEMOContext>();
+
+                // this disgusting implementation is required because (1) no 'AddOrUpdate' method exists in the EF Core stuff anymore (despite claims of it on the internet), and because (2) the 'Update' method doesn't actually add instead of updating when providing a non-existent object (it should, though) 
+                foreach (var item in new List<ApplicationUser>() { TestUser1, TestUser2, TestUser3 })
+                {
+                    AddIfNecessary<ApplicationUser, string>(item);
+                }
+
+                dbContext.SaveChanges();
+            }
+        }
 
         /// <summary>
         /// Data to be used in Create, Read, and Delete tests.
@@ -154,6 +169,10 @@ namespace Tests.Tests.Integration.Implementation
             get
             {
                 yield return new object[] { new NewsDTO { OwnerId = TestUser1.Id, Title = "Title", Content = "Content", Subtitle = "Subtitle", CreationDate = DateTime.Parse("2000-01-02+00"), LastUpdated = DateTime.Parse("2000-01-01+00") }, new List<string>() { "'Last Updated' must be greater than or equal to '01/01/2000 22:00:00'." }
+                };
+                yield return new object[] { new NewsDTO { OwnerId = Guid.Empty.ToString(), Title = "Title", Content = "Content", Subtitle = "Subtitle" }, new List<string>() { NewsService.ErrorMessages.InvalidOwner }
+                };
+                yield return new object[] { new NewsDTO { OwnerId = Guid.NewGuid().ToString(), Title = "Title", Content = "Content", Subtitle = "Subtitle" }, new List<string>() { NewsService.ErrorMessages.InvalidOwner }
                 };
             }
         }
