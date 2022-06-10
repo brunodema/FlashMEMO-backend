@@ -168,7 +168,7 @@ namespace Tests.Tests.Integration.Implementation
         {
             get
             {
-                yield return new object[] { new NewsDTO { OwnerId = TestUser1.Id, Title = "Title", Content = "Content", Subtitle = "Subtitle", CreationDate = DateTime.Parse("2000-01-02+00"), LastUpdated = DateTime.Parse("2000-01-01+00") }, new List<string>() { "'Last Updated' must be greater than or equal to '01/01/2000 22:00:00'." }
+                yield return new object[] { new NewsDTO { OwnerId = TestUser1.Id, Title = "Title", Content = "Content", Subtitle = "Subtitle", CreationDate = DateTime.Parse("2000-01-02T00:00:00+0000"), LastUpdated = DateTime.Parse("2000-01-01T00:00:00+0000") }, new List<string>() { $"'Last Updated' must be greater than or equal to '{DateTime.Parse("2000-01-02T00:00:00+0000")}'." }
                 };
                 yield return new object[] { new NewsDTO { OwnerId = Guid.Empty.ToString(), Title = "Title", Content = "Content", Subtitle = "Subtitle" }, new List<string>() { NewsService.ErrorMessages.InvalidOwner }
                 };
