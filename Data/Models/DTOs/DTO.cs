@@ -55,6 +55,7 @@ namespace Data.Models.DTOs
     public class NewsDTO : IModelDTO<News, Guid>
     {
         public string Title { get; set; } = "";
+        public string OwnerId { get; set; } = Guid.Empty.ToString();
         public string Subtitle { get; set; } = "";
         public string ThumbnailPath { get; set; } = "";
         public string Content { get; set; } = "";
@@ -64,11 +65,24 @@ namespace Data.Models.DTOs
         public void PassValuesToEntity(News entity)
         {
             entity.Title = Title;
+            entity.OwnerId = OwnerId;
             entity.Subtitle = Subtitle;
             entity.ThumbnailPath = ThumbnailPath;
             entity.Content = Content;
             entity.CreationDate = CreationDate;
             entity.LastUpdated = LastUpdated;
+        }
+    }
+
+    public class NewsDTOValidator : AbstractValidator<NewsDTO>
+    {
+        public NewsDTOValidator()
+        {
+            RuleFor(x => x.OwnerId).NotEmpty();
+            RuleFor(x => x.Title).NotEmpty();
+            RuleFor(x => x.Subtitle).NotEmpty();
+            RuleFor(x => x.Content).NotEmpty();
+            RuleFor(x => x.LastUpdated).GreaterThanOrEqualTo((x) => x.CreationDate);
         }
     }
 

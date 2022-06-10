@@ -23,13 +23,14 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 
 namespace Tests.Integration.Fixtures
 {
     public class TestStartup
     {
-        private class InteralConfigs
+        private class InternalConfigs
         {
             // JWT
             public const string ValidIssuer = "http://localhost:61955";
@@ -38,6 +39,7 @@ namespace Tests.Integration.Fixtures
             public const string Secret = "mysecretmysecret";
             // Seeder
             public const string SeederPath = "../../../../Data/Seeder";
+            public const string DefaultPassword = "DefaultPassword@123";
         }
 
         public TestStartup(IConfiguration configuration)
@@ -128,9 +130,9 @@ namespace Tests.Integration.Fixtures
                     {
                         ValidateIssuer = true,
                         ValidateAudience = true,
-                        ValidAudience = InteralConfigs.ValidAudience,
-                        ValidIssuer = InteralConfigs.ValidIssuer,
-                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(InteralConfigs.Secret)),
+                        ValidAudience = InternalConfigs.ValidAudience,
+                        ValidIssuer = InternalConfigs.ValidIssuer,
+                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(InternalConfigs.Secret)),
                         // custom definitions
                         ValidateLifetime = true, // otherwise the expiration change is not checked
                         ClockSkew = TimeSpan.Zero // the default is 5 min (framework)
@@ -138,15 +140,19 @@ namespace Tests.Integration.Fixtures
                 });
             // database configuration
             services.AddDbContext<FlashMEMOContext>(options => options.UseInMemoryDatabase("TestDB"));
-            services.AddSingleton(new FlashMEMOContextOptions { SeederPath = "../../../../Data/Seeder" }); // https://stackoverflow.com/questions/66383701/passing-parameter-to-dbcontext-with-di
+            services.AddSingleton<IOptions<FlashMEMOContextOptions>>(opt => Options.Create<FlashMEMOContextOptions>(new FlashMEMOContextOptions()
+            {
+                SeederPath = InternalConfigs.SeederPath,
+                DefaultUserPassword = InternalConfigs.DefaultPassword
+            }));
 
             // options configuration
             services.Configure<JWTServiceOptions>(config =>
             {
-                config.ValidIssuer = InteralConfigs.ValidIssuer;
-                config.ValidAudience = InteralConfigs.ValidAudience;
-                config.TimeToExpiration = InteralConfigs.TimeToExpiration;
-                config.Secret = InteralConfigs.Secret;
+                config.ValidIssuer = InternalConfigs.ValidIssuer;
+                config.ValidAudience = InternalConfigs.ValidAudience;
+                config.TimeToExpiration = InternalConfigs.TimeToExpiration;
+                config.Secret = InternalConfigs.Secret;
             });
 
             services.Configure<CustomSearchAPIServiceOptions>(Configuration.GetSection("GoogleCustomSearchAPI"));
@@ -172,6 +178,7 @@ namespace Tests.Integration.Fixtures
 
             // Validators
             services.AddTransient<IValidator<FlashcardDTO>, FlashcardDTOValidator>();
+            services.AddTransient<IValidator<NewsDTO>, NewsDTOValidator>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

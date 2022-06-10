@@ -139,20 +139,24 @@ namespace Business.Services.Implementation
 
     public class NewsService : GenericRepositoryService<NewsRepository, Guid, News>
     {
-        public NewsService(NewsRepository baseRepository, IOptions<GenericRepositoryServiceOptions> serviceOptions) : base(baseRepository, serviceOptions.Value) { }
+        public static class ErrorMessages
+        {
+            public static readonly string InvalidOwner = "The provided UserId does not point to a valid user.";
+        }
+
+        private readonly IAuthService<string> _authService;
+
+        public NewsService(NewsRepository baseRepository, IAuthService<string> authService, IOptions<GenericRepositoryServiceOptions> serviceOptions) : base(baseRepository, serviceOptions.Value) { _authService = authService; }
+
         public override ValidatonResult CheckIfEntityIsValid(News entity)
         {
             List<string> errors = new();
 
-            bool areDatesValid = entity.CreationDate <= entity.LastUpdated;
-            if (!areDatesValid)
-            {
-                errors.Add(ServiceValidationMessages.CreationDateMoreRecentThanLastUpdated);
-            }
+            if (!_authService.UserExistsAsync(entity.OwnerId).Result) errors.Add(ErrorMessages.InvalidOwner);
 
             return new ValidatonResult
             {
-                IsValid = areDatesValid,
+                IsValid = !errors.Any(),
                 Errors = errors
             };
         }

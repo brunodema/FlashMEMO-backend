@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace API.Migrations
 {
     [DbContext(typeof(FlashMEMOContext))]
-    [Migration("20220511232628_UpdateFuckingWordCase")]
-    partial class UpdateFuckingWordCase
+    [Migration("20220609020403_FuckTheEntireExistenceOfMigrations")]
+    partial class FuckTheEntireExistenceOfMigrations
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -100,6 +100,9 @@ namespace API.Migrations
                     b.Property<DateTimeOffset?>("LockoutEnd")
                         .HasColumnType("timestamp with time zone");
 
+                    b.Property<string>("Name")
+                        .HasColumnType("text");
+
                     b.Property<string>("NormalizedEmail")
                         .HasMaxLength(256)
                         .HasColumnType("character varying(256)");
@@ -120,11 +123,11 @@ namespace API.Migrations
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("text");
 
+                    b.Property<string>("Surname")
+                        .HasColumnType("text");
+
                     b.Property<bool>("TwoFactorEnabled")
                         .HasColumnType("boolean");
-
-                    b.Property<string>("UserId")
-                        .HasColumnType("text");
 
                     b.Property<string>("UserName")
                         .HasMaxLength(256)
@@ -146,140 +149,180 @@ namespace API.Migrations
                         {
                             Id = "B4553CAB-7997-1DE5-F7E3-90A7BC1DA167",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "499745b9-a586-4e4c-a1c7-b493a32d27c1",
+                            ConcurrencyStamp = "7e3749d9-365f-496d-8adb-c6d19ccf86b3",
                             Email = "sysadmin@flashmemo.edu",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
+                            Name = "",
+                            NormalizedEmail = "SYSADMIN@FLASHMEMO.EDU",
+                            NormalizedUserName = "SYSADMIN",
+                            PasswordHash = "AQAAAAEAACcQAAAAEGCbrLh/2yth2z9Yfns2rwQr9cQNlZEEA7DO0kbTAZc35+m05A3YNfD9SEoCRxub+Q==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "8cfee099-a0f5-41bb-b2ef-1561956a85df",
+                            SecurityStamp = "a29012bc-cfee-4eb5-b8a1-d27d0e5d2d99",
+                            Surname = "",
                             TwoFactorEnabled = false,
-                            UserId = "00000000-0000-0000-0000-000000000000",
                             UserName = "sysadmin"
                         },
                         new
                         {
                             Id = "9FBC287A-C113-EBA3-526F-4AE7CEACBDE8",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "3bcc584b-379e-44e6-882d-aa3153484562",
+                            ConcurrencyStamp = "0ec570e9-8984-46e1-93ab-de0080aaccda",
                             Email = "dapibus.ligula@hotmail.couk",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
+                            Name = "",
+                            NormalizedEmail = "DAPIBUS.LIGULA@HOTMAIL.COUK",
+                            NormalizedUserName = "DEMANTOVA111",
+                            PasswordHash = "AQAAAAEAACcQAAAAEIhe5je40KIg723t8Z3LyP8JJiB2gyLl4X7Dn9ohWN5EpjFE9iUAhNmK/XH6/p0UCw==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "15435d5d-223a-417c-ac3a-88a572abf5dc",
+                            SecurityStamp = "a58943fa-83a8-4967-8b30-9f7f8fe373c0",
+                            Surname = "",
                             TwoFactorEnabled = false,
-                            UserId = "00000000-0000-0000-0000-000000000000",
                             UserName = "demantova111"
                         },
                         new
                         {
                             Id = "E4C3E116-C71A-7B3B-CA32-159AE97C8456",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "bf1f9693-9144-475d-98ec-47a046fa10c7",
+                            ConcurrencyStamp = "596b7eda-dbe7-4f77-a36c-65ebe8e3d1b1",
                             Email = "accumsan.convallis.ante@outlook.couk",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
+                            Name = "",
+                            NormalizedEmail = "ACCUMSAN.CONVALLIS.ANTE@OUTLOOK.COUK",
+                            NormalizedUserName = "ECK3",
+                            PasswordHash = "AQAAAAEAACcQAAAAEG/FH0eGGbrjgszw2figASNmEE5ROAFc6QgEaa5uJ3cpQBCc/DQEya9JvA8mV6LApQ==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "87f58456-86ff-42c4-9752-032c4387576f",
+                            SecurityStamp = "e1b75130-5b77-46fd-a639-bde98e5ad41e",
+                            Surname = "",
                             TwoFactorEnabled = false,
-                            UserId = "00000000-0000-0000-0000-000000000000",
                             UserName = "eck3"
                         },
                         new
                         {
                             Id = "9F87EEA2-25CB-13B8-13B7-CA1A69CA68B4",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "2681f031-6868-468c-a5c7-09bd238217d7",
+                            ConcurrencyStamp = "44876272-9e66-46f4-966c-e6f3aaabc7ea",
                             Email = "lacus.mauris@aol.couk",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
+                            Name = "",
+                            NormalizedEmail = "LACUS.MAURIS@AOL.COUK",
+                            NormalizedUserName = "DEMANTOVA",
+                            PasswordHash = "AQAAAAEAACcQAAAAEBcIBteLcCt6ofKCs6Z8FYrWDF916aPjkXrSVfGvssoRGks+l8Arti04wWl5UdQxqw==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "5c6aeb42-bd6e-4743-a147-5ea8c1fd34ed",
+                            SecurityStamp = "3075b16e-cac1-41b7-8336-d6349a804c94",
+                            Surname = "",
                             TwoFactorEnabled = false,
-                            UserId = "00000000-0000-0000-0000-000000000000",
                             UserName = "demantova"
                         },
                         new
                         {
                             Id = "62DAAEBC-F2F5-4D16-533A-AD176D7EA7B7",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "7403721a-826a-4147-9587-8b7b0c4075db",
+                            ConcurrencyStamp = "659b5fd3-d259-465b-8ffe-474a5e4cef31",
                             Email = "sed.dictum.eleifend@hotmail.org",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
+                            Name = "",
+                            NormalizedEmail = "SED.DICTUM.ELEIFEND@HOTMAIL.ORG",
+                            NormalizedUserName = "ECK2333",
+                            PasswordHash = "AQAAAAEAACcQAAAAEMwnlct+gIxXMXYYV8KHp0erJSafIou5pGL3sw7AgcAExroqMlbOwFaf9M1Z4dAPVw==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "cb292d0f-7b84-4334-b4aa-4f0f8816bbf1",
+                            SecurityStamp = "e414c273-f7ec-46cc-8142-c5f8675d2297",
+                            Surname = "",
                             TwoFactorEnabled = false,
-                            UserId = "00000000-0000-0000-0000-000000000000",
                             UserName = "eck2333"
                         },
                         new
                         {
                             Id = "9CBF5FEE-EE6E-5F1D-3E53-2389AD983EA2",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "49618954-1b5a-4c91-9462-0a8586ffeca9",
+                            ConcurrencyStamp = "0c7d1f49-0a9c-498d-9a79-fa330a6d0eb0",
                             Email = "leo.morbi@google.org",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
+                            Name = "",
+                            NormalizedEmail = "LEO.MORBI@GOOGLE.ORG",
+                            NormalizedUserName = "ECKKKKERT",
+                            PasswordHash = "AQAAAAEAACcQAAAAEOPRhBMTGM0FGfXlDHNLERsJcqsFv3MXysKKnetSrIhmg5PBBMGXANW8gy/MXCcjRw==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "5b5e7639-5146-4564-b46d-ab0f5a69c691",
+                            SecurityStamp = "653dc68a-09f8-4ae9-a666-c57bbc763b38",
+                            Surname = "",
                             TwoFactorEnabled = false,
-                            UserId = "00000000-0000-0000-0000-000000000000",
                             UserName = "eckkkkert"
                         },
                         new
                         {
                             Id = "6BBD068B-B258-EB0A-2132-BEB9BAEA886E",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "a3d9f178-961d-47d5-ae08-ebeb4fb00bb5",
+                            ConcurrencyStamp = "141e1702-7698-4ff8-99c2-23470fc9eaa9",
                             Email = "viverra.donec@hotmail.com",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
+                            Name = "",
+                            NormalizedEmail = "VIVERRA.DONEC@HOTMAIL.COM",
+                            NormalizedUserName = "VEKVERT",
+                            PasswordHash = "AQAAAAEAACcQAAAAEL3Gm3NsM/DEAMoJ+uI2Z0EdxyT0bso41QQP/ygOHSefn6IeK5wlIKNZn9lO8uU93Q==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "d7d62a8a-a648-4532-98ee-602d8060582d",
+                            SecurityStamp = "b2db60f0-f980-4c2f-8be9-c461a900f376",
+                            Surname = "",
                             TwoFactorEnabled = false,
-                            UserId = "00000000-0000-0000-0000-000000000000",
                             UserName = "vekvert"
                         },
                         new
                         {
                             Id = "0004E137-13A5-5129-AA50-5A856A2A86F7",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "371c7ebb-208a-4a71-b5e9-2e6d6bd5ddcd",
+                            ConcurrencyStamp = "459a98fa-29fc-41f5-a932-d743273b76ea",
                             Email = "ligula.eu@icloud.com",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
+                            Name = "",
+                            NormalizedEmail = "LIGULA.EU@ICLOUD.COM",
+                            NormalizedUserName = "BRUNO_DEMANTOVA",
+                            PasswordHash = "AQAAAAEAACcQAAAAEKWa+G22tWUyt7/IS9WTCWAUGAsKgdM9fQC8feEszgNKVkyBUwBz4B97ugzxVgJLSQ==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "692ca52d-890d-4224-beba-aea70c6ac04b",
+                            SecurityStamp = "ac74797f-ce1d-4653-8e5c-f162c6ab0429",
+                            Surname = "",
                             TwoFactorEnabled = false,
-                            UserId = "00000000-0000-0000-0000-000000000000",
                             UserName = "bruno_demantova"
                         },
                         new
                         {
                             Id = "5881A9B3-912A-8F1A-C5FA-0855A0563E23",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "5da9d945-1656-4947-8ce9-9ca57610fd7a",
+                            ConcurrencyStamp = "f2292713-d9a3-4bf1-82d2-9c746bc9ed5e",
                             Email = "non.dui@hotmail.org",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
+                            Name = "",
+                            NormalizedEmail = "NON.DUI@HOTMAIL.ORG",
+                            NormalizedUserName = "DEMA100",
+                            PasswordHash = "AQAAAAEAACcQAAAAEC5SUvq+4Cmtg881k5/Ps0VrKZuxB/8CX2/HU5mi+D2/RhlLo9X3ensd9mQCynhpLg==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "2e35a559-e295-4dab-92f2-3b7ede72d974",
+                            SecurityStamp = "4269e894-2e2f-4176-98c7-a9846b6ed5bb",
+                            Surname = "",
                             TwoFactorEnabled = false,
-                            UserId = "00000000-0000-0000-0000-000000000000",
                             UserName = "dema100"
                         },
                         new
                         {
                             Id = "BD696EC2-1BE1-FFB1-3FC1-883C2D247875",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "92438338-669c-4ca5-8e32-131d9f97c9b9",
+                            ConcurrencyStamp = "54f6fa38-13b6-4afa-b0cb-10358cd76892",
                             Email = "aliquam@hotmail.com",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
+                            Name = "",
+                            NormalizedEmail = "ALIQUAM@HOTMAIL.COM",
+                            NormalizedUserName = "BRUNO79",
+                            PasswordHash = "AQAAAAEAACcQAAAAEHQ3GZZzUMpJOjP9R6wBf1yuWdv8MKTFcMRzMsDf3TrH2kdOhFaGbJyYEEPFWlv0pA==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "f3c36483-486a-441e-990a-3159fdec4bc3",
+                            SecurityStamp = "b64acc0b-555d-4b9c-8e6a-85fc777ba771",
+                            Surname = "",
                             TwoFactorEnabled = false,
-                            UserId = "00000000-0000-0000-0000-000000000000",
                             UserName = "bruno79"
                         });
                 });
@@ -652,7 +695,7 @@ namespace API.Migrations
 
             modelBuilder.Entity("Data.Models.Implementation.Flashcard", b =>
                 {
-                    b.Property<Guid>("FlashcardID")
+                    b.Property<Guid>("FlashcardId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
@@ -699,7 +742,7 @@ namespace API.Migrations
                     b.Property<int>("Level")
                         .HasColumnType("integer");
 
-                    b.HasKey("FlashcardID");
+                    b.HasKey("FlashcardId");
 
                     b.HasIndex("DeckId");
 
@@ -708,7 +751,7 @@ namespace API.Migrations
                     b.HasData(
                         new
                         {
-                            FlashcardID = new Guid("aa75d1eb-0742-4e82-b322-5f95ebd9f58e"),
+                            FlashcardId = new Guid("aa75d1eb-0742-4e82-b322-5f95ebd9f58e"),
                             Answer = "kill",
                             BackContentLayout = 0,
                             Content1 = "Exercitation nostrud proident irure ut voluptate qui. Officia incididunt sint culpa irure do amet culpa occaecat adipisicing. Ipsum proident et ad deserunt pariatur elit dolore esse. Consectetur cupidatat laboris qui quis tempor ipsum. Esse duis incididunt labore. Mollit officia aliquip Lorem consequat dolor tempor aliquip laboris.",
@@ -726,7 +769,7 @@ namespace API.Migrations
                         },
                         new
                         {
-                            FlashcardID = new Guid("52588d3d-684e-44dc-a06c-4846ab19d3ff"),
+                            FlashcardId = new Guid("52588d3d-684e-44dc-a06c-4846ab19d3ff"),
                             Answer = "Gelsenkirchen",
                             BackContentLayout = 0,
                             Content1 = "Pariatur deserunt occaecat ad. Quis consequat voluptate excepteur voluptate laborum reprehenderit cupidatat sit proident est ex ad ad. Et anim nisi aute est amet ipsum cupidatat sunt adipisicing est nisi fugiat. Amet quis qui aliquip.",
@@ -744,7 +787,7 @@ namespace API.Migrations
                         },
                         new
                         {
-                            FlashcardID = new Guid("6ce50229-1b3b-4abc-ad1a-baba95efa2a2"),
+                            FlashcardId = new Guid("6ce50229-1b3b-4abc-ad1a-baba95efa2a2"),
                             Answer = "",
                             BackContentLayout = 0,
                             Content1 = "https://m.media-amazon.com/images/I/81rz6kuxieL._AC_SL1500_.jpg",
@@ -762,7 +805,7 @@ namespace API.Migrations
                         },
                         new
                         {
-                            FlashcardID = new Guid("c1adced1-c7a3-44ce-9fd2-5dc8f8e5f2f6"),
+                            FlashcardId = new Guid("c1adced1-c7a3-44ce-9fd2-5dc8f8e5f2f6"),
                             Answer = "",
                             BackContentLayout = 3,
                             Content1 = "<p><b>car</b></p><p>Category: Noun</p><p>Spelling: kɑː</p><p>Definitions:</p><ul><li>a four-wheeled road vehicle that is powered by an engine and is able to carry a small number of people</li></ul><p>Examples:</p><ul><li>she drove up in a car</li><li>we're going by car</li></ul>",
@@ -780,7 +823,7 @@ namespace API.Migrations
                         },
                         new
                         {
-                            FlashcardID = new Guid("e956e210-1965-4d3b-bf68-b6977733cdb7"),
+                            FlashcardId = new Guid("e956e210-1965-4d3b-bf68-b6977733cdb7"),
                             Answer = "kill",
                             BackContentLayout = 0,
                             Content1 = "https://target.scene7.com/is/image/Target/GUEST_b3e2da64-ad54-48b5-9dc7-50071ea5075d?wid=488&hei=488&fmt=pjpeg",
@@ -798,7 +841,7 @@ namespace API.Migrations
                         },
                         new
                         {
-                            FlashcardID = new Guid("3d7978b1-c270-4ae7-ade5-38becf5770e9"),
+                            FlashcardId = new Guid("3d7978b1-c270-4ae7-ade5-38becf5770e9"),
                             Answer = "Tarte",
                             BackContentLayout = 4,
                             Content1 = "<p><b>arbol</b></p><p>Category: Noun</p><p>Spelling: </p><p>Definitions:</p><ul><li>Planta de tronco leñoso, grueso y elevado que se ramifica a cierta altura del suelo formando la copa</li><li>Cuadro descriptivo que representa de forma gráfica las relaciones que tienen los elementos de un conjunto o las variaciones de un fenómeno</li><li>Barra fija o giratoria que en una máquina sirve para soportar piezas rotativas o para transmitir fuerza motriz de unos órganos a otros</li><li>Barra o eje que se usa en posición vertical y sirve de apoyo a una estructura que se desarrolla alrededor del mismo, como el árbol de una escalera de caracol</li><li>Madero que junto con otros se coloca perpendicularmente a la quilla de una embarcación y está destinado a sujetar las velas</li><li>Eje del órgano (instrumento musical) que, movido a voluntad del ejecutante, hace que suene o deje de sonar un registro</li><li>Punzón que usan los relojeros para perforar el metal y que tiene el mango de madera y la punta de acero</li><li>Pieza de hierro en la parte superior del husillo de la prensa de imprimir</li></ul><p>Examples:</p><ul><li>el Ministerio de Medio Ambiente tiene previsto plantar un millón de árboles en el próximo año</li><li>diagrama en árbol</li></ul>",
@@ -816,7 +859,7 @@ namespace API.Migrations
                         },
                         new
                         {
-                            FlashcardID = new Guid("5b740554-e348-4327-a5a2-788c91c7b2d8"),
+                            FlashcardId = new Guid("5b740554-e348-4327-a5a2-788c91c7b2d8"),
                             Answer = "macchina",
                             BackContentLayout = 1,
                             Content1 = "https://target.scene7.com/is/image/Target/GUEST_d29e72d0-b1cd-4cfd-8c8b-f2a200fd7193?wid=488&hei=488&fmt=pjpeg",
@@ -834,7 +877,7 @@ namespace API.Migrations
                         },
                         new
                         {
-                            FlashcardID = new Guid("4956fb2a-8805-40e2-a605-20c43d44b509"),
+                            FlashcardId = new Guid("4956fb2a-8805-40e2-a605-20c43d44b509"),
                             Answer = "nuage",
                             BackContentLayout = 0,
                             Content1 = "Reprehenderit proident ex amet ea voluptate non in duis culpa. Nulla duis id eu fugiat nostrud pariatur velit do consectetur dolore cillum nulla cillum cillum. Voluptate esse qui et dolore commodo laborum aliquip sunt anim ex ut. Aute cupidatat reprehenderit velit id tempor veniam consectetur sunt ad qui nisi ea deserunt. Cupidatat ad ea in. Nisi reprehenderit laboris aute quis ipsum minim consequat exercitation voluptate adipisicing aliquip magna adipisicing.",
@@ -852,7 +895,7 @@ namespace API.Migrations
                         },
                         new
                         {
-                            FlashcardID = new Guid("8d0af6e4-c06d-4953-bde0-3c67f4517954"),
+                            FlashcardId = new Guid("8d0af6e4-c06d-4953-bde0-3c67f4517954"),
                             Answer = "Gelsenkirchen",
                             BackContentLayout = 4,
                             Content1 = "Ex eu exercitation eu labore culpa. Cillum dolore sunt nostrud aute sint. Aliqua exercitation ad ipsum veniam ea proident. Elit consectetur do do do laboris aute sint ad qui ullamco consequat officia aliquip.",
@@ -870,7 +913,7 @@ namespace API.Migrations
                         },
                         new
                         {
-                            FlashcardID = new Guid("7a3f13fb-ac61-4e24-b80d-f5593f788826"),
+                            FlashcardId = new Guid("7a3f13fb-ac61-4e24-b80d-f5593f788826"),
                             Answer = "",
                             BackContentLayout = 0,
                             Content1 = "https://audio12.forvo.com/audios/mp3/u/n/un_9523171_118_7665857.mp3",
@@ -888,7 +931,7 @@ namespace API.Migrations
                         },
                         new
                         {
-                            FlashcardID = new Guid("e83966e7-af40-4892-aa74-52c3b1ad77f8"),
+                            FlashcardId = new Guid("e83966e7-af40-4892-aa74-52c3b1ad77f8"),
                             Answer = "",
                             BackContentLayout = 0,
                             Content1 = "Voluptate ea reprehenderit cillum deserunt tempor cillum. Sunt id fugiat incididunt anim eiusmod nulla aliquip elit exercitation dolor ex amet. Ipsum commodo laborum voluptate reprehenderit culpa minim dolore cupidatat dolore culpa enim dolore mollit enim magna. Non adipisicing amet labore aliquip laborum mollit magna velit est dolor sunt aliquip esse. Consequat mollit dolor proident Lorem. Eiusmod ipsum nulla amet fugiat officia amet laborum aute reprehenderit minim veniam in adipisicing labore do.",
@@ -906,7 +949,7 @@ namespace API.Migrations
                         },
                         new
                         {
-                            FlashcardID = new Guid("9ebc936b-42db-4798-8ffe-f1e10a06dd46"),
+                            FlashcardId = new Guid("9ebc936b-42db-4798-8ffe-f1e10a06dd46"),
                             Answer = "el pueblo",
                             BackContentLayout = 4,
                             Content1 = "https://pisces.bbystatic.com/image2/BestBuy_US/images/products/6463/6463555_sd.jpg",
@@ -924,7 +967,7 @@ namespace API.Migrations
                         },
                         new
                         {
-                            FlashcardID = new Guid("68c70248-d828-4ee0-b032-fb3efa850e73"),
+                            FlashcardId = new Guid("68c70248-d828-4ee0-b032-fb3efa850e73"),
                             Answer = "el pueblo",
                             BackContentLayout = 2,
                             Content1 = "Aute nulla dolore reprehenderit aute officia elit consequat magna dolor ut duis. Consectetur et eiusmod dolore consequat veniam aute duis pariatur commodo. Cupidatat exercitation amet ullamco et cupidatat elit. Irure labore commodo mollit elit aute tempor. Pariatur ex et magna consectetur Lorem. Consequat nostrud amet quis. Id esse consectetur reprehenderit esse dolore veniam fugiat fugiat mollit id tempor.",
@@ -942,7 +985,7 @@ namespace API.Migrations
                         },
                         new
                         {
-                            FlashcardID = new Guid("1c710e71-b53e-4c7d-9f1d-080b57909044"),
+                            FlashcardId = new Guid("1c710e71-b53e-4c7d-9f1d-080b57909044"),
                             Answer = "Tarte",
                             BackContentLayout = 4,
                             Content1 = "https://target.scene7.com/is/image/Target/GUEST_d29e72d0-b1cd-4cfd-8c8b-f2a200fd7193?wid=488&hei=488&fmt=pjpeg",
@@ -960,7 +1003,7 @@ namespace API.Migrations
                         },
                         new
                         {
-                            FlashcardID = new Guid("57c914a6-6c2e-4de0-a336-c2b8be66b3b6"),
+                            FlashcardId = new Guid("57c914a6-6c2e-4de0-a336-c2b8be66b3b6"),
                             Answer = "vecchia signora",
                             BackContentLayout = 2,
                             Content1 = "https://audio12.forvo.com/audios/mp3/l/i/li_9002112_133_543430_266179.mp3",
@@ -978,7 +1021,7 @@ namespace API.Migrations
                         },
                         new
                         {
-                            FlashcardID = new Guid("d12ae132-f96a-436a-8374-15402ffbd45d"),
+                            FlashcardId = new Guid("d12ae132-f96a-436a-8374-15402ffbd45d"),
                             Answer = "Tarte",
                             BackContentLayout = 3,
                             Content1 = "Ad est dolor nisi esse esse. Sit Lorem ex in sunt sit aliquip. Amet mollit in nulla consequat anim deserunt ea Lorem cupidatat. Aute esse irure aute tempor est quis qui culpa esse nostrud. Ea ea magna do aliquip duis incididunt tempor proident. Sunt ipsum tempor enim.",
@@ -996,7 +1039,7 @@ namespace API.Migrations
                         },
                         new
                         {
-                            FlashcardID = new Guid("6bbc8b3d-fc17-4b76-a016-191ce9de990d"),
+                            FlashcardId = new Guid("6bbc8b3d-fc17-4b76-a016-191ce9de990d"),
                             Answer = "vecchia signora",
                             BackContentLayout = 2,
                             Content1 = "<p><b>arbol</b></p><p>Category: Noun</p><p>Spelling: </p><p>Definitions:</p><ul><li>Planta de tronco leñoso, grueso y elevado que se ramifica a cierta altura del suelo formando la copa</li><li>Cuadro descriptivo que representa de forma gráfica las relaciones que tienen los elementos de un conjunto o las variaciones de un fenómeno</li><li>Barra fija o giratoria que en una máquina sirve para soportar piezas rotativas o para transmitir fuerza motriz de unos órganos a otros</li><li>Barra o eje que se usa en posición vertical y sirve de apoyo a una estructura que se desarrolla alrededor del mismo, como el árbol de una escalera de caracol</li><li>Madero que junto con otros se coloca perpendicularmente a la quilla de una embarcación y está destinado a sujetar las velas</li><li>Eje del órgano (instrumento musical) que, movido a voluntad del ejecutante, hace que suene o deje de sonar un registro</li><li>Punzón que usan los relojeros para perforar el metal y que tiene el mango de madera y la punta de acero</li><li>Pieza de hierro en la parte superior del husillo de la prensa de imprimir</li></ul><p>Examples:</p><ul><li>el Ministerio de Medio Ambiente tiene previsto plantar un millón de árboles en el próximo año</li><li>diagrama en árbol</li></ul>",
@@ -1014,7 +1057,7 @@ namespace API.Migrations
                         },
                         new
                         {
-                            FlashcardID = new Guid("80072232-9d29-4271-8075-4b49d599f6b2"),
+                            FlashcardId = new Guid("80072232-9d29-4271-8075-4b49d599f6b2"),
                             Answer = "onda",
                             BackContentLayout = 3,
                             Content1 = "Quis adipisicing irure laborum exercitation culpa excepteur culpa consectetur excepteur sit ea qui ipsum culpa. Officia officia deserunt eiusmod consequat nostrud laborum esse ut. In ex consequat excepteur ex voluptate duis ut amet incididunt ad aliqua minim. Est do eiusmod proident consectetur ea anim aute proident do. Eiusmod adipisicing laborum Lorem velit pariatur quis sint aliqua consectetur esse laboris minim cillum in. Fugiat labore nisi enim excepteur id voluptate do velit dolore minim culpa cillum. Aliqua excepteur qui ullamco. Ullamco do occaecat ad veniam reprehenderit veniam sit officia deserunt.",
@@ -1032,7 +1075,7 @@ namespace API.Migrations
                         },
                         new
                         {
-                            FlashcardID = new Guid("3449fc8c-1a05-480d-9625-fa516df74b11"),
+                            FlashcardId = new Guid("3449fc8c-1a05-480d-9625-fa516df74b11"),
                             Answer = "macchina",
                             BackContentLayout = 0,
                             Content1 = "Quis tempor reprehenderit adipisicing tempor consequat culpa non ea culpa occaecat laboris id dolor non nostrud. Commodo quis culpa consectetur non non anim ut culpa enim. Sit magna proident magna ullamco exercitation amet duis ut. Consectetur id elit proident. Sit anim id est nulla laboris exercitation esse anim esse excepteur anim. Et eiusmod commodo occaecat cillum non. Velit officia duis adipisicing consectetur laborum quis sunt enim tempor proident excepteur deserunt. Amet ex pariatur fugiat consequat.",
@@ -1050,7 +1093,7 @@ namespace API.Migrations
                         },
                         new
                         {
-                            FlashcardID = new Guid("1ac30b0d-1abd-4dc8-a116-b9ff112c8dc7"),
+                            FlashcardId = new Guid("1ac30b0d-1abd-4dc8-a116-b9ff112c8dc7"),
                             Answer = "vecchia signora",
                             BackContentLayout = 3,
                             Content1 = "<p><b>love</b></p><p>Category: Noun</p><p>Spelling: ləv</p><p>Definitions:</p><ul><li>an intense feeling of deep affection</li><li>a great interest and pleasure in something</li><li>a person or thing that one loves</li><li>(in tennis, squash, and some other sports) a score of zero; nil</li></ul><p>Examples:</p><ul><li>babies fill parents with feelings of love</li><li>their love for their country</li><li>his love for football</li><li>we share a love of music</li><li>she was the love of his life</li><li>their two great loves are tobacco and whiskey</li><li>love fifteen</li><li>he was down two sets to love</li></ul><p>Category: Verb</p><p>Spelling: ləv</p><p>Definitions:</p><ul><li>feel deep affection for (someone)</li><li>like or enjoy very much</li></ul><p>Examples:</p><ul><li>he loved his sister dearly</li><li>there were four memorial pages set up by her friends in honor of Phoebe, saying how much they loved and missed her</li><li>I just love dancing</li><li>I'd love a cup of tea</li><li>I love this job</li><li>they love to play golf</li></ul>",
@@ -1068,7 +1111,7 @@ namespace API.Migrations
                         },
                         new
                         {
-                            FlashcardID = new Guid("702878ef-fa8f-46be-8027-90ae8ecd8918"),
+                            FlashcardId = new Guid("702878ef-fa8f-46be-8027-90ae8ecd8918"),
                             Answer = "nuage",
                             BackContentLayout = 0,
                             Content1 = "Est adipisicing fugiat exercitation mollit incididunt consequat ex officia irure ullamco aliquip pariatur do. Nostrud ipsum Lorem adipisicing elit eiusmod eiusmod velit pariatur aliquip ullamco anim excepteur. Nisi excepteur excepteur laboris commodo. Aute ipsum esse qui sint. Minim fugiat laboris magna magna minim deserunt reprehenderit culpa cillum aute eu cupidatat id. Eiusmod laborum occaecat sit nisi nulla reprehenderit.",
@@ -1086,7 +1129,7 @@ namespace API.Migrations
                         },
                         new
                         {
-                            FlashcardID = new Guid("3e9ad208-e0e8-406f-8735-5a45569cee63"),
+                            FlashcardId = new Guid("3e9ad208-e0e8-406f-8735-5a45569cee63"),
                             Answer = "Restaurant",
                             BackContentLayout = 1,
                             Content1 = "Magna elit nisi eu quis aliquip dolor proident pariatur dolor labore dolor aute dolor sit cupidatat. In duis excepteur ut ea officia laboris cupidatat amet anim ea. Nostrud eiusmod nulla tempor tempor aliquip esse elit culpa adipisicing reprehenderit id et consectetur. Sint veniam laborum cupidatat. Cupidatat dolor incididunt do nostrud culpa duis qui cupidatat officia eu.",
@@ -1104,7 +1147,7 @@ namespace API.Migrations
                         },
                         new
                         {
-                            FlashcardID = new Guid("f1f21b0c-6e5c-49cc-943b-d82a87813158"),
+                            FlashcardId = new Guid("f1f21b0c-6e5c-49cc-943b-d82a87813158"),
                             Answer = "",
                             BackContentLayout = 1,
                             Content1 = "https://target.scene7.com/is/image/Target/GUEST_b3e2da64-ad54-48b5-9dc7-50071ea5075d?wid=488&hei=488&fmt=pjpeg",
@@ -1122,7 +1165,7 @@ namespace API.Migrations
                         },
                         new
                         {
-                            FlashcardID = new Guid("fda2bcb3-9b61-4067-8ebb-310655d444ef"),
+                            FlashcardId = new Guid("fda2bcb3-9b61-4067-8ebb-310655d444ef"),
                             Answer = "",
                             BackContentLayout = 4,
                             Content1 = "Lorem officia sit incididunt nisi nisi cupidatat velit fugiat elit sit. Adipisicing voluptate elit incididunt magna ad aute fugiat aliquip. Minim magna nostrud mollit veniam labore do est aute officia elit eu sunt. Velit mollit sit labore nostrud quis mollit ipsum cupidatat nisi. Do incididunt laborum sit elit in anim aliquip aute in. Enim dolor tempor eiusmod Lorem sint Lorem sit ad deserunt do Lorem excepteur. Nulla proident est Lorem qui velit eiusmod dolore aute in aliqua ipsum cupidatat in do.",
@@ -1140,7 +1183,7 @@ namespace API.Migrations
                         },
                         new
                         {
-                            FlashcardID = new Guid("9558d105-6cb1-47bc-ac81-9588a64668ef"),
+                            FlashcardId = new Guid("9558d105-6cb1-47bc-ac81-9588a64668ef"),
                             Answer = "mel",
                             BackContentLayout = 3,
                             Content1 = "Veniam cupidatat labore ex deserunt. Ullamco officia veniam deserunt veniam consectetur minim velit nisi commodo sunt eiusmod tempor aute. Laborum et aliqua enim labore adipisicing consectetur cillum duis duis officia amet occaecat in commodo in. Officia dolore commodo sint nulla esse Lorem ad proident est ullamco. Mollit mollit sunt ullamco id deserunt sint et aute aliqua consectetur pariatur consectetur excepteur. Ut anim occaecat velit et ullamco culpa sit.",
@@ -1158,7 +1201,7 @@ namespace API.Migrations
                         },
                         new
                         {
-                            FlashcardID = new Guid("43286776-3b64-4c3a-b688-07dbb7c07c49"),
+                            FlashcardId = new Guid("43286776-3b64-4c3a-b688-07dbb7c07c49"),
                             Answer = "Hi, how are you?",
                             BackContentLayout = 0,
                             Content1 = "Labore enim nostrud excepteur laboris adipisicing elit eu minim sunt ad. Nulla sunt sit qui eu cillum reprehenderit ipsum qui non enim laborum qui in excepteur minim. Qui sunt occaecat esse veniam sunt duis sunt qui enim irure consequat dolor ut. Mollit ipsum nulla ex nisi dolore. Ut consequat veniam excepteur duis occaecat exercitation anim ea mollit aliquip.",
@@ -1176,7 +1219,7 @@ namespace API.Migrations
                         },
                         new
                         {
-                            FlashcardID = new Guid("b007575d-d22d-46db-a161-8154c740ba79"),
+                            FlashcardId = new Guid("b007575d-d22d-46db-a161-8154c740ba79"),
                             Answer = "",
                             BackContentLayout = 3,
                             Content1 = "Velit cupidatat enim esse anim dolore. Nostrud aliqua fugiat officia nostrud proident labore ut ea laborum cillum aliquip adipisicing qui quis. Voluptate excepteur est ut consequat id sint velit id cillum ut sint esse aliquip exercitation. Aute est laboris elit esse pariatur. Ipsum exercitation amet amet quis minim laboris eiusmod ut dolor sunt. Cillum commodo sit in. Cupidatat cillum mollit incididunt adipisicing voluptate ut id anim aute veniam cupidatat sint adipisicing aliqua. Commodo Lorem voluptate enim Lorem deserunt amet adipisicing amet officia est sint reprehenderit consequat nulla.",
@@ -1194,7 +1237,7 @@ namespace API.Migrations
                         },
                         new
                         {
-                            FlashcardID = new Guid("61e75b24-9f42-470f-8687-0b4616d79443"),
+                            FlashcardId = new Guid("61e75b24-9f42-470f-8687-0b4616d79443"),
                             Answer = "",
                             BackContentLayout = 2,
                             Content1 = "https://audio12.forvo.com/audios/mp3/6/o/6o_9014612_41_617305_1.mp3",
@@ -1212,7 +1255,7 @@ namespace API.Migrations
                         },
                         new
                         {
-                            FlashcardID = new Guid("0b60700f-5a2e-46ee-8250-84564d5012c6"),
+                            FlashcardId = new Guid("0b60700f-5a2e-46ee-8250-84564d5012c6"),
                             Answer = "",
                             BackContentLayout = 0,
                             Content1 = "https://audio12.forvo.com/audios/mp3/l/i/li_9002112_133_543430_266179.mp3",
@@ -1230,7 +1273,7 @@ namespace API.Migrations
                         },
                         new
                         {
-                            FlashcardID = new Guid("a66179a5-0bd0-4c29-98b9-ebc1688edf68"),
+                            FlashcardId = new Guid("a66179a5-0bd0-4c29-98b9-ebc1688edf68"),
                             Answer = "",
                             BackContentLayout = 0,
                             Content1 = "Eu mollit cillum laborum dolore elit pariatur eu deserunt anim pariatur do. Nisi aliqua nulla ullamco ea in officia do aliquip aute id excepteur est cupidatat nostrud. Qui id incididunt Lorem minim occaecat qui. Excepteur commodo voluptate culpa et laboris officia culpa.",
@@ -1248,7 +1291,7 @@ namespace API.Migrations
                         },
                         new
                         {
-                            FlashcardID = new Guid("db820386-e1f9-430a-9707-e0b675822297"),
+                            FlashcardId = new Guid("db820386-e1f9-430a-9707-e0b675822297"),
                             Answer = "",
                             BackContentLayout = 2,
                             Content1 = "https://audio12.forvo.com/audios/mp3/p/v/pv_8979922_49_607322_1.mp3",
@@ -1266,7 +1309,7 @@ namespace API.Migrations
                         },
                         new
                         {
-                            FlashcardID = new Guid("9a989d47-f3a4-4913-b33e-d2126efe0508"),
+                            FlashcardId = new Guid("9a989d47-f3a4-4913-b33e-d2126efe0508"),
                             Answer = "thing",
                             BackContentLayout = 0,
                             Content1 = "https://audio.oxforddictionaries.com/en/mp3/car_gb_1.mp3",
@@ -1284,7 +1327,7 @@ namespace API.Migrations
                         },
                         new
                         {
-                            FlashcardID = new Guid("2618b5c5-2574-485a-acbc-15d0b394f630"),
+                            FlashcardId = new Guid("2618b5c5-2574-485a-acbc-15d0b394f630"),
                             Answer = "",
                             BackContentLayout = 3,
                             Content1 = "https://audio12.forvo.com/audios/mp3/u/n/un_9523171_118_7665857.mp3",
@@ -1302,7 +1345,7 @@ namespace API.Migrations
                         },
                         new
                         {
-                            FlashcardID = new Guid("0deb8f28-d730-4616-b981-50edd014dd9f"),
+                            FlashcardId = new Guid("0deb8f28-d730-4616-b981-50edd014dd9f"),
                             Answer = "Restaurant",
                             BackContentLayout = 3,
                             Content1 = "Sint laboris reprehenderit eu nulla eu ex aute eiusmod enim dolore. Adipisicing tempor consectetur laborum laboris qui ut proident eiusmod labore. Mollit Lorem incididunt ullamco. Cillum duis ipsum pariatur amet est pariatur eu fugiat mollit eu ullamco. Cillum consequat minim minim quis.",
@@ -1320,7 +1363,7 @@ namespace API.Migrations
                         },
                         new
                         {
-                            FlashcardID = new Guid("427a4b8a-4f4f-4217-87da-006080bedbd4"),
+                            FlashcardId = new Guid("427a4b8a-4f4f-4217-87da-006080bedbd4"),
                             Answer = "",
                             BackContentLayout = 3,
                             Content1 = "Laboris qui cupidatat aliqua veniam enim enim aliquip qui duis consequat anim aute et in. Officia labore consequat fugiat labore eiusmod. Excepteur culpa id officia. Veniam enim minim aliqua et ea incididunt. Ea occaecat occaecat sit. Dolore reprehenderit occaecat voluptate dolor id ex excepteur dolore. Labore esse ex elit incididunt veniam.",
@@ -1338,7 +1381,7 @@ namespace API.Migrations
                         },
                         new
                         {
-                            FlashcardID = new Guid("5b0aa29e-c9be-4e81-a821-67c226382102"),
+                            FlashcardId = new Guid("5b0aa29e-c9be-4e81-a821-67c226382102"),
                             Answer = "Gelsenkirchen",
                             BackContentLayout = 4,
                             Content1 = "Pariatur esse officia sit id exercitation adipisicing labore aliqua mollit eu elit. Enim nulla Lorem do nulla labore. Ullamco sit anim est pariatur cupidatat excepteur proident culpa fugiat pariatur cupidatat aliquip. In nostrud excepteur dolor tempor sit. Culpa deserunt id ut cillum labore duis. Elit ea voluptate amet amet ut in sint voluptate. Pariatur ut mollit officia aliqua laborum.",
@@ -1356,7 +1399,7 @@ namespace API.Migrations
                         },
                         new
                         {
-                            FlashcardID = new Guid("78106c64-f370-42fd-a85b-fa4521970b73"),
+                            FlashcardId = new Guid("78106c64-f370-42fd-a85b-fa4521970b73"),
                             Answer = "",
                             BackContentLayout = 0,
                             Content1 = "Irure amet ipsum mollit reprehenderit esse ea sunt voluptate officia non incididunt laborum minim sit. Non aute ex ullamco enim consequat culpa aliquip aliquip aute fugiat reprehenderit ullamco nostrud dolor. Ut eu aliquip cupidatat tempor ullamco aute sint ipsum ullamco mollit. Sunt Lorem eiusmod magna adipisicing est et veniam consectetur culpa in nostrud esse.",
@@ -1374,7 +1417,7 @@ namespace API.Migrations
                         },
                         new
                         {
-                            FlashcardID = new Guid("cc77df70-cad2-464c-819e-0e9bb57988c7"),
+                            FlashcardId = new Guid("cc77df70-cad2-464c-819e-0e9bb57988c7"),
                             Answer = "onda",
                             BackContentLayout = 4,
                             Content1 = "https://audio12.forvo.com/audios/mp3/u/n/un_9523171_118_7665857.mp3",
@@ -1392,7 +1435,7 @@ namespace API.Migrations
                         },
                         new
                         {
-                            FlashcardID = new Guid("0003c5b3-5cc5-47dc-beb8-d25c16757d0b"),
+                            FlashcardId = new Guid("0003c5b3-5cc5-47dc-beb8-d25c16757d0b"),
                             Answer = "Restaurant",
                             BackContentLayout = 4,
                             Content1 = "Qui minim nulla pariatur eiusmod adipisicing eu ad elit duis. Occaecat consectetur proident cillum dolore nostrud labore sit. Proident Lorem et excepteur qui. Ullamco sunt enim elit adipisicing. Duis aliqua eiusmod culpa eiusmod est cillum ut voluptate. Qui enim eu proident aute consectetur amet cupidatat eu nostrud ea esse velit eiusmod non pariatur. Ea cupidatat amet proident deserunt dolor eu excepteur ea magna mollit.",
@@ -1410,7 +1453,7 @@ namespace API.Migrations
                         },
                         new
                         {
-                            FlashcardID = new Guid("51fadd39-f4ac-4019-9106-80b41a918ef0"),
+                            FlashcardId = new Guid("51fadd39-f4ac-4019-9106-80b41a918ef0"),
                             Answer = "onda",
                             BackContentLayout = 2,
                             Content1 = "Velit incididunt ad ipsum proident pariatur laboris dolore nulla. Sunt adipisicing sit laboris eiusmod ex ad esse. Ipsum deserunt sint dolore mollit elit ut elit laboris velit elit voluptate. Non voluptate est culpa sunt veniam. Amet mollit proident eiusmod ea aliquip enim laborum.",
@@ -1428,7 +1471,7 @@ namespace API.Migrations
                         },
                         new
                         {
-                            FlashcardID = new Guid("6cc7fb87-9e7e-48d1-b5b8-f80ed386df84"),
+                            FlashcardId = new Guid("6cc7fb87-9e7e-48d1-b5b8-f80ed386df84"),
                             Answer = "",
                             BackContentLayout = 2,
                             Content1 = "Fugiat incididunt ut officia mollit ipsum id. Quis mollit laborum dolor in cillum occaecat ex ipsum aute. Tempor qui cillum est consectetur incididunt et qui mollit eu minim pariatur nostrud dolore fugiat tempor. Sit tempor proident eiusmod. Fugiat officia voluptate ut cupidatat Lorem. Cillum esse elit labore consectetur minim.",
@@ -1446,7 +1489,7 @@ namespace API.Migrations
                         },
                         new
                         {
-                            FlashcardID = new Guid("aed30a49-ef52-4f33-a8c8-e897f0c0b2e7"),
+                            FlashcardId = new Guid("aed30a49-ef52-4f33-a8c8-e897f0c0b2e7"),
                             Answer = "",
                             BackContentLayout = 2,
                             Content1 = "https://pisces.bbystatic.com/image2/BestBuy_US/images/products/6463/6463555_sd.jpg",
@@ -1464,7 +1507,7 @@ namespace API.Migrations
                         },
                         new
                         {
-                            FlashcardID = new Guid("2d50215a-ea79-4dec-a9b5-8973e39c2c61"),
+                            FlashcardId = new Guid("2d50215a-ea79-4dec-a9b5-8973e39c2c61"),
                             Answer = "Restaurant",
                             BackContentLayout = 3,
                             Content1 = "https://audio12.forvo.com/audios/mp3/p/v/pv_8979922_49_607322_1.mp3",
@@ -1482,7 +1525,7 @@ namespace API.Migrations
                         },
                         new
                         {
-                            FlashcardID = new Guid("b5177b41-ef99-4d77-84ca-3eb364cb5ad6"),
+                            FlashcardId = new Guid("b5177b41-ef99-4d77-84ca-3eb364cb5ad6"),
                             Answer = "¿Cómo está señor?",
                             BackContentLayout = 0,
                             Content1 = "Exercitation nulla irure Lorem cillum culpa nisi officia irure voluptate amet labore qui cillum aute nisi. Reprehenderit commodo consequat ea tempor. Aliqua excepteur nulla nulla magna aute cupidatat. Pariatur aliqua voluptate nisi occaecat minim tempor in ad amet sint esse voluptate incididunt nulla.",
@@ -1500,7 +1543,7 @@ namespace API.Migrations
                         },
                         new
                         {
-                            FlashcardID = new Guid("78cc1bce-b94b-4738-892e-fcc02d9bfc58"),
+                            FlashcardId = new Guid("78cc1bce-b94b-4738-892e-fcc02d9bfc58"),
                             Answer = "nuage",
                             BackContentLayout = 2,
                             Content1 = "<p><b>car</b></p><p>Category: Noun</p><p>Spelling: kɑː</p><p>Definitions:</p><ul><li>a four-wheeled road vehicle that is powered by an engine and is able to carry a small number of people</li></ul><p>Examples:</p><ul><li>she drove up in a car</li><li>we're going by car</li></ul>",
@@ -1518,7 +1561,7 @@ namespace API.Migrations
                         },
                         new
                         {
-                            FlashcardID = new Guid("4976f07f-8dd9-467d-b350-ef89a4e28f86"),
+                            FlashcardId = new Guid("4976f07f-8dd9-467d-b350-ef89a4e28f86"),
                             Answer = "",
                             BackContentLayout = 0,
                             Content1 = "https://audio12.forvo.com/audios/mp3/4/r/4r_20_74_136_1.mp3",
@@ -1536,7 +1579,7 @@ namespace API.Migrations
                         },
                         new
                         {
-                            FlashcardID = new Guid("0e544836-77db-4877-b64a-02cafa1570d7"),
+                            FlashcardId = new Guid("0e544836-77db-4877-b64a-02cafa1570d7"),
                             Answer = "Restaurant",
                             BackContentLayout = 3,
                             Content1 = "https://audio12.forvo.com/audios/mp3/p/v/pv_8979922_49_607322_1.mp3",
@@ -1554,7 +1597,7 @@ namespace API.Migrations
                         },
                         new
                         {
-                            FlashcardID = new Guid("f4196098-0613-417f-852e-989493393a65"),
+                            FlashcardId = new Guid("f4196098-0613-417f-852e-989493393a65"),
                             Answer = "Tarte",
                             BackContentLayout = 1,
                             Content1 = "https://target.scene7.com/is/image/Target/GUEST_b3e2da64-ad54-48b5-9dc7-50071ea5075d?wid=488&hei=488&fmt=pjpeg",
@@ -1572,7 +1615,7 @@ namespace API.Migrations
                         },
                         new
                         {
-                            FlashcardID = new Guid("71752301-d52b-4a42-85e6-127c97a0324e"),
+                            FlashcardId = new Guid("71752301-d52b-4a42-85e6-127c97a0324e"),
                             Answer = "vecchia signora",
                             BackContentLayout = 0,
                             Content1 = "https://audio12.forvo.com/audios/mp3/6/o/6o_9014612_41_617305_1.mp3",
@@ -1590,7 +1633,7 @@ namespace API.Migrations
                         },
                         new
                         {
-                            FlashcardID = new Guid("72e7e2fd-2021-4f31-b7d2-c0089d604136"),
+                            FlashcardId = new Guid("72e7e2fd-2021-4f31-b7d2-c0089d604136"),
                             Answer = "",
                             BackContentLayout = 3,
                             Content1 = "https://audio12.forvo.com/audios/mp3/p/v/pv_8979922_49_607322_1.mp3",
@@ -1608,7 +1651,7 @@ namespace API.Migrations
                         },
                         new
                         {
-                            FlashcardID = new Guid("07a3ff97-8adc-410b-b3ba-25c8973ea1bd"),
+                            FlashcardId = new Guid("07a3ff97-8adc-410b-b3ba-25c8973ea1bd"),
                             Answer = "mel",
                             BackContentLayout = 4,
                             Content1 = "Id exercitation ex commodo est non amet voluptate eu. Excepteur ullamco sit consectetur. Occaecat duis magna eu enim ad officia officia. Voluptate duis esse proident amet deserunt. Minim id laborum aliquip enim minim sunt ut et proident incididunt in. Esse pariatur ut dolor laborum aliquip mollit ut duis velit eiusmod occaecat. Ut ex elit labore ipsum quis. Est sunt laboris esse adipisicing et ea ipsum ad elit nisi velit.",
@@ -1626,7 +1669,7 @@ namespace API.Migrations
                         },
                         new
                         {
-                            FlashcardID = new Guid("f302934e-8483-4c7f-8f33-c93005f850eb"),
+                            FlashcardId = new Guid("f302934e-8483-4c7f-8f33-c93005f850eb"),
                             Answer = "vecchia signora",
                             BackContentLayout = 0,
                             Content1 = "Quis eiusmod officia cillum do nulla do laboris do eu aliqua do esse deserunt. Mollit eiusmod enim aliqua minim est sit eu ullamco exercitation sint tempor labore reprehenderit incididunt. Deserunt irure laborum exercitation non fugiat. Tempor qui ipsum laborum nisi dolor. Cillum est duis nisi est cupidatat est duis magna eu nostrud. Eu dolor in aute sit eiusmod voluptate sit.",
@@ -1644,7 +1687,7 @@ namespace API.Migrations
                         },
                         new
                         {
-                            FlashcardID = new Guid("9de21f6e-e070-48dd-98f7-5bd06568bd3c"),
+                            FlashcardId = new Guid("9de21f6e-e070-48dd-98f7-5bd06568bd3c"),
                             Answer = "",
                             BackContentLayout = 0,
                             Content1 = "Lorem amet culpa aliquip sit. Officia voluptate ea veniam enim dolore labore est occaecat deserunt eiusmod labore. Do id est reprehenderit elit incididunt consequat eiusmod cupidatat aliqua. Excepteur anim id excepteur dolore nulla aute dolor mollit deserunt quis non. Qui cupidatat est consequat et non. Aute eiusmod sunt sint do dolore pariatur veniam ad incididunt in incididunt enim nulla.",
@@ -1662,7 +1705,7 @@ namespace API.Migrations
                         },
                         new
                         {
-                            FlashcardID = new Guid("594d301f-ff0a-48fb-9827-f451bfb0b744"),
+                            FlashcardId = new Guid("594d301f-ff0a-48fb-9827-f451bfb0b744"),
                             Answer = "",
                             BackContentLayout = 2,
                             Content1 = "Consectetur exercitation non irure do quis adipisicing est do ex. Nulla ut voluptate eu enim eiusmod dolore Lorem. Magna quis eu adipisicing officia ea amet. Cillum nostrud deserunt nisi cupidatat ut quis adipisicing veniam mollit proident enim commodo ea in. Exercitation Lorem magna quis aute aliqua eiusmod est.",
@@ -1680,7 +1723,7 @@ namespace API.Migrations
                         },
                         new
                         {
-                            FlashcardID = new Guid("21406903-aca4-41d2-883e-1b1a29b980da"),
+                            FlashcardId = new Guid("21406903-aca4-41d2-883e-1b1a29b980da"),
                             Answer = "onda",
                             BackContentLayout = 0,
                             Content1 = "Voluptate sit aute deserunt nisi irure. Aute qui adipisicing tempor esse reprehenderit. Laborum eu sit laborum incididunt anim dolore irure laboris reprehenderit aliquip laborum est anim officia. Officia ad ea dolor cupidatat amet est magna laboris duis proident. Nisi proident aute sit commodo consequat do.",
@@ -1698,7 +1741,7 @@ namespace API.Migrations
                         },
                         new
                         {
-                            FlashcardID = new Guid("c70dd4ba-af25-4eca-b78c-dbea8c2a00ff"),
+                            FlashcardId = new Guid("c70dd4ba-af25-4eca-b78c-dbea8c2a00ff"),
                             Answer = "",
                             BackContentLayout = 4,
                             Content1 = "https://audio12.forvo.com/audios/mp3/6/o/6o_9014612_41_617305_1.mp3",
@@ -1716,7 +1759,7 @@ namespace API.Migrations
                         },
                         new
                         {
-                            FlashcardID = new Guid("76dacde6-eda8-4152-8dbe-231e1b5f46a7"),
+                            FlashcardId = new Guid("76dacde6-eda8-4152-8dbe-231e1b5f46a7"),
                             Answer = "",
                             BackContentLayout = 0,
                             Content1 = "Ut et cupidatat elit consequat amet veniam deserunt sint sit amet est. Proident ipsum nulla aliquip in aliquip sunt. Ad reprehenderit elit eiusmod irure minim nulla est voluptate do exercitation. Commodo duis do elit reprehenderit occaecat cupidatat in. Enim aliqua tempor cillum ea exercitation qui dolore quis in laboris consequat anim laboris labore excepteur.",
@@ -1734,7 +1777,7 @@ namespace API.Migrations
                         },
                         new
                         {
-                            FlashcardID = new Guid("b70cbb52-20d8-4730-9a8e-ec54de62feed"),
+                            FlashcardId = new Guid("b70cbb52-20d8-4730-9a8e-ec54de62feed"),
                             Answer = "thing",
                             BackContentLayout = 2,
                             Content1 = "Laboris eu eu est eiusmod ullamco amet non incididunt laboris velit. Culpa deserunt amet ea enim ipsum ea proident sit officia. Enim eiusmod cillum deserunt deserunt. Cupidatat deserunt proident aliquip aliqua exercitation. Adipisicing exercitation quis dolor aliqua culpa voluptate aliqua voluptate amet id enim aliquip est et laboris.",
@@ -1752,7 +1795,7 @@ namespace API.Migrations
                         },
                         new
                         {
-                            FlashcardID = new Guid("0b4b71d5-6b95-448c-af93-24890c18672d"),
+                            FlashcardId = new Guid("0b4b71d5-6b95-448c-af93-24890c18672d"),
                             Answer = "Hi, how are you?",
                             BackContentLayout = 3,
                             Content1 = "Do pariatur voluptate veniam incididunt id nulla eu velit incididunt velit exercitation non enim amet velit. Fugiat veniam consequat minim et nostrud occaecat ea eiusmod. Proident deserunt ea laborum sint mollit Lorem labore deserunt dolor enim culpa commodo magna. Consectetur elit do do ex pariatur quis fugiat velit dolore reprehenderit quis reprehenderit. Enim irure anim exercitation sint amet dolor Lorem labore. Qui est duis irure magna quis sit Lorem non fugiat.",
@@ -1770,7 +1813,7 @@ namespace API.Migrations
                         },
                         new
                         {
-                            FlashcardID = new Guid("b56d6a3e-ffa2-4489-bb3a-afeb6629c4a1"),
+                            FlashcardId = new Guid("b56d6a3e-ffa2-4489-bb3a-afeb6629c4a1"),
                             Answer = "mel",
                             BackContentLayout = 3,
                             Content1 = "https://images.contentstack.io/v3/assets/blt731acb42bb3d1659/blt48f811476e162ed0/620c15764ae5ae6845c6b0c9/LOL_Homepage_Modal_(1680x650)_(1).jpg",
@@ -1788,7 +1831,7 @@ namespace API.Migrations
                         },
                         new
                         {
-                            FlashcardID = new Guid("c51139a8-4dd3-4ee7-97e7-c10903581951"),
+                            FlashcardId = new Guid("c51139a8-4dd3-4ee7-97e7-c10903581951"),
                             Answer = "¿Cómo está señor?",
                             BackContentLayout = 4,
                             Content1 = "https://audio.oxforddictionaries.com/en/mp3/car_gb_1.mp3",
@@ -1806,7 +1849,7 @@ namespace API.Migrations
                         },
                         new
                         {
-                            FlashcardID = new Guid("8ac68664-da5a-43fa-be06-5e113f57fed8"),
+                            FlashcardId = new Guid("8ac68664-da5a-43fa-be06-5e113f57fed8"),
                             Answer = "",
                             BackContentLayout = 3,
                             Content1 = "Ut aute in duis ut sunt id amet. Consectetur id aliqua labore exercitation irure Lorem consequat veniam eu incididunt. Eu et laborum ex amet voluptate dolor consequat. Veniam excepteur mollit anim tempor dolore nulla id dolor enim. Aute tempor enim qui duis voluptate laborum non fugiat cupidatat. Officia eu ipsum voluptate ad irure commodo. Elit minim sint aliquip cillum nisi sit sunt elit. Eu ad duis veniam consectetur aliquip cupidatat minim culpa irure veniam commodo exercitation commodo ut.",
@@ -1824,7 +1867,7 @@ namespace API.Migrations
                         },
                         new
                         {
-                            FlashcardID = new Guid("4c364226-ac8a-4856-8d97-53b78d81c1bd"),
+                            FlashcardId = new Guid("4c364226-ac8a-4856-8d97-53b78d81c1bd"),
                             Answer = "onda",
                             BackContentLayout = 1,
                             Content1 = "Dolor cillum fugiat occaecat adipisicing quis. Pariatur eu deserunt qui ipsum commodo consectetur ut ea qui eiusmod laboris elit anim proident nisi. Minim occaecat adipisicing consectetur ipsum. Adipisicing ea incididunt excepteur magna nulla laboris Lorem ullamco enim anim dolor ut veniam consectetur anim. Eu voluptate minim non quis duis veniam dolor duis ea cillum eiusmod tempor occaecat.",
@@ -1842,7 +1885,7 @@ namespace API.Migrations
                         },
                         new
                         {
-                            FlashcardID = new Guid("dedc00a6-9757-42e3-affe-65fd17cf2a5d"),
+                            FlashcardId = new Guid("dedc00a6-9757-42e3-affe-65fd17cf2a5d"),
                             Answer = "Restaurant",
                             BackContentLayout = 1,
                             Content1 = "https://pisces.bbystatic.com/image2/BestBuy_US/images/products/6463/6463555_sd.jpg",
@@ -1860,7 +1903,7 @@ namespace API.Migrations
                         },
                         new
                         {
-                            FlashcardID = new Guid("11344f3e-e639-4078-8eab-7fa7987764cf"),
+                            FlashcardId = new Guid("11344f3e-e639-4078-8eab-7fa7987764cf"),
                             Answer = "macchina",
                             BackContentLayout = 1,
                             Content1 = "Cillum ad dolore qui laborum aliquip tempor eu mollit aliqua fugiat non mollit pariatur in nulla. Incididunt nisi Lorem consequat eiusmod et. Eiusmod aliqua in et ea dolore quis ut cupidatat sint tempor est amet. Amet consectetur ex id qui. Sunt exercitation dolore reprehenderit mollit est pariatur et et cillum nisi commodo elit dolore. Ipsum incididunt cillum magna cillum proident ex consequat quis. Veniam ea proident laboris qui ex et eiusmod adipisicing irure fugiat non.",
@@ -1878,7 +1921,7 @@ namespace API.Migrations
                         },
                         new
                         {
-                            FlashcardID = new Guid("c8ebcf3a-f6b2-4ee0-a15b-2f68b9a00ac9"),
+                            FlashcardId = new Guid("c8ebcf3a-f6b2-4ee0-a15b-2f68b9a00ac9"),
                             Answer = "",
                             BackContentLayout = 0,
                             Content1 = "https://audio12.forvo.com/audios/mp3/p/v/pv_8979922_49_607322_1.mp3",
@@ -1896,7 +1939,7 @@ namespace API.Migrations
                         },
                         new
                         {
-                            FlashcardID = new Guid("b4f39aca-28b7-4d8c-ab20-b23cd499efdd"),
+                            FlashcardId = new Guid("b4f39aca-28b7-4d8c-ab20-b23cd499efdd"),
                             Answer = "",
                             BackContentLayout = 0,
                             Content1 = "https://audio12.forvo.com/audios/mp3/l/i/li_9002112_133_543430_266179.mp3",
@@ -1914,7 +1957,7 @@ namespace API.Migrations
                         },
                         new
                         {
-                            FlashcardID = new Guid("4cf2c453-6ce8-4dc0-9fd1-753287c2f345"),
+                            FlashcardId = new Guid("4cf2c453-6ce8-4dc0-9fd1-753287c2f345"),
                             Answer = "",
                             BackContentLayout = 3,
                             Content1 = "<p><b>arbol</b></p><p>Category: Noun</p><p>Spelling: </p><p>Definitions:</p><ul><li>Planta de tronco leñoso, grueso y elevado que se ramifica a cierta altura del suelo formando la copa</li><li>Cuadro descriptivo que representa de forma gráfica las relaciones que tienen los elementos de un conjunto o las variaciones de un fenómeno</li><li>Barra fija o giratoria que en una máquina sirve para soportar piezas rotativas o para transmitir fuerza motriz de unos órganos a otros</li><li>Barra o eje que se usa en posición vertical y sirve de apoyo a una estructura que se desarrolla alrededor del mismo, como el árbol de una escalera de caracol</li><li>Madero que junto con otros se coloca perpendicularmente a la quilla de una embarcación y está destinado a sujetar las velas</li><li>Eje del órgano (instrumento musical) que, movido a voluntad del ejecutante, hace que suene o deje de sonar un registro</li><li>Punzón que usan los relojeros para perforar el metal y que tiene el mango de madera y la punta de acero</li><li>Pieza de hierro en la parte superior del husillo de la prensa de imprimir</li></ul><p>Examples:</p><ul><li>el Ministerio de Medio Ambiente tiene previsto plantar un millón de árboles en el próximo año</li><li>diagrama en árbol</li></ul>",
@@ -1932,7 +1975,7 @@ namespace API.Migrations
                         },
                         new
                         {
-                            FlashcardID = new Guid("aa66141a-351e-4bdf-840a-214f1b2a1a39"),
+                            FlashcardId = new Guid("aa66141a-351e-4bdf-840a-214f1b2a1a39"),
                             Answer = "",
                             BackContentLayout = 0,
                             Content1 = "https://audio12.forvo.com/audios/mp3/6/o/6o_9014612_41_617305_1.mp3",
@@ -1950,7 +1993,7 @@ namespace API.Migrations
                         },
                         new
                         {
-                            FlashcardID = new Guid("b757f747-607f-4d37-8571-85a1b50d31ec"),
+                            FlashcardId = new Guid("b757f747-607f-4d37-8571-85a1b50d31ec"),
                             Answer = "mel",
                             BackContentLayout = 0,
                             Content1 = "<p><b>car</b></p><p>Category: Noun</p><p>Spelling: kɑː</p><p>Definitions:</p><ul><li>a four-wheeled road vehicle that is powered by an engine and is able to carry a small number of people</li></ul><p>Examples:</p><ul><li>she drove up in a car</li><li>we're going by car</li></ul>",
@@ -1968,7 +2011,7 @@ namespace API.Migrations
                         },
                         new
                         {
-                            FlashcardID = new Guid("32433d2e-f511-478a-b031-9451444e4bee"),
+                            FlashcardId = new Guid("32433d2e-f511-478a-b031-9451444e4bee"),
                             Answer = "",
                             BackContentLayout = 3,
                             Content1 = "https://audio12.forvo.com/audios/mp3/p/v/pv_8979922_49_607322_1.mp3",
@@ -1986,7 +2029,7 @@ namespace API.Migrations
                         },
                         new
                         {
-                            FlashcardID = new Guid("181a59be-b42d-4039-9b7f-9cd1d9ce5db6"),
+                            FlashcardId = new Guid("181a59be-b42d-4039-9b7f-9cd1d9ce5db6"),
                             Answer = "kill",
                             BackContentLayout = 2,
                             Content1 = "https://audio12.forvo.com/audios/mp3/u/n/un_9523171_118_7665857.mp3",
@@ -2004,7 +2047,7 @@ namespace API.Migrations
                         },
                         new
                         {
-                            FlashcardID = new Guid("3ef04f67-c7d6-4559-9f87-fa21c60164c8"),
+                            FlashcardId = new Guid("3ef04f67-c7d6-4559-9f87-fa21c60164c8"),
                             Answer = "onda",
                             BackContentLayout = 2,
                             Content1 = "Nisi amet pariatur commodo sunt ad ullamco nisi est aliquip. Consequat cupidatat aliqua sint aute consequat et ut adipisicing. Laboris velit non deserunt duis mollit in ipsum anim dolore reprehenderit. Sit in sunt non labore laborum nulla do. Sit culpa consectetur aute sit laboris. Est eiusmod commodo ut et esse occaecat quis dolore anim dolore eu reprehenderit Lorem. Quis consectetur dolor aliquip do excepteur. Id elit dolor qui pariatur ut aute dolore excepteur.",
@@ -2022,7 +2065,7 @@ namespace API.Migrations
                         },
                         new
                         {
-                            FlashcardID = new Guid("05f2a127-8da5-407d-8d08-70865d69a122"),
+                            FlashcardId = new Guid("05f2a127-8da5-407d-8d08-70865d69a122"),
                             Answer = "Tarte",
                             BackContentLayout = 2,
                             Content1 = "<p><b>love</b></p><p>Category: Noun</p><p>Spelling: ləv</p><p>Definitions:</p><ul><li>an intense feeling of deep affection</li><li>a great interest and pleasure in something</li><li>a person or thing that one loves</li><li>(in tennis, squash, and some other sports) a score of zero; nil</li></ul><p>Examples:</p><ul><li>babies fill parents with feelings of love</li><li>their love for their country</li><li>his love for football</li><li>we share a love of music</li><li>she was the love of his life</li><li>their two great loves are tobacco and whiskey</li><li>love fifteen</li><li>he was down two sets to love</li></ul><p>Category: Verb</p><p>Spelling: ləv</p><p>Definitions:</p><ul><li>feel deep affection for (someone)</li><li>like or enjoy very much</li></ul><p>Examples:</p><ul><li>he loved his sister dearly</li><li>there were four memorial pages set up by her friends in honor of Phoebe, saying how much they loved and missed her</li><li>I just love dancing</li><li>I'd love a cup of tea</li><li>I love this job</li><li>they love to play golf</li></ul>",
@@ -2040,7 +2083,7 @@ namespace API.Migrations
                         },
                         new
                         {
-                            FlashcardID = new Guid("e50b4c10-f621-422d-9773-e92837383b0f"),
+                            FlashcardId = new Guid("e50b4c10-f621-422d-9773-e92837383b0f"),
                             Answer = "macchina",
                             BackContentLayout = 2,
                             Content1 = "https://m.media-amazon.com/images/I/81rz6kuxieL._AC_SL1500_.jpg",
@@ -2058,7 +2101,7 @@ namespace API.Migrations
                         },
                         new
                         {
-                            FlashcardID = new Guid("a9aa68b3-0bd1-430d-9ec7-d2df58dc4411"),
+                            FlashcardId = new Guid("a9aa68b3-0bd1-430d-9ec7-d2df58dc4411"),
                             Answer = "Restaurant",
                             BackContentLayout = 1,
                             Content1 = "Laborum laboris deserunt occaecat est Lorem. Minim aliquip velit nulla cillum ex occaecat anim commodo elit sit voluptate culpa minim fugiat laborum. Aliquip aliqua amet adipisicing culpa excepteur labore incididunt eiusmod non incididunt pariatur quis. Ut aliquip in veniam veniam amet incididunt enim labore tempor.",
@@ -2076,7 +2119,7 @@ namespace API.Migrations
                         },
                         new
                         {
-                            FlashcardID = new Guid("970a2ee2-d759-4648-a771-28e54d7aedd1"),
+                            FlashcardId = new Guid("970a2ee2-d759-4648-a771-28e54d7aedd1"),
                             Answer = "",
                             BackContentLayout = 3,
                             Content1 = "<p><b>arbol</b></p><p>Category: Noun</p><p>Spelling: </p><p>Definitions:</p><ul><li>Planta de tronco leñoso, grueso y elevado que se ramifica a cierta altura del suelo formando la copa</li><li>Cuadro descriptivo que representa de forma gráfica las relaciones que tienen los elementos de un conjunto o las variaciones de un fenómeno</li><li>Barra fija o giratoria que en una máquina sirve para soportar piezas rotativas o para transmitir fuerza motriz de unos órganos a otros</li><li>Barra o eje que se usa en posición vertical y sirve de apoyo a una estructura que se desarrolla alrededor del mismo, como el árbol de una escalera de caracol</li><li>Madero que junto con otros se coloca perpendicularmente a la quilla de una embarcación y está destinado a sujetar las velas</li><li>Eje del órgano (instrumento musical) que, movido a voluntad del ejecutante, hace que suene o deje de sonar un registro</li><li>Punzón que usan los relojeros para perforar el metal y que tiene el mango de madera y la punta de acero</li><li>Pieza de hierro en la parte superior del husillo de la prensa de imprimir</li></ul><p>Examples:</p><ul><li>el Ministerio de Medio Ambiente tiene previsto plantar un millón de árboles en el próximo año</li><li>diagrama en árbol</li></ul>",
@@ -2094,7 +2137,7 @@ namespace API.Migrations
                         },
                         new
                         {
-                            FlashcardID = new Guid("1cab841c-c2ee-4021-8118-49f4c9ad329a"),
+                            FlashcardId = new Guid("1cab841c-c2ee-4021-8118-49f4c9ad329a"),
                             Answer = "thing",
                             BackContentLayout = 4,
                             Content1 = "Laborum fugiat dolor irure ullamco id ut occaecat. In qui dolore deserunt proident eiusmod pariatur elit deserunt eu eu excepteur exercitation id veniam deserunt. Velit qui mollit sunt. Eu deserunt et commodo esse. Anim amet officia proident commodo reprehenderit veniam ullamco dolor ad cillum culpa proident do. Ex ut pariatur ad sunt cupidatat excepteur dolor minim non.",
@@ -2112,7 +2155,7 @@ namespace API.Migrations
                         },
                         new
                         {
-                            FlashcardID = new Guid("89fd63e4-890a-4eab-9bc4-643be0a1a7c5"),
+                            FlashcardId = new Guid("89fd63e4-890a-4eab-9bc4-643be0a1a7c5"),
                             Answer = "",
                             BackContentLayout = 2,
                             Content1 = "<p><b>arbol</b></p><p>Category: Noun</p><p>Spelling: </p><p>Definitions:</p><ul><li>Planta de tronco leñoso, grueso y elevado que se ramifica a cierta altura del suelo formando la copa</li><li>Cuadro descriptivo que representa de forma gráfica las relaciones que tienen los elementos de un conjunto o las variaciones de un fenómeno</li><li>Barra fija o giratoria que en una máquina sirve para soportar piezas rotativas o para transmitir fuerza motriz de unos órganos a otros</li><li>Barra o eje que se usa en posición vertical y sirve de apoyo a una estructura que se desarrolla alrededor del mismo, como el árbol de una escalera de caracol</li><li>Madero que junto con otros se coloca perpendicularmente a la quilla de una embarcación y está destinado a sujetar las velas</li><li>Eje del órgano (instrumento musical) que, movido a voluntad del ejecutante, hace que suene o deje de sonar un registro</li><li>Punzón que usan los relojeros para perforar el metal y que tiene el mango de madera y la punta de acero</li><li>Pieza de hierro en la parte superior del husillo de la prensa de imprimir</li></ul><p>Examples:</p><ul><li>el Ministerio de Medio Ambiente tiene previsto plantar un millón de árboles en el próximo año</li><li>diagrama en árbol</li></ul>",
@@ -2130,7 +2173,7 @@ namespace API.Migrations
                         },
                         new
                         {
-                            FlashcardID = new Guid("ee48987c-f5d2-4a0f-8759-b947e67909a1"),
+                            FlashcardId = new Guid("ee48987c-f5d2-4a0f-8759-b947e67909a1"),
                             Answer = "Hi, how are you?",
                             BackContentLayout = 4,
                             Content1 = "In aute voluptate ipsum elit aliquip sit qui voluptate minim commodo. Anim Lorem occaecat officia consequat elit cupidatat cupidatat eu duis et officia enim culpa velit laborum. Do magna sit occaecat proident ex. Velit dolore elit nostrud aliqua consequat laborum ea veniam duis nulla ea et nisi eu. Ex sunt cupidatat aute pariatur id eu elit reprehenderit culpa et aute tempor id. Lorem sint minim adipisicing deserunt tempor fugiat laboris incididunt deserunt. Officia elit tempor aliquip irure. Veniam minim ex incididunt incididunt tempor tempor deserunt.",
@@ -2148,7 +2191,7 @@ namespace API.Migrations
                         },
                         new
                         {
-                            FlashcardID = new Guid("9ee4a581-f019-4e55-97f5-d7d12d6cc00a"),
+                            FlashcardId = new Guid("9ee4a581-f019-4e55-97f5-d7d12d6cc00a"),
                             Answer = "",
                             BackContentLayout = 4,
                             Content1 = "https://audio12.forvo.com/audios/mp3/u/n/un_9523171_118_7665857.mp3",
@@ -2166,7 +2209,7 @@ namespace API.Migrations
                         },
                         new
                         {
-                            FlashcardID = new Guid("817eb5f8-d14f-49e6-ad39-293664acaef2"),
+                            FlashcardId = new Guid("817eb5f8-d14f-49e6-ad39-293664acaef2"),
                             Answer = "",
                             BackContentLayout = 0,
                             Content1 = "Lorem voluptate duis id cupidatat fugiat id aute deserunt ut veniam magna. Duis minim ea consectetur occaecat culpa culpa est do laboris laboris dolor irure excepteur sint velit. Irure magna do eiusmod deserunt ea. Elit labore excepteur nulla exercitation officia occaecat pariatur dolor veniam irure.",
@@ -2184,7 +2227,7 @@ namespace API.Migrations
                         },
                         new
                         {
-                            FlashcardID = new Guid("79e23a4f-4a15-4d40-b792-c663f65601ce"),
+                            FlashcardId = new Guid("79e23a4f-4a15-4d40-b792-c663f65601ce"),
                             Answer = "",
                             BackContentLayout = 4,
                             Content1 = "Ullamco consectetur nostrud cillum amet consectetur nostrud quis dolore tempor. Nostrud consequat duis sint tempor officia dolor. Officia cupidatat quis non enim sit deserunt tempor eiusmod ut ea reprehenderit tempor minim. Incididunt eu laborum sunt laboris pariatur tempor nisi deserunt do. Culpa veniam eu reprehenderit labore cupidatat deserunt sunt anim minim nulla sint voluptate.",
@@ -2202,7 +2245,7 @@ namespace API.Migrations
                         },
                         new
                         {
-                            FlashcardID = new Guid("99508db1-4f5b-4d09-8573-234b403b4c34"),
+                            FlashcardId = new Guid("99508db1-4f5b-4d09-8573-234b403b4c34"),
                             Answer = "",
                             BackContentLayout = 4,
                             Content1 = "https://audio12.forvo.com/audios/mp3/6/o/6o_9014612_41_617305_1.mp3",
@@ -2220,7 +2263,7 @@ namespace API.Migrations
                         },
                         new
                         {
-                            FlashcardID = new Guid("a7c483d2-b468-4c04-96c7-f91d17bf79b2"),
+                            FlashcardId = new Guid("a7c483d2-b468-4c04-96c7-f91d17bf79b2"),
                             Answer = "ni hao",
                             BackContentLayout = 1,
                             Content1 = "https://audio12.forvo.com/audios/mp3/6/o/6o_9014612_41_617305_1.mp3",
@@ -2238,7 +2281,7 @@ namespace API.Migrations
                         },
                         new
                         {
-                            FlashcardID = new Guid("cf4a76dd-8f6c-4a40-96f6-3fa64cfc89b2"),
+                            FlashcardId = new Guid("cf4a76dd-8f6c-4a40-96f6-3fa64cfc89b2"),
                             Answer = "nuage",
                             BackContentLayout = 4,
                             Content1 = "Laboris duis eu mollit sint velit tempor sint duis nisi amet officia incididunt dolore. Id consectetur tempor dolore amet in consectetur consequat. Ipsum sunt aliquip amet tempor fugiat ipsum. Quis dolor in veniam minim. Ex ipsum magna ullamco laboris in labore ea ipsum esse velit occaecat occaecat aute. Aliqua reprehenderit incididunt dolor Lorem anim enim ullamco magna amet pariatur eu exercitation ipsum. Ad laboris sint sit aute voluptate magna tempor quis.",
@@ -2256,7 +2299,7 @@ namespace API.Migrations
                         },
                         new
                         {
-                            FlashcardID = new Guid("f0eb7ac7-b341-4f6a-b09d-4056772f7293"),
+                            FlashcardId = new Guid("f0eb7ac7-b341-4f6a-b09d-4056772f7293"),
                             Answer = "",
                             BackContentLayout = 1,
                             Content1 = "https://pisces.bbystatic.com/image2/BestBuy_US/images/products/6440/6440961_sd.jpg",
@@ -2274,7 +2317,7 @@ namespace API.Migrations
                         },
                         new
                         {
-                            FlashcardID = new Guid("d148b467-baf3-4e96-9915-d7ca60674bb9"),
+                            FlashcardId = new Guid("d148b467-baf3-4e96-9915-d7ca60674bb9"),
                             Answer = "",
                             BackContentLayout = 4,
                             Content1 = "<p><b>calcio</b></p><p>Category: noun</p><p>Spelling: ˈkaltʃo</p><p>Definitions:</p><ul><li>impugnatura della pistola</li><li>parte del fucile che si appoggia alla spalla</li></ul><p>Examples:</p><ul><li>carabina con calcio in legno</li><li>L'aggressore lo colpì con il calcio della pistola.</li></ul><p>Category: noun</p><p>Spelling: ˈkaltʃo</p><p>Definitions:</p><ul><li>colpo dato con il piede</li><li>colpo dato con la zampa da animali forniti di zoccoli</li><li>il gioco del pallone</li><li>tiro effettuato colpendo col piede il pallone</li></ul><p>Examples:</p><ul><li>dare un calcio</li><li>prendere a calci</li><li>Il mulo tira calci se infastidito.</li><li>una partita di calcio</li><li>la nazionale di calcio</li><li>calcio d'angolo</li><li>calcio di punizione</li></ul><p>Category: noun</p><p>Spelling: ˈkaltʃo</p><p>Definitions:</p><ul><li>elemento chimico di colore bianco</li></ul><p>Examples:</p><ul><li>Il latte è ricco di calcio.</li></ul>",
@@ -2292,7 +2335,7 @@ namespace API.Migrations
                         },
                         new
                         {
-                            FlashcardID = new Guid("e4d5da7d-e959-469c-b0fc-783c7d7c53f9"),
+                            FlashcardId = new Guid("e4d5da7d-e959-469c-b0fc-783c7d7c53f9"),
                             Answer = "",
                             BackContentLayout = 4,
                             Content1 = "https://audio12.forvo.com/audios/mp3/4/r/4r_20_74_136_1.mp3",
@@ -2310,7 +2353,7 @@ namespace API.Migrations
                         },
                         new
                         {
-                            FlashcardID = new Guid("36aeefe0-dc46-4ab7-b542-20e31423f349"),
+                            FlashcardId = new Guid("36aeefe0-dc46-4ab7-b542-20e31423f349"),
                             Answer = "",
                             BackContentLayout = 4,
                             Content1 = "https://pisces.bbystatic.com/image2/BestBuy_US/images/products/6463/6463555_sd.jpg",
@@ -2328,7 +2371,7 @@ namespace API.Migrations
                         },
                         new
                         {
-                            FlashcardID = new Guid("98ddca7b-4635-4393-a097-15416d968476"),
+                            FlashcardId = new Guid("98ddca7b-4635-4393-a097-15416d968476"),
                             Answer = "",
                             BackContentLayout = 1,
                             Content1 = "https://pisces.bbystatic.com/image2/BestBuy_US/images/products/6440/6440961_sd.jpg",
@@ -2346,7 +2389,7 @@ namespace API.Migrations
                         },
                         new
                         {
-                            FlashcardID = new Guid("5719f4de-07c2-46eb-8dff-3b29598cf88d"),
+                            FlashcardId = new Guid("5719f4de-07c2-46eb-8dff-3b29598cf88d"),
                             Answer = "nuage",
                             BackContentLayout = 0,
                             Content1 = "https://images.contentstack.io/v3/assets/blt731acb42bb3d1659/blt48f811476e162ed0/620c15764ae5ae6845c6b0c9/LOL_Homepage_Modal_(1680x650)_(1).jpg",
@@ -2364,7 +2407,7 @@ namespace API.Migrations
                         },
                         new
                         {
-                            FlashcardID = new Guid("cba97236-c216-4b52-aadd-3abca1de0f96"),
+                            FlashcardId = new Guid("cba97236-c216-4b52-aadd-3abca1de0f96"),
                             Answer = "",
                             BackContentLayout = 2,
                             Content1 = "https://audio12.forvo.com/audios/mp3/u/n/un_9523171_118_7665857.mp3",
@@ -2382,7 +2425,7 @@ namespace API.Migrations
                         },
                         new
                         {
-                            FlashcardID = new Guid("3116dfea-68af-470a-b1e5-4bf27e757410"),
+                            FlashcardId = new Guid("3116dfea-68af-470a-b1e5-4bf27e757410"),
                             Answer = "vecchia signora",
                             BackContentLayout = 3,
                             Content1 = "Adipisicing excepteur dolore voluptate ad cillum nulla laborum non irure irure voluptate. Esse ex proident dolor aute non enim id laboris excepteur ea. Mollit quis enim ea ullamco reprehenderit voluptate commodo officia cupidatat elit. Labore duis aliquip velit consequat laborum. Nulla adipisicing occaecat fugiat adipisicing mollit tempor sunt ex nulla quis.",
@@ -2400,7 +2443,7 @@ namespace API.Migrations
                         },
                         new
                         {
-                            FlashcardID = new Guid("93dc5224-72ac-4a07-825e-2880fa137fbf"),
+                            FlashcardId = new Guid("93dc5224-72ac-4a07-825e-2880fa137fbf"),
                             Answer = "",
                             BackContentLayout = 1,
                             Content1 = "https://target.scene7.com/is/image/Target/GUEST_b3e2da64-ad54-48b5-9dc7-50071ea5075d?wid=488&hei=488&fmt=pjpeg",
@@ -2418,7 +2461,7 @@ namespace API.Migrations
                         },
                         new
                         {
-                            FlashcardID = new Guid("9b76a73e-5a07-4d7f-8d8a-b9f6bdd6107b"),
+                            FlashcardId = new Guid("9b76a73e-5a07-4d7f-8d8a-b9f6bdd6107b"),
                             Answer = "",
                             BackContentLayout = 3,
                             Content1 = "Duis velit anim et officia consequat minim non exercitation pariatur aute duis sunt elit eiusmod. Aliqua duis incididunt sit aliqua consequat Lorem qui nisi qui consectetur velit sunt nulla ad. Proident id cupidatat exercitation ea ex ea tempor ipsum non. Officia irure anim proident nostrud veniam consectetur dolor consequat ad eiusmod commodo. Non est laboris ea reprehenderit ipsum nostrud excepteur est veniam sit in consectetur in non. Deserunt dolor adipisicing amet ullamco nostrud minim occaecat non.",
@@ -2436,7 +2479,7 @@ namespace API.Migrations
                         },
                         new
                         {
-                            FlashcardID = new Guid("adf382f4-4192-4dae-8e7f-3edb020f8c06"),
+                            FlashcardId = new Guid("adf382f4-4192-4dae-8e7f-3edb020f8c06"),
                             Answer = "",
                             BackContentLayout = 3,
                             Content1 = "https://audio12.forvo.com/audios/mp3/4/r/4r_20_74_136_1.mp3",
@@ -2454,7 +2497,7 @@ namespace API.Migrations
                         },
                         new
                         {
-                            FlashcardID = new Guid("808489dd-f12e-4ae1-b6b6-607be92e62e2"),
+                            FlashcardId = new Guid("808489dd-f12e-4ae1-b6b6-607be92e62e2"),
                             Answer = "kill",
                             BackContentLayout = 1,
                             Content1 = "https://m.media-amazon.com/images/I/81rz6kuxieL._AC_SL1500_.jpg",
@@ -2472,7 +2515,7 @@ namespace API.Migrations
                         },
                         new
                         {
-                            FlashcardID = new Guid("376460be-eb10-4431-95b6-3070680c7e35"),
+                            FlashcardId = new Guid("376460be-eb10-4431-95b6-3070680c7e35"),
                             Answer = "",
                             BackContentLayout = 2,
                             Content1 = "Do dolore consectetur cillum fugiat. Incididunt eiusmod ea pariatur Lorem sunt cillum deserunt. Cillum laboris nisi consectetur do irure est nostrud do sit velit consectetur incididunt voluptate aute. Amet amet nisi ad occaecat consequat consequat velit occaecat aute officia consectetur sint non. Culpa sit laboris in Lorem ea commodo non et nostrud veniam pariatur.",
@@ -2490,7 +2533,7 @@ namespace API.Migrations
                         },
                         new
                         {
-                            FlashcardID = new Guid("1342acf4-81cc-43e4-bb57-f368a17ebf52"),
+                            FlashcardId = new Guid("1342acf4-81cc-43e4-bb57-f368a17ebf52"),
                             Answer = "",
                             BackContentLayout = 0,
                             Content1 = "Eiusmod voluptate occaecat aute adipisicing consequat labore cupidatat culpa id in. Dolor esse do irure ex. Velit ea aliqua est enim nulla nisi id proident est. Culpa ea voluptate nulla anim occaecat nulla consequat cupidatat.",
@@ -2508,7 +2551,7 @@ namespace API.Migrations
                         },
                         new
                         {
-                            FlashcardID = new Guid("4ba7cbb6-0c2e-471b-b96e-a93228ccfce3"),
+                            FlashcardId = new Guid("4ba7cbb6-0c2e-471b-b96e-a93228ccfce3"),
                             Answer = "¿Cómo está señor?",
                             BackContentLayout = 2,
                             Content1 = "https://pisces.bbystatic.com/image2/BestBuy_US/images/products/6440/6440961_sd.jpg",
@@ -2526,7 +2569,7 @@ namespace API.Migrations
                         },
                         new
                         {
-                            FlashcardID = new Guid("d96210ed-d99c-4315-a7a2-4d26510f90dd"),
+                            FlashcardId = new Guid("d96210ed-d99c-4315-a7a2-4d26510f90dd"),
                             Answer = "",
                             BackContentLayout = 2,
                             Content1 = "https://audio12.forvo.com/audios/mp3/4/r/4r_20_74_136_1.mp3",
@@ -2544,7 +2587,7 @@ namespace API.Migrations
                         },
                         new
                         {
-                            FlashcardID = new Guid("2fc5367b-462b-4306-b524-e2c1daf6af8c"),
+                            FlashcardId = new Guid("2fc5367b-462b-4306-b524-e2c1daf6af8c"),
                             Answer = "onda",
                             BackContentLayout = 2,
                             Content1 = "Lorem nisi cillum officia qui reprehenderit aliquip anim aliquip proident consequat aute. Labore est elit duis et ipsum incididunt elit esse est veniam ullamco sint ut. Id do adipisicing labore id Lorem ad culpa nostrud pariatur eiusmod consectetur exercitation Lorem irure. Exercitation voluptate deserunt consectetur incididunt magna dolore Lorem aute. Adipisicing commodo et enim aute ex tempor laborum labore incididunt qui id ut cillum. In irure cillum cillum esse ex laboris.",
@@ -2562,7 +2605,7 @@ namespace API.Migrations
                         },
                         new
                         {
-                            FlashcardID = new Guid("e00adf58-ac9a-4248-bcb5-614ecc670317"),
+                            FlashcardId = new Guid("e00adf58-ac9a-4248-bcb5-614ecc670317"),
                             Answer = "",
                             BackContentLayout = 4,
                             Content1 = "Voluptate fugiat sint excepteur deserunt dolor incididunt irure quis nulla Lorem eu. Elit aute sit cupidatat voluptate Lorem nostrud est nostrud. Proident incididunt esse non aute laborum excepteur anim enim sit pariatur ea. Velit eu et cillum nisi excepteur cupidatat culpa amet sunt proident labore magna ullamco deserunt adipisicing. Aute do sunt do eu dolore nisi sunt. Id nostrud proident magna amet amet reprehenderit. Reprehenderit eiusmod mollit sit sit occaecat commodo Lorem laboris veniam non minim tempor. Sit quis officia tempor magna aute cillum elit irure qui.",
@@ -2580,7 +2623,7 @@ namespace API.Migrations
                         },
                         new
                         {
-                            FlashcardID = new Guid("437836fd-0db7-4d7b-a56d-48508808a2f1"),
+                            FlashcardId = new Guid("437836fd-0db7-4d7b-a56d-48508808a2f1"),
                             Answer = "",
                             BackContentLayout = 2,
                             Content1 = "<p><b>car</b></p><p>Category: Noun</p><p>Spelling: kɑː</p><p>Definitions:</p><ul><li>a four-wheeled road vehicle that is powered by an engine and is able to carry a small number of people</li></ul><p>Examples:</p><ul><li>she drove up in a car</li><li>we're going by car</li></ul>",
@@ -2598,7 +2641,7 @@ namespace API.Migrations
                         },
                         new
                         {
-                            FlashcardID = new Guid("b6698b7e-80df-4802-b377-20edf527ae5b"),
+                            FlashcardId = new Guid("b6698b7e-80df-4802-b377-20edf527ae5b"),
                             Answer = "",
                             BackContentLayout = 2,
                             Content1 = "<p><b>calcio</b></p><p>Category: noun</p><p>Spelling: ˈkaltʃo</p><p>Definitions:</p><ul><li>impugnatura della pistola</li><li>parte del fucile che si appoggia alla spalla</li></ul><p>Examples:</p><ul><li>carabina con calcio in legno</li><li>L'aggressore lo colpì con il calcio della pistola.</li></ul><p>Category: noun</p><p>Spelling: ˈkaltʃo</p><p>Definitions:</p><ul><li>colpo dato con il piede</li><li>colpo dato con la zampa da animali forniti di zoccoli</li><li>il gioco del pallone</li><li>tiro effettuato colpendo col piede il pallone</li></ul><p>Examples:</p><ul><li>dare un calcio</li><li>prendere a calci</li><li>Il mulo tira calci se infastidito.</li><li>una partita di calcio</li><li>la nazionale di calcio</li><li>calcio d'angolo</li><li>calcio di punizione</li></ul><p>Category: noun</p><p>Spelling: ˈkaltʃo</p><p>Definitions:</p><ul><li>elemento chimico di colore bianco</li></ul><p>Examples:</p><ul><li>Il latte è ricco di calcio.</li></ul>",
@@ -2616,7 +2659,7 @@ namespace API.Migrations
                         },
                         new
                         {
-                            FlashcardID = new Guid("f8e622e8-35ef-4e3c-b255-d42ab04d38eb"),
+                            FlashcardId = new Guid("f8e622e8-35ef-4e3c-b255-d42ab04d38eb"),
                             Answer = "",
                             BackContentLayout = 2,
                             Content1 = "https://pisces.bbystatic.com/image2/BestBuy_US/images/products/6440/6440961_sd.jpg",
@@ -2634,7 +2677,7 @@ namespace API.Migrations
                         },
                         new
                         {
-                            FlashcardID = new Guid("0017e08d-69b7-49b3-b300-3643f566864a"),
+                            FlashcardId = new Guid("0017e08d-69b7-49b3-b300-3643f566864a"),
                             Answer = "",
                             BackContentLayout = 2,
                             Content1 = "Quis enim consectetur qui incididunt sunt eu nulla consequat velit velit. Elit deserunt id occaecat ullamco sint non ea laboris Lorem consequat commodo fugiat. Sunt exercitation deserunt sunt do adipisicing anim cupidatat elit dolor ipsum irure eiusmod. Proident cillum ea quis. Amet ut veniam nulla Lorem tempor est. Eu ut proident dolor quis id proident mollit voluptate. Qui aute mollit ut consectetur culpa magna ullamco tempor in irure sint quis deserunt commodo deserunt. Ea aliquip adipisicing proident amet laborum.",
@@ -2652,7 +2695,7 @@ namespace API.Migrations
                         },
                         new
                         {
-                            FlashcardID = new Guid("744ae4b5-c551-47a1-a827-69db397f3a25"),
+                            FlashcardId = new Guid("744ae4b5-c551-47a1-a827-69db397f3a25"),
                             Answer = "kirche",
                             BackContentLayout = 4,
                             Content1 = "Deserunt commodo culpa eu Lorem mollit ullamco. Labore laboris eu consectetur. Non sunt consequat occaecat duis. Consequat minim reprehenderit proident nulla consequat labore occaecat duis aliquip eiusmod dolore. Exercitation est et non commodo occaecat aliquip ex sit. Ut labore ut anim aliquip quis laboris et culpa esse ea.",
@@ -2670,7 +2713,7 @@ namespace API.Migrations
                         },
                         new
                         {
-                            FlashcardID = new Guid("904086c2-d20e-44fd-acff-68d6c2e9bfc6"),
+                            FlashcardId = new Guid("904086c2-d20e-44fd-acff-68d6c2e9bfc6"),
                             Answer = "thing",
                             BackContentLayout = 0,
                             Content1 = "https://audio12.forvo.com/audios/mp3/4/r/4r_20_74_136_1.mp3",
@@ -2688,7 +2731,7 @@ namespace API.Migrations
                         },
                         new
                         {
-                            FlashcardID = new Guid("446af97f-eea8-4005-9952-4c127900ecb1"),
+                            FlashcardId = new Guid("446af97f-eea8-4005-9952-4c127900ecb1"),
                             Answer = "el pueblo",
                             BackContentLayout = 0,
                             Content1 = "Sunt labore enim sit aliquip magna ea ipsum do cillum irure non eiusmod commodo irure. Pariatur eu non ad elit incididunt esse et ex culpa dolor. Exercitation est ex dolor mollit incididunt nisi sint reprehenderit qui nostrud sit sint. Ullamco veniam irure fugiat fugiat proident mollit. Enim pariatur non quis minim ut duis dolor sint laboris ipsum anim fugiat consequat ut. Est qui elit adipisicing aute Lorem cupidatat culpa aliqua. Do eu eiusmod nostrud tempor aliqua velit dolore consectetur tempor fugiat culpa ullamco.",
@@ -2706,7 +2749,7 @@ namespace API.Migrations
                         },
                         new
                         {
-                            FlashcardID = new Guid("d301ba90-a962-4c9f-a975-ddf9c7607107"),
+                            FlashcardId = new Guid("d301ba90-a962-4c9f-a975-ddf9c7607107"),
                             Answer = "",
                             BackContentLayout = 4,
                             Content1 = "<p><b>love</b></p><p>Category: Noun</p><p>Spelling: ləv</p><p>Definitions:</p><ul><li>an intense feeling of deep affection</li><li>a great interest and pleasure in something</li><li>a person or thing that one loves</li><li>(in tennis, squash, and some other sports) a score of zero; nil</li></ul><p>Examples:</p><ul><li>babies fill parents with feelings of love</li><li>their love for their country</li><li>his love for football</li><li>we share a love of music</li><li>she was the love of his life</li><li>their two great loves are tobacco and whiskey</li><li>love fifteen</li><li>he was down two sets to love</li></ul><p>Category: Verb</p><p>Spelling: ləv</p><p>Definitions:</p><ul><li>feel deep affection for (someone)</li><li>like or enjoy very much</li></ul><p>Examples:</p><ul><li>he loved his sister dearly</li><li>there were four memorial pages set up by her friends in honor of Phoebe, saying how much they loved and missed her</li><li>I just love dancing</li><li>I'd love a cup of tea</li><li>I love this job</li><li>they love to play golf</li></ul>",
@@ -2724,7 +2767,7 @@ namespace API.Migrations
                         },
                         new
                         {
-                            FlashcardID = new Guid("d58a5221-2d3a-4b4d-9a4d-85c4003915a2"),
+                            FlashcardId = new Guid("d58a5221-2d3a-4b4d-9a4d-85c4003915a2"),
                             Answer = "",
                             BackContentLayout = 0,
                             Content1 = "https://target.scene7.com/is/image/Target/GUEST_d29e72d0-b1cd-4cfd-8c8b-f2a200fd7193?wid=488&hei=488&fmt=pjpeg",
@@ -2742,7 +2785,7 @@ namespace API.Migrations
                         },
                         new
                         {
-                            FlashcardID = new Guid("4b80856e-094f-4ace-bc1f-751fd57a11cd"),
+                            FlashcardId = new Guid("4b80856e-094f-4ace-bc1f-751fd57a11cd"),
                             Answer = "",
                             BackContentLayout = 4,
                             Content1 = "Labore id esse eiusmod do adipisicing deserunt incididunt. Consequat consectetur ipsum proident amet aliqua id deserunt. Irure adipisicing commodo id. Enim eu ad amet excepteur nostrud duis. Eu irure minim sint velit do irure nulla esse sit sint non et eu.",
@@ -2760,7 +2803,7 @@ namespace API.Migrations
                         },
                         new
                         {
-                            FlashcardID = new Guid("5fffbab3-87bc-41ca-973a-55be36b31ad2"),
+                            FlashcardId = new Guid("5fffbab3-87bc-41ca-973a-55be36b31ad2"),
                             Answer = "",
                             BackContentLayout = 2,
                             Content1 = "https://audio12.forvo.com/audios/mp3/6/o/6o_9014612_41_617305_1.mp3",
@@ -2778,7 +2821,7 @@ namespace API.Migrations
                         },
                         new
                         {
-                            FlashcardID = new Guid("54dd5803-4ef7-4c2c-bbc1-6bf5efcfc4a6"),
+                            FlashcardId = new Guid("54dd5803-4ef7-4c2c-bbc1-6bf5efcfc4a6"),
                             Answer = "",
                             BackContentLayout = 4,
                             Content1 = "Commodo nulla aute sit esse dolor labore qui in incididunt. Sunt commodo eu ex amet cupidatat velit aute aute in. Culpa quis do duis veniam occaecat culpa. Consequat voluptate magna labore minim mollit. Fugiat enim mollit Lorem tempor ad id commodo et mollit do laborum. Ut sint commodo eiusmod in sunt adipisicing deserunt officia laboris labore commodo.",
@@ -2796,7 +2839,7 @@ namespace API.Migrations
                         },
                         new
                         {
-                            FlashcardID = new Guid("16d6ca1f-b8c9-4850-9100-063abb632d61"),
+                            FlashcardId = new Guid("16d6ca1f-b8c9-4850-9100-063abb632d61"),
                             Answer = "",
                             BackContentLayout = 0,
                             Content1 = "Velit dolor nostrud nulla excepteur nulla fugiat sunt. Esse sit in adipisicing occaecat qui do dolor duis et laborum. Exercitation nostrud non voluptate magna et elit reprehenderit proident reprehenderit esse nostrud aliquip eu Lorem culpa. Fugiat laborum id labore cupidatat sint aute et non adipisicing eiusmod dolor. Incididunt eu aliqua ea commodo enim consequat tempor. Culpa exercitation consequat culpa tempor nisi fugiat ut mollit pariatur dolore labore esse in.",
@@ -2814,7 +2857,7 @@ namespace API.Migrations
                         },
                         new
                         {
-                            FlashcardID = new Guid("4a0fc8f5-5600-4972-a93d-d098cd658afd"),
+                            FlashcardId = new Guid("4a0fc8f5-5600-4972-a93d-d098cd658afd"),
                             Answer = "nuage",
                             BackContentLayout = 1,
                             Content1 = "<p><b>arbol</b></p><p>Category: Noun</p><p>Spelling: </p><p>Definitions:</p><ul><li>Planta de tronco leñoso, grueso y elevado que se ramifica a cierta altura del suelo formando la copa</li><li>Cuadro descriptivo que representa de forma gráfica las relaciones que tienen los elementos de un conjunto o las variaciones de un fenómeno</li><li>Barra fija o giratoria que en una máquina sirve para soportar piezas rotativas o para transmitir fuerza motriz de unos órganos a otros</li><li>Barra o eje que se usa en posición vertical y sirve de apoyo a una estructura que se desarrolla alrededor del mismo, como el árbol de una escalera de caracol</li><li>Madero que junto con otros se coloca perpendicularmente a la quilla de una embarcación y está destinado a sujetar las velas</li><li>Eje del órgano (instrumento musical) que, movido a voluntad del ejecutante, hace que suene o deje de sonar un registro</li><li>Punzón que usan los relojeros para perforar el metal y que tiene el mango de madera y la punta de acero</li><li>Pieza de hierro en la parte superior del husillo de la prensa de imprimir</li></ul><p>Examples:</p><ul><li>el Ministerio de Medio Ambiente tiene previsto plantar un millón de árboles en el próximo año</li><li>diagrama en árbol</li></ul>",
@@ -2832,7 +2875,7 @@ namespace API.Migrations
                         },
                         new
                         {
-                            FlashcardID = new Guid("a3f1d6d3-54f1-4500-8988-4292c8583692"),
+                            FlashcardId = new Guid("a3f1d6d3-54f1-4500-8988-4292c8583692"),
                             Answer = "Hi, how are you?",
                             BackContentLayout = 4,
                             Content1 = "Reprehenderit quis amet incididunt esse voluptate Lorem irure elit sunt nostrud ipsum. Officia reprehenderit ullamco eiusmod nisi deserunt incididunt mollit dolore nisi veniam voluptate proident ad fugiat. Nostrud dolor sit dolor cillum pariatur aliquip magna enim eiusmod labore voluptate. Nulla in laboris sit fugiat laboris labore. Ut ipsum proident mollit ipsum exercitation nostrud nulla ullamco in velit ad elit ut. Fugiat sint qui ad eu ad et laboris laborum tempor qui duis consectetur ullamco.",
@@ -2850,7 +2893,7 @@ namespace API.Migrations
                         },
                         new
                         {
-                            FlashcardID = new Guid("8d533e38-4cfc-43b4-95b5-c5c79f249b2f"),
+                            FlashcardId = new Guid("8d533e38-4cfc-43b4-95b5-c5c79f249b2f"),
                             Answer = "",
                             BackContentLayout = 4,
                             Content1 = "Occaecat non magna exercitation commodo. Sint nisi non eu nostrud. Ex incididunt nisi excepteur quis officia velit consequat qui. Do sunt enim est amet tempor irure est do aliquip tempor commodo quis pariatur. Velit officia non officia qui laborum ad sint sint qui proident aliqua nisi duis quis. Elit anim occaecat elit nulla nostrud velit elit adipisicing duis adipisicing anim anim aute.",
@@ -2868,7 +2911,7 @@ namespace API.Migrations
                         },
                         new
                         {
-                            FlashcardID = new Guid("428b3591-3262-4a31-8992-bc7add66f54f"),
+                            FlashcardId = new Guid("428b3591-3262-4a31-8992-bc7add66f54f"),
                             Answer = "Hi, how are you?",
                             BackContentLayout = 4,
                             Content1 = "Occaecat adipisicing est voluptate dolore consectetur incididunt magna. Do nisi deserunt mollit sit consequat voluptate ut tempor incididunt aliqua qui pariatur fugiat fugiat anim. Lorem do aliqua voluptate eiusmod elit. Consectetur irure est deserunt anim reprehenderit nisi proident laborum amet nulla voluptate reprehenderit anim nostrud. Consectetur reprehenderit amet pariatur ullamco laboris labore mollit anim enim pariatur exercitation nulla magna mollit do. Dolore aliquip nostrud adipisicing exercitation amet Lorem Lorem. Consequat nostrud in minim pariatur tempor esse veniam nisi Lorem adipisicing reprehenderit est. Mollit Lorem deserunt eiusmod veniam nostrud sunt magna qui amet non cillum tempor.",
@@ -2886,7 +2929,7 @@ namespace API.Migrations
                         },
                         new
                         {
-                            FlashcardID = new Guid("b80bbe8b-e323-4b06-a423-757901e7c8fa"),
+                            FlashcardId = new Guid("b80bbe8b-e323-4b06-a423-757901e7c8fa"),
                             Answer = "",
                             BackContentLayout = 0,
                             Content1 = "<p><b>car</b></p><p>Category: Noun</p><p>Spelling: kɑː</p><p>Definitions:</p><ul><li>a four-wheeled road vehicle that is powered by an engine and is able to carry a small number of people</li></ul><p>Examples:</p><ul><li>she drove up in a car</li><li>we're going by car</li></ul>",
@@ -2904,7 +2947,7 @@ namespace API.Migrations
                         },
                         new
                         {
-                            FlashcardID = new Guid("66722ab0-4431-4065-9239-22b829e83853"),
+                            FlashcardId = new Guid("66722ab0-4431-4065-9239-22b829e83853"),
                             Answer = "",
                             BackContentLayout = 3,
                             Content1 = "https://audio12.forvo.com/audios/mp3/6/o/6o_9014612_41_617305_1.mp3",
@@ -2922,7 +2965,7 @@ namespace API.Migrations
                         },
                         new
                         {
-                            FlashcardID = new Guid("75fab1e5-99c1-4724-a583-de36ac78bd3d"),
+                            FlashcardId = new Guid("75fab1e5-99c1-4724-a583-de36ac78bd3d"),
                             Answer = "mel",
                             BackContentLayout = 4,
                             Content1 = "Qui Lorem esse tempor sunt. Commodo duis duis ea. Proident tempor velit incididunt. Eu consectetur qui dolor ipsum non sunt deserunt dolor laboris ea. Dolor eiusmod enim incididunt eu proident proident.",
@@ -2940,7 +2983,7 @@ namespace API.Migrations
                         },
                         new
                         {
-                            FlashcardID = new Guid("74908a2c-67a3-424a-9e64-5660c4eaab9f"),
+                            FlashcardId = new Guid("74908a2c-67a3-424a-9e64-5660c4eaab9f"),
                             Answer = "mel",
                             BackContentLayout = 0,
                             Content1 = "Ex nisi voluptate velit laborum voluptate deserunt eiusmod laborum consectetur voluptate ullamco ea ex. Ullamco sint nostrud sit. Cupidatat id nulla commodo veniam anim. Nostrud occaecat dolore eiusmod.",
@@ -2958,7 +3001,7 @@ namespace API.Migrations
                         },
                         new
                         {
-                            FlashcardID = new Guid("e43a7c14-5b6b-4fbe-9199-211c4fc5010a"),
+                            FlashcardId = new Guid("e43a7c14-5b6b-4fbe-9199-211c4fc5010a"),
                             Answer = "",
                             BackContentLayout = 2,
                             Content1 = "Quis consequat irure ex qui ut adipisicing voluptate id. Labore non et veniam aute mollit. Amet tempor aute laboris anim aliquip magna sunt excepteur aliqua. Voluptate culpa enim Lorem sint culpa qui ullamco elit voluptate ea ea.",
@@ -2976,7 +3019,7 @@ namespace API.Migrations
                         },
                         new
                         {
-                            FlashcardID = new Guid("bf2f4ca0-6288-46dc-b000-00af8d155df8"),
+                            FlashcardId = new Guid("bf2f4ca0-6288-46dc-b000-00af8d155df8"),
                             Answer = "onda",
                             BackContentLayout = 2,
                             Content1 = "Velit consectetur labore cillum duis ullamco ullamco consequat. Consequat duis consequat id est eiusmod quis ullamco magna. Labore proident reprehenderit officia reprehenderit nisi tempor laboris nulla. Sint sunt non pariatur fugiat dolor consectetur magna et sunt irure occaecat. Enim ipsum cillum fugiat deserunt deserunt eiusmod do dolore. Fugiat sit non qui ullamco aliquip. Enim ullamco enim duis officia.",
@@ -2994,7 +3037,7 @@ namespace API.Migrations
                         },
                         new
                         {
-                            FlashcardID = new Guid("b656ada8-4193-4298-9889-35399c70e28d"),
+                            FlashcardId = new Guid("b656ada8-4193-4298-9889-35399c70e28d"),
                             Answer = "Restaurant",
                             BackContentLayout = 3,
                             Content1 = "Esse pariatur velit ea dolore. Commodo incididunt non esse. Sint id laborum et ad sit eiusmod mollit ipsum nulla cillum magna incididunt sunt. Excepteur quis Lorem laborum tempor voluptate anim laboris aute reprehenderit. Quis nostrud aute velit ea est.",
@@ -3012,7 +3055,7 @@ namespace API.Migrations
                         },
                         new
                         {
-                            FlashcardID = new Guid("ed6aa64c-dca9-4c29-864d-feaaa3b91565"),
+                            FlashcardId = new Guid("ed6aa64c-dca9-4c29-864d-feaaa3b91565"),
                             Answer = "¿Cómo está señor?",
                             BackContentLayout = 0,
                             Content1 = "Sit nostrud commodo nulla dolor aliqua est. Aute do quis eiusmod laboris ut laboris eu cillum do consequat. Occaecat aute voluptate sint. Amet tempor veniam dolore non quis ullamco esse ea reprehenderit eu voluptate dolore sint quis. Culpa duis et minim labore aliqua officia deserunt veniam veniam magna id deserunt eiusmod tempor.",
@@ -3030,7 +3073,7 @@ namespace API.Migrations
                         },
                         new
                         {
-                            FlashcardID = new Guid("5049bd12-118d-4d78-bfde-9f8fffef0a3a"),
+                            FlashcardId = new Guid("5049bd12-118d-4d78-bfde-9f8fffef0a3a"),
                             Answer = "",
                             BackContentLayout = 3,
                             Content1 = "Ut nostrud cupidatat labore mollit. Eiusmod consequat ex culpa sunt enim dolore voluptate anim Lorem nisi anim et nisi cupidatat in. In labore sit dolor non eu magna voluptate velit magna culpa deserunt laboris exercitation laborum minim. Anim dolor consectetur et. Non enim irure deserunt sunt excepteur ea nostrud.",
@@ -3048,7 +3091,7 @@ namespace API.Migrations
                         },
                         new
                         {
-                            FlashcardID = new Guid("6e8790f1-edb9-4274-972c-b0876981b11d"),
+                            FlashcardId = new Guid("6e8790f1-edb9-4274-972c-b0876981b11d"),
                             Answer = "",
                             BackContentLayout = 2,
                             Content1 = "https://target.scene7.com/is/image/Target/GUEST_d29e72d0-b1cd-4cfd-8c8b-f2a200fd7193?wid=488&hei=488&fmt=pjpeg",
@@ -3066,7 +3109,7 @@ namespace API.Migrations
                         },
                         new
                         {
-                            FlashcardID = new Guid("31df0b81-1382-4e19-8e01-52e4ff219931"),
+                            FlashcardId = new Guid("31df0b81-1382-4e19-8e01-52e4ff219931"),
                             Answer = "",
                             BackContentLayout = 1,
                             Content1 = "Velit dolore ullamco qui laboris laborum irure commodo officia magna dolore consectetur cupidatat occaecat velit. Eu nulla duis est ullamco eiusmod nisi culpa dolore qui Lorem excepteur nisi consequat. Ad do enim nulla excepteur occaecat non consequat ullamco commodo consequat. Cupidatat esse ipsum sint ea laboris est. Labore ad culpa dolore et tempor dolor reprehenderit velit laboris ad consequat cillum.",
@@ -3084,7 +3127,7 @@ namespace API.Migrations
                         },
                         new
                         {
-                            FlashcardID = new Guid("03763b53-879a-45cc-b25d-d1040d5900d4"),
+                            FlashcardId = new Guid("03763b53-879a-45cc-b25d-d1040d5900d4"),
                             Answer = "kill",
                             BackContentLayout = 2,
                             Content1 = "https://audio12.forvo.com/audios/mp3/p/v/pv_8979922_49_607322_1.mp3",
@@ -3102,7 +3145,7 @@ namespace API.Migrations
                         },
                         new
                         {
-                            FlashcardID = new Guid("fce3d836-94ac-466d-9d64-d4f5b1a8ee75"),
+                            FlashcardId = new Guid("fce3d836-94ac-466d-9d64-d4f5b1a8ee75"),
                             Answer = "",
                             BackContentLayout = 4,
                             Content1 = "https://target.scene7.com/is/image/Target/GUEST_b3e2da64-ad54-48b5-9dc7-50071ea5075d?wid=488&hei=488&fmt=pjpeg",
@@ -3120,7 +3163,7 @@ namespace API.Migrations
                         },
                         new
                         {
-                            FlashcardID = new Guid("115e2272-08d3-46c1-9106-ec29ea22b84b"),
+                            FlashcardId = new Guid("115e2272-08d3-46c1-9106-ec29ea22b84b"),
                             Answer = "",
                             BackContentLayout = 0,
                             Content1 = "Exercitation exercitation ipsum irure mollit do reprehenderit eiusmod. Qui aliqua nostrud incididunt laboris id dolore aliqua adipisicing velit labore. Voluptate consectetur pariatur ad ullamco nisi deserunt cillum consequat reprehenderit laborum sunt. Officia fugiat irure consequat deserunt ullamco. Quis aliquip ad qui velit eiusmod mollit laborum non qui id ullamco. Sint adipisicing ipsum ea laboris ipsum dolor officia voluptate ullamco aliquip. Et ex velit voluptate aliquip Lorem tempor amet aliqua anim.",
@@ -3138,7 +3181,7 @@ namespace API.Migrations
                         },
                         new
                         {
-                            FlashcardID = new Guid("1d78f952-5c4c-4b2b-bf12-3ff276989225"),
+                            FlashcardId = new Guid("1d78f952-5c4c-4b2b-bf12-3ff276989225"),
                             Answer = "",
                             BackContentLayout = 0,
                             Content1 = "Consequat commodo id culpa aliqua fugiat irure dolore aute voluptate dolor ea. Magna culpa labore laboris sit adipisicing dolore duis aliquip esse sint cupidatat dolore ex proident. Velit in dolore excepteur qui occaecat ut sint magna eu amet duis consequat. Elit nostrud elit duis dolore eu proident sint veniam cillum sint magna magna Lorem laborum qui. Ex ut adipisicing laboris consequat ea commodo esse anim veniam esse cupidatat ipsum. Deserunt laboris elit enim. Lorem commodo enim sit id Lorem duis sint nostrud enim velit proident non laboris ex ipsum.",
@@ -3156,7 +3199,7 @@ namespace API.Migrations
                         },
                         new
                         {
-                            FlashcardID = new Guid("110cfeed-affc-4e02-812c-392422297330"),
+                            FlashcardId = new Guid("110cfeed-affc-4e02-812c-392422297330"),
                             Answer = "thing",
                             BackContentLayout = 1,
                             Content1 = "<p><b>car</b></p><p>Category: Noun</p><p>Spelling: kɑː</p><p>Definitions:</p><ul><li>a four-wheeled road vehicle that is powered by an engine and is able to carry a small number of people</li></ul><p>Examples:</p><ul><li>she drove up in a car</li><li>we're going by car</li></ul>",
@@ -3174,7 +3217,7 @@ namespace API.Migrations
                         },
                         new
                         {
-                            FlashcardID = new Guid("8ff895cb-d782-41b7-a80a-a3052d870ad4"),
+                            FlashcardId = new Guid("8ff895cb-d782-41b7-a80a-a3052d870ad4"),
                             Answer = "onda",
                             BackContentLayout = 4,
                             Content1 = "Labore dolore sit non et qui ea quis aute. Proident aliquip mollit consequat excepteur laborum nostrud. Excepteur mollit excepteur non elit aliquip deserunt mollit ea laborum ullamco non dolor ex laboris. Pariatur minim do cillum id amet reprehenderit voluptate deserunt. Nisi fugiat sunt cupidatat deserunt Lorem esse exercitation sit sunt enim aliquip veniam id labore est. Occaecat enim cupidatat cupidatat. Quis ad non pariatur ea.",
@@ -3192,7 +3235,7 @@ namespace API.Migrations
                         },
                         new
                         {
-                            FlashcardID = new Guid("4421fc58-2b27-4454-8225-8ee0079bc61c"),
+                            FlashcardId = new Guid("4421fc58-2b27-4454-8225-8ee0079bc61c"),
                             Answer = "Restaurant",
                             BackContentLayout = 3,
                             Content1 = "Sint sunt sunt enim dolor occaecat minim excepteur officia pariatur magna excepteur qui cupidatat. Nostrud eiusmod veniam magna ut deserunt velit veniam. Duis quis exercitation sunt. Aliquip dolore nulla ea Lorem tempor ullamco. Lorem laboris elit amet elit deserunt nisi mollit id nulla. Exercitation culpa duis adipisicing dolor occaecat excepteur aliqua sunt officia anim tempor incididunt Lorem non veniam. Cillum duis amet ut non sint cillum nostrud aliquip.",
@@ -3210,7 +3253,7 @@ namespace API.Migrations
                         },
                         new
                         {
-                            FlashcardID = new Guid("197af71f-7d12-4f1a-a958-2e7d95625762"),
+                            FlashcardId = new Guid("197af71f-7d12-4f1a-a958-2e7d95625762"),
                             Answer = "",
                             BackContentLayout = 2,
                             Content1 = "Incididunt nostrud ullamco laborum officia. Veniam fugiat pariatur non incididunt excepteur Lorem laboris proident. Enim in enim et. Tempor irure consectetur laboris reprehenderit incididunt culpa qui ex pariatur enim cupidatat duis aute. Et eu est aute veniam exercitation excepteur non laboris duis veniam et dolore magna pariatur ex. Nostrud et sit minim non pariatur. Mollit cupidatat enim aliqua laboris laboris do.",
@@ -3228,7 +3271,7 @@ namespace API.Migrations
                         },
                         new
                         {
-                            FlashcardID = new Guid("6c485d3b-3875-4b21-aed8-64d0fdd08e17"),
+                            FlashcardId = new Guid("6c485d3b-3875-4b21-aed8-64d0fdd08e17"),
                             Answer = "",
                             BackContentLayout = 0,
                             Content1 = "https://target.scene7.com/is/image/Target/GUEST_b3e2da64-ad54-48b5-9dc7-50071ea5075d?wid=488&hei=488&fmt=pjpeg",
@@ -3246,7 +3289,7 @@ namespace API.Migrations
                         },
                         new
                         {
-                            FlashcardID = new Guid("0ebbdbc9-bce5-462d-be6b-cceb1d85b5e2"),
+                            FlashcardId = new Guid("0ebbdbc9-bce5-462d-be6b-cceb1d85b5e2"),
                             Answer = "",
                             BackContentLayout = 2,
                             Content1 = "Magna incididunt enim id occaecat ad Lorem sit eu. Esse amet veniam exercitation cupidatat. Non ipsum ipsum duis nisi pariatur eiusmod adipisicing eiusmod anim commodo aute consectetur Lorem voluptate adipisicing. Veniam minim labore aliquip mollit.",
@@ -3264,7 +3307,7 @@ namespace API.Migrations
                         },
                         new
                         {
-                            FlashcardID = new Guid("71ca522f-d93a-4e31-86cd-193427593b99"),
+                            FlashcardId = new Guid("71ca522f-d93a-4e31-86cd-193427593b99"),
                             Answer = "mel",
                             BackContentLayout = 0,
                             Content1 = "Sint non enim consequat. Tempor do nostrud proident cillum eiusmod et ut. Id amet deserunt cupidatat consequat proident tempor. Aute eiusmod ad veniam adipisicing enim cupidatat cillum.",
@@ -3282,7 +3325,7 @@ namespace API.Migrations
                         },
                         new
                         {
-                            FlashcardID = new Guid("63c7e29b-e3ad-4ad7-b0bf-eead2e3a1faa"),
+                            FlashcardId = new Guid("63c7e29b-e3ad-4ad7-b0bf-eead2e3a1faa"),
                             Answer = "",
                             BackContentLayout = 2,
                             Content1 = "https://images.contentstack.io/v3/assets/blt731acb42bb3d1659/blt48f811476e162ed0/620c15764ae5ae6845c6b0c9/LOL_Homepage_Modal_(1680x650)_(1).jpg",
@@ -3300,7 +3343,7 @@ namespace API.Migrations
                         },
                         new
                         {
-                            FlashcardID = new Guid("9ac38b26-cd20-4d47-b34f-96b61d608571"),
+                            FlashcardId = new Guid("9ac38b26-cd20-4d47-b34f-96b61d608571"),
                             Answer = "",
                             BackContentLayout = 1,
                             Content1 = "Id fugiat mollit ea. Esse cupidatat cillum fugiat excepteur deserunt ullamco deserunt sunt sit aute culpa fugiat. Ex culpa fugiat anim aliqua officia qui deserunt aliqua enim aute occaecat nisi. Reprehenderit sint nostrud ullamco occaecat ea incididunt. Aliqua veniam cupidatat incididunt minim duis minim cillum cupidatat ut eiusmod. Anim velit proident anim aliquip eu deserunt magna.",
@@ -3318,7 +3361,7 @@ namespace API.Migrations
                         },
                         new
                         {
-                            FlashcardID = new Guid("fdb3126b-60e6-484f-bbda-423b3d1b6af3"),
+                            FlashcardId = new Guid("fdb3126b-60e6-484f-bbda-423b3d1b6af3"),
                             Answer = "¿Cómo está señor?",
                             BackContentLayout = 1,
                             Content1 = "<p><b>arbol</b></p><p>Category: Noun</p><p>Spelling: </p><p>Definitions:</p><ul><li>Planta de tronco leñoso, grueso y elevado que se ramifica a cierta altura del suelo formando la copa</li><li>Cuadro descriptivo que representa de forma gráfica las relaciones que tienen los elementos de un conjunto o las variaciones de un fenómeno</li><li>Barra fija o giratoria que en una máquina sirve para soportar piezas rotativas o para transmitir fuerza motriz de unos órganos a otros</li><li>Barra o eje que se usa en posición vertical y sirve de apoyo a una estructura que se desarrolla alrededor del mismo, como el árbol de una escalera de caracol</li><li>Madero que junto con otros se coloca perpendicularmente a la quilla de una embarcación y está destinado a sujetar las velas</li><li>Eje del órgano (instrumento musical) que, movido a voluntad del ejecutante, hace que suene o deje de sonar un registro</li><li>Punzón que usan los relojeros para perforar el metal y que tiene el mango de madera y la punta de acero</li><li>Pieza de hierro en la parte superior del husillo de la prensa de imprimir</li></ul><p>Examples:</p><ul><li>el Ministerio de Medio Ambiente tiene previsto plantar un millón de árboles en el próximo año</li><li>diagrama en árbol</li></ul>",
@@ -3336,7 +3379,7 @@ namespace API.Migrations
                         },
                         new
                         {
-                            FlashcardID = new Guid("c500f4af-b5f7-476b-a008-251e0b64adcf"),
+                            FlashcardId = new Guid("c500f4af-b5f7-476b-a008-251e0b64adcf"),
                             Answer = "Restaurant",
                             BackContentLayout = 4,
                             Content1 = "Id mollit est mollit non amet anim. Pariatur do eu nisi enim. Sit anim eiusmod pariatur do ipsum reprehenderit eu ut. Veniam ut quis ad anim eiusmod minim sit esse anim consequat ipsum esse ullamco reprehenderit. Veniam excepteur laborum sit Lorem pariatur.",
@@ -3354,7 +3397,7 @@ namespace API.Migrations
                         },
                         new
                         {
-                            FlashcardID = new Guid("9e02ecb6-1976-4ead-9f8b-04f4769ab9eb"),
+                            FlashcardId = new Guid("9e02ecb6-1976-4ead-9f8b-04f4769ab9eb"),
                             Answer = "",
                             BackContentLayout = 2,
                             Content1 = "<p><b>car</b></p><p>Category: Noun</p><p>Spelling: kɑː</p><p>Definitions:</p><ul><li>a four-wheeled road vehicle that is powered by an engine and is able to carry a small number of people</li></ul><p>Examples:</p><ul><li>she drove up in a car</li><li>we're going by car</li></ul>",
@@ -3372,7 +3415,7 @@ namespace API.Migrations
                         },
                         new
                         {
-                            FlashcardID = new Guid("214b03f2-45ec-4b1c-8320-8790bf0c1a51"),
+                            FlashcardId = new Guid("214b03f2-45ec-4b1c-8320-8790bf0c1a51"),
                             Answer = "",
                             BackContentLayout = 2,
                             Content1 = "https://audio12.forvo.com/audios/mp3/u/n/un_9523171_118_7665857.mp3",
@@ -3390,7 +3433,7 @@ namespace API.Migrations
                         },
                         new
                         {
-                            FlashcardID = new Guid("1c594941-6a4a-4b9d-ac32-3193d023f214"),
+                            FlashcardId = new Guid("1c594941-6a4a-4b9d-ac32-3193d023f214"),
                             Answer = "",
                             BackContentLayout = 2,
                             Content1 = "Elit excepteur ut Lorem velit et aliquip nulla in officia ipsum commodo anim esse ad laborum. Nulla amet id velit nisi ea occaecat laboris ut. Qui ipsum ut pariatur Lorem culpa nulla est reprehenderit dolor non aliqua veniam. Aliqua officia enim excepteur labore veniam eu et do ex et adipisicing anim et irure.",
@@ -3408,7 +3451,7 @@ namespace API.Migrations
                         },
                         new
                         {
-                            FlashcardID = new Guid("7b2d0dba-46ed-4381-a949-7ffb1a650a38"),
+                            FlashcardId = new Guid("7b2d0dba-46ed-4381-a949-7ffb1a650a38"),
                             Answer = "Hi, how are you?",
                             BackContentLayout = 4,
                             Content1 = "Id deserunt nostrud nostrud sit duis. Ullamco voluptate culpa sit labore cupidatat in aliqua et eiusmod laboris enim excepteur id est. Tempor veniam cupidatat elit exercitation culpa adipisicing cupidatat cupidatat pariatur cupidatat aliqua ut. Dolore laborum laboris deserunt elit quis sit proident laborum aliquip. Id excepteur nostrud tempor amet do reprehenderit. Sint enim est labore aute ut sunt ullamco eiusmod laborum dolore.",
@@ -3426,7 +3469,7 @@ namespace API.Migrations
                         },
                         new
                         {
-                            FlashcardID = new Guid("d9de553b-aaaf-47f7-a128-f081555e342c"),
+                            FlashcardId = new Guid("d9de553b-aaaf-47f7-a128-f081555e342c"),
                             Answer = "",
                             BackContentLayout = 4,
                             Content1 = "Incididunt sit ullamco pariatur quis sint aute cupidatat cillum id enim dolore. Consectetur ea sunt dolore in nulla ex dolor sunt amet nulla esse nulla velit id. Ut ea pariatur sunt ullamco proident ex irure sit. Duis commodo incididunt veniam id nostrud.",
@@ -3444,7 +3487,7 @@ namespace API.Migrations
                         },
                         new
                         {
-                            FlashcardID = new Guid("ceffe8c9-bc6c-421c-aa17-32158fd771b7"),
+                            FlashcardId = new Guid("ceffe8c9-bc6c-421c-aa17-32158fd771b7"),
                             Answer = "",
                             BackContentLayout = 3,
                             Content1 = "Magna laboris do nulla sunt cillum incididunt ea. Consectetur incididunt officia ipsum laborum voluptate ad aliqua Lorem in. Id labore ea commodo Lorem dolor voluptate laborum non veniam incididunt do nulla adipisicing. Nisi cupidatat incididunt exercitation cillum. Eiusmod cupidatat pariatur exercitation qui officia sunt commodo sunt esse dolor mollit commodo laboris do. Nulla culpa consequat nostrud sint sit tempor ea sunt minim ipsum qui anim.",
@@ -3462,7 +3505,7 @@ namespace API.Migrations
                         },
                         new
                         {
-                            FlashcardID = new Guid("b3b0cf5e-1b0b-482a-8356-e02c52e5371f"),
+                            FlashcardId = new Guid("b3b0cf5e-1b0b-482a-8356-e02c52e5371f"),
                             Answer = "macchina",
                             BackContentLayout = 4,
                             Content1 = "<p><b>car</b></p><p>Category: Noun</p><p>Spelling: kɑː</p><p>Definitions:</p><ul><li>a four-wheeled road vehicle that is powered by an engine and is able to carry a small number of people</li></ul><p>Examples:</p><ul><li>she drove up in a car</li><li>we're going by car</li></ul>",
@@ -3480,7 +3523,7 @@ namespace API.Migrations
                         },
                         new
                         {
-                            FlashcardID = new Guid("7c788128-a66a-4fe0-a31a-af9d4f2d48bf"),
+                            FlashcardId = new Guid("7c788128-a66a-4fe0-a31a-af9d4f2d48bf"),
                             Answer = "",
                             BackContentLayout = 2,
                             Content1 = "https://pisces.bbystatic.com/image2/BestBuy_US/images/products/6463/6463555_sd.jpg",
@@ -3498,7 +3541,7 @@ namespace API.Migrations
                         },
                         new
                         {
-                            FlashcardID = new Guid("3cb3e9c1-03c0-4e2c-b713-49756e61c6a8"),
+                            FlashcardId = new Guid("3cb3e9c1-03c0-4e2c-b713-49756e61c6a8"),
                             Answer = "macchina",
                             BackContentLayout = 3,
                             Content1 = "https://audio.oxforddictionaries.com/en/mp3/car_gb_1.mp3",
@@ -3516,7 +3559,7 @@ namespace API.Migrations
                         },
                         new
                         {
-                            FlashcardID = new Guid("9bfe70e1-0dde-4e38-a304-025dfa04bf31"),
+                            FlashcardId = new Guid("9bfe70e1-0dde-4e38-a304-025dfa04bf31"),
                             Answer = "macchina",
                             BackContentLayout = 4,
                             Content1 = "Magna minim proident sunt incididunt non occaecat laborum velit reprehenderit. Consequat dolor voluptate culpa magna in id sunt exercitation occaecat do ullamco enim anim. Adipisicing magna anim do enim irure amet in ullamco anim commodo. Nisi dolore tempor aliquip tempor sint. Et reprehenderit quis laboris commodo ullamco fugiat dolor veniam duis sunt. Veniam ex ad aliqua minim qui consequat ut ad eiusmod quis ipsum. Consectetur non tempor eu reprehenderit aliquip eiusmod exercitation ullamco in reprehenderit enim ad reprehenderit.",
@@ -3534,7 +3577,7 @@ namespace API.Migrations
                         },
                         new
                         {
-                            FlashcardID = new Guid("222e1eef-a617-4d33-a0ed-524a54497f04"),
+                            FlashcardId = new Guid("222e1eef-a617-4d33-a0ed-524a54497f04"),
                             Answer = "mel",
                             BackContentLayout = 2,
                             Content1 = "https://audio12.forvo.com/audios/mp3/6/o/6o_9014612_41_617305_1.mp3",
@@ -3552,7 +3595,7 @@ namespace API.Migrations
                         },
                         new
                         {
-                            FlashcardID = new Guid("9322f577-adbf-4eaa-b1aa-5e8afdf6a7c2"),
+                            FlashcardId = new Guid("9322f577-adbf-4eaa-b1aa-5e8afdf6a7c2"),
                             Answer = "ni hao",
                             BackContentLayout = 4,
                             Content1 = "https://audio12.forvo.com/audios/mp3/l/i/li_9002112_133_543430_266179.mp3",
@@ -3570,7 +3613,7 @@ namespace API.Migrations
                         },
                         new
                         {
-                            FlashcardID = new Guid("32575ad8-331e-462b-8ed8-c8766d4886e5"),
+                            FlashcardId = new Guid("32575ad8-331e-462b-8ed8-c8766d4886e5"),
                             Answer = "Restaurant",
                             BackContentLayout = 2,
                             Content1 = "Cupidatat quis esse duis et aute esse Lorem culpa. Minim culpa sit sunt incididunt elit quis laborum aute minim aliquip cupidatat enim exercitation ex. In amet exercitation quis minim tempor est exercitation exercitation aliquip sint. Eiusmod laborum velit consectetur ipsum. Deserunt anim duis id et veniam non voluptate nisi nostrud quis commodo irure et aute. Eu commodo duis est ad ea consectetur ea nulla Lorem dolore esse exercitation ipsum in. Laboris veniam amet eu magna proident nisi deserunt.",
@@ -3588,7 +3631,7 @@ namespace API.Migrations
                         },
                         new
                         {
-                            FlashcardID = new Guid("60834c2b-a9f1-4620-8d22-d816ca9c06fc"),
+                            FlashcardId = new Guid("60834c2b-a9f1-4620-8d22-d816ca9c06fc"),
                             Answer = "",
                             BackContentLayout = 3,
                             Content1 = "https://audio12.forvo.com/audios/mp3/6/o/6o_9014612_41_617305_1.mp3",
@@ -3606,7 +3649,7 @@ namespace API.Migrations
                         },
                         new
                         {
-                            FlashcardID = new Guid("e021344e-64a0-441f-b971-8314209f7e29"),
+                            FlashcardId = new Guid("e021344e-64a0-441f-b971-8314209f7e29"),
                             Answer = "macchina",
                             BackContentLayout = 1,
                             Content1 = "Ea magna non velit magna sit duis. Veniam sint consequat aliqua labore sint fugiat proident sunt laborum irure veniam nostrud. Laboris aliquip officia eiusmod excepteur sit consequat in sit eiusmod ex et laborum est aliqua enim. Sunt commodo commodo ea proident labore.",
@@ -3624,7 +3667,7 @@ namespace API.Migrations
                         },
                         new
                         {
-                            FlashcardID = new Guid("e529c193-12e8-4470-bc04-8b84d07b7b3f"),
+                            FlashcardId = new Guid("e529c193-12e8-4470-bc04-8b84d07b7b3f"),
                             Answer = "",
                             BackContentLayout = 2,
                             Content1 = "https://target.scene7.com/is/image/Target/GUEST_b3e2da64-ad54-48b5-9dc7-50071ea5075d?wid=488&hei=488&fmt=pjpeg",
@@ -3642,7 +3685,7 @@ namespace API.Migrations
                         },
                         new
                         {
-                            FlashcardID = new Guid("b260c032-16e6-459a-8d6e-a80465e284f8"),
+                            FlashcardId = new Guid("b260c032-16e6-459a-8d6e-a80465e284f8"),
                             Answer = "",
                             BackContentLayout = 2,
                             Content1 = "Dolore quis Lorem laborum ullamco velit deserunt nostrud pariatur. Veniam ipsum consectetur aute id voluptate adipisicing amet est. Voluptate culpa non voluptate mollit ut duis culpa. Dolore velit labore et non adipisicing veniam nisi et consequat ea magna sit sunt enim consequat.",
@@ -3660,7 +3703,7 @@ namespace API.Migrations
                         },
                         new
                         {
-                            FlashcardID = new Guid("5725228f-18bc-4b4e-b907-67008d2a40cd"),
+                            FlashcardId = new Guid("5725228f-18bc-4b4e-b907-67008d2a40cd"),
                             Answer = "",
                             BackContentLayout = 4,
                             Content1 = "Magna deserunt sunt sint dolor et deserunt eu pariatur aliquip laboris velit ex esse duis occaecat. Aliquip dolor sunt exercitation in ex ad cupidatat velit qui do qui ipsum eiusmod labore laboris. Mollit sit officia tempor officia sint eu duis. Aliquip sunt et consequat consequat incididunt tempor proident cupidatat culpa sint in anim. Sint ex in tempor sit ea dolor do ipsum.",
@@ -3678,7 +3721,7 @@ namespace API.Migrations
                         },
                         new
                         {
-                            FlashcardID = new Guid("49665b4e-25fa-404a-886c-8d1c31ff4c36"),
+                            FlashcardId = new Guid("49665b4e-25fa-404a-886c-8d1c31ff4c36"),
                             Answer = "vecchia signora",
                             BackContentLayout = 3,
                             Content1 = "https://audio12.forvo.com/audios/mp3/u/n/un_9523171_118_7665857.mp3",
@@ -3696,7 +3739,7 @@ namespace API.Migrations
                         },
                         new
                         {
-                            FlashcardID = new Guid("0da23370-6f63-44eb-95ac-eb79bb9e09b6"),
+                            FlashcardId = new Guid("0da23370-6f63-44eb-95ac-eb79bb9e09b6"),
                             Answer = "",
                             BackContentLayout = 2,
                             Content1 = "Proident irure est voluptate et tempor Lorem reprehenderit aliquip commodo eu do. Nulla sit deserunt pariatur. Minim aute laborum eiusmod quis. Commodo laboris quis magna veniam qui tempor et in anim qui officia eiusmod consequat anim. Enim ex incididunt deserunt esse non ut sint tempor consequat excepteur minim aute eiusmod amet adipisicing. Veniam velit cupidatat fugiat labore nostrud veniam officia fugiat.",
@@ -3714,7 +3757,7 @@ namespace API.Migrations
                         },
                         new
                         {
-                            FlashcardID = new Guid("0ff49b54-fa5b-49d3-87d0-f88c76e1c74c"),
+                            FlashcardId = new Guid("0ff49b54-fa5b-49d3-87d0-f88c76e1c74c"),
                             Answer = "",
                             BackContentLayout = 3,
                             Content1 = "Incididunt Lorem cillum velit esse. Consequat duis consectetur cillum. Laboris velit veniam amet. Fugiat id et quis excepteur magna aliquip veniam laboris dolore pariatur culpa aliquip ipsum ea cillum. Nisi magna ipsum amet consequat laboris adipisicing labore laborum mollit nisi in sunt.",
@@ -3732,7 +3775,7 @@ namespace API.Migrations
                         },
                         new
                         {
-                            FlashcardID = new Guid("9c4524d9-ac9e-42e2-a46e-183f7bb78404"),
+                            FlashcardId = new Guid("9c4524d9-ac9e-42e2-a46e-183f7bb78404"),
                             Answer = "el pueblo",
                             BackContentLayout = 0,
                             Content1 = "Ad ex dolore ad est. Officia eiusmod eiusmod voluptate mollit commodo aliquip. Aliqua est ex fugiat laboris qui sit proident et cillum. Velit minim cillum et et qui Lorem nulla dolore laborum deserunt commodo incididunt. Irure deserunt minim et minim laboris officia esse nisi exercitation amet irure dolore labore in minim. Fugiat nulla reprehenderit proident elit.",
@@ -3750,7 +3793,7 @@ namespace API.Migrations
                         },
                         new
                         {
-                            FlashcardID = new Guid("26c38526-a229-4d49-be0b-68b8618d4fad"),
+                            FlashcardId = new Guid("26c38526-a229-4d49-be0b-68b8618d4fad"),
                             Answer = "",
                             BackContentLayout = 2,
                             Content1 = "https://audio.oxforddictionaries.com/en/mp3/car_gb_1.mp3",
@@ -3768,7 +3811,7 @@ namespace API.Migrations
                         },
                         new
                         {
-                            FlashcardID = new Guid("99fb1fc1-2b44-4167-aa4e-7002510c097f"),
+                            FlashcardId = new Guid("99fb1fc1-2b44-4167-aa4e-7002510c097f"),
                             Answer = "¿Cómo está señor?",
                             BackContentLayout = 0,
                             Content1 = "https://audio12.forvo.com/audios/mp3/p/v/pv_8979922_49_607322_1.mp3",
@@ -3786,7 +3829,7 @@ namespace API.Migrations
                         },
                         new
                         {
-                            FlashcardID = new Guid("ed259d09-ec28-41ce-9d67-9f1c199b7b7c"),
+                            FlashcardId = new Guid("ed259d09-ec28-41ce-9d67-9f1c199b7b7c"),
                             Answer = "ni hao",
                             BackContentLayout = 0,
                             Content1 = "Id ad anim aliquip mollit ullamco minim velit nisi sint sunt minim magna. Fugiat culpa enim aute Lorem consectetur anim et exercitation pariatur veniam velit incididunt laboris ipsum. Non ad mollit ex minim consectetur. Occaecat cillum ex ullamco voluptate eu commodo. Minim tempor quis cillum irure non. Nostrud occaecat velit consectetur consequat labore sit elit quis irure cupidatat fugiat adipisicing laboris pariatur.",
@@ -3804,7 +3847,7 @@ namespace API.Migrations
                         },
                         new
                         {
-                            FlashcardID = new Guid("c05aeb8b-c88a-4cbd-8315-6ea69700bd0a"),
+                            FlashcardId = new Guid("c05aeb8b-c88a-4cbd-8315-6ea69700bd0a"),
                             Answer = "",
                             BackContentLayout = 4,
                             Content1 = "<p><b>love</b></p><p>Category: Noun</p><p>Spelling: ləv</p><p>Definitions:</p><ul><li>an intense feeling of deep affection</li><li>a great interest and pleasure in something</li><li>a person or thing that one loves</li><li>(in tennis, squash, and some other sports) a score of zero; nil</li></ul><p>Examples:</p><ul><li>babies fill parents with feelings of love</li><li>their love for their country</li><li>his love for football</li><li>we share a love of music</li><li>she was the love of his life</li><li>their two great loves are tobacco and whiskey</li><li>love fifteen</li><li>he was down two sets to love</li></ul><p>Category: Verb</p><p>Spelling: ləv</p><p>Definitions:</p><ul><li>feel deep affection for (someone)</li><li>like or enjoy very much</li></ul><p>Examples:</p><ul><li>he loved his sister dearly</li><li>there were four memorial pages set up by her friends in honor of Phoebe, saying how much they loved and missed her</li><li>I just love dancing</li><li>I'd love a cup of tea</li><li>I love this job</li><li>they love to play golf</li></ul>",
@@ -3822,7 +3865,7 @@ namespace API.Migrations
                         },
                         new
                         {
-                            FlashcardID = new Guid("d7cfe291-3a37-4533-b91c-173f5a8f1d16"),
+                            FlashcardId = new Guid("d7cfe291-3a37-4533-b91c-173f5a8f1d16"),
                             Answer = "",
                             BackContentLayout = 4,
                             Content1 = "Nostrud occaecat aliqua sit. Duis mollit in non anim culpa dolor exercitation ex et aliqua occaecat non. Pariatur excepteur eiusmod veniam cillum eiusmod sunt pariatur velit officia eu fugiat adipisicing. Aliqua sint deserunt ullamco Lorem aliquip velit.",
@@ -3840,7 +3883,7 @@ namespace API.Migrations
                         },
                         new
                         {
-                            FlashcardID = new Guid("a3d528d9-135c-4264-83ce-54b94106a965"),
+                            FlashcardId = new Guid("a3d528d9-135c-4264-83ce-54b94106a965"),
                             Answer = "",
                             BackContentLayout = 3,
                             Content1 = "Reprehenderit elit nisi reprehenderit deserunt cillum est elit aute et qui do. Nostrud incididunt deserunt officia ea nulla veniam mollit laboris exercitation ullamco culpa sunt ea. Voluptate sint ad quis. Tempor est quis ullamco proident magna nisi cupidatat anim et pariatur duis amet in ipsum enim. Aute Lorem officia dolor dolore culpa sit sit consequat dolor sunt reprehenderit sit est. Reprehenderit deserunt nostrud anim deserunt. Consequat reprehenderit eiusmod occaecat amet ex.",
@@ -3858,7 +3901,7 @@ namespace API.Migrations
                         },
                         new
                         {
-                            FlashcardID = new Guid("1ff9176d-8e2f-420e-a2ed-df860ef7ab9f"),
+                            FlashcardId = new Guid("1ff9176d-8e2f-420e-a2ed-df860ef7ab9f"),
                             Answer = "¿Cómo está señor?",
                             BackContentLayout = 2,
                             Content1 = "<p><b>car</b></p><p>Category: Noun</p><p>Spelling: kɑː</p><p>Definitions:</p><ul><li>a four-wheeled road vehicle that is powered by an engine and is able to carry a small number of people</li></ul><p>Examples:</p><ul><li>she drove up in a car</li><li>we're going by car</li></ul>",
@@ -3876,7 +3919,7 @@ namespace API.Migrations
                         },
                         new
                         {
-                            FlashcardID = new Guid("bb1052e0-c34f-47ed-888d-93c5a0933571"),
+                            FlashcardId = new Guid("bb1052e0-c34f-47ed-888d-93c5a0933571"),
                             Answer = "",
                             BackContentLayout = 3,
                             Content1 = "https://audio12.forvo.com/audios/mp3/l/i/li_9002112_133_543430_266179.mp3",
@@ -3894,7 +3937,7 @@ namespace API.Migrations
                         },
                         new
                         {
-                            FlashcardID = new Guid("e9b5f906-14f7-4b97-b62a-28d25dcda3fe"),
+                            FlashcardId = new Guid("e9b5f906-14f7-4b97-b62a-28d25dcda3fe"),
                             Answer = "thing",
                             BackContentLayout = 2,
                             Content1 = "<p><b>love</b></p><p>Category: Noun</p><p>Spelling: ləv</p><p>Definitions:</p><ul><li>an intense feeling of deep affection</li><li>a great interest and pleasure in something</li><li>a person or thing that one loves</li><li>(in tennis, squash, and some other sports) a score of zero; nil</li></ul><p>Examples:</p><ul><li>babies fill parents with feelings of love</li><li>their love for their country</li><li>his love for football</li><li>we share a love of music</li><li>she was the love of his life</li><li>their two great loves are tobacco and whiskey</li><li>love fifteen</li><li>he was down two sets to love</li></ul><p>Category: Verb</p><p>Spelling: ləv</p><p>Definitions:</p><ul><li>feel deep affection for (someone)</li><li>like or enjoy very much</li></ul><p>Examples:</p><ul><li>he loved his sister dearly</li><li>there were four memorial pages set up by her friends in honor of Phoebe, saying how much they loved and missed her</li><li>I just love dancing</li><li>I'd love a cup of tea</li><li>I love this job</li><li>they love to play golf</li></ul>",
@@ -3912,7 +3955,7 @@ namespace API.Migrations
                         },
                         new
                         {
-                            FlashcardID = new Guid("b04573e0-a2b0-4306-a252-15e5ff0dd8a9"),
+                            FlashcardId = new Guid("b04573e0-a2b0-4306-a252-15e5ff0dd8a9"),
                             Answer = "Tarte",
                             BackContentLayout = 3,
                             Content1 = "Velit eu do consectetur. Cupidatat ad et cupidatat qui excepteur est ullamco anim dolor amet laboris velit magna. Aliqua proident cillum proident sunt. Quis laboris amet esse tempor labore deserunt magna exercitation cupidatat fugiat id.",
@@ -3930,7 +3973,7 @@ namespace API.Migrations
                         },
                         new
                         {
-                            FlashcardID = new Guid("998ae133-2974-4f83-834d-76472b4b5b31"),
+                            FlashcardId = new Guid("998ae133-2974-4f83-834d-76472b4b5b31"),
                             Answer = "",
                             BackContentLayout = 0,
                             Content1 = "https://audio.oxforddictionaries.com/en/mp3/car_gb_1.mp3",
@@ -3948,7 +3991,7 @@ namespace API.Migrations
                         },
                         new
                         {
-                            FlashcardID = new Guid("2c577687-0531-45c6-9330-65256d6fb776"),
+                            FlashcardId = new Guid("2c577687-0531-45c6-9330-65256d6fb776"),
                             Answer = "",
                             BackContentLayout = 4,
                             Content1 = "Minim fugiat in in exercitation esse culpa quis. Aute exercitation quis velit ullamco velit. Sint esse est proident. Aliqua dolore incididunt minim cupidatat excepteur ea est duis qui deserunt. Qui nulla veniam id pariatur irure amet ullamco dolor anim magna eu ut sint.",
@@ -3966,7 +4009,7 @@ namespace API.Migrations
                         },
                         new
                         {
-                            FlashcardID = new Guid("73d4c371-1773-4f2c-9b89-89a71b2cc2b9"),
+                            FlashcardId = new Guid("73d4c371-1773-4f2c-9b89-89a71b2cc2b9"),
                             Answer = "",
                             BackContentLayout = 1,
                             Content1 = "Reprehenderit ut officia nulla esse quis nisi. Ea officia ut enim dolore pariatur mollit consectetur nostrud sint dolore. Adipisicing tempor sint officia ut consequat ullamco Lorem sit duis non nostrud sunt nisi eu cillum. Occaecat elit ipsum aliquip voluptate veniam culpa sint adipisicing commodo. Incididunt laborum duis proident officia eu aliquip proident aute Lorem consequat eiusmod culpa duis quis aute. Veniam consequat ea id excepteur sint quis excepteur consequat velit laborum eu aliqua occaecat consequat adipisicing.",
@@ -3984,7 +4027,7 @@ namespace API.Migrations
                         },
                         new
                         {
-                            FlashcardID = new Guid("c04ee9b2-ea91-4d87-a300-410a995958db"),
+                            FlashcardId = new Guid("c04ee9b2-ea91-4d87-a300-410a995958db"),
                             Answer = "kirche",
                             BackContentLayout = 0,
                             Content1 = "<p><b>calcio</b></p><p>Category: noun</p><p>Spelling: ˈkaltʃo</p><p>Definitions:</p><ul><li>impugnatura della pistola</li><li>parte del fucile che si appoggia alla spalla</li></ul><p>Examples:</p><ul><li>carabina con calcio in legno</li><li>L'aggressore lo colpì con il calcio della pistola.</li></ul><p>Category: noun</p><p>Spelling: ˈkaltʃo</p><p>Definitions:</p><ul><li>colpo dato con il piede</li><li>colpo dato con la zampa da animali forniti di zoccoli</li><li>il gioco del pallone</li><li>tiro effettuato colpendo col piede il pallone</li></ul><p>Examples:</p><ul><li>dare un calcio</li><li>prendere a calci</li><li>Il mulo tira calci se infastidito.</li><li>una partita di calcio</li><li>la nazionale di calcio</li><li>calcio d'angolo</li><li>calcio di punizione</li></ul><p>Category: noun</p><p>Spelling: ˈkaltʃo</p><p>Definitions:</p><ul><li>elemento chimico di colore bianco</li></ul><p>Examples:</p><ul><li>Il latte è ricco di calcio.</li></ul>",
@@ -4002,7 +4045,7 @@ namespace API.Migrations
                         },
                         new
                         {
-                            FlashcardID = new Guid("090cda1f-663a-48ab-9d02-db4f35c71169"),
+                            FlashcardId = new Guid("090cda1f-663a-48ab-9d02-db4f35c71169"),
                             Answer = "¿Cómo está señor?",
                             BackContentLayout = 1,
                             Content1 = "Ea nisi in consectetur dolor non sunt. Sit ipsum nisi magna aliqua officia aliqua irure culpa adipisicing qui. Eiusmod aliquip ipsum elit. Aute sit nulla nostrud dolor. Laborum labore non cillum magna est nisi nostrud qui quis aliqua nisi commodo ipsum.",
@@ -4020,7 +4063,7 @@ namespace API.Migrations
                         },
                         new
                         {
-                            FlashcardID = new Guid("06b65aa1-71b4-49e8-8cb0-51fc40ec4e0f"),
+                            FlashcardId = new Guid("06b65aa1-71b4-49e8-8cb0-51fc40ec4e0f"),
                             Answer = "¿Cómo está señor?",
                             BackContentLayout = 2,
                             Content1 = "https://audio12.forvo.com/audios/mp3/6/o/6o_9014612_41_617305_1.mp3",
@@ -4038,7 +4081,7 @@ namespace API.Migrations
                         },
                         new
                         {
-                            FlashcardID = new Guid("09a3b7b0-860f-468e-ab08-728efdb41496"),
+                            FlashcardId = new Guid("09a3b7b0-860f-468e-ab08-728efdb41496"),
                             Answer = "Restaurant",
                             BackContentLayout = 4,
                             Content1 = "Tempor non minim ut occaecat tempor aute. Nostrud dolor voluptate sit occaecat adipisicing adipisicing eiusmod est velit elit Lorem enim. Aute id tempor ipsum nostrud anim Lorem occaecat magna magna nostrud commodo. Nulla nostrud minim elit amet ut cupidatat incididunt incididunt Lorem fugiat officia nulla commodo est quis. Dolore id Lorem cupidatat proident minim cupidatat magna nostrud sit laborum sunt voluptate.",
@@ -4056,7 +4099,7 @@ namespace API.Migrations
                         },
                         new
                         {
-                            FlashcardID = new Guid("7042ef04-21ca-47d4-ad52-5cdd4f445907"),
+                            FlashcardId = new Guid("7042ef04-21ca-47d4-ad52-5cdd4f445907"),
                             Answer = "",
                             BackContentLayout = 4,
                             Content1 = "https://audio12.forvo.com/audios/mp3/l/i/li_9002112_133_543430_266179.mp3",
@@ -4074,7 +4117,7 @@ namespace API.Migrations
                         },
                         new
                         {
-                            FlashcardID = new Guid("ffa51117-5e97-43e5-b499-b14750295dc8"),
+                            FlashcardId = new Guid("ffa51117-5e97-43e5-b499-b14750295dc8"),
                             Answer = "",
                             BackContentLayout = 3,
                             Content1 = "Culpa consequat deserunt non labore Lorem velit occaecat tempor proident ex veniam laborum deserunt commodo. Enim pariatur aliqua et occaecat veniam excepteur est do fugiat cupidatat fugiat eiusmod. Ut deserunt veniam mollit laboris commodo occaecat aliquip ut excepteur fugiat exercitation labore commodo. Eiusmod exercitation non deserunt cillum reprehenderit aute deserunt voluptate in fugiat cupidatat velit ipsum eiusmod.",
@@ -4092,7 +4135,7 @@ namespace API.Migrations
                         },
                         new
                         {
-                            FlashcardID = new Guid("7d27204c-1788-40ec-9f29-933adcc16bc4"),
+                            FlashcardId = new Guid("7d27204c-1788-40ec-9f29-933adcc16bc4"),
                             Answer = "",
                             BackContentLayout = 1,
                             Content1 = "Exercitation tempor aliqua Lorem ullamco. Id sint qui mollit aliquip non tempor do adipisicing deserunt laboris aliquip laborum ullamco mollit labore. Sit deserunt consectetur minim nisi excepteur consectetur labore officia velit do labore commodo irure ut. Veniam aliquip cillum mollit nisi excepteur aute sit qui excepteur adipisicing nostrud enim sit est. Commodo labore fugiat mollit id.",
@@ -4110,7 +4153,7 @@ namespace API.Migrations
                         },
                         new
                         {
-                            FlashcardID = new Guid("45c808e2-1a16-4ca5-bae6-76f07b9edc07"),
+                            FlashcardId = new Guid("45c808e2-1a16-4ca5-bae6-76f07b9edc07"),
                             Answer = "Tarte",
                             BackContentLayout = 1,
                             Content1 = "https://m.media-amazon.com/images/I/81rz6kuxieL._AC_SL1500_.jpg",
@@ -4128,7 +4171,7 @@ namespace API.Migrations
                         },
                         new
                         {
-                            FlashcardID = new Guid("26d924b3-d7f0-4d79-b8f6-55485516240b"),
+                            FlashcardId = new Guid("26d924b3-d7f0-4d79-b8f6-55485516240b"),
                             Answer = "",
                             BackContentLayout = 4,
                             Content1 = "https://audio12.forvo.com/audios/mp3/6/o/6o_9014612_41_617305_1.mp3",
@@ -4146,7 +4189,7 @@ namespace API.Migrations
                         },
                         new
                         {
-                            FlashcardID = new Guid("6acfc0ca-9e1e-4f89-8200-e677b46898d1"),
+                            FlashcardId = new Guid("6acfc0ca-9e1e-4f89-8200-e677b46898d1"),
                             Answer = "",
                             BackContentLayout = 3,
                             Content1 = "Nostrud nisi ut amet sint veniam eiusmod culpa. Dolor amet id est dolor quis duis. Laborum cupidatat enim laborum Lorem voluptate mollit aliquip. Id officia irure adipisicing proident eu velit eiusmod. Et adipisicing amet in amet incididunt velit incididunt officia sunt Lorem minim tempor. Velit laboris tempor exercitation exercitation ad eu deserunt sunt Lorem sunt non sunt. Proident commodo enim deserunt labore fugiat occaecat ullamco laboris exercitation et consectetur adipisicing sint laboris in. Dolor eu sunt veniam consequat esse.",
@@ -4164,7 +4207,7 @@ namespace API.Migrations
                         },
                         new
                         {
-                            FlashcardID = new Guid("39ee5204-7041-4e92-869a-694a8b6c35a8"),
+                            FlashcardId = new Guid("39ee5204-7041-4e92-869a-694a8b6c35a8"),
                             Answer = "¿Cómo está señor?",
                             BackContentLayout = 4,
                             Content1 = "https://target.scene7.com/is/image/Target/GUEST_d29e72d0-b1cd-4cfd-8c8b-f2a200fd7193?wid=488&hei=488&fmt=pjpeg",
@@ -4182,7 +4225,7 @@ namespace API.Migrations
                         },
                         new
                         {
-                            FlashcardID = new Guid("600b96a3-2713-4215-844c-02614f678b6a"),
+                            FlashcardId = new Guid("600b96a3-2713-4215-844c-02614f678b6a"),
                             Answer = "kirche",
                             BackContentLayout = 4,
                             Content1 = "Amet magna ullamco enim nostrud ut culpa labore. Laborum culpa anim sit nulla deserunt pariatur. Cupidatat nisi eu reprehenderit in in ad pariatur tempor adipisicing. Ipsum commodo pariatur culpa ad tempor nisi laborum do laboris. Mollit sint ullamco sunt sunt commodo nisi irure tempor veniam.",
@@ -4200,7 +4243,7 @@ namespace API.Migrations
                         },
                         new
                         {
-                            FlashcardID = new Guid("0880ea0d-d8eb-4a90-884b-6ebe4a6f0c35"),
+                            FlashcardId = new Guid("0880ea0d-d8eb-4a90-884b-6ebe4a6f0c35"),
                             Answer = "nuage",
                             BackContentLayout = 4,
                             Content1 = "Ex elit amet aliqua culpa proident quis excepteur fugiat esse esse do. Labore proident esse sint id cupidatat elit ullamco amet aute do aliqua aute cupidatat tempor qui. Minim sunt mollit cillum exercitation cupidatat nostrud ut irure et minim. Pariatur elit et adipisicing. Anim reprehenderit duis veniam cupidatat deserunt cillum sunt voluptate cillum labore nisi excepteur irure ex minim. Do ad quis anim dolor. Aliquip deserunt officia nostrud in cupidatat non cupidatat cupidatat. Sint officia non ipsum anim id amet adipisicing duis in.",
@@ -4218,7 +4261,7 @@ namespace API.Migrations
                         },
                         new
                         {
-                            FlashcardID = new Guid("a55986ca-4657-4dac-8c2f-770409ba6377"),
+                            FlashcardId = new Guid("a55986ca-4657-4dac-8c2f-770409ba6377"),
                             Answer = "macchina",
                             BackContentLayout = 3,
                             Content1 = "https://audio12.forvo.com/audios/mp3/u/n/un_9523171_118_7665857.mp3",
@@ -4236,7 +4279,7 @@ namespace API.Migrations
                         },
                         new
                         {
-                            FlashcardID = new Guid("25dd6c8f-2424-4f74-acc4-125e3f7b28ea"),
+                            FlashcardId = new Guid("25dd6c8f-2424-4f74-acc4-125e3f7b28ea"),
                             Answer = "",
                             BackContentLayout = 0,
                             Content1 = "Ea fugiat enim adipisicing cupidatat consectetur aliqua eiusmod voluptate laborum. Cillum ad nulla occaecat consequat duis consequat. Est consectetur reprehenderit laboris sint aliqua consequat ea anim cillum non amet elit sunt quis. Aliquip laboris exercitation adipisicing enim Lorem magna eiusmod non nostrud non commodo aute. Magna dolore fugiat velit sint eiusmod eiusmod voluptate irure sunt adipisicing et irure Lorem. Eu minim ullamco nostrud aliquip mollit.",
@@ -4254,7 +4297,7 @@ namespace API.Migrations
                         },
                         new
                         {
-                            FlashcardID = new Guid("1303655a-31e3-4478-93ac-28ae38548e2d"),
+                            FlashcardId = new Guid("1303655a-31e3-4478-93ac-28ae38548e2d"),
                             Answer = "",
                             BackContentLayout = 0,
                             Content1 = "Dolore nisi pariatur duis. Velit pariatur nulla quis esse. Exercitation esse tempor nisi consequat pariatur culpa fugiat non incididunt duis esse nisi nulla. Ullamco ex id amet id fugiat cillum occaecat laborum aliquip fugiat Lorem sunt veniam.",
@@ -4272,7 +4315,7 @@ namespace API.Migrations
                         },
                         new
                         {
-                            FlashcardID = new Guid("fc15c160-a480-430e-a655-5d6a81a78b6c"),
+                            FlashcardId = new Guid("fc15c160-a480-430e-a655-5d6a81a78b6c"),
                             Answer = "",
                             BackContentLayout = 2,
                             Content1 = "Minim eiusmod sint incididunt voluptate in. Laborum enim minim magna cillum reprehenderit sit culpa minim culpa dolore. Ullamco et magna eu dolore voluptate tempor voluptate ad sit. Esse commodo commodo incididunt adipisicing elit nisi aliqua nostrud. Ullamco laborum cillum nostrud eu aliqua elit enim aliqua nostrud laboris tempor exercitation. Labore pariatur sint esse. Consequat Lorem culpa consequat ut consequat exercitation id in tempor id.",
@@ -4290,7 +4333,7 @@ namespace API.Migrations
                         },
                         new
                         {
-                            FlashcardID = new Guid("e1cc6a54-dc03-4f48-ac10-4cb2233f0c2e"),
+                            FlashcardId = new Guid("e1cc6a54-dc03-4f48-ac10-4cb2233f0c2e"),
                             Answer = "Restaurant",
                             BackContentLayout = 0,
                             Content1 = "Incididunt excepteur et voluptate excepteur dolore ad esse laboris pariatur. Do esse aliqua pariatur incididunt consequat sunt voluptate dolor exercitation esse est amet aliqua. Eu adipisicing ipsum cillum minim commodo amet non in officia Lorem ea deserunt culpa ad. Laboris excepteur ut velit irure sunt irure enim. Fugiat commodo culpa enim ut aliquip proident occaecat qui pariatur consequat. Officia eiusmod est deserunt. Anim magna occaecat ex sint est Lorem cillum amet laboris veniam. Consequat velit ad eiusmod Lorem sunt nulla sunt.",
@@ -4308,7 +4351,7 @@ namespace API.Migrations
                         },
                         new
                         {
-                            FlashcardID = new Guid("deff2237-6e36-49e3-bb75-0bc0790dc178"),
+                            FlashcardId = new Guid("deff2237-6e36-49e3-bb75-0bc0790dc178"),
                             Answer = "el pueblo",
                             BackContentLayout = 0,
                             Content1 = "Dolore mollit nulla duis eiusmod veniam est veniam do officia minim dolore reprehenderit sunt. Mollit ex deserunt dolor fugiat nisi. Ut voluptate reprehenderit nisi ut sunt sunt quis sunt incididunt sunt cupidatat proident. Ullamco nisi pariatur pariatur. Sit Lorem Lorem aliquip.",
@@ -4326,7 +4369,7 @@ namespace API.Migrations
                         },
                         new
                         {
-                            FlashcardID = new Guid("9d9cdad3-53d5-4cc6-b4b3-2f584ba4fdf8"),
+                            FlashcardId = new Guid("9d9cdad3-53d5-4cc6-b4b3-2f584ba4fdf8"),
                             Answer = "mel",
                             BackContentLayout = 3,
                             Content1 = "Excepteur veniam reprehenderit aliqua tempor et magna occaecat ullamco culpa ex tempor laboris. Nulla laboris duis voluptate aliquip esse. Fugiat amet eu laborum cupidatat sunt dolor laboris in est exercitation nulla nostrud labore amet. Sint culpa adipisicing qui veniam veniam ullamco sint pariatur irure non.",
@@ -4344,7 +4387,7 @@ namespace API.Migrations
                         },
                         new
                         {
-                            FlashcardID = new Guid("29b7c0d4-47fd-483f-b271-e518411a7d6b"),
+                            FlashcardId = new Guid("29b7c0d4-47fd-483f-b271-e518411a7d6b"),
                             Answer = "Gelsenkirchen",
                             BackContentLayout = 2,
                             Content1 = "https://target.scene7.com/is/image/Target/GUEST_b3e2da64-ad54-48b5-9dc7-50071ea5075d?wid=488&hei=488&fmt=pjpeg",
@@ -4362,7 +4405,7 @@ namespace API.Migrations
                         },
                         new
                         {
-                            FlashcardID = new Guid("83895ed3-a526-4d0c-a30f-0cba32760579"),
+                            FlashcardId = new Guid("83895ed3-a526-4d0c-a30f-0cba32760579"),
                             Answer = "macchina",
                             BackContentLayout = 0,
                             Content1 = "https://pisces.bbystatic.com/image2/BestBuy_US/images/products/6440/6440961_sd.jpg",
@@ -4380,7 +4423,7 @@ namespace API.Migrations
                         },
                         new
                         {
-                            FlashcardID = new Guid("6f788fb5-34e4-4593-8d92-67d322269f06"),
+                            FlashcardId = new Guid("6f788fb5-34e4-4593-8d92-67d322269f06"),
                             Answer = "kirche",
                             BackContentLayout = 3,
                             Content1 = "https://audio.oxforddictionaries.com/en/mp3/car_gb_1.mp3",
@@ -4398,7 +4441,7 @@ namespace API.Migrations
                         },
                         new
                         {
-                            FlashcardID = new Guid("80290e6c-4d0c-48cc-a37b-177627b8fd86"),
+                            FlashcardId = new Guid("80290e6c-4d0c-48cc-a37b-177627b8fd86"),
                             Answer = "thing",
                             BackContentLayout = 1,
                             Content1 = "https://target.scene7.com/is/image/Target/GUEST_d29e72d0-b1cd-4cfd-8c8b-f2a200fd7193?wid=488&hei=488&fmt=pjpeg",
@@ -4416,7 +4459,7 @@ namespace API.Migrations
                         },
                         new
                         {
-                            FlashcardID = new Guid("2ed09231-95b2-4bb0-b2ad-7c22a2eb698e"),
+                            FlashcardId = new Guid("2ed09231-95b2-4bb0-b2ad-7c22a2eb698e"),
                             Answer = "",
                             BackContentLayout = 4,
                             Content1 = "Adipisicing reprehenderit adipisicing ad elit duis pariatur qui aliquip proident. Id reprehenderit aute tempor consectetur. Excepteur mollit officia nulla id minim aliquip est eu laboris velit labore adipisicing eiusmod. Do veniam ad eu. Laboris dolor officia in aute magna deserunt enim eiusmod minim esse in ut.",
@@ -4434,7 +4477,7 @@ namespace API.Migrations
                         },
                         new
                         {
-                            FlashcardID = new Guid("9718e72d-a88d-4bd3-8d15-a5919edbf26e"),
+                            FlashcardId = new Guid("9718e72d-a88d-4bd3-8d15-a5919edbf26e"),
                             Answer = "onda",
                             BackContentLayout = 0,
                             Content1 = "Et eu incididunt adipisicing non ipsum culpa ea cupidatat nulla consequat magna amet non proident duis. Adipisicing aute pariatur laborum non ipsum ad duis eiusmod sint minim. Duis veniam qui eiusmod aute sit dolore ea. Laboris magna qui est occaecat anim. Nisi eu sunt enim esse aliqua ipsum velit qui aute proident. Proident deserunt ullamco ex eiusmod.",
@@ -4452,7 +4495,7 @@ namespace API.Migrations
                         },
                         new
                         {
-                            FlashcardID = new Guid("f5ec8345-fb4b-4a59-961c-eb47c321ceff"),
+                            FlashcardId = new Guid("f5ec8345-fb4b-4a59-961c-eb47c321ceff"),
                             Answer = "onda",
                             BackContentLayout = 4,
                             Content1 = "Elit eu exercitation cupidatat quis nostrud magna sit magna. Reprehenderit fugiat est do ex ullamco do mollit reprehenderit dolore qui laboris. Qui voluptate Lorem dolor irure sit ex nisi. Aute anim duis consequat irure incididunt Lorem et nisi elit eu ex cupidatat ut ipsum. Ut voluptate velit ipsum aute id ea esse pariatur commodo eiusmod in ullamco do laboris. Amet est et ex.",
@@ -4470,7 +4513,7 @@ namespace API.Migrations
                         },
                         new
                         {
-                            FlashcardID = new Guid("013d1ca8-bba1-4738-90c5-0d0a977fe5f7"),
+                            FlashcardId = new Guid("013d1ca8-bba1-4738-90c5-0d0a977fe5f7"),
                             Answer = "",
                             BackContentLayout = 2,
                             Content1 = "<p><b>calcio</b></p><p>Category: noun</p><p>Spelling: ˈkaltʃo</p><p>Definitions:</p><ul><li>impugnatura della pistola</li><li>parte del fucile che si appoggia alla spalla</li></ul><p>Examples:</p><ul><li>carabina con calcio in legno</li><li>L'aggressore lo colpì con il calcio della pistola.</li></ul><p>Category: noun</p><p>Spelling: ˈkaltʃo</p><p>Definitions:</p><ul><li>colpo dato con il piede</li><li>colpo dato con la zampa da animali forniti di zoccoli</li><li>il gioco del pallone</li><li>tiro effettuato colpendo col piede il pallone</li></ul><p>Examples:</p><ul><li>dare un calcio</li><li>prendere a calci</li><li>Il mulo tira calci se infastidito.</li><li>una partita di calcio</li><li>la nazionale di calcio</li><li>calcio d'angolo</li><li>calcio di punizione</li></ul><p>Category: noun</p><p>Spelling: ˈkaltʃo</p><p>Definitions:</p><ul><li>elemento chimico di colore bianco</li></ul><p>Examples:</p><ul><li>Il latte è ricco di calcio.</li></ul>",
@@ -4488,7 +4531,7 @@ namespace API.Migrations
                         },
                         new
                         {
-                            FlashcardID = new Guid("e682844b-23ce-44fb-9063-972a92c3e792"),
+                            FlashcardId = new Guid("e682844b-23ce-44fb-9063-972a92c3e792"),
                             Answer = "¿Cómo está señor?",
                             BackContentLayout = 3,
                             Content1 = "Labore sit ad laborum ipsum amet voluptate reprehenderit ex non eiusmod deserunt exercitation. Officia et enim ex aute. Cillum voluptate officia ullamco sint anim magna adipisicing. Ipsum amet labore reprehenderit cillum proident tempor in occaecat dolore et sit amet nostrud ut dolore. Do deserunt laborum exercitation enim consequat commodo laboris officia sit proident ullamco esse. Velit sunt quis consequat occaecat proident incididunt deserunt mollit reprehenderit dolore.",
@@ -4506,7 +4549,7 @@ namespace API.Migrations
                         },
                         new
                         {
-                            FlashcardID = new Guid("20deb0e0-f3b3-465c-930f-9e23eef218b4"),
+                            FlashcardId = new Guid("20deb0e0-f3b3-465c-930f-9e23eef218b4"),
                             Answer = "",
                             BackContentLayout = 4,
                             Content1 = "https://pisces.bbystatic.com/image2/BestBuy_US/images/products/6440/6440961_sd.jpg",
@@ -4524,7 +4567,7 @@ namespace API.Migrations
                         },
                         new
                         {
-                            FlashcardID = new Guid("f132c09d-2b83-46b7-bb38-cad5eb53685a"),
+                            FlashcardId = new Guid("f132c09d-2b83-46b7-bb38-cad5eb53685a"),
                             Answer = "",
                             BackContentLayout = 2,
                             Content1 = "Esse non deserunt sit dolore fugiat enim. Quis dolore sunt enim magna nostrud velit fugiat do ex reprehenderit voluptate quis esse irure. Adipisicing eu amet labore eu Lorem laboris commodo dolor. Elit nisi sint commodo aliqua id Lorem laboris. Cupidatat ex officia excepteur duis irure enim reprehenderit enim proident aute. Laboris consectetur deserunt id ipsum ea ea cillum.",
@@ -4542,7 +4585,7 @@ namespace API.Migrations
                         },
                         new
                         {
-                            FlashcardID = new Guid("9dfa6df8-72f3-44b3-83b2-264af4da7964"),
+                            FlashcardId = new Guid("9dfa6df8-72f3-44b3-83b2-264af4da7964"),
                             Answer = "",
                             BackContentLayout = 0,
                             Content1 = "<p><b>calcio</b></p><p>Category: noun</p><p>Spelling: ˈkaltʃo</p><p>Definitions:</p><ul><li>impugnatura della pistola</li><li>parte del fucile che si appoggia alla spalla</li></ul><p>Examples:</p><ul><li>carabina con calcio in legno</li><li>L'aggressore lo colpì con il calcio della pistola.</li></ul><p>Category: noun</p><p>Spelling: ˈkaltʃo</p><p>Definitions:</p><ul><li>colpo dato con il piede</li><li>colpo dato con la zampa da animali forniti di zoccoli</li><li>il gioco del pallone</li><li>tiro effettuato colpendo col piede il pallone</li></ul><p>Examples:</p><ul><li>dare un calcio</li><li>prendere a calci</li><li>Il mulo tira calci se infastidito.</li><li>una partita di calcio</li><li>la nazionale di calcio</li><li>calcio d'angolo</li><li>calcio di punizione</li></ul><p>Category: noun</p><p>Spelling: ˈkaltʃo</p><p>Definitions:</p><ul><li>elemento chimico di colore bianco</li></ul><p>Examples:</p><ul><li>Il latte è ricco di calcio.</li></ul>",
@@ -4560,7 +4603,7 @@ namespace API.Migrations
                         },
                         new
                         {
-                            FlashcardID = new Guid("793c74f4-2c67-4e5c-ac72-34b918c3f309"),
+                            FlashcardId = new Guid("793c74f4-2c67-4e5c-ac72-34b918c3f309"),
                             Answer = "Gelsenkirchen",
                             BackContentLayout = 2,
                             Content1 = "Excepteur adipisicing velit eiusmod. Ipsum dolore pariatur amet non enim do occaecat quis dolor in adipisicing consequat dolor ullamco aliquip. Exercitation dolore ad elit ut ut laboris et sunt. Ipsum sint cupidatat amet consectetur fugiat cupidatat sit do irure exercitation magna aute culpa culpa. Aute deserunt ullamco dolor sit exercitation esse.",
@@ -4578,7 +4621,7 @@ namespace API.Migrations
                         },
                         new
                         {
-                            FlashcardID = new Guid("17f016d0-aba3-4e3c-9395-4e472e893f83"),
+                            FlashcardId = new Guid("17f016d0-aba3-4e3c-9395-4e472e893f83"),
                             Answer = "",
                             BackContentLayout = 0,
                             Content1 = "<p><b>car</b></p><p>Category: Noun</p><p>Spelling: kɑː</p><p>Definitions:</p><ul><li>a four-wheeled road vehicle that is powered by an engine and is able to carry a small number of people</li></ul><p>Examples:</p><ul><li>she drove up in a car</li><li>we're going by car</li></ul>",
@@ -4596,7 +4639,7 @@ namespace API.Migrations
                         },
                         new
                         {
-                            FlashcardID = new Guid("6eb0a590-de59-46e8-bfae-287aac2068c0"),
+                            FlashcardId = new Guid("6eb0a590-de59-46e8-bfae-287aac2068c0"),
                             Answer = "ni hao",
                             BackContentLayout = 0,
                             Content1 = "https://audio12.forvo.com/audios/mp3/4/r/4r_20_74_136_1.mp3",
@@ -4614,7 +4657,7 @@ namespace API.Migrations
                         },
                         new
                         {
-                            FlashcardID = new Guid("2ab8a71b-aa70-4410-9b79-51f2ad857d58"),
+                            FlashcardId = new Guid("2ab8a71b-aa70-4410-9b79-51f2ad857d58"),
                             Answer = "kirche",
                             BackContentLayout = 4,
                             Content1 = "Ullamco velit consectetur aute sint ullamco commodo non officia ex aliqua consectetur exercitation. Ad do eu voluptate labore excepteur proident consectetur aute ex dolore veniam. Consequat nisi id consequat officia. Adipisicing in occaecat aute. Non amet aute ad elit eu. Incididunt do ea incididunt dolor ut est fugiat in pariatur. Proident incididunt Lorem aliqua excepteur consequat ullamco quis ea sint minim dolor nostrud reprehenderit. Lorem nostrud id minim.",
@@ -4632,7 +4675,7 @@ namespace API.Migrations
                         },
                         new
                         {
-                            FlashcardID = new Guid("6936fab9-a217-4ec0-8956-86c855d26bed"),
+                            FlashcardId = new Guid("6936fab9-a217-4ec0-8956-86c855d26bed"),
                             Answer = "Gelsenkirchen",
                             BackContentLayout = 4,
                             Content1 = "<p><b>calcio</b></p><p>Category: noun</p><p>Spelling: ˈkaltʃo</p><p>Definitions:</p><ul><li>impugnatura della pistola</li><li>parte del fucile che si appoggia alla spalla</li></ul><p>Examples:</p><ul><li>carabina con calcio in legno</li><li>L'aggressore lo colpì con il calcio della pistola.</li></ul><p>Category: noun</p><p>Spelling: ˈkaltʃo</p><p>Definitions:</p><ul><li>colpo dato con il piede</li><li>colpo dato con la zampa da animali forniti di zoccoli</li><li>il gioco del pallone</li><li>tiro effettuato colpendo col piede il pallone</li></ul><p>Examples:</p><ul><li>dare un calcio</li><li>prendere a calci</li><li>Il mulo tira calci se infastidito.</li><li>una partita di calcio</li><li>la nazionale di calcio</li><li>calcio d'angolo</li><li>calcio di punizione</li></ul><p>Category: noun</p><p>Spelling: ˈkaltʃo</p><p>Definitions:</p><ul><li>elemento chimico di colore bianco</li></ul><p>Examples:</p><ul><li>Il latte è ricco di calcio.</li></ul>",
@@ -4650,7 +4693,7 @@ namespace API.Migrations
                         },
                         new
                         {
-                            FlashcardID = new Guid("85a22133-c7c0-444a-bfa7-2c41cf2ea16c"),
+                            FlashcardId = new Guid("85a22133-c7c0-444a-bfa7-2c41cf2ea16c"),
                             Answer = "",
                             BackContentLayout = 2,
                             Content1 = "https://audio12.forvo.com/audios/mp3/u/n/un_9523171_118_7665857.mp3",
@@ -4668,7 +4711,7 @@ namespace API.Migrations
                         },
                         new
                         {
-                            FlashcardID = new Guid("e2dead1f-6dec-4c4f-8953-8989c73237f1"),
+                            FlashcardId = new Guid("e2dead1f-6dec-4c4f-8953-8989c73237f1"),
                             Answer = "",
                             BackContentLayout = 1,
                             Content1 = "https://pisces.bbystatic.com/image2/BestBuy_US/images/products/6440/6440961_sd.jpg",
@@ -4686,7 +4729,7 @@ namespace API.Migrations
                         },
                         new
                         {
-                            FlashcardID = new Guid("dc302e15-ff24-4215-9d97-0e764c7d920a"),
+                            FlashcardId = new Guid("dc302e15-ff24-4215-9d97-0e764c7d920a"),
                             Answer = "",
                             BackContentLayout = 0,
                             Content1 = "https://m.media-amazon.com/images/I/81rz6kuxieL._AC_SL1500_.jpg",
@@ -4704,7 +4747,7 @@ namespace API.Migrations
                         },
                         new
                         {
-                            FlashcardID = new Guid("0bd4add5-b425-40eb-8eba-5a18b60b7340"),
+                            FlashcardId = new Guid("0bd4add5-b425-40eb-8eba-5a18b60b7340"),
                             Answer = "thing",
                             BackContentLayout = 4,
                             Content1 = "Cupidatat reprehenderit ipsum laborum cillum id laborum do nostrud culpa pariatur sunt magna eiusmod amet dolor. Incididunt magna et ex sint enim sit aliqua minim laboris sint cupidatat cillum sunt. Laboris aliqua id ut quis velit veniam occaecat minim labore proident non enim pariatur. Incididunt et incididunt nostrud deserunt Lorem veniam eu eu fugiat laborum tempor in non. Minim ea reprehenderit irure et. Labore et nulla tempor pariatur laborum.",
@@ -4722,7 +4765,7 @@ namespace API.Migrations
                         },
                         new
                         {
-                            FlashcardID = new Guid("a2dd1cbb-ed48-4033-ac2d-6aac6f58402a"),
+                            FlashcardId = new Guid("a2dd1cbb-ed48-4033-ac2d-6aac6f58402a"),
                             Answer = "kill",
                             BackContentLayout = 3,
                             Content1 = "https://images.contentstack.io/v3/assets/blt731acb42bb3d1659/blt48f811476e162ed0/620c15764ae5ae6845c6b0c9/LOL_Homepage_Modal_(1680x650)_(1).jpg",
@@ -4740,7 +4783,7 @@ namespace API.Migrations
                         },
                         new
                         {
-                            FlashcardID = new Guid("22e22190-1480-4064-bea3-b7f3f1bf9278"),
+                            FlashcardId = new Guid("22e22190-1480-4064-bea3-b7f3f1bf9278"),
                             Answer = "Tarte",
                             BackContentLayout = 0,
                             Content1 = "https://pisces.bbystatic.com/image2/BestBuy_US/images/products/6463/6463555_sd.jpg",
@@ -4758,7 +4801,7 @@ namespace API.Migrations
                         },
                         new
                         {
-                            FlashcardID = new Guid("b0502058-095b-4b2a-9c85-64ca48c32757"),
+                            FlashcardId = new Guid("b0502058-095b-4b2a-9c85-64ca48c32757"),
                             Answer = "Restaurant",
                             BackContentLayout = 1,
                             Content1 = "Esse exercitation esse duis officia laboris mollit minim excepteur ut sunt laboris elit reprehenderit. Ea dolore ullamco excepteur est labore nulla in exercitation proident culpa Lorem excepteur sunt tempor anim. Ad qui veniam dolor ullamco laborum voluptate mollit fugiat irure ad. Dolore ex tempor laborum irure aute. Cillum commodo esse ipsum exercitation cillum laborum et ullamco consequat cillum Lorem et esse. Magna ex dolore ex sit. Est tempor nisi id dolore sunt et do magna incididunt eiusmod in in. Ea excepteur ullamco eu Lorem quis exercitation esse minim anim cupidatat duis irure Lorem nostrud pariatur.",
@@ -4776,7 +4819,7 @@ namespace API.Migrations
                         },
                         new
                         {
-                            FlashcardID = new Guid("55c3604a-db08-448a-bdfe-f9e689d80eae"),
+                            FlashcardId = new Guid("55c3604a-db08-448a-bdfe-f9e689d80eae"),
                             Answer = "Hi, how are you?",
                             BackContentLayout = 4,
                             Content1 = "https://audio12.forvo.com/audios/mp3/p/v/pv_8979922_49_607322_1.mp3",
@@ -4794,7 +4837,7 @@ namespace API.Migrations
                         },
                         new
                         {
-                            FlashcardID = new Guid("acffe67a-2d9e-4ce2-8b43-56997cb48a87"),
+                            FlashcardId = new Guid("acffe67a-2d9e-4ce2-8b43-56997cb48a87"),
                             Answer = "Restaurant",
                             BackContentLayout = 0,
                             Content1 = "Ea eu tempor labore enim mollit culpa. Incididunt dolore cupidatat culpa esse sit labore incididunt laboris ut sunt qui veniam deserunt enim minim. Laborum ullamco eu dolore reprehenderit ullamco sint mollit esse eiusmod cupidatat non ullamco officia labore exercitation. Commodo duis reprehenderit culpa magna esse occaecat sunt consectetur.",
@@ -4812,7 +4855,7 @@ namespace API.Migrations
                         },
                         new
                         {
-                            FlashcardID = new Guid("e59bf59a-19a3-4166-96c7-e25c1a8007e3"),
+                            FlashcardId = new Guid("e59bf59a-19a3-4166-96c7-e25c1a8007e3"),
                             Answer = "",
                             BackContentLayout = 2,
                             Content1 = "https://images.contentstack.io/v3/assets/blt731acb42bb3d1659/blt48f811476e162ed0/620c15764ae5ae6845c6b0c9/LOL_Homepage_Modal_(1680x650)_(1).jpg",
@@ -4830,7 +4873,7 @@ namespace API.Migrations
                         },
                         new
                         {
-                            FlashcardID = new Guid("dfc05871-71be-47d9-81e1-6390ef715edb"),
+                            FlashcardId = new Guid("dfc05871-71be-47d9-81e1-6390ef715edb"),
                             Answer = "el pueblo",
                             BackContentLayout = 1,
                             Content1 = "https://audio12.forvo.com/audios/mp3/4/r/4r_20_74_136_1.mp3",
@@ -4848,7 +4891,7 @@ namespace API.Migrations
                         },
                         new
                         {
-                            FlashcardID = new Guid("cb9f50d6-1c60-47f2-b558-e5bfcaea59ee"),
+                            FlashcardId = new Guid("cb9f50d6-1c60-47f2-b558-e5bfcaea59ee"),
                             Answer = "kirche",
                             BackContentLayout = 4,
                             Content1 = "Et cillum laborum cillum ea duis commodo anim qui deserunt sit dolor dolore elit. Deserunt ut id ad anim consectetur labore culpa nisi adipisicing proident. Labore ipsum aliquip mollit. Culpa incididunt aute enim. Fugiat tempor Lorem ex nostrud fugiat proident amet anim proident nostrud aute enim. Exercitation occaecat qui velit. Fugiat aliquip officia Lorem dolor.",
@@ -4866,7 +4909,7 @@ namespace API.Migrations
                         },
                         new
                         {
-                            FlashcardID = new Guid("bd6986d9-cb1b-4d3e-8a46-156bbd42de28"),
+                            FlashcardId = new Guid("bd6986d9-cb1b-4d3e-8a46-156bbd42de28"),
                             Answer = "",
                             BackContentLayout = 2,
                             Content1 = "https://pisces.bbystatic.com/image2/BestBuy_US/images/products/6440/6440961_sd.jpg",
@@ -4884,7 +4927,7 @@ namespace API.Migrations
                         },
                         new
                         {
-                            FlashcardID = new Guid("7c7c1b09-858d-4d9c-8121-9a5988f21112"),
+                            FlashcardId = new Guid("7c7c1b09-858d-4d9c-8121-9a5988f21112"),
                             Answer = "",
                             BackContentLayout = 0,
                             Content1 = "https://audio12.forvo.com/audios/mp3/4/r/4r_20_74_136_1.mp3",
@@ -4902,7 +4945,7 @@ namespace API.Migrations
                         },
                         new
                         {
-                            FlashcardID = new Guid("3b3c6786-db46-40ee-b4f4-79be42e34dc1"),
+                            FlashcardId = new Guid("3b3c6786-db46-40ee-b4f4-79be42e34dc1"),
                             Answer = "",
                             BackContentLayout = 2,
                             Content1 = "Fugiat qui eiusmod veniam occaecat nulla cillum eu dolor. Laboris ut aliqua ea esse in culpa nisi reprehenderit labore reprehenderit ut fugiat aliquip id occaecat. Commodo non labore culpa commodo. Cillum cupidatat proident reprehenderit exercitation elit proident non magna nostrud aliquip ipsum duis consequat cillum.",
@@ -4920,7 +4963,7 @@ namespace API.Migrations
                         },
                         new
                         {
-                            FlashcardID = new Guid("7c5fb80a-297b-4f03-a7ae-77e8d6cacd1e"),
+                            FlashcardId = new Guid("7c5fb80a-297b-4f03-a7ae-77e8d6cacd1e"),
                             Answer = "macchina",
                             BackContentLayout = 4,
                             Content1 = "Nostrud laboris sit nulla commodo. Eu pariatur duis tempor tempor duis excepteur aliquip consequat excepteur pariatur duis tempor. Nostrud proident consequat tempor fugiat et. Sunt anim velit dolore fugiat Lorem voluptate excepteur sunt.",
@@ -4938,7 +4981,7 @@ namespace API.Migrations
                         },
                         new
                         {
-                            FlashcardID = new Guid("91e99025-e827-484f-b39a-c2e35e01c6ff"),
+                            FlashcardId = new Guid("91e99025-e827-484f-b39a-c2e35e01c6ff"),
                             Answer = "macchina",
                             BackContentLayout = 1,
                             Content1 = "Occaecat sunt irure ipsum. Irure mollit in aliquip ipsum qui exercitation cillum pariatur pariatur occaecat deserunt voluptate in quis. Deserunt ullamco ipsum culpa occaecat fugiat ea eiusmod. Est dolor officia nulla dolor veniam mollit. Officia exercitation adipisicing commodo mollit amet et velit mollit. Veniam elit eiusmod consectetur. In voluptate ex id sint tempor exercitation est officia in non reprehenderit fugiat excepteur labore. Qui in ea voluptate dolor veniam dolor magna.",
@@ -4956,7 +4999,7 @@ namespace API.Migrations
                         },
                         new
                         {
-                            FlashcardID = new Guid("9819384a-3ff5-499b-a8c1-43eacf94bbcf"),
+                            FlashcardId = new Guid("9819384a-3ff5-499b-a8c1-43eacf94bbcf"),
                             Answer = "el pueblo",
                             BackContentLayout = 2,
                             Content1 = "https://audio12.forvo.com/audios/mp3/4/r/4r_20_74_136_1.mp3",
@@ -4974,7 +5017,7 @@ namespace API.Migrations
                         },
                         new
                         {
-                            FlashcardID = new Guid("3484760c-6eab-49fa-ba12-a993a1bf86de"),
+                            FlashcardId = new Guid("3484760c-6eab-49fa-ba12-a993a1bf86de"),
                             Answer = "thing",
                             BackContentLayout = 4,
                             Content1 = "https://target.scene7.com/is/image/Target/GUEST_d29e72d0-b1cd-4cfd-8c8b-f2a200fd7193?wid=488&hei=488&fmt=pjpeg",
@@ -4992,7 +5035,7 @@ namespace API.Migrations
                         },
                         new
                         {
-                            FlashcardID = new Guid("b07c837f-1262-4981-bb0b-ee84c4fe207b"),
+                            FlashcardId = new Guid("b07c837f-1262-4981-bb0b-ee84c4fe207b"),
                             Answer = "mel",
                             BackContentLayout = 1,
                             Content1 = "Adipisicing ex non eu dolor ipsum. Eu in nostrud elit esse proident cillum elit ipsum cupidatat. Nulla nisi ea consectetur elit occaecat sunt. Tempor enim eiusmod ipsum enim ex in culpa anim tempor. Consectetur commodo nostrud aute commodo enim est est. In fugiat irure ad exercitation ad voluptate nostrud. Eiusmod ipsum mollit in non cillum magna ad. Fugiat enim et ipsum dolor qui ipsum amet.",
@@ -5010,7 +5053,7 @@ namespace API.Migrations
                         },
                         new
                         {
-                            FlashcardID = new Guid("60e39fc3-5775-4518-8de7-6de130d88697"),
+                            FlashcardId = new Guid("60e39fc3-5775-4518-8de7-6de130d88697"),
                             Answer = "vecchia signora",
                             BackContentLayout = 3,
                             Content1 = "<p><b>car</b></p><p>Category: Noun</p><p>Spelling: kɑː</p><p>Definitions:</p><ul><li>a four-wheeled road vehicle that is powered by an engine and is able to carry a small number of people</li></ul><p>Examples:</p><ul><li>she drove up in a car</li><li>we're going by car</li></ul>",
@@ -5028,7 +5071,7 @@ namespace API.Migrations
                         },
                         new
                         {
-                            FlashcardID = new Guid("4d657159-1122-4cb7-848a-502729c5b5b3"),
+                            FlashcardId = new Guid("4d657159-1122-4cb7-848a-502729c5b5b3"),
                             Answer = "ni hao",
                             BackContentLayout = 0,
                             Content1 = "Aute ea ad amet occaecat. Ea consectetur irure mollit non. Esse id ea ad deserunt veniam consequat reprehenderit. Nostrud ad minim minim est. Lorem eiusmod amet consectetur consectetur cupidatat eu nulla elit. Officia amet dolore labore in exercitation. Ad excepteur voluptate occaecat est dolor cillum elit consequat.",
@@ -5046,7 +5089,7 @@ namespace API.Migrations
                         },
                         new
                         {
-                            FlashcardID = new Guid("69e68007-28be-4f00-aba6-91ae4b98111d"),
+                            FlashcardId = new Guid("69e68007-28be-4f00-aba6-91ae4b98111d"),
                             Answer = "",
                             BackContentLayout = 0,
                             Content1 = "<p><b>love</b></p><p>Category: Noun</p><p>Spelling: ləv</p><p>Definitions:</p><ul><li>an intense feeling of deep affection</li><li>a great interest and pleasure in something</li><li>a person or thing that one loves</li><li>(in tennis, squash, and some other sports) a score of zero; nil</li></ul><p>Examples:</p><ul><li>babies fill parents with feelings of love</li><li>their love for their country</li><li>his love for football</li><li>we share a love of music</li><li>she was the love of his life</li><li>their two great loves are tobacco and whiskey</li><li>love fifteen</li><li>he was down two sets to love</li></ul><p>Category: Verb</p><p>Spelling: ləv</p><p>Definitions:</p><ul><li>feel deep affection for (someone)</li><li>like or enjoy very much</li></ul><p>Examples:</p><ul><li>he loved his sister dearly</li><li>there were four memorial pages set up by her friends in honor of Phoebe, saying how much they loved and missed her</li><li>I just love dancing</li><li>I'd love a cup of tea</li><li>I love this job</li><li>they love to play golf</li></ul>",
@@ -5064,7 +5107,7 @@ namespace API.Migrations
                         },
                         new
                         {
-                            FlashcardID = new Guid("e76fa3a7-7703-4b0c-a905-60288a75c9cd"),
+                            FlashcardId = new Guid("e76fa3a7-7703-4b0c-a905-60288a75c9cd"),
                             Answer = "",
                             BackContentLayout = 0,
                             Content1 = "Ex consectetur labore laboris magna ullamco aliquip sunt ullamco sint officia qui officia amet. Aliquip quis laborum ut qui cupidatat velit quis cillum exercitation ipsum Lorem incididunt. Non aute duis incididunt in cillum ullamco nostrud ullamco elit. Sunt pariatur deserunt excepteur anim aute. Aliqua culpa elit Lorem do labore cillum est labore laboris.",
@@ -5082,7 +5125,7 @@ namespace API.Migrations
                         },
                         new
                         {
-                            FlashcardID = new Guid("dc2f9362-6d0e-4046-a8d9-735a2ef7d48c"),
+                            FlashcardId = new Guid("dc2f9362-6d0e-4046-a8d9-735a2ef7d48c"),
                             Answer = "onda",
                             BackContentLayout = 4,
                             Content1 = "Eu ad ea dolor do voluptate aliquip voluptate ea nisi amet velit consequat. Non anim ex pariatur et irure est anim ut dolore cillum eiusmod sit consequat nostrud nisi. Mollit culpa incididunt velit enim adipisicing qui ullamco pariatur ex nisi ut duis ex mollit reprehenderit. Labore anim ad ad labore sit nulla consectetur dolor fugiat. Ullamco anim aliqua laboris cupidatat ea pariatur reprehenderit qui esse ullamco.",
@@ -5100,7 +5143,7 @@ namespace API.Migrations
                         },
                         new
                         {
-                            FlashcardID = new Guid("7790e699-c019-4b4d-98e9-9b028fd7235e"),
+                            FlashcardId = new Guid("7790e699-c019-4b4d-98e9-9b028fd7235e"),
                             Answer = "",
                             BackContentLayout = 0,
                             Content1 = "<p><b>arbol</b></p><p>Category: Noun</p><p>Spelling: </p><p>Definitions:</p><ul><li>Planta de tronco leñoso, grueso y elevado que se ramifica a cierta altura del suelo formando la copa</li><li>Cuadro descriptivo que representa de forma gráfica las relaciones que tienen los elementos de un conjunto o las variaciones de un fenómeno</li><li>Barra fija o giratoria que en una máquina sirve para soportar piezas rotativas o para transmitir fuerza motriz de unos órganos a otros</li><li>Barra o eje que se usa en posición vertical y sirve de apoyo a una estructura que se desarrolla alrededor del mismo, como el árbol de una escalera de caracol</li><li>Madero que junto con otros se coloca perpendicularmente a la quilla de una embarcación y está destinado a sujetar las velas</li><li>Eje del órgano (instrumento musical) que, movido a voluntad del ejecutante, hace que suene o deje de sonar un registro</li><li>Punzón que usan los relojeros para perforar el metal y que tiene el mango de madera y la punta de acero</li><li>Pieza de hierro en la parte superior del husillo de la prensa de imprimir</li></ul><p>Examples:</p><ul><li>el Ministerio de Medio Ambiente tiene previsto plantar un millón de árboles en el próximo año</li><li>diagrama en árbol</li></ul>",
@@ -5118,7 +5161,7 @@ namespace API.Migrations
                         },
                         new
                         {
-                            FlashcardID = new Guid("21ff42fd-9858-4808-b10c-037359df1a6b"),
+                            FlashcardId = new Guid("21ff42fd-9858-4808-b10c-037359df1a6b"),
                             Answer = "",
                             BackContentLayout = 4,
                             Content1 = "https://target.scene7.com/is/image/Target/GUEST_b3e2da64-ad54-48b5-9dc7-50071ea5075d?wid=488&hei=488&fmt=pjpeg",
@@ -5136,7 +5179,7 @@ namespace API.Migrations
                         },
                         new
                         {
-                            FlashcardID = new Guid("8f43a16c-6aee-4450-af34-38b0775e7df8"),
+                            FlashcardId = new Guid("8f43a16c-6aee-4450-af34-38b0775e7df8"),
                             Answer = "",
                             BackContentLayout = 3,
                             Content1 = "https://images.contentstack.io/v3/assets/blt731acb42bb3d1659/blt48f811476e162ed0/620c15764ae5ae6845c6b0c9/LOL_Homepage_Modal_(1680x650)_(1).jpg",
@@ -5154,7 +5197,7 @@ namespace API.Migrations
                         },
                         new
                         {
-                            FlashcardID = new Guid("1e445261-a1d2-4e5c-a3a4-26cc8552de56"),
+                            FlashcardId = new Guid("1e445261-a1d2-4e5c-a3a4-26cc8552de56"),
                             Answer = "Hi, how are you?",
                             BackContentLayout = 2,
                             Content1 = "Enim voluptate sit commodo proident nulla ad consequat dolore voluptate cillum sit ipsum et. Ea commodo nostrud tempor ipsum ipsum magna nisi anim velit sint non aliqua. Labore reprehenderit ipsum occaecat ullamco nulla do est tempor qui velit adipisicing sit esse exercitation. Irure reprehenderit sint sint fugiat. Exercitation qui irure veniam esse velit. Velit ut do culpa incididunt dolor officia mollit elit. Et aute Lorem duis tempor ipsum ex mollit eu reprehenderit.",
@@ -5172,7 +5215,7 @@ namespace API.Migrations
                         },
                         new
                         {
-                            FlashcardID = new Guid("e56312fe-85bf-49f4-9843-1c627b4dcde4"),
+                            FlashcardId = new Guid("e56312fe-85bf-49f4-9843-1c627b4dcde4"),
                             Answer = "",
                             BackContentLayout = 3,
                             Content1 = "Consectetur anim do enim aute non cupidatat. Adipisicing in incididunt ut do Lorem sit sint non adipisicing excepteur Lorem enim. Excepteur proident labore irure amet id dolor aliqua ea dolor dolor ut amet eu dolore. Sunt aliquip reprehenderit do nisi. Enim nisi nisi proident laborum incididunt nostrud ex magna in exercitation sunt duis amet commodo. Tempor sunt voluptate do officia.",
@@ -5190,7 +5233,7 @@ namespace API.Migrations
                         },
                         new
                         {
-                            FlashcardID = new Guid("bdd4a21f-4ed4-429d-8486-7aac6a4fd4e3"),
+                            FlashcardId = new Guid("bdd4a21f-4ed4-429d-8486-7aac6a4fd4e3"),
                             Answer = "",
                             BackContentLayout = 1,
                             Content1 = "Lorem exercitation cillum ullamco tempor ex ea. Duis et reprehenderit minim officia excepteur aliquip officia excepteur culpa aute sunt occaecat consequat. In in aliqua sit dolore dolore sunt sint. Pariatur eiusmod in occaecat laboris amet aute qui voluptate pariatur aliquip dolore.",
@@ -5223,6 +5266,9 @@ namespace API.Migrations
                     b.Property<DateTime>("LastUpdated")
                         .HasColumnType("timestamp with time zone");
 
+                    b.Property<string>("OwnerId")
+                        .HasColumnType("text");
+
                     b.Property<string>("Subtitle")
                         .HasColumnType("text");
 
@@ -5234,6 +5280,8 @@ namespace API.Migrations
 
                     b.HasKey("NewsId");
 
+                    b.HasIndex("OwnerId");
+
                     b.ToTable("News");
 
                     b.HasData(
@@ -5243,6 +5291,7 @@ namespace API.Migrations
                             Content = "scelerisque scelerisque dui. Suspendisse ac metus vitae velit egestas lacinia. Sed congue, elit sed consequat auctor, nunc nulla vulputate dui, nec tempus mauris erat eget ipsum. Suspendisse sagittis. Nullam vitae diam. Proin dolor. Nulla semper tellus id nunc interdum feugiat. Sed nec metus facilisis lorem tristique aliquet. Phasellus fermentum convallis ligula. Donec luctus aliquet odio. Etiam ligula tortor, dictum eu, placerat eget, venenatis a, magna. Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Etiam laoreet, libero et tristique pellentesque, tellus sem mollis dui, in sodales elit erat vitae risus. Duis a mi fringilla mi lacinia mattis. Integer eu lacus. Quisque imperdiet, erat nonummy ultricies ornare, elit elit fermentum risus, at fringilla purus mauris a nunc. In at pede. Cras vulputate velit eu sem. Pellentesque ut ipsum ac mi eleifend egestas. Sed pharetra, felis eget varius ultrices, mauris ipsum porta elit, a feugiat tellus lorem eu metus. In lorem. Donec elementum, lorem ut aliquam iaculis, lacus pede sagittis augue, eu tempor erat neque non quam. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Aliquam fringilla cursus purus. Nullam scelerisque neque sed sem egestas blandit. Nam nulla magna, malesuada vel, convallis in, cursus et, eros. Proin ultrices. Duis volutpat nunc sit amet metus. Aliquam erat volutpat. Nulla facilisis. Suspendisse commodo tincidunt nibh. Phasellus nulla. Integer vulputate, risus a ultricies adipiscing, enim mi tempor lorem, eget mollis lectus pede et risus. Quisque libero lacus, varius et, euismod et, commodo at, libero. Morbi accumsan laoreet",
                             CreationDate = new DateTime(2019, 5, 19, 7, 36, 11, 0, DateTimeKind.Utc),
                             LastUpdated = new DateTime(2021, 8, 15, 20, 34, 44, 0, DateTimeKind.Utc),
+                            OwnerId = "9FBC287A-C113-EBA3-526F-4AE7CEACBDE8",
                             Subtitle = "ligula consectetuer rhoncus. Nullam velit dui, semper et, lacinia vitae, sodales",
                             ThumbnailPath = " assets/features/flashmemo_dummy2.jpg ",
                             Title = "faucibus lectus, a sollicitudin orci sem eget massa."
@@ -5253,6 +5302,7 @@ namespace API.Migrations
                             Content = "elit, pellentesque a, facilisis non, bibendum sed, est. Nunc laoreet lectus quis massa. Mauris vestibulum, neque sed dictum eleifend, nunc risus varius orci, in consequat enim diam vel arcu. Curabitur ut odio vel est tempor bibendum. Donec felis orci, adipiscing non, luctus sit amet, faucibus ut, nulla. Cras eu tellus eu augue porttitor interdum. Sed auctor odio a purus. Duis elementum, dui quis accumsan convallis, ante lectus convallis est, vitae sodales nisi magna sed dui. Fusce aliquam, enim nec tempus scelerisque, lorem ipsum sodales purus, in molestie tortor nibh sit amet orci. Ut sagittis lobortis mauris. Suspendisse aliquet molestie tellus. Aenean egestas hendrerit neque. In ornare sagittis felis. Donec tempor, est ac mattis semper, dui lectus rutrum urna, nec luctus felis purus ac tellus. Suspendisse sed dolor. Fusce mi lorem, vehicula et, rutrum eu, ultrices sit amet, risus. Donec nibh enim, gravida sit amet, dapibus id, blandit at, nisi. Cum sociis natoque",
                             CreationDate = new DateTime(2020, 1, 28, 19, 35, 45, 0, DateTimeKind.Utc),
                             LastUpdated = new DateTime(2022, 5, 19, 2, 6, 25, 0, DateTimeKind.Utc),
+                            OwnerId = "0004E137-13A5-5129-AA50-5A856A2A86F7",
                             Subtitle = "vitae, orci. Phasellus dapibus quam quis diam. Pellentesque habitant morbi tristique senectus et",
                             ThumbnailPath = " assets/features/flashmemo_dummy4.jpg",
                             Title = "in faucibus orci luctus et ultrices posuere cubilia Curae; Donec"
@@ -5263,6 +5313,7 @@ namespace API.Migrations
                             Content = "massa. Integer vitae nibh. Donec est mauris, rhoncus id, mollis nec, cursus a, enim. Suspendisse aliquet, sem ut cursus luctus, ipsum leo elementum sem, vitae aliquam eros turpis non enim. Mauris quis turpis vitae purus gravida sagittis. Duis gravida. Praesent eu nulla at sem molestie sodales. Mauris blandit enim consequat purus. Maecenas libero est, congue a, aliquet vel, vulputate eu, odio. Phasellus at augue id ante dictum cursus. Nunc mauris elit, dictum eu, eleifend nec, malesuada ut, sem. Nulla interdum. Curabitur dictum. Phasellus in felis. Nulla tempor augue ac ipsum. Phasellus vitae mauris sit amet lorem semper auctor. Mauris vel turpis. Aliquam adipiscing lobortis risus. In mi pede, nonummy ut, molestie in, tempus eu, ligula. Aenean euismod mauris eu elit. Nulla facilisi. Sed neque. Sed eget lacus. Mauris non dui nec urna suscipit nonummy. Fusce fermentum fermentum arcu. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Phasellus ornare. Fusce mollis. Duis sit amet diam eu dolor egestas rhoncus. Proin nisl sem, consequat nec, mollis vitae,",
                             CreationDate = new DateTime(2019, 8, 3, 15, 8, 33, 0, DateTimeKind.Utc),
                             LastUpdated = new DateTime(2022, 1, 6, 12, 41, 44, 0, DateTimeKind.Utc),
+                            OwnerId = "9F87EEA2-25CB-13B8-13B7-CA1A69CA68B4",
                             Subtitle = "odio a purus. Duis elementum,",
                             ThumbnailPath = " assets/features/flashmemo_dummy4.jpg",
                             Title = "sem, vitae aliquam"
@@ -5273,6 +5324,7 @@ namespace API.Migrations
                             Content = "dui lectus rutrum urna, nec luctus felis purus ac tellus. Suspendisse sed dolor. Fusce mi lorem, vehicula et, rutrum eu, ultrices sit amet, risus. Donec nibh enim, gravida sit amet, dapibus id, blandit at, nisi. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Proin vel nisl. Quisque fringilla euismod enim. Etiam gravida molestie arcu. Sed eu nibh vulputate mauris sagittis placerat. Cras dictum ultricies ligula. Nullam enim. Sed nulla ante, iaculis nec, eleifend non, dapibus rutrum, justo. Praesent luctus. Curabitur egestas nunc sed libero. Proin sed turpis nec mauris blandit mattis. Cras eget nisi dictum augue malesuada malesuada. Integer id magna et ipsum cursus vestibulum. Mauris magna. Duis dignissim tempor arcu. Vestibulum ut eros non enim commodo hendrerit. Donec porttitor tellus non magna. Nam ligula elit, pretium et, rutrum non, hendrerit id, ante. Nunc mauris sapien, cursus in, hendrerit consectetuer, cursus et, magna. Praesent interdum ligula eu enim. Etiam imperdiet dictum magna. Ut tincidunt orci quis lectus. Nullam suscipit, est ac facilisis facilisis, magna tellus faucibus leo, in lobortis tellus justo sit amet nulla. Donec non justo. Proin non massa non ante bibendum ullamcorper. Duis cursus, diam at pretium aliquet, metus urna convallis erat, eget tincidunt dui augue eu tellus. Phasellus elit pede, malesuada vel, venenatis vel, faucibus id, libero. Donec consectetuer mauris id sapien. Cras dolor dolor, tempus non, lacinia at, iaculis",
                             CreationDate = new DateTime(2020, 1, 6, 8, 3, 19, 0, DateTimeKind.Utc),
                             LastUpdated = new DateTime(2022, 5, 2, 1, 4, 15, 0, DateTimeKind.Utc),
+                            OwnerId = "62DAAEBC-F2F5-4D16-533A-AD176D7EA7B7",
                             Subtitle = "cursus. Nunc mauris elit, dictum eu, eleifend nec, malesuada ut,",
                             ThumbnailPath = "assets/features/flashmemo_dummy1.jpg ",
                             Title = "per conubia nostra, per inceptos hymenaeos. Mauris ut quam"
@@ -5283,6 +5335,7 @@ namespace API.Migrations
                             Content = "pede. Praesent eu dui. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Aenean eget magna. Suspendisse tristique neque venenatis lacus. Etiam bibendum fermentum metus. Aenean sed pede nec ante blandit viverra. Donec tempus, lorem fringilla ornare placerat, orci lacus vestibulum lorem, sit amet ultricies sem magna nec quam. Curabitur vel lectus. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec dignissim magna a tortor. Nunc commodo auctor velit. Aliquam nisl. Nulla eu neque pellentesque massa lobortis ultrices. Vivamus rhoncus. Donec est. Nunc ullamcorper, velit in aliquet lobortis, nisi nibh lacinia orci, consectetuer euismod est arcu ac orci. Ut semper pretium neque. Morbi quis urna. Nunc quis arcu vel quam dignissim pharetra. Nam ac nulla. In tincidunt congue turpis. In condimentum. Donec at arcu. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Donec tincidunt. Donec vitae erat vel pede blandit congue. In scelerisque scelerisque dui. Suspendisse ac metus vitae velit egestas lacinia. Sed congue, elit sed consequat auctor, nunc nulla vulputate dui, nec tempus mauris erat eget ipsum. Suspendisse sagittis. Nullam vitae diam. Proin dolor. Nulla semper tellus id nunc interdum feugiat. Sed nec metus facilisis lorem tristique aliquet. Phasellus fermentum convallis ligula. Donec luctus aliquet odio. Etiam ligula tortor, dictum eu, placerat eget, venenatis a, magna. Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Etiam laoreet, libero et tristique pellentesque, tellus sem mollis dui, in sodales elit erat vitae risus. Duis a mi fringilla mi lacinia mattis. Integer eu lacus. Quisque imperdiet, erat nonummy",
                             CreationDate = new DateTime(2020, 3, 6, 17, 45, 33, 0, DateTimeKind.Utc),
                             LastUpdated = new DateTime(2022, 3, 16, 23, 26, 37, 0, DateTimeKind.Utc),
+                            OwnerId = "9FBC287A-C113-EBA3-526F-4AE7CEACBDE8",
                             Subtitle = "vel quam dignissim pharetra. Nam ac nulla. In tincidunt congue turpis.",
                             ThumbnailPath = "assets/features/flashmemo_dummy1.jpg ",
                             Title = "tellus justo sit"
@@ -5293,6 +5346,7 @@ namespace API.Migrations
                             Content = "facilisi. Sed neque. Sed eget lacus. Mauris non dui nec urna suscipit nonummy. Fusce fermentum fermentum arcu. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Phasellus ornare. Fusce mollis. Duis sit amet diam eu dolor egestas rhoncus. Proin nisl sem, consequat nec, mollis vitae, posuere at, velit. Cras lorem lorem, luctus ut, pellentesque eget, dictum placerat, augue. Sed molestie. Sed id risus quis diam luctus lobortis. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos hymenaeos. Mauris ut quam vel sapien imperdiet ornare. In faucibus. Morbi vehicula. Pellentesque tincidunt tempus risus. Donec egestas. Duis ac arcu. Nunc mauris. Morbi non sapien molestie orci tincidunt adipiscing. Mauris molestie pharetra nibh. Aliquam ornare, libero at auctor ullamcorper, nisl arcu iaculis enim, sit amet ornare lectus justo eu arcu. Morbi sit amet massa. Quisque porttitor eros nec tellus. Nunc lectus pede, ultrices a, auctor non, feugiat nec, diam. Duis mi enim, condimentum eget, volutpat ornare, facilisis eget, ipsum. Donec sollicitudin adipiscing ligula. Aenean gravida nunc sed pede. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Proin vel arcu eu odio tristique pharetra. Quisque ac libero nec ligula consectetuer rhoncus. Nullam velit dui, semper et, lacinia vitae, sodales at, velit. Pellentesque ultricies dignissim lacus. Aliquam rutrum lorem ac risus. Morbi metus. Vivamus euismod urna. Nullam lobortis quam a felis ullamcorper viverra. Maecenas iaculis aliquet diam. Sed diam lorem, auctor quis, tristique ac, eleifend vitae, erat. Vivamus nisi. Mauris nulla. Integer urna. Vivamus molestie dapibus ligula. Aliquam erat volutpat. Nulla dignissim. Maecenas ornare egestas ligula. Nullam feugiat placerat velit. Quisque varius. Nam porttitor scelerisque neque. Nullam nisl. Maecenas malesuada fringilla est. Mauris eu turpis. Nulla aliquet. Proin velit. Sed malesuada augue ut lacus. Nulla tincidunt, neque vitae semper egestas, urna justo faucibus lectus, a sollicitudin orci sem eget massa. Suspendisse eleifend. Cras sed leo. Cras vehicula aliquet libero. Integer in magna. Phasellus dolor elit, pellentesque a, facilisis non, bibendum sed, est. Nunc laoreet lectus quis massa. Mauris vestibulum, neque sed dictum eleifend, nunc risus varius orci, in consequat enim diam vel arcu. Curabitur ut odio vel est tempor bibendum. Donec felis orci, adipiscing non, luctus sit amet, faucibus ut, nulla. Cras eu tellus eu augue porttitor interdum. Sed auctor odio a purus. Duis elementum, dui quis accumsan convallis, ante lectus convallis est, vitae sodales nisi magna sed dui. Fusce aliquam, enim nec tempus scelerisque, lorem ipsum sodales purus, in molestie tortor nibh sit amet orci. Ut sagittis lobortis mauris. Suspendisse aliquet molestie tellus. Aenean egestas hendrerit neque. In ornare sagittis felis. Donec tempor, est ac mattis semper, dui lectus rutrum urna, nec luctus felis purus ac tellus. Suspendisse sed dolor. Fusce mi lorem, vehicula et, rutrum eu, ultrices sit amet, risus. Donec nibh enim, gravida sit amet, dapibus id, blandit at, nisi. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus",
                             CreationDate = new DateTime(2019, 9, 25, 20, 23, 19, 0, DateTimeKind.Utc),
                             LastUpdated = new DateTime(2021, 7, 17, 21, 17, 43, 0, DateTimeKind.Utc),
+                            OwnerId = "BD696EC2-1BE1-FFB1-3FC1-883C2D247875",
                             Subtitle = "primis in faucibus orci luctus et ultrices posuere cubilia Curae; Phasellus ornare.",
                             ThumbnailPath = "assets/features/flashmemo_dummy1.jpg ",
                             Title = "nostra, per inceptos hymenaeos. Mauris ut quam vel sapien imperdiet"
@@ -5303,6 +5357,7 @@ namespace API.Migrations
                             Content = "Nulla facilisi. Sed neque. Sed eget lacus. Mauris non dui nec urna suscipit nonummy. Fusce fermentum fermentum arcu. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Phasellus ornare. Fusce mollis. Duis sit amet diam eu dolor egestas rhoncus. Proin nisl sem, consequat nec, mollis vitae, posuere at, velit. Cras lorem lorem, luctus ut, pellentesque eget, dictum placerat, augue. Sed molestie. Sed id risus quis diam luctus lobortis. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos hymenaeos. Mauris ut quam vel sapien imperdiet ornare. In faucibus. Morbi vehicula. Pellentesque tincidunt tempus risus. Donec egestas. Duis ac arcu. Nunc mauris. Morbi non sapien molestie orci tincidunt adipiscing. Mauris molestie pharetra nibh. Aliquam ornare, libero at auctor ullamcorper, nisl arcu iaculis enim, sit amet ornare lectus justo eu arcu. Morbi sit amet massa. Quisque porttitor eros nec tellus. Nunc lectus pede, ultrices a, auctor non, feugiat nec, diam. Duis mi enim, condimentum eget, volutpat ornare, facilisis eget, ipsum. Donec sollicitudin adipiscing ligula. Aenean gravida nunc sed pede. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Proin vel arcu eu odio tristique pharetra. Quisque ac libero nec ligula consectetuer rhoncus. Nullam velit dui, semper et, lacinia vitae, sodales at, velit. Pellentesque ultricies dignissim lacus. Aliquam rutrum lorem ac risus. Morbi metus. Vivamus euismod urna. Nullam lobortis quam a felis ullamcorper viverra. Maecenas iaculis aliquet diam. Sed diam lorem, auctor quis, tristique ac, eleifend vitae, erat. Vivamus nisi. Mauris nulla. Integer urna. Vivamus molestie dapibus ligula. Aliquam erat volutpat. Nulla dignissim. Maecenas ornare egestas ligula. Nullam feugiat placerat velit. Quisque varius. Nam porttitor scelerisque neque. Nullam nisl. Maecenas malesuada fringilla",
                             CreationDate = new DateTime(2019, 9, 15, 16, 6, 2, 0, DateTimeKind.Utc),
                             LastUpdated = new DateTime(2022, 1, 19, 8, 49, 51, 0, DateTimeKind.Utc),
+                            OwnerId = "BD696EC2-1BE1-FFB1-3FC1-883C2D247875",
                             Subtitle = "ante, iaculis nec, eleifend non,",
                             ThumbnailPath = " assets/features/flashmemo_dummy2.jpg ",
                             Title = "diam vel arcu. Curabitur"
@@ -5313,6 +5368,7 @@ namespace API.Migrations
                             Content = "id risus quis diam luctus lobortis. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos hymenaeos. Mauris ut quam vel sapien imperdiet ornare. In faucibus. Morbi vehicula. Pellentesque tincidunt tempus risus. Donec egestas. Duis ac arcu. Nunc mauris. Morbi non sapien molestie orci tincidunt adipiscing. Mauris molestie pharetra nibh. Aliquam ornare, libero at auctor ullamcorper, nisl arcu iaculis enim, sit amet ornare lectus justo eu arcu. Morbi sit amet massa. Quisque porttitor eros nec tellus. Nunc lectus pede, ultrices a, auctor non, feugiat nec, diam. Duis mi enim, condimentum eget, volutpat ornare, facilisis eget, ipsum. Donec sollicitudin adipiscing ligula. Aenean gravida nunc sed pede. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Proin vel arcu eu odio tristique pharetra. Quisque ac libero nec ligula consectetuer rhoncus. Nullam velit dui, semper et, lacinia vitae, sodales at, velit. Pellentesque ultricies dignissim lacus. Aliquam rutrum lorem ac risus. Morbi metus. Vivamus euismod urna. Nullam lobortis quam a felis ullamcorper viverra. Maecenas iaculis aliquet diam. Sed diam lorem, auctor quis, tristique ac, eleifend vitae, erat. Vivamus nisi. Mauris nulla. Integer urna. Vivamus molestie",
                             CreationDate = new DateTime(2019, 11, 17, 9, 1, 51, 0, DateTimeKind.Utc),
                             LastUpdated = new DateTime(2021, 12, 17, 1, 56, 19, 0, DateTimeKind.Utc),
+                            OwnerId = "BD696EC2-1BE1-FFB1-3FC1-883C2D247875",
                             Subtitle = "pellentesque a, facilisis non, bibendum",
                             ThumbnailPath = " assets/features/flashmemo_dummy2.jpg ",
                             Title = "non, lacinia at,"
@@ -5323,6 +5379,7 @@ namespace API.Migrations
                             Content = "Aliquam nisl. Nulla eu neque pellentesque massa lobortis ultrices. Vivamus rhoncus. Donec est. Nunc ullamcorper, velit in aliquet lobortis, nisi nibh lacinia orci, consectetuer euismod est arcu ac orci. Ut semper pretium neque. Morbi quis urna. Nunc quis arcu vel quam dignissim pharetra. Nam ac nulla. In tincidunt congue turpis. In condimentum. Donec at arcu. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere",
                             CreationDate = new DateTime(2019, 12, 26, 11, 57, 42, 0, DateTimeKind.Utc),
                             LastUpdated = new DateTime(2021, 11, 6, 4, 56, 13, 0, DateTimeKind.Utc),
+                            OwnerId = "E4C3E116-C71A-7B3B-CA32-159AE97C8456",
                             Subtitle = "amet luctus vulputate, nisi sem",
                             ThumbnailPath = " assets/features/flashmemo_dummy3.jpg ",
                             Title = "sed consequat auctor,"
@@ -5333,6 +5390,7 @@ namespace API.Migrations
                             Content = "mauris, aliquam eu, accumsan sed, facilisis vitae, orci. Phasellus dapibus quam quis diam. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Fusce aliquet magna a neque. Nullam ut nisi a odio semper cursus. Integer mollis. Integer tincidunt aliquam arcu. Aliquam ultrices iaculis odio. Nam interdum enim non nisi. Aenean eget metus. In nec orci. Donec nibh. Quisque nonummy ipsum non arcu. Vivamus sit amet risus. Donec egestas. Aliquam nec enim. Nunc ut erat. Sed nunc est, mollis non, cursus non, egestas a, dui. Cras pellentesque. Sed dictum. Proin eget odio. Aliquam vulputate ullamcorper magna. Sed eu eros. Nam consequat dolor vitae dolor. Donec fringilla. Donec feugiat metus sit amet ante. Vivamus non lorem vitae odio sagittis semper. Nam tempor diam dictum sapien. Aenean massa. Integer vitae nibh. Donec est mauris, rhoncus id, mollis nec, cursus a, enim. Suspendisse aliquet, sem ut cursus luctus, ipsum leo elementum sem, vitae aliquam eros turpis non enim. Mauris quis turpis vitae purus gravida sagittis. Duis gravida. Praesent eu nulla at sem molestie sodales. Mauris blandit enim consequat purus. Maecenas libero est, congue a, aliquet vel, vulputate eu, odio. Phasellus at augue id ante dictum cursus. Nunc mauris elit, dictum eu, eleifend nec, malesuada ut, sem. Nulla interdum. Curabitur dictum. Phasellus in felis. Nulla tempor augue ac ipsum. Phasellus vitae mauris sit amet lorem semper auctor. Mauris vel turpis. Aliquam adipiscing lobortis risus. In mi pede, nonummy ut, molestie in, tempus eu, ligula. Aenean euismod mauris eu elit. Nulla facilisi. Sed neque. Sed eget lacus. Mauris non dui nec urna suscipit nonummy. Fusce fermentum fermentum arcu. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Phasellus ornare. Fusce mollis. Duis sit amet diam eu dolor egestas rhoncus. Proin nisl sem, consequat nec, mollis vitae, posuere at, velit. Cras lorem lorem, luctus ut, pellentesque eget, dictum placerat, augue. Sed molestie. Sed id risus quis diam luctus lobortis. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos hymenaeos. Mauris ut quam vel sapien imperdiet ornare. In faucibus. Morbi vehicula. Pellentesque tincidunt tempus risus. Donec egestas. Duis ac arcu. Nunc mauris. Morbi non sapien molestie orci tincidunt adipiscing. Mauris molestie pharetra nibh. Aliquam ornare, libero at auctor ullamcorper, nisl arcu iaculis enim, sit amet ornare lectus justo eu arcu. Morbi sit amet massa. Quisque porttitor eros nec tellus. Nunc lectus pede, ultrices a, auctor non, feugiat nec, diam. Duis mi enim, condimentum eget, volutpat ornare, facilisis eget, ipsum. Donec sollicitudin adipiscing ligula. Aenean gravida nunc sed pede. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Proin vel arcu eu odio tristique pharetra. Quisque ac libero nec ligula consectetuer rhoncus. Nullam velit dui, semper et, lacinia vitae, sodales at, velit. Pellentesque ultricies dignissim lacus. Aliquam rutrum lorem ac risus. Morbi metus. Vivamus euismod urna. Nullam lobortis quam a felis ullamcorper viverra. Maecenas iaculis aliquet diam. Sed diam lorem, auctor quis, tristique ac, eleifend vitae, erat. Vivamus nisi. Mauris nulla.",
                             CreationDate = new DateTime(2020, 2, 29, 15, 34, 20, 0, DateTimeKind.Utc),
                             LastUpdated = new DateTime(2021, 7, 13, 11, 16, 38, 0, DateTimeKind.Utc),
+                            OwnerId = "62DAAEBC-F2F5-4D16-533A-AD176D7EA7B7",
                             Subtitle = "est tempor bibendum. Donec felis orci, adipiscing non, luctus sit",
                             ThumbnailPath = " assets/features/flashmemo_dummy3.jpg ",
                             Title = "nunc sed pede. Cum sociis natoque penatibus et magnis"
@@ -5343,6 +5401,7 @@ namespace API.Migrations
                             Content = "Donec luctus aliquet odio. Etiam ligula tortor, dictum eu, placerat eget, venenatis a, magna. Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Etiam laoreet, libero et tristique pellentesque, tellus sem mollis dui, in sodales elit",
                             CreationDate = new DateTime(2019, 2, 21, 4, 28, 2, 0, DateTimeKind.Utc),
                             LastUpdated = new DateTime(2022, 4, 12, 4, 52, 15, 0, DateTimeKind.Utc),
+                            OwnerId = "5881A9B3-912A-8F1A-C5FA-0855A0563E23",
                             Subtitle = "sodales nisi magna sed dui. Fusce aliquam, enim nec tempus scelerisque, lorem ipsum sodales purus,",
                             ThumbnailPath = " assets/features/flashmemo_dummy4.jpg",
                             Title = "feugiat metus sit amet"
@@ -5353,6 +5412,7 @@ namespace API.Migrations
                             Content = "Nullam lobortis quam a felis ullamcorper viverra. Maecenas iaculis aliquet diam. Sed diam lorem, auctor quis, tristique ac, eleifend vitae, erat. Vivamus nisi. Mauris nulla. Integer urna. Vivamus molestie dapibus",
                             CreationDate = new DateTime(2020, 1, 9, 3, 17, 17, 0, DateTimeKind.Utc),
                             LastUpdated = new DateTime(2022, 2, 26, 3, 58, 17, 0, DateTimeKind.Utc),
+                            OwnerId = "9F87EEA2-25CB-13B8-13B7-CA1A69CA68B4",
                             Subtitle = "aliquam arcu. Aliquam ultrices iaculis odio. Nam interdum enim",
                             ThumbnailPath = " assets/features/flashmemo_dummy4.jpg",
                             Title = "adipiscing fringilla, porttitor vulputate, posuere vulputate, lacus. Cras interdum. Nunc"
@@ -5363,6 +5423,7 @@ namespace API.Migrations
                             Content = "at sem molestie sodales. Mauris blandit enim consequat purus. Maecenas libero est, congue a, aliquet vel, vulputate eu, odio. Phasellus at augue id ante dictum cursus. Nunc mauris elit, dictum eu, eleifend nec, malesuada ut, sem. Nulla interdum. Curabitur dictum. Phasellus in felis. Nulla tempor augue ac ipsum. Phasellus vitae mauris sit amet lorem semper auctor. Mauris vel turpis. Aliquam adipiscing lobortis risus. In mi pede, nonummy ut, molestie in, tempus eu, ligula. Aenean euismod mauris eu elit. Nulla facilisi. Sed neque. Sed eget lacus. Mauris non dui nec urna suscipit nonummy. Fusce fermentum fermentum arcu. Vestibulum ante ipsum primis in",
                             CreationDate = new DateTime(2019, 8, 28, 5, 40, 22, 0, DateTimeKind.Utc),
                             LastUpdated = new DateTime(2021, 8, 7, 2, 22, 49, 0, DateTimeKind.Utc),
+                            OwnerId = "B4553CAB-7997-1DE5-F7E3-90A7BC1DA167",
                             Subtitle = "mi tempor lorem, eget mollis lectus pede et risus. Quisque libero lacus,",
                             ThumbnailPath = " assets/features/flashmemo_dummy2.jpg ",
                             Title = "nunc ac mattis ornare,"
@@ -5373,6 +5434,7 @@ namespace API.Migrations
                             Content = "et, rutrum non, hendrerit id, ante. Nunc mauris sapien, cursus in, hendrerit consectetuer, cursus et, magna. Praesent interdum ligula eu enim. Etiam imperdiet dictum magna. Ut tincidunt orci quis lectus. Nullam suscipit, est ac facilisis facilisis, magna tellus faucibus leo, in lobortis tellus justo sit amet nulla. Donec non justo. Proin non massa non ante bibendum ullamcorper. Duis cursus, diam at pretium aliquet, metus urna convallis erat, eget tincidunt dui augue eu tellus. Phasellus elit pede, malesuada vel, venenatis vel, faucibus id, libero. Donec consectetuer mauris id sapien. Cras dolor dolor, tempus non, lacinia at, iaculis quis, pede. Praesent eu dui. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Aenean eget magna. Suspendisse tristique neque venenatis lacus. Etiam bibendum fermentum metus. Aenean sed pede nec ante blandit viverra. Donec tempus, lorem fringilla ornare placerat, orci lacus vestibulum lorem, sit amet ultricies sem magna nec quam. Curabitur vel lectus. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec dignissim magna a tortor. Nunc commodo auctor velit. Aliquam nisl. Nulla eu neque pellentesque massa lobortis ultrices. Vivamus rhoncus. Donec est. Nunc ullamcorper, velit in aliquet lobortis, nisi nibh lacinia orci, consectetuer euismod est arcu ac orci. Ut semper pretium neque. Morbi quis urna. Nunc quis arcu vel quam dignissim pharetra. Nam ac nulla. In tincidunt congue turpis. In condimentum. Donec at arcu. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Donec tincidunt. Donec vitae erat vel pede blandit congue. In scelerisque scelerisque dui. Suspendisse ac metus vitae velit egestas lacinia. Sed congue, elit sed consequat auctor, nunc nulla vulputate dui, nec tempus mauris erat eget ipsum. Suspendisse sagittis. Nullam vitae diam. Proin dolor. Nulla semper tellus id",
                             CreationDate = new DateTime(2020, 3, 26, 14, 43, 27, 0, DateTimeKind.Utc),
                             LastUpdated = new DateTime(2022, 5, 3, 0, 34, 28, 0, DateTimeKind.Utc),
+                            OwnerId = "62DAAEBC-F2F5-4D16-533A-AD176D7EA7B7",
                             Subtitle = "id, ante. Nunc mauris sapien, cursus in, hendrerit consectetuer,",
                             ThumbnailPath = " assets/features/flashmemo_dummy2.jpg ",
                             Title = "aliquam iaculis, lacus"
@@ -5383,6 +5445,7 @@ namespace API.Migrations
                             Content = "volutpat. Nulla dignissim. Maecenas ornare egestas ligula. Nullam feugiat placerat velit. Quisque varius. Nam porttitor scelerisque neque. Nullam nisl. Maecenas malesuada fringilla est. Mauris eu turpis. Nulla aliquet. Proin velit. Sed malesuada augue ut lacus. Nulla tincidunt, neque vitae semper egestas, urna justo faucibus lectus, a sollicitudin orci sem eget massa. Suspendisse eleifend. Cras sed leo. Cras vehicula aliquet libero. Integer in magna. Phasellus dolor elit, pellentesque a, facilisis non, bibendum sed, est. Nunc laoreet lectus quis massa. Mauris vestibulum, neque sed dictum eleifend, nunc risus varius orci, in consequat enim diam vel arcu. Curabitur ut odio vel est tempor bibendum. Donec felis orci, adipiscing non, luctus sit amet, faucibus ut, nulla. Cras eu tellus eu augue porttitor interdum. Sed auctor odio a purus. Duis elementum, dui quis accumsan convallis, ante lectus convallis est, vitae sodales nisi magna sed dui. Fusce aliquam, enim nec tempus scelerisque, lorem ipsum sodales purus, in molestie tortor nibh sit amet orci. Ut sagittis lobortis mauris. Suspendisse aliquet molestie tellus. Aenean egestas hendrerit neque. In ornare sagittis felis. Donec tempor, est ac mattis semper, dui lectus rutrum urna, nec luctus felis purus ac tellus. Suspendisse sed dolor. Fusce mi lorem, vehicula et, rutrum eu, ultrices sit amet, risus. Donec nibh enim, gravida sit",
                             CreationDate = new DateTime(2019, 9, 3, 17, 15, 5, 0, DateTimeKind.Utc),
                             LastUpdated = new DateTime(2022, 5, 21, 17, 55, 32, 0, DateTimeKind.Utc),
+                            OwnerId = "BD696EC2-1BE1-FFB1-3FC1-883C2D247875",
                             Subtitle = "purus ac tellus. Suspendisse sed dolor. Fusce mi",
                             ThumbnailPath = " assets/features/flashmemo_dummy4.jpg",
                             Title = "nec, leo. Morbi neque tellus, imperdiet non,"
@@ -5393,6 +5456,7 @@ namespace API.Migrations
                             Content = "quis massa. Mauris vestibulum, neque sed dictum eleifend, nunc risus varius orci, in consequat enim diam vel arcu. Curabitur ut odio vel est tempor bibendum. Donec felis orci, adipiscing non, luctus sit amet, faucibus ut, nulla. Cras eu tellus eu augue porttitor interdum. Sed auctor odio a purus. Duis elementum, dui quis accumsan convallis, ante lectus convallis est, vitae sodales nisi magna sed dui. Fusce aliquam, enim nec tempus scelerisque, lorem ipsum sodales purus, in molestie tortor nibh sit amet orci. Ut sagittis lobortis mauris. Suspendisse aliquet molestie tellus. Aenean egestas hendrerit neque. In ornare sagittis felis. Donec tempor, est ac mattis semper, dui lectus rutrum urna, nec luctus felis purus ac tellus. Suspendisse sed dolor. Fusce mi lorem, vehicula et, rutrum eu, ultrices sit amet, risus. Donec nibh enim, gravida",
                             CreationDate = new DateTime(2019, 5, 14, 11, 44, 0, 0, DateTimeKind.Utc),
                             LastUpdated = new DateTime(2022, 4, 22, 20, 32, 1, 0, DateTimeKind.Utc),
+                            OwnerId = "9CBF5FEE-EE6E-5F1D-3E53-2389AD983EA2",
                             Subtitle = "Vestibulum ut eros non enim commodo hendrerit. Donec porttitor tellus",
                             ThumbnailPath = " assets/features/flashmemo_dummy2.jpg ",
                             Title = "per conubia nostra,"
@@ -5403,6 +5467,7 @@ namespace API.Migrations
                             Content = "vulputate dui, nec tempus mauris erat eget ipsum. Suspendisse sagittis. Nullam vitae diam. Proin dolor. Nulla semper tellus id nunc interdum feugiat. Sed nec metus facilisis lorem tristique aliquet. Phasellus fermentum convallis ligula. Donec luctus aliquet odio. Etiam ligula tortor, dictum eu, placerat eget, venenatis a, magna. Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Etiam laoreet, libero et tristique pellentesque, tellus sem mollis dui, in sodales elit erat vitae risus. Duis a mi fringilla mi lacinia mattis. Integer eu lacus. Quisque imperdiet, erat nonummy ultricies ornare, elit elit fermentum risus, at fringilla purus mauris a nunc. In at pede. Cras vulputate velit eu sem. Pellentesque ut ipsum ac mi eleifend egestas. Sed pharetra, felis eget varius ultrices, mauris ipsum porta elit, a feugiat tellus lorem eu metus. In lorem. Donec elementum, lorem ut aliquam iaculis, lacus pede sagittis augue, eu tempor erat neque non quam. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Aliquam fringilla cursus purus. Nullam scelerisque neque sed sem egestas blandit. Nam nulla magna, malesuada vel, convallis in, cursus et, eros. Proin ultrices. Duis",
                             CreationDate = new DateTime(2020, 2, 9, 8, 52, 35, 0, DateTimeKind.Utc),
                             LastUpdated = new DateTime(2021, 7, 23, 13, 43, 31, 0, DateTimeKind.Utc),
+                            OwnerId = "5881A9B3-912A-8F1A-C5FA-0855A0563E23",
                             Subtitle = "et nunc. Quisque ornare tortor",
                             ThumbnailPath = " assets/features/flashmemo_dummy4.jpg",
                             Title = "a, auctor non,"
@@ -5413,6 +5478,7 @@ namespace API.Migrations
                             Content = "eget ipsum. Suspendisse sagittis. Nullam vitae diam. Proin dolor. Nulla semper tellus id nunc interdum feugiat. Sed nec metus facilisis lorem tristique aliquet. Phasellus fermentum convallis ligula. Donec luctus aliquet odio. Etiam ligula tortor, dictum eu, placerat eget, venenatis a, magna. Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Etiam laoreet, libero et tristique pellentesque, tellus sem mollis dui, in sodales elit erat vitae risus. Duis a mi fringilla mi lacinia mattis. Integer eu lacus. Quisque imperdiet, erat nonummy ultricies ornare, elit elit fermentum risus, at fringilla purus mauris a nunc. In at pede. Cras vulputate velit eu sem. Pellentesque ut ipsum ac mi eleifend egestas. Sed pharetra, felis eget varius ultrices, mauris ipsum porta elit, a feugiat tellus lorem eu metus. In lorem. Donec elementum,",
                             CreationDate = new DateTime(2019, 10, 22, 11, 52, 22, 0, DateTimeKind.Utc),
                             LastUpdated = new DateTime(2022, 2, 25, 1, 10, 1, 0, DateTimeKind.Utc),
+                            OwnerId = "9F87EEA2-25CB-13B8-13B7-CA1A69CA68B4",
                             Subtitle = "sapien, gravida non, sollicitudin a, malesuada id, erat.",
                             ThumbnailPath = " assets/features/flashmemo_dummy2.jpg ",
                             Title = "placerat. Cras dictum ultricies ligula."
@@ -5423,6 +5489,7 @@ namespace API.Migrations
                             Content = "est, mollis non, cursus non, egestas a, dui. Cras pellentesque. Sed dictum. Proin eget odio. Aliquam vulputate ullamcorper magna. Sed eu eros. Nam consequat dolor vitae dolor. Donec fringilla. Donec feugiat metus sit amet ante. Vivamus non lorem vitae odio sagittis semper. Nam tempor diam dictum sapien. Aenean massa. Integer vitae nibh. Donec est mauris, rhoncus id, mollis nec, cursus a, enim. Suspendisse aliquet, sem ut cursus luctus, ipsum leo elementum sem, vitae aliquam eros turpis non enim. Mauris quis turpis vitae purus gravida sagittis. Duis gravida. Praesent eu nulla at sem molestie sodales. Mauris blandit enim consequat purus. Maecenas libero est, congue a, aliquet vel, vulputate eu, odio. Phasellus at augue id ante dictum cursus. Nunc mauris elit, dictum eu, eleifend nec, malesuada ut, sem. Nulla interdum. Curabitur dictum. Phasellus in felis. Nulla tempor augue ac ipsum. Phasellus vitae mauris sit amet lorem semper auctor. Mauris vel turpis. Aliquam adipiscing lobortis risus. In mi pede, nonummy ut, molestie in, tempus eu, ligula. Aenean euismod mauris eu elit. Nulla facilisi. Sed neque. Sed eget lacus. Mauris non dui nec urna suscipit nonummy. Fusce fermentum fermentum arcu. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Phasellus ornare. Fusce mollis. Duis sit amet diam eu dolor egestas rhoncus. Proin nisl sem, consequat nec, mollis vitae, posuere at, velit. Cras lorem lorem, luctus ut, pellentesque eget, dictum placerat, augue. Sed molestie. Sed id risus quis diam luctus lobortis. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos hymenaeos. Mauris ut quam vel sapien imperdiet ornare. In faucibus. Morbi vehicula. Pellentesque tincidunt tempus risus. Donec egestas. Duis ac arcu. Nunc mauris. Morbi non sapien molestie orci tincidunt adipiscing. Mauris molestie pharetra nibh. Aliquam ornare, libero at auctor ullamcorper, nisl arcu iaculis enim, sit amet ornare lectus justo eu arcu. Morbi sit amet massa. Quisque porttitor eros nec tellus. Nunc lectus pede, ultrices a, auctor non, feugiat nec, diam. Duis mi enim, condimentum eget, volutpat",
                             CreationDate = new DateTime(2019, 4, 25, 13, 33, 49, 0, DateTimeKind.Utc),
                             LastUpdated = new DateTime(2021, 6, 2, 7, 42, 28, 0, DateTimeKind.Utc),
+                            OwnerId = "0004E137-13A5-5129-AA50-5A856A2A86F7",
                             Subtitle = "erat neque non quam. Pellentesque habitant morbi tristique senectus et netus",
                             ThumbnailPath = "assets/features/flashmemo_dummy1.jpg ",
                             Title = "est. Mauris eu turpis. Nulla aliquet. Proin velit. Sed malesuada"
@@ -5433,6 +5500,7 @@ namespace API.Migrations
                             Content = "tempus eu, ligula. Aenean euismod mauris eu elit. Nulla facilisi. Sed neque. Sed eget lacus. Mauris non dui nec urna suscipit nonummy. Fusce fermentum fermentum arcu. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Phasellus ornare.",
                             CreationDate = new DateTime(2019, 4, 3, 5, 27, 31, 0, DateTimeKind.Utc),
                             LastUpdated = new DateTime(2021, 7, 16, 17, 9, 51, 0, DateTimeKind.Utc),
+                            OwnerId = "5881A9B3-912A-8F1A-C5FA-0855A0563E23",
                             Subtitle = "felis. Nulla tempor augue ac ipsum. Phasellus",
                             ThumbnailPath = " assets/features/flashmemo_dummy2.jpg ",
                             Title = "amet risus. Donec egestas."
@@ -5443,6 +5511,7 @@ namespace API.Migrations
                             Content = "sollicitudin a, malesuada id, erat. Etiam vestibulum massa rutrum magna. Cras convallis convallis dolor. Quisque tincidunt pede ac urna. Ut tincidunt vehicula risus. Nulla eget metus eu erat semper rutrum. Fusce dolor quam, elementum at, egestas a, scelerisque sed, sapien. Nunc pulvinar arcu et pede. Nunc sed orci lobortis augue scelerisque mollis. Phasellus libero mauris, aliquam eu, accumsan sed, facilisis vitae, orci. Phasellus dapibus quam quis diam. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Fusce aliquet magna a neque. Nullam ut nisi a odio semper cursus. Integer mollis. Integer tincidunt aliquam arcu. Aliquam ultrices iaculis odio. Nam interdum enim non nisi. Aenean eget metus. In nec orci. Donec nibh. Quisque nonummy ipsum non arcu. Vivamus sit amet risus. Donec egestas. Aliquam nec enim. Nunc ut erat. Sed nunc est, mollis non, cursus non, egestas a, dui. Cras pellentesque. Sed dictum. Proin eget odio. Aliquam vulputate ullamcorper magna. Sed eu eros. Nam consequat dolor vitae dolor. Donec fringilla. Donec feugiat metus sit amet ante. Vivamus non lorem vitae odio sagittis semper. Nam tempor diam dictum sapien. Aenean massa. Integer vitae nibh. Donec est mauris, rhoncus id, mollis nec, cursus a, enim. Suspendisse aliquet, sem ut cursus luctus, ipsum leo elementum sem, vitae aliquam eros turpis non enim. Mauris quis turpis vitae purus gravida sagittis. Duis gravida. Praesent eu nulla at sem molestie sodales. Mauris blandit enim consequat purus. Maecenas libero est, congue a, aliquet vel, vulputate eu, odio. Phasellus at augue id ante dictum cursus. Nunc mauris elit, dictum eu, eleifend nec, malesuada ut, sem. Nulla interdum. Curabitur dictum. Phasellus in felis. Nulla tempor augue ac ipsum. Phasellus vitae mauris sit amet lorem semper auctor. Mauris vel turpis. Aliquam adipiscing lobortis risus. In mi pede, nonummy ut, molestie in, tempus eu, ligula.",
                             CreationDate = new DateTime(2019, 3, 23, 3, 26, 20, 0, DateTimeKind.Utc),
                             LastUpdated = new DateTime(2021, 7, 10, 2, 54, 53, 0, DateTimeKind.Utc),
+                            OwnerId = "0004E137-13A5-5129-AA50-5A856A2A86F7",
                             Subtitle = "orci. Phasellus dapibus quam quis diam. Pellentesque",
                             ThumbnailPath = " assets/features/flashmemo_dummy4.jpg",
                             Title = "tincidunt dui augue eu tellus. Phasellus"
@@ -5453,6 +5522,7 @@ namespace API.Migrations
                             Content = "ipsum ac mi eleifend egestas. Sed pharetra, felis eget varius ultrices, mauris ipsum porta elit, a feugiat tellus lorem eu metus. In lorem. Donec elementum, lorem ut aliquam iaculis, lacus pede sagittis augue, eu tempor erat neque non quam. Pellentesque habitant morbi tristique",
                             CreationDate = new DateTime(2019, 10, 24, 12, 21, 31, 0, DateTimeKind.Utc),
                             LastUpdated = new DateTime(2021, 7, 23, 13, 45, 40, 0, DateTimeKind.Utc),
+                            OwnerId = "62DAAEBC-F2F5-4D16-533A-AD176D7EA7B7",
                             Subtitle = "senectus et netus et malesuada fames",
                             ThumbnailPath = "assets/features/flashmemo_dummy1.jpg ",
                             Title = "elit pede, malesuada vel, venenatis vel, faucibus id, libero."
@@ -5463,6 +5533,7 @@ namespace API.Migrations
                             Content = "eget nisi dictum augue malesuada malesuada. Integer id magna et ipsum cursus vestibulum. Mauris magna. Duis dignissim tempor arcu. Vestibulum ut eros non enim commodo hendrerit. Donec porttitor tellus non magna. Nam ligula elit, pretium et, rutrum non, hendrerit id, ante. Nunc mauris sapien, cursus in, hendrerit consectetuer, cursus et, magna. Praesent interdum ligula eu enim. Etiam imperdiet dictum magna. Ut tincidunt orci quis lectus. Nullam suscipit, est ac facilisis facilisis, magna tellus faucibus leo, in lobortis tellus justo sit amet nulla. Donec non justo. Proin non massa non ante bibendum ullamcorper. Duis cursus, diam at pretium aliquet, metus urna convallis erat, eget tincidunt dui augue eu tellus. Phasellus elit pede, malesuada vel, venenatis vel, faucibus id, libero. Donec consectetuer mauris id sapien. Cras dolor dolor, tempus non, lacinia at, iaculis quis, pede. Praesent eu dui. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Aenean eget magna. Suspendisse tristique neque venenatis lacus. Etiam bibendum fermentum metus. Aenean sed pede nec ante blandit viverra. Donec tempus, lorem fringilla ornare placerat, orci lacus vestibulum lorem, sit amet ultricies sem magna nec quam. Curabitur vel lectus. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec dignissim magna a tortor. Nunc commodo auctor velit. Aliquam nisl. Nulla eu neque pellentesque massa lobortis ultrices. Vivamus rhoncus. Donec est. Nunc ullamcorper, velit in aliquet lobortis, nisi nibh lacinia orci, consectetuer euismod est arcu ac orci. Ut semper pretium neque. Morbi quis urna. Nunc quis arcu vel quam dignissim pharetra. Nam ac nulla. In tincidunt congue turpis. In condimentum. Donec at arcu. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Donec tincidunt. Donec vitae erat vel pede blandit congue. In scelerisque scelerisque dui. Suspendisse ac metus vitae velit egestas lacinia. Sed congue, elit sed consequat auctor, nunc nulla vulputate dui, nec tempus mauris erat eget ipsum. Suspendisse sagittis. Nullam vitae diam. Proin dolor. Nulla semper tellus id nunc interdum feugiat. Sed nec metus facilisis lorem tristique aliquet. Phasellus fermentum convallis ligula. Donec luctus aliquet odio. Etiam ligula tortor, dictum eu, placerat eget, venenatis a, magna. Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Etiam laoreet, libero et tristique pellentesque, tellus sem mollis dui, in sodales elit erat vitae risus. Duis a mi fringilla mi lacinia mattis. Integer eu lacus. Quisque imperdiet, erat nonummy ultricies ornare, elit elit fermentum risus, at fringilla purus mauris a nunc. In at pede. Cras vulputate velit eu sem. Pellentesque ut ipsum ac mi eleifend egestas. Sed pharetra, felis eget varius ultrices, mauris ipsum porta elit, a feugiat tellus lorem eu metus. In lorem. Donec elementum, lorem ut aliquam iaculis, lacus pede sagittis augue, eu tempor erat neque non quam. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Aliquam fringilla cursus purus. Nullam scelerisque neque sed sem egestas blandit. Nam nulla magna, malesuada vel, convallis in, cursus et, eros. Proin ultrices. Duis volutpat nunc sit amet metus.",
                             CreationDate = new DateTime(2019, 5, 23, 20, 7, 35, 0, DateTimeKind.Utc),
                             LastUpdated = new DateTime(2021, 7, 18, 20, 56, 34, 0, DateTimeKind.Utc),
+                            OwnerId = "5881A9B3-912A-8F1A-C5FA-0855A0563E23",
                             Subtitle = "In faucibus. Morbi vehicula. Pellentesque tincidunt tempus risus. Donec egestas. Duis ac arcu. Nunc",
                             ThumbnailPath = " assets/features/flashmemo_dummy2.jpg ",
                             Title = "purus. Maecenas libero est, congue a, aliquet vel, vulputate"
@@ -5473,6 +5544,7 @@ namespace API.Migrations
                             Content = "fermentum metus. Aenean sed pede nec ante blandit viverra. Donec tempus, lorem fringilla ornare placerat, orci lacus vestibulum lorem, sit amet ultricies sem magna nec quam. Curabitur vel lectus. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec dignissim magna a tortor. Nunc commodo auctor velit. Aliquam nisl. Nulla eu neque pellentesque massa lobortis ultrices. Vivamus rhoncus. Donec est. Nunc ullamcorper, velit in aliquet lobortis, nisi nibh lacinia orci, consectetuer euismod est arcu ac orci. Ut semper pretium neque. Morbi quis urna. Nunc quis arcu vel quam dignissim pharetra. Nam ac nulla. In tincidunt congue turpis. In condimentum. Donec at arcu. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Donec tincidunt. Donec vitae erat vel pede blandit congue. In scelerisque scelerisque dui. Suspendisse ac metus vitae velit egestas lacinia. Sed congue, elit sed consequat auctor, nunc nulla vulputate dui, nec tempus mauris erat eget ipsum. Suspendisse sagittis. Nullam vitae diam. Proin dolor. Nulla semper tellus id nunc interdum feugiat. Sed nec metus facilisis lorem tristique aliquet. Phasellus fermentum convallis ligula. Donec luctus aliquet odio. Etiam ligula tortor, dictum eu, placerat eget, venenatis a, magna. Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Etiam laoreet, libero et tristique pellentesque, tellus sem mollis dui, in sodales elit erat vitae risus. Duis a mi fringilla mi lacinia mattis. Integer eu lacus. Quisque imperdiet, erat nonummy ultricies ornare, elit elit fermentum risus, at fringilla purus mauris a nunc. In at pede. Cras vulputate velit eu sem. Pellentesque ut ipsum ac mi eleifend egestas. Sed pharetra, felis eget varius ultrices, mauris ipsum porta elit, a feugiat tellus lorem eu metus. In lorem. Donec elementum, lorem ut aliquam iaculis, lacus pede sagittis augue, eu tempor erat neque non quam. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Aliquam fringilla cursus purus. Nullam scelerisque neque sed sem egestas blandit. Nam nulla magna, malesuada vel, convallis in, cursus et, eros. Proin ultrices. Duis volutpat nunc sit amet metus. Aliquam erat volutpat. Nulla facilisis. Suspendisse commodo tincidunt nibh. Phasellus nulla. Integer vulputate, risus a ultricies adipiscing, enim mi tempor lorem, eget mollis lectus pede et risus. Quisque libero lacus, varius et, euismod et, commodo at, libero. Morbi accumsan laoreet ipsum. Curabitur consequat, lectus sit amet luctus vulputate, nisi sem semper erat, in consectetuer ipsum nunc id enim. Curabitur massa. Vestibulum accumsan neque et nunc. Quisque ornare tortor at risus. Nunc ac sem ut dolor dapibus gravida. Aliquam tincidunt, nunc ac mattis ornare, lectus ante dictum mi, ac mattis velit justo nec ante. Maecenas mi felis, adipiscing fringilla, porttitor vulputate, posuere vulputate, lacus. Cras interdum. Nunc sollicitudin commodo ipsum. Suspendisse non leo. Vivamus nibh dolor, nonummy ac, feugiat non, lobortis quis, pede. Suspendisse dui. Fusce diam nunc, ullamcorper eu, euismod ac, fermentum vel, mauris. Integer sem elit, pharetra ut, pharetra sed, hendrerit a, arcu. Sed et",
                             CreationDate = new DateTime(2019, 5, 19, 16, 7, 27, 0, DateTimeKind.Utc),
                             LastUpdated = new DateTime(2021, 8, 22, 7, 53, 0, 0, DateTimeKind.Utc),
+                            OwnerId = "0004E137-13A5-5129-AA50-5A856A2A86F7",
                             Subtitle = "orci quis lectus. Nullam suscipit, est ac facilisis facilisis, magna tellus faucibus leo, in",
                             ThumbnailPath = "assets/features/flashmemo_dummy1.jpg ",
                             Title = "lorem tristique aliquet. Phasellus fermentum convallis ligula. Donec"
@@ -5483,6 +5555,7 @@ namespace API.Migrations
                             Content = "placerat, augue. Sed molestie. Sed id risus quis diam luctus lobortis. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos hymenaeos. Mauris ut quam vel sapien imperdiet ornare. In faucibus. Morbi vehicula. Pellentesque tincidunt tempus risus. Donec egestas. Duis ac arcu. Nunc mauris. Morbi non sapien molestie orci tincidunt adipiscing. Mauris",
                             CreationDate = new DateTime(2019, 5, 29, 13, 14, 52, 0, DateTimeKind.Utc),
                             LastUpdated = new DateTime(2021, 10, 19, 17, 21, 25, 0, DateTimeKind.Utc),
+                            OwnerId = "6BBD068B-B258-EB0A-2132-BEB9BAEA886E",
                             Subtitle = "nisl. Quisque fringilla euismod enim. Etiam",
                             ThumbnailPath = " assets/features/flashmemo_dummy4.jpg",
                             Title = "Mauris vel turpis. Aliquam adipiscing"
@@ -5493,6 +5566,7 @@ namespace API.Migrations
                             Content = "turpis. Nulla aliquet. Proin velit. Sed malesuada augue ut lacus. Nulla tincidunt, neque vitae semper egestas, urna justo faucibus lectus, a sollicitudin orci sem eget massa. Suspendisse eleifend. Cras sed leo. Cras vehicula aliquet libero. Integer in magna. Phasellus dolor elit, pellentesque a, facilisis non, bibendum sed, est. Nunc laoreet lectus quis massa. Mauris vestibulum, neque sed dictum eleifend, nunc risus varius orci, in consequat enim diam vel arcu. Curabitur ut odio vel est tempor bibendum. Donec felis orci, adipiscing non, luctus sit amet, faucibus ut, nulla. Cras eu tellus eu augue porttitor interdum. Sed auctor odio a purus. Duis elementum, dui quis accumsan convallis, ante lectus convallis est, vitae sodales nisi magna sed dui. Fusce aliquam, enim nec tempus scelerisque, lorem ipsum sodales purus, in molestie tortor nibh sit amet orci. Ut sagittis lobortis mauris. Suspendisse aliquet molestie tellus. Aenean egestas hendrerit neque. In ornare sagittis felis. Donec tempor, est ac mattis semper, dui lectus rutrum urna, nec luctus felis purus ac tellus. Suspendisse sed dolor. Fusce mi lorem, vehicula et, rutrum eu, ultrices sit amet, risus. Donec nibh enim, gravida sit amet, dapibus id, blandit at, nisi. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Proin vel nisl. Quisque fringilla euismod enim. Etiam gravida molestie arcu. Sed eu nibh vulputate mauris sagittis placerat. Cras dictum ultricies ligula. Nullam enim. Sed nulla ante, iaculis nec, eleifend non, dapibus rutrum, justo. Praesent luctus. Curabitur egestas nunc sed libero. Proin sed turpis nec mauris blandit mattis. Cras eget nisi dictum augue malesuada malesuada. Integer id magna et ipsum cursus vestibulum. Mauris magna. Duis dignissim tempor arcu. Vestibulum ut eros non enim commodo hendrerit. Donec porttitor tellus non magna. Nam ligula elit, pretium et, rutrum non, hendrerit id, ante. Nunc mauris sapien, cursus in, hendrerit consectetuer, cursus et, magna. Praesent interdum ligula eu enim. Etiam imperdiet dictum magna. Ut tincidunt orci quis lectus. Nullam suscipit, est ac facilisis facilisis, magna tellus faucibus leo, in lobortis tellus justo sit amet nulla. Donec non justo. Proin non massa non ante bibendum ullamcorper. Duis cursus, diam at pretium aliquet, metus urna",
                             CreationDate = new DateTime(2019, 8, 24, 17, 42, 43, 0, DateTimeKind.Utc),
                             LastUpdated = new DateTime(2021, 9, 15, 7, 45, 56, 0, DateTimeKind.Utc),
+                            OwnerId = "9F87EEA2-25CB-13B8-13B7-CA1A69CA68B4",
                             Subtitle = "quis urna. Nunc quis arcu vel quam dignissim pharetra. Nam ac",
                             ThumbnailPath = " assets/features/flashmemo_dummy4.jpg",
                             Title = "tristique ac, eleifend vitae,"
@@ -5503,6 +5577,7 @@ namespace API.Migrations
                             Content = "lorem ipsum sodales purus, in molestie tortor nibh sit amet orci. Ut sagittis lobortis mauris. Suspendisse aliquet molestie tellus. Aenean egestas hendrerit neque. In ornare sagittis felis. Donec tempor, est ac mattis semper, dui lectus rutrum urna, nec luctus felis purus ac tellus. Suspendisse sed dolor. Fusce mi lorem, vehicula et, rutrum eu, ultrices sit amet, risus. Donec nibh enim, gravida sit amet, dapibus id, blandit at, nisi. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Proin vel nisl. Quisque fringilla euismod enim. Etiam gravida molestie arcu. Sed eu nibh vulputate mauris sagittis placerat. Cras dictum ultricies ligula. Nullam enim. Sed nulla ante, iaculis nec, eleifend non,",
                             CreationDate = new DateTime(2020, 1, 25, 5, 45, 34, 0, DateTimeKind.Utc),
                             LastUpdated = new DateTime(2022, 4, 25, 9, 9, 20, 0, DateTimeKind.Utc),
+                            OwnerId = "BD696EC2-1BE1-FFB1-3FC1-883C2D247875",
                             Subtitle = "iaculis, lacus pede sagittis augue, eu tempor erat neque non quam. Pellentesque habitant",
                             ThumbnailPath = " assets/features/flashmemo_dummy2.jpg ",
                             Title = "penatibus et magnis dis parturient montes,"
@@ -5513,6 +5588,7 @@ namespace API.Migrations
                             Content = "dolor, tempus non, lacinia at, iaculis quis, pede. Praesent eu dui. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Aenean eget magna. Suspendisse tristique neque venenatis lacus. Etiam bibendum fermentum metus. Aenean sed pede nec ante blandit viverra. Donec tempus, lorem fringilla ornare placerat, orci lacus vestibulum lorem, sit amet ultricies sem magna nec quam. Curabitur vel lectus. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec dignissim magna a tortor. Nunc commodo auctor velit. Aliquam nisl. Nulla eu neque pellentesque massa lobortis ultrices. Vivamus rhoncus. Donec est. Nunc ullamcorper, velit in aliquet lobortis, nisi nibh lacinia orci, consectetuer euismod est arcu ac orci. Ut semper pretium neque. Morbi quis urna. Nunc quis arcu vel quam dignissim pharetra. Nam ac nulla. In tincidunt congue turpis. In condimentum. Donec at arcu. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Donec tincidunt. Donec vitae erat vel pede blandit congue. In scelerisque scelerisque dui. Suspendisse ac metus vitae velit egestas lacinia. Sed congue, elit sed consequat auctor, nunc nulla vulputate dui, nec tempus mauris erat eget ipsum. Suspendisse sagittis. Nullam vitae diam. Proin dolor. Nulla semper tellus id nunc interdum feugiat. Sed nec metus facilisis lorem tristique aliquet. Phasellus fermentum convallis ligula. Donec luctus aliquet odio. Etiam ligula tortor, dictum eu, placerat eget, venenatis a, magna. Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Etiam laoreet, libero et tristique pellentesque, tellus sem mollis dui, in sodales elit erat vitae risus. Duis a mi fringilla mi lacinia mattis. Integer eu lacus. Quisque imperdiet, erat nonummy ultricies ornare, elit elit fermentum risus, at fringilla purus mauris a nunc. In at pede. Cras vulputate velit eu sem. Pellentesque ut ipsum ac mi eleifend egestas. Sed pharetra, felis eget varius ultrices, mauris ipsum porta elit, a feugiat tellus lorem eu metus. In lorem. Donec elementum, lorem ut aliquam iaculis, lacus pede sagittis augue, eu tempor erat neque non quam. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Aliquam fringilla cursus purus. Nullam scelerisque neque sed sem egestas blandit. Nam nulla magna, malesuada vel, convallis in, cursus et, eros. Proin ultrices. Duis volutpat nunc sit amet metus. Aliquam erat volutpat. Nulla facilisis. Suspendisse commodo tincidunt nibh. Phasellus nulla. Integer vulputate, risus a ultricies adipiscing, enim mi tempor lorem, eget mollis lectus pede et risus. Quisque libero lacus, varius et, euismod et, commodo at, libero. Morbi accumsan laoreet ipsum. Curabitur consequat, lectus sit amet luctus vulputate, nisi sem semper erat, in consectetuer ipsum nunc id",
                             CreationDate = new DateTime(2019, 3, 22, 14, 40, 29, 0, DateTimeKind.Utc),
                             LastUpdated = new DateTime(2022, 1, 25, 17, 24, 29, 0, DateTimeKind.Utc),
+                            OwnerId = "9FBC287A-C113-EBA3-526F-4AE7CEACBDE8",
                             Subtitle = "erat. Sed nunc est, mollis non, cursus non, egestas a, dui. Cras pellentesque. Sed dictum.",
                             ThumbnailPath = " assets/features/flashmemo_dummy2.jpg ",
                             Title = "odio semper cursus. Integer mollis. Integer tincidunt aliquam arcu. Aliquam"
@@ -5523,6 +5599,7 @@ namespace API.Migrations
                             Content = "Fusce aliquet magna a neque. Nullam ut nisi a odio semper cursus. Integer mollis. Integer tincidunt aliquam arcu. Aliquam ultrices iaculis odio. Nam interdum enim non nisi. Aenean eget metus. In nec orci. Donec nibh. Quisque nonummy ipsum non arcu. Vivamus sit amet risus. Donec egestas. Aliquam nec enim. Nunc ut erat. Sed nunc est, mollis non, cursus non, egestas a, dui. Cras pellentesque. Sed dictum. Proin eget odio. Aliquam vulputate ullamcorper magna. Sed eu eros. Nam consequat dolor vitae dolor. Donec fringilla. Donec feugiat metus sit amet ante. Vivamus non lorem vitae odio sagittis semper. Nam tempor diam dictum sapien.",
                             CreationDate = new DateTime(2019, 4, 6, 4, 21, 38, 0, DateTimeKind.Utc),
                             LastUpdated = new DateTime(2021, 10, 5, 3, 41, 36, 0, DateTimeKind.Utc),
+                            OwnerId = "9F87EEA2-25CB-13B8-13B7-CA1A69CA68B4",
                             Subtitle = "leo. Cras vehicula aliquet libero. Integer in magna. Phasellus dolor elit, pellentesque a,",
                             ThumbnailPath = "assets/features/flashmemo_dummy1.jpg ",
                             Title = "Duis sit amet diam"
@@ -5533,6 +5610,7 @@ namespace API.Migrations
                             Content = "ipsum ac mi eleifend egestas. Sed pharetra, felis eget varius ultrices, mauris ipsum porta elit, a feugiat tellus lorem eu metus. In lorem. Donec elementum, lorem ut aliquam iaculis, lacus pede sagittis augue, eu tempor erat neque non quam. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Aliquam fringilla cursus purus. Nullam scelerisque neque sed sem egestas blandit. Nam nulla magna, malesuada vel, convallis in, cursus et, eros. Proin ultrices. Duis volutpat nunc sit amet",
                             CreationDate = new DateTime(2019, 2, 19, 10, 32, 9, 0, DateTimeKind.Utc),
                             LastUpdated = new DateTime(2022, 3, 10, 16, 49, 59, 0, DateTimeKind.Utc),
+                            OwnerId = "B4553CAB-7997-1DE5-F7E3-90A7BC1DA167",
                             Subtitle = "enim consequat purus. Maecenas libero est, congue a, aliquet",
                             ThumbnailPath = "assets/features/flashmemo_dummy1.jpg ",
                             Title = "quis diam. Pellentesque habitant morbi tristique senectus et netus"
@@ -5543,6 +5621,7 @@ namespace API.Migrations
                             Content = "et magnis dis parturient montes, nascetur ridiculus mus. Aenean eget magna. Suspendisse tristique neque venenatis lacus. Etiam bibendum fermentum metus. Aenean sed pede nec ante blandit viverra. Donec tempus, lorem fringilla ornare placerat, orci lacus vestibulum lorem, sit amet ultricies sem magna nec quam. Curabitur vel lectus. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec dignissim magna a tortor. Nunc commodo auctor velit. Aliquam nisl. Nulla eu neque pellentesque massa lobortis ultrices. Vivamus rhoncus. Donec est. Nunc ullamcorper, velit in aliquet lobortis, nisi nibh lacinia orci, consectetuer euismod est arcu ac orci. Ut semper pretium neque. Morbi quis urna. Nunc quis arcu vel quam dignissim pharetra. Nam ac",
                             CreationDate = new DateTime(2019, 8, 19, 4, 27, 9, 0, DateTimeKind.Utc),
                             LastUpdated = new DateTime(2021, 6, 17, 0, 57, 44, 0, DateTimeKind.Utc),
+                            OwnerId = "B4553CAB-7997-1DE5-F7E3-90A7BC1DA167",
                             Subtitle = "in, cursus et, eros. Proin ultrices. Duis volutpat nunc sit",
                             ThumbnailPath = " assets/features/flashmemo_dummy3.jpg ",
                             Title = "nascetur ridiculus mus. Proin vel nisl. Quisque fringilla euismod enim."
@@ -5553,6 +5632,7 @@ namespace API.Migrations
                             Content = "eget varius ultrices, mauris ipsum porta elit, a feugiat tellus lorem eu metus. In lorem. Donec elementum, lorem ut aliquam iaculis, lacus pede sagittis augue, eu tempor erat neque non quam. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Aliquam fringilla cursus purus. Nullam scelerisque neque sed sem egestas blandit. Nam nulla magna, malesuada vel, convallis in, cursus et, eros. Proin ultrices. Duis volutpat nunc sit amet metus. Aliquam erat volutpat. Nulla facilisis. Suspendisse commodo tincidunt nibh. Phasellus nulla. Integer vulputate, risus a ultricies adipiscing, enim mi tempor lorem, eget mollis lectus pede et risus. Quisque libero lacus, varius et, euismod et, commodo at, libero. Morbi accumsan laoreet ipsum. Curabitur consequat, lectus sit amet luctus vulputate, nisi sem semper erat, in consectetuer ipsum nunc id enim. Curabitur massa. Vestibulum accumsan neque et nunc. Quisque ornare tortor at risus. Nunc ac sem ut dolor dapibus gravida. Aliquam tincidunt, nunc ac mattis ornare, lectus ante dictum mi, ac mattis velit justo nec ante. Maecenas mi felis, adipiscing fringilla, porttitor vulputate, posuere vulputate, lacus. Cras interdum. Nunc sollicitudin commodo ipsum. Suspendisse non leo. Vivamus nibh dolor, nonummy ac, feugiat non, lobortis quis, pede. Suspendisse dui. Fusce diam nunc, ullamcorper eu, euismod ac, fermentum vel, mauris. Integer sem elit, pharetra ut, pharetra sed, hendrerit a, arcu. Sed et libero. Proin mi. Aliquam gravida mauris ut mi. Duis risus odio, auctor vitae, aliquet nec, imperdiet nec, leo. Morbi neque tellus, imperdiet non, vestibulum nec, euismod in, dolor. Fusce feugiat. Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aliquam auctor, velit eget laoreet posuere, enim nisl elementum purus, accumsan interdum",
                             CreationDate = new DateTime(2019, 4, 9, 21, 3, 35, 0, DateTimeKind.Utc),
                             LastUpdated = new DateTime(2021, 11, 6, 8, 10, 35, 0, DateTimeKind.Utc),
+                            OwnerId = "E4C3E116-C71A-7B3B-CA32-159AE97C8456",
                             Subtitle = "lectus rutrum urna, nec luctus felis purus ac",
                             ThumbnailPath = " assets/features/flashmemo_dummy2.jpg ",
                             Title = "Morbi neque tellus, imperdiet non, vestibulum"
@@ -5563,6 +5643,7 @@ namespace API.Migrations
                             Content = "pede. Nunc sed orci lobortis augue scelerisque mollis. Phasellus libero mauris, aliquam eu, accumsan sed,",
                             CreationDate = new DateTime(2020, 2, 14, 4, 27, 5, 0, DateTimeKind.Utc),
                             LastUpdated = new DateTime(2021, 9, 21, 4, 50, 3, 0, DateTimeKind.Utc),
+                            OwnerId = "0004E137-13A5-5129-AA50-5A856A2A86F7",
                             Subtitle = "Sed malesuada augue ut lacus. Nulla tincidunt, neque vitae semper egestas, urna",
                             ThumbnailPath = " assets/features/flashmemo_dummy2.jpg ",
                             Title = "purus gravida sagittis. Duis gravida. Praesent eu nulla at"
@@ -5573,6 +5654,7 @@ namespace API.Migrations
                             Content = "lectus sit amet luctus vulputate, nisi sem semper erat, in consectetuer ipsum nunc id enim. Curabitur massa. Vestibulum accumsan neque et",
                             CreationDate = new DateTime(2019, 7, 19, 13, 58, 18, 0, DateTimeKind.Utc),
                             LastUpdated = new DateTime(2021, 6, 2, 21, 51, 4, 0, DateTimeKind.Utc),
+                            OwnerId = "BD696EC2-1BE1-FFB1-3FC1-883C2D247875",
                             Subtitle = "mattis velit justo nec ante. Maecenas mi felis, adipiscing fringilla, porttitor",
                             ThumbnailPath = " assets/features/flashmemo_dummy4.jpg",
                             Title = "pellentesque. Sed dictum."
@@ -5583,6 +5665,7 @@ namespace API.Migrations
                             Content = "sit amet metus. Aliquam erat volutpat. Nulla facilisis. Suspendisse commodo tincidunt nibh. Phasellus nulla. Integer vulputate, risus a ultricies adipiscing, enim mi tempor lorem, eget mollis lectus pede et risus. Quisque libero lacus, varius et, euismod et, commodo at, libero. Morbi accumsan laoreet ipsum. Curabitur consequat, lectus sit amet luctus vulputate, nisi sem semper erat, in consectetuer ipsum nunc id enim. Curabitur massa. Vestibulum accumsan neque et nunc. Quisque ornare tortor at risus. Nunc ac sem ut dolor dapibus gravida. Aliquam tincidunt, nunc ac mattis ornare, lectus ante dictum mi, ac mattis velit justo nec ante.",
                             CreationDate = new DateTime(2020, 3, 30, 7, 51, 52, 0, DateTimeKind.Utc),
                             LastUpdated = new DateTime(2022, 6, 8, 4, 24, 20, 0, DateTimeKind.Utc),
+                            OwnerId = "9FBC287A-C113-EBA3-526F-4AE7CEACBDE8",
                             Subtitle = "mauris a nunc. In at",
                             ThumbnailPath = "assets/features/flashmemo_dummy1.jpg ",
                             Title = "enim. Etiam gravida molestie"
@@ -5593,6 +5676,7 @@ namespace API.Migrations
                             Content = "Quisque varius. Nam porttitor scelerisque neque. Nullam nisl. Maecenas malesuada fringilla est. Mauris eu turpis. Nulla aliquet. Proin velit. Sed malesuada augue ut lacus. Nulla tincidunt, neque vitae semper egestas, urna justo faucibus lectus, a sollicitudin orci sem eget massa. Suspendisse eleifend. Cras sed leo. Cras vehicula aliquet libero. Integer in magna. Phasellus dolor elit, pellentesque a, facilisis non, bibendum sed, est. Nunc laoreet lectus quis massa. Mauris vestibulum, neque sed dictum eleifend, nunc risus varius orci, in consequat enim diam vel arcu. Curabitur ut odio vel est tempor bibendum. Donec felis orci, adipiscing non, luctus sit amet, faucibus ut, nulla. Cras eu tellus eu augue porttitor interdum. Sed auctor odio a purus. Duis elementum, dui quis accumsan convallis, ante lectus convallis est, vitae sodales nisi magna sed dui. Fusce aliquam, enim nec tempus scelerisque, lorem ipsum sodales purus, in molestie tortor nibh sit amet orci. Ut sagittis lobortis mauris. Suspendisse aliquet molestie tellus. Aenean egestas hendrerit neque. In ornare sagittis felis. Donec tempor, est ac mattis semper, dui lectus rutrum urna, nec luctus felis purus ac tellus. Suspendisse sed dolor. Fusce mi lorem, vehicula et, rutrum eu, ultrices sit amet, risus. Donec nibh enim, gravida sit amet, dapibus id, blandit at, nisi. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Proin vel nisl. Quisque fringilla euismod enim. Etiam gravida molestie arcu. Sed eu nibh vulputate mauris sagittis placerat. Cras dictum ultricies ligula. Nullam enim. Sed nulla ante, iaculis nec, eleifend non, dapibus rutrum, justo. Praesent luctus. Curabitur egestas nunc sed libero. Proin sed turpis nec mauris blandit mattis. Cras eget nisi dictum augue malesuada malesuada. Integer id magna",
                             CreationDate = new DateTime(2019, 8, 7, 2, 17, 52, 0, DateTimeKind.Utc),
                             LastUpdated = new DateTime(2021, 8, 18, 23, 4, 12, 0, DateTimeKind.Utc),
+                            OwnerId = "9FBC287A-C113-EBA3-526F-4AE7CEACBDE8",
                             Subtitle = "Class aptent taciti sociosqu ad litora torquent per conubia nostra, per",
                             ThumbnailPath = " assets/features/flashmemo_dummy3.jpg ",
                             Title = "neque et nunc. Quisque ornare tortor at risus."
@@ -5603,6 +5687,7 @@ namespace API.Migrations
                             Content = "Sed dictum. Proin eget odio. Aliquam vulputate ullamcorper magna. Sed eu eros. Nam consequat dolor vitae dolor. Donec fringilla. Donec feugiat metus sit amet ante. Vivamus non lorem vitae odio sagittis semper. Nam tempor diam dictum sapien. Aenean massa. Integer vitae nibh. Donec est mauris, rhoncus id, mollis nec, cursus a, enim. Suspendisse aliquet, sem ut cursus luctus, ipsum leo elementum sem, vitae aliquam eros turpis non enim. Mauris quis turpis vitae purus gravida sagittis. Duis gravida. Praesent eu nulla at sem molestie sodales. Mauris blandit enim consequat purus. Maecenas libero est, congue a, aliquet vel, vulputate eu, odio. Phasellus at augue id ante dictum cursus. Nunc mauris elit, dictum eu, eleifend nec, malesuada ut, sem. Nulla interdum. Curabitur dictum. Phasellus in felis. Nulla tempor augue ac ipsum. Phasellus vitae mauris sit amet lorem semper auctor. Mauris vel turpis. Aliquam adipiscing lobortis risus. In mi pede, nonummy ut, molestie in, tempus eu, ligula. Aenean euismod mauris eu elit. Nulla facilisi. Sed neque. Sed eget lacus. Mauris non dui nec urna suscipit nonummy. Fusce fermentum fermentum arcu. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Phasellus ornare. Fusce mollis. Duis sit amet diam eu dolor egestas rhoncus. Proin nisl sem, consequat nec, mollis vitae, posuere at, velit. Cras lorem lorem, luctus ut, pellentesque eget, dictum placerat, augue. Sed molestie. Sed id risus quis diam luctus lobortis. Class aptent taciti",
                             CreationDate = new DateTime(2019, 12, 8, 16, 38, 44, 0, DateTimeKind.Utc),
                             LastUpdated = new DateTime(2022, 2, 1, 7, 0, 25, 0, DateTimeKind.Utc),
+                            OwnerId = "9CBF5FEE-EE6E-5F1D-3E53-2389AD983EA2",
                             Subtitle = "fringilla mi lacinia mattis. Integer eu lacus. Quisque imperdiet, erat nonummy ultricies ornare, elit elit",
                             ThumbnailPath = "assets/features/flashmemo_dummy1.jpg ",
                             Title = "mollis. Phasellus libero mauris, aliquam"
@@ -5613,6 +5698,7 @@ namespace API.Migrations
                             Content = "augue eu tellus. Phasellus elit pede, malesuada vel, venenatis vel, faucibus id, libero. Donec consectetuer mauris id sapien. Cras dolor dolor, tempus non, lacinia at, iaculis quis, pede. Praesent eu dui. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Aenean eget magna. Suspendisse tristique neque venenatis lacus. Etiam bibendum fermentum metus. Aenean sed pede nec ante blandit viverra. Donec tempus, lorem fringilla ornare placerat, orci lacus vestibulum lorem, sit amet ultricies sem magna nec quam. Curabitur vel lectus. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec dignissim magna a tortor. Nunc commodo auctor velit. Aliquam nisl. Nulla eu neque pellentesque massa lobortis ultrices. Vivamus rhoncus. Donec est. Nunc ullamcorper, velit in aliquet lobortis, nisi nibh lacinia orci, consectetuer euismod est arcu ac orci. Ut semper pretium neque. Morbi quis urna. Nunc quis arcu vel quam dignissim pharetra. Nam ac nulla. In tincidunt congue turpis. In condimentum. Donec at arcu. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Donec tincidunt. Donec vitae erat vel pede blandit congue. In scelerisque scelerisque dui. Suspendisse ac metus vitae velit egestas lacinia. Sed congue, elit sed consequat auctor, nunc nulla vulputate dui, nec tempus mauris erat eget ipsum. Suspendisse sagittis. Nullam vitae diam. Proin dolor. Nulla semper tellus id nunc interdum feugiat. Sed nec metus facilisis lorem tristique aliquet. Phasellus fermentum convallis ligula. Donec luctus aliquet odio. Etiam ligula tortor, dictum eu, placerat eget, venenatis a, magna. Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Etiam laoreet, libero et tristique pellentesque, tellus sem mollis dui, in sodales elit erat vitae risus. Duis a mi fringilla mi lacinia mattis. Integer eu lacus. Quisque imperdiet, erat nonummy ultricies ornare, elit elit fermentum risus, at fringilla purus mauris a nunc. In at pede. Cras vulputate velit eu sem. Pellentesque ut ipsum ac mi eleifend egestas. Sed pharetra, felis eget varius ultrices, mauris ipsum porta elit, a feugiat tellus lorem eu metus. In lorem. Donec elementum, lorem ut aliquam iaculis, lacus pede sagittis augue, eu tempor erat",
                             CreationDate = new DateTime(2019, 12, 9, 21, 50, 41, 0, DateTimeKind.Utc),
                             LastUpdated = new DateTime(2022, 5, 5, 18, 44, 18, 0, DateTimeKind.Utc),
+                            OwnerId = "9FBC287A-C113-EBA3-526F-4AE7CEACBDE8",
                             Subtitle = "facilisis vitae, orci. Phasellus dapibus quam quis",
                             ThumbnailPath = "assets/features/flashmemo_dummy1.jpg ",
                             Title = "pede. Praesent eu"
@@ -5623,6 +5709,7 @@ namespace API.Migrations
                             Content = "mollis. Integer tincidunt aliquam arcu. Aliquam ultrices iaculis odio. Nam interdum enim non nisi. Aenean eget metus. In nec orci. Donec nibh. Quisque nonummy ipsum non arcu. Vivamus sit amet risus. Donec egestas. Aliquam nec enim. Nunc ut erat. Sed nunc est, mollis non, cursus non, egestas a, dui. Cras pellentesque. Sed dictum. Proin eget odio. Aliquam vulputate ullamcorper magna. Sed eu eros. Nam consequat dolor vitae dolor. Donec fringilla. Donec feugiat metus sit amet ante. Vivamus non lorem vitae odio sagittis semper. Nam tempor diam dictum sapien. Aenean massa. Integer vitae nibh. Donec est mauris, rhoncus id, mollis nec, cursus a, enim. Suspendisse",
                             CreationDate = new DateTime(2019, 8, 4, 3, 37, 19, 0, DateTimeKind.Utc),
                             LastUpdated = new DateTime(2021, 7, 31, 6, 31, 24, 0, DateTimeKind.Utc),
+                            OwnerId = "0004E137-13A5-5129-AA50-5A856A2A86F7",
                             Subtitle = "Curabitur egestas nunc sed libero.",
                             ThumbnailPath = " assets/features/flashmemo_dummy4.jpg",
                             Title = "lacus vestibulum lorem, sit amet"
@@ -5633,6 +5720,7 @@ namespace API.Migrations
                             Content = "dolor vitae dolor. Donec fringilla. Donec feugiat metus sit amet ante. Vivamus non lorem vitae odio sagittis semper. Nam tempor diam dictum sapien. Aenean massa. Integer",
                             CreationDate = new DateTime(2019, 3, 6, 22, 11, 10, 0, DateTimeKind.Utc),
                             LastUpdated = new DateTime(2021, 6, 29, 9, 36, 48, 0, DateTimeKind.Utc),
+                            OwnerId = "5881A9B3-912A-8F1A-C5FA-0855A0563E23",
                             Subtitle = "ultrices. Duis volutpat nunc sit amet metus. Aliquam",
                             ThumbnailPath = "assets/features/flashmemo_dummy1.jpg ",
                             Title = "nibh. Quisque nonummy ipsum non"
@@ -5643,6 +5731,7 @@ namespace API.Migrations
                             Content = "euismod urna. Nullam lobortis quam a felis ullamcorper viverra. Maecenas iaculis aliquet diam. Sed diam lorem, auctor quis, tristique ac, eleifend vitae, erat. Vivamus nisi. Mauris nulla. Integer urna. Vivamus molestie dapibus ligula. Aliquam erat volutpat. Nulla dignissim. Maecenas ornare egestas ligula. Nullam feugiat placerat velit. Quisque varius. Nam porttitor scelerisque neque. Nullam nisl. Maecenas malesuada fringilla est. Mauris eu turpis. Nulla aliquet. Proin velit. Sed malesuada augue ut lacus. Nulla tincidunt, neque vitae semper egestas, urna justo faucibus lectus, a sollicitudin orci sem eget massa. Suspendisse eleifend. Cras sed leo. Cras vehicula aliquet libero. Integer in magna. Phasellus dolor elit, pellentesque a, facilisis non, bibendum sed, est. Nunc laoreet lectus quis massa. Mauris vestibulum, neque sed dictum eleifend, nunc risus varius orci, in consequat enim diam vel arcu. Curabitur ut odio vel est tempor bibendum. Donec felis orci, adipiscing non, luctus sit amet, faucibus ut, nulla. Cras eu tellus eu augue porttitor interdum. Sed auctor odio a purus. Duis elementum, dui quis accumsan convallis, ante lectus convallis est, vitae sodales nisi magna sed dui. Fusce aliquam, enim nec tempus scelerisque, lorem ipsum sodales purus, in molestie tortor nibh sit amet orci. Ut sagittis lobortis mauris. Suspendisse aliquet molestie tellus. Aenean egestas hendrerit neque. In ornare sagittis felis. Donec tempor, est ac mattis semper, dui lectus rutrum urna, nec luctus felis purus ac tellus. Suspendisse sed dolor. Fusce mi lorem, vehicula et, rutrum eu, ultrices sit amet, risus. Donec nibh enim, gravida sit amet, dapibus id, blandit at, nisi. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Proin vel nisl. Quisque fringilla euismod enim. Etiam gravida molestie arcu. Sed eu nibh vulputate mauris sagittis placerat. Cras dictum ultricies ligula. Nullam enim. Sed nulla ante, iaculis nec, eleifend non, dapibus rutrum, justo. Praesent luctus. Curabitur egestas nunc sed libero. Proin sed turpis nec mauris blandit mattis. Cras eget nisi",
                             CreationDate = new DateTime(2020, 3, 23, 7, 5, 30, 0, DateTimeKind.Utc),
                             LastUpdated = new DateTime(2022, 6, 11, 19, 54, 25, 0, DateTimeKind.Utc),
+                            OwnerId = "62DAAEBC-F2F5-4D16-533A-AD176D7EA7B7",
                             Subtitle = "taciti sociosqu ad litora torquent per conubia nostra, per",
                             ThumbnailPath = "assets/features/flashmemo_dummy1.jpg ",
                             Title = "netus et malesuada fames ac"
@@ -5653,6 +5742,7 @@ namespace API.Migrations
                             Content = "massa. Mauris vestibulum, neque sed dictum eleifend, nunc risus varius orci, in consequat enim diam vel arcu. Curabitur ut odio vel est tempor bibendum. Donec felis orci, adipiscing non, luctus sit amet, faucibus ut, nulla. Cras eu tellus eu augue porttitor interdum. Sed auctor odio a purus. Duis elementum, dui quis accumsan convallis, ante lectus convallis est, vitae sodales nisi magna sed dui. Fusce aliquam, enim nec tempus scelerisque, lorem ipsum sodales purus, in molestie tortor nibh sit amet orci. Ut sagittis lobortis mauris. Suspendisse aliquet molestie tellus. Aenean egestas hendrerit neque. In ornare sagittis felis. Donec tempor, est ac mattis semper, dui lectus rutrum urna, nec luctus felis purus ac tellus. Suspendisse sed dolor. Fusce mi lorem, vehicula et, rutrum eu, ultrices sit amet, risus. Donec nibh enim, gravida sit amet, dapibus id, blandit at, nisi. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Proin vel nisl. Quisque fringilla euismod enim. Etiam gravida molestie arcu. Sed eu nibh vulputate mauris sagittis placerat. Cras dictum ultricies ligula. Nullam enim. Sed nulla ante, iaculis nec, eleifend non, dapibus rutrum, justo. Praesent luctus. Curabitur egestas nunc sed libero. Proin sed turpis nec mauris blandit mattis. Cras eget nisi dictum augue malesuada malesuada. Integer id magna et ipsum cursus vestibulum. Mauris magna. Duis dignissim tempor arcu. Vestibulum ut eros non enim commodo hendrerit. Donec porttitor tellus non magna. Nam ligula elit, pretium et, rutrum non, hendrerit id, ante. Nunc mauris sapien, cursus in, hendrerit consectetuer, cursus et, magna. Praesent interdum ligula eu enim. Etiam imperdiet dictum magna. Ut tincidunt orci quis lectus. Nullam suscipit, est ac facilisis facilisis, magna tellus faucibus leo, in lobortis tellus justo sit amet nulla. Donec non justo. Proin non massa non ante bibendum ullamcorper. Duis cursus, diam at pretium aliquet, metus urna convallis erat, eget tincidunt dui augue eu tellus. Phasellus elit pede, malesuada vel, venenatis vel, faucibus",
                             CreationDate = new DateTime(2019, 9, 2, 5, 16, 59, 0, DateTimeKind.Utc),
                             LastUpdated = new DateTime(2021, 8, 13, 7, 48, 49, 0, DateTimeKind.Utc),
+                            OwnerId = "9FBC287A-C113-EBA3-526F-4AE7CEACBDE8",
                             Subtitle = "risus varius orci, in consequat enim diam vel arcu.",
                             ThumbnailPath = " assets/features/flashmemo_dummy2.jpg ",
                             Title = "senectus et netus et malesuada fames ac"
@@ -5663,6 +5753,7 @@ namespace API.Migrations
                             Content = "ac tellus. Suspendisse sed dolor. Fusce mi lorem, vehicula et, rutrum eu, ultrices sit amet, risus. Donec nibh enim, gravida sit amet, dapibus id, blandit at, nisi. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Proin vel nisl. Quisque fringilla euismod enim. Etiam gravida molestie arcu. Sed eu nibh vulputate mauris sagittis placerat. Cras dictum",
                             CreationDate = new DateTime(2019, 11, 11, 4, 12, 43, 0, DateTimeKind.Utc),
                             LastUpdated = new DateTime(2021, 6, 26, 19, 48, 40, 0, DateTimeKind.Utc),
+                            OwnerId = "9F87EEA2-25CB-13B8-13B7-CA1A69CA68B4",
                             Subtitle = "nunc nulla vulputate dui, nec tempus mauris",
                             ThumbnailPath = " assets/features/flashmemo_dummy4.jpg",
                             Title = "sociis natoque penatibus et magnis dis parturient montes, nascetur"
@@ -5673,6 +5764,7 @@ namespace API.Migrations
                             Content = "enim non nisi. Aenean eget metus. In nec orci. Donec nibh. Quisque nonummy ipsum non arcu. Vivamus sit amet risus. Donec egestas. Aliquam nec enim. Nunc ut erat. Sed nunc est, mollis non, cursus non, egestas a, dui. Cras pellentesque. Sed dictum. Proin eget odio. Aliquam vulputate ullamcorper magna. Sed eu eros. Nam consequat dolor vitae dolor. Donec fringilla. Donec feugiat metus sit amet ante. Vivamus non lorem vitae odio sagittis semper. Nam tempor diam dictum sapien. Aenean massa. Integer vitae nibh. Donec est mauris, rhoncus id, mollis nec, cursus a, enim. Suspendisse aliquet, sem ut cursus luctus, ipsum leo elementum sem, vitae aliquam eros turpis non enim. Mauris quis turpis vitae purus gravida sagittis. Duis gravida. Praesent eu nulla at sem molestie sodales. Mauris blandit enim consequat purus. Maecenas libero est, congue a, aliquet vel, vulputate eu, odio. Phasellus at augue id ante dictum cursus. Nunc mauris elit, dictum eu, eleifend nec, malesuada ut, sem. Nulla interdum. Curabitur dictum. Phasellus in felis. Nulla tempor augue ac ipsum. Phasellus vitae mauris sit amet lorem semper auctor. Mauris vel turpis. Aliquam adipiscing lobortis risus. In mi pede, nonummy ut, molestie in, tempus eu, ligula. Aenean euismod mauris eu elit. Nulla facilisi. Sed neque. Sed eget lacus. Mauris non dui nec urna suscipit nonummy. Fusce fermentum fermentum arcu. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Phasellus ornare. Fusce mollis. Duis sit amet diam eu dolor egestas rhoncus. Proin nisl sem, consequat nec, mollis vitae, posuere at, velit. Cras lorem lorem, luctus ut, pellentesque eget, dictum placerat, augue. Sed molestie. Sed id risus quis diam luctus lobortis. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos hymenaeos. Mauris ut quam vel sapien imperdiet ornare. In faucibus. Morbi vehicula. Pellentesque tincidunt tempus risus. Donec egestas. Duis ac arcu. Nunc mauris. Morbi non sapien molestie orci tincidunt adipiscing. Mauris molestie pharetra nibh. Aliquam ornare, libero at auctor ullamcorper, nisl arcu iaculis enim, sit amet ornare lectus justo eu arcu. Morbi sit amet massa. Quisque porttitor eros nec tellus. Nunc lectus pede, ultrices a, auctor non, feugiat nec, diam. Duis mi enim, condimentum eget, volutpat ornare, facilisis eget, ipsum. Donec sollicitudin adipiscing",
                             CreationDate = new DateTime(2020, 1, 26, 14, 24, 20, 0, DateTimeKind.Utc),
                             LastUpdated = new DateTime(2022, 4, 6, 8, 52, 44, 0, DateTimeKind.Utc),
+                            OwnerId = "E4C3E116-C71A-7B3B-CA32-159AE97C8456",
                             Subtitle = "nec urna suscipit nonummy. Fusce fermentum fermentum arcu. Vestibulum ante",
                             ThumbnailPath = " assets/features/flashmemo_dummy2.jpg ",
                             Title = "dolor. Nulla semper tellus id nunc interdum feugiat. Sed"
@@ -5683,6 +5775,7 @@ namespace API.Migrations
                             Content = "massa non ante bibendum ullamcorper. Duis cursus, diam at pretium aliquet, metus urna convallis erat, eget tincidunt dui augue eu tellus. Phasellus elit pede, malesuada vel, venenatis vel, faucibus id, libero. Donec consectetuer mauris id sapien. Cras dolor dolor, tempus non, lacinia at, iaculis quis, pede. Praesent eu dui. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Aenean eget magna. Suspendisse tristique neque venenatis lacus. Etiam bibendum fermentum metus. Aenean sed pede nec ante blandit viverra. Donec tempus, lorem fringilla ornare placerat, orci lacus vestibulum lorem, sit amet ultricies sem magna nec quam. Curabitur vel lectus. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec dignissim magna a tortor. Nunc commodo auctor velit. Aliquam nisl. Nulla eu neque pellentesque massa lobortis ultrices. Vivamus rhoncus. Donec est. Nunc ullamcorper, velit in aliquet lobortis, nisi nibh lacinia orci, consectetuer euismod est arcu ac orci. Ut semper pretium neque. Morbi quis urna. Nunc quis arcu vel quam dignissim pharetra. Nam ac nulla. In tincidunt congue turpis. In condimentum. Donec at arcu. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Donec tincidunt. Donec vitae erat vel pede blandit congue. In scelerisque scelerisque dui. Suspendisse ac metus vitae velit egestas lacinia. Sed congue, elit sed consequat auctor, nunc nulla vulputate dui, nec tempus mauris erat eget ipsum. Suspendisse sagittis. Nullam vitae diam. Proin dolor. Nulla semper tellus id nunc interdum feugiat. Sed nec metus facilisis lorem tristique aliquet. Phasellus fermentum convallis ligula. Donec luctus aliquet odio. Etiam ligula tortor, dictum",
                             CreationDate = new DateTime(2019, 11, 29, 10, 18, 12, 0, DateTimeKind.Utc),
                             LastUpdated = new DateTime(2021, 9, 25, 23, 36, 18, 0, DateTimeKind.Utc),
+                            OwnerId = "0004E137-13A5-5129-AA50-5A856A2A86F7",
                             Subtitle = "non, lacinia at, iaculis quis, pede. Praesent eu dui. Cum sociis natoque penatibus et magnis",
                             ThumbnailPath = "assets/features/flashmemo_dummy1.jpg ",
                             Title = "dignissim tempor arcu. Vestibulum ut eros non enim"
@@ -5693,6 +5786,7 @@ namespace API.Migrations
                             Content = "lobortis augue scelerisque mollis. Phasellus libero mauris, aliquam eu, accumsan sed, facilisis vitae, orci. Phasellus dapibus quam quis diam. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Fusce aliquet magna a neque. Nullam ut nisi a odio semper cursus. Integer mollis. Integer tincidunt aliquam arcu. Aliquam ultrices iaculis odio. Nam interdum enim non nisi. Aenean eget metus. In nec orci. Donec nibh. Quisque nonummy ipsum non arcu. Vivamus sit amet risus. Donec egestas. Aliquam nec enim. Nunc ut erat. Sed nunc est, mollis non, cursus non, egestas a, dui. Cras pellentesque. Sed dictum. Proin eget odio. Aliquam vulputate ullamcorper magna. Sed eu eros. Nam consequat dolor vitae dolor. Donec fringilla. Donec feugiat metus sit amet ante. Vivamus non lorem vitae odio sagittis semper. Nam tempor diam dictum sapien. Aenean massa. Integer vitae nibh. Donec est mauris, rhoncus id, mollis nec,",
                             CreationDate = new DateTime(2019, 8, 9, 17, 25, 56, 0, DateTimeKind.Utc),
                             LastUpdated = new DateTime(2021, 10, 1, 8, 32, 57, 0, DateTimeKind.Utc),
+                            OwnerId = "9F87EEA2-25CB-13B8-13B7-CA1A69CA68B4",
                             Subtitle = "nisi nibh lacinia orci, consectetuer euismod est arcu ac orci. Ut semper pretium",
                             ThumbnailPath = " assets/features/flashmemo_dummy3.jpg ",
                             Title = "lacus. Mauris non dui nec urna"
@@ -5703,6 +5797,7 @@ namespace API.Migrations
                             Content = "metus. Aliquam erat volutpat. Nulla facilisis. Suspendisse commodo tincidunt nibh. Phasellus nulla. Integer vulputate, risus a ultricies adipiscing, enim mi tempor lorem, eget mollis lectus pede et risus. Quisque libero lacus, varius et, euismod et, commodo at, libero. Morbi accumsan laoreet ipsum. Curabitur consequat, lectus sit amet luctus vulputate, nisi sem semper erat, in consectetuer ipsum nunc id enim. Curabitur massa. Vestibulum accumsan neque et nunc. Quisque ornare tortor at risus. Nunc ac sem ut dolor dapibus gravida. Aliquam tincidunt, nunc ac mattis ornare, lectus ante dictum mi, ac mattis velit justo nec ante. Maecenas mi felis, adipiscing fringilla, porttitor vulputate, posuere vulputate, lacus. Cras interdum. Nunc sollicitudin commodo ipsum. Suspendisse non leo. Vivamus nibh dolor, nonummy ac, feugiat non, lobortis quis, pede. Suspendisse dui. Fusce diam nunc, ullamcorper eu, euismod ac, fermentum vel, mauris. Integer sem elit, pharetra ut, pharetra sed, hendrerit a, arcu. Sed et libero. Proin mi. Aliquam gravida mauris ut mi. Duis risus odio, auctor vitae, aliquet nec, imperdiet nec, leo. Morbi neque",
                             CreationDate = new DateTime(2020, 3, 9, 19, 35, 47, 0, DateTimeKind.Utc),
                             LastUpdated = new DateTime(2021, 9, 10, 14, 38, 40, 0, DateTimeKind.Utc),
+                            OwnerId = "5881A9B3-912A-8F1A-C5FA-0855A0563E23",
                             Subtitle = "eget ipsum. Suspendisse sagittis. Nullam vitae diam. Proin dolor. Nulla semper",
                             ThumbnailPath = " assets/features/flashmemo_dummy4.jpg",
                             Title = "Suspendisse aliquet, sem"
@@ -5713,6 +5808,7 @@ namespace API.Migrations
                             Content = "non enim. Mauris quis turpis vitae purus gravida sagittis. Duis gravida. Praesent eu nulla at sem molestie sodales. Mauris blandit enim consequat purus. Maecenas libero est, congue a, aliquet vel, vulputate eu, odio. Phasellus at augue id ante dictum cursus. Nunc mauris elit, dictum eu, eleifend nec, malesuada ut, sem. Nulla interdum. Curabitur dictum. Phasellus in felis. Nulla tempor augue ac ipsum. Phasellus vitae mauris sit amet lorem semper auctor. Mauris vel turpis. Aliquam adipiscing lobortis risus. In mi pede, nonummy ut, molestie in, tempus eu, ligula. Aenean euismod mauris eu elit. Nulla facilisi. Sed neque. Sed eget lacus. Mauris non dui nec urna suscipit nonummy. Fusce fermentum fermentum arcu. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Phasellus ornare. Fusce mollis. Duis sit amet diam eu dolor egestas rhoncus. Proin nisl sem, consequat nec, mollis vitae, posuere at, velit. Cras lorem lorem, luctus ut, pellentesque eget, dictum placerat, augue. Sed molestie. Sed id risus quis diam luctus lobortis. Class aptent taciti sociosqu ad litora torquent",
                             CreationDate = new DateTime(2020, 3, 8, 19, 3, 20, 0, DateTimeKind.Utc),
                             LastUpdated = new DateTime(2021, 6, 15, 20, 1, 52, 0, DateTimeKind.Utc),
+                            OwnerId = "B4553CAB-7997-1DE5-F7E3-90A7BC1DA167",
                             Subtitle = "eu arcu. Morbi sit amet",
                             ThumbnailPath = "assets/features/flashmemo_dummy1.jpg ",
                             Title = "cursus purus. Nullam scelerisque neque sed sem egestas"
@@ -5723,6 +5819,7 @@ namespace API.Migrations
                             Content = "cubilia Curae; Donec tincidunt. Donec vitae erat vel pede blandit congue. In scelerisque scelerisque dui. Suspendisse ac metus vitae",
                             CreationDate = new DateTime(2020, 1, 22, 14, 5, 56, 0, DateTimeKind.Utc),
                             LastUpdated = new DateTime(2022, 3, 16, 10, 7, 31, 0, DateTimeKind.Utc),
+                            OwnerId = "62DAAEBC-F2F5-4D16-533A-AD176D7EA7B7",
                             Subtitle = "cursus. Integer mollis. Integer tincidunt aliquam arcu. Aliquam ultrices iaculis odio. Nam interdum enim non",
                             ThumbnailPath = " assets/features/flashmemo_dummy3.jpg ",
                             Title = "Nullam scelerisque neque sed sem"
@@ -5733,6 +5830,7 @@ namespace API.Migrations
                             Content = "ac orci. Ut semper pretium neque. Morbi quis urna. Nunc quis arcu vel quam dignissim pharetra. Nam ac nulla. In tincidunt congue turpis. In condimentum. Donec at arcu. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Donec tincidunt. Donec vitae erat vel pede blandit congue. In scelerisque scelerisque dui. Suspendisse ac metus vitae velit egestas lacinia. Sed congue, elit sed consequat auctor, nunc nulla vulputate dui, nec tempus mauris erat eget ipsum. Suspendisse sagittis. Nullam vitae diam. Proin dolor. Nulla semper tellus id nunc interdum",
                             CreationDate = new DateTime(2020, 3, 4, 1, 17, 56, 0, DateTimeKind.Utc),
                             LastUpdated = new DateTime(2021, 7, 18, 8, 5, 20, 0, DateTimeKind.Utc),
+                            OwnerId = "9F87EEA2-25CB-13B8-13B7-CA1A69CA68B4",
                             Subtitle = "molestie tellus. Aenean egestas hendrerit",
                             ThumbnailPath = " assets/features/flashmemo_dummy3.jpg ",
                             Title = "mi. Aliquam gravida mauris ut mi. Duis risus odio, auctor"
@@ -5743,6 +5841,7 @@ namespace API.Migrations
                             Content = "Ut sagittis lobortis mauris. Suspendisse aliquet molestie tellus. Aenean egestas hendrerit neque. In ornare sagittis felis. Donec tempor, est ac mattis semper, dui lectus rutrum urna, nec luctus felis purus ac tellus. Suspendisse sed dolor. Fusce mi lorem, vehicula et, rutrum eu, ultrices sit amet, risus. Donec nibh enim, gravida sit amet, dapibus id, blandit at, nisi. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Proin vel nisl. Quisque fringilla euismod enim. Etiam gravida molestie arcu. Sed eu nibh vulputate mauris sagittis placerat. Cras dictum ultricies ligula. Nullam enim. Sed nulla ante, iaculis nec, eleifend non, dapibus rutrum, justo. Praesent luctus. Curabitur egestas nunc sed libero. Proin sed turpis nec mauris blandit mattis. Cras eget nisi dictum augue malesuada malesuada. Integer id magna et ipsum cursus vestibulum. Mauris magna. Duis dignissim tempor arcu. Vestibulum ut eros non enim commodo hendrerit. Donec porttitor tellus non magna. Nam ligula elit, pretium et, rutrum non, hendrerit id, ante. Nunc mauris sapien, cursus in, hendrerit consectetuer, cursus et, magna. Praesent interdum ligula eu enim. Etiam imperdiet dictum magna. Ut tincidunt orci quis lectus. Nullam suscipit, est ac facilisis facilisis, magna tellus faucibus leo, in lobortis tellus justo sit amet nulla. Donec non justo. Proin non massa non ante bibendum ullamcorper. Duis cursus, diam at pretium aliquet, metus urna convallis erat, eget tincidunt dui augue eu tellus. Phasellus elit pede, malesuada vel, venenatis vel, faucibus id, libero. Donec consectetuer mauris id sapien. Cras dolor dolor, tempus non, lacinia at, iaculis quis, pede. Praesent eu dui. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Aenean eget magna. Suspendisse tristique neque venenatis lacus. Etiam bibendum fermentum metus. Aenean sed pede nec ante blandit viverra. Donec tempus, lorem fringilla ornare placerat, orci lacus vestibulum lorem, sit amet ultricies sem magna nec quam. Curabitur vel lectus. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec dignissim magna a tortor. Nunc commodo auctor velit. Aliquam nisl. Nulla eu neque pellentesque massa lobortis ultrices. Vivamus rhoncus. Donec est. Nunc ullamcorper, velit in aliquet lobortis, nisi nibh lacinia orci, consectetuer euismod est arcu",
                             CreationDate = new DateTime(2019, 5, 28, 12, 8, 34, 0, DateTimeKind.Utc),
                             LastUpdated = new DateTime(2021, 6, 12, 16, 56, 38, 0, DateTimeKind.Utc),
+                            OwnerId = "62DAAEBC-F2F5-4D16-533A-AD176D7EA7B7",
                             Subtitle = "eu nulla at sem molestie sodales. Mauris",
                             ThumbnailPath = " assets/features/flashmemo_dummy3.jpg ",
                             Title = "fames ac turpis egestas. Aliquam fringilla cursus purus."
@@ -5753,6 +5852,7 @@ namespace API.Migrations
                             Content = "ullamcorper magna. Sed eu eros. Nam consequat dolor vitae dolor. Donec fringilla. Donec feugiat metus sit amet ante. Vivamus non lorem vitae odio sagittis semper. Nam tempor diam dictum sapien. Aenean massa. Integer vitae nibh. Donec est mauris, rhoncus id, mollis nec, cursus a, enim. Suspendisse aliquet, sem ut cursus luctus, ipsum leo elementum sem, vitae aliquam eros turpis non enim. Mauris quis turpis vitae purus gravida sagittis. Duis gravida. Praesent eu nulla at sem molestie sodales. Mauris blandit",
                             CreationDate = new DateTime(2019, 8, 18, 20, 10, 44, 0, DateTimeKind.Utc),
                             LastUpdated = new DateTime(2021, 9, 19, 23, 47, 40, 0, DateTimeKind.Utc),
+                            OwnerId = "62DAAEBC-F2F5-4D16-533A-AD176D7EA7B7",
                             Subtitle = "ipsum primis in faucibus orci luctus et ultrices",
                             ThumbnailPath = " assets/features/flashmemo_dummy3.jpg ",
                             Title = "est, congue a, aliquet"
@@ -5763,6 +5863,7 @@ namespace API.Migrations
                             Content = "in lobortis tellus justo sit amet nulla. Donec non justo. Proin non massa non ante bibendum ullamcorper. Duis cursus, diam at pretium aliquet, metus urna convallis erat, eget tincidunt dui augue eu tellus. Phasellus elit pede, malesuada vel, venenatis vel, faucibus id, libero. Donec consectetuer mauris id sapien. Cras dolor dolor, tempus non, lacinia at, iaculis quis, pede. Praesent eu dui. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Aenean eget magna. Suspendisse tristique neque venenatis lacus. Etiam bibendum fermentum metus. Aenean sed pede nec ante blandit viverra. Donec tempus, lorem fringilla ornare placerat, orci lacus vestibulum lorem, sit amet ultricies sem magna nec quam. Curabitur vel lectus. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec dignissim magna a tortor. Nunc commodo auctor velit. Aliquam nisl. Nulla eu neque pellentesque massa lobortis ultrices. Vivamus rhoncus. Donec est. Nunc ullamcorper, velit in aliquet lobortis, nisi nibh lacinia orci, consectetuer euismod est arcu ac orci. Ut semper pretium neque. Morbi",
                             CreationDate = new DateTime(2020, 2, 6, 11, 25, 42, 0, DateTimeKind.Utc),
                             LastUpdated = new DateTime(2021, 6, 8, 14, 9, 28, 0, DateTimeKind.Utc),
+                            OwnerId = "BD696EC2-1BE1-FFB1-3FC1-883C2D247875",
                             Subtitle = "Duis risus odio, auctor vitae, aliquet nec, imperdiet nec, leo. Morbi neque tellus, imperdiet non,",
                             ThumbnailPath = "assets/features/flashmemo_dummy1.jpg ",
                             Title = "Vestibulum ut eros non enim"
@@ -5773,6 +5874,7 @@ namespace API.Migrations
                             Content = "facilisis vitae, orci. Phasellus dapibus quam quis diam. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Fusce aliquet magna a neque. Nullam ut nisi a odio semper cursus. Integer mollis. Integer tincidunt aliquam arcu. Aliquam ultrices iaculis odio. Nam interdum enim non nisi. Aenean eget metus. In nec orci. Donec nibh. Quisque nonummy ipsum non arcu. Vivamus sit amet risus. Donec egestas. Aliquam nec enim. Nunc ut erat. Sed nunc est, mollis non, cursus non, egestas a, dui. Cras pellentesque. Sed dictum. Proin eget odio. Aliquam vulputate ullamcorper magna. Sed eu eros. Nam consequat dolor vitae dolor. Donec fringilla. Donec feugiat metus sit amet ante. Vivamus non lorem vitae odio sagittis semper. Nam tempor diam dictum sapien. Aenean massa. Integer vitae nibh. Donec est mauris, rhoncus id, mollis nec, cursus a, enim. Suspendisse aliquet, sem ut cursus luctus, ipsum leo elementum sem, vitae aliquam eros turpis non enim. Mauris quis turpis vitae purus gravida sagittis. Duis gravida. Praesent eu nulla at sem molestie sodales. Mauris blandit enim consequat purus. Maecenas libero est, congue a, aliquet vel, vulputate eu, odio. Phasellus at augue id ante dictum cursus. Nunc mauris elit, dictum eu, eleifend nec, malesuada ut, sem. Nulla interdum. Curabitur dictum. Phasellus in felis. Nulla tempor augue ac ipsum. Phasellus vitae mauris sit amet lorem semper auctor. Mauris vel turpis. Aliquam adipiscing lobortis risus. In mi pede, nonummy ut, molestie in, tempus eu, ligula. Aenean euismod mauris eu elit. Nulla facilisi. Sed neque. Sed eget lacus. Mauris non dui nec urna suscipit nonummy. Fusce fermentum fermentum arcu. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices",
                             CreationDate = new DateTime(2019, 10, 29, 23, 50, 24, 0, DateTimeKind.Utc),
                             LastUpdated = new DateTime(2021, 11, 20, 11, 10, 5, 0, DateTimeKind.Utc),
+                            OwnerId = "0004E137-13A5-5129-AA50-5A856A2A86F7",
                             Subtitle = "Cras dolor dolor, tempus non, lacinia at, iaculis quis, pede.",
                             ThumbnailPath = "assets/features/flashmemo_dummy1.jpg ",
                             Title = "purus mauris a"
@@ -5783,6 +5885,7 @@ namespace API.Migrations
                             Content = "neque pellentesque massa lobortis ultrices. Vivamus rhoncus. Donec est. Nunc ullamcorper, velit in aliquet lobortis, nisi nibh lacinia orci, consectetuer euismod est arcu ac orci. Ut semper pretium neque. Morbi quis urna. Nunc quis arcu vel quam dignissim pharetra. Nam ac nulla. In tincidunt congue turpis. In condimentum. Donec at arcu. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Donec tincidunt. Donec vitae erat vel pede blandit congue. In scelerisque scelerisque dui. Suspendisse ac metus vitae velit egestas lacinia. Sed congue, elit sed consequat auctor, nunc nulla vulputate dui, nec tempus mauris erat eget ipsum. Suspendisse sagittis. Nullam vitae diam. Proin dolor. Nulla semper tellus id nunc interdum feugiat. Sed nec metus facilisis lorem tristique aliquet. Phasellus fermentum convallis ligula. Donec luctus aliquet odio. Etiam ligula tortor, dictum eu, placerat eget, venenatis a, magna. Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Etiam laoreet, libero et tristique pellentesque, tellus sem mollis dui, in sodales elit erat vitae risus. Duis a mi fringilla mi lacinia mattis. Integer eu lacus. Quisque imperdiet, erat nonummy ultricies ornare, elit elit fermentum risus, at fringilla purus mauris a nunc. In at pede. Cras vulputate velit eu sem. Pellentesque ut ipsum ac mi eleifend egestas. Sed pharetra, felis eget varius ultrices, mauris ipsum porta elit, a feugiat tellus lorem eu metus. In lorem. Donec elementum, lorem ut aliquam iaculis, lacus pede sagittis augue, eu tempor erat neque non quam. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Aliquam fringilla cursus purus. Nullam scelerisque neque sed sem egestas blandit. Nam nulla magna, malesuada vel, convallis in, cursus et, eros. Proin ultrices. Duis volutpat nunc sit amet metus. Aliquam erat volutpat. Nulla facilisis. Suspendisse commodo tincidunt nibh. Phasellus nulla. Integer vulputate, risus a ultricies adipiscing, enim mi tempor lorem, eget mollis lectus pede et risus. Quisque libero lacus, varius et, euismod et, commodo",
                             CreationDate = new DateTime(2019, 9, 23, 10, 3, 13, 0, DateTimeKind.Utc),
                             LastUpdated = new DateTime(2021, 9, 4, 10, 59, 5, 0, DateTimeKind.Utc),
+                            OwnerId = "9FBC287A-C113-EBA3-526F-4AE7CEACBDE8",
                             Subtitle = "ut, pharetra sed, hendrerit a, arcu. Sed",
                             ThumbnailPath = " assets/features/flashmemo_dummy2.jpg ",
                             Title = "molestie sodales. Mauris blandit enim consequat purus. Maecenas"
@@ -5793,6 +5896,7 @@ namespace API.Migrations
                             Content = "sollicitudin adipiscing ligula. Aenean gravida nunc sed pede. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Proin vel arcu eu odio tristique pharetra. Quisque ac libero nec ligula consectetuer rhoncus. Nullam velit dui, semper et, lacinia vitae, sodales at, velit. Pellentesque ultricies dignissim lacus. Aliquam rutrum lorem ac risus. Morbi metus. Vivamus euismod urna. Nullam lobortis quam a felis ullamcorper viverra. Maecenas iaculis aliquet diam. Sed diam lorem, auctor quis, tristique ac, eleifend vitae, erat. Vivamus nisi. Mauris nulla. Integer urna. Vivamus molestie dapibus ligula. Aliquam erat volutpat. Nulla dignissim. Maecenas ornare egestas ligula. Nullam feugiat placerat velit. Quisque varius. Nam porttitor scelerisque neque. Nullam nisl. Maecenas malesuada fringilla est. Mauris eu turpis. Nulla aliquet. Proin velit. Sed malesuada augue ut lacus. Nulla tincidunt, neque vitae semper egestas, urna justo faucibus lectus, a sollicitudin orci sem eget massa. Suspendisse eleifend. Cras sed leo. Cras vehicula aliquet libero. Integer in magna. Phasellus dolor elit, pellentesque a, facilisis non, bibendum sed, est. Nunc laoreet lectus quis massa. Mauris vestibulum, neque sed dictum eleifend, nunc risus varius orci, in consequat enim diam vel arcu. Curabitur ut odio vel est tempor bibendum. Donec felis orci, adipiscing non, luctus sit amet, faucibus ut, nulla. Cras eu tellus eu augue porttitor interdum. Sed auctor odio a purus. Duis elementum, dui quis accumsan convallis, ante lectus convallis est, vitae sodales nisi magna sed dui. Fusce aliquam, enim nec tempus scelerisque, lorem ipsum sodales purus, in molestie tortor nibh sit amet orci. Ut sagittis lobortis mauris. Suspendisse aliquet molestie tellus. Aenean egestas hendrerit neque. In ornare sagittis felis. Donec tempor, est ac mattis semper, dui lectus rutrum urna, nec luctus felis purus ac tellus. Suspendisse sed dolor. Fusce mi lorem, vehicula et, rutrum eu, ultrices sit amet, risus. Donec nibh enim, gravida sit amet, dapibus id, blandit at, nisi. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Proin vel nisl. Quisque fringilla euismod enim. Etiam gravida molestie arcu. Sed eu nibh vulputate mauris sagittis placerat. Cras dictum ultricies ligula. Nullam enim. Sed nulla ante, iaculis nec, eleifend non, dapibus rutrum, justo. Praesent luctus. Curabitur egestas nunc sed libero. Proin sed turpis nec mauris blandit mattis. Cras eget nisi dictum augue malesuada malesuada. Integer id magna et ipsum cursus vestibulum. Mauris magna. Duis dignissim tempor arcu. Vestibulum ut eros non enim commodo hendrerit. Donec porttitor tellus non magna. Nam ligula elit, pretium et, rutrum non, hendrerit id, ante. Nunc mauris sapien, cursus in, hendrerit consectetuer, cursus et, magna. Praesent",
                             CreationDate = new DateTime(2019, 8, 17, 9, 31, 51, 0, DateTimeKind.Utc),
                             LastUpdated = new DateTime(2021, 8, 16, 4, 4, 46, 0, DateTimeKind.Utc),
+                            OwnerId = "BD696EC2-1BE1-FFB1-3FC1-883C2D247875",
                             Subtitle = "ligula. Donec luctus aliquet odio. Etiam ligula tortor, dictum eu,",
                             ThumbnailPath = " assets/features/flashmemo_dummy3.jpg ",
                             Title = "vitae aliquam eros"
@@ -5803,6 +5907,7 @@ namespace API.Migrations
                             Content = "primis in faucibus orci luctus et ultrices posuere cubilia Curae; Phasellus ornare. Fusce mollis. Duis sit amet diam eu dolor egestas rhoncus. Proin nisl sem, consequat nec, mollis vitae, posuere at, velit. Cras lorem lorem, luctus ut, pellentesque eget, dictum placerat, augue. Sed molestie. Sed id risus quis diam luctus lobortis. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos hymenaeos. Mauris ut quam vel sapien imperdiet ornare. In faucibus. Morbi vehicula. Pellentesque tincidunt tempus risus. Donec egestas. Duis ac arcu. Nunc mauris. Morbi non sapien molestie orci tincidunt adipiscing. Mauris molestie pharetra nibh. Aliquam ornare,",
                             CreationDate = new DateTime(2019, 3, 27, 22, 5, 36, 0, DateTimeKind.Utc),
                             LastUpdated = new DateTime(2022, 5, 12, 19, 50, 59, 0, DateTimeKind.Utc),
+                            OwnerId = "9FBC287A-C113-EBA3-526F-4AE7CEACBDE8",
                             Subtitle = "dis parturient montes, nascetur ridiculus mus. Donec dignissim magna a",
                             ThumbnailPath = " assets/features/flashmemo_dummy2.jpg ",
                             Title = "pretium aliquet, metus urna convallis erat,"
@@ -5813,6 +5918,7 @@ namespace API.Migrations
                             Content = "tortor, dictum eu, placerat eget, venenatis a, magna. Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Etiam laoreet, libero et tristique pellentesque, tellus sem mollis dui, in sodales elit erat vitae risus. Duis a mi fringilla mi lacinia mattis. Integer eu lacus. Quisque imperdiet, erat nonummy ultricies ornare, elit elit fermentum risus, at fringilla purus mauris a nunc. In at pede. Cras vulputate velit eu sem. Pellentesque ut ipsum ac mi eleifend egestas. Sed pharetra, felis eget varius ultrices, mauris ipsum porta elit, a feugiat tellus lorem eu metus. In lorem. Donec elementum, lorem ut aliquam iaculis, lacus pede sagittis augue, eu tempor erat neque non quam. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Aliquam fringilla cursus purus. Nullam scelerisque neque sed sem egestas blandit. Nam nulla magna, malesuada vel, convallis in, cursus et, eros. Proin ultrices.",
                             CreationDate = new DateTime(2019, 6, 2, 18, 52, 17, 0, DateTimeKind.Utc),
                             LastUpdated = new DateTime(2022, 1, 15, 22, 1, 15, 0, DateTimeKind.Utc),
+                            OwnerId = "6BBD068B-B258-EB0A-2132-BEB9BAEA886E",
                             Subtitle = "nisi a odio semper cursus. Integer mollis.",
                             ThumbnailPath = " assets/features/flashmemo_dummy3.jpg ",
                             Title = "a neque. Nullam ut nisi a odio semper"
@@ -5823,6 +5929,7 @@ namespace API.Migrations
                             Content = "lorem ipsum sodales purus, in molestie tortor nibh sit amet orci. Ut sagittis lobortis mauris. Suspendisse aliquet molestie tellus. Aenean egestas hendrerit neque. In ornare sagittis felis. Donec tempor, est ac mattis semper, dui lectus rutrum urna, nec luctus felis purus",
                             CreationDate = new DateTime(2019, 10, 5, 3, 6, 34, 0, DateTimeKind.Utc),
                             LastUpdated = new DateTime(2021, 8, 26, 20, 31, 3, 0, DateTimeKind.Utc),
+                            OwnerId = "5881A9B3-912A-8F1A-C5FA-0855A0563E23",
                             Subtitle = "orci luctus et ultrices posuere",
                             ThumbnailPath = "assets/features/flashmemo_dummy1.jpg ",
                             Title = "Maecenas mi felis, adipiscing fringilla, porttitor vulputate, posuere vulputate, lacus."
@@ -5833,6 +5940,7 @@ namespace API.Migrations
                             Content = "neque. Nullam ut nisi a odio semper cursus. Integer mollis. Integer tincidunt aliquam arcu. Aliquam ultrices iaculis odio. Nam interdum enim non nisi. Aenean eget metus. In nec orci. Donec nibh. Quisque nonummy ipsum non arcu. Vivamus sit amet risus. Donec egestas. Aliquam nec enim. Nunc ut erat. Sed nunc est, mollis non, cursus non, egestas a, dui. Cras pellentesque. Sed dictum. Proin eget odio. Aliquam vulputate ullamcorper magna. Sed eu eros. Nam consequat dolor vitae dolor. Donec fringilla. Donec feugiat metus sit amet ante. Vivamus non lorem vitae odio sagittis semper. Nam tempor diam dictum sapien. Aenean massa. Integer vitae nibh. Donec est mauris, rhoncus id, mollis nec, cursus a, enim. Suspendisse aliquet, sem ut cursus luctus, ipsum leo elementum sem, vitae aliquam eros turpis non enim. Mauris quis turpis vitae purus gravida sagittis. Duis gravida. Praesent eu nulla at sem molestie sodales. Mauris blandit enim consequat purus. Maecenas libero est, congue a, aliquet vel, vulputate eu, odio. Phasellus at augue id ante dictum cursus. Nunc mauris elit, dictum eu, eleifend nec, malesuada ut, sem. Nulla interdum. Curabitur dictum. Phasellus in felis. Nulla tempor augue ac ipsum. Phasellus vitae mauris sit amet lorem semper auctor. Mauris vel turpis. Aliquam adipiscing lobortis risus. In mi pede, nonummy ut, molestie in, tempus eu, ligula. Aenean euismod mauris eu elit. Nulla facilisi. Sed neque. Sed eget lacus. Mauris non dui nec urna suscipit nonummy. Fusce fermentum fermentum arcu. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Phasellus ornare. Fusce mollis. Duis sit amet diam eu dolor egestas rhoncus. Proin nisl sem, consequat nec, mollis vitae, posuere at, velit. Cras lorem lorem, luctus ut, pellentesque eget, dictum placerat, augue. Sed molestie. Sed id risus quis diam luctus lobortis. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos hymenaeos. Mauris ut quam vel sapien imperdiet ornare. In faucibus. Morbi vehicula. Pellentesque tincidunt tempus risus. Donec egestas. Duis ac arcu. Nunc mauris. Morbi non sapien molestie orci tincidunt adipiscing. Mauris molestie pharetra nibh. Aliquam ornare, libero at auctor ullamcorper, nisl arcu iaculis enim, sit amet ornare lectus justo eu arcu. Morbi sit amet massa. Quisque porttitor eros nec tellus. Nunc lectus pede, ultrices a, auctor non, feugiat nec, diam. Duis mi enim, condimentum eget, volutpat ornare, facilisis eget, ipsum. Donec sollicitudin adipiscing ligula. Aenean gravida nunc sed pede. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Proin vel arcu eu odio tristique pharetra. Quisque ac libero nec ligula consectetuer rhoncus. Nullam velit dui, semper et, lacinia vitae, sodales at, velit. Pellentesque ultricies dignissim lacus. Aliquam rutrum lorem ac risus. Morbi metus. Vivamus euismod urna. Nullam lobortis quam a felis ullamcorper viverra. Maecenas iaculis aliquet diam. Sed diam lorem, auctor quis, tristique",
                             CreationDate = new DateTime(2019, 5, 17, 3, 46, 19, 0, DateTimeKind.Utc),
                             LastUpdated = new DateTime(2021, 9, 29, 18, 16, 38, 0, DateTimeKind.Utc),
+                            OwnerId = "9CBF5FEE-EE6E-5F1D-3E53-2389AD983EA2",
                             Subtitle = "elit sed consequat auctor, nunc nulla vulputate dui, nec tempus mauris erat eget ipsum.",
                             ThumbnailPath = "assets/features/flashmemo_dummy1.jpg ",
                             Title = "vehicula risus. Nulla eget metus eu"
@@ -5843,6 +5951,7 @@ namespace API.Migrations
                             Content = "neque sed sem egestas blandit. Nam nulla magna, malesuada vel, convallis in, cursus et, eros. Proin ultrices. Duis volutpat nunc sit amet metus. Aliquam erat volutpat. Nulla facilisis. Suspendisse commodo tincidunt nibh. Phasellus nulla. Integer vulputate, risus a ultricies adipiscing, enim mi tempor lorem, eget mollis lectus pede et risus. Quisque libero lacus, varius et, euismod et, commodo at, libero. Morbi accumsan laoreet ipsum. Curabitur consequat, lectus sit amet luctus vulputate, nisi sem semper erat, in consectetuer ipsum nunc id enim. Curabitur massa. Vestibulum accumsan neque et nunc. Quisque ornare tortor at risus. Nunc ac sem ut dolor dapibus gravida. Aliquam tincidunt, nunc ac mattis ornare, lectus ante dictum mi, ac mattis velit justo nec ante. Maecenas mi felis, adipiscing fringilla, porttitor vulputate, posuere vulputate, lacus. Cras interdum. Nunc sollicitudin commodo ipsum. Suspendisse non leo. Vivamus nibh dolor,",
                             CreationDate = new DateTime(2019, 11, 20, 22, 55, 24, 0, DateTimeKind.Utc),
                             LastUpdated = new DateTime(2021, 8, 9, 3, 40, 52, 0, DateTimeKind.Utc),
+                            OwnerId = "6BBD068B-B258-EB0A-2132-BEB9BAEA886E",
                             Subtitle = "ornare. Fusce mollis. Duis sit amet diam eu dolor egestas rhoncus. Proin",
                             ThumbnailPath = " assets/features/flashmemo_dummy2.jpg ",
                             Title = "non, egestas a, dui. Cras"
@@ -5853,6 +5962,7 @@ namespace API.Migrations
                             Content = "Praesent interdum ligula eu enim. Etiam imperdiet dictum magna. Ut tincidunt orci quis lectus. Nullam suscipit, est ac facilisis facilisis, magna tellus faucibus leo, in lobortis tellus justo sit amet nulla. Donec non justo. Proin non massa non ante bibendum ullamcorper. Duis cursus, diam at pretium aliquet, metus urna convallis erat, eget tincidunt dui augue eu tellus. Phasellus elit pede, malesuada vel, venenatis vel, faucibus id, libero. Donec consectetuer mauris id sapien. Cras dolor dolor, tempus non, lacinia at, iaculis quis, pede. Praesent eu dui. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Aenean eget magna. Suspendisse tristique neque venenatis lacus. Etiam bibendum fermentum metus. Aenean sed pede nec ante blandit viverra. Donec tempus, lorem fringilla ornare placerat, orci lacus vestibulum lorem, sit amet ultricies sem magna nec quam. Curabitur vel lectus. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec dignissim magna a tortor. Nunc commodo auctor velit. Aliquam nisl. Nulla eu neque pellentesque massa lobortis ultrices. Vivamus rhoncus. Donec est. Nunc ullamcorper, velit in aliquet lobortis, nisi nibh lacinia orci, consectetuer euismod est arcu ac orci. Ut semper pretium neque. Morbi quis urna. Nunc quis arcu vel quam dignissim pharetra. Nam ac nulla. In tincidunt congue turpis. In condimentum. Donec at arcu. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Donec tincidunt. Donec vitae erat vel pede blandit congue. In scelerisque scelerisque dui. Suspendisse ac metus vitae velit egestas lacinia. Sed congue, elit sed consequat auctor, nunc nulla vulputate dui, nec tempus mauris erat eget ipsum. Suspendisse sagittis. Nullam vitae diam. Proin dolor. Nulla semper tellus id nunc interdum feugiat. Sed nec metus facilisis lorem tristique aliquet. Phasellus fermentum convallis ligula. Donec luctus aliquet odio. Etiam ligula tortor, dictum eu, placerat eget, venenatis a, magna. Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Etiam laoreet, libero et tristique pellentesque, tellus sem mollis dui, in sodales elit erat vitae risus. Duis a mi fringilla mi lacinia mattis. Integer eu lacus. Quisque imperdiet, erat nonummy ultricies ornare, elit elit fermentum risus, at fringilla purus mauris a nunc. In at pede. Cras vulputate velit eu sem. Pellentesque ut ipsum ac mi eleifend egestas. Sed pharetra, felis eget varius ultrices, mauris ipsum porta elit, a feugiat tellus lorem eu metus. In lorem. Donec elementum, lorem ut aliquam iaculis, lacus pede sagittis augue, eu tempor erat neque non quam. Pellentesque habitant morbi tristique",
                             CreationDate = new DateTime(2019, 4, 12, 18, 0, 43, 0, DateTimeKind.Utc),
                             LastUpdated = new DateTime(2021, 10, 2, 10, 24, 34, 0, DateTimeKind.Utc),
+                            OwnerId = "6BBD068B-B258-EB0A-2132-BEB9BAEA886E",
                             Subtitle = "facilisis eget, ipsum. Donec sollicitudin adipiscing ligula.",
                             ThumbnailPath = " assets/features/flashmemo_dummy4.jpg",
                             Title = "dolor. Fusce mi lorem, vehicula et, rutrum eu,"
@@ -5863,6 +5973,7 @@ namespace API.Migrations
                             Content = "est ac facilisis facilisis, magna tellus faucibus leo, in lobortis tellus justo sit amet nulla. Donec non",
                             CreationDate = new DateTime(2020, 2, 21, 15, 45, 28, 0, DateTimeKind.Utc),
                             LastUpdated = new DateTime(2022, 2, 28, 14, 40, 30, 0, DateTimeKind.Utc),
+                            OwnerId = "E4C3E116-C71A-7B3B-CA32-159AE97C8456",
                             Subtitle = "mauris, aliquam eu, accumsan sed, facilisis vitae, orci. Phasellus dapibus quam",
                             ThumbnailPath = " assets/features/flashmemo_dummy4.jpg",
                             Title = "magna a tortor. Nunc"
@@ -5873,6 +5984,7 @@ namespace API.Migrations
                             Content = "amet massa. Quisque porttitor eros nec tellus. Nunc lectus pede, ultrices a, auctor non, feugiat nec, diam. Duis mi enim, condimentum eget, volutpat ornare, facilisis eget, ipsum. Donec sollicitudin adipiscing ligula. Aenean gravida nunc sed pede. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Proin vel arcu eu odio tristique pharetra. Quisque ac libero nec ligula consectetuer rhoncus. Nullam velit dui, semper et, lacinia vitae, sodales at, velit. Pellentesque ultricies dignissim lacus. Aliquam rutrum lorem ac risus. Morbi metus. Vivamus euismod urna. Nullam lobortis quam a felis ullamcorper viverra. Maecenas iaculis aliquet diam. Sed diam lorem, auctor quis, tristique ac, eleifend vitae, erat. Vivamus nisi. Mauris nulla. Integer urna. Vivamus molestie dapibus ligula. Aliquam erat volutpat. Nulla dignissim. Maecenas ornare egestas ligula. Nullam feugiat placerat velit. Quisque varius. Nam porttitor scelerisque neque. Nullam nisl. Maecenas malesuada fringilla est. Mauris eu turpis. Nulla aliquet. Proin velit. Sed malesuada augue ut lacus. Nulla tincidunt, neque vitae semper egestas, urna justo faucibus lectus, a sollicitudin orci sem eget massa. Suspendisse eleifend. Cras sed leo. Cras vehicula aliquet libero. Integer in magna. Phasellus dolor elit, pellentesque a, facilisis non, bibendum sed, est. Nunc laoreet lectus quis massa. Mauris vestibulum, neque sed dictum eleifend, nunc risus varius orci, in consequat enim diam vel arcu. Curabitur ut odio vel est tempor bibendum. Donec felis orci, adipiscing non, luctus sit amet, faucibus ut, nulla. Cras eu tellus eu augue",
                             CreationDate = new DateTime(2019, 4, 7, 21, 24, 19, 0, DateTimeKind.Utc),
                             LastUpdated = new DateTime(2021, 7, 17, 9, 1, 35, 0, DateTimeKind.Utc),
+                            OwnerId = "6BBD068B-B258-EB0A-2132-BEB9BAEA886E",
                             Subtitle = "faucibus. Morbi vehicula. Pellentesque tincidunt tempus",
                             ThumbnailPath = " assets/features/flashmemo_dummy4.jpg",
                             Title = "Aenean sed pede"
@@ -5883,6 +5995,7 @@ namespace API.Migrations
                             Content = "sem, consequat nec, mollis vitae, posuere at, velit. Cras lorem lorem, luctus ut, pellentesque eget, dictum placerat, augue. Sed molestie. Sed id risus quis diam luctus lobortis. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos hymenaeos. Mauris ut quam vel sapien imperdiet ornare. In faucibus. Morbi vehicula. Pellentesque tincidunt tempus risus. Donec egestas. Duis ac arcu. Nunc mauris. Morbi non sapien molestie orci tincidunt adipiscing. Mauris molestie pharetra nibh. Aliquam ornare, libero at auctor ullamcorper, nisl arcu iaculis enim, sit amet ornare lectus justo eu arcu. Morbi sit amet massa. Quisque porttitor eros nec tellus. Nunc lectus pede, ultrices a, auctor non, feugiat",
                             CreationDate = new DateTime(2019, 9, 26, 17, 7, 54, 0, DateTimeKind.Utc),
                             LastUpdated = new DateTime(2022, 3, 25, 12, 23, 26, 0, DateTimeKind.Utc),
+                            OwnerId = "BD696EC2-1BE1-FFB1-3FC1-883C2D247875",
                             Subtitle = "nunc nulla vulputate dui, nec tempus mauris erat eget ipsum. Suspendisse sagittis.",
                             ThumbnailPath = " assets/features/flashmemo_dummy4.jpg",
                             Title = "sociis natoque penatibus et magnis dis parturient montes, nascetur"
@@ -5893,6 +6006,7 @@ namespace API.Migrations
                             Content = "sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Aenean eget magna. Suspendisse tristique neque venenatis lacus. Etiam bibendum fermentum metus. Aenean sed pede nec ante blandit viverra. Donec tempus, lorem fringilla ornare placerat, orci lacus vestibulum lorem, sit amet ultricies sem magna nec quam. Curabitur vel lectus. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec dignissim magna a tortor.",
                             CreationDate = new DateTime(2019, 5, 6, 6, 20, 32, 0, DateTimeKind.Utc),
                             LastUpdated = new DateTime(2022, 5, 5, 1, 7, 6, 0, DateTimeKind.Utc),
+                            OwnerId = "6BBD068B-B258-EB0A-2132-BEB9BAEA886E",
                             Subtitle = "vel est tempor bibendum. Donec felis",
                             ThumbnailPath = " assets/features/flashmemo_dummy2.jpg ",
                             Title = "lacus. Aliquam rutrum lorem ac risus. Morbi metus. Vivamus"
@@ -5903,6 +6017,7 @@ namespace API.Migrations
                             Content = "viverra. Donec tempus, lorem fringilla ornare placerat, orci lacus vestibulum lorem, sit amet ultricies sem magna nec quam. Curabitur vel lectus. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec dignissim magna a tortor. Nunc commodo auctor velit. Aliquam nisl. Nulla eu neque pellentesque massa lobortis ultrices. Vivamus rhoncus. Donec est. Nunc ullamcorper, velit in aliquet lobortis, nisi nibh lacinia orci, consectetuer euismod est arcu ac orci. Ut semper pretium neque. Morbi quis urna. Nunc quis arcu vel quam dignissim pharetra. Nam ac nulla. In tincidunt congue turpis. In condimentum. Donec at arcu. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Donec tincidunt. Donec vitae erat vel pede blandit congue. In scelerisque scelerisque dui. Suspendisse ac metus vitae velit egestas lacinia. Sed congue, elit sed consequat auctor, nunc nulla vulputate dui, nec tempus mauris erat eget ipsum. Suspendisse sagittis. Nullam vitae diam. Proin dolor. Nulla semper tellus id nunc interdum feugiat. Sed nec metus facilisis lorem tristique aliquet. Phasellus fermentum convallis ligula. Donec luctus aliquet odio. Etiam ligula tortor, dictum eu, placerat eget, venenatis a, magna. Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Etiam laoreet, libero et tristique pellentesque, tellus sem mollis dui, in sodales elit erat vitae risus. Duis a mi fringilla mi lacinia mattis. Integer eu lacus. Quisque imperdiet, erat nonummy ultricies ornare, elit elit fermentum risus, at fringilla purus mauris a nunc. In at pede. Cras vulputate velit eu sem. Pellentesque ut ipsum ac mi eleifend egestas. Sed pharetra, felis eget varius ultrices, mauris ipsum porta elit, a feugiat tellus lorem eu metus. In lorem. Donec elementum, lorem ut aliquam iaculis, lacus pede sagittis augue, eu tempor erat neque non quam. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Aliquam fringilla cursus purus. Nullam scelerisque neque sed sem egestas blandit. Nam nulla magna, malesuada vel, convallis in, cursus et, eros. Proin ultrices. Duis volutpat nunc sit amet metus. Aliquam erat volutpat. Nulla facilisis. Suspendisse commodo tincidunt nibh. Phasellus nulla. Integer vulputate, risus a ultricies adipiscing, enim mi tempor lorem, eget mollis lectus pede et risus. Quisque libero lacus, varius et, euismod et, commodo at, libero. Morbi accumsan laoreet ipsum. Curabitur consequat, lectus sit amet luctus vulputate, nisi sem semper erat, in",
                             CreationDate = new DateTime(2019, 7, 3, 19, 23, 18, 0, DateTimeKind.Utc),
                             LastUpdated = new DateTime(2022, 1, 25, 3, 11, 5, 0, DateTimeKind.Utc),
+                            OwnerId = "9FBC287A-C113-EBA3-526F-4AE7CEACBDE8",
                             Subtitle = "enim commodo hendrerit. Donec porttitor tellus non magna. Nam ligula elit, pretium et, rutrum non,",
                             ThumbnailPath = " assets/features/flashmemo_dummy2.jpg ",
                             Title = "auctor, nunc nulla vulputate dui, nec tempus mauris erat eget"
@@ -5913,6 +6028,7 @@ namespace API.Migrations
                             Content = "eu metus. In lorem. Donec elementum, lorem ut aliquam iaculis, lacus pede sagittis augue, eu tempor erat neque non quam. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Aliquam fringilla cursus purus. Nullam scelerisque neque sed sem egestas blandit. Nam nulla magna, malesuada vel, convallis in, cursus et, eros. Proin ultrices. Duis volutpat nunc sit amet metus. Aliquam erat volutpat. Nulla facilisis. Suspendisse commodo tincidunt nibh. Phasellus nulla. Integer vulputate,",
                             CreationDate = new DateTime(2019, 4, 22, 12, 58, 16, 0, DateTimeKind.Utc),
                             LastUpdated = new DateTime(2022, 3, 24, 13, 29, 46, 0, DateTimeKind.Utc),
+                            OwnerId = "6BBD068B-B258-EB0A-2132-BEB9BAEA886E",
                             Subtitle = "ullamcorper, velit in aliquet lobortis, nisi nibh lacinia orci,",
                             ThumbnailPath = "assets/features/flashmemo_dummy1.jpg ",
                             Title = "gravida. Praesent eu nulla at sem"
@@ -5923,6 +6039,7 @@ namespace API.Migrations
                             Content = "nunc sed libero. Proin sed turpis nec mauris blandit mattis. Cras eget nisi dictum augue malesuada malesuada. Integer id magna et ipsum cursus vestibulum. Mauris magna. Duis dignissim tempor arcu. Vestibulum ut eros non enim commodo hendrerit. Donec porttitor tellus non magna. Nam ligula elit, pretium et, rutrum non, hendrerit id, ante. Nunc mauris sapien, cursus in, hendrerit consectetuer, cursus et, magna. Praesent interdum ligula eu enim. Etiam imperdiet dictum magna. Ut tincidunt orci quis lectus. Nullam suscipit, est ac facilisis facilisis, magna tellus faucibus leo, in lobortis tellus justo sit amet nulla. Donec non justo. Proin non massa non ante bibendum ullamcorper. Duis cursus, diam at pretium aliquet, metus urna convallis erat, eget tincidunt dui augue eu tellus. Phasellus elit pede, malesuada vel, venenatis vel, faucibus id, libero. Donec consectetuer mauris id sapien. Cras dolor dolor, tempus non, lacinia at, iaculis quis, pede. Praesent eu dui. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Aenean eget magna. Suspendisse tristique neque venenatis lacus. Etiam bibendum fermentum metus. Aenean sed pede nec ante blandit viverra. Donec tempus, lorem fringilla ornare placerat, orci lacus vestibulum lorem, sit amet ultricies sem magna nec quam. Curabitur vel lectus. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec dignissim magna a tortor. Nunc commodo auctor velit. Aliquam nisl. Nulla eu neque pellentesque massa lobortis ultrices. Vivamus rhoncus. Donec est. Nunc ullamcorper, velit in aliquet lobortis, nisi nibh lacinia orci, consectetuer euismod est arcu ac orci. Ut semper pretium neque. Morbi quis urna. Nunc quis arcu vel quam dignissim pharetra. Nam ac nulla. In tincidunt congue turpis. In condimentum. Donec at arcu. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Donec tincidunt. Donec vitae erat vel pede blandit congue. In scelerisque scelerisque dui. Suspendisse ac metus vitae velit egestas lacinia. Sed congue, elit sed consequat auctor, nunc nulla vulputate dui, nec tempus mauris erat eget ipsum. Suspendisse sagittis. Nullam vitae diam. Proin dolor. Nulla semper tellus id nunc interdum feugiat. Sed nec metus facilisis lorem tristique aliquet. Phasellus fermentum convallis ligula. Donec luctus aliquet odio. Etiam ligula tortor, dictum eu, placerat eget, venenatis a, magna.",
                             CreationDate = new DateTime(2019, 5, 26, 9, 22, 25, 0, DateTimeKind.Utc),
                             LastUpdated = new DateTime(2021, 10, 13, 3, 10, 48, 0, DateTimeKind.Utc),
+                            OwnerId = "E4C3E116-C71A-7B3B-CA32-159AE97C8456",
                             Subtitle = "Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec",
                             ThumbnailPath = " assets/features/flashmemo_dummy3.jpg ",
                             Title = "risus a ultricies adipiscing, enim"
@@ -5933,6 +6050,7 @@ namespace API.Migrations
                             Content = "id risus quis diam luctus lobortis. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos hymenaeos. Mauris ut quam vel sapien imperdiet ornare. In faucibus. Morbi vehicula. Pellentesque tincidunt tempus risus. Donec egestas. Duis ac arcu. Nunc mauris. Morbi non sapien molestie orci tincidunt adipiscing. Mauris molestie pharetra nibh. Aliquam ornare, libero at auctor ullamcorper, nisl arcu iaculis enim, sit amet ornare lectus justo eu arcu. Morbi sit amet massa. Quisque porttitor eros nec tellus. Nunc lectus pede, ultrices a, auctor non, feugiat nec, diam. Duis mi enim, condimentum eget, volutpat ornare, facilisis eget, ipsum. Donec sollicitudin adipiscing ligula.",
                             CreationDate = new DateTime(2019, 4, 26, 21, 40, 50, 0, DateTimeKind.Utc),
                             LastUpdated = new DateTime(2021, 9, 4, 5, 16, 51, 0, DateTimeKind.Utc),
+                            OwnerId = "9CBF5FEE-EE6E-5F1D-3E53-2389AD983EA2",
                             Subtitle = "Curabitur vel lectus. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.",
                             ThumbnailPath = "assets/features/flashmemo_dummy1.jpg ",
                             Title = "metus facilisis lorem"
@@ -5943,6 +6061,7 @@ namespace API.Migrations
                             Content = "et arcu imperdiet ullamcorper. Duis at lacus. Quisque purus sapien, gravida non, sollicitudin a, malesuada id, erat. Etiam vestibulum",
                             CreationDate = new DateTime(2019, 3, 28, 9, 46, 8, 0, DateTimeKind.Utc),
                             LastUpdated = new DateTime(2021, 6, 17, 5, 38, 1, 0, DateTimeKind.Utc),
+                            OwnerId = "62DAAEBC-F2F5-4D16-533A-AD176D7EA7B7",
                             Subtitle = "mi pede, nonummy ut, molestie in, tempus eu, ligula. Aenean euismod",
                             ThumbnailPath = " assets/features/flashmemo_dummy4.jpg",
                             Title = "et pede. Nunc"
@@ -5953,6 +6072,7 @@ namespace API.Migrations
                             Content = "Aliquam rutrum lorem ac risus. Morbi metus. Vivamus euismod urna. Nullam lobortis quam a felis ullamcorper viverra. Maecenas iaculis aliquet diam. Sed diam lorem, auctor quis, tristique ac, eleifend vitae, erat. Vivamus nisi. Mauris nulla. Integer urna. Vivamus molestie dapibus ligula. Aliquam erat volutpat. Nulla dignissim. Maecenas ornare egestas ligula. Nullam feugiat placerat velit. Quisque varius. Nam porttitor scelerisque neque. Nullam nisl. Maecenas malesuada fringilla est. Mauris eu turpis. Nulla aliquet. Proin velit. Sed malesuada augue ut lacus. Nulla tincidunt, neque vitae semper egestas, urna justo faucibus lectus, a sollicitudin orci sem eget massa. Suspendisse eleifend. Cras sed leo. Cras vehicula aliquet libero. Integer in magna. Phasellus dolor elit, pellentesque a, facilisis non, bibendum sed, est. Nunc laoreet lectus quis massa. Mauris vestibulum, neque sed dictum eleifend, nunc risus varius orci, in consequat enim diam vel arcu. Curabitur ut odio vel est tempor bibendum. Donec felis orci, adipiscing non, luctus sit amet, faucibus ut, nulla. Cras eu tellus eu augue porttitor interdum. Sed auctor odio a purus. Duis elementum, dui quis accumsan convallis, ante lectus convallis est, vitae sodales nisi magna sed dui. Fusce aliquam, enim nec tempus scelerisque, lorem ipsum sodales purus, in molestie tortor nibh sit amet orci. Ut sagittis lobortis mauris. Suspendisse aliquet molestie tellus. Aenean egestas hendrerit neque. In ornare sagittis felis. Donec tempor, est ac mattis semper, dui lectus rutrum urna, nec luctus felis purus ac tellus. Suspendisse sed dolor. Fusce mi lorem, vehicula et, rutrum eu, ultrices sit amet, risus. Donec nibh enim, gravida sit amet, dapibus id, blandit at, nisi. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Proin vel nisl. Quisque fringilla euismod enim. Etiam gravida molestie arcu. Sed eu nibh vulputate mauris sagittis placerat. Cras dictum ultricies ligula. Nullam enim. Sed nulla ante, iaculis nec, eleifend non, dapibus rutrum, justo. Praesent luctus. Curabitur egestas nunc sed libero. Proin sed turpis nec mauris blandit mattis. Cras eget nisi dictum augue malesuada malesuada. Integer id magna et ipsum cursus vestibulum. Mauris magna. Duis dignissim tempor arcu. Vestibulum ut eros non enim commodo hendrerit. Donec porttitor tellus non magna. Nam ligula elit, pretium et, rutrum non, hendrerit id, ante. Nunc mauris sapien, cursus in, hendrerit consectetuer, cursus et, magna. Praesent interdum ligula eu enim. Etiam imperdiet dictum magna. Ut tincidunt orci quis lectus. Nullam suscipit, est ac facilisis facilisis, magna tellus faucibus leo, in lobortis tellus",
                             CreationDate = new DateTime(2019, 11, 30, 15, 28, 59, 0, DateTimeKind.Utc),
                             LastUpdated = new DateTime(2021, 8, 28, 19, 58, 41, 0, DateTimeKind.Utc),
+                            OwnerId = "B4553CAB-7997-1DE5-F7E3-90A7BC1DA167",
                             Subtitle = "Nunc lectus pede, ultrices a, auctor non, feugiat nec, diam. Duis mi enim, condimentum eget,",
                             ThumbnailPath = " assets/features/flashmemo_dummy2.jpg ",
                             Title = "Integer eu lacus. Quisque"
@@ -5963,6 +6083,7 @@ namespace API.Migrations
                             Content = "amet, faucibus ut, nulla. Cras eu tellus eu augue porttitor interdum. Sed auctor odio a purus. Duis elementum, dui quis accumsan convallis, ante lectus convallis est, vitae sodales nisi magna sed dui. Fusce aliquam, enim nec tempus scelerisque, lorem ipsum sodales purus, in molestie tortor nibh sit amet orci. Ut sagittis lobortis mauris. Suspendisse aliquet molestie tellus. Aenean egestas hendrerit neque. In ornare sagittis felis. Donec tempor, est ac mattis semper, dui lectus rutrum urna, nec luctus felis purus ac tellus. Suspendisse sed dolor. Fusce mi lorem, vehicula et, rutrum eu, ultrices sit amet, risus. Donec nibh enim, gravida sit amet, dapibus id, blandit at, nisi. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Proin vel nisl. Quisque fringilla euismod enim. Etiam gravida molestie arcu. Sed eu nibh vulputate mauris sagittis placerat. Cras dictum ultricies ligula. Nullam enim. Sed nulla ante, iaculis nec, eleifend non, dapibus rutrum, justo. Praesent luctus. Curabitur egestas nunc sed libero. Proin sed turpis nec mauris blandit mattis. Cras eget nisi dictum augue malesuada malesuada. Integer id magna et ipsum cursus vestibulum. Mauris magna. Duis dignissim tempor arcu. Vestibulum ut eros non enim commodo hendrerit. Donec porttitor tellus non magna. Nam ligula elit, pretium et, rutrum non, hendrerit id, ante. Nunc mauris sapien, cursus in, hendrerit consectetuer, cursus et, magna. Praesent interdum ligula eu enim. Etiam imperdiet dictum magna. Ut tincidunt orci quis lectus. Nullam suscipit, est ac facilisis facilisis, magna tellus faucibus leo, in lobortis tellus justo sit amet nulla. Donec non justo. Proin non massa non ante bibendum ullamcorper. Duis cursus, diam at pretium aliquet, metus urna convallis erat, eget tincidunt dui augue",
                             CreationDate = new DateTime(2019, 12, 22, 12, 32, 25, 0, DateTimeKind.Utc),
                             LastUpdated = new DateTime(2022, 1, 31, 20, 59, 53, 0, DateTimeKind.Utc),
+                            OwnerId = "B4553CAB-7997-1DE5-F7E3-90A7BC1DA167",
                             Subtitle = "sit amet diam eu dolor egestas rhoncus. Proin nisl",
                             ThumbnailPath = " assets/features/flashmemo_dummy4.jpg",
                             Title = "erat. Etiam vestibulum massa rutrum magna."
@@ -5973,6 +6094,7 @@ namespace API.Migrations
                             Content = "placerat, orci lacus vestibulum lorem, sit amet ultricies sem magna nec quam. Curabitur vel lectus. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec dignissim magna a tortor. Nunc commodo auctor velit. Aliquam nisl. Nulla eu neque pellentesque massa lobortis ultrices. Vivamus rhoncus. Donec est. Nunc ullamcorper, velit in aliquet lobortis, nisi nibh lacinia orci, consectetuer euismod est arcu ac orci. Ut semper pretium neque. Morbi quis urna. Nunc quis arcu vel quam dignissim pharetra. Nam ac nulla. In tincidunt congue turpis. In condimentum. Donec at arcu. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Donec tincidunt. Donec vitae erat vel pede blandit congue. In scelerisque scelerisque dui. Suspendisse ac metus vitae velit egestas lacinia. Sed congue, elit sed consequat auctor, nunc nulla vulputate dui, nec tempus mauris erat eget ipsum. Suspendisse sagittis. Nullam vitae diam. Proin dolor. Nulla semper tellus id nunc interdum feugiat. Sed nec metus facilisis lorem tristique aliquet. Phasellus fermentum convallis ligula. Donec luctus aliquet odio. Etiam ligula tortor, dictum eu, placerat eget, venenatis a, magna. Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Etiam laoreet, libero et tristique pellentesque, tellus sem mollis dui, in sodales elit erat vitae risus. Duis a mi fringilla mi lacinia mattis. Integer eu lacus. Quisque imperdiet, erat nonummy ultricies ornare, elit elit fermentum risus, at fringilla purus mauris a nunc. In at pede. Cras vulputate velit eu sem. Pellentesque ut ipsum ac mi eleifend egestas. Sed pharetra, felis eget varius ultrices, mauris ipsum porta elit, a feugiat tellus lorem eu metus. In lorem. Donec elementum, lorem ut aliquam iaculis, lacus pede sagittis augue, eu tempor erat neque non quam. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Aliquam fringilla cursus purus. Nullam scelerisque neque sed sem egestas blandit. Nam nulla magna, malesuada vel, convallis in, cursus et, eros. Proin ultrices. Duis volutpat nunc sit amet metus. Aliquam erat volutpat. Nulla facilisis. Suspendisse commodo tincidunt nibh. Phasellus nulla. Integer vulputate, risus a ultricies adipiscing, enim mi tempor lorem, eget mollis lectus pede et risus. Quisque libero lacus, varius et, euismod et, commodo at, libero. Morbi accumsan laoreet ipsum. Curabitur consequat, lectus sit amet luctus vulputate, nisi sem semper erat, in consectetuer ipsum nunc id enim. Curabitur massa. Vestibulum accumsan neque et nunc. Quisque ornare tortor at risus. Nunc ac sem ut dolor dapibus gravida. Aliquam tincidunt, nunc ac mattis ornare, lectus ante dictum mi, ac mattis velit justo nec ante. Maecenas mi felis, adipiscing fringilla, porttitor vulputate, posuere vulputate,",
                             CreationDate = new DateTime(2019, 11, 29, 3, 53, 42, 0, DateTimeKind.Utc),
                             LastUpdated = new DateTime(2022, 1, 16, 12, 43, 52, 0, DateTimeKind.Utc),
+                            OwnerId = "B4553CAB-7997-1DE5-F7E3-90A7BC1DA167",
                             Subtitle = "commodo ipsum. Suspendisse non leo. Vivamus nibh dolor, nonummy ac,",
                             ThumbnailPath = "assets/features/flashmemo_dummy1.jpg ",
                             Title = "magna a neque. Nullam ut nisi a odio semper cursus."
@@ -5983,6 +6105,7 @@ namespace API.Migrations
                             Content = "Morbi sit amet massa. Quisque porttitor eros nec tellus. Nunc lectus pede, ultrices a, auctor non, feugiat nec, diam. Duis mi enim, condimentum eget, volutpat ornare, facilisis eget, ipsum. Donec sollicitudin adipiscing ligula. Aenean gravida nunc sed pede. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Proin vel arcu eu odio tristique pharetra. Quisque ac libero nec ligula consectetuer rhoncus. Nullam velit dui, semper et, lacinia vitae, sodales at, velit. Pellentesque ultricies dignissim lacus. Aliquam rutrum lorem ac risus. Morbi metus. Vivamus euismod urna. Nullam lobortis quam a felis ullamcorper viverra. Maecenas iaculis aliquet diam. Sed diam lorem, auctor quis, tristique ac, eleifend vitae, erat. Vivamus nisi. Mauris nulla. Integer urna. Vivamus molestie dapibus ligula. Aliquam erat volutpat. Nulla dignissim. Maecenas ornare egestas ligula. Nullam feugiat placerat velit. Quisque varius. Nam porttitor scelerisque neque. Nullam nisl. Maecenas malesuada fringilla est. Mauris eu turpis. Nulla aliquet. Proin velit. Sed malesuada augue ut lacus. Nulla tincidunt, neque vitae semper egestas, urna",
                             CreationDate = new DateTime(2019, 10, 11, 3, 32, 29, 0, DateTimeKind.Utc),
                             LastUpdated = new DateTime(2022, 4, 27, 5, 19, 7, 0, DateTimeKind.Utc),
+                            OwnerId = "9FBC287A-C113-EBA3-526F-4AE7CEACBDE8",
                             Subtitle = "faucibus orci luctus et ultrices posuere cubilia Curae; Phasellus ornare. Fusce",
                             ThumbnailPath = " assets/features/flashmemo_dummy3.jpg ",
                             Title = "justo. Proin non"
@@ -5993,6 +6116,7 @@ namespace API.Migrations
                             Content = "eget nisi dictum augue malesuada malesuada. Integer id magna et ipsum cursus vestibulum. Mauris magna. Duis dignissim tempor arcu. Vestibulum ut eros non enim commodo hendrerit. Donec porttitor tellus non magna. Nam ligula elit, pretium et, rutrum non, hendrerit id, ante. Nunc mauris sapien, cursus in, hendrerit consectetuer, cursus et, magna. Praesent interdum ligula eu enim. Etiam imperdiet dictum magna. Ut tincidunt orci quis lectus. Nullam suscipit, est ac facilisis facilisis, magna tellus faucibus leo, in lobortis tellus justo sit amet nulla. Donec non justo. Proin non massa non ante bibendum ullamcorper. Duis cursus, diam at pretium aliquet, metus urna convallis erat, eget tincidunt dui augue eu tellus. Phasellus elit pede, malesuada vel, venenatis vel, faucibus id, libero. Donec consectetuer mauris id sapien. Cras dolor dolor, tempus non, lacinia at, iaculis quis, pede. Praesent eu dui. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Aenean eget magna. Suspendisse tristique neque venenatis lacus. Etiam bibendum fermentum metus. Aenean sed pede nec ante blandit viverra. Donec tempus, lorem fringilla ornare placerat, orci lacus vestibulum lorem, sit amet ultricies sem magna nec quam. Curabitur vel lectus. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec dignissim magna a tortor. Nunc commodo auctor velit. Aliquam nisl. Nulla eu neque pellentesque massa lobortis ultrices. Vivamus rhoncus. Donec est. Nunc ullamcorper, velit in aliquet lobortis, nisi nibh lacinia orci, consectetuer euismod est arcu ac orci. Ut semper pretium neque. Morbi quis urna. Nunc quis arcu vel quam dignissim pharetra. Nam ac nulla. In tincidunt congue turpis. In condimentum. Donec at arcu. Vestibulum ante",
                             CreationDate = new DateTime(2020, 2, 23, 6, 54, 28, 0, DateTimeKind.Utc),
                             LastUpdated = new DateTime(2021, 9, 20, 3, 1, 44, 0, DateTimeKind.Utc),
+                            OwnerId = "9FBC287A-C113-EBA3-526F-4AE7CEACBDE8",
                             Subtitle = "at auctor ullamcorper, nisl arcu iaculis enim, sit",
                             ThumbnailPath = " assets/features/flashmemo_dummy3.jpg ",
                             Title = "pede. Cum sociis natoque penatibus et"
@@ -6003,6 +6127,7 @@ namespace API.Migrations
                             Content = "magna. Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Etiam laoreet, libero et tristique pellentesque, tellus sem mollis dui, in sodales elit erat vitae risus. Duis a mi fringilla mi lacinia mattis. Integer eu lacus. Quisque imperdiet, erat nonummy ultricies ornare, elit elit fermentum risus, at fringilla purus mauris a nunc. In at pede. Cras vulputate velit eu sem. Pellentesque ut ipsum ac mi eleifend egestas. Sed pharetra, felis eget varius ultrices, mauris ipsum porta elit, a feugiat tellus lorem eu metus. In lorem. Donec",
                             CreationDate = new DateTime(2019, 10, 4, 14, 19, 36, 0, DateTimeKind.Utc),
                             LastUpdated = new DateTime(2022, 2, 2, 17, 53, 23, 0, DateTimeKind.Utc),
+                            OwnerId = "9FBC287A-C113-EBA3-526F-4AE7CEACBDE8",
                             Subtitle = "sit amet, faucibus ut, nulla. Cras eu tellus",
                             ThumbnailPath = "assets/features/flashmemo_dummy1.jpg ",
                             Title = "elit, dictum eu, eleifend nec, malesuada ut, sem. Nulla"
@@ -6013,6 +6138,7 @@ namespace API.Migrations
                             Content = "nascetur ridiculus mus. Aenean eget magna. Suspendisse tristique neque venenatis lacus. Etiam bibendum fermentum metus. Aenean sed pede nec ante blandit viverra. Donec tempus, lorem fringilla ornare placerat, orci lacus vestibulum lorem, sit amet ultricies sem magna nec quam. Curabitur vel lectus. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec dignissim magna a tortor. Nunc commodo auctor velit. Aliquam nisl. Nulla eu neque pellentesque massa lobortis ultrices. Vivamus rhoncus. Donec est. Nunc ullamcorper, velit in aliquet lobortis, nisi nibh lacinia orci, consectetuer euismod est arcu ac orci. Ut semper pretium neque. Morbi quis urna. Nunc quis arcu vel quam dignissim pharetra. Nam ac nulla. In tincidunt congue turpis. In condimentum. Donec at arcu. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Donec tincidunt. Donec vitae erat vel pede blandit congue. In scelerisque scelerisque dui. Suspendisse ac metus vitae velit egestas lacinia. Sed congue, elit sed consequat auctor, nunc nulla vulputate dui, nec tempus mauris erat eget ipsum. Suspendisse sagittis. Nullam vitae diam. Proin dolor. Nulla semper tellus id nunc interdum feugiat. Sed nec metus facilisis lorem tristique aliquet. Phasellus fermentum convallis ligula. Donec luctus aliquet odio. Etiam ligula tortor, dictum eu, placerat eget, venenatis a, magna. Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Etiam laoreet, libero et tristique pellentesque, tellus sem mollis dui, in sodales elit erat vitae risus. Duis a mi fringilla mi lacinia mattis. Integer eu lacus. Quisque imperdiet, erat nonummy ultricies ornare, elit elit fermentum risus, at fringilla purus mauris a nunc. In at pede. Cras vulputate velit eu sem. Pellentesque ut ipsum ac mi eleifend egestas. Sed pharetra, felis eget varius ultrices, mauris ipsum porta elit, a feugiat tellus lorem eu metus. In lorem. Donec elementum, lorem ut aliquam iaculis, lacus pede sagittis augue, eu tempor erat neque non quam. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Aliquam fringilla cursus purus. Nullam scelerisque neque sed sem egestas blandit. Nam nulla magna, malesuada vel, convallis in, cursus et, eros. Proin ultrices. Duis volutpat nunc sit amet metus. Aliquam erat volutpat. Nulla facilisis. Suspendisse commodo tincidunt nibh. Phasellus nulla. Integer vulputate, risus a ultricies adipiscing, enim mi tempor lorem, eget mollis lectus pede et risus. Quisque libero lacus, varius et, euismod et, commodo at, libero. Morbi accumsan laoreet ipsum. Curabitur consequat, lectus sit amet luctus vulputate, nisi sem semper erat, in consectetuer ipsum nunc id enim. Curabitur massa. Vestibulum accumsan neque et nunc. Quisque ornare tortor at risus. Nunc ac sem ut dolor dapibus gravida. Aliquam tincidunt, nunc ac mattis ornare, lectus ante dictum mi, ac mattis velit justo nec ante. Maecenas mi felis, adipiscing fringilla, porttitor vulputate, posuere vulputate, lacus. Cras interdum. Nunc sollicitudin commodo ipsum. Suspendisse non leo. Vivamus nibh dolor, nonummy ac, feugiat non, lobortis quis, pede. Suspendisse dui. Fusce diam nunc, ullamcorper eu, euismod ac,",
                             CreationDate = new DateTime(2019, 12, 2, 7, 22, 45, 0, DateTimeKind.Utc),
                             LastUpdated = new DateTime(2022, 3, 19, 20, 12, 18, 0, DateTimeKind.Utc),
+                            OwnerId = "B4553CAB-7997-1DE5-F7E3-90A7BC1DA167",
                             Subtitle = "vulputate, risus a ultricies adipiscing, enim mi tempor lorem, eget mollis lectus pede et risus.",
                             ThumbnailPath = " assets/features/flashmemo_dummy3.jpg ",
                             Title = "Donec tempor, est ac"
@@ -6023,6 +6149,7 @@ namespace API.Migrations
                             Content = "et, lacinia vitae, sodales at, velit. Pellentesque ultricies dignissim lacus. Aliquam rutrum lorem ac risus. Morbi metus. Vivamus euismod urna. Nullam lobortis quam a felis ullamcorper viverra. Maecenas iaculis aliquet diam. Sed diam lorem, auctor quis, tristique ac, eleifend vitae, erat. Vivamus nisi. Mauris nulla. Integer urna. Vivamus molestie dapibus ligula. Aliquam erat volutpat. Nulla dignissim. Maecenas ornare egestas ligula. Nullam feugiat placerat velit. Quisque varius. Nam porttitor scelerisque neque. Nullam nisl. Maecenas malesuada fringilla est. Mauris eu turpis. Nulla aliquet. Proin velit. Sed malesuada augue ut lacus. Nulla tincidunt, neque vitae semper egestas, urna justo faucibus lectus, a sollicitudin orci sem eget massa. Suspendisse eleifend. Cras sed leo. Cras vehicula aliquet libero. Integer in magna. Phasellus dolor elit, pellentesque a, facilisis non, bibendum sed, est. Nunc laoreet lectus quis massa. Mauris vestibulum, neque sed dictum eleifend, nunc risus varius orci, in consequat enim diam vel arcu. Curabitur ut odio vel est tempor bibendum. Donec felis orci, adipiscing non, luctus sit amet, faucibus ut, nulla. Cras eu tellus eu augue porttitor interdum. Sed auctor odio a purus. Duis elementum, dui quis accumsan convallis, ante lectus convallis est, vitae sodales nisi magna sed dui. Fusce aliquam, enim nec tempus scelerisque, lorem ipsum sodales purus, in molestie tortor nibh sit amet orci. Ut sagittis lobortis mauris. Suspendisse aliquet molestie tellus. Aenean egestas hendrerit neque. In ornare sagittis felis. Donec tempor, est ac mattis semper, dui lectus rutrum urna, nec luctus felis purus ac tellus. Suspendisse sed dolor. Fusce mi lorem, vehicula et, rutrum eu, ultrices sit amet, risus. Donec nibh enim, gravida sit amet, dapibus id, blandit at, nisi. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Proin vel nisl. Quisque fringilla euismod enim. Etiam gravida molestie arcu. Sed eu nibh vulputate mauris sagittis placerat. Cras dictum ultricies ligula. Nullam enim. Sed nulla ante, iaculis nec, eleifend non, dapibus rutrum, justo. Praesent luctus. Curabitur egestas nunc sed libero. Proin sed turpis nec mauris blandit mattis. Cras eget nisi dictum augue malesuada malesuada. Integer id magna et ipsum cursus vestibulum. Mauris magna. Duis dignissim tempor arcu. Vestibulum ut eros non enim commodo hendrerit. Donec porttitor tellus non magna. Nam ligula elit, pretium et, rutrum non, hendrerit id, ante. Nunc mauris sapien, cursus in, hendrerit consectetuer, cursus et, magna. Praesent interdum ligula eu enim. Etiam imperdiet dictum magna. Ut tincidunt orci quis lectus. Nullam suscipit, est ac facilisis facilisis, magna tellus faucibus leo, in lobortis tellus justo sit amet nulla. Donec non justo. Proin non massa non ante",
                             CreationDate = new DateTime(2019, 7, 4, 22, 40, 43, 0, DateTimeKind.Utc),
                             LastUpdated = new DateTime(2022, 3, 7, 2, 15, 46, 0, DateTimeKind.Utc),
+                            OwnerId = "B4553CAB-7997-1DE5-F7E3-90A7BC1DA167",
                             Subtitle = "amet metus. Aliquam erat volutpat. Nulla",
                             ThumbnailPath = " assets/features/flashmemo_dummy4.jpg",
                             Title = "malesuada fames ac turpis egestas. Aliquam fringilla cursus purus."
@@ -6033,6 +6160,7 @@ namespace API.Migrations
                             Content = "mauris sit amet lorem semper auctor. Mauris vel turpis. Aliquam adipiscing lobortis risus. In mi pede, nonummy ut, molestie in, tempus eu, ligula. Aenean euismod mauris eu elit. Nulla facilisi. Sed neque. Sed eget lacus. Mauris non dui nec urna suscipit nonummy. Fusce fermentum fermentum arcu. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Phasellus ornare. Fusce mollis. Duis sit amet diam eu dolor egestas rhoncus. Proin nisl sem, consequat nec, mollis vitae, posuere at, velit. Cras lorem lorem, luctus ut, pellentesque eget, dictum placerat, augue. Sed molestie. Sed id risus quis diam luctus lobortis. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos hymenaeos. Mauris ut quam vel sapien imperdiet ornare. In faucibus. Morbi vehicula. Pellentesque tincidunt tempus risus. Donec egestas. Duis ac arcu. Nunc mauris. Morbi non sapien molestie orci tincidunt adipiscing. Mauris molestie pharetra nibh. Aliquam ornare, libero at auctor ullamcorper, nisl arcu iaculis enim, sit amet ornare lectus justo eu arcu. Morbi sit amet",
                             CreationDate = new DateTime(2019, 11, 18, 20, 26, 31, 0, DateTimeKind.Utc),
                             LastUpdated = new DateTime(2022, 4, 8, 12, 36, 59, 0, DateTimeKind.Utc),
+                            OwnerId = "BD696EC2-1BE1-FFB1-3FC1-883C2D247875",
                             Subtitle = "at fringilla purus mauris a nunc. In at pede. Cras vulputate velit eu",
                             ThumbnailPath = "assets/features/flashmemo_dummy1.jpg ",
                             Title = "non, lobortis quis, pede."
@@ -6043,6 +6171,7 @@ namespace API.Migrations
                             Content = "molestie tellus. Aenean egestas hendrerit neque. In ornare sagittis felis. Donec tempor, est ac mattis semper, dui lectus rutrum urna, nec luctus felis purus ac tellus. Suspendisse sed dolor. Fusce mi lorem, vehicula et, rutrum eu, ultrices sit amet, risus. Donec nibh enim, gravida sit amet, dapibus id, blandit at, nisi. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Proin vel nisl. Quisque fringilla euismod enim. Etiam gravida molestie arcu. Sed eu nibh vulputate mauris sagittis placerat. Cras dictum ultricies ligula. Nullam enim. Sed nulla ante, iaculis nec, eleifend non, dapibus rutrum, justo. Praesent luctus. Curabitur egestas nunc sed libero. Proin sed turpis nec mauris blandit mattis. Cras eget nisi dictum augue malesuada malesuada. Integer id magna et ipsum cursus vestibulum. Mauris magna. Duis dignissim tempor arcu. Vestibulum ut eros non enim commodo hendrerit. Donec porttitor tellus non magna. Nam ligula elit, pretium et, rutrum non, hendrerit id, ante. Nunc mauris sapien, cursus in, hendrerit consectetuer, cursus et, magna. Praesent interdum ligula eu enim. Etiam imperdiet dictum magna. Ut tincidunt orci quis lectus. Nullam suscipit, est ac facilisis facilisis, magna tellus faucibus leo, in lobortis tellus justo sit amet nulla. Donec non justo. Proin non massa non ante bibendum ullamcorper. Duis cursus, diam at pretium aliquet, metus urna convallis erat, eget tincidunt dui augue eu tellus. Phasellus elit pede, malesuada vel, venenatis vel, faucibus id, libero. Donec consectetuer mauris id sapien. Cras dolor dolor, tempus non, lacinia at, iaculis quis, pede. Praesent eu dui. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Aenean eget magna. Suspendisse tristique neque venenatis lacus. Etiam bibendum fermentum metus. Aenean sed pede nec ante blandit viverra. Donec tempus, lorem fringilla ornare placerat, orci lacus vestibulum lorem, sit amet ultricies sem magna nec quam. Curabitur vel lectus. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec dignissim magna a tortor. Nunc commodo auctor velit. Aliquam nisl. Nulla eu neque pellentesque massa lobortis ultrices. Vivamus rhoncus. Donec est. Nunc ullamcorper, velit in aliquet lobortis, nisi nibh lacinia orci, consectetuer euismod est arcu ac orci. Ut semper pretium neque. Morbi quis urna. Nunc quis arcu vel quam dignissim pharetra. Nam ac nulla. In tincidunt congue turpis. In condimentum. Donec at",
                             CreationDate = new DateTime(2020, 3, 20, 2, 36, 54, 0, DateTimeKind.Utc),
                             LastUpdated = new DateTime(2022, 5, 14, 12, 11, 21, 0, DateTimeKind.Utc),
+                            OwnerId = "BD696EC2-1BE1-FFB1-3FC1-883C2D247875",
                             Subtitle = "massa rutrum magna. Cras convallis",
                             ThumbnailPath = " assets/features/flashmemo_dummy4.jpg",
                             Title = "a odio semper cursus."
@@ -6053,6 +6182,7 @@ namespace API.Migrations
                             Content = "non arcu. Vivamus sit amet risus. Donec egestas. Aliquam nec enim. Nunc ut erat. Sed nunc est, mollis non, cursus non, egestas a, dui. Cras pellentesque. Sed dictum. Proin eget odio. Aliquam vulputate ullamcorper magna. Sed eu eros. Nam consequat dolor vitae dolor. Donec fringilla. Donec feugiat metus sit amet ante. Vivamus non lorem vitae odio sagittis semper. Nam tempor diam dictum sapien. Aenean massa. Integer vitae nibh. Donec est mauris, rhoncus id, mollis nec, cursus a, enim. Suspendisse aliquet, sem ut cursus luctus, ipsum leo elementum sem, vitae aliquam eros turpis non enim. Mauris quis turpis vitae purus gravida sagittis. Duis gravida. Praesent eu nulla at sem molestie sodales. Mauris blandit enim consequat purus. Maecenas libero est, congue a, aliquet vel, vulputate eu, odio. Phasellus at augue id ante dictum cursus. Nunc mauris elit, dictum eu, eleifend nec, malesuada ut, sem. Nulla interdum. Curabitur dictum. Phasellus in felis. Nulla tempor augue ac ipsum. Phasellus vitae mauris sit amet lorem semper auctor. Mauris vel turpis. Aliquam adipiscing lobortis risus. In mi pede, nonummy ut, molestie in, tempus eu, ligula. Aenean euismod mauris eu elit. Nulla facilisi. Sed neque. Sed eget lacus. Mauris non dui nec urna suscipit nonummy. Fusce fermentum fermentum arcu. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Phasellus ornare. Fusce mollis. Duis sit amet diam eu dolor egestas rhoncus. Proin nisl sem, consequat nec, mollis vitae, posuere at, velit. Cras lorem lorem, luctus ut, pellentesque eget, dictum placerat, augue. Sed molestie. Sed id risus quis diam luctus lobortis. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos hymenaeos. Mauris ut quam vel sapien imperdiet ornare. In faucibus. Morbi vehicula. Pellentesque tincidunt tempus risus. Donec egestas. Duis ac arcu. Nunc mauris. Morbi non sapien molestie orci tincidunt adipiscing. Mauris molestie pharetra nibh. Aliquam ornare, libero at auctor ullamcorper, nisl arcu iaculis enim, sit amet ornare lectus justo eu arcu. Morbi sit amet massa. Quisque porttitor eros nec tellus. Nunc lectus pede, ultrices a, auctor non, feugiat nec, diam. Duis mi enim, condimentum eget, volutpat ornare, facilisis eget, ipsum. Donec sollicitudin adipiscing ligula. Aenean gravida nunc sed pede. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Proin vel",
                             CreationDate = new DateTime(2019, 3, 22, 17, 39, 12, 0, DateTimeKind.Utc),
                             LastUpdated = new DateTime(2021, 7, 23, 20, 38, 43, 0, DateTimeKind.Utc),
+                            OwnerId = "9FBC287A-C113-EBA3-526F-4AE7CEACBDE8",
                             Subtitle = "euismod in, dolor. Fusce feugiat.",
                             ThumbnailPath = "assets/features/flashmemo_dummy1.jpg ",
                             Title = "consectetuer ipsum nunc id enim. Curabitur massa. Vestibulum accumsan"
@@ -6063,6 +6193,7 @@ namespace API.Migrations
                             Content = "fermentum risus, at fringilla purus mauris a nunc. In at pede. Cras vulputate velit eu sem. Pellentesque ut ipsum ac mi eleifend egestas. Sed pharetra, felis eget varius ultrices, mauris ipsum porta elit, a feugiat tellus lorem eu metus. In lorem. Donec elementum, lorem ut aliquam iaculis, lacus pede sagittis augue, eu tempor erat neque non quam. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Aliquam fringilla cursus purus. Nullam scelerisque neque sed sem egestas blandit. Nam nulla magna, malesuada vel, convallis in, cursus et, eros. Proin",
                             CreationDate = new DateTime(2019, 5, 15, 8, 26, 21, 0, DateTimeKind.Utc),
                             LastUpdated = new DateTime(2021, 9, 1, 19, 8, 55, 0, DateTimeKind.Utc),
+                            OwnerId = "5881A9B3-912A-8F1A-C5FA-0855A0563E23",
                             Subtitle = "luctus sit amet, faucibus ut, nulla. Cras eu tellus eu augue",
                             ThumbnailPath = " assets/features/flashmemo_dummy2.jpg ",
                             Title = "vestibulum lorem, sit amet ultricies sem magna"
@@ -6073,6 +6204,7 @@ namespace API.Migrations
                             Content = "varius orci, in consequat enim diam vel arcu. Curabitur ut odio vel est tempor bibendum. Donec felis orci, adipiscing non, luctus sit amet, faucibus ut, nulla. Cras eu tellus eu augue porttitor interdum. Sed auctor odio a purus. Duis elementum, dui quis accumsan convallis, ante lectus convallis est, vitae sodales nisi magna sed dui. Fusce aliquam, enim nec tempus scelerisque, lorem ipsum sodales purus, in molestie tortor nibh sit amet orci. Ut sagittis lobortis mauris. Suspendisse aliquet molestie tellus. Aenean egestas hendrerit neque. In ornare sagittis felis. Donec tempor, est ac mattis semper, dui lectus rutrum urna, nec luctus felis purus ac tellus. Suspendisse sed dolor. Fusce mi lorem, vehicula et, rutrum eu, ultrices sit amet, risus. Donec nibh enim, gravida sit amet, dapibus id, blandit at, nisi. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Proin vel nisl. Quisque fringilla euismod enim. Etiam gravida molestie arcu. Sed eu nibh vulputate mauris sagittis placerat. Cras dictum ultricies ligula. Nullam enim. Sed nulla ante, iaculis nec, eleifend non, dapibus rutrum, justo. Praesent luctus. Curabitur egestas nunc sed libero. Proin sed turpis nec mauris blandit mattis. Cras eget nisi dictum augue malesuada malesuada. Integer id magna et ipsum cursus vestibulum. Mauris magna. Duis dignissim tempor arcu. Vestibulum ut eros non enim commodo hendrerit. Donec porttitor tellus non magna. Nam ligula elit, pretium et, rutrum non, hendrerit id, ante. Nunc mauris sapien, cursus in, hendrerit consectetuer, cursus et, magna. Praesent interdum ligula eu enim. Etiam imperdiet dictum magna. Ut tincidunt orci quis lectus. Nullam suscipit, est ac facilisis facilisis, magna tellus faucibus leo, in lobortis tellus justo sit amet nulla. Donec non justo. Proin non massa non ante bibendum ullamcorper. Duis cursus, diam at pretium aliquet, metus urna convallis erat, eget tincidunt dui augue eu tellus. Phasellus elit pede, malesuada vel, venenatis vel, faucibus id, libero. Donec consectetuer mauris id sapien. Cras dolor dolor, tempus non, lacinia at, iaculis quis, pede. Praesent eu dui. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Aenean eget magna. Suspendisse tristique neque venenatis lacus. Etiam bibendum fermentum metus. Aenean sed pede nec ante blandit viverra. Donec tempus, lorem fringilla ornare placerat, orci lacus vestibulum lorem, sit amet ultricies sem magna nec quam. Curabitur vel lectus. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec dignissim magna a tortor. Nunc commodo auctor velit. Aliquam nisl. Nulla eu neque pellentesque massa lobortis ultrices. Vivamus rhoncus. Donec est. Nunc ullamcorper, velit in aliquet lobortis, nisi nibh lacinia orci, consectetuer euismod est arcu ac orci. Ut semper pretium neque. Morbi quis urna. Nunc quis arcu vel quam dignissim pharetra. Nam ac nulla. In tincidunt congue turpis. In condimentum. Donec at arcu. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Donec tincidunt. Donec vitae erat vel pede blandit congue.",
                             CreationDate = new DateTime(2019, 3, 24, 15, 35, 46, 0, DateTimeKind.Utc),
                             LastUpdated = new DateTime(2022, 1, 24, 21, 52, 15, 0, DateTimeKind.Utc),
+                            OwnerId = "BD696EC2-1BE1-FFB1-3FC1-883C2D247875",
                             Subtitle = "eu erat semper rutrum. Fusce dolor quam, elementum",
                             ThumbnailPath = " assets/features/flashmemo_dummy2.jpg ",
                             Title = "Phasellus vitae mauris sit amet lorem semper"
@@ -6083,6 +6215,7 @@ namespace API.Migrations
                             Content = "quam, elementum at, egestas a, scelerisque sed, sapien. Nunc pulvinar arcu et pede. Nunc sed orci lobortis augue scelerisque mollis. Phasellus libero mauris, aliquam eu, accumsan sed, facilisis vitae, orci. Phasellus dapibus quam quis diam. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Fusce aliquet magna a neque. Nullam ut nisi a odio semper cursus. Integer mollis. Integer tincidunt aliquam arcu. Aliquam ultrices iaculis odio. Nam interdum enim non nisi. Aenean eget metus. In nec orci. Donec nibh. Quisque nonummy ipsum non arcu. Vivamus sit amet risus. Donec egestas. Aliquam nec enim. Nunc ut erat. Sed nunc est, mollis non, cursus non, egestas a, dui. Cras pellentesque. Sed dictum. Proin eget odio. Aliquam vulputate ullamcorper magna. Sed eu eros. Nam consequat dolor vitae dolor. Donec fringilla. Donec feugiat metus sit amet ante. Vivamus non lorem vitae odio sagittis semper. Nam tempor diam dictum sapien. Aenean massa. Integer vitae nibh. Donec est mauris, rhoncus id, mollis nec, cursus a, enim. Suspendisse aliquet, sem ut cursus luctus, ipsum leo elementum sem, vitae aliquam eros turpis non enim. Mauris quis turpis vitae purus gravida sagittis. Duis gravida. Praesent eu nulla at sem molestie sodales. Mauris blandit enim consequat purus. Maecenas libero est, congue a, aliquet vel, vulputate eu, odio. Phasellus at augue id ante dictum cursus. Nunc mauris elit, dictum eu, eleifend nec, malesuada ut, sem. Nulla interdum. Curabitur dictum. Phasellus in felis. Nulla tempor augue ac ipsum. Phasellus vitae mauris sit amet lorem semper auctor. Mauris vel turpis. Aliquam adipiscing lobortis risus. In mi pede, nonummy ut, molestie in, tempus eu, ligula. Aenean euismod mauris eu elit. Nulla facilisi. Sed neque. Sed eget lacus. Mauris non dui nec urna suscipit nonummy. Fusce fermentum fermentum arcu. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Phasellus ornare. Fusce mollis. Duis sit amet diam eu dolor egestas rhoncus. Proin nisl sem, consequat nec, mollis vitae, posuere at, velit. Cras lorem lorem, luctus ut, pellentesque eget, dictum placerat, augue. Sed molestie. Sed id risus quis diam luctus lobortis. Class aptent taciti sociosqu ad",
                             CreationDate = new DateTime(2019, 12, 20, 6, 14, 10, 0, DateTimeKind.Utc),
                             LastUpdated = new DateTime(2021, 6, 21, 7, 51, 1, 0, DateTimeKind.Utc),
+                            OwnerId = "B4553CAB-7997-1DE5-F7E3-90A7BC1DA167",
                             Subtitle = "fringilla, porttitor vulputate, posuere vulputate, lacus.",
                             ThumbnailPath = "assets/features/flashmemo_dummy1.jpg ",
                             Title = "Nullam scelerisque neque"
@@ -6093,6 +6226,7 @@ namespace API.Migrations
                             Content = "magna et ipsum cursus vestibulum. Mauris magna. Duis dignissim tempor arcu. Vestibulum ut eros non enim commodo hendrerit. Donec porttitor tellus non magna. Nam ligula elit, pretium et, rutrum non, hendrerit id, ante. Nunc mauris sapien, cursus in, hendrerit consectetuer, cursus et, magna. Praesent interdum ligula eu enim. Etiam imperdiet dictum magna. Ut tincidunt orci quis lectus. Nullam suscipit, est ac facilisis facilisis, magna tellus faucibus leo, in lobortis tellus justo sit amet nulla. Donec non justo. Proin non massa non ante bibendum ullamcorper. Duis cursus, diam at pretium aliquet, metus urna convallis erat, eget tincidunt dui augue eu tellus. Phasellus elit pede, malesuada vel, venenatis vel, faucibus id, libero. Donec consectetuer mauris id sapien. Cras dolor dolor, tempus non, lacinia at, iaculis quis, pede. Praesent eu dui. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Aenean eget magna. Suspendisse tristique neque venenatis lacus. Etiam bibendum fermentum metus. Aenean sed pede nec ante blandit viverra. Donec tempus, lorem fringilla ornare placerat, orci lacus vestibulum lorem, sit amet ultricies sem magna nec quam. Curabitur vel lectus. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec dignissim magna a tortor. Nunc commodo auctor velit. Aliquam nisl. Nulla eu neque pellentesque massa lobortis ultrices. Vivamus rhoncus. Donec est. Nunc ullamcorper, velit in aliquet lobortis, nisi nibh lacinia orci, consectetuer euismod est arcu ac orci. Ut semper pretium neque. Morbi quis urna. Nunc quis arcu vel quam dignissim pharetra. Nam ac nulla. In tincidunt congue turpis. In condimentum. Donec at arcu. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Donec tincidunt. Donec vitae erat vel pede blandit congue. In scelerisque scelerisque dui. Suspendisse ac metus vitae velit egestas lacinia. Sed congue, elit sed consequat auctor, nunc nulla vulputate dui, nec tempus mauris erat eget ipsum. Suspendisse sagittis. Nullam vitae diam. Proin dolor. Nulla semper tellus id nunc interdum feugiat. Sed nec metus facilisis lorem tristique aliquet. Phasellus fermentum convallis ligula. Donec luctus aliquet odio. Etiam ligula tortor, dictum eu, placerat eget, venenatis a, magna. Lorem ipsum dolor sit amet, consectetuer adipiscing elit.",
                             CreationDate = new DateTime(2019, 11, 18, 4, 40, 52, 0, DateTimeKind.Utc),
                             LastUpdated = new DateTime(2022, 3, 30, 16, 16, 25, 0, DateTimeKind.Utc),
+                            OwnerId = "E4C3E116-C71A-7B3B-CA32-159AE97C8456",
                             Subtitle = "sed, est. Nunc laoreet lectus quis massa. Mauris vestibulum, neque sed dictum",
                             ThumbnailPath = " assets/features/flashmemo_dummy2.jpg ",
                             Title = "imperdiet non, vestibulum nec,"
@@ -6103,6 +6237,7 @@ namespace API.Migrations
                             Content = "urna. Nullam lobortis quam a felis ullamcorper viverra. Maecenas iaculis aliquet diam. Sed diam lorem, auctor quis, tristique ac, eleifend vitae, erat. Vivamus nisi. Mauris nulla. Integer urna. Vivamus molestie dapibus ligula. Aliquam erat volutpat. Nulla dignissim. Maecenas ornare egestas ligula. Nullam feugiat placerat velit. Quisque varius. Nam porttitor scelerisque neque. Nullam nisl. Maecenas malesuada fringilla est. Mauris eu turpis. Nulla aliquet. Proin velit. Sed malesuada augue ut lacus. Nulla tincidunt, neque vitae semper egestas, urna justo faucibus lectus, a sollicitudin orci sem eget massa. Suspendisse eleifend. Cras sed leo. Cras vehicula aliquet libero. Integer in magna. Phasellus dolor elit, pellentesque a, facilisis non, bibendum sed, est. Nunc laoreet lectus quis massa. Mauris vestibulum, neque sed dictum eleifend, nunc risus varius orci, in consequat enim diam vel arcu. Curabitur ut odio vel est",
                             CreationDate = new DateTime(2020, 1, 18, 16, 23, 29, 0, DateTimeKind.Utc),
                             LastUpdated = new DateTime(2021, 10, 25, 21, 36, 0, 0, DateTimeKind.Utc),
+                            OwnerId = "5881A9B3-912A-8F1A-C5FA-0855A0563E23",
                             Subtitle = "blandit mattis. Cras eget nisi dictum",
                             ThumbnailPath = "assets/features/flashmemo_dummy1.jpg ",
                             Title = "sem eget massa. Suspendisse eleifend. Cras sed leo. Cras vehicula"
@@ -6113,6 +6248,7 @@ namespace API.Migrations
                             Content = "ut, pellentesque eget, dictum placerat, augue. Sed molestie. Sed id risus quis diam luctus lobortis. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos hymenaeos. Mauris ut quam vel sapien imperdiet ornare. In faucibus. Morbi vehicula. Pellentesque tincidunt tempus risus. Donec egestas. Duis ac arcu. Nunc mauris. Morbi non sapien molestie orci tincidunt adipiscing. Mauris molestie pharetra nibh. Aliquam ornare, libero at auctor ullamcorper, nisl arcu iaculis enim, sit amet ornare lectus justo eu arcu. Morbi sit amet massa. Quisque porttitor eros nec tellus. Nunc lectus pede, ultrices a, auctor non, feugiat nec, diam. Duis mi enim, condimentum eget, volutpat ornare, facilisis eget, ipsum. Donec sollicitudin adipiscing ligula. Aenean gravida nunc sed pede. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Proin vel arcu eu odio tristique pharetra. Quisque ac libero nec ligula consectetuer rhoncus. Nullam velit dui, semper et, lacinia vitae, sodales at, velit. Pellentesque ultricies dignissim lacus. Aliquam rutrum lorem ac risus. Morbi metus. Vivamus euismod urna. Nullam lobortis quam a felis ullamcorper viverra. Maecenas iaculis aliquet diam. Sed diam lorem, auctor quis, tristique ac, eleifend vitae, erat. Vivamus nisi. Mauris nulla. Integer urna. Vivamus molestie dapibus ligula. Aliquam erat volutpat. Nulla dignissim. Maecenas ornare egestas ligula. Nullam feugiat placerat velit. Quisque varius. Nam porttitor scelerisque neque. Nullam nisl. Maecenas malesuada fringilla est. Mauris eu turpis. Nulla aliquet. Proin velit. Sed malesuada augue ut lacus. Nulla tincidunt, neque vitae semper egestas, urna justo faucibus lectus, a sollicitudin orci sem eget massa. Suspendisse eleifend. Cras sed leo. Cras vehicula aliquet libero. Integer in magna. Phasellus dolor elit, pellentesque a, facilisis non, bibendum sed, est. Nunc laoreet lectus quis massa. Mauris vestibulum, neque sed dictum eleifend, nunc risus varius orci, in consequat enim diam vel arcu. Curabitur ut odio vel est tempor bibendum. Donec felis orci, adipiscing non, luctus sit amet, faucibus ut, nulla. Cras eu tellus eu augue porttitor interdum. Sed auctor odio a purus. Duis elementum, dui quis accumsan convallis, ante lectus convallis est, vitae sodales nisi magna sed dui. Fusce aliquam, enim nec tempus scelerisque, lorem ipsum sodales purus, in molestie tortor nibh sit amet orci. Ut sagittis lobortis mauris. Suspendisse aliquet molestie tellus. Aenean egestas hendrerit neque. In ornare sagittis felis. Donec tempor, est ac mattis semper, dui lectus rutrum urna, nec luctus felis purus ac tellus. Suspendisse sed dolor. Fusce mi",
                             CreationDate = new DateTime(2019, 10, 14, 12, 10, 5, 0, DateTimeKind.Utc),
                             LastUpdated = new DateTime(2022, 6, 10, 2, 8, 11, 0, DateTimeKind.Utc),
+                            OwnerId = "BD696EC2-1BE1-FFB1-3FC1-883C2D247875",
                             Subtitle = "auctor, velit eget laoreet posuere, enim nisl elementum purus, accumsan interdum libero dui nec",
                             ThumbnailPath = "assets/features/flashmemo_dummy1.jpg ",
                             Title = "vulputate, risus a ultricies adipiscing, enim mi tempor lorem,"
@@ -6123,6 +6259,7 @@ namespace API.Migrations
                             Content = "Donec tempor, est ac mattis semper, dui lectus rutrum urna, nec luctus felis purus ac tellus. Suspendisse sed dolor. Fusce mi lorem, vehicula et, rutrum eu, ultrices sit amet, risus. Donec nibh enim, gravida sit amet, dapibus id, blandit at, nisi. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Proin vel nisl. Quisque fringilla euismod enim. Etiam gravida molestie arcu. Sed eu nibh vulputate mauris sagittis placerat. Cras dictum ultricies ligula. Nullam enim. Sed nulla ante, iaculis nec, eleifend non, dapibus rutrum, justo. Praesent luctus. Curabitur egestas nunc sed libero. Proin sed turpis nec mauris blandit mattis. Cras eget nisi dictum augue malesuada malesuada. Integer id magna et ipsum cursus vestibulum. Mauris magna. Duis dignissim tempor arcu. Vestibulum ut eros non enim commodo hendrerit. Donec porttitor tellus non magna. Nam ligula elit, pretium et, rutrum non, hendrerit id, ante. Nunc mauris sapien, cursus in, hendrerit consectetuer, cursus et, magna. Praesent interdum ligula eu enim. Etiam imperdiet dictum magna. Ut tincidunt orci quis lectus. Nullam suscipit, est ac facilisis facilisis, magna tellus faucibus leo, in lobortis tellus justo sit amet nulla. Donec non justo. Proin non massa non ante bibendum ullamcorper. Duis cursus, diam at pretium aliquet, metus urna convallis erat, eget tincidunt dui augue eu tellus. Phasellus elit pede, malesuada vel, venenatis vel, faucibus id, libero. Donec consectetuer mauris id sapien. Cras dolor dolor, tempus non, lacinia at, iaculis quis, pede. Praesent eu dui. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Aenean eget magna. Suspendisse tristique neque venenatis lacus. Etiam bibendum fermentum metus. Aenean sed pede nec ante blandit viverra. Donec tempus, lorem fringilla ornare placerat, orci lacus vestibulum lorem, sit amet ultricies sem magna nec quam. Curabitur vel lectus. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec dignissim magna a tortor. Nunc commodo auctor velit. Aliquam nisl. Nulla eu neque pellentesque massa lobortis ultrices. Vivamus rhoncus. Donec",
                             CreationDate = new DateTime(2019, 5, 4, 0, 10, 30, 0, DateTimeKind.Utc),
                             LastUpdated = new DateTime(2022, 4, 22, 12, 17, 44, 0, DateTimeKind.Utc),
+                            OwnerId = "62DAAEBC-F2F5-4D16-533A-AD176D7EA7B7",
                             Subtitle = "odio sagittis semper. Nam tempor diam dictum",
                             ThumbnailPath = " assets/features/flashmemo_dummy4.jpg",
                             Title = "Suspendisse aliquet, sem ut cursus luctus, ipsum"
@@ -6133,6 +6270,7 @@ namespace API.Migrations
                             Content = "vel, venenatis vel, faucibus id, libero. Donec consectetuer mauris id sapien. Cras dolor dolor, tempus non, lacinia at, iaculis quis, pede. Praesent eu dui. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Aenean eget magna. Suspendisse tristique neque venenatis lacus. Etiam bibendum fermentum metus. Aenean sed pede nec ante blandit viverra. Donec tempus, lorem fringilla ornare placerat, orci lacus vestibulum lorem, sit amet ultricies sem magna nec quam. Curabitur vel lectus. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec dignissim magna a tortor. Nunc commodo auctor velit. Aliquam nisl. Nulla eu neque pellentesque massa lobortis ultrices. Vivamus rhoncus. Donec est. Nunc ullamcorper, velit in aliquet lobortis, nisi nibh lacinia orci, consectetuer euismod est arcu ac orci. Ut semper pretium neque. Morbi quis urna. Nunc quis arcu vel quam dignissim pharetra. Nam ac nulla. In tincidunt congue turpis. In condimentum. Donec at arcu. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Donec tincidunt. Donec vitae erat vel pede blandit congue. In scelerisque scelerisque dui. Suspendisse ac metus vitae velit egestas lacinia. Sed congue, elit sed consequat auctor, nunc nulla vulputate dui, nec tempus mauris erat eget ipsum. Suspendisse sagittis. Nullam vitae diam. Proin dolor. Nulla semper tellus id nunc interdum feugiat. Sed nec metus facilisis lorem tristique aliquet. Phasellus fermentum convallis ligula. Donec luctus aliquet odio. Etiam ligula tortor, dictum eu, placerat eget, venenatis a, magna. Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Etiam laoreet, libero et tristique pellentesque, tellus sem mollis dui, in sodales elit erat vitae risus. Duis a mi fringilla mi lacinia mattis. Integer eu lacus. Quisque imperdiet, erat nonummy ultricies ornare, elit elit fermentum risus, at fringilla purus mauris a nunc. In at pede. Cras vulputate velit eu sem. Pellentesque ut ipsum ac mi eleifend egestas. Sed pharetra, felis eget varius ultrices, mauris ipsum porta elit, a feugiat tellus lorem eu metus. In lorem. Donec elementum, lorem ut aliquam iaculis, lacus pede",
                             CreationDate = new DateTime(2019, 6, 6, 19, 41, 37, 0, DateTimeKind.Utc),
                             LastUpdated = new DateTime(2022, 1, 15, 3, 41, 16, 0, DateTimeKind.Utc),
+                            OwnerId = "B4553CAB-7997-1DE5-F7E3-90A7BC1DA167",
                             Subtitle = "erat neque non quam. Pellentesque",
                             ThumbnailPath = "assets/features/flashmemo_dummy1.jpg ",
                             Title = "ultricies ornare, elit elit fermentum"
@@ -6143,6 +6281,7 @@ namespace API.Migrations
                             Content = "Donec porttitor tellus non magna. Nam ligula elit, pretium et, rutrum non, hendrerit id, ante. Nunc mauris sapien, cursus in, hendrerit consectetuer, cursus et, magna. Praesent interdum ligula eu enim. Etiam imperdiet dictum magna. Ut tincidunt orci quis lectus. Nullam suscipit, est ac facilisis facilisis, magna tellus faucibus leo, in lobortis tellus justo sit amet nulla. Donec non justo. Proin non massa non ante bibendum ullamcorper. Duis cursus, diam at pretium aliquet, metus urna convallis erat, eget tincidunt dui augue eu tellus. Phasellus elit pede, malesuada vel, venenatis vel, faucibus id, libero. Donec consectetuer mauris id sapien. Cras dolor dolor, tempus non, lacinia at, iaculis quis, pede. Praesent eu dui. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Aenean eget magna. Suspendisse tristique neque venenatis lacus. Etiam bibendum",
                             CreationDate = new DateTime(2019, 12, 13, 1, 7, 50, 0, DateTimeKind.Utc),
                             LastUpdated = new DateTime(2021, 11, 2, 14, 59, 56, 0, DateTimeKind.Utc),
+                            OwnerId = "9CBF5FEE-EE6E-5F1D-3E53-2389AD983EA2",
                             Subtitle = "dolor dapibus gravida. Aliquam tincidunt, nunc ac mattis ornare, lectus ante dictum mi,",
                             ThumbnailPath = " assets/features/flashmemo_dummy2.jpg ",
                             Title = "suscipit nonummy. Fusce fermentum fermentum"
@@ -6153,6 +6292,7 @@ namespace API.Migrations
                             Content = "Aliquam rutrum lorem ac risus. Morbi metus. Vivamus euismod urna. Nullam lobortis quam a felis ullamcorper viverra. Maecenas iaculis aliquet diam. Sed diam lorem, auctor quis, tristique ac, eleifend vitae, erat. Vivamus nisi. Mauris nulla. Integer urna. Vivamus molestie dapibus ligula. Aliquam erat volutpat. Nulla dignissim. Maecenas ornare egestas ligula. Nullam feugiat placerat velit. Quisque varius. Nam porttitor scelerisque neque. Nullam nisl. Maecenas malesuada fringilla est. Mauris eu turpis. Nulla aliquet. Proin velit. Sed malesuada augue ut lacus. Nulla tincidunt, neque vitae semper egestas, urna justo faucibus lectus, a sollicitudin orci sem eget massa. Suspendisse eleifend. Cras sed leo. Cras vehicula aliquet libero. Integer in magna. Phasellus dolor elit, pellentesque a, facilisis non, bibendum sed, est. Nunc laoreet lectus quis massa. Mauris vestibulum, neque sed dictum eleifend, nunc risus varius orci, in consequat enim diam vel arcu. Curabitur ut odio vel est tempor bibendum. Donec felis orci, adipiscing non, luctus sit amet, faucibus ut, nulla. Cras eu tellus eu augue porttitor interdum. Sed auctor odio a purus. Duis elementum, dui quis accumsan convallis, ante lectus convallis est, vitae sodales nisi magna sed dui. Fusce aliquam, enim nec tempus scelerisque, lorem ipsum sodales purus, in molestie tortor nibh sit amet orci. Ut sagittis lobortis mauris. Suspendisse aliquet molestie tellus. Aenean egestas hendrerit neque. In ornare sagittis felis. Donec tempor, est ac mattis semper, dui lectus rutrum urna, nec luctus felis purus ac tellus. Suspendisse sed dolor. Fusce mi lorem, vehicula et, rutrum eu, ultrices sit amet, risus. Donec nibh enim, gravida sit amet, dapibus id, blandit at, nisi. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Proin vel nisl. Quisque fringilla euismod enim. Etiam gravida molestie arcu. Sed eu nibh vulputate mauris sagittis placerat. Cras dictum ultricies ligula. Nullam enim. Sed nulla ante, iaculis nec, eleifend non, dapibus rutrum, justo. Praesent luctus. Curabitur egestas nunc sed libero. Proin sed turpis nec mauris blandit mattis. Cras eget nisi dictum augue malesuada malesuada. Integer id magna et ipsum cursus vestibulum. Mauris magna. Duis dignissim tempor arcu. Vestibulum ut eros non enim commodo hendrerit. Donec porttitor tellus non magna. Nam ligula elit, pretium et, rutrum non, hendrerit id, ante. Nunc mauris sapien, cursus in, hendrerit consectetuer, cursus et, magna. Praesent interdum ligula eu enim. Etiam imperdiet dictum magna. Ut tincidunt orci quis",
                             CreationDate = new DateTime(2019, 2, 5, 21, 37, 40, 0, DateTimeKind.Utc),
                             LastUpdated = new DateTime(2022, 4, 20, 3, 19, 16, 0, DateTimeKind.Utc),
+                            OwnerId = "9FBC287A-C113-EBA3-526F-4AE7CEACBDE8",
                             Subtitle = "dui. Suspendisse ac metus vitae velit egestas lacinia. Sed congue, elit sed",
                             ThumbnailPath = " assets/features/flashmemo_dummy2.jpg ",
                             Title = "adipiscing non, luctus sit amet, faucibus ut, nulla. Cras eu"
@@ -6163,6 +6303,7 @@ namespace API.Migrations
                             Content = "Quisque tincidunt pede ac urna. Ut tincidunt vehicula risus. Nulla eget metus eu erat semper rutrum. Fusce dolor quam, elementum at, egestas a, scelerisque sed, sapien. Nunc pulvinar arcu et pede. Nunc sed orci lobortis augue scelerisque mollis. Phasellus libero mauris, aliquam eu, accumsan sed, facilisis vitae, orci. Phasellus dapibus quam quis diam. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Fusce aliquet magna a neque. Nullam ut nisi a odio semper cursus. Integer mollis. Integer tincidunt aliquam arcu. Aliquam ultrices iaculis odio. Nam interdum enim non nisi. Aenean eget metus. In nec orci. Donec nibh. Quisque nonummy ipsum non arcu. Vivamus sit amet risus. Donec egestas. Aliquam nec enim. Nunc ut erat. Sed nunc est, mollis non, cursus non, egestas a, dui. Cras pellentesque. Sed dictum. Proin eget odio. Aliquam vulputate ullamcorper magna. Sed eu eros. Nam consequat dolor vitae dolor. Donec fringilla. Donec feugiat metus sit amet ante. Vivamus non lorem vitae odio sagittis semper. Nam tempor diam dictum sapien. Aenean massa. Integer vitae nibh. Donec est mauris, rhoncus id, mollis nec, cursus a, enim. Suspendisse aliquet, sem ut cursus luctus, ipsum leo elementum sem, vitae",
                             CreationDate = new DateTime(2020, 1, 18, 23, 50, 18, 0, DateTimeKind.Utc),
                             LastUpdated = new DateTime(2021, 7, 4, 10, 53, 49, 0, DateTimeKind.Utc),
+                            OwnerId = "9F87EEA2-25CB-13B8-13B7-CA1A69CA68B4",
                             Subtitle = "imperdiet nec, leo. Morbi neque tellus, imperdiet",
                             ThumbnailPath = " assets/features/flashmemo_dummy2.jpg ",
                             Title = "fames ac turpis egestas. Fusce aliquet"
@@ -6173,6 +6314,7 @@ namespace API.Migrations
                             Content = "Cras convallis convallis dolor. Quisque tincidunt pede ac urna. Ut tincidunt vehicula risus. Nulla eget metus eu erat semper rutrum. Fusce dolor quam, elementum at, egestas a, scelerisque sed, sapien. Nunc pulvinar arcu et pede. Nunc sed orci lobortis augue scelerisque mollis. Phasellus libero mauris, aliquam eu, accumsan sed, facilisis vitae, orci. Phasellus dapibus quam quis diam. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Fusce aliquet magna a neque. Nullam ut nisi a odio semper cursus. Integer mollis. Integer tincidunt aliquam arcu. Aliquam ultrices iaculis odio. Nam interdum enim non nisi. Aenean eget metus. In nec orci. Donec nibh. Quisque nonummy ipsum non arcu. Vivamus sit amet risus. Donec egestas. Aliquam nec enim. Nunc ut erat. Sed nunc est, mollis non, cursus non, egestas a, dui. Cras pellentesque. Sed dictum. Proin eget odio. Aliquam vulputate ullamcorper magna. Sed eu eros. Nam consequat dolor vitae dolor. Donec fringilla. Donec feugiat metus sit amet ante. Vivamus non lorem vitae odio sagittis semper. Nam tempor diam dictum sapien. Aenean massa. Integer vitae nibh. Donec est mauris, rhoncus id, mollis nec, cursus a, enim. Suspendisse aliquet, sem ut cursus luctus, ipsum leo elementum sem, vitae aliquam eros turpis non enim. Mauris quis turpis vitae purus gravida sagittis. Duis gravida. Praesent eu nulla at sem molestie sodales. Mauris blandit enim consequat purus. Maecenas libero est, congue a, aliquet vel, vulputate eu, odio. Phasellus at augue id ante dictum cursus. Nunc mauris elit, dictum eu, eleifend nec, malesuada ut, sem. Nulla interdum. Curabitur dictum. Phasellus in felis. Nulla tempor augue ac ipsum. Phasellus vitae mauris sit amet lorem semper auctor. Mauris vel turpis. Aliquam adipiscing lobortis risus. In mi pede, nonummy ut, molestie in, tempus eu, ligula. Aenean euismod mauris eu elit. Nulla facilisi. Sed neque. Sed eget lacus. Mauris non dui nec urna suscipit nonummy. Fusce fermentum fermentum arcu. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Phasellus ornare. Fusce mollis. Duis sit amet diam eu dolor egestas rhoncus. Proin nisl sem, consequat nec, mollis vitae, posuere at, velit. Cras lorem lorem, luctus ut, pellentesque eget, dictum placerat, augue. Sed molestie. Sed id risus quis diam luctus lobortis. Class aptent taciti sociosqu ad litora torquent per conubia",
                             CreationDate = new DateTime(2019, 10, 23, 15, 28, 6, 0, DateTimeKind.Utc),
                             LastUpdated = new DateTime(2022, 5, 11, 11, 49, 53, 0, DateTimeKind.Utc),
+                            OwnerId = "E4C3E116-C71A-7B3B-CA32-159AE97C8456",
                             Subtitle = "interdum feugiat. Sed nec metus facilisis lorem tristique",
                             ThumbnailPath = "assets/features/flashmemo_dummy1.jpg ",
                             Title = "ac nulla. In tincidunt congue turpis. In"
@@ -6183,6 +6325,7 @@ namespace API.Migrations
                             Content = "eu nibh vulputate mauris sagittis placerat. Cras dictum ultricies ligula. Nullam enim. Sed nulla ante, iaculis nec, eleifend non, dapibus rutrum, justo. Praesent luctus. Curabitur egestas nunc sed libero. Proin sed turpis nec mauris blandit mattis. Cras eget nisi dictum augue malesuada malesuada. Integer id magna et ipsum cursus vestibulum.",
                             CreationDate = new DateTime(2019, 11, 2, 19, 8, 5, 0, DateTimeKind.Utc),
                             LastUpdated = new DateTime(2021, 11, 5, 3, 49, 19, 0, DateTimeKind.Utc),
+                            OwnerId = "9F87EEA2-25CB-13B8-13B7-CA1A69CA68B4",
                             Subtitle = "ut erat. Sed nunc est, mollis non, cursus",
                             ThumbnailPath = "assets/features/flashmemo_dummy1.jpg ",
                             Title = "commodo hendrerit. Donec porttitor tellus non magna. Nam"
@@ -6193,6 +6336,7 @@ namespace API.Migrations
                             Content = "eget, ipsum. Donec sollicitudin adipiscing ligula. Aenean gravida nunc sed pede. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Proin vel arcu eu odio tristique pharetra. Quisque ac libero",
                             CreationDate = new DateTime(2019, 5, 30, 8, 5, 3, 0, DateTimeKind.Utc),
                             LastUpdated = new DateTime(2022, 4, 17, 16, 6, 10, 0, DateTimeKind.Utc),
+                            OwnerId = "9CBF5FEE-EE6E-5F1D-3E53-2389AD983EA2",
                             Subtitle = "Duis volutpat nunc sit amet metus. Aliquam erat",
                             ThumbnailPath = " assets/features/flashmemo_dummy4.jpg",
                             Title = "eget nisi dictum augue malesuada malesuada. Integer id magna"
@@ -6203,6 +6347,7 @@ namespace API.Migrations
                             Content = "Phasellus dapibus quam quis diam. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Fusce aliquet magna a neque. Nullam ut nisi a odio semper cursus. Integer mollis. Integer tincidunt aliquam arcu. Aliquam ultrices iaculis odio. Nam interdum enim non nisi. Aenean eget metus. In nec orci. Donec nibh. Quisque nonummy ipsum non arcu. Vivamus sit amet risus. Donec egestas. Aliquam nec enim. Nunc ut erat. Sed nunc est, mollis non, cursus non, egestas a, dui. Cras pellentesque. Sed dictum. Proin eget odio. Aliquam vulputate ullamcorper magna. Sed eu eros. Nam consequat dolor vitae dolor. Donec fringilla. Donec feugiat metus sit amet ante. Vivamus non lorem vitae odio sagittis semper. Nam tempor diam dictum sapien. Aenean massa. Integer vitae nibh. Donec est mauris, rhoncus id, mollis nec, cursus a, enim. Suspendisse aliquet, sem ut cursus luctus, ipsum leo elementum sem, vitae aliquam eros turpis non enim. Mauris quis turpis vitae purus gravida sagittis. Duis gravida. Praesent eu nulla at sem molestie sodales. Mauris blandit enim consequat purus. Maecenas libero est, congue a, aliquet vel, vulputate eu, odio. Phasellus at augue id ante dictum cursus. Nunc mauris elit, dictum eu, eleifend nec, malesuada ut, sem. Nulla interdum. Curabitur dictum. Phasellus in felis. Nulla tempor augue ac ipsum. Phasellus vitae mauris sit amet lorem semper auctor. Mauris vel turpis. Aliquam adipiscing lobortis risus. In mi pede, nonummy ut, molestie in, tempus eu, ligula. Aenean euismod mauris eu elit. Nulla facilisi. Sed neque. Sed eget lacus. Mauris non dui nec urna suscipit nonummy. Fusce fermentum fermentum arcu. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Phasellus ornare. Fusce mollis. Duis sit amet diam eu dolor egestas rhoncus. Proin nisl sem, consequat nec, mollis vitae, posuere at, velit. Cras lorem lorem, luctus ut, pellentesque eget, dictum placerat, augue. Sed molestie. Sed id risus quis diam luctus lobortis. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos hymenaeos. Mauris ut quam vel sapien imperdiet ornare. In faucibus. Morbi vehicula. Pellentesque tincidunt tempus risus. Donec egestas. Duis ac arcu. Nunc mauris. Morbi non sapien molestie orci tincidunt adipiscing. Mauris molestie pharetra nibh. Aliquam ornare, libero at auctor ullamcorper, nisl arcu iaculis enim, sit amet ornare lectus justo eu arcu. Morbi sit amet massa. Quisque porttitor eros nec tellus. Nunc lectus pede, ultrices a, auctor non, feugiat nec, diam. Duis mi enim, condimentum eget, volutpat ornare, facilisis eget, ipsum. Donec sollicitudin adipiscing ligula. Aenean gravida nunc sed pede. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Proin vel arcu eu odio tristique pharetra. Quisque ac libero nec ligula consectetuer rhoncus. Nullam velit dui, semper et, lacinia vitae, sodales at, velit. Pellentesque ultricies dignissim lacus. Aliquam rutrum lorem ac risus. Morbi metus. Vivamus euismod urna. Nullam lobortis quam a felis ullamcorper viverra. Maecenas iaculis aliquet diam. Sed diam lorem, auctor quis, tristique ac, eleifend vitae, erat. Vivamus nisi. Mauris nulla. Integer urna. Vivamus molestie dapibus",
                             CreationDate = new DateTime(2019, 2, 4, 0, 44, 16, 0, DateTimeKind.Utc),
                             LastUpdated = new DateTime(2022, 2, 25, 5, 38, 48, 0, DateTimeKind.Utc),
+                            OwnerId = "9CBF5FEE-EE6E-5F1D-3E53-2389AD983EA2",
                             Subtitle = "interdum ligula eu enim. Etiam imperdiet",
                             ThumbnailPath = " assets/features/flashmemo_dummy4.jpg",
                             Title = "quis accumsan convallis, ante lectus convallis est, vitae"
@@ -6213,6 +6358,7 @@ namespace API.Migrations
                             Content = "Donec luctus aliquet odio. Etiam ligula tortor, dictum eu, placerat eget, venenatis a, magna. Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Etiam laoreet, libero et tristique pellentesque, tellus sem mollis dui, in sodales elit erat vitae risus. Duis a mi fringilla mi lacinia mattis. Integer eu lacus. Quisque imperdiet, erat nonummy ultricies ornare, elit elit fermentum risus, at fringilla purus mauris a nunc. In at pede. Cras vulputate velit eu sem. Pellentesque ut ipsum ac mi eleifend egestas. Sed pharetra, felis eget varius ultrices, mauris ipsum porta elit, a feugiat tellus lorem eu metus. In lorem. Donec elementum, lorem ut aliquam iaculis, lacus pede sagittis augue, eu tempor erat neque non quam. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Aliquam fringilla cursus purus. Nullam scelerisque neque sed sem egestas blandit. Nam nulla magna, malesuada vel, convallis in, cursus et, eros. Proin ultrices. Duis volutpat nunc sit amet metus. Aliquam erat volutpat. Nulla facilisis. Suspendisse commodo tincidunt nibh. Phasellus nulla. Integer vulputate, risus a ultricies adipiscing, enim mi tempor lorem, eget mollis lectus pede et risus. Quisque libero lacus, varius et, euismod et, commodo at, libero. Morbi accumsan laoreet ipsum. Curabitur consequat, lectus sit amet luctus vulputate, nisi sem semper erat, in consectetuer ipsum nunc id enim. Curabitur massa. Vestibulum accumsan neque et nunc. Quisque ornare tortor at risus. Nunc ac sem ut dolor dapibus gravida. Aliquam tincidunt, nunc ac mattis ornare, lectus ante dictum mi, ac mattis velit justo nec ante. Maecenas mi felis, adipiscing fringilla, porttitor vulputate, posuere vulputate, lacus. Cras interdum. Nunc sollicitudin commodo ipsum. Suspendisse non leo. Vivamus nibh dolor, nonummy ac, feugiat non, lobortis quis, pede. Suspendisse dui. Fusce diam nunc, ullamcorper eu, euismod ac, fermentum vel, mauris. Integer sem elit, pharetra ut, pharetra",
                             CreationDate = new DateTime(2019, 2, 8, 10, 51, 20, 0, DateTimeKind.Utc),
                             LastUpdated = new DateTime(2021, 12, 29, 1, 55, 35, 0, DateTimeKind.Utc),
+                            OwnerId = "B4553CAB-7997-1DE5-F7E3-90A7BC1DA167",
                             Subtitle = "commodo ipsum. Suspendisse non leo. Vivamus nibh dolor, nonummy ac, feugiat non, lobortis quis,",
                             ThumbnailPath = "assets/features/flashmemo_dummy1.jpg ",
                             Title = "luctus et ultrices posuere cubilia Curae; Donec tincidunt. Donec vitae"
@@ -6223,6 +6369,7 @@ namespace API.Migrations
                             Content = "Phasellus elit pede, malesuada vel, venenatis vel, faucibus id, libero. Donec consectetuer mauris id sapien. Cras dolor dolor, tempus non, lacinia at, iaculis quis, pede. Praesent eu dui. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Aenean eget magna. Suspendisse tristique neque venenatis lacus. Etiam bibendum fermentum metus. Aenean sed pede nec ante blandit viverra. Donec tempus, lorem fringilla ornare placerat, orci lacus vestibulum lorem, sit amet ultricies sem magna nec quam. Curabitur vel lectus. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec dignissim magna a tortor. Nunc commodo auctor velit. Aliquam nisl. Nulla eu neque pellentesque massa lobortis ultrices. Vivamus rhoncus. Donec est. Nunc ullamcorper, velit in aliquet lobortis, nisi nibh lacinia orci, consectetuer euismod est arcu ac orci. Ut semper pretium neque. Morbi quis urna. Nunc quis arcu vel quam dignissim pharetra. Nam ac nulla. In tincidunt congue turpis. In condimentum. Donec at arcu. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Donec tincidunt. Donec vitae erat vel pede blandit congue. In scelerisque scelerisque dui. Suspendisse ac metus vitae velit egestas lacinia. Sed congue, elit sed consequat auctor, nunc nulla vulputate dui, nec tempus mauris erat eget ipsum. Suspendisse sagittis. Nullam vitae diam. Proin dolor. Nulla semper tellus id nunc interdum feugiat. Sed nec metus facilisis lorem tristique aliquet. Phasellus fermentum convallis ligula. Donec luctus aliquet odio. Etiam ligula tortor, dictum eu, placerat eget, venenatis a, magna. Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Etiam laoreet, libero et tristique pellentesque, tellus sem mollis dui, in sodales elit erat vitae risus. Duis a mi fringilla mi lacinia mattis. Integer eu lacus. Quisque imperdiet, erat nonummy ultricies ornare, elit elit fermentum risus, at fringilla purus mauris a nunc. In at pede. Cras vulputate velit eu sem. Pellentesque ut ipsum ac mi eleifend egestas. Sed pharetra, felis eget varius ultrices, mauris ipsum porta elit, a feugiat tellus lorem eu metus. In lorem. Donec elementum, lorem ut aliquam iaculis, lacus pede sagittis augue, eu tempor erat neque non quam. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Aliquam fringilla cursus purus. Nullam scelerisque neque sed sem egestas blandit. Nam nulla magna, malesuada vel, convallis in, cursus",
                             CreationDate = new DateTime(2019, 9, 18, 21, 6, 35, 0, DateTimeKind.Utc),
                             LastUpdated = new DateTime(2021, 11, 7, 15, 7, 42, 0, DateTimeKind.Utc),
+                            OwnerId = "62DAAEBC-F2F5-4D16-533A-AD176D7EA7B7",
                             Subtitle = "vulputate dui, nec tempus mauris erat eget ipsum. Suspendisse sagittis. Nullam",
                             ThumbnailPath = " assets/features/flashmemo_dummy2.jpg ",
                             Title = "dictum eu, placerat eget, venenatis a, magna. Lorem ipsum"
@@ -6233,6 +6380,7 @@ namespace API.Migrations
                             Content = "habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Aliquam fringilla cursus purus. Nullam scelerisque neque sed sem egestas blandit. Nam nulla magna, malesuada vel, convallis in, cursus et, eros. Proin ultrices. Duis volutpat nunc sit amet metus. Aliquam erat volutpat. Nulla facilisis. Suspendisse commodo tincidunt nibh. Phasellus nulla. Integer vulputate, risus a ultricies adipiscing, enim mi tempor lorem, eget mollis lectus pede et risus. Quisque libero lacus, varius et, euismod et, commodo at, libero.",
                             CreationDate = new DateTime(2019, 11, 2, 2, 31, 47, 0, DateTimeKind.Utc),
                             LastUpdated = new DateTime(2022, 2, 10, 9, 43, 50, 0, DateTimeKind.Utc),
+                            OwnerId = "9CBF5FEE-EE6E-5F1D-3E53-2389AD983EA2",
                             Subtitle = "orci tincidunt adipiscing. Mauris molestie pharetra nibh. Aliquam ornare, libero at",
                             ThumbnailPath = " assets/features/flashmemo_dummy2.jpg ",
                             Title = "orci lobortis augue scelerisque"
@@ -6396,6 +6544,15 @@ namespace API.Migrations
                         .IsRequired();
 
                     b.Navigation("Deck");
+                });
+
+            modelBuilder.Entity("Data.Models.Implementation.News", b =>
+                {
+                    b.HasOne("Data.Models.Implementation.ApplicationUser", "Owner")
+                        .WithMany()
+                        .HasForeignKey("OwnerId");
+
+                    b.Navigation("Owner");
                 });
 
             modelBuilder.Entity("Data.Models.Implementation.ApplicationRole", b =>

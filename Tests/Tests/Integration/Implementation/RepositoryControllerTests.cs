@@ -1,4 +1,5 @@
-﻿using Business.Tools.Validations;
+﻿using Business.Services.Implementation;
+using Business.Tools.Validations;
 using Data.Context;
 using Data.Models.DTOs;
 using Data.Models.Implementation;
@@ -21,7 +22,26 @@ namespace Tests.Tests.Integration.Implementation
     [Collection("Sequential")]
     public class NewsControllerTests : GenericControllerTests<News, Guid, NewsDTO>
     {
-        public NewsControllerTests(IntegrationTestFixture fixture, ITestOutputHelper output) : base(fixture, output) { }
+        // User data to be used accross tests.
+        private static readonly ApplicationUser TestUser1 = new ApplicationUser { Id = Guid.NewGuid().ToString(), UserName = "admin", Email = "admin@flashmemo.edu" };
+        private static readonly ApplicationUser TestUser2 = new ApplicationUser { Id = Guid.NewGuid().ToString(), UserName = "user", Email = "user@flashmemo.edu" };
+        private static readonly ApplicationUser TestUser3 = new ApplicationUser { Id = Guid.NewGuid().ToString(), UserName = "manager", Email = "manager@flashmemo.edu" };
+
+        public NewsControllerTests(IntegrationTestFixture fixture, ITestOutputHelper output) : base(fixture, output)
+        {
+            using (var scope = _fixture.Host.Services.CreateScope())
+            {
+                var dbContext = scope.ServiceProvider.GetService<FlashMEMOContext>();
+
+                // this disgusting implementation is required because (1) no 'AddOrUpdate' method exists in the EF Core stuff anymore (despite claims of it on the internet), and because (2) the 'Update' method doesn't actually add instead of updating when providing a non-existent object (it should, though) 
+                foreach (var item in new List<ApplicationUser>() { TestUser1, TestUser2, TestUser3 })
+                {
+                    AddIfNecessary<ApplicationUser, string>(item);
+                }
+
+                dbContext.SaveChanges();
+            }
+        }
 
         /// <summary>
         /// Data to be used in Create, Read, and Delete tests.
@@ -30,10 +50,10 @@ namespace Tests.Tests.Integration.Implementation
         {
             get
             {
-                yield return new object[] { new NewsDTO { Title = "Title", Subtitle = "Subtitle", Content = "Content" } };
-                yield return new object[] { new NewsDTO { Title = "Title 2", Subtitle = "Subtitle 2", Content = "Content 2", } };
-                yield return new object[] { new NewsDTO { Title = "Title 3", Content = "Content 3" } };
-                yield return new object[] { new NewsDTO { Subtitle = "Subtitle 4", CreationDate = DateTime.UtcNow, LastUpdated = DateTime.UtcNow } };
+                yield return new object[] { new NewsDTO { OwnerId = TestUser1.Id, Title = "Title", Subtitle = "Subtitle", Content = "Content" } };
+                yield return new object[] { new NewsDTO { OwnerId = TestUser2.Id, Title = "Title 2", Subtitle = "Subtitle 2", Content = "Content 2", } };
+                yield return new object[] { new NewsDTO { OwnerId = TestUser3.Id, Title = "Title 3", Subtitle = "Subtitle 3", Content = "Content 3" } };
+                yield return new object[] { new NewsDTO { OwnerId = TestUser1.Id, Title = "Title 4", Subtitle = "Subtitle 4", Content = "Content 4", CreationDate = DateTime.UtcNow, LastUpdated = DateTime.UtcNow } };
             }
         }
 
@@ -59,8 +79,8 @@ namespace Tests.Tests.Integration.Implementation
         {
             get
             {
-                yield return new object[] { new NewsDTO { Title = "Title", Subtitle = "Subtitle", Content = "Content" }, new NewsDTO { Title = "Updated Title", Subtitle = "Updated Subtitle", Content = "Updated Content" } };
-                yield return new object[] { new NewsDTO { Title = "Title 2", Subtitle = "Subtitle 2", Content = "Content 2", }, new NewsDTO { ThumbnailPath = "../../DoesntExistFolder/image.img" } };
+                yield return new object[] { new NewsDTO { OwnerId = TestUser1.Id, Title = "Title", Subtitle = "Subtitle", Content = "Content" }, new NewsDTO { OwnerId = TestUser2.Id, Title = "Updated Title", Subtitle = "Updated Subtitle", Content = "Updated Content" } };
+                yield return new object[] { new NewsDTO { OwnerId = TestUser1.Id, Title = "Title 2", Subtitle = "Subtitle 2", Content = "Content 2", }, new NewsDTO { OwnerId = TestUser2.Id, Title = "Updated Title", Subtitle = "Updated Subtitle", Content = "Updated Content", ThumbnailPath = "../../DoesntExistFolder/image.img" } };
             }
         }
 
@@ -72,21 +92,21 @@ namespace Tests.Tests.Integration.Implementation
 
         static List<NewsDTO> dTOs = new List<NewsDTO>()
         {
-            new NewsDTO { Title = "Title", Content = "Content", Subtitle = "Subtitle" },
-            new NewsDTO { Title = "Spaced Title", Content = "Spaced Content", Subtitle = "Spaced Subtitle" },
-            new NewsDTO { Title = "Title", Content = "Content", Subtitle = "Subtitle", CreationDate = DateTime.Parse("2000-01-01+00"), LastUpdated = DateTime.Parse("2000-01-01+00") },
-            new NewsDTO { Title = "Title", Content = "Content", Subtitle = "Subtitle", CreationDate = DateTime.Parse("2000-01-01T23:59:59+00"), LastUpdated = DateTime.Parse("2000-01-01T23:59:59+00") },
-            new NewsDTO { Title = "Title", Content = "Content", Subtitle = "Subtitle", CreationDate = DateTime.Parse("2000-01-02+00"), LastUpdated = DateTime.Parse("2000-01-02+00") },
-            new NewsDTO { Title = "Title", Content = "Content", Subtitle = "Subtitle", CreationDate = DateTime.Parse("2000-01-03+00"), LastUpdated = DateTime.Parse("2000-01-03+00") },
-            new NewsDTO { Title = "Title2", Content = "Content2", Subtitle = "Subtitle2" },
-            new NewsDTO { Title = "Title3", Content = "Content3", Subtitle = "Subtitle3" },
-            new NewsDTO { Title = "Title4", Content = "Content4", Subtitle = "Subtitle4" },
-            new NewsDTO { Title = "Title5", Content = "Content5", Subtitle = "Subtitle5" },
-            new NewsDTO { Title = "Title6", Content = "Content6", Subtitle = "Subtitle6" },
-            new NewsDTO { Title = "Title7", Content = "Content7", Subtitle = "Subtitle7" },
-            new NewsDTO { Title = "Title8", Content = "Content8", Subtitle = "Subtitle8" },
-            new NewsDTO { Title = "Title9", Content = "Content9", Subtitle = "Subtitle9" },
-            new NewsDTO { Title = "Title10", Content = "Content10", Subtitle = "Subtitle10" },
+            new NewsDTO { OwnerId = TestUser1.Id, Title = "Title", Content = "Content", Subtitle = "Subtitle" },
+            new NewsDTO { OwnerId = TestUser1.Id, Title = "Spaced Title", Content = "Spaced Content", Subtitle = "Spaced Subtitle" },
+            new NewsDTO { OwnerId = TestUser1.Id,Title = "Title", Content = "Content", Subtitle = "Subtitle", CreationDate = DateTime.Parse("2000-01-01+00"), LastUpdated = DateTime.Parse("2000-01-01+00") },
+            new NewsDTO { OwnerId = TestUser1.Id,Title = "Title", Content = "Content", Subtitle = "Subtitle", CreationDate = DateTime.Parse("2000-01-01T23:59:59+00"), LastUpdated = DateTime.Parse("2000-01-01T23:59:59+00") },
+            new NewsDTO { OwnerId = TestUser1.Id, Title = "Title", Content = "Content", Subtitle = "Subtitle", CreationDate = DateTime.Parse("2000-01-02+00"), LastUpdated = DateTime.Parse("2000-01-02+00") },
+            new NewsDTO { OwnerId = TestUser1.Id,Title = "Title", Content = "Content", Subtitle = "Subtitle", CreationDate = DateTime.Parse("2000-01-03+00"), LastUpdated = DateTime.Parse("2000-01-03+00") },
+            new NewsDTO { OwnerId = TestUser1.Id, Title = "Title2", Content = "Content2", Subtitle = "Subtitle2" },
+            new NewsDTO { OwnerId = TestUser1.Id, Title = "Title3", Content = "Content3", Subtitle = "Subtitle3" },
+            new NewsDTO { OwnerId = TestUser1.Id, Title = "Title4", Content = "Content4", Subtitle = "Subtitle4" },
+            new NewsDTO { OwnerId = TestUser1.Id, Title = "Title5", Content = "Content5", Subtitle = "Subtitle5" },
+            new NewsDTO { OwnerId = TestUser1.Id, Title = "Title6", Content = "Content6", Subtitle = "Subtitle6" },
+            new NewsDTO { OwnerId = TestUser1.Id, Title = "Title7", Content = "Content7", Subtitle = "Subtitle7" },
+            new NewsDTO { OwnerId = TestUser1.Id, Title = "Title8", Content = "Content8", Subtitle = "Subtitle8" },
+            new NewsDTO { OwnerId = TestUser1.Id, Title = "Title9", Content = "Content9", Subtitle = "Subtitle9" },
+            new NewsDTO { OwnerId = TestUser1.Id, Title = "Title10", Content = "Content10", Subtitle = "Subtitle10" },
         };
 
         public static IEnumerable<object[]> ListEntityData
@@ -148,7 +168,11 @@ namespace Tests.Tests.Integration.Implementation
         {
             get
             {
-                yield return new object[] { new NewsDTO { Title = "Title", Content = "Content", Subtitle = "Subtitle", CreationDate = DateTime.Parse("2000-01-02+00"), LastUpdated = DateTime.Parse("2000-01-01+00") }, new List<string>() { ServiceValidationMessages.CreationDateMoreRecentThanLastUpdated }
+                yield return new object[] { new NewsDTO { OwnerId = TestUser1.Id, Title = "Title", Content = "Content", Subtitle = "Subtitle", CreationDate = DateTime.Parse("2000-01-02+00"), LastUpdated = DateTime.Parse("2000-01-01+00") }, new List<string>() { "'Last Updated' must be greater than or equal to '01/01/2000 22:00:00'." }
+                };
+                yield return new object[] { new NewsDTO { OwnerId = Guid.Empty.ToString(), Title = "Title", Content = "Content", Subtitle = "Subtitle" }, new List<string>() { NewsService.ErrorMessages.InvalidOwner }
+                };
+                yield return new object[] { new NewsDTO { OwnerId = Guid.NewGuid().ToString(), Title = "Title", Content = "Content", Subtitle = "Subtitle" }, new List<string>() { NewsService.ErrorMessages.InvalidOwner }
                 };
             }
         }
@@ -549,7 +573,7 @@ namespace Tests.Tests.Integration.Implementation
         {
             get
             {
-                yield return new object[] { new FlashcardDTO { }, new List<string>() 
+                yield return new object[] { new FlashcardDTO { }, new List<string>()
                 {
                     "'Deck Id' must not be empty.",
                     "Main front content can not be empty.",
@@ -558,7 +582,7 @@ namespace Tests.Tests.Integration.Implementation
                 yield return new object[]  { new FlashcardDTO
                 {
                     DeckId = Guid.Empty,
-                }, new List<string>() 
+                }, new List<string>()
                 {
                     "'Deck Id' must not be empty.",
                     "Main front content can not be empty.",
@@ -736,7 +760,7 @@ namespace Tests.Tests.Integration.Implementation
             }
         }
 
-    [Theory, MemberData(nameof(TestCreateAndUpdateValidationsData))]
+        [Theory, MemberData(nameof(TestCreateAndUpdateValidationsData))]
         public async override Task TestCreateAndUpdateValidations(FlashcardDTO dto, List<string> expectedValidations)
         {
             await base.TestCreateAndUpdateValidations(dto, expectedValidations);
