@@ -134,7 +134,7 @@ namespace Tests.Tests.Integration.Abstract
             entity.DbId = entityFromContext.DbId; // I assign the DB Id to the original object so I don't get errors such as 'NewsId do not match between objects)'.
 
             // Assert
-            parsedResponse.Status.Should().Be("Success");
+            response.StatusCode.Should().Be(System.Net.HttpStatusCode.OK);
             entityFromContext.Should().BeEquivalentTo(entity);
 
             // Undo
@@ -153,7 +153,7 @@ namespace Tests.Tests.Integration.Abstract
             var parsedResponse = await response.Content.ReadFromJsonAsync<DataResponseModel<T>>();
 
             // Assert
-            parsedResponse.Status.Should().Be("Success");
+            response.StatusCode.Should().Be(System.Net.HttpStatusCode.OK);
             parsedResponse.Data.Should().BeEquivalentTo(entity);
 
             // Undo
@@ -173,7 +173,7 @@ namespace Tests.Tests.Integration.Abstract
             var entityFromContext = GetFromContext(id);
 
             // Assert
-            parsedResponse.Status.Should().Be("Success");
+            response.StatusCode.Should().Be(System.Net.HttpStatusCode.OK);
             entityFromContext.Should().BeNull();
         }
 
@@ -190,7 +190,7 @@ namespace Tests.Tests.Integration.Abstract
             var entityFromContext = GetFromContext(id);
 
             // Assert
-            parsedResponse.Status.Should().Be("Success");
+            response.StatusCode.Should().Be(System.Net.HttpStatusCode.OK);
             entityFromContext.Should().BeEquivalentTo(updatedDTO);
             entityFromContext.Should().NotBeEquivalentTo(entity);
 
@@ -218,7 +218,7 @@ namespace Tests.Tests.Integration.Abstract
                 var parsedResponse = await response.Content.ReadFromJsonAsync<PaginatedListResponse<T>>();
 
                 // Assert
-                parsedResponse.Status.Should().Be("Success");
+                response.StatusCode.Should().Be(System.Net.HttpStatusCode.OK);
                 parsedResponse.Errors?.Count().Should().Be(0);
                 parsedResponse.Data.ResultSize.Should().BeLessThanOrEqualTo(pageSize);
                 parsedResponse.Data.TotalAmount.Should().Be((ulong)dtoList.Count);
@@ -263,7 +263,7 @@ namespace Tests.Tests.Integration.Abstract
                 var response = await _client.GetAsync($"{_searchEndpoint}{queryParams}{pageOptionsQueryParams}");
                 var parsedResponse = await response.Content.ReadFromJsonAsync<PaginatedListResponse<T>>();
 
-                parsedResponse.Status.Should().Be("Success");
+                response.StatusCode.Should().Be(System.Net.HttpStatusCode.OK);
                 parsedResponse.Errors?.Count().Should().Be(0);
                 parsedResponse.Data.ResultSize.Should().BeLessThanOrEqualTo(pageSize);
                 parsedResponse.Data.TotalAmount.Should().BeLessThanOrEqualTo((ulong)dtoList.Count);
@@ -299,12 +299,12 @@ namespace Tests.Tests.Integration.Abstract
             var updateParsedResponse = await updateResponse.Content.ReadFromJsonAsync<BaseResponseModel>();
 
             // Assert
-            createParsedResponse.Status.Should().Be("Bad Request");
+            createResponse.StatusCode.Should().Be(System.Net.HttpStatusCode.BadRequest);
             createParsedResponse.Errors.Should().NotBeNullOrEmpty();
             createParsedResponse.Errors.Should().HaveCount(expectedValidations.Count);
             createParsedResponse.Errors.Should().Contain(expectedValidations);
 
-            updateParsedResponse.Status.Should().Be("Bad Request");
+            updateResponse.StatusCode.Should().Be(System.Net.HttpStatusCode.BadRequest);
             updateParsedResponse.Errors.Should().NotBeNullOrEmpty();
             updateParsedResponse.Errors.Should().HaveCount(expectedValidations.Count);
             updateParsedResponse.Errors.Should().Contain(expectedValidations);
@@ -344,12 +344,12 @@ namespace Tests.Tests.Integration.Abstract
             var deleteParsedResponse = await deleteResponse.Content.ReadFromJsonAsync<BaseResponseModel>();
 
             // Assert
-            getParsedResponse.Status.Should().Be("Bad Request");
+            getResponse.StatusCode.Should().Be(System.Net.HttpStatusCode.BadRequest);
             getParsedResponse.Errors.Should().NotBeNullOrEmpty();
             getParsedResponse.Errors.Should().HaveCount(expectedValidations.Count);
             getParsedResponse.Errors.Should().Contain(expectedValidations);
 
-            deleteParsedResponse.Status.Should().Be("Bad Request");
+            deleteResponse.StatusCode.Should().Be(System.Net.HttpStatusCode.BadRequest);
             deleteParsedResponse.Errors.Should().NotBeNullOrEmpty();
             deleteParsedResponse.Errors.Should().HaveCount(expectedValidations.Count);
             deleteParsedResponse.Errors.Should().Contain(expectedValidations);

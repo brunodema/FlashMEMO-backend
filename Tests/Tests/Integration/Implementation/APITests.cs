@@ -53,7 +53,6 @@ namespace Tests.Integration.Implementation.API
 
             // Assert
             response.Data.Results.Should().NotBeNull("valid data should have been retrieved from this query.");
-            response.Status.Should().Be("Success", "this query contains valid parameters, and has been manually tested before");
         }
 
         public static IEnumerable<object[]> MakeRequestWithBrokenSearchTextData =>
@@ -80,7 +79,6 @@ namespace Tests.Integration.Implementation.API
 
             // Assert
             response.Data.Results.Should().BeEmpty("the search text is complete bogus, and should not provide any results from the API");
-            response.Status.Should().Be("Success", "this query contains valid parameters (even though they return zero results), and has been manually tested before");
         }
 
         public static IEnumerable<object[]> ReceiveBadRequestForInvalidInputData =>
@@ -110,7 +108,6 @@ namespace Tests.Integration.Implementation.API
             var response = await _integrationTestFixture.HttpClient.GetAsync(url).Result.Content.ReadFromJsonAsync<BaseResponseModel>();
 
             // Assert
-            response.Status.Should().Be("Bad Request", "response should be 'Bad Request' because pre-emptive validations for the input should fail");
             response.Errors.Should().Contain(expectedErrorMessages);
         }
     }
@@ -152,7 +149,6 @@ namespace Tests.Integration.Implementation.API
 
             // Assert
             response.Data.Results.Should().NotBeEmpty("valid data should have been retrieved from this query.");
-            response.Status.Should().Be("Success", "this query contains valid parameters, and has been manually tested before");
         }
 
         public static IEnumerable<object[]> MakesSuccessfulRequestWithPaginationData =>
@@ -178,7 +174,6 @@ namespace Tests.Integration.Implementation.API
 
             // Assert
             response.Data.Results.Should().NotBeEmpty("valid data should have been retrieved from this query.");
-            response.Status.Should().Be("Success", "this query contains valid parameters, and has been manually tested before");
             response.Data.PageNumber.Should().Be(pageNumber?.ToString() ?? "1", "it should be equal to the value requested to the API, or revert to the default value (1)");
         }
 
@@ -202,7 +197,6 @@ namespace Tests.Integration.Implementation.API
             var response = await _integrationTestFixture.HttpClient.GetAsync(url).Result.Content.ReadFromJsonAsync<BaseResponseModel>(new System.Text.Json.JsonSerializerOptions() { PropertyNameCaseInsensitive = true });
 
             // Assert
-            response.Status.Should().Be("Bad Request", "data should not be validated by the internal FlashMEMO filters");
             response.Errors.Should().Contain(expectedErrorMessages);
         }
     }

@@ -61,12 +61,12 @@ namespace API.Controllers
                 var brandNewId = await AttemptEntityCreation(entityDTO);
                 await _userService.AddInitialPasswordToUser(await _userService.GetbyIdAsync(brandNewId), entityDTO.Password); // extra step
 
-                if (brandNewId != null) return Ok(new DataResponseModel<string> { Status = "Success", Message = $"object created successfully.", Data = brandNewId });
-                return BadRequest(new BaseResponseModel { Status = "Bad Request", Message = $"Object was not able to be created within the database." });
+                if (brandNewId != null) return Ok(new DataResponseModel<string> { Message = $"object created successfully.", Data = brandNewId });
+                return BadRequest(new BaseResponseModel {Message = $"Object was not able to be created within the database." });
             }
             catch (EntityValidationException ex)
             {
-                return BadRequest(new BaseResponseModel { Status = "Bad Request", Message = $"Validation errors occured when creating object.", Errors = ex.ServiceValidationErrors });
+                return BadRequest(new BaseResponseModel { Message = $"Validation errors occured when creating object.", Errors = ex.ServiceValidationErrors });
             }
             catch (Exception)
             {
@@ -83,7 +83,7 @@ namespace API.Controllers
                 var passwordValidatorResult = new UserDTOValidator().Validate(entityDTO);
                 if (!passwordValidatorResult.IsValid)
                 {
-                    return BadRequest(new BaseResponseModel() { Status = "Bad Request", Message = "Validation Errors have occurred while processing your request.", Errors = passwordValidatorResult.Errors.Select(x => x.ErrorMessage) });
+                    return BadRequest(new BaseResponseModel() { Message = "Validation Errors have occurred while processing your request.", Errors = passwordValidatorResult.Errors.Select(x => x.ErrorMessage) });
                 }
             }
 
@@ -92,7 +92,7 @@ namespace API.Controllers
             {
                 var response = (DataResponseModel<string>)actionResult.Value;
 
-                return Ok(new DataResponseModel<string>() { Status = "Success", Message = "User updated successfully.", Data = id });
+                return Ok(new DataResponseModel<string>() { Message = "User updated successfully.", Data = id });
             }
 
             return actionResult;
@@ -109,7 +109,7 @@ namespace API.Controllers
 
                 var user = new ReducedUserDTO(response.Data);
 
-                return Ok(new DataResponseModel<ReducedUserDTO>() { Status = "Success", Message = "User retrieved successfully.", Data = user });
+                return Ok(new DataResponseModel<ReducedUserDTO>() { Message = "User retrieved successfully.", Data = user });
             }
 
             return actionResult;
@@ -126,7 +126,7 @@ namespace API.Controllers
 
                 var users = response.Data.Results.Select(user => new ReducedUserDTO(user)).ToList();
 
-                return Ok(new PaginatedListResponse<ReducedUserDTO>() { Status = "Success", Message = "User retrieved successfully.", Data = PaginatedList<ReducedUserDTO>.Create(users, pageNumber, pageSize) });
+                return Ok(new PaginatedListResponse<ReducedUserDTO>() { Message = "User retrieved successfully.", Data = PaginatedList<ReducedUserDTO>.Create(users, pageNumber, pageSize) });
             }
 
             return actionResult;
@@ -188,7 +188,7 @@ namespace API.Controllers
                     extendedInfoList.Add(extendedItem);
                 });
 
-                return Ok(new PaginatedListResponse<ExtendedNewsInfoDTO>() { Status = "Success", Message = "Extended News info successfully retrieved.", Data = new PaginatedList<ExtendedNewsInfoDTO>() { PageNumber = response.Data.PageNumber, ResultSize = response.Data.ResultSize, TotalPages = response.Data.TotalPages, TotalAmount = response.Data.TotalAmount, Results = extendedInfoList } });
+                return Ok(new PaginatedListResponse<ExtendedNewsInfoDTO>() { Message = "Extended News info successfully retrieved.", Data = new PaginatedList<ExtendedNewsInfoDTO>() { PageNumber = response.Data.PageNumber, ResultSize = response.Data.ResultSize, TotalPages = response.Data.TotalPages, TotalAmount = response.Data.TotalAmount, Results = extendedInfoList } });
             }
 
             return actionResult;
@@ -235,7 +235,7 @@ namespace API.Controllers
                 });
             });
 
-            return Ok(new DataResponseModel<List<ExtendedDeckInfoDTO>>() { Status = "Success", Message = "Decks from user retrieved.", Data = extendedInfoList });
+            return Ok(new DataResponseModel<List<ExtendedDeckInfoDTO>>() { Message = "Decks from user retrieved.", Data = extendedInfoList });
         }
     }
 
@@ -257,7 +257,7 @@ namespace API.Controllers
         {
             var ret = _flashcardService.GetAllFlashcardsFromDeck(deckId);
 
-            return Ok(new DataResponseModel<List<Flashcard>>() { Status = "Success", Message = "Flashcards retrieved successfully.", Data = ret });
+            return Ok(new DataResponseModel<List<Flashcard>>() { Message = "Flashcards retrieved successfully.", Data = ret });
         }
     }
 
@@ -284,7 +284,6 @@ namespace API.Controllers
 
                 return Ok(new LargePaginatedListResponse<CustomSearchAPIImageResult>
                 {
-                    Status = "Success",
                     Message = "API results successfully retrieved.",
                     Data = new LargePaginatedList<CustomSearchAPIImageResult>()
                     {
@@ -300,7 +299,7 @@ namespace API.Controllers
             }
             catch (InputValidationException e)
             {
-                return BadRequest(new BaseResponseModel { Status = "Bad Request", Message = e.Message, Errors = e.InputValidationErrors });
+                return BadRequest(new BaseResponseModel { Message = e.Message, Errors = e.InputValidationErrors });
             }
             catch (Exception)
             {
@@ -325,11 +324,11 @@ namespace API.Controllers
         {
             try
             {
-                return Ok(new DictionaryAPIResponse() { Status = "Success", Message = "API results successfully retrieved.", Data = await _service.SearchResults(searchText, languageCode) });
+                return Ok(new DictionaryAPIResponse() { Message = "API results successfully retrieved.", Data = await _service.SearchResults(searchText, languageCode) });
             }
             catch (InputValidationException e)
             {
-                return BadRequest(new BaseResponseModel { Status = "Bad Request", Message = e.Message, Errors = e.InputValidationErrors });
+                return BadRequest(new BaseResponseModel { Message = e.Message, Errors = e.InputValidationErrors });
             }
 
             catch (Exception)
@@ -393,10 +392,10 @@ namespace API.Controllers
             {
                 var token = _JWTService.CreateLoginToken(authenticatedUser);
 
-                return Ok(new LoginResponseModel { Status = "Success", Message = "User has logged in", JWTToken = token });
+                return Ok(new LoginResponseModel { Message = "User has logged in", JWTToken = token });
             }
 
-            return Unauthorized(new LoginResponseModel { Status = "Unauthorized", Message = "The provided credentials could not be validated" });
+            return Unauthorized(new LoginResponseModel { Message = "The provided credentials could not be validated" });
         }
 
         [HttpGet]
@@ -404,7 +403,7 @@ namespace API.Controllers
         [Route("test")]
         public IActionResult Test()
         {
-            return Ok(new BaseResponseModel { Status = "Success", Message = "You managed to get here!" });
+            return Ok(new BaseResponseModel { Message = "You managed to get here!" });
         }
     }
 
@@ -429,7 +428,7 @@ namespace API.Controllers
         {
             var results = await _audioAPIService.SearchAudioAsync(keyword, languageCode, provider);
 
-            return Ok(new DataResponseModel<ILexicalAPIDTO<IAudioAPIResult>> { Status = "Success", Message = $"{results.Results.AudioLinks.Count} results were retrieved.", Data = results });
+            return Ok(new DataResponseModel<ILexicalAPIDTO<IAudioAPIResult>> { Message = $"{results.Results.AudioLinks.Count} results were retrieved.", Data = results });
 
         }
     }

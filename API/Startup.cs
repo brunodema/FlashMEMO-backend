@@ -101,7 +101,7 @@ namespace API
                 {
                     options.InvalidModelStateResponseFactory = actionContext =>
                     {
-                        return new BadRequestObjectResult(new BaseResponseModel { Status = "Bad Request", Message = "Validation errors have ocurred when processing the request", Errors = actionContext.ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage) });
+                        return new BadRequestObjectResult(new BaseResponseModel { Message = "Validation errors have ocurred when processing the request", Errors = actionContext.ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage) });
                     };
                 });
 
@@ -206,7 +206,7 @@ namespace API
                 var exception = context.Features
                     .Get<IExceptionHandlerPathFeature>()
                     .Error;
-                var response = new BaseResponseModel { Status = "Internal Error", Message = "The back-end server of FlashMEMO ran into a problem.", Errors = new List<string>() { exception.Message } };
+                var response = new BaseResponseModel { Message = "The back-end server of FlashMEMO ran into a problem.", Errors = new List<string>() { exception.Message } };
                 await context.Response.WriteAsJsonAsync(response);
             }));
 

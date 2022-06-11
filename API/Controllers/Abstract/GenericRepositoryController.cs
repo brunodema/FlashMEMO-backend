@@ -47,7 +47,7 @@ namespace API.Controllers.Abstract
         public virtual IActionResult List(int pageSize = GenericRepositoryControllerDefaults.DefaultPageSize, int pageNumber = GenericRepositoryControllerDefaults.DefaultPageNumber, [FromQuery] TSortOptions sortOptions = null)
         {
             var data = _repositoryService.List(sortOptions);
-            return Ok(new PaginatedListResponse<TEntity> { Status = "Success", Data = PaginatedList<TEntity>.Create(data, pageNumber, pageSize) });
+            return Ok(new PaginatedListResponse<TEntity> { Data = PaginatedList<TEntity>.Create(data, pageNumber, pageSize) });
         }
 
         [HttpGet]
@@ -57,9 +57,9 @@ namespace API.Controllers.Abstract
             try
             {
                 var ret = await _repositoryService.GetbyIdAsync(id);
-                if (ret == null) return BadRequest(new BaseResponseModel { Status = "Bad Request", Message = $"Object was not able to be retrieved from the database.", Errors = new List<string>() { ErrorMessages.NoObjectAssociatedWithId } });
+                if (ret == null) return BadRequest(new BaseResponseModel { Message = $"Object was not able to be retrieved from the database.", Errors = new List<string>() { ErrorMessages.NoObjectAssociatedWithId } });
 
-                return Ok(new DataResponseModel<TEntity> { Status = "Success", Message = $"Object retrieved successfully.", Data = ret });
+                return Ok(new DataResponseModel<TEntity> { Message = $"Object retrieved successfully.", Data = ret });
             }
             catch (Exception)
             {
@@ -95,12 +95,12 @@ namespace API.Controllers.Abstract
             try
             {
                 var brandNewId = await AttemptEntityCreation(entityDTO);
-                if (brandNewId != null) return Ok(new DataResponseModel<TKey> { Status = "Success", Message = $"object created successfully.", Data = brandNewId });
-                return BadRequest(new BaseResponseModel { Status = "Bad Request", Message = $"Object was not able to be created within the database." });
+                if (brandNewId != null) return Ok(new DataResponseModel<TKey> { Message = $"object created successfully.", Data = brandNewId });
+                return BadRequest(new BaseResponseModel { Message = $"Object was not able to be created within the database." });
             }
             catch (EntityValidationException ex)
             {
-                return BadRequest(new BaseResponseModel { Status = "Bad Request", Message = $"Validation errors occured when creating object.", Errors = ex.ServiceValidationErrors });
+                return BadRequest(new BaseResponseModel { Message = $"Validation errors occured when creating object.", Errors = ex.ServiceValidationErrors });
             }
             catch (Exception)
             {
@@ -122,14 +122,14 @@ namespace API.Controllers.Abstract
                 // apparently I have to do this, otherwise errors such as 'Database operation expected to affect 1 row(s) but actually affected 0 row(s)' end up happening. Plus, this seems to be the standard used by EF Core (1. get object, 2. change it, 3. update at database)
                 var entityFromDb = await _repositoryService.GetbyIdAsync(id);
 
-                if (entityFromDb == null) return BadRequest(new BaseResponseModel { Status = "Bad Request", Message = $"No valid object was retrieved from the database with the provided Id. Please check if it is correct." });
+                if (entityFromDb == null) return BadRequest(new BaseResponseModel { Message = $"No valid object was retrieved from the database with the provided Id. Please check if it is correct." });
 
                 entityDTO.PassValuesToEntity(entityFromDb);
 
                 var changedEntityId = await _repositoryService.UpdateAsync(entityFromDb);
-                return Ok(new DataResponseModel<TKey> { Status = "Success", Message = $"Object updated successfully.", Data = changedEntityId });
+                return Ok(new DataResponseModel<TKey> { Message = $"Object updated successfully.", Data = changedEntityId });
             }
-            return BadRequest(new BaseResponseModel { Status = "Bad Request", Message = $"Validation errors occured when updating object.", Errors = validationResult.Errors });
+            return BadRequest(new BaseResponseModel { Message = $"Validation errors occured when updating object.", Errors = validationResult.Errors });
         }
 
         [HttpPost]
@@ -141,9 +141,9 @@ namespace API.Controllers.Abstract
                 var ret = await _repositoryService.RemoveByIdAsync(id);
 
                 // This comparison is JANKY AS FUCK, but it works. Why do I use it? Because C# is overly complicated and doesn't allow me to set 'TKey' as either 'class' or 'struct' easily. 
-                if (ret?.ToString() == default(TKey)?.ToString()) return BadRequest(new BaseResponseModel { Status = "Bad Request", Message = $"Object was not able to be removed from the database.", Errors = new List<string>() { ErrorMessages.NoObjectAssociatedWithId } });
+                if (ret?.ToString() == default(TKey)?.ToString()) return BadRequest(new BaseResponseModel { Message = $"Object was not able to be removed from the database.", Errors = new List<string>() { ErrorMessages.NoObjectAssociatedWithId } });
 
-                return Ok(new BaseResponseModel { Status = "Success", Message = $"Object deleted successfully." });
+                return Ok(new BaseResponseModel { Message = $"Object deleted successfully." });
             }
             catch (Exception)
             {
@@ -158,7 +158,7 @@ namespace API.Controllers.Abstract
             var data = _repositoryService.SearchAndOrder(filterOptions, sortOptions);
             data = filterOptions.GetFilteredResults(data.AsQueryable());
 
-            return Ok(new PaginatedListResponse<TEntity> { Status = "Success", Data = PaginatedList<TEntity>.Create(data, pageNumber, pageSize) });
+            return Ok(new PaginatedListResponse<TEntity> { Data = PaginatedList<TEntity>.Create(data, pageNumber, pageSize) });
         }
     }
 }

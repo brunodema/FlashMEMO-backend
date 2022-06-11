@@ -98,7 +98,7 @@ namespace Tests.Integration.Fixtures
                 {
                     options.InvalidModelStateResponseFactory = actionContext =>
                     {
-                        return new BadRequestObjectResult(new BaseResponseModel { Status = "Bad Request", Message = "Validation errors have ocurred when processing the request", Errors = actionContext.ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage) });
+                        return new BadRequestObjectResult(new BaseResponseModel { Message = "Validation errors have ocurred when processing the request", Errors = actionContext.ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage) });
                     };
                 })
                 .AddApplicationPart(typeof(NewsController).Assembly) // why am I doing this again?
@@ -199,7 +199,7 @@ namespace Tests.Integration.Fixtures
                 var exception = context.Features
                     .Get<IExceptionHandlerPathFeature>()
                     .Error;
-                var response = new BaseResponseModel { Status = "Internal Error", Message = exception.Message };
+                var response = new BaseResponseModel { Message = exception.Message };
                 await context.Response.WriteAsJsonAsync(response);
             }));
 
