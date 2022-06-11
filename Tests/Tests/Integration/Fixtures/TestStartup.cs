@@ -168,6 +168,7 @@ namespace Tests.Integration.Fixtures
             services.AddScoped<DeckService>();
             services.AddScoped<LanguageService>();
             services.AddScoped<FlashcardService>();
+            services.AddScoped<UserService>();
 
             services.AddScoped<ApplicationUserRepository>();
             services.AddScoped<RoleRepository>();
