@@ -153,10 +153,45 @@ namespace API.Controllers
     public class NewsController : GenericRepositoryController<News, Guid, NewsDTO, NewsFilterOptions, NewsSortOptions>
     {
         private readonly NewsService _newsService;
+        private readonly UserService _userService;
 
-        public NewsController(NewsService newsService) : base(newsService)
+        public NewsController(NewsService newsService, UserService userService) : base(newsService)
         {
             _newsService = newsService;
+            _userService = userService;
+        }
+
+        [HttpGet]
+        [Route("search/extended")]
+        public IActionResult SearchExtendedNewsInfo([FromQuery] NewsFilterOptions filterOptions, [FromQuery] NewsSortOptions sortOptions = null, int pageSize = GenericRepositoryControllerDefaults.DefaultPageSize, int pageNumber = GenericRepositoryControllerDefaults.DefaultPageNumber)
+        {
+            var actionResult =  base.Search(filterOptions, sortOptions, pageSize, pageNumber) as ObjectResult;
+            if (actionResult.StatusCode == 200)
+            {
+                var response = (PaginatedListResponse<News>)actionResult.Value;
+                var extendedInfoList = new List<ExtendedNewsInfoDTO>();
+
+                response.Data.Results.ToList().ForEach(news =>
+                {
+                    var extendedItem = new ExtendedNewsInfoDTO()
+                    {
+                        NewsId = news.NewsId,
+                        Title = news.Title,
+                        Content = news.Content,
+                        CreationDate = news.CreationDate,
+                        LastUpdated = news.LastUpdated,
+                        OwnerId = news.OwnerId,
+                        Subtitle = news.Subtitle,
+                        ThumbnailPath = news.ThumbnailPath,
+                        OwnerInfo = new ReducedUserDTO(_userService.GetbyIdAsync(news.OwnerId).Result)
+                    };
+                    extendedInfoList.Add(extendedItem);
+                });
+
+                return Ok(new PaginatedListResponse<ExtendedNewsInfoDTO>() { Status = "Success", Message = "Extended News info successfully retrieved.", Data = new PaginatedList<ExtendedNewsInfoDTO>() { PageNumber = response.Data.PageNumber, ResultSize = response.Data.ResultSize, TotalPages = response.Data.TotalPages, TotalAmount = response.Data.TotalAmount, Results = extendedInfoList } });
+            }
+
+            return actionResult;
         }
     }
 

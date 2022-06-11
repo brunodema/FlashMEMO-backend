@@ -12,6 +12,14 @@ namespace Data.Models.DTOs
     }
 
     /// <summary>
+    /// News DTO that has extra info regarding the user that published it.
+    /// </summary>
+    public class ExtendedNewsInfoDTO : News
+    {
+        public ReducedUserDTO OwnerInfo { get; set; } = new ReducedUserDTO();
+    }
+
+    /// <summary>
     /// User DTO used to avoid over-posting information to the front-end.
     /// </summary>
     public class ReducedUserDTO
