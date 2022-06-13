@@ -336,6 +336,13 @@ namespace API.Controllers
                 throw;
             }
         }
+
+        [HttpGet]
+        [Route("languages")]
+        public async Task<IActionResult> GetAvailableLanguages()
+        {
+            return Ok(new DataResponseModel<List<Language>>() { Message = "Languages supported by the API successfully retrieved.", Data = await _service.GetAvailableLanguages() });
+        }
     }
 
     [ApiController]

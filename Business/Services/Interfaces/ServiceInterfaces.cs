@@ -88,7 +88,7 @@ namespace Business.Services.Interfaces
         /// Returns all available languages for the corresponding Dictionary provider.
         /// </summary>
         /// <returns></returns>
-        Task<List<Language>> ShowAvailableLanguages();
+        Task<List<Language>> GetAvailableLanguages();
     }
     #endregion
 

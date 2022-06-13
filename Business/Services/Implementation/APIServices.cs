@@ -419,9 +419,9 @@ namespace Business.Services.Implementation
             }
         }
 
-        public Task<List<Language>> ShowAvailableLanguages()
+        public Task<List<Language>> GetAvailableLanguages()
         {
-            throw new NotImplementedException();
+            return Task.FromResult(this._requestHandler.SupportedLanguages.Select(pair => new Language() { ISOCode = pair.Key, Name = pair.Value }).ToList());
         }
     }
     #endregion
