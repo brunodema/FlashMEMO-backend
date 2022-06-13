@@ -24,6 +24,8 @@ using System.Threading.Tasks;
 using System.Linq;
 using Business.Tools;
 using OpenQA.Selenium;
+using Data.Models.Implementation;
+using static Data.Models.Implementation.StaticModels;
 
 namespace Business.Services.Implementation
 {
@@ -233,7 +235,7 @@ namespace Business.Services.Implementation
         /// <summary>
         /// List of supported languages by the API (2-digit ISO code).
         /// </summary>
-        public IEnumerable<string> SupportedLanguages { get; set; }
+        public Dictionary<string, string> SupportedLanguages { get; set; }
 
         public virtual ValidatonResult ValidateSearchText(string searchText)
         {
@@ -250,7 +252,7 @@ namespace Business.Services.Implementation
         {
             var validationResult = new ValidatonResult();
 
-            validationResult.IsValid = SupportedLanguages.Contains(languageCode, StringComparer.OrdinalIgnoreCase);
+            validationResult.IsValid = SupportedLanguages.ContainsKey(languageCode.ToLower().Trim());
             validationResult.Errors = validationResult.IsValid ? null : new List<string>() { String.Format(ErrorMessages.InvalidLanguageCode, languageCode) };
 
             return validationResult;
@@ -399,6 +401,11 @@ namespace Business.Services.Implementation
         {
             using (var response = await _requestHandler.MakeRequestToAPIAsync(searchText, targetLanguage))
             {
+                if (response.StatusCode != System.Net.HttpStatusCode.OK)
+                {
+                    throw new Exception($"API did not return a 200 response. Response had status '{response.ReasonPhrase}'.");
+                }
+
                 var parsedResponse = JsonConvert.DeserializeObject<TDictionaryAPIResponse>(await response.Content.ReadAsStringAsync());
 
                 if (parsedResponse.HasAnyResults()) return DictionaryAPIDTOMapper.CreateDTO(parsedResponse);
@@ -410,6 +417,11 @@ namespace Business.Services.Implementation
                         Results = new List<DictionaryAPIResult>()
                     };
             }
+        }
+
+        public Task<List<Language>> ShowAvailableLanguages()
+        {
+            throw new NotImplementedException();
         }
     }
     #endregion

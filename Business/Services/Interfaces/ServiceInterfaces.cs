@@ -83,6 +83,12 @@ namespace Business.Services.Interfaces
         /// <param name="targetLanguage">Two letter ISO code for the target language (ex: "en-us", "en-gb").</param>
         /// <returns></returns>
         Task<DictionaryAPIDTO> SearchResults(string searchText, string targetLanguage);
+
+        /// <summary>
+        /// Returns all available languages for the corresponding Dictionary provider.
+        /// </summary>
+        /// <returns></returns>
+        Task<List<Language>> ShowAvailableLanguages();
     }
     #endregion
 
