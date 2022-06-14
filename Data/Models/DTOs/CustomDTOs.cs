@@ -32,7 +32,7 @@ namespace Data.Models.DTOs
 
         public ReducedUserDTO() { }
 
-        public ReducedUserDTO(ApplicationUser user)
+        public ReducedUserDTO(User user)
         {
             Id = user.Id;
             Email = user.Email;

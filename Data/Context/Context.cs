@@ -21,9 +21,9 @@ namespace Data.Context
     }
 
     public class FlashMEMOContext : IdentityDbContext<
-        ApplicationUser, ApplicationRole, string,
-        ApplicationUserClaim, ApplicationUserRole, ApplicationUserLogin,
-        ApplicationRoleClaim, ApplicationUserToken>
+        User, Role, string,
+        UserClaim, UserRole, UserLogin,
+        RoleClaim, UserToken>
     {
         private readonly IOptions<FlashMEMOContextOptions> _contextOptions;
 
@@ -37,7 +37,7 @@ namespace Data.Context
 
             base.OnModelCreating(modelBuilder);
 
-            modelBuilder.Entity<ApplicationUser>(b =>
+            modelBuilder.Entity<User>(b =>
             {
                 // Each User can have many UserClaims
                 b.HasMany(e => e.Claims)
@@ -64,7 +64,7 @@ namespace Data.Context
                     .IsRequired();
             });
 
-            modelBuilder.Entity<ApplicationRole>(b =>
+            modelBuilder.Entity<Role>(b =>
             {
                 // Each Role can have many entries in the UserRole join table
                 b.HasMany(e => e.UserRoles)
@@ -79,15 +79,30 @@ namespace Data.Context
                     .IsRequired();
             });
 
-            //modelBuilder.Entity<ApplicationRole>()
+            var userDataFromJSON = JsonConvert.DeserializeObject<User[]>(File.ReadAllText($"{_contextOptions.Value.SeederPath}/Users.json"));
 
-            modelBuilder.Entity<ApplicationUser>()
-                .HasData(JsonConvert.DeserializeObject<ApplicationUser[]>(File.ReadAllText($"{_contextOptions.Value.SeederPath}/Users.json")).Select(u => {
-                    u.PasswordHash = new PasswordHasher<ApplicationUser>().HashPassword(u, _contextOptions.Value.DefaultUserPassword);
+            modelBuilder.Entity<User>()
+                .HasData(userDataFromJSON.Select(u => {
+                    u.PasswordHash = new PasswordHasher<User>().HashPassword(u, _contextOptions.Value.DefaultUserPassword);
                     u.NormalizedUserName = u.UserName.ToUpper();
                     u.NormalizedEmail = u.Email.ToUpper();
                     return u;
                 }));
+
+            const string adminRoleId = "d4b74547-1385-47eb-80fa-1c29d573f571";
+            modelBuilder.Entity<Role>().HasData(new Role
+            {
+                Id = adminRoleId,
+                Name = "admin",
+                NormalizedName = "admin"
+            });
+
+            // Assign 'admin' role to 'sysadmin'
+            modelBuilder.Entity<UserRole>().HasData(new UserRole
+            {
+                RoleId = adminRoleId,
+                UserId = userDataFromJSON.FirstOrDefault(u => u.UserName == "sysadmin").Id
+            });
 
             modelBuilder.Entity<Language>()
                 .HasData(JsonConvert.DeserializeObject<Language[]>(File.ReadAllText($"{_contextOptions.Value.SeederPath}/Languages.json")));
@@ -105,6 +120,7 @@ namespace Data.Context
             modelBuilder.Entity<Flashcard>()
                 .HasData(JsonConvert.DeserializeObject<Flashcard[]>(File.ReadAllText($"{_contextOptions.Value.SeederPath}/Flashcards.json"), new JsonSerializerSettings { DateTimeZoneHandling = DateTimeZoneHandling.Utc }));
         }
+
         public DbSet<News> News { get; set; }
         public DbSet<Deck> Decks { get; set; }
         public DbSet<Flashcard> Flashcards { get; set; }

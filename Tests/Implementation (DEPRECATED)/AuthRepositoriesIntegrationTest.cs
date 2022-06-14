@@ -38,30 +38,30 @@ namespace RepositoryTests.Implementation
         }
         public class AuthRepositoryFixture : IDisposable
         {
-            public ApplicationUserRepository _applicationUserRepository;
+            public UserRepository _userRepository;
             public RoleRepository _roleRepository;
             public AuthRepositoryFixture()
             {
                 var options = new DbContextOptionsBuilder<FlashMEMOContext>().UseInMemoryDatabase(databaseName: "AuthRepositoryFixture").Options;
                 var context = new FlashMEMOContext(options, Options.Create(new FlashMEMOContextOptions { SeederPath = "../../../../Data/Seeder", DefaultUserPassword = "Default@Password123" }));
-                var roleManager = new RoleManager<ApplicationRole>(
-                    new RoleStore<ApplicationRole>(context),
+                var roleManager = new RoleManager<Role>(
+                    new RoleStore<Role>(context),
                     null,
                     null,
                     null,
                     null);
 
-                roleManager.CreateAsync(new ApplicationRole
+                roleManager.CreateAsync(new Role
                 {
                     Id = RoleTestGUID.GUID1,
                     Name = "admin",
                 }).Wait();
-                roleManager.CreateAsync(new ApplicationRole
+                roleManager.CreateAsync(new Role
                 {
                     Id = RoleTestGUID.GUID2,
                     Name = "user"
                 }).Wait();
-                roleManager.CreateAsync(new ApplicationRole
+                roleManager.CreateAsync(new Role
                 {
                     Id = RoleTestGUID.GUID3,
                     Name = "visitor"
@@ -70,10 +70,10 @@ namespace RepositoryTests.Implementation
                 var roleRepository = new RoleRepository(context, roleManager);
                 _roleRepository = roleRepository;
 
-                var userManager = new UserManager<ApplicationUser>(
-                    new UserStore<ApplicationUser>(context),
+                var userManager = new UserManager<User>(
+                    new UserStore<User>(context),
                     null,
-                    new PasswordHasher<ApplicationUser>(),
+                    new PasswordHasher<User>(),
                     null,
                     null,
                     null,
@@ -81,7 +81,7 @@ namespace RepositoryTests.Implementation
                     null,
                     null);
 
-                userManager.CreateAsync(new ApplicationUser
+                userManager.CreateAsync(new User
                 {
                     Id = UserTestGUID.GUID1,
                     Email = "test@email.com",
@@ -90,7 +90,7 @@ namespace RepositoryTests.Implementation
                     NormalizedUserName = "TEST"
 
                 }, "Test@123").Wait();
-                userManager.CreateAsync(new ApplicationUser
+                userManager.CreateAsync(new User
                 {
                     Id = UserTestGUID.GUID2,
                     Email = "test2@email.com",
@@ -99,7 +99,7 @@ namespace RepositoryTests.Implementation
                     NormalizedUserName = "TEST2"
 
                 }, "Test@123").Wait();
-                userManager.CreateAsync(new ApplicationUser
+                userManager.CreateAsync(new User
                 {
                     Id = UserTestGUID.GUID3,
                     Email = "test3@email.com",
@@ -109,14 +109,14 @@ namespace RepositoryTests.Implementation
 
                 }, "Test@123").Wait();
 
-                var userRepository = new ApplicationUserRepository(context, userManager);
+                var userRepository = new UserRepository(context, userManager);
 
-                _applicationUserRepository = userRepository;
+                _userRepository = userRepository;
             }
 
             public void Dispose()
             {
-                _applicationUserRepository?.Dispose();
+                _userRepository?.Dispose();
                 _roleRepository?.Dispose();
             }
         }
@@ -135,8 +135,8 @@ namespace RepositoryTests.Implementation
             public async void User_CreateAsync_AssertThatItGetsProperlyCreated()
             {
                 // Arrange
-                var numRows = await _authRepositoryFixture._applicationUserRepository.GetAll().CountAsync();
-                var dummyUser = new ApplicationUser
+                var numRows = await _authRepositoryFixture._userRepository.GetAll().CountAsync();
+                var dummyUser = new User
                 {
                     Id = UserTestGUID.GUID4,
                     Email = "dummy@domain.com",
@@ -146,28 +146,28 @@ namespace RepositoryTests.Implementation
                 };
 
                 // Act
-                await _authRepositoryFixture._applicationUserRepository.CreateAsync(dummyUser);
+                await _authRepositoryFixture._userRepository.CreateAsync(dummyUser);
 
                 // Assert
-                var newNumRows = await _authRepositoryFixture._applicationUserRepository.GetAll().CountAsync();
-                Assert.True((await _authRepositoryFixture._applicationUserRepository.GetAll().ToListAsync()).Contains(dummyUser), "Table does not contain the new item");
+                var newNumRows = await _authRepositoryFixture._userRepository.GetAll().CountAsync();
+                Assert.True((await _authRepositoryFixture._userRepository.GetAll().ToListAsync()).Contains(dummyUser), "Table does not contain the new item");
                 Assert.True(newNumRows == numRows + 1, $"Number of rows did not increase with the new item added ({newNumRows} != {numRows + 1})");
             }
             [Fact]
             public async void User_UpdateAsync_AssertThatItGetsProperlyUpdated()
             {
                 // Arrange
-                var numRows = await _authRepositoryFixture._applicationUserRepository.GetAll().CountAsync();
-                var dummyUser = await _authRepositoryFixture._applicationUserRepository.GetByIdAsync(UserTestGUID.GUID2);
+                var numRows = await _authRepositoryFixture._userRepository.GetAll().CountAsync();
+                var dummyUser = await _authRepositoryFixture._userRepository.GetByIdAsync(UserTestGUID.GUID2);
 
                 dummyUser.UserName = "newdummy";
 
                 // Act
-                await  _authRepositoryFixture._applicationUserRepository.UpdateAsync(dummyUser);
+                await  _authRepositoryFixture._userRepository.UpdateAsync(dummyUser);
 
                 // Assert
-                var newNumRows = await _authRepositoryFixture._applicationUserRepository.GetAll().CountAsync();
-                var queryResult = await _authRepositoryFixture._applicationUserRepository.GetByIdAsync(UserTestGUID.GUID2);
+                var newNumRows = await _authRepositoryFixture._userRepository.GetAll().CountAsync();
+                var queryResult = await _authRepositoryFixture._userRepository.GetByIdAsync(UserTestGUID.GUID2);
                 Assert.NotNull(queryResult);
                 Assert.True(queryResult.UserName == "newdummy", "Object property does not match the new updated value");
                 Assert.True(newNumRows == numRows, $"Number of rows did not stay the same with the update ({newNumRows} != {numRows})");
@@ -176,15 +176,15 @@ namespace RepositoryTests.Implementation
             public async void User_RemoveAsync_AssertThatItGetsProperlyRemoved()
             {
                 // Arrange
-                var numRows = await _authRepositoryFixture._applicationUserRepository.GetAll().CountAsync();
-                var dummyUser = await _authRepositoryFixture._applicationUserRepository.GetByIdAsync(UserTestGUID.GUID1);
+                var numRows = await _authRepositoryFixture._userRepository.GetAll().CountAsync();
+                var dummyUser = await _authRepositoryFixture._userRepository.GetByIdAsync(UserTestGUID.GUID1);
 
                 // Act
-                await _authRepositoryFixture._applicationUserRepository.RemoveByIdAsync(dummyUser.Id);
+                await _authRepositoryFixture._userRepository.RemoveByIdAsync(dummyUser.Id);
 
                 // Assert
-                var newNumRows = await _authRepositoryFixture._applicationUserRepository.GetAll().CountAsync();
-                Assert.False((await _authRepositoryFixture._applicationUserRepository.GetAll().ToListAsync()).Contains(dummyUser), "Table still contains the item");
+                var newNumRows = await _authRepositoryFixture._userRepository.GetAll().CountAsync();
+                Assert.False((await _authRepositoryFixture._userRepository.GetAll().ToListAsync()).Contains(dummyUser), "Table still contains the item");
                 Assert.True(newNumRows == numRows - 1, $"Number of rows did not decrease with the item removed ({ newNumRows} != { numRows - 1})");
             }
             [Fact]
@@ -192,8 +192,8 @@ namespace RepositoryTests.Implementation
             {
                 // Arrange
                 // Act
-                var dummyUser1 = await _authRepositoryFixture._applicationUserRepository.GetByIdAsync(UserTestGUID.GUID4);
-                var dummyUser2 = await _authRepositoryFixture._applicationUserRepository.GetByIdAsync(UserTestGUID.GUID5); // invalid GUID
+                var dummyUser1 = await _authRepositoryFixture._userRepository.GetByIdAsync(UserTestGUID.GUID4);
+                var dummyUser2 = await _authRepositoryFixture._userRepository.GetByIdAsync(UserTestGUID.GUID5); // invalid GUID
 
                 // Assert
                 Assert.NotNull(dummyUser1);
@@ -213,9 +213,9 @@ namespace RepositoryTests.Implementation
             public void User_SearchAndOrderAsync_AssertThatItGetsProperlySorted(int numRecords, SortType sortType)
             {
                 /// Arrange
-                var response = _authRepositoryFixture._applicationUserRepository.SearchAndOrder(_ => true, new ApplicationUserSortOptions(sortType), numRecords); // OK, so I had to make an update here because I updated the behavior for the inderlying 'SearchAndOrder' function sometime ago, so it considers all records if the 'numRecords' parameter is less than 0. What is really weird is that this function was working before making the transition towards an ApplicationUserRepository based on GenericRepository. Thank god the goal of this transition is precisely making these old tests deprecated...
+                var response = _authRepositoryFixture._userRepository.SearchAndOrder(_ => true, new UserSortOptions(sortType), numRecords); // OK, so I had to make an update here because I updated the behavior for the inderlying 'SearchAndOrder' function sometime ago, so it considers all records if the 'numRecords' parameter is less than 0. What is really weird is that this function was working before making the transition towards an UserRepository based on GenericRepository. Thank god the goal of this transition is precisely making these old tests deprecated...
 
-                Assert.True(response.Count() <= (numRecords < 0 ? _authRepositoryFixture._applicationUserRepository.GetAll().Count() : numRecords));
+                Assert.True(response.Count() <= (numRecords < 0 ? _authRepositoryFixture._userRepository.GetAll().Count() : numRecords));
                 if (sortType == SortType.Ascending)
                 {
                     response.Should().BeEquivalentTo(response.OrderBy(user => user.UserName));
@@ -234,7 +234,7 @@ namespace RepositoryTests.Implementation
             {
                 // Arrange
                 // Act
-                var response = await _authRepositoryFixture._applicationUserRepository.GetByEmailAsync(email);
+                var response = await _authRepositoryFixture._userRepository.GetByEmailAsync(email);
 
                 // Assert
                 bool isResponseNull = response == null;
@@ -245,7 +245,7 @@ namespace RepositoryTests.Implementation
             {
                 // Arrange
                 var numRows = await _authRepositoryFixture._roleRepository.GetAll().CountAsync();
-                var dummyRole = new ApplicationRole
+                var dummyRole = new Role
                 {
                     Id = RoleTestGUID.GUID4,
                     Name = "new_admin"
@@ -350,20 +350,18 @@ namespace RepositoryTests.Implementation
                 {
                     get
                     {
-                        //yield return new object[] { (Expression<Func<ApplicationUser, bool>>)((u) => u.Email == "test@email.com"), 10, SortType.Ascending, 1 };
-                        yield return new object[] { (Expression<Func<ApplicationUser, bool>>)((u) => u.Email == "test2@email.com"), 10, SortType.Ascending, 1 };
-                        yield return new object[] { (Expression<Func<ApplicationUser, bool>>)((u) => u.Email == "test3@email.com"), 10, SortType.Ascending, 1 };
-                        yield return new object[] { (Expression<Func<ApplicationUser, bool>>)((u) => u.Email == "inexistant@email.com"), 10, SortType.Ascending, 0 };
-                        //yield return new object[] { (Expression<Func<ApplicationUser, bool>>)((u) => u.Email.Contains("email")), 10, SortType.Ascending, 3 };
+                        yield return new object[] { (Expression<Func<User, bool>>)((u) => u.Email == "test2@email.com"), 10, SortType.Ascending, 1 };
+                        yield return new object[] { (Expression<Func<User, bool>>)((u) => u.Email == "test3@email.com"), 10, SortType.Ascending, 1 };
+                        yield return new object[] { (Expression<Func<User, bool>>)((u) => u.Email == "inexistant@email.com"), 10, SortType.Ascending, 0 };
                     }
                 }
             }
             [Theory]
             [MemberData(nameof(User_SearchAndOrderAsync_AssertThatPredicateIsConsidered_TestConfig.TestCases), MemberType = typeof(User_SearchAndOrderAsync_AssertThatPredicateIsConsidered_TestConfig))]
-            public void User_SearchAndOrderAsync_AssertThatPredicateIsConsidered(Expression<Func<ApplicationUser, bool>> predicate, int numRecords, SortType sortType, int expectedNumberOfRecordsReturned)
+            public void User_SearchAndOrderAsync_AssertThatPredicateIsConsidered(Expression<Func<User, bool>> predicate, int numRecords, SortType sortType, int expectedNumberOfRecordsReturned)
             {
                 /// Arrange
-                var response = _authRepositoryFixture._applicationUserRepository.SearchAndOrder(predicate, new ApplicationUserSortOptions(sortType, ApplicationUserSortOptions.ColumnOptions.EMAIL), numRecords);
+                var response = _authRepositoryFixture._userRepository.SearchAndOrder(predicate, new UserSortOptions(sortType, UserSortOptions.ColumnOptions.EMAIL), numRecords);
 
                 Assert.True(response.Count() <= (numRecords < 0 ? 0 : numRecords));
                 if (sortType == SortType.Ascending)
@@ -383,16 +381,14 @@ namespace RepositoryTests.Implementation
                 {
                     get
                     {
-                        //yield return new object[] { (Expression<Func<ApplicationRole, bool>>)((r) => r.Name == "altered_name"), 10, SortType.Ascending, 1 };
-                        //yield return new object[] { (Expression<Func<ApplicationRole, bool>>)((r) => r.Name == "user"), 10, SortType.Ascending, 0 }; // this needs to be refactored to avoid "test concurrence" issues
-                        yield return new object[] { (Expression<Func<ApplicationRole, bool>>)((r) => r.Name == "visitor"), 10, SortType.Ascending, 1 };
-                        yield return new object[] { (Expression<Func<ApplicationRole, bool>>)((r) => r.Name == "inexistant"), 10, SortType.Ascending, 0 };
+                        yield return new object[] { (Expression<Func<Role, bool>>)((r) => r.Name == "visitor"), 10, SortType.Ascending, 1 };
+                        yield return new object[] { (Expression<Func<Role, bool>>)((r) => r.Name == "inexistant"), 10, SortType.Ascending, 0 };
                     }
                 }
             }
             [Theory]
             [MemberData(nameof(Role_SearchAndOrderAsync_AssertThatPredicateIsConsidered_TestConfig.TestCases), MemberType = typeof(Role_SearchAndOrderAsync_AssertThatPredicateIsConsidered_TestConfig))]
-            public void Role_SearchAndOrderAsync_AssertThatPredicateIsConsidered(Expression<Func<ApplicationRole, bool>> predicate, int numRecords, SortType sortType, int expectedNumberOfRecordsReturned)
+            public void Role_SearchAndOrderAsync_AssertThatPredicateIsConsidered(Expression<Func<Role, bool>> predicate, int numRecords, SortType sortType, int expectedNumberOfRecordsReturned)
             {
                 /// Arrange
                 var response = _authRepositoryFixture._roleRepository.SearchAndOrder(predicate, new RoleSortOptions(sortType), numRecords);

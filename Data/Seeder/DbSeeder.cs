@@ -24,15 +24,15 @@ namespace Data.Seeder
     public class DbSeeder
     {
         private FlashMEMOContext _context { get; set; }
-        private RoleStore<ApplicationRole> _roleStore { get; set; }
-        private UserStore<ApplicationUser> _userStore { get; set; }
+        private RoleStore<Role> _roleStore { get; set; }
+        private UserStore<User> _userStore { get; set; }
         private string _seederPath { get; set; }
 
         public DbSeeder(IServiceProvider serviceProvider, string seederPath)
         {
             _context = serviceProvider.GetService<FlashMEMOContext>();
-            _roleStore = new RoleStore<ApplicationRole>(_context);
-            _userStore = new UserStore<Models.Implementation.ApplicationUser>(_context);
+            _roleStore = new RoleStore<Role>(_context);
+            _userStore = new UserStore<Models.Implementation.User>(_context);
             _seederPath = seederPath;
         }
 
@@ -54,7 +54,7 @@ namespace Data.Seeder
                 {
                     if (!_context.Roles.Any(r => r.Name == role))
                     {
-                        await _roleStore.CreateAsync(new ApplicationRole { Name = role });
+                        await _roleStore.CreateAsync(new Role { Name = role });
                     }
                 }
             }

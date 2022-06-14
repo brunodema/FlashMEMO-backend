@@ -106,14 +106,19 @@ namespace API
                 });
 
             // identity config
-            services.AddIdentity<ApplicationUser, ApplicationRole>(opt =>
+            services.AddIdentity<User, Role>(opt =>
             {
                 opt.User.RequireUniqueEmail = true;
             })
                 .AddEntityFrameworkStores<FlashMEMOContext>()
-                .AddRoles<ApplicationRole>()
+                .AddRoles<Role>()
                 .AddDefaultTokenProviders();
+
             // auth config
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy("AdminOnly", policy => policy.RequireClaim("Admin"));
+            });
             services.AddAuthentication(options =>
             {
                 options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -171,7 +176,7 @@ namespace API
             // Audio API
             services.AddScoped<IAudioAPIService, AudioAPIService>();
             // Repositories (are used in Controllers, for instance)
-            services.AddScoped<ApplicationUserRepository>();
+            services.AddScoped<UserRepository>();
             services.AddScoped<RoleRepository>();
             services.AddScoped<NewsRepository>();
             services.AddScoped<DeckRepository>();

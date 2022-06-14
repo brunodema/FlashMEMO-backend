@@ -16,7 +16,7 @@ namespace Data.Models.Implementation
         public Guid NewsId { get; set; } = Guid.Empty;
 
         [JsonIgnore]
-        public ApplicationUser Owner { get; set; } = null;
+        public User Owner { get; set; } = null;
         public string OwnerId { get; set; } = Guid.Empty.ToString();
 
         public string Title { get; set; } = "";
@@ -55,7 +55,7 @@ namespace Data.Models.Implementation
         [JsonIgnore]
         public List<Flashcard> Flashcards { get; set; } = new List<Flashcard>();
         [JsonIgnore]
-        public ApplicationUser Owner { get; set; } = null;
+        public User Owner { get; set; } = null;
         public string OwnerId { get; set; } = Guid.Empty.ToString();
         [JsonIgnore]
         public Language Language { get; set; } = null;

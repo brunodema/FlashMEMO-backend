@@ -27,7 +27,7 @@ namespace API.Controllers
     [ApiController]
     [ApiVersion("1.0")]
     [Route("api/v{version:apiVersion}/[controller]")]
-    public class RoleController : GenericRepositoryController<ApplicationRole, string, RoleDTO, RoleFilterOptions, RoleSortOptions>
+    public class RoleController : GenericRepositoryController<Role, string, RoleDTO, RoleFilterOptions, RoleSortOptions>
     {
         private readonly RoleService _roleService;
 
@@ -40,7 +40,7 @@ namespace API.Controllers
     [ApiController]
     [ApiVersion("1.0")]
     [Route("api/v{version:apiVersion}/[controller]")]
-    public class UserController : GenericRepositoryController<ApplicationUser, string, UserDTO, UserFilterOptions, UserSortOptions>
+    public class UserController : GenericRepositoryController<User, string, UserDTO, UserFilterOptions, UserSortOptions>
     {
         private readonly UserService _userService;
 
@@ -105,7 +105,7 @@ namespace API.Controllers
             var actionResult = await base.Get(id) as ObjectResult;
             if (actionResult.StatusCode == 200)
             {
-                var response = (DataResponseModel<ApplicationUser>)actionResult.Value;
+                var response = (DataResponseModel<User>)actionResult.Value;
 
                 var user = new ReducedUserDTO(response.Data);
 
@@ -122,7 +122,7 @@ namespace API.Controllers
             var actionResult = base.List(pageSize, pageNumber, sortOptions) as ObjectResult;
             if (actionResult.StatusCode == 200)
             {
-                var response = (PaginatedListResponse<ApplicationUser>)actionResult.Value;
+                var response = (PaginatedListResponse<User>)actionResult.Value;
 
                 var users = response.Data.Results.Select(user => new ReducedUserDTO(user)).ToList();
 
@@ -392,7 +392,7 @@ namespace API.Controllers
         [Route("login")]
         public async Task<IActionResult> Login(LoginRequestModel model)
         {
-            ICollection<ApplicationUserRole> roles = new List<ApplicationUserRole>();
+            ICollection<UserRole> roles = new List<UserRole>();
 
             var authenticatedUser = await _authService.AreCredentialsValidAsync(new FlashMEMOCredentials { Username = model.Username, Password = model.Password });
             if (authenticatedUser is not null)
@@ -411,6 +411,14 @@ namespace API.Controllers
         public IActionResult Test()
         {
             return Ok(new BaseResponseModel { Message = "You managed to get here!" });
+        }
+
+        [HttpGet]
+        [Authorize(Policy = "AdminOnly")]
+        [Route("test/admin")]
+        public IActionResult AdminTest()
+        {
+            return Ok(new BaseResponseModel { Message = "You managed to get here! And you are an Admin! :O" });
         }
     }
 

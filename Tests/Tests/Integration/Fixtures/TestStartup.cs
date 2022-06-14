@@ -108,12 +108,12 @@ namespace Tests.Integration.Fixtures
                 .AddApplicationPart(typeof(ImageAPIController).Assembly);
 
             // identity config
-            services.AddIdentity<ApplicationUser, ApplicationRole>(opt =>
+            services.AddIdentity<User, Role>(opt =>
             {
                 opt.User.RequireUniqueEmail = true;
             })
                 .AddEntityFrameworkStores<FlashMEMOContext>()
-                .AddRoles<ApplicationRole>()
+                .AddRoles<Role>()
                 .AddDefaultTokenProviders();
             // auth config
             services.AddAuthentication(options =>
@@ -170,7 +170,7 @@ namespace Tests.Integration.Fixtures
             services.AddScoped<FlashcardService>();
             services.AddScoped<UserService>();
 
-            services.AddScoped<ApplicationUserRepository>();
+            services.AddScoped<UserRepository>();
             services.AddScoped<RoleRepository>();
             services.AddScoped<NewsRepository>();
             services.AddScoped<DeckRepository>();

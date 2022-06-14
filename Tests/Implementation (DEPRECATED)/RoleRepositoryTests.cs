@@ -26,24 +26,24 @@ namespace RepositoryTests.Implementation
         {
             var options = new DbContextOptionsBuilder<FlashMEMOContext>().UseInMemoryDatabase(databaseName: "RoleRepositoryFixture").Options;
             var context = new FlashMEMOContext(options, Options.Create(new FlashMEMOContextOptions { SeederPath = "../../../../Data/Seeder", DefaultUserPassword = "Default@Password123" }));
-            var roleManager = new RoleManager<ApplicationRole>(
-                new RoleStore<ApplicationRole>(context),
+            var roleManager = new RoleManager<Role>(
+                new RoleStore<Role>(context),
                 null,
                 null,
                 null,
                 null);
 
-            roleManager.CreateAsync(new ApplicationRole
+            roleManager.CreateAsync(new Role
             {
                 Id = TestGUID.GUID1,
                 Name = "admin"
             }).Wait();
-            roleManager.CreateAsync(new ApplicationRole
+            roleManager.CreateAsync(new Role
             {
                 Id = TestGUID.GUID2,
                 Name = "admin"
             }).Wait();
-            roleManager.CreateAsync(new ApplicationRole
+            roleManager.CreateAsync(new Role
             {
                 Id = TestGUID.GUID3,
                 Name = "admin"
@@ -58,7 +58,7 @@ namespace RepositoryTests.Implementation
         }
     }
 
-    public class RoleRepositoryTests : IClassFixture<RoleRepositoryFixture>, IBaseRepositoryTests<ApplicationRole, string>
+    public class RoleRepositoryTests : IClassFixture<RoleRepositoryFixture>, IBaseRepositoryTests<Role, string>
     {
         private readonly RoleRepositoryFixture _repositoryFixture;
         private readonly ITestOutputHelper _output;
@@ -74,7 +74,7 @@ namespace RepositoryTests.Implementation
         {
             // Arrange
             var numRows = await this._repositoryFixture._repository.GetAll().CountAsync();
-            var dummyRole = new ApplicationRole
+            var dummyRole = new Role
             {
                 Id = TestGUID.GUID4,
                 Name = "new_admin"

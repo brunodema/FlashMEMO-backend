@@ -13,20 +13,20 @@ namespace Data.Models.DTOs
         void PassValuesToEntity(T entity);
     }
 
-    public class RoleDTO : IModelDTO<ApplicationRole, string>
+    public class RoleDTO : IModelDTO<Role, string>
     {
         [Required]
         public string Name { get; set; }
 
-        public ApplicationRole CreateFromDTO()
+        public Role CreateFromDTO()
         {
-            return new ApplicationRole()
+            return new Role()
             {
                 Name = Name
             };
         }
 
-        public void PassValuesToEntity(ApplicationRole entity)
+        public void PassValuesToEntity(Role entity)
         {
             entity.Name = Name;
         }
@@ -182,7 +182,7 @@ namespace Data.Models.DTOs
         }
     }
 
-    public class UserDTO : IModelDTO<ApplicationUser, string>
+    public class UserDTO : IModelDTO<User, string>
     {
         public string Email { get; set; }
         public string Username { get; set; }
@@ -191,7 +191,7 @@ namespace Data.Models.DTOs
         // regex stolen from here: https://stackoverflow.com/questions/5859632/regular-expression-for-password-validation
         public string Password { get; set; }
 
-        public void PassValuesToEntity(ApplicationUser entity)
+        public void PassValuesToEntity(User entity)
         {
             entity.Email = Email;
             entity.UserName = Username;

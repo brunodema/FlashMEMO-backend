@@ -59,7 +59,7 @@ namespace Business.Services.Interfaces
     }
     public interface IJWTService
     {
-        public string CreateLoginToken(ApplicationUser user);
+        public string CreateLoginToken(User user);
     }
 
     #region DICTIONARY API
@@ -100,13 +100,13 @@ namespace Business.Services.Interfaces
     {
         public Task<bool> EmailAlreadyRegisteredAsync(string email);
         public Task<bool> UserExistsAsync(TKey id);
-        public Task<TKey> CreateUserAsync(ApplicationUser user, string cleanPassword);
+        public Task<TKey> CreateUserAsync(User user, string cleanPassword);
         /// <summary>
         /// Checks is the provided credentials are valid, returning the user object is so. Otherwise, returns null.
         /// </summary>
         /// <param name="credentials">An email + password combination.</param>
         /// <returns>The user associated with the email if authentication is successful, or null instead.</returns>
-        public Task<ApplicationUser> AreCredentialsValidAsync(IFlashMEMOCredentials credentials);
+        public Task<User> AreCredentialsValidAsync(IFlashMEMOCredentials credentials);
     }
     #endregion
 

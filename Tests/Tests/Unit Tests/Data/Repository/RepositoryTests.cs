@@ -254,8 +254,8 @@ namespace Tests.Unit_Tests.Data.Repository
         }
 
         // test data
-        private static readonly ApplicationUser TestUser1 = new ApplicationUser() { Email = "testuser1@email.com", UserName = "testuser1" };
-        private static readonly ApplicationUser TestUser2 = new ApplicationUser() { Email = "testuser2@email.com", UserName = "testuser2" };
+        private static readonly User TestUser1 = new User() { Email = "testuser1@email.com", UserName = "testuser1" };
+        private static readonly User TestUser2 = new User() { Email = "testuser2@email.com", UserName = "testuser2" };
 
         // 10 different flashcards since one deck can have many flashcards, but a flashcard can have only one deck (thinking about business rules, a flashcard should be copied from a deck to another, if necessary)
         private static readonly Flashcard TestFlashcard1 = new() { };

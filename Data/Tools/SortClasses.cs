@@ -67,7 +67,7 @@ namespace Data.Tools.Sorting
         }
     }
 
-    public class UserSortOptions : GenericSortOptions<ApplicationUser>
+    public class UserSortOptions : GenericSortOptions<User>
     {
         public static class ColumnOptions
         {
@@ -165,26 +165,7 @@ namespace Data.Tools.Sorting
         }
     }
 
-    public class ApplicationUserSortOptions : GenericSortOptions<ApplicationUser>
-    {
-        public static class ColumnOptions
-        {
-            public const string EMAIL = "email";
-        }
-        public ApplicationUserSortOptions(SortType sortType = SortType.None, string columnToSort = "") : base(sortType, columnToSort) { }
-        public ApplicationUserSortOptions() { }
-        protected override void DetermineColumnToSortExpression(string columnToSort = "title")
-        {
-            ColumnToSortExpression = columnToSort.ToLowerInvariant() switch
-            {
-                ColumnOptions.EMAIL => user => user.Email,
-                // default will be username
-                _ => user => user.UserName,
-            };
-        }
-    }
-
-    public class RoleSortOptions : GenericSortOptions<ApplicationRole>
+    public class RoleSortOptions : GenericSortOptions<Role>
     {
         public static class ColumnOptions
         {

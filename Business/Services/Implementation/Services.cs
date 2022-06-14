@@ -20,12 +20,12 @@ using static Data.Models.Implementation.StaticModels;
 
 namespace Business.Services.Implementation
 {
-    public class RoleService : GenericRepositoryService<RoleRepository, string, ApplicationRole>
+    public class RoleService : GenericRepositoryService<RoleRepository, string, Role>
     {
 
         public RoleService(RoleRepository roleRepository, IOptions<GenericRepositoryServiceOptions> serviceOptions) : base(roleRepository, serviceOptions.Value) { }
 
-        public override ValidatonResult CheckIfEntityIsValid(ApplicationRole entity)
+        public override ValidatonResult CheckIfEntityIsValid(Role entity)
         {
             List<string> errors = new();
 
@@ -33,11 +33,11 @@ namespace Business.Services.Implementation
         }
     }
 
-    public class UserService : GenericRepositoryService<ApplicationUserRepository, string, ApplicationUser>
+    public class UserService : GenericRepositoryService<UserRepository, string, User>
     {
-        public UserService(ApplicationUserRepository userRepository, IOptions<GenericRepositoryServiceOptions> serviceOptions) : base(userRepository, serviceOptions.Value) { }
+        public UserService(UserRepository userRepository, IOptions<GenericRepositoryServiceOptions> serviceOptions) : base(userRepository, serviceOptions.Value) { }
 
-        public override ValidatonResult CheckIfEntityIsValid(ApplicationUser entity)
+        public override ValidatonResult CheckIfEntityIsValid(User entity)
         {
             List<string> errors = new();
 
@@ -73,7 +73,7 @@ namespace Business.Services.Implementation
             return new ValidatonResult() { IsValid = errors.Count == 0, Errors = errors };
         }
 
-        public async Task AddInitialPasswordToUser(ApplicationUser user, string password)
+        public async Task AddInitialPasswordToUser(User user, string password)
         {
             await _baseRepository.SetInitialPasswordAsync(user, password);
         }
@@ -179,7 +179,7 @@ namespace Business.Services.Implementation
             _options = options.Value;
         }
 
-        public string CreateLoginToken(ApplicationUser user)
+        public string CreateLoginToken(User user)
         {
             var claims = new List<Claim>
             {
@@ -190,9 +190,9 @@ namespace Business.Services.Implementation
                 new Claim(JwtRegisteredClaimNames.Name, user.Name),
                 new Claim("surname", user.Surname),
             };
-            foreach (var role in user.UserRoles ?? Enumerable.Empty<ApplicationUserRole>())
+            foreach (var role in user.UserRoles ?? Enumerable.Empty<UserRole>())
             {
-                claims.Add(new Claim(ClaimTypes.Role, role.RoleId));
+                claims.Add(new Claim(ClaimTypes.Role, role.Role.Name));
             }
 
             var signingKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_options.Secret));
@@ -214,49 +214,49 @@ namespace Business.Services.Implementation
     public class AuthService : IAuthService<string>
     {
         private readonly IAuthServiceOptions _options;
-        private readonly ApplicationUserRepository _applicationUserRepository;
+        private readonly UserRepository _userRepository;
         private readonly RoleRepository _roleRepository;
 
-        public AuthService(IOptions<AuthServiceOptions> options, ApplicationUserRepository applicationUserRepository, RoleRepository roleRepository)
+        public AuthService(IOptions<AuthServiceOptions> options, UserRepository userRepository, RoleRepository roleRepository)
         {
             _options = options.Value;
-            _applicationUserRepository = applicationUserRepository;
+            _userRepository = userRepository;
             _roleRepository = roleRepository;
         }
 
-        public async Task<ApplicationUser> AreCredentialsValidAsync(IFlashMEMOCredentials credentials)
+        public async Task<User> AreCredentialsValidAsync(IFlashMEMOCredentials credentials)
         {
-            var user = await _applicationUserRepository.GetByUserNameAsync(credentials.Username);
+            var user = await _userRepository.GetByUserNameAsync(credentials.Username);
             if (user != null)
             {
-                if (await _applicationUserRepository.CheckPasswordAsync(user, credentials.Password))
+                if (await _userRepository.CheckPasswordAsync(user, credentials.Password))
                     return user;
             }
 
             return null;
         }
 
-        public async Task<string> CreateUserAsync(ApplicationUser user, string cleanPassword)
+        public async Task<string> CreateUserAsync(User user, string cleanPassword)
         {
-            var result = await _applicationUserRepository.CreateAsync(user);
-            await _applicationUserRepository.SetInitialPasswordAsync(user, cleanPassword);
+            var result = await _userRepository.CreateAsync(user);
+            await _userRepository.SetInitialPasswordAsync(user, cleanPassword);
             return result;
         }
 
         public async Task<bool> EmailAlreadyRegisteredAsync(string email)
         {
-            return (await _applicationUserRepository.GetByEmailAsync(email)) != null;
+            return (await _userRepository.GetByEmailAsync(email)) != null;
         }
 
         public async Task<bool> UserExistsAsync(string id)
         {
-            return (await _applicationUserRepository.GetByIdAsync(id)) != null;
+            return (await _userRepository.GetByIdAsync(id)) != null;
         }
 
         public async Task<bool> GetUserByUserNameAndCheckCredentialsAsync(IFlashMEMOCredentials credentials)
         {
-            var user = await _applicationUserRepository.GetByUserNameAsync(credentials.Username);
-            return await _applicationUserRepository.CheckPasswordAsync(user, credentials.Password);
+            var user = await _userRepository.GetByUserNameAsync(credentials.Username);
+            return await _userRepository.CheckPasswordAsync(user, credentials.Password);
         }
     }
 

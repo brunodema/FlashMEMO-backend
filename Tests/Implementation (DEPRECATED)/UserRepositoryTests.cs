@@ -11,17 +11,17 @@ using Microsoft.Extensions.Options;
 
 namespace RepositoryTests.Implementation
 {
-    public class ApplicationUserRepositoryFixture : IDisposable
+    public class UserRepositoryFixture : IDisposable
     {
-        public ApplicationUserRepository _repository;
-        public ApplicationUserRepositoryFixture()
+        public UserRepository _repository;
+        public UserRepositoryFixture()
         {
             var options = new DbContextOptionsBuilder<FlashMEMOContext>().UseInMemoryDatabase(databaseName: Guid.NewGuid().ToString()).Options;
             var context = new FlashMEMOContext(options, Options.Create(new FlashMEMOContextOptions { SeederPath = "../../../../Data/Seeder", DefaultUserPassword = "Default@Password123" }));
-            var userManager = new UserManager<ApplicationUser>(
-                new UserStore<ApplicationUser>(context),
+            var userManager = new UserManager<User>(
+                new UserStore<User>(context),
                 null,
-                new PasswordHasher<ApplicationUser>(),
+                new PasswordHasher<User>(),
                 null,
                 null,
                 null,
@@ -29,7 +29,7 @@ namespace RepositoryTests.Implementation
                 null,
                 null);
 
-            userManager.CreateAsync(new ApplicationUser
+            userManager.CreateAsync(new User
             {
                 Id = "858b3287-5972-4069-bf75-a650453dfef7",
                 Email = "test@email.com",
@@ -38,7 +38,7 @@ namespace RepositoryTests.Implementation
                 NormalizedUserName = "TEST"
 
             }, "Test@123").Wait();
-            userManager.CreateAsync(new ApplicationUser
+            userManager.CreateAsync(new User
             {
                 Id = "8dcbd335-0f2e-46ae-bebb-d9cdad0e7487",
                 Email = "test2@email.com",
@@ -47,7 +47,7 @@ namespace RepositoryTests.Implementation
                 NormalizedUserName = "TEST2"
 
             }, "Test@123").Wait();
-            userManager.CreateAsync(new ApplicationUser
+            userManager.CreateAsync(new User
             {
                 Id = "e7edd329-b0bd-4820-9df4-c13c8aab3577",
                 Email = "test3@email.com",
@@ -57,7 +57,7 @@ namespace RepositoryTests.Implementation
 
             }, "Test@123").Wait();
 
-            _repository = new ApplicationUserRepository(context, userManager);
+            _repository = new UserRepository(context, userManager);
         }
 
         public void Dispose()
@@ -66,12 +66,12 @@ namespace RepositoryTests.Implementation
         }
     }
 
-    public class ApplicationUserRepositoryTests : IClassFixture<ApplicationUserRepositoryFixture>, IBaseRepositoryTests<ApplicationUser, string>
+    public class UserRepositoryTests : IClassFixture<UserRepositoryFixture>, IBaseRepositoryTests<User, string>
     {
-        private readonly ApplicationUserRepositoryFixture _repositoryFixture;
+        private readonly UserRepositoryFixture _repositoryFixture;
         private readonly ITestOutputHelper _output;
 
-        public ApplicationUserRepositoryTests(ApplicationUserRepositoryFixture repositoryFixture, ITestOutputHelper output)
+        public UserRepositoryTests(UserRepositoryFixture repositoryFixture, ITestOutputHelper output)
         {
             _repositoryFixture = repositoryFixture;
             _output = output;
@@ -82,7 +82,7 @@ namespace RepositoryTests.Implementation
         {
             // Arrange
             var numRows = await this._repositoryFixture._repository.GetAll().CountAsync();
-            var dummyUser = new ApplicationUser
+            var dummyUser = new User
             {
                 Id = "424e9d3e-686d-4163-be89-e7bae263a1a5",
                 Email = "dummy@domain.com",

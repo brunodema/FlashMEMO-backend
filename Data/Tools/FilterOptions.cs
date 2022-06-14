@@ -47,7 +47,7 @@ namespace Data.Tools.Filtering
         }
     }
 
-    public class RoleFilterOptions : IQueryFilterOptions<ApplicationRole>
+    public class RoleFilterOptions : IQueryFilterOptions<Role>
     {
         public string Name { get; set; }
 
@@ -60,7 +60,7 @@ namespace Data.Tools.Filtering
             return queryParams;
         }
 
-        public IEnumerable<ApplicationRole> GetFilteredResults(IQueryable<ApplicationRole> elements)
+        public IEnumerable<Role> GetFilteredResults(IQueryable<Role> elements)
         {
             if (Name != null)
             {
@@ -71,7 +71,7 @@ namespace Data.Tools.Filtering
         }
     }
 
-    public class UserFilterOptions : IQueryFilterOptions<ApplicationUser>
+    public class UserFilterOptions : IQueryFilterOptions<User>
     {
         public string Email { get; set; }
         public string Username { get; set; }
@@ -86,7 +86,7 @@ namespace Data.Tools.Filtering
             return queryParams;
         }
 
-        public IEnumerable<ApplicationUser> GetFilteredResults(IQueryable<ApplicationUser> elements)
+        public IEnumerable<User> GetFilteredResults(IQueryable<User> elements)
         {
             if (Email != null)
             {

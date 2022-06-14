@@ -23,9 +23,9 @@ namespace Tests.Tests.Integration.Implementation
     public class NewsControllerTests : GenericControllerTests<News, Guid, NewsDTO>
     {
         // User data to be used accross tests.
-        private static readonly ApplicationUser TestUser1 = new ApplicationUser { Id = Guid.NewGuid().ToString(), UserName = "admin", Email = "admin@flashmemo.edu" };
-        private static readonly ApplicationUser TestUser2 = new ApplicationUser { Id = Guid.NewGuid().ToString(), UserName = "user", Email = "user@flashmemo.edu" };
-        private static readonly ApplicationUser TestUser3 = new ApplicationUser { Id = Guid.NewGuid().ToString(), UserName = "manager", Email = "manager@flashmemo.edu" };
+        private static readonly User TestUser1 = new User { Id = Guid.NewGuid().ToString(), UserName = "admin", Email = "admin@flashmemo.edu" };
+        private static readonly User TestUser2 = new User { Id = Guid.NewGuid().ToString(), UserName = "user", Email = "user@flashmemo.edu" };
+        private static readonly User TestUser3 = new User { Id = Guid.NewGuid().ToString(), UserName = "manager", Email = "manager@flashmemo.edu" };
 
         public NewsControllerTests(IntegrationTestFixture fixture, ITestOutputHelper output) : base(fixture, output)
         {
@@ -34,9 +34,9 @@ namespace Tests.Tests.Integration.Implementation
                 var dbContext = scope.ServiceProvider.GetService<FlashMEMOContext>();
 
                 // this disgusting implementation is required because (1) no 'AddOrUpdate' method exists in the EF Core stuff anymore (despite claims of it on the internet), and because (2) the 'Update' method doesn't actually add instead of updating when providing a non-existent object (it should, though) 
-                foreach (var item in new List<ApplicationUser>() { TestUser1, TestUser2, TestUser3 })
+                foreach (var item in new List<User>() { TestUser1, TestUser2, TestUser3 })
                 {
-                    AddIfNecessary<ApplicationUser, string>(item);
+                    AddIfNecessary<User, string>(item);
                 }
 
                 dbContext.SaveChanges();
@@ -191,9 +191,9 @@ namespace Tests.Tests.Integration.Implementation
         private static readonly Language TestLanguage2 = new Language { Name = "French", ISOCode = "fr" };
         private static readonly Language TestLanguage3 = new Language { Name = "Italian", ISOCode = "it" };
 
-        private static readonly ApplicationUser TestUser1 = new ApplicationUser { Id = Guid.NewGuid().ToString(), UserName = "admin", Email = "admin@flashmemo.edu" };
-        private static readonly ApplicationUser TestUser2 = new ApplicationUser { Id = Guid.NewGuid().ToString(), UserName = "user", Email = "user@flashmemo.edu" };
-        private static readonly ApplicationUser TestUser3 = new ApplicationUser { Id = Guid.NewGuid().ToString(), UserName = "manager", Email = "manager@flashmemo.edu" };
+        private static readonly User TestUser1 = new User { Id = Guid.NewGuid().ToString(), UserName = "admin", Email = "admin@flashmemo.edu" };
+        private static readonly User TestUser2 = new User { Id = Guid.NewGuid().ToString(), UserName = "user", Email = "user@flashmemo.edu" };
+        private static readonly User TestUser3 = new User { Id = Guid.NewGuid().ToString(), UserName = "manager", Email = "manager@flashmemo.edu" };
 
         public DeckControllerTests(IntegrationTestFixture fixture, ITestOutputHelper output) : base(fixture, output)
         {
@@ -206,9 +206,9 @@ namespace Tests.Tests.Integration.Implementation
                 {
                     AddIfNecessary<Language, string>(item);
                 }
-                foreach (var item in new List<ApplicationUser>() { TestUser1, TestUser2, TestUser3 })
+                foreach (var item in new List<User>() { TestUser1, TestUser2, TestUser3 })
                 {
-                    AddIfNecessary<ApplicationUser, string>(item);
+                    AddIfNecessary<User, string>(item);
                 }
 
                 dbContext.SaveChanges();
@@ -356,9 +356,9 @@ namespace Tests.Tests.Integration.Implementation
         private static readonly Language TestLanguage2 = new Language { Name = "French", ISOCode = "fr" };
         private static readonly Language TestLanguage3 = new Language { Name = "Italian", ISOCode = "it" };
 
-        private static readonly ApplicationUser TestUser1 = new ApplicationUser { Id = Guid.NewGuid().ToString(), UserName = "admin", Email = "admin@flashmemo.edu" };
-        private static readonly ApplicationUser TestUser2 = new ApplicationUser { Id = Guid.NewGuid().ToString(), UserName = "user", Email = "user@flashmemo.edu" };
-        private static readonly ApplicationUser TestUser3 = new ApplicationUser { Id = Guid.NewGuid().ToString(), UserName = "manager", Email = "manager@flashmemo.edu" };
+        private static readonly User TestUser1 = new User { Id = Guid.NewGuid().ToString(), UserName = "admin", Email = "admin@flashmemo.edu" };
+        private static readonly User TestUser2 = new User { Id = Guid.NewGuid().ToString(), UserName = "user", Email = "user@flashmemo.edu" };
+        private static readonly User TestUser3 = new User { Id = Guid.NewGuid().ToString(), UserName = "manager", Email = "manager@flashmemo.edu" };
 
         private static readonly Deck TestDeck1 = new Deck { DeckId = Guid.NewGuid(), LanguageISOCode = TestLanguage1.ISOCode, OwnerId = TestUser1.Id, Name = "Deck", Description = "This is a test deck" };
         private static readonly Deck TestDeck2 = new Deck { DeckId = Guid.NewGuid(), LanguageISOCode = TestLanguage2.ISOCode, OwnerId = TestUser2.Id, Name = "Deck", Description = "This is a test deck" };
@@ -375,9 +375,9 @@ namespace Tests.Tests.Integration.Implementation
                 {
                     AddIfNecessary<Language, string>(item);
                 }
-                foreach (var item in new List<ApplicationUser>() { TestUser1, TestUser2, TestUser3 })
+                foreach (var item in new List<User>() { TestUser1, TestUser2, TestUser3 })
                 {
-                    AddIfNecessary<ApplicationUser, string>(item);
+                    AddIfNecessary<User, string>(item);
                 }
                 foreach (var item in new List<Deck>() { TestDeck1, TestDeck2, TestDeck3 })
                 {
