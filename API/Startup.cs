@@ -28,6 +28,7 @@ using FluentValidation.AspNetCore;
 using FluentValidation;
 using Data.Models.DTOs;
 using System.Collections.Generic;
+using System.Security.Claims;
 
 namespace API
 {
@@ -117,7 +118,7 @@ namespace API
             // auth config
             services.AddAuthorization(options =>
             {
-                options.AddPolicy("AdminOnly", policy => policy.RequireClaim("Admin"));
+                options.AddPolicy("AdminOnly", policy => policy.RequireClaim(ClaimTypes.Role, "admin"));
             });
             services.AddAuthentication(options =>
             {

@@ -62,6 +62,9 @@ namespace Data.Context
                     .WithOne(e => e.User)
                     .HasForeignKey(ur => ur.UserId)
                     .IsRequired();
+
+                // Attempt to auto-include the roles from a user whenever querying one
+                b.Navigation(e => e.UserRoles).AutoInclude();
             });
 
             modelBuilder.Entity<Role>(b =>
@@ -77,6 +80,23 @@ namespace Data.Context
                     .WithOne(e => e.Role)
                     .HasForeignKey(rc => rc.RoleId)
                     .IsRequired();
+            });
+
+            modelBuilder.Entity<UserRole>(b =>
+            {
+                b
+                  .HasOne(x => x.Role)
+                  .WithMany(x => x.UserRoles)
+                  .HasForeignKey(x => x.RoleId);
+
+                b
+                  .HasOne(x => x.User)
+                  .WithMany(x => x.UserRoles)
+                  .HasForeignKey(x => x.UserId);
+
+                // Attempt to auto-include properties
+                b.Navigation(e => e.Role).AutoInclude();
+                b.Navigation(e => e.User).AutoInclude();
             });
 
             var userDataFromJSON = JsonConvert.DeserializeObject<User[]>(File.ReadAllText($"{_contextOptions.Value.SeederPath}/Users.json"));
