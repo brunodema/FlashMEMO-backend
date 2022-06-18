@@ -99,6 +99,18 @@ namespace Data.Context
                 b.Navigation(e => e.User).AutoInclude();
             });
 
+            // Add cascade deletion relationships to users/decks/flashcards
+            modelBuilder.Entity<Deck>(b =>
+            {
+                b.HasMany(d => d.Flashcards)
+                .WithOne(f => f.Deck)
+                .OnDelete(DeleteBehavior.Cascade);
+
+                b.HasOne(d => d.Owner)
+                .WithMany(u => u.Decks)
+                .OnDelete(DeleteBehavior.Cascade);
+            });
+
             var userDataFromJSON = JsonConvert.DeserializeObject<User[]>(File.ReadAllText($"{_contextOptions.Value.SeederPath}/Users.json"));
 
             modelBuilder.Entity<User>()

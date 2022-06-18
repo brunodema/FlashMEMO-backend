@@ -1,5 +1,6 @@
 ﻿using Data.Repository.Interfaces;
 using Microsoft.AspNetCore.Identity;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -18,6 +19,9 @@ namespace Data.Models.Implementation
 
         public string Name { get; set; } = "";
         public string Surname { get; set; } = "";
+
+        [JsonIgnore]
+        public virtual ICollection<Deck> Decks { get; set; } = new List<Deck>();
 
         [NotMapped]
         public string DbId { get => Id; set => Id = value; }
