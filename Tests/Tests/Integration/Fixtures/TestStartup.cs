@@ -115,6 +115,7 @@ namespace Tests.Integration.Fixtures
                 .AddEntityFrameworkStores<FlashMEMOContext>()
                 .AddRoles<Role>()
                 .AddDefaultTokenProviders();
+
             // auth config
             services.AddAuthentication(options =>
             {
@@ -138,9 +139,10 @@ namespace Tests.Integration.Fixtures
                         ClockSkew = TimeSpan.Zero // the default is 5 min (framework)
                     };
                 });
+
             // database configuration
             services.AddDbContext<FlashMEMOContext>(options => options.UseInMemoryDatabase("TestDB"));
-            services.AddSingleton<IOptions<FlashMEMOContextOptions>>(opt => Options.Create<FlashMEMOContextOptions>(new FlashMEMOContextOptions()
+            services.AddSingleton(opt => Options.Create<FlashMEMOContextOptions>(new FlashMEMOContextOptions()
             {
                 SeederPath = InternalConfigs.SeederPath,
                 DefaultUserPassword = InternalConfigs.DefaultPassword
