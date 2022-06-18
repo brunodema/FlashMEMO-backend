@@ -66,9 +66,9 @@ namespace Tests.Unit_Tests.Data.Repository
         /// Uses context functions to add an entity to the database (isolate functionality from repository class).
         /// </summary>
         /// <param name="entity"></param>
-        protected void AddEntityViaContext<T>(T entity) where T : class, IDatabaseItem<TKey>
+        protected void AddEntityViaContext(TEntity entity)
         {
-            _context.Set<T>().Add(entity);
+            _context.Set<TEntity>().Add(entity);
             _context.SaveChanges();
             _context.Set<TEntity>().Find(entity.DbId).Should().BeEquivalentTo(entity);
         }
