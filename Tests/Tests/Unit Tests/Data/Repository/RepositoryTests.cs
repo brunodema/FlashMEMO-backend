@@ -66,9 +66,9 @@ namespace Tests.Unit_Tests.Data.Repository
         /// Uses context functions to add an entity to the database (isolate functionality from repository class).
         /// </summary>
         /// <param name="entity"></param>
-        protected void AddEntityViaContext(TEntity entity)
+        protected void AddEntityViaContext<T>(T entity) where T : class, IDatabaseItem<TKey>
         {
-            _context.Set<TEntity>().Add(entity);
+            _context.Set<T>().Add(entity);
             _context.SaveChanges();
             _context.Set<TEntity>().Find(entity.DbId).Should().BeEquivalentTo(entity);
         }
@@ -727,5 +727,33 @@ namespace Tests.Unit_Tests.Data.Repository
         {
             base.SearchAndOrder_ValidateFiltering(testData);
         }
+
+        //public static Deck TestDeck1 = new Deck() { Name = "Test Deck", Description = "Test Description", LanguageISOCode = "en", OwnerId = TestUser1.Id, };
+
+        //public static Flashcard TestFlashcard1 = new Flashcard() { Content1 = "Front 1", Content4 = "Back 1", FrontContentLayout = FlashcardContentLayout.SINGLE_BLOCK, BackContentLayout = FlashcardContentLayout.SINGLE_BLOCK, Answer = "Answer 1", Level = 1, DeckId = TestDeck1.DeckId };
+        //public static Flashcard TestFlashcard2 = new Flashcard() { Content1 = "Front 2", Content4 = "Back 2", FrontContentLayout = FlashcardContentLayout.SINGLE_BLOCK, BackContentLayout = FlashcardContentLayout.SINGLE_BLOCK, Answer = "Answer 2", Level = 1, DeckId = TestDeck1.DeckId };
+        //public static Flashcard TestFlashcard3 = new Flashcard() { Content1 = "Front 3", Content4 = "Back 3", FrontContentLayout = FlashcardContentLayout.SINGLE_BLOCK, BackContentLayout = FlashcardContentLayout.SINGLE_BLOCK, Answer = "Answer 3", Level = 1, DeckId = TestDeck1.DeckId };
+
+        //public static IEnumerable<object[]> CascadeDeleteData =>
+        //new List<object[]>
+        //{
+        //    new object[] { TestUser1, TestDeck1 }
+        //};
+
+        //[Theory, MemberData(nameof(CascadeDeleteData))]
+        //public void CascadeDelete(User user, Deck deck)
+        //{
+        //    // Arrange
+        //    AddEntityViaContext(user);
+
+        //    // Act
+        //    var entityFromRepository = GetEntityViaContext(previousEntity.DbId);
+        //    SafeEFEntityValueCopy(updatedEntity, entityFromRepository);
+        //    await _repository.UpdateAsync(entityFromRepository);
+
+        //    // Assert
+        //    entityFromRepository = GetEntityViaContext(entityFromRepository.DbId);
+        //    entityFromRepository.Should().BeEquivalentTo(updatedEntity);
+        //}
     }
 }
