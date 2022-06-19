@@ -114,6 +114,16 @@ namespace Data.Context
                 b.Navigation(d => d.Flashcards).AutoInclude();
             });
 
+            // Add cascade deletion relationships to users/news
+            modelBuilder.Entity<News>(b =>
+            {
+                b.HasOne(d => d.Owner)
+                .WithMany(u => u.News)
+                .OnDelete(DeleteBehavior.Cascade);
+
+                b.Navigation(n => n.Owner).AutoInclude();
+            });
+
             var userDataFromJSON = JsonConvert.DeserializeObject<User[]>(File.ReadAllText($"{_contextOptions.Value.SeederPath}/Users.json"));
 
             modelBuilder.Entity<User>()

@@ -22,6 +22,8 @@ namespace Data.Models.Implementation
 
         [JsonIgnore]
         public virtual ICollection<Deck> Decks { get; set; } = new List<Deck>();
+        [JsonIgnore]
+        public virtual ICollection<News> News { get; set; } = new List<News>();
 
         [NotMapped]
         public string DbId { get => Id; set => Id = value; }
