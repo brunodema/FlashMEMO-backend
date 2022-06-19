@@ -68,9 +68,25 @@ namespace Tests.Unit_Tests.Data.Repository
         /// <param name="entity"></param>
         protected void AddEntityViaContext<T, K>(T entity) where T : class, IDatabaseItem<K>
         {
+            // Checks to see if Id already exists in DbSet or not. If so, just guarantees that it refers to the correct object.
+            if (_context.Set<T>().Find(entity.DbId) != null)
+            {
+                _context.Set<T>().Find(entity.DbId).Should().BeEquivalentTo(entity);
+                return;
+            }
             _context.Set<T>().Add(entity);
             _context.SaveChanges();
             _context.Set<T>().Find(entity.DbId).Should().BeEquivalentTo(entity);
+        }
+
+        /// <summary>
+        /// Method used to cleanup the DbSet after a test.
+        /// </summary>
+        /// <param name="entities"></param>
+        protected virtual void RemoveEntities(List<TEntity> entities)
+        {
+            _context.RemoveRange(entities);
+            _context.SaveChanges();
         }
 
         public async virtual void CreateEntity(TEntity entity)
@@ -137,6 +153,9 @@ namespace Tests.Unit_Tests.Data.Repository
             entitiesFromRepository.Should().HaveCount(entities.Length);
 
             _output.WriteLine($"Data returned by the test method has length of {entitiesFromRepository.Count()} and is: {JsonConvert.SerializeObject(entitiesFromRepository, _serializerSettings)}");
+
+            // Cleanup
+            RemoveEntities(entitiesFromRepository.ToList());
         }
 
         /// <summary>
@@ -201,9 +220,17 @@ namespace Tests.Unit_Tests.Data.Repository
 
     public class DeckRepositoryUnitTests : GenericRepositoryUnitTests<Deck, Guid>
     {
+        // test data
+        private static readonly User TestUser1 = new User() { Email = "testuser1@email.com", UserName = "testuser1" };
+        private static readonly User TestUser2 = new User() { Email = "testuser2@email.com", UserName = "testuser2" };
+
         public DeckRepositoryUnitTests(ITestOutputHelper output) : base(output)
         {
             _repository = new DeckRepository(_context);
+
+            // Users are used across testing methods from this class
+            AddEntityViaContext<User, string>(TestUser1);
+            AddEntityViaContext<User, string>(TestUser2);
         }
 
         public static IEnumerable<object[]> CreateEntityData
@@ -224,7 +251,7 @@ namespace Tests.Unit_Tests.Data.Repository
         public static IEnumerable<object[]> ReadEntityData =>
             new List<object[]>
             {
-                new object[] { new Deck { Name = "test", Description = "this is a test deck" } },
+                new object[] { new Deck { Name = "test", Description = "this is a test deck", OwnerId = TestUser1.Id } },
             };
 
         [Theory, MemberData(nameof(ReadEntityData))]
@@ -256,10 +283,6 @@ namespace Tests.Unit_Tests.Data.Repository
         {
             base.DeleteEntity(entity);
         }
-
-        // test data
-        private static readonly User TestUser1 = new User() { Email = "testuser1@email.com", UserName = "testuser1" };
-        private static readonly User TestUser2 = new User() { Email = "testuser2@email.com", UserName = "testuser2" };
 
         // 10 different flashcards since one deck can have many flashcards, but a flashcard can have only one deck (thinking about business rules, a flashcard should be copied from a deck to another, if necessary)
         private static readonly Flashcard TestFlashcard1 = new() { };
@@ -304,8 +327,8 @@ namespace Tests.Unit_Tests.Data.Repository
                 new object[] { new List<Deck>(FullEntityList), new DeckSortOptions(SortType.Descending, "flashcards") },
                 new object[] { new List<Deck>(FullEntityList), new DeckSortOptions(SortType.Ascending, "description") },
                 new object[] { new List<Deck>(FullEntityList), new DeckSortOptions(SortType.Descending, "description") },
-                //new object[] { new List<Deck>(FullEntityList), new DeckSortOptions(SortType.Ascending, "owner") },
-                //new object[] { new List<Deck>(FullEntityList), new DeckSortOptions(SortType.Descending, "owner") },
+                new object[] { new List<Deck>(FullEntityList), new DeckSortOptions(SortType.Ascending, "owner") },
+                new object[] { new List<Deck>(FullEntityList), new DeckSortOptions(SortType.Descending, "owner") },
                 new object[] { new List<Deck>(FullEntityList), new DeckSortOptions(SortType.Ascending, "creationdate") },
                 new object[] { new List<Deck>(FullEntityList), new DeckSortOptions(SortType.Descending, "creationdate") },
                 new object[] { new List<Deck>(FullEntityList), new DeckSortOptions(SortType.Ascending, "lastupdated") },
@@ -323,7 +346,7 @@ namespace Tests.Unit_Tests.Data.Repository
         {
             new object[] { new ValidateFilteringTestData<Deck> { entities = FullEntityList, predicate = _ => true } },
             new object[] { new ValidateFilteringTestData<Deck> { entities = FullEntityList, predicate = e => e.Name == "test deck 1" } },
-            //new object[] { new ValidateFilteringTestData<Deck> { entities = FullEntityList, predicate = e => e.Owner.UserName.Contains("user2") } },
+            new object[] { new ValidateFilteringTestData<Deck> { entities = FullEntityList, predicate = e => e.Owner.UserName.Contains("user2") } },
             new object[] { new ValidateFilteringTestData<Deck> { entities = FullEntityList, predicate = e => e.Flashcards.Count > 1 } },
             new object[] { new ValidateFilteringTestData<Deck> { entities = FullEntityList, predicate = e => e.Description == "A" || e.Description == "B" } },
             new object[] { new ValidateFilteringTestData<Deck> { entities = FullEntityList, predicate = e => e.CreationDate < DateTime.Now.AddDays(-2) } },
