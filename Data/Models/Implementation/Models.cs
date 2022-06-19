@@ -53,7 +53,7 @@ namespace Data.Models.Implementation
         public Guid DeckId { get; set; } = Guid.Empty;
 
         [JsonIgnore]
-        public List<Flashcard> Flashcards { get; set; } = new List<Flashcard>();
+        public ICollection<Flashcard> Flashcards { get; set; } = new List<Flashcard>();
         [JsonIgnore]
         public User Owner { get; set; } = null;
         public string OwnerId { get; set; } = Guid.Empty.ToString();
