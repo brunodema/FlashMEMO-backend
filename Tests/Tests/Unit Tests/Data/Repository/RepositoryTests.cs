@@ -358,6 +358,34 @@ namespace Tests.Unit_Tests.Data.Repository
         {
             base.SearchAndOrder_ValidateFiltering(testData);
         }
+
+        public static IEnumerable<object[]> FlashcardCascadeDeleteData =>
+        new List<object[]>
+        {
+            new object[] { TestEntity1, new List<Flashcard>() { TestFlashcard1, TestFlashcard2, TestFlashcard3 } }
+        };
+
+        [Theory, MemberData(nameof(FlashcardCascadeDeleteData))]
+        public async void FlashcardCascadeDelete(Deck deck, List<Flashcard> flashcards)
+        {
+            // Arrange
+            AddEntityViaContext<Deck, Guid>(deck);
+            flashcards.ForEach(flashcard =>
+            {
+                flashcard.DeckId = deck.DeckId; // Doing this also for good measure
+                AddEntityViaContext<Flashcard, Guid>(flashcard);
+            });
+
+            // Act
+            await _repository.RemoveByIdAsync(deck.DeckId);
+
+            // Assert
+            GetEntityViaContext<Deck, Guid>(deck.DeckId).Should().BeNull();
+            flashcards.ForEach(flashcard =>
+            {
+                GetEntityViaContext<Flashcard, Guid>(flashcard.FlashcardId).Should().BeNull();
+            });
+        }
     }
 
     public class NewsRepositoryUnitTests : GenericRepositoryUnitTests<News, Guid>
@@ -661,7 +689,8 @@ namespace Tests.Unit_Tests.Data.Repository
         public static IEnumerable<object[]> UpdateEntityData =>
         new List<object[]>
         {
-                new object[] {TestUser1, new User() { Name = "newName", Surname = "newSurname" } },
+            // Had to use two impromptu entities to avoid concurrency issues with the static test values...
+                new object[] { new User() { Name = "name", Surname = "surname" }, new User() { Name = "newName", Surname = "newSurname" } },
         };
 
         /// <summary>
@@ -757,14 +786,14 @@ namespace Tests.Unit_Tests.Data.Repository
         public static Flashcard TestFlashcard2 = new Flashcard() { Content1 = "Front 2", Content4 = "Back 2", FrontContentLayout = FlashcardContentLayout.SINGLE_BLOCK, BackContentLayout = FlashcardContentLayout.SINGLE_BLOCK, Answer = "Answer 2", Level = 1, DeckId = TestDeck1.DeckId };
         public static Flashcard TestFlashcard3 = new Flashcard() { Content1 = "Front 3", Content4 = "Back 3", FrontContentLayout = FlashcardContentLayout.SINGLE_BLOCK, BackContentLayout = FlashcardContentLayout.SINGLE_BLOCK, Answer = "Answer 3", Level = 1, DeckId = TestDeck1.DeckId };
 
-        public static IEnumerable<object[]> CascadeDeleteData =>
+        public static IEnumerable<object[]> DeckCascadeDeleteData =>
         new List<object[]>
         {
             new object[] { TestUser1, TestDeck1, new List<Flashcard>() { TestFlashcard1, TestFlashcard2, TestFlashcard3 } }
         };
 
-        [Theory, MemberData(nameof(CascadeDeleteData))]
-        public async void CascadeDelete(User user, Deck deck, List<Flashcard> flashcards)
+        [Theory, MemberData(nameof(DeckCascadeDeleteData))]
+        public async void DeckCascadeDelete(User user, Deck deck, List<Flashcard> flashcards)
         {
             // Arrange
             AddEntityViaContext<User, string>(user);
@@ -786,6 +815,28 @@ namespace Tests.Unit_Tests.Data.Repository
             {
                 GetEntityViaContext<Flashcard, Guid>(flashcard.FlashcardId).Should().BeNull();
             });
+        }
+
+        public static IEnumerable<object[]> NewsCascadeDeleteData =>
+        new List<object[]>
+        {
+            new object[] { TestUser1, new News() { Title = "Test", Subtitle = "Test", Content = "Test", OwnerId = TestUser1.Id } }
+        };
+
+        [Theory, MemberData(nameof(NewsCascadeDeleteData))]
+        public async void NewsCascadeDelete(User user, News news)
+        {
+            // Arrange
+            AddEntityViaContext<User, string>(user);
+            news.OwnerId = user.Id; // Doing this just for good measure
+            AddEntityViaContext<News, Guid>(news);
+
+            // Act
+            await _repository.RemoveByIdAsync(user.Id);
+
+            // Assert
+            GetEntityViaContext<User, string>(user.Id).Should().BeNull();
+            GetEntityViaContext<News, Guid>(news.NewsId).Should().BeNull();
         }
     }
 }
