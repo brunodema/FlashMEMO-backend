@@ -54,7 +54,10 @@ namespace API
             }); // try to remove any CORS problems (k8s deployment)
 
             // implementation to show enums as string taken from here: https://stackoverflow.com/questions/2441290/javascriptserializer-json-serialization-of-enum-as-string. Originally used the system JSON serializer, later changed to Newtonsoft to avoid too much dependency mingling...
-            services.AddControllers().AddNewtonsoftJson(o => o.SerializerSettings.Converters.Add(new StringEnumConverter()));
+            services.AddControllers().AddNewtonsoftJson(o => {
+                o.SerializerSettings.Converters.Add(new StringEnumConverter());
+                o.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
+                });
             services.AddSwaggerGenNewtonsoftSupport();
 
             services.AddSwaggerGen(c =>
