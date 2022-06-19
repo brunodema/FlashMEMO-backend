@@ -109,6 +109,9 @@ namespace Data.Context
                 b.HasOne(d => d.Owner)
                 .WithMany(u => u.Decks)
                 .OnDelete(DeleteBehavior.Cascade);
+
+                b.Navigation(d => d.Owner).AutoInclude();
+                b.Navigation(d => d.Flashcards).AutoInclude();
             });
 
             var userDataFromJSON = JsonConvert.DeserializeObject<User[]>(File.ReadAllText($"{_contextOptions.Value.SeederPath}/Users.json"));
