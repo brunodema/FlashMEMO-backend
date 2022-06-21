@@ -76,33 +76,18 @@ namespace Business.Services.Implementation
             _options = options.Value;
         }
 
-        public bool IsTokenExpired(string token)
+        public async Task<bool> IsTokenExpired(string token)
         {
-            try
-            {
-                var handler = new JwtSecurityTokenHandler();
-                var ret = handler.ValidateToken(token, new TokenValidationParameters()
-                {
-                    ValidateIssuer = true,
-                    ValidateAudience = true,
-                    ValidAudience = _options.ValidAudience,
-                    ValidIssuer = _options.ValidIssuer,
-                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_options.Secret)),
-                    // custom definitions
-                    ValidateLifetime = true, // otherwise the expiration change is not checked
-                    ClockSkew = TimeSpan.Zero // the default is 5 min (framework)
-                }, out var validatedToken);
+            var validationResult = await ValidateTokenAsync(token);
 
-                return false; // Well, if everything goes well with no exceptions, that means it isn't expired, right? :p
-            }
-            catch (SecurityTokenExpiredException)
+            if (!validationResult.IsValid)
             {
-                return true;
+                if (validationResult.Exception.GetType() == typeof(SecurityTokenExpiredException))
+                {
+                    return true;
+                }
             }
-            catch (Exception e)
-            {
-                throw new Exception("The provided token is not valid.", e);
-            }
+            return false; // Well, if everything goes well with no exceptions, that means it isn't expired, right? :p
         }
 
         public string CreateAccessToken(User user)
@@ -153,6 +138,47 @@ namespace Business.Services.Implementation
                 claims: claims,
                 signingCredentials: new SigningCredentials(signingKey, SecurityAlgorithms.HmacSha256)
             ));
+        }
+
+        public async Task<TokenValidationResult> ValidateTokenAsync(string token)
+        {
+            var handler = new JwtSecurityTokenHandler();
+            var validationResult = await handler.ValidateTokenAsync(token, new TokenValidationParameters()
+            {
+                ValidateIssuer = true,
+                ValidateAudience = true,
+                ValidAudience = _options.ValidAudience,
+                ValidIssuer = _options.ValidIssuer,
+                IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_options.Secret)),
+                // custom definitions
+                ValidateLifetime = true, // otherwise the expiration change is not checked
+                ClockSkew = TimeSpan.Zero // the default is 5 min (framework)
+            });
+
+            return validationResult;
+        }
+
+        public JwtSecurityToken DecodeToken(string token)
+        {
+            var handler = new JwtSecurityTokenHandler();
+            return handler.ReadJwtToken(token);
+        }
+
+        public bool AreAuthTokensRelated(string accessToken, string refreshToken)
+        {
+            var handler = new JwtSecurityTokenHandler();
+            var decodedAT = handler.ReadJwtToken(accessToken);
+            var decodedRT = handler.ReadJwtToken(refreshToken);
+
+            // This is a bit confusing, but bear with me: the AT has a 'Jti', which is its unique ID, and a 'sub', which is the associated user's ID. The RT has a 'sub' property which points to the AT associated with it, and a 'User' property which has the associated user's ID. If everything matches, then both tokes are related.
+            var ATjti = decodedAT.Payload[JwtRegisteredClaimNames.Jti].ToString();
+            var RTsub = decodedRT.Payload[JwtRegisteredClaimNames.Sub].ToString();
+            var ATsub = decodedAT.Payload[JwtRegisteredClaimNames.Sub].ToString();
+            var RTuser = decodedRT.Payload["user"].ToString();
+
+            return ATjti == RTsub &&
+               ATsub == RTuser ?
+                true : false;
         }
     }
 }

@@ -380,11 +380,13 @@ namespace API.Controllers
     {
         private readonly IJWTService _JWTService;
         private readonly IAuthService<string> _authService;
+        private readonly UserService _userService;
 
-        public AuthController(IJWTService JWTService, IAuthService<string> authService) : base()
+        public AuthController(IJWTService JWTService, IAuthService<string> authService, UserService userService) : base()
         {
             _JWTService = JWTService;
             _authService = authService;
+            _userService = userService;
         }
 
 
@@ -394,7 +396,7 @@ namespace API.Controllers
         {
             ICollection<UserRole> roles = new List<UserRole>();
 
-            var authenticatedUser = await _authService.AreCredentialsValidAsync(new FlashMEMOCredentials { Username = model.Username, Password = model.Password });
+            var authenticatedUser = await _authService.AreCredentialsValidAsync(new FlashMEMOCredentials { Username = model.Username, Password = model.Password }); // The fact that this method returns a user make absolutely no fucking sense...
             if (authenticatedUser is not null)
             {
                 var accessToken = _JWTService.CreateAccessToken(authenticatedUser);
@@ -408,25 +410,29 @@ namespace API.Controllers
 
         [HttpPost]
         [Route("refresh")]
-        public async Task<IActionResult> Refresh([FromBody] string expiredAccessToken)
-        {
-            var ret = _JWTService.IsTokenExpired(expiredAccessToken);
+        public async Task<IActionResult> Refresh(string expiredAccessToken, string refreshToken) // REFRESH TOKEN IS ONLY HERE FOR TESTING --> SWAGGER IS FUCKING DUMB AND DOESN'T SUPPORT COOKIE ARGUMENTS
+        { 
+           if (await _JWTService.IsTokenExpired(expiredAccessToken))
+            {
+                //Request.Headers.Add("refreshToken", refreshToken); // ONLY FOR TESTING
+                HttpContext.Response.Cookies.Append("refreshToken", refreshToken);
 
+                var lol = Request.Cookies["refreshToken"];
+                if ((await _JWTService.ValidateTokenAsync(Request.Cookies["refreshToken"])).IsValid)
+                {
+                    if (_JWTService.AreAuthTokensRelated(expiredAccessToken, refreshToken))
+                    {
+                        var user = await _userService.GetbyIdAsync(_JWTService.DecodeToken(expiredAccessToken).Subject);
+                        var newAccessToken = _JWTService.CreateAccessToken(user);
+                        var newRefreshToken = _JWTService.CreateRefreshToken(newAccessToken, user);
 
-            return Ok();
-
-            //ICollection<UserRole> roles = new List<UserRole>();
-
-            //var authenticatedUser = await _authService.AreCredentialsValidAsync(new FlashMEMOCredentials { Username = model.Username, Password = model.Password });
-            //if (authenticatedUser is not null)
-            //{
-            //    var accessToken = _JWTService.CreateAccessToken(authenticatedUser);
-            //    var refreshToken = _JWTService.CreateRefreshToken(accessToken, authenticatedUser);
-
-            //    return Ok(new LoginResponseModel { Message = "User has logged in", AccessToken = accessToken.EncodedPayload, RefreshToken = refreshToken.EncodedPayload });
-            //}
-
-            //return Unauthorized(new LoginResponseModel { Message = "The provided credentials could not be validated" });
+                        return Ok(new LoginResponseModel() { Message = "Credentials successfully renewed.", AccessToken = newAccessToken, RefreshToken = newRefreshToken });
+                    }
+                    return BadRequest(new BaseResponseModel() { Message = "The access token was not able to be renewed.", Errors = new List<string>() { "The provided tokens are not related to each other." } });
+                }
+                return BadRequest(new BaseResponseModel() { Message = "The access token was not able to be renewed.", Errors = new List<string>() { "The provided refresh token is not valid." } });
+            }
+            return BadRequest(new BaseResponseModel() { Message = "The access token was not able to be renewed.", Errors = new List<string>() { "The provided token does not seem to be expired." } });
         }
 
         [HttpGet]

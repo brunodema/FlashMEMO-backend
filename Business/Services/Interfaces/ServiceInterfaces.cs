@@ -13,6 +13,7 @@ using System.ComponentModel;
 using static Data.Models.Implementation.StaticModels;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
+using Microsoft.IdentityModel.Tokens;
 
 namespace Business.Services.Interfaces
 {
@@ -64,7 +65,10 @@ namespace Business.Services.Interfaces
     {
         public string CreateAccessToken(User user);
         public string CreateRefreshToken(string accessToken, User user);
-        public bool IsTokenExpired(string token);
+        public Task<bool> IsTokenExpired(string token);
+        public JwtSecurityToken DecodeToken(string token);
+        public Task<TokenValidationResult> ValidateTokenAsync(string token);
+        public bool AreAuthTokensRelated(string accessToken, string refreshToken);
     }
 
     #region DICTIONARY API
