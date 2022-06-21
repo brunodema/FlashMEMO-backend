@@ -111,8 +111,8 @@ namespace Business.Services.Implementation
             return new JwtSecurityTokenHandler().WriteToken(new JwtSecurityToken(
                 issuer: _options.ValidIssuer,
                 audience: _options.ValidAudience,
-                //expires: DateTime.Now.AddSeconds(Convert.ToDouble(_options.AccessTokenTTE)),
-                expires: DateTime.Now.AddSeconds(1),
+                expires: DateTime.Now.AddSeconds(Convert.ToDouble(_options.AccessTokenTTE)),
+                //expires: DateTime.Now.AddSeconds(1),
                 claims: claims,
                 signingCredentials: new SigningCredentials(signingKey, SecurityAlgorithms.HmacSha256)
             ));
