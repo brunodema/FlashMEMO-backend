@@ -46,6 +46,15 @@ namespace API.ViewModels
         public string Password { get; set; }
     }
 
+    public class RefreshRequestModel
+    {
+        [Required(ErrorMessage = "Field {0} is required")]
+        public string ExpiredAccessToken { get; set; }
+
+        [Required(ErrorMessage = "Field {0} is required")]
+        public string RefreshToken { get; set; }
+    }
+
     public class LoginResponseModel : BaseResponseModel
     {
         public string AccessToken { get; set; }
