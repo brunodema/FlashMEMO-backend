@@ -48,7 +48,8 @@ namespace API.ViewModels
 
     public class LoginResponseModel : BaseResponseModel
     {
-        public string JWTToken { get; set; }
+        public string AccessToken { get; set; }
+        public string RefreshToken { get; set; }
     }
 
     /// <summary>

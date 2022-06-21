@@ -397,9 +397,10 @@ namespace API.Controllers
             var authenticatedUser = await _authService.AreCredentialsValidAsync(new FlashMEMOCredentials { Username = model.Username, Password = model.Password });
             if (authenticatedUser is not null)
             {
-                var token = _JWTService.CreateAccessToken(authenticatedUser);
+                var accessToken = _JWTService.CreateAccessToken(authenticatedUser);
+                var refreshToken = _JWTService.CreateRefreshToken(accessToken, authenticatedUser);
 
-                return Ok(new LoginResponseModel { Message = "User has logged in", JWTToken = token.EncodedPayload });
+                return Ok(new LoginResponseModel { Message = "User has logged in", AccessToken = accessToken.EncodedPayload, RefreshToken = refreshToken.EncodedPayload });
             }
 
             return Unauthorized(new LoginResponseModel { Message = "The provided credentials could not be validated" });
