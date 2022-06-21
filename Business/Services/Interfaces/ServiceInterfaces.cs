@@ -55,13 +55,14 @@ namespace Business.Services.Interfaces
     {
         string ValidIssuer { get; set; }
         string ValidAudience { get; set; }
-        double TimeToExpiration { get; set; }
+        double AccessTokenTTE { get; set; }
+        double RefreshTokenTTE { get; set; }
         string Secret { get; set; }
     }
     public interface IJWTService
     {
         public JwtSecurityToken CreateAccessToken(User user);
-        public JwtSecurityToken CreateRefreshToken(string accessToken, User user);
+        public JwtSecurityToken CreateRefreshToken(JwtSecurityToken accessToken, User user);
     }
 
     #region DICTIONARY API

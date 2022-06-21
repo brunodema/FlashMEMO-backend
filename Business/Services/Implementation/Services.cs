@@ -166,7 +166,8 @@ namespace Business.Services.Implementation
     {
         public string ValidIssuer { get; set; }
         public string ValidAudience { get; set; }
-        public double TimeToExpiration { get; set; }
+        public double AccessTokenTTE { get; set; }
+        public double RefreshTokenTTE { get; set; }
         public string Secret { get; set; }
     }
 

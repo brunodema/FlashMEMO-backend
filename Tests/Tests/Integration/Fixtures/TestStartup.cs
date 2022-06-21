@@ -35,7 +35,8 @@ namespace Tests.Integration.Fixtures
             // JWT
             public const string ValidIssuer = "http://localhost:61955";
             public const string ValidAudience = "http://localhost:4200";
-            public const int TimeToExpiration = 300;
+            public const int AccessTokenTTE = 300;
+            public const int RefreshTokenTTE = 7776000; // 90 days
             public const string Secret = "mysecretmysecret";
             // Seeder
             public const string SeederPath = "../../../../Data/Seeder";
@@ -153,7 +154,8 @@ namespace Tests.Integration.Fixtures
             {
                 config.ValidIssuer = InternalConfigs.ValidIssuer;
                 config.ValidAudience = InternalConfigs.ValidAudience;
-                config.TimeToExpiration = InternalConfigs.TimeToExpiration;
+                config.AccessTokenTTE = InternalConfigs.AccessTokenTTE;
+                config.RefreshTokenTTE = InternalConfigs.RefreshTokenTTE;
                 config.Secret = InternalConfigs.Secret;
             });
 

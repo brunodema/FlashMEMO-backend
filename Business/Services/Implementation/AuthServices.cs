@@ -97,16 +97,29 @@ namespace Business.Services.Implementation
             return new JwtSecurityToken(
                 issuer: _options.ValidIssuer,
                 audience: _options.ValidAudience,
-                expires: DateTime.Now.AddSeconds(Convert.ToDouble(_options.TimeToExpiration)),
+                expires: DateTime.Now.AddSeconds(Convert.ToDouble(_options.AccessTokenTTE)),
                 claims: claims,
                 signingCredentials: new SigningCredentials(signingKey, SecurityAlgorithms.HmacSha256)
             );
-
         }
 
-        public JwtSecurityToken CreateRefreshToken(string accessToken, User user)
+        public JwtSecurityToken CreateRefreshToken(JwtSecurityToken accessToken, User user)
         {
-            throw new NotImplementedException();
+            var claims = new List<Claim>
+            {
+                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+                new Claim(JwtRegisteredClaimNames.Sub, user.Id),
+            };
+
+            var signingKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_options.Secret));
+
+            return new JwtSecurityToken(
+                issuer: _options.ValidIssuer,
+                audience: _options.ValidAudience,
+                expires: DateTime.Now.AddSeconds(Convert.ToDouble(_options.RefreshTokenTTE)),
+                claims: claims,
+                signingCredentials: new SigningCredentials(signingKey, SecurityAlgorithms.HmacSha256)
+            );
         }
     }
 }
