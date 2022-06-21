@@ -210,8 +210,8 @@ namespace API.Controllers
         }
 
         [HttpGet]
-        [Route("list/fromuser")]
-        public IActionResult GetExtendedDeckInfoFromUser([FromQuery] string ownerId = null)
+        [Route("list/extended")]
+        public IActionResult GetExtendedDeckInfo([FromQuery] string ownerId = null)
         {
             var decks = new List<Deck>();
             if (ownerId == null) decks = _deckService.List().ToList();
