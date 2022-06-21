@@ -11,6 +11,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.ComponentModel;
 using static Data.Models.Implementation.StaticModels;
+using System.IdentityModel.Tokens.Jwt;
 
 namespace Business.Services.Interfaces
 {
@@ -59,7 +60,8 @@ namespace Business.Services.Interfaces
     }
     public interface IJWTService
     {
-        public string CreateLoginToken(User user);
+        public JwtSecurityToken CreateAccessToken(User user);
+        public JwtSecurityToken CreateRefreshToken(string accessToken, User user);
     }
 
     #region DICTIONARY API

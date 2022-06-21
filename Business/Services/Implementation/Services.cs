@@ -170,43 +170,6 @@ namespace Business.Services.Implementation
         public string Secret { get; set; }
     }
 
-    public class JWTService : IJWTService
-    {
-        private readonly IJWTServiceOptions _options;
-
-        public JWTService(IOptions<JWTServiceOptions> options)
-        {
-            _options = options.Value;
-        }
-
-        public string CreateLoginToken(User user)
-        {
-            var claims = new List<Claim>
-            {
-                new Claim(JwtRegisteredClaimNames.Email, user.Email),
-                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
-                new Claim(JwtRegisteredClaimNames.Sub, user.Id),
-                new Claim("username", user.UserName),
-                new Claim(JwtRegisteredClaimNames.Name, user.Name),
-                new Claim("surname", user.Surname),
-            };
-            foreach (var role in user.UserRoles ?? Enumerable.Empty<UserRole>())
-            {
-                claims.Add(new Claim(ClaimTypes.Role, role.Role.Name));
-            }
-
-            var signingKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_options.Secret));
-
-            return new JwtSecurityTokenHandler().WriteToken(new JwtSecurityToken(
-                issuer: _options.ValidIssuer, audience: _options.ValidAudience,
-                expires: DateTime.Now.AddSeconds(Convert.ToDouble(_options.TimeToExpiration)),
-                claims: claims,
-                signingCredentials: new SigningCredentials(signingKey, SecurityAlgorithms.HmacSha256)
-            ));
-
-        }
-    }
-
     #region Language Service
     /// <summary>
     /// Service containing auxiliary functions related to languages within FlashMEMO.
