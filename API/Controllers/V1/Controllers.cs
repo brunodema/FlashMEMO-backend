@@ -400,10 +400,33 @@ namespace API.Controllers
                 var accessToken = _JWTService.CreateAccessToken(authenticatedUser);
                 var refreshToken = _JWTService.CreateRefreshToken(accessToken, authenticatedUser);
 
-                return Ok(new LoginResponseModel { Message = "User has logged in", AccessToken = accessToken.EncodedPayload, RefreshToken = refreshToken.EncodedPayload });
+                return Ok(new LoginResponseModel { Message = "User has logged in", AccessToken = accessToken, RefreshToken = refreshToken });
             }
 
             return Unauthorized(new LoginResponseModel { Message = "The provided credentials could not be validated" });
+        }
+
+        [HttpPost]
+        [Route("refresh")]
+        public async Task<IActionResult> Refresh([FromBody] string expiredAccessToken)
+        {
+            var ret = _JWTService.IsTokenExpired(expiredAccessToken);
+
+
+            return Ok();
+
+            //ICollection<UserRole> roles = new List<UserRole>();
+
+            //var authenticatedUser = await _authService.AreCredentialsValidAsync(new FlashMEMOCredentials { Username = model.Username, Password = model.Password });
+            //if (authenticatedUser is not null)
+            //{
+            //    var accessToken = _JWTService.CreateAccessToken(authenticatedUser);
+            //    var refreshToken = _JWTService.CreateRefreshToken(accessToken, authenticatedUser);
+
+            //    return Ok(new LoginResponseModel { Message = "User has logged in", AccessToken = accessToken.EncodedPayload, RefreshToken = refreshToken.EncodedPayload });
+            //}
+
+            //return Unauthorized(new LoginResponseModel { Message = "The provided credentials could not be validated" });
         }
 
         [HttpGet]

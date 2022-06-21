@@ -76,7 +76,36 @@ namespace Business.Services.Implementation
             _options = options.Value;
         }
 
-        public JwtSecurityToken CreateAccessToken(User user)
+        public bool IsTokenExpired(string token)
+        {
+            try
+            {
+                var handler = new JwtSecurityTokenHandler();
+                var ret = handler.ValidateToken(token, new TokenValidationParameters()
+                {
+                    ValidateIssuer = true,
+                    ValidateAudience = true,
+                    ValidAudience = _options.ValidAudience,
+                    ValidIssuer = _options.ValidIssuer,
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_options.Secret)),
+                    // custom definitions
+                    ValidateLifetime = true, // otherwise the expiration change is not checked
+                    ClockSkew = TimeSpan.Zero // the default is 5 min (framework)
+                }, out var validatedToken);
+
+                return false; // Well, if everything goes well with no exceptions, that means it isn't expired, right? :p
+            }
+            catch (SecurityTokenExpiredException)
+            {
+                return true;
+            }
+            catch (Exception e)
+            {
+                throw new Exception("The provided token is not valid.", e);
+            }
+        }
+
+        public string CreateAccessToken(User user)
         {
             var claims = new List<Claim>
             {
@@ -94,33 +123,36 @@ namespace Business.Services.Implementation
 
             var signingKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_options.Secret));
 
-            return new JwtSecurityToken(
+            return new JwtSecurityTokenHandler().WriteToken(new JwtSecurityToken(
                 issuer: _options.ValidIssuer,
                 audience: _options.ValidAudience,
-                expires: DateTime.Now.AddSeconds(Convert.ToDouble(_options.AccessTokenTTE)),
+                //expires: DateTime.Now.AddSeconds(Convert.ToDouble(_options.AccessTokenTTE)),
+                expires: DateTime.Now.AddSeconds(1),
                 claims: claims,
                 signingCredentials: new SigningCredentials(signingKey, SecurityAlgorithms.HmacSha256)
-            );
+            ));
         }
 
-        public JwtSecurityToken CreateRefreshToken(JwtSecurityToken accessToken, User user)
+        public string CreateRefreshToken(string accessToken, User user)
         {
+            var token = new JwtSecurityToken(accessToken);
+
             var claims = new List<Claim>
             {
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
-                new Claim(JwtRegisteredClaimNames.Sub, accessToken.Id),
+                new Claim(JwtRegisteredClaimNames.Sub, token.Id),
                 new Claim("user", user.Id),
             };
 
             var signingKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_options.Secret));
 
-            return new JwtSecurityToken(
+            return new JwtSecurityTokenHandler().WriteToken(new JwtSecurityToken(
                 issuer: _options.ValidIssuer,
                 audience: _options.ValidAudience,
                 expires: DateTime.Now.AddSeconds(Convert.ToDouble(_options.RefreshTokenTTE)),
                 claims: claims,
                 signingCredentials: new SigningCredentials(signingKey, SecurityAlgorithms.HmacSha256)
-            );
+            ));
         }
     }
 }
