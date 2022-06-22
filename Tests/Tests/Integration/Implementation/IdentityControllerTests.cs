@@ -25,11 +25,11 @@ namespace Tests.Tests.Integration.Implementation
         Task FailedLoginWithWrongCredentials(LoginRequestModel request);
         // JWT tests
         Task SuccessfulTokenRenewal();
-        Task FailedTokenRenewalWithInvalidAT(string expiredAccesstoken, string refreshToken);
-        Task FailedTokenRenewalWithNotExpiredAT(string expiredAccesstoken, string refreshToken);
-        Task FailedTokenRenewalWithInvalidRT(string expiredAccesstoken, string refreshToken);
-        Task FailedTokenRenewalWithExpiredRT(string expiredAccesstoken, string refreshToken);
-        Task FailedTokenRenewalWithUnmatchedTokens(string expiredAccesstoken, string refreshToken);
+        Task FailedTokenRenewalWithInvalidAT();
+        Task FailedTokenRenewalWithNotExpiredAT();
+        Task FailedTokenRenewalWithInvalidRT();
+        Task FailedTokenRenewalWithExpiredRT();
+        Task FailedTokenRenewalWithUnmatchedTokens();
     }
 
     public abstract class IdentityControllerTests : IIdentityControllerTests, IClassFixture<IntegrationTestFixture>
@@ -152,29 +152,150 @@ namespace Tests.Tests.Integration.Implementation
             parsedRefreshResponse.Message.Should().Be(AuthController.ResponseMessages.ACCESS_TOKEN_RENEWED);
         }
 
-        public virtual Task FailedTokenRenewalWithInvalidAT(string expiredAccesstoken, string refreshToken)
+        [Fact]
+        public virtual async Task FailedTokenRenewalWithInvalidAT()
         {
-            throw new System.NotImplementedException();
+            // Arrange
+            var riggedJWTService = new JWTService(Options.Create(new JWTServiceOptions()
+            {
+                ValidIssuer = _jwtOptions.ValidIssuer,
+                ValidAudience = _jwtOptions.ValidAudience,
+                Secret = _jwtOptions.Secret,
+                AccessTokenTTE = _jwtOptions.RefreshTokenTTE,
+                RefreshTokenTTE = _jwtOptions.RefreshTokenTTE
+            }));
+
+            var accessToken = riggedJWTService.CreateAccessToken(_dummyUser) + "corrupt_ending"; // Add random termination to corrupt the JWT
+            var refreshToken = riggedJWTService.CreateRefreshToken(accessToken, _dummyUser);
+
+            // Act]
+            var postRequest = new HttpRequestMessage(HttpMethod.Post, _refreshEndpoint);
+            postRequest.Headers.Add("Cookie", $"refreshToken={refreshToken}");
+            postRequest.Content = JsonContent.Create(new RefreshRequestModel() { ExpiredAccessToken = accessToken, RefreshToken = refreshToken });
+
+            var refreshResponse = await _client.SendAsync(postRequest);
+
+            // Assert
+            refreshResponse.StatusCode.Should().Be(System.Net.HttpStatusCode.BadRequest);
+            var parsedRefreshResponse = await refreshResponse.Content.ReadFromJsonAsync<BaseResponseModel>();
+            parsedRefreshResponse.Message.Should().Be(AuthController.ResponseMessages.ACCESS_TOKEN_INVALID);
         }
 
-        public virtual Task FailedTokenRenewalWithNotExpiredAT(string expiredAccesstoken, string refreshToken)
+        [Fact]
+        public virtual async Task FailedTokenRenewalWithNotExpiredAT()
         {
-            throw new System.NotImplementedException();
+            // Arrange
+            var riggedJWTService = new JWTService(Options.Create(new JWTServiceOptions()
+            {
+                ValidIssuer = _jwtOptions.ValidIssuer,
+                ValidAudience = _jwtOptions.ValidAudience,
+                Secret = _jwtOptions.Secret,
+                AccessTokenTTE = 100000, // Very large value to guarantee it won't expire (not like more than a second passes between lines here...)
+                RefreshTokenTTE = _jwtOptions.RefreshTokenTTE
+            }));
+
+            var accessToken = riggedJWTService.CreateAccessToken(_dummyUser);
+            var refreshToken = riggedJWTService.CreateRefreshToken(accessToken, _dummyUser);
+
+            // Act]
+            var postRequest = new HttpRequestMessage(HttpMethod.Post, _refreshEndpoint);
+            postRequest.Headers.Add("Cookie", $"refreshToken={refreshToken}");
+            postRequest.Content = JsonContent.Create(new RefreshRequestModel() { ExpiredAccessToken = accessToken, RefreshToken = refreshToken });
+
+            var refreshResponse = await _client.SendAsync(postRequest);
+
+            // Assert
+            refreshResponse.StatusCode.Should().Be(System.Net.HttpStatusCode.BadRequest);
+            var parsedRefreshResponse = await refreshResponse.Content.ReadFromJsonAsync<BaseResponseModel>();
+            parsedRefreshResponse.Message.Should().Be(AuthController.ResponseMessages.ACCESS_TOKEN_INVALID);
         }
 
-        public virtual Task FailedTokenRenewalWithInvalidRT(string expiredAccesstoken, string refreshToken)
+        [Fact]
+        public virtual async Task FailedTokenRenewalWithInvalidRT()
         {
-            throw new System.NotImplementedException();
+            // Arrange
+            var riggedJWTService = new JWTService(Options.Create(new JWTServiceOptions()
+            {
+                ValidIssuer = _jwtOptions.ValidIssuer,
+                ValidAudience = _jwtOptions.ValidAudience,
+                Secret = _jwtOptions.Secret,
+                AccessTokenTTE = -1,
+                RefreshTokenTTE = _jwtOptions.RefreshTokenTTE
+            }));
+
+            var accessToken = riggedJWTService.CreateAccessToken(_dummyUser);
+            var refreshToken = riggedJWTService.CreateRefreshToken(accessToken, _dummyUser) + "corrupt_ending"; // Add random termination to corrupt the JWT;
+
+            // Act]
+            var postRequest = new HttpRequestMessage(HttpMethod.Post, _refreshEndpoint);
+            postRequest.Headers.Add("Cookie", $"refreshToken={refreshToken}");
+            postRequest.Content = JsonContent.Create(new RefreshRequestModel() { ExpiredAccessToken = accessToken, RefreshToken = refreshToken });
+
+            var refreshResponse = await _client.SendAsync(postRequest);
+
+            // Assert
+            refreshResponse.StatusCode.Should().Be(System.Net.HttpStatusCode.BadRequest);
+            var parsedRefreshResponse = await refreshResponse.Content.ReadFromJsonAsync<BaseResponseModel>();
+            parsedRefreshResponse.Message.Should().Be(AuthController.ResponseMessages.REFRESH_TOKEN_INVALID);
         }
 
-        public virtual Task FailedTokenRenewalWithExpiredRT(string expiredAccesstoken, string refreshToken)
+        [Fact]
+        public virtual async Task FailedTokenRenewalWithExpiredRT()
         {
-            throw new System.NotImplementedException();
+            // Arrange
+            var riggedJWTService = new JWTService(Options.Create(new JWTServiceOptions()
+            {
+                ValidIssuer = _jwtOptions.ValidIssuer,
+                ValidAudience = _jwtOptions.ValidAudience,
+                Secret = _jwtOptions.Secret,
+                AccessTokenTTE = -1,
+                RefreshTokenTTE = -1
+            }));
+
+            var accessToken = riggedJWTService.CreateAccessToken(_dummyUser);
+            var refreshToken = riggedJWTService.CreateRefreshToken(accessToken, _dummyUser);
+
+            // Act]
+            var postRequest = new HttpRequestMessage(HttpMethod.Post, _refreshEndpoint);
+            postRequest.Headers.Add("Cookie", $"refreshToken={refreshToken}");
+            postRequest.Content = JsonContent.Create(new RefreshRequestModel() { ExpiredAccessToken = accessToken, RefreshToken = refreshToken });
+
+            var refreshResponse = await _client.SendAsync(postRequest);
+
+            // Assert
+            refreshResponse.StatusCode.Should().Be(System.Net.HttpStatusCode.BadRequest);
+            var parsedRefreshResponse = await refreshResponse.Content.ReadFromJsonAsync<BaseResponseModel>();
+            parsedRefreshResponse.Message.Should().Be(AuthController.ResponseMessages.REFRESH_TOKEN_INVALID);
         }
 
-        public virtual Task FailedTokenRenewalWithUnmatchedTokens(string expiredAccesstoken, string refreshToken)
+        [Fact]
+        public virtual async Task FailedTokenRenewalWithUnmatchedTokens()
         {
-            throw new System.NotImplementedException();
+            // Arrange
+            var riggedJWTService = new JWTService(Options.Create(new JWTServiceOptions()
+            {
+                ValidIssuer = _jwtOptions.ValidIssuer,
+                ValidAudience = _jwtOptions.ValidAudience,
+                Secret = _jwtOptions.Secret,
+                AccessTokenTTE = -1,
+                RefreshTokenTTE = _jwtOptions.RefreshTokenTTE
+            }));
+
+            var accessToken = riggedJWTService.CreateAccessToken(_dummyUser);
+            var wrongAccessToken = riggedJWTService.CreateAccessToken(_dummyUser);
+            var refreshToken = riggedJWTService.CreateRefreshToken(wrongAccessToken, _dummyUser); // I create the RT using a completely unrelated AT. Then, I send the original AT with this "faulty" RT
+
+            // Act]
+            var postRequest = new HttpRequestMessage(HttpMethod.Post, _refreshEndpoint);
+            postRequest.Headers.Add("Cookie", $"refreshToken={refreshToken}");
+            postRequest.Content = JsonContent.Create(new RefreshRequestModel() { ExpiredAccessToken = accessToken, RefreshToken = refreshToken });
+
+            var refreshResponse = await _client.SendAsync(postRequest);
+
+            // Assert
+            refreshResponse.StatusCode.Should().Be(System.Net.HttpStatusCode.BadRequest);
+            var parsedRefreshResponse = await refreshResponse.Content.ReadFromJsonAsync<BaseResponseModel>();
+            parsedRefreshResponse.Message.Should().Be(AuthController.ResponseMessages.UNRELATED_TOKENS);
         }
     }
 
