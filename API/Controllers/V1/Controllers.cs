@@ -390,7 +390,7 @@ namespace API.Controllers
             public static readonly string ACCESS_TOKEN_RENEWED = "The access token was renewed.";
             public static readonly string ACCESS_TOKEN_NOT_RENEWED = "The access token was not able to be renewed.";
 
-            public static readonly string ACCESS_TOKEN_NOT_EXPIRED = "The access token is not expired.";
+            public static readonly string ACCESS_TOKEN_INVALID = "The access token is either not expired, or invalid.";
             public static readonly string REFRESH_TOKEN_INVALID = "The refresh token is invalid. Please check if it is not expired.";
             public static readonly string UNRELATED_TOKENS = "The provided tokens are not related to each other.";
         }
@@ -445,7 +445,7 @@ namespace API.Controllers
                 }
                 return BadRequest(new BaseResponseModel() { Message = ResponseMessages.REFRESH_TOKEN_INVALID });
             }
-            return BadRequest(new BaseResponseModel() { Message = ResponseMessages.ACCESS_TOKEN_NOT_EXPIRED });
+            return BadRequest(new BaseResponseModel() { Message = ResponseMessages.ACCESS_TOKEN_INVALID });
         }
 
         [HttpGet]
