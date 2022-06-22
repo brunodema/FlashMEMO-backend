@@ -50,9 +50,6 @@ namespace API.ViewModels
     {
         [Required(ErrorMessage = "Field {0} is required")]
         public string ExpiredAccessToken { get; set; }
-
-        [Required(ErrorMessage = "Field {0} is required")]
-        public string RefreshToken { get; set; }
     }
 
     public class LoginResponseModel : BaseResponseModel

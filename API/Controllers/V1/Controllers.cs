@@ -423,17 +423,15 @@ namespace API.Controllers
 
         [HttpPost]
         [Route("refresh")]
-        public async Task<IActionResult> Refresh([FromBody] RefreshRequestModel refreshRequest) // REFRESH TOKEN IS ONLY HERE FOR TESTING --> SWAGGER IS FUCKING DUMB AND DOESN'T SUPPORT COOKIE ARGUMENTS
+        public async Task<IActionResult> Refresh([FromBody] RefreshRequestModel refreshRequest)
         { 
            if (await _JWTService.IsTokenExpired(refreshRequest.ExpiredAccessToken))
             {
-                //Request.Headers.Add("refreshToken", refreshToken); // ONLY FOR TESTING
-                //HttpContext.Response.Cookies.Append("refreshToken", refreshRequest.RefreshToken);
+                var refreshToken = Request.Cookies["refreshToken"];
 
-                var lol = Request.Cookies["refreshToken"];
-                if ((await _JWTService.ValidateTokenAsync(Request.Cookies["refreshToken"])).IsValid)
+                if ((await _JWTService.ValidateTokenAsync(refreshToken)).IsValid)
                 {
-                    if (_JWTService.AreAuthTokensRelated(refreshRequest.ExpiredAccessToken, refreshRequest.RefreshToken))
+                    if (_JWTService.AreAuthTokensRelated(refreshRequest.ExpiredAccessToken, refreshToken))
                     {
                         var user = await _userService.GetbyIdAsync(_JWTService.DecodeToken(refreshRequest.ExpiredAccessToken).Subject);
                         var newAccessToken = _JWTService.CreateAccessToken(user);
