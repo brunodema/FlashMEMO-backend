@@ -87,7 +87,7 @@ namespace Business.Services.Implementation
                     return true;
                 }
             }
-            return false; // Well, if everything goes well with no exceptions, that means it isn't expired, right? :p
+            return false;
         }
 
         public string CreateAccessToken(User user)
