@@ -138,7 +138,7 @@ namespace Tests.Tests.Integration.Implementation
 
             // Act]
             var postRequest = new HttpRequestMessage(HttpMethod.Post, _refreshEndpoint);
-            postRequest.Headers.Add("Cookie", $"refreshToken={refreshToken}");
+            postRequest.Headers.Add("Cookie", $"RefreshToken={refreshToken}");
             postRequest.Content = JsonContent.Create(new RefreshRequestModel() { ExpiredAccessToken = accessToken });
 
             var refreshResponse = await _client.SendAsync(postRequest);
@@ -170,7 +170,7 @@ namespace Tests.Tests.Integration.Implementation
 
             // Act]
             var postRequest = new HttpRequestMessage(HttpMethod.Post, _refreshEndpoint);
-            postRequest.Headers.Add("Cookie", $"refreshToken={refreshToken}");
+            postRequest.Headers.Add("Cookie", $"RefreshToken={refreshToken}");
             postRequest.Content = JsonContent.Create(new RefreshRequestModel() { ExpiredAccessToken = accessToken });
 
             var refreshResponse = await _client.SendAsync(postRequest);
@@ -199,7 +199,7 @@ namespace Tests.Tests.Integration.Implementation
 
             // Act]
             var postRequest = new HttpRequestMessage(HttpMethod.Post, _refreshEndpoint);
-            postRequest.Headers.Add("Cookie", $"refreshToken={refreshToken}");
+            postRequest.Headers.Add("Cookie", $"RefreshToken={refreshToken}");
             postRequest.Content = JsonContent.Create(new RefreshRequestModel() { ExpiredAccessToken = accessToken });
 
             var refreshResponse = await _client.SendAsync(postRequest);
@@ -228,7 +228,7 @@ namespace Tests.Tests.Integration.Implementation
 
             // Act]
             var postRequest = new HttpRequestMessage(HttpMethod.Post, _refreshEndpoint);
-            postRequest.Headers.Add("Cookie", $"refreshToken={refreshToken}");
+            postRequest.Headers.Add("Cookie", $"RefreshToken={refreshToken}");
             postRequest.Content = JsonContent.Create(new RefreshRequestModel() { ExpiredAccessToken = accessToken });
 
             var refreshResponse = await _client.SendAsync(postRequest);
@@ -257,7 +257,7 @@ namespace Tests.Tests.Integration.Implementation
 
             // Act]
             var postRequest = new HttpRequestMessage(HttpMethod.Post, _refreshEndpoint);
-            postRequest.Headers.Add("Cookie", $"refreshToken={refreshToken}");
+            postRequest.Headers.Add("Cookie", $"RefreshToken={refreshToken}");
             postRequest.Content = JsonContent.Create(new RefreshRequestModel() { ExpiredAccessToken = accessToken });
 
             var refreshResponse = await _client.SendAsync(postRequest);
@@ -287,7 +287,7 @@ namespace Tests.Tests.Integration.Implementation
 
             // Act]
             var postRequest = new HttpRequestMessage(HttpMethod.Post, _refreshEndpoint);
-            postRequest.Headers.Add("Cookie", $"refreshToken={refreshToken}");
+            postRequest.Headers.Add("Cookie", $"RefreshToken={refreshToken}");
             postRequest.Content = JsonContent.Create(new RefreshRequestModel() { ExpiredAccessToken = accessToken });
 
             var refreshResponse = await _client.SendAsync(postRequest);

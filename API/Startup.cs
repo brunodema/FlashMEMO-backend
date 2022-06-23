@@ -45,14 +45,13 @@ namespace API
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            IdentityModelEventSource.ShowPII = true;
-
             services.AddCors(options =>
             {
                 options.AddPolicy("AllowConfiguredOrigins", builder => builder
-                    .AllowAnyOrigin()
-                    .AllowAnyHeader()
-                    .AllowAnyMethod()
+                           .AllowCredentials()
+                           .AllowAnyHeader()
+                           .AllowAnyMethod()
+                           .WithOrigins("http://flashmemo.edu:4200", "https://flashmemo.edu:4200")
                 );
             }); // try to remove any CORS problems (k8s deployment)
 

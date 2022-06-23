@@ -392,6 +392,7 @@ namespace API.Controllers
 
             public static readonly string ACCESS_TOKEN_INVALID = "The access token is either not expired, or invalid.";
             public static readonly string REFRESH_TOKEN_INVALID = "The refresh token is invalid. Please check if it is not expired.";
+            public static readonly string REFRESH_TOKEN_NULL = "The request does not contain a refresh token.";
             public static readonly string UNRELATED_TOKENS = "The provided tokens are not related to each other.";
         }
 
@@ -427,7 +428,9 @@ namespace API.Controllers
         { 
            if (await _JWTService.IsTokenExpired(refreshRequest.ExpiredAccessToken))
             {
-                var refreshToken = Request.Cookies["refreshToken"];
+                var refreshToken = Request.Cookies["RefreshToken"];
+
+                if (refreshToken == null) return BadRequest(new BaseResponseModel() { Message = ResponseMessages.REFRESH_TOKEN_NULL });
 
                 if ((await _JWTService.ValidateTokenAsync(refreshToken)).IsValid)
                 {
