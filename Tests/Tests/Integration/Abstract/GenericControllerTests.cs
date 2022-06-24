@@ -1,12 +1,9 @@
 ﻿using Data.Context;
-using Data.Models.Implementation;
-using Data.Repository.Abstract;
 using Data.Repository.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
-using System.Text;
 using System.Threading.Tasks;
 using Tests.Integration.Fixtures;
 using Xunit;
@@ -14,14 +11,14 @@ using System.Net.Http.Json;
 using API.ViewModels;
 using FluentAssertions;
 using Microsoft.Extensions.DependencyInjection;
-using Data.Repository.Implementation;
 using Xunit.Abstractions;
 using Data.Models.DTOs;
 using static Tests.Tools;
 using Newtonsoft.Json;
+using System.Net.Http.Headers;
 using Business.Services.Implementation;
-using static Data.Models.Implementation.StaticModels;
-using Business.Tools.Validations;
+using Microsoft.Extensions.Options;
+using Data.Models.Implementation;
 
 namespace Tests.Tests.Integration.Abstract
 {
@@ -113,6 +110,16 @@ namespace Tests.Tests.Integration.Abstract
             _deleteEndpoint = $"{_baseEndpoint}/delete";
             _listEndpoint = $"{_baseEndpoint}/list";
             _searchEndpoint = $"{_baseEndpoint}/search";
+
+            // Adds a dummy user so an access token can be returned for it (controller endpoints might require it)
+            var dummyAuthenticatedUser = new User() { Email = "loggeduser@email.com", NormalizedEmail = "loggeduser@email.com", UserName = "loggeduser", NormalizedUserName = "loggeduser" };
+            AddIfNecessary<User, string>(dummyAuthenticatedUser);
+
+            // Declares a dummy JWTService and creates a token using it
+            //var jwtService =fixture.Host.Services.GetService<JWTService>();
+            var jwtService = new JWTService(fixture.Host.Services.GetService<IOptions<JWTServiceOptions>>()); // For some fucking reason, I can't simply retrieve the JWTService from the fixture...
+            var accessToken = jwtService.CreateAccessToken(dummyAuthenticatedUser);
+            _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("bearer", accessToken);
 
             //using (var scope = _fixture.Host.Services.CreateScope())
             //{

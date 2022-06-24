@@ -12,6 +12,7 @@ using Data.Models.DTOs;
 using System;
 using Business.Tools.Exceptions;
 using API.Controllers.Messages;
+using Microsoft.AspNetCore.Authorization;
 
 namespace API.Controllers.Messages
 {
@@ -29,6 +30,7 @@ namespace API.Controllers.Abstract
         public const int DefaultPageNumber = 1;
     }
 
+    [Authorize]
     public abstract class GenericRepositoryController<TEntity, TKey, TDTO, TFilterOptions, TSortOptions> : ControllerBase
         where TEntity : class, IDatabaseItem<TKey>, new()
         where TDTO : IModelDTO<TEntity, TKey>

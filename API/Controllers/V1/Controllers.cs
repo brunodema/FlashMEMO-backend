@@ -152,13 +152,27 @@ namespace API.Controllers
     [Route("api/v{version:apiVersion}/[controller]")]
     public class NewsController : GenericRepositoryController<News, Guid, NewsDTO, NewsFilterOptions, NewsSortOptions>
     {
-        private readonly NewsService _newsService;
         private readonly UserService _userService;
 
         public NewsController(NewsService newsService, UserService userService) : base(newsService)
         {
-            _newsService = newsService;
             _userService = userService;
+        }
+
+        [HttpGet]
+        [Route("list")]
+        [AllowAnonymous]
+        public override IActionResult List(int pageSize = 10, int pageNumber = 1, [FromQuery] NewsSortOptions sortOptions = null)
+        {
+            return base.List(pageSize, pageNumber, sortOptions);
+        }
+
+        [HttpGet]
+        [Route("search")]
+        [AllowAnonymous]
+        public override IActionResult Search([FromQuery] NewsFilterOptions filterOptions, [FromQuery] NewsSortOptions sortOptions = null, int pageSize = 10, int pageNumber = 1)
+        {
+            return base.Search(filterOptions, sortOptions, pageSize, pageNumber);
         }
 
         [HttpGet]
@@ -264,6 +278,7 @@ namespace API.Controllers
     [ApiController]
     [ApiVersion("1.0")]
     [Route("api/v{version:apiVersion}/[controller]")]
+    [Authorize]
     public class ImageAPIController : ControllerBase
 
     {
@@ -308,6 +323,7 @@ namespace API.Controllers
         }
     }
 
+    [Authorize]
     public class GenericDictionaryAPIController<TDictionaryAPIResponse> : ControllerBase
         where TDictionaryAPIResponse : IDictionaryAPIResponse
     {
@@ -472,6 +488,7 @@ namespace API.Controllers
     [ApiController]
     [ApiVersion("1.0")]
     [Route("api/v{version:apiVersion}/[controller]")]
+    [Authorize]
     public class RedactedAPIController : ControllerBase
     {
         private readonly IAudioAPIService _audioAPIService;
