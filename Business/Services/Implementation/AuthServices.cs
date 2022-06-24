@@ -126,7 +126,7 @@ namespace Business.Services.Implementation
             {
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
                 new Claim(JwtRegisteredClaimNames.Sub, token.Id),
-                new Claim("user", user.Id),
+                new Claim("userid", user.Id),
             };
 
             var signingKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_options.Secret));
@@ -174,10 +174,10 @@ namespace Business.Services.Implementation
             var ATjti = decodedAT.Payload[JwtRegisteredClaimNames.Jti].ToString();
             var RTsub = decodedRT.Payload[JwtRegisteredClaimNames.Sub].ToString();
             var ATsub = decodedAT.Payload[JwtRegisteredClaimNames.Sub].ToString();
-            var RTuser = decodedRT.Payload["user"].ToString();
+            var RTuserid = decodedRT.Payload["userid"].ToString();
 
             return ATjti == RTsub &&
-               ATsub == RTuser ?
+               ATsub == RTuserid ?
                 true : false;
         }
     }
