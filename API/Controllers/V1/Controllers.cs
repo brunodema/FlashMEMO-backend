@@ -100,6 +100,7 @@ namespace API.Controllers
 
         [HttpGet]
         [Route("{id}")]
+        [AllowAnonymous]
         public async override Task<IActionResult> Get(string id)
         {
             var actionResult = await base.Get(id) as ObjectResult;
@@ -176,7 +177,16 @@ namespace API.Controllers
         }
 
         [HttpGet]
+        [Route("{id}")]
+        [AllowAnonymous]
+        public override Task<IActionResult> Get(Guid id)
+        {
+            return base.Get(id);
+        }
+
+        [HttpGet]
         [Route("search/extended")]
+        [AllowAnonymous]
         public IActionResult SearchExtendedNewsInfo([FromQuery] NewsFilterOptions filterOptions, [FromQuery] NewsSortOptions sortOptions = null, int pageSize = GenericRepositoryControllerDefaults.DefaultPageSize, int pageNumber = GenericRepositoryControllerDefaults.DefaultPageNumber)
         {
             var actionResult =  base.Search(filterOptions, sortOptions, pageSize, pageNumber) as ObjectResult;
