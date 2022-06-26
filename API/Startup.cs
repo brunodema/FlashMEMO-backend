@@ -29,6 +29,7 @@ using FluentValidation;
 using Data.Models.DTOs;
 using System.Collections.Generic;
 using System.Security.Claims;
+using Microsoft.IdentityModel.Logging;
 
 namespace API
 {
@@ -47,9 +48,10 @@ namespace API
             services.AddCors(options =>
             {
                 options.AddPolicy("AllowConfiguredOrigins", builder => builder
-                    .AllowAnyOrigin()
-                    .AllowAnyHeader()
-                    .AllowAnyMethod()
+                           .AllowCredentials()
+                           .AllowAnyHeader()
+                           .AllowAnyMethod()
+                           .WithOrigins("http://flashmemo.edu:4200", "https://flashmemo.edu:4200")
                 );
             }); // try to remove any CORS problems (k8s deployment)
 

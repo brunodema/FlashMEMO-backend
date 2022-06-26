@@ -11,6 +11,9 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.ComponentModel;
 using static Data.Models.Implementation.StaticModels;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using Microsoft.IdentityModel.Tokens;
 
 namespace Business.Services.Interfaces
 {
@@ -54,12 +57,18 @@ namespace Business.Services.Interfaces
     {
         string ValidIssuer { get; set; }
         string ValidAudience { get; set; }
-        double TimeToExpiration { get; set; }
+        double AccessTokenTTE { get; set; }
+        double RefreshTokenTTE { get; set; }
         string Secret { get; set; }
     }
     public interface IJWTService
     {
-        public string CreateLoginToken(User user);
+        public string CreateAccessToken(User user);
+        public string CreateRefreshToken(string accessToken, User user);
+        public Task<bool> IsTokenExpired(string token);
+        public JwtSecurityToken DecodeToken(string token);
+        public Task<TokenValidationResult> ValidateTokenAsync(string token);
+        public bool AreAuthTokensRelated(string accessToken, string refreshToken);
     }
 
     #region DICTIONARY API

@@ -100,6 +100,7 @@ namespace API.Controllers
 
         [HttpGet]
         [Route("{id}")]
+        [AllowAnonymous]
         public async override Task<IActionResult> Get(string id)
         {
             var actionResult = await base.Get(id) as ObjectResult;
@@ -152,17 +153,40 @@ namespace API.Controllers
     [Route("api/v{version:apiVersion}/[controller]")]
     public class NewsController : GenericRepositoryController<News, Guid, NewsDTO, NewsFilterOptions, NewsSortOptions>
     {
-        private readonly NewsService _newsService;
         private readonly UserService _userService;
 
         public NewsController(NewsService newsService, UserService userService) : base(newsService)
         {
-            _newsService = newsService;
             _userService = userService;
         }
 
         [HttpGet]
+        [Route("list")]
+        [AllowAnonymous]
+        public override IActionResult List(int pageSize = 10, int pageNumber = 1, [FromQuery] NewsSortOptions sortOptions = null)
+        {
+            return base.List(pageSize, pageNumber, sortOptions);
+        }
+
+        [HttpGet]
+        [Route("search")]
+        [AllowAnonymous]
+        public override IActionResult Search([FromQuery] NewsFilterOptions filterOptions, [FromQuery] NewsSortOptions sortOptions = null, int pageSize = 10, int pageNumber = 1)
+        {
+            return base.Search(filterOptions, sortOptions, pageSize, pageNumber);
+        }
+
+        [HttpGet]
+        [Route("{id}")]
+        [AllowAnonymous]
+        public override Task<IActionResult> Get(Guid id)
+        {
+            return base.Get(id);
+        }
+
+        [HttpGet]
         [Route("search/extended")]
+        [AllowAnonymous]
         public IActionResult SearchExtendedNewsInfo([FromQuery] NewsFilterOptions filterOptions, [FromQuery] NewsSortOptions sortOptions = null, int pageSize = GenericRepositoryControllerDefaults.DefaultPageSize, int pageNumber = GenericRepositoryControllerDefaults.DefaultPageNumber)
         {
             var actionResult =  base.Search(filterOptions, sortOptions, pageSize, pageNumber) as ObjectResult;
@@ -264,6 +288,7 @@ namespace API.Controllers
     [ApiController]
     [ApiVersion("1.0")]
     [Route("api/v{version:apiVersion}/[controller]")]
+    [Authorize]
     public class ImageAPIController : ControllerBase
 
     {
@@ -308,6 +333,7 @@ namespace API.Controllers
         }
     }
 
+    [Authorize]
     public class GenericDictionaryAPIController<TDictionaryAPIResponse> : ControllerBase
         where TDictionaryAPIResponse : IDictionaryAPIResponse
     {
@@ -380,11 +406,27 @@ namespace API.Controllers
     {
         private readonly IJWTService _JWTService;
         private readonly IAuthService<string> _authService;
+        private readonly UserService _userService;
 
-        public AuthController(IJWTService JWTService, IAuthService<string> authService) : base()
+        public static class ResponseMessages
+        {
+            public static readonly string USER_HAS_LOGGED_IN = "User has logged in.";
+            public static readonly string CREDENTIALS_COULD_NOT_BE_VALIDATED = "The provided credentials could not be validated.";
+
+            public static readonly string ACCESS_TOKEN_RENEWED = "The access token was renewed.";
+            public static readonly string ACCESS_TOKEN_NOT_RENEWED = "The access token was not able to be renewed.";
+
+            public static readonly string ACCESS_TOKEN_INVALID = "The access token is either not expired, or invalid.";
+            public static readonly string REFRESH_TOKEN_INVALID = "The refresh token is invalid. Please check if it is not expired.";
+            public static readonly string REFRESH_TOKEN_NULL = "The request does not contain a refresh token.";
+            public static readonly string UNRELATED_TOKENS = "The provided tokens are not related to each other.";
+        }
+
+        public AuthController(IJWTService JWTService, IAuthService<string> authService, UserService userService) : base()
         {
             _JWTService = JWTService;
             _authService = authService;
+            _userService = userService;
         }
 
 
@@ -394,15 +436,43 @@ namespace API.Controllers
         {
             ICollection<UserRole> roles = new List<UserRole>();
 
-            var authenticatedUser = await _authService.AreCredentialsValidAsync(new FlashMEMOCredentials { Username = model.Username, Password = model.Password });
+            var authenticatedUser = await _authService.AreCredentialsValidAsync(new FlashMEMOCredentials { Username = model.Username, Password = model.Password }); // The fact that this method returns a user make absolutely no fucking sense...
             if (authenticatedUser is not null)
             {
-                var token = _JWTService.CreateLoginToken(authenticatedUser);
+                var accessToken = _JWTService.CreateAccessToken(authenticatedUser);
+                var refreshToken = _JWTService.CreateRefreshToken(accessToken, authenticatedUser);
 
-                return Ok(new LoginResponseModel { Message = "User has logged in", JWTToken = token });
+                return Ok(new LoginResponseModel { Message = ResponseMessages.USER_HAS_LOGGED_IN, AccessToken = accessToken, RefreshToken = refreshToken });
             }
 
-            return Unauthorized(new LoginResponseModel { Message = "The provided credentials could not be validated" });
+            return Unauthorized(new LoginResponseModel { Message = ResponseMessages.CREDENTIALS_COULD_NOT_BE_VALIDATED });
+        }
+
+        [HttpPost]
+        [Route("refresh")]
+        public async Task<IActionResult> Refresh([FromBody] RefreshRequestModel refreshRequest)
+        { 
+           if (await _JWTService.IsTokenExpired(refreshRequest.ExpiredAccessToken))
+            {
+                var refreshToken = Request.Cookies["RefreshToken"];
+
+                if (refreshToken == null) return BadRequest(new BaseResponseModel() { Message = ResponseMessages.REFRESH_TOKEN_NULL });
+
+                if ((await _JWTService.ValidateTokenAsync(refreshToken)).IsValid)
+                {
+                    if (_JWTService.AreAuthTokensRelated(refreshRequest.ExpiredAccessToken, refreshToken))
+                    {
+                        var user = await _userService.GetbyIdAsync(_JWTService.DecodeToken(refreshRequest.ExpiredAccessToken).Subject);
+                        var newAccessToken = _JWTService.CreateAccessToken(user);
+                        var newRefreshToken = _JWTService.CreateRefreshToken(newAccessToken, user);
+
+                        return Ok(new LoginResponseModel() { Message = ResponseMessages.ACCESS_TOKEN_RENEWED, AccessToken = newAccessToken, RefreshToken = newRefreshToken });
+                    }
+                    return BadRequest(new BaseResponseModel() { Message = ResponseMessages.UNRELATED_TOKENS });
+                }
+                return BadRequest(new BaseResponseModel() { Message = ResponseMessages.REFRESH_TOKEN_INVALID });
+            }
+            return BadRequest(new BaseResponseModel() { Message = ResponseMessages.ACCESS_TOKEN_INVALID });
         }
 
         [HttpGet]
@@ -428,6 +498,7 @@ namespace API.Controllers
     [ApiController]
     [ApiVersion("1.0")]
     [Route("api/v{version:apiVersion}/[controller]")]
+    [Authorize]
     public class RedactedAPIController : ControllerBase
     {
         private readonly IAudioAPIService _audioAPIService;
