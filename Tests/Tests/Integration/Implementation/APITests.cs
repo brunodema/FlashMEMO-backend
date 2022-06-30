@@ -145,10 +145,12 @@ namespace Tests.Integration.Implementation.API
             var url = $"{BaseEndpoint}/search?searchText={searchText}";
 
             // Act
-            var response = await _integrationTestFixture.HttpClient.GetAsync(url).Result.Content.ReadFromJsonAsync<LargePaginatedListResponse<CustomSearchAPIImageResult>>(new System.Text.Json.JsonSerializerOptions() { PropertyNameCaseInsensitive = true });
+            var response = await _integrationTestFixture.HttpClient.GetAsync(url);
 
             // Assert
-            response.Data.Results.Should().NotBeEmpty("valid data should have been retrieved from this query.");
+            response.StatusCode.Should().Be(System.Net.HttpStatusCode.OK, "Response from the API should have status code 200");
+            var parsedResponse = await response.Content.ReadFromJsonAsync<LargePaginatedListResponse<CustomSearchAPIImageResult>>(new System.Text.Json.JsonSerializerOptions() { PropertyNameCaseInsensitive = true });
+            parsedResponse.Data.Results.Should().NotBeEmpty("valid data should have been retrieved from this query.");
         }
 
         public static IEnumerable<object[]> MakesSuccessfulRequestWithPaginationData =>
@@ -170,11 +172,14 @@ namespace Tests.Integration.Implementation.API
             var url = $"{BaseEndpoint}/search?searchText={searchText}&pageNumber={pageNumber ?? 1}";
 
             // Act
-            var response = await _integrationTestFixture.HttpClient.GetAsync(url).Result.Content.ReadFromJsonAsync<LargePaginatedListResponse<CustomSearchAPIImageResult>>(new System.Text.Json.JsonSerializerOptions() { PropertyNameCaseInsensitive = true });
+            var response = await _integrationTestFixture.HttpClient.GetAsync(url);
 
             // Assert
-            response.Data.Results.Should().NotBeEmpty("valid data should have been retrieved from this query.");
-            response.Data.PageNumber.Should().Be(pageNumber?.ToString() ?? "1", "it should be equal to the value requested to the API, or revert to the default value (1)");
+            response.StatusCode.Should().Be(System.Net.HttpStatusCode.OK, "Response from the API should have status code 200");
+            var parsedResponse = await response.Content.ReadFromJsonAsync<LargePaginatedListResponse<CustomSearchAPIImageResult>>(new System.Text.Json.JsonSerializerOptions() { PropertyNameCaseInsensitive = true });
+
+            parsedResponse.Data.Results.Should().NotBeEmpty("valid data should have been retrieved from this query.");
+            parsedResponse.Data.PageNumber.Should().Be(pageNumber?.ToString() ?? "1", "it should be equal to the value requested to the API, or revert to the default value (1)");
         }
 
         public static IEnumerable<object[]> MakeRequestWithBrokenSearchTextData =>
