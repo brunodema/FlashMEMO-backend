@@ -65,6 +65,12 @@ namespace Business.Services.Implementation
             var user = await _userRepository.GetByUserNameAsync(credentials.Username);
             return await _userRepository.CheckPasswordAsync(user, credentials.Password);
         }
+
+        public async void UpdateLastLogin(User user)
+        {
+            user.LastLogin = DateTime.Now;
+            await _userRepository.UpdateAsync(user);
+        }
     }
 
     public class JWTService : IJWTService

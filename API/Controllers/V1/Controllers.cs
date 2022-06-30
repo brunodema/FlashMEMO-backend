@@ -442,6 +442,7 @@ namespace API.Controllers
                 var accessToken = _JWTService.CreateAccessToken(authenticatedUser);
                 var refreshToken = _JWTService.CreateRefreshToken(accessToken, authenticatedUser);
 
+                _authService.UpdateLastLogin(authenticatedUser);
                 return Ok(new LoginResponseModel { Message = ResponseMessages.USER_HAS_LOGGED_IN, AccessToken = accessToken, RefreshToken = refreshToken });
             }
 
@@ -466,6 +467,7 @@ namespace API.Controllers
                         var newAccessToken = _JWTService.CreateAccessToken(user);
                         var newRefreshToken = _JWTService.CreateRefreshToken(newAccessToken, user);
 
+                        _authService.UpdateLastLogin(user);
                         return Ok(new LoginResponseModel() { Message = ResponseMessages.ACCESS_TOKEN_RENEWED, AccessToken = newAccessToken, RefreshToken = newRefreshToken });
                     }
                     return BadRequest(new BaseResponseModel() { Message = ResponseMessages.UNRELATED_TOKENS });

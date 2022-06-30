@@ -116,6 +116,11 @@ namespace Business.Services.Interfaces
         /// <param name="credentials">An email + password combination.</param>
         /// <returns>The user associated with the email if authentication is successful, or null instead.</returns>
         public Task<User> AreCredentialsValidAsync(IFlashMEMOCredentials credentials);
+        /// <summary>
+        /// Sets the 'LastLogin' property to the current time.
+        /// </summary>
+        /// <param name="user"></param>
+        public void UpdateLastLogin(User user);
     }
     #endregion
 
