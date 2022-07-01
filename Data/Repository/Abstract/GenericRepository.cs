@@ -54,8 +54,15 @@ namespace Data.Repository.Abstract
         }
         public virtual async Task<TKey> UpdateAsync(TEntity entity)
         {
-            _dbset.Update(entity);
-            await SaveChangesAsync();
+            //var objFromDB = _dbset.ToList().FirstOrDefault(o => o.DbId.Equals(entity.DbId));
+            //objFromDB = entity;
+
+            //_dbset.Update(objFromDB);
+            //await SaveChangesAsync();
+            //return entity.DbId;
+
+            _context.Entry(entity).State = EntityState.Modified;
+            await _context.SaveChangesAsync();
             return entity.DbId;
         }
         public virtual async Task<TKey> RemoveByIdAsync(TKey guid)

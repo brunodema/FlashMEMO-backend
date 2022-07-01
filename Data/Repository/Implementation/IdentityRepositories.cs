@@ -3,6 +3,7 @@ using Data.Models.Implementation;
 using Data.Repository.Abstract;
 using Data.Tools.Sorting;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -57,8 +58,15 @@ namespace Data.Repository.Implementation
 
         public override async Task<string> UpdateAsync(User entity)
         {
-            await _userManager.UpdateAsync(entity);
-            await SaveChangesAsync();
+            //var objFromDB = _userManager.Users.FirstOrDefault(u => u.Id == entity.Id);
+            //objFromDB = entity;
+
+            //await _userManager.UpdateAsync(objFromDB);
+            //await SaveChangesAsync();
+            //return entity.DbId;
+
+            _context.Entry(entity).State = EntityState.Modified;
+            await _context.SaveChangesAsync();
             return entity.DbId;
         }
 
