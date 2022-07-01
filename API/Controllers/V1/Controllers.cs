@@ -62,7 +62,7 @@ namespace API.Controllers
                 await _userService.AddInitialPasswordToUser(await _userService.GetbyIdAsync(brandNewId), entityDTO.Password); // extra step
 
                 if (brandNewId != null) return Ok(new DataResponseModel<string> { Message = $"object created successfully.", Data = brandNewId });
-                return BadRequest(new BaseResponseModel {Message = $"Object was not able to be created within the database." });
+                return BadRequest(new BaseResponseModel { Message = $"Object was not able to be created within the database." });
             }
             catch (EntityValidationException ex)
             {
@@ -189,7 +189,7 @@ namespace API.Controllers
         [AllowAnonymous]
         public IActionResult SearchExtendedNewsInfo([FromQuery] NewsFilterOptions filterOptions, [FromQuery] NewsSortOptions sortOptions = null, int pageSize = GenericRepositoryControllerDefaults.DefaultPageSize, int pageNumber = GenericRepositoryControllerDefaults.DefaultPageNumber)
         {
-            var actionResult =  base.Search(filterOptions, sortOptions, pageSize, pageNumber) as ObjectResult;
+            var actionResult = base.Search(filterOptions, sortOptions, pageSize, pageNumber) as ObjectResult;
             if (actionResult.StatusCode == 200)
             {
                 var response = (PaginatedListResponse<News>)actionResult.Value;
@@ -416,8 +416,9 @@ namespace API.Controllers
 
             public static readonly string ACCESS_TOKEN_RENEWED = "The access token was renewed.";
             public static readonly string ACCESS_TOKEN_NOT_RENEWED = "The access token was not able to be renewed.";
+            public static readonly string ACCES_TOKEN_STILL_VALID = "The access token is still valid. Returning current credentials.";
 
-            public static readonly string ACCESS_TOKEN_INVALID = "The access token is either not expired, or invalid.";
+            public static readonly string ACCESS_TOKEN_INVALID = "The access token is not expired, but is invalid.";
             public static readonly string REFRESH_TOKEN_INVALID = "The refresh token is invalid. Please check if it is not expired.";
             public static readonly string REFRESH_TOKEN_NULL = "The request does not contain a refresh token.";
             public static readonly string UNRELATED_TOKENS = "The provided tokens are not related to each other.";
@@ -443,7 +444,7 @@ namespace API.Controllers
                 var accessToken = _JWTService.CreateAccessToken(authenticatedUser);
                 var refreshToken = _JWTService.CreateRefreshToken(accessToken, authenticatedUser);
 
-                _authService.UpdateLastLogin(authenticatedUser);
+                await _authService.UpdateLastLoginAsync(authenticatedUser);
                 return Ok(new LoginResponseModel { Message = ResponseMessages.USER_HAS_LOGGED_IN, AccessToken = accessToken, RefreshToken = refreshToken });
             }
 
@@ -453,13 +454,23 @@ namespace API.Controllers
         [HttpPost]
         [Route("refresh")]
         public async Task<IActionResult> Refresh([FromBody] RefreshRequestModel refreshRequest)
-        { 
-           if (await _JWTService.IsTokenExpired(refreshRequest.ExpiredAccessToken))
+        {
+            // I'm cheking this first to ensure that a legit 'refresh' call was made, and not just some random access token was sent to the back-end.
+            var refreshToken = Request.Cookies["RefreshToken"];
+            if (refreshToken == null) return BadRequest(new BaseResponseModel() { Message = ResponseMessages.REFRESH_TOKEN_NULL });
+
+            if (!await _JWTService.IsTokenExpired(refreshRequest.ExpiredAccessToken))
             {
-                var refreshToken = Request.Cookies["RefreshToken"];
+                // Must still check if the token is actually valid (maybe it's corrupted or something?)
+                if ((await _JWTService.ValidateTokenAsync(refreshRequest.ExpiredAccessToken)).IsValid)
+                {
+                    return Ok(new LoginResponseModel() { Message = ResponseMessages.ACCES_TOKEN_STILL_VALID, AccessToken = refreshRequest.ExpiredAccessToken, RefreshToken = refreshToken });
+                }
+                return BadRequest(new BaseResponseModel() { Message = ResponseMessages.ACCESS_TOKEN_INVALID });
+            }
 
-                if (refreshToken == null) return BadRequest(new BaseResponseModel() { Message = ResponseMessages.REFRESH_TOKEN_NULL });
-
+            if (await _JWTService.IsTokenExpired(refreshRequest.ExpiredAccessToken))
+            {
                 if ((await _JWTService.ValidateTokenAsync(refreshToken)).IsValid)
                 {
                     if (_JWTService.AreAuthTokensRelated(refreshRequest.ExpiredAccessToken, refreshToken))
@@ -468,14 +479,14 @@ namespace API.Controllers
                         var newAccessToken = _JWTService.CreateAccessToken(user);
                         var newRefreshToken = _JWTService.CreateRefreshToken(newAccessToken, user);
 
-                        _authService.UpdateLastLogin(user);
+                        await _authService.UpdateLastLoginAsync(user);
                         return Ok(new LoginResponseModel() { Message = ResponseMessages.ACCESS_TOKEN_RENEWED, AccessToken = newAccessToken, RefreshToken = newRefreshToken });
                     }
                     return BadRequest(new BaseResponseModel() { Message = ResponseMessages.UNRELATED_TOKENS });
                 }
                 return BadRequest(new BaseResponseModel() { Message = ResponseMessages.REFRESH_TOKEN_INVALID });
             }
-            return BadRequest(new BaseResponseModel() { Message = ResponseMessages.ACCESS_TOKEN_INVALID });
+            return BadRequest(new BaseResponseModel() { Message = ResponseMessages.REFRESH_TOKEN_INVALID });
         }
 
         [HttpGet]

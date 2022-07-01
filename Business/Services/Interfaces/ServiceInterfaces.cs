@@ -120,7 +120,7 @@ namespace Business.Services.Interfaces
         /// Sets the 'LastLogin' property to the current time.
         /// </summary>
         /// <param name="user"></param>
-        public void UpdateLastLogin(User user);
+        public Task UpdateLastLoginAsync(User user);
     }
     #endregion
 

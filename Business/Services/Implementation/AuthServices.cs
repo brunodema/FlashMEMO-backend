@@ -66,9 +66,9 @@ namespace Business.Services.Implementation
             return await _userRepository.CheckPasswordAsync(user, credentials.Password);
         }
 
-        public async void UpdateLastLogin(User user)
+        public async Task UpdateLastLoginAsync(User user)
         {
-            user.LastLogin = DateTime.Now;
+            user.LastLogin = DateTime.Now.ToUniversalTime();
             await _userRepository.UpdateAsync(user);
         }
     }
