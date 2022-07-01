@@ -1,4 +1,5 @@
 ﻿using Data.Models.Implementation;
+using System;
 
 namespace Data.Models.DTOs
 {
@@ -28,7 +29,8 @@ namespace Data.Models.DTOs
         public string Name { get; set; } = "";
         public string Surname { get; set; } = "";
         public string Username { get; set; } = "";
-        public string Email { get; set; }
+        public string Email { get; set; } = "";
+        public DateTime? LastLogin { get; set; } = null;
 
         public ReducedUserDTO() { }
 
@@ -39,6 +41,7 @@ namespace Data.Models.DTOs
             Name = user.Name;
             Surname = user.Surname;
             Username = user.UserName;
+            LastLogin = user.LastLogin;
         }
     }
 }
