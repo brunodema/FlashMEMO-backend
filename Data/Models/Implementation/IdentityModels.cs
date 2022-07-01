@@ -19,7 +19,7 @@ namespace Data.Models.Implementation
 
         public string Name { get; set; } = "";
         public string Surname { get; set; } = "";
-        public DateTime LastLogin { get; set; } = DateTime.MinValue;
+        public DateTime? LastLogin { get; set; } = null;
 
         [JsonIgnore]
         public virtual ICollection<Deck> Decks { get; set; } = new List<Deck>();
