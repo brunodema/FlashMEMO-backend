@@ -205,9 +205,9 @@ namespace Tests.Tests.Integration.Implementation
             var refreshResponse = await _client.SendAsync(postRequest);
 
             // Assert
-            refreshResponse.StatusCode.Should().Be(System.Net.HttpStatusCode.BadRequest);
+            refreshResponse.StatusCode.Should().Be(System.Net.HttpStatusCode.OK);
             var parsedRefreshResponse = await refreshResponse.Content.ReadFromJsonAsync<BaseResponseModel>();
-            parsedRefreshResponse.Message.Should().Be(AuthController.ResponseMessages.ACCESS_TOKEN_INVALID);
+            parsedRefreshResponse.Message.Should().Be(AuthController.ResponseMessages.ACCES_TOKEN_STILL_VALID);
         }
 
         [Fact]
