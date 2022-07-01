@@ -25,7 +25,6 @@ namespace Data.Models.Implementation
         public string Content { get; set; } = "";
         public DateTime CreationDate { get; set; } = DateTime.Now;
         public DateTime LastUpdated { get; set; } = DateTime.Now;
-        public DateTime? LastStudySession { get; set; } = null;
 
         [NotMapped]
         public Guid DbId { get => NewsId; set => NewsId = value; }
@@ -66,6 +65,7 @@ namespace Data.Models.Implementation
         public string Description { get; set; } = "";
         public DateTime CreationDate { get; set; } = DateTime.Now;
         public DateTime LastUpdated { get; set; } = DateTime.Now;
+        public DateTime? LastStudySession { get; set; } = null;
 
         [JsonIgnore]
         [NotMapped]
@@ -80,12 +80,13 @@ namespace Data.Models.Implementation
                 Name == model.Name &&
                 Description == model.Description &&
                 CreationDate == model.CreationDate &&
-                LastUpdated == model.LastUpdated;
+                LastUpdated == model.LastUpdated &&
+                LastStudySession == model.LastStudySession;
         }
 
         public override int GetHashCode()
         {
-            return HashCode.Combine(DeckId, OwnerId, LanguageISOCode, Name, Description, CreationDate, LastUpdated);
+            return HashCode.Combine(DeckId, OwnerId, LanguageISOCode, Name, Description, CreationDate, LastUpdated, LastStudySession);
         }
     }
 

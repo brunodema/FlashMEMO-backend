@@ -254,6 +254,7 @@ namespace API.Controllers
                     Name = deck.Name,
                     OwnerId = deck.OwnerId,
                     LastUpdated = deck.LastUpdated,
+                    LastStudySession = deck.LastStudySession,
                     FlashcardCount = flashcardsFromDeck.Count,
                     DueFlashcardCount = flashcardsFromDeck.Where(flashcard => flashcard.DueDate <= DateTime.Now).Count()
                 });
