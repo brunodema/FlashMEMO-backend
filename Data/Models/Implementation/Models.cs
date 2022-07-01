@@ -25,7 +25,7 @@ namespace Data.Models.Implementation
         public string Content { get; set; } = "";
         public DateTime CreationDate { get; set; } = DateTime.Now;
         public DateTime LastUpdated { get; set; } = DateTime.Now;
-        public DateTime LastStudySession { get; set; } = DateTime.MinValue;
+        public DateTime? LastStudySession { get; set; } = null;
 
         [NotMapped]
         public Guid DbId { get => NewsId; set => NewsId = value; }
