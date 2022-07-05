@@ -185,6 +185,13 @@ namespace Business.Services.Interfaces
     {
         bool LanguageExists(string languageCode);
     }
+    #endregion
 
+    #region EmailService
+    public interface IEmailService
+    {
+        Task SendRegistrationAsync();
+        Task SendPasswordRecoveryAsync();
+    }
     #endregion
 }
