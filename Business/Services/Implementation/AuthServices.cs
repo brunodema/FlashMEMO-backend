@@ -14,6 +14,7 @@ using System.Threading.Tasks;
 
 namespace Business.Services.Implementation
 {
+    #region AuthService
     public class AuthServiceOptions : IAuthServiceOptions
     {
 
@@ -71,6 +72,17 @@ namespace Business.Services.Implementation
             user.LastLogin = DateTime.Now.ToUniversalTime();
             await _userRepository.UpdateAsync(user);
         }
+    }
+    #endregion
+
+    #region JWTService
+    public class JWTServiceOptions : IJWTServiceOptions
+    {
+        public string ValidIssuer { get; set; }
+        public string ValidAudience { get; set; }
+        public double AccessTokenTTE { get; set; }
+        public double RefreshTokenTTE { get; set; }
+        public string Secret { get; set; }
     }
 
     public class JWTService : IJWTService
@@ -187,4 +199,5 @@ namespace Business.Services.Implementation
                 true : false;
         }
     }
+    #endregion
 }

@@ -6,15 +6,10 @@ using Business.Tools.Validations;
 using Data.Models.DTOs;
 using Data.Models.Implementation;
 using Data.Repository.Implementation;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Options;
-using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;
-using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
-using System.Security.Claims;
-using System.Text;
 using System.Threading.Tasks;
 using static Data.Models.Implementation.StaticModels;
 
@@ -22,7 +17,6 @@ namespace Business.Services.Implementation
 {
     public class RoleService : GenericRepositoryService<RoleRepository, string, Role>
     {
-
         public RoleService(RoleRepository roleRepository, IOptions<GenericRepositoryServiceOptions> serviceOptions) : base(roleRepository, serviceOptions.Value) { }
 
         public override ValidatonResult CheckIfEntityIsValid(Role entity)
@@ -160,15 +154,6 @@ namespace Business.Services.Implementation
                 Errors = errors
             };
         }
-    }
-
-    public class JWTServiceOptions : IJWTServiceOptions
-    {
-        public string ValidIssuer { get; set; }
-        public string ValidAudience { get; set; }
-        public double AccessTokenTTE { get; set; }
-        public double RefreshTokenTTE { get; set; }
-        public string Secret { get; set; }
     }
 
     #region Language Service
