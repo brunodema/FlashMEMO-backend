@@ -29,7 +29,6 @@ using FluentValidation;
 using Data.Models.DTOs;
 using System.Collections.Generic;
 using System.Security.Claims;
-using Microsoft.IdentityModel.Logging;
 
 namespace API
 {
@@ -165,15 +164,17 @@ namespace API
             services.Configure<LexicalaDictionaryAPIRequestHandler>(Configuration.GetSection("LexicalaDictionaryAPI"));
             services.Configure<GenericRepositoryServiceOptions>(Configuration.GetSection("BaseRepositoryServiceOptions"));
             services.Configure<FlashMEMOContextOptions>(Configuration.GetSection("FlashMEMOContextOptions"));
+            services.Configure<MailJetOptions>(Configuration.GetSection("MailJet"));
             // Custom Services
-            services.AddScoped<IJWTService, JWTService>();
-            services.AddScoped<IAuthService<string>, AuthService>();
             services.AddScoped<NewsService>();
             services.AddScoped<DeckService>();
             services.AddScoped<FlashcardService>();
             services.AddScoped<LanguageService>();
             services.AddScoped<UserService>();
             services.AddScoped<RoleService>();
+            // Auth
+            services.AddScoped<IJWTService, JWTService>();
+            services.AddScoped<IAuthService<string>, AuthService>();
             // Image API
             services.AddScoped<CustomSearchAPIService>();
             // Dictionary API
@@ -181,6 +182,8 @@ namespace API
             services.AddScoped<IDictionaryAPIService<OxfordAPIResponseModel>, DictionaryAPIService<OxfordAPIResponseModel>>();
             // Audio API
             services.AddScoped<IAudioAPIService, AudioAPIService>();
+            // Email
+            services.AddScoped<IEmailService, MailJetEmailService>();
             // Repositories (are used in Controllers, for instance)
             services.AddScoped<UserRepository>();
             services.AddScoped<RoleRepository>();

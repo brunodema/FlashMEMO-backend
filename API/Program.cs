@@ -19,6 +19,7 @@ namespace API
                     .ConfigureAppConfiguration(configureDelegate => {
                         configureDelegate.AddJsonFile("apisettings.json", true); // contains information about the APIs used in FlashMEMO
                         configureDelegate.AddJsonFile("dbsettings.json"); // contains information on defautl settings for the app's DB context
+                        configureDelegate.AddJsonFile("emailsettings.json"); // contains information on defautl settings for the app's email services
                     });
                 });
     }

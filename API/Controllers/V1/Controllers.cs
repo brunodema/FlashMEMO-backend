@@ -337,6 +337,27 @@ namespace API.Controllers
         }
     }
 
+    [ApiController]
+    [ApiVersion("1.0")]
+    [Route("api/v{version:apiVersion}/[controller]")]
+    public class EmailController : ControllerBase
+    {
+        private readonly IEmailService _service;
+
+        public EmailController(IEmailService service)
+        {
+            _service = service;
+        }
+
+        [HttpGet]
+        [Route("test")]
+        public async Task<ActionResult> Test()
+        {
+            await _service.SendRegistrationAsync();
+            return Ok();
+        }
+    }
+
     [Authorize]
     public class GenericDictionaryAPIController<TDictionaryAPIResponse> : ControllerBase
         where TDictionaryAPIResponse : IDictionaryAPIResponse
