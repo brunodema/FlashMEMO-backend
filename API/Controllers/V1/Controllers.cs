@@ -54,6 +54,9 @@ namespace API.Controllers
         /// </summary>
         /// <param name="entityDTO"></param>
         /// <returns></returns>
+        [HttpPost]
+        [Route("{create}")]
+        [AllowAnonymous]
         public async override Task<IActionResult> Create(UserDTO entityDTO)
         {
             try
@@ -61,12 +64,12 @@ namespace API.Controllers
                 var brandNewId = await AttemptEntityCreation(entityDTO);
                 await _userService.AddInitialPasswordToUser(await _userService.GetbyIdAsync(brandNewId), entityDTO.Password); // extra step
 
-                if (brandNewId != null) return Ok(new DataResponseModel<string> { Message = $"object created successfully.", Data = brandNewId });
-                return BadRequest(new BaseResponseModel { Message = $"Object was not able to be created within the database." });
+                if (brandNewId != null) return Ok(new DataResponseModel<string> { Message = $"User created successfully.", Data = brandNewId });
+                return BadRequest(new BaseResponseModel { Message = $"User was not able to be created within the database." });
             }
             catch (EntityValidationException ex)
             {
-                return BadRequest(new BaseResponseModel { Message = $"Validation errors occured when creating object.", Errors = ex.ServiceValidationErrors });
+                return BadRequest(new BaseResponseModel { Message = $"Validation errors occured when creating user.", Errors = ex.ServiceValidationErrors });
             }
             catch (Exception)
             {
@@ -256,7 +259,7 @@ namespace API.Controllers
                     LastUpdated = deck.LastUpdated,
                     LastStudySession = deck.LastStudySession,
                     FlashcardCount = flashcardsFromDeck.Count,
-                    DueFlashcardCount = flashcardsFromDeck.Where(flashcard => flashcard.DueDate <= DateTime.Now).Count()
+                    DueFlashcardCount = flashcardsFromDeck.Where(flashcard => flashcard.DueDate <= DateTime.Now.ToUniversalTime()).Count()
                 });
             });
 
