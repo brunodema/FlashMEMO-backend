@@ -41,7 +41,7 @@ namespace Tests.Tests.Integration.Implementation
         protected static string _baseEndpoint = $"/api/v1/auth";
         protected static string _loginEndpoint = $"{_baseEndpoint}/login";
         protected static string _refreshEndpoint = $"{_baseEndpoint}/refresh";
-        protected readonly static User _dummyUser = new User() { Name = "Test", Surname = "User", UserName = "testuser", NormalizedUserName = "testuser", Email = "testuser@email.com", NormalizedEmail = "testuser@email.com" };
+        protected readonly static User _dummyUser = new User() { Name = "Test", Surname = "User", UserName = "testuser", NormalizedUserName = "testuser", Email = "testuser@email.com", NormalizedEmail = "testuser@email.com", EmailConfirmed = true };
         protected readonly static string _dummyPassword = "Test@123";
 
         public IdentityControllerTests(IntegrationTestFixture fixture)
