@@ -76,12 +76,10 @@ namespace Business.Services.Implementation
 
         public async virtual Task SendPasswordRecoveryAsync(User user)
         {
-            var subject = "Just one more step: please confirm your email";
+            var subject = "Click here to reset your password";
             var body = @$"Hello {user.Name} {user.Surname},
-                        Thank you for registering on our website.
-                        Please click on the following link to activate your account: PUT LINK HERE!
-                        We look forward to having you on FlashMEMO, and we hope we can aid you in your learning endeavours.
-                        See you very soon,
+                        As requested, please click on the following link to reset your password: PUT LINK HERE!
+                        Kind regards,
                         the FlashMEMO team ☺";
 
             await _provider.SendEmailAsync(user.NormalizedEmail, $"{ user.Name} { user.Surname}", subject, body);
@@ -89,10 +87,12 @@ namespace Business.Services.Implementation
 
         public async Task SendRegistrationAsync(User user)
         {
-            var subject = "Click here to reset your password";
+            var subject = "Just one more step: please confirm your email";
             var body = @$"Hello {user.Name} {user.Surname},
-                        As requested, please click on the following link to reset your password: PUT LINK HERE!
-                        Kind regards,
+                        Thank you for registering on our website.
+                        Please click on the following link to activate your account: PUT LINK HERE!
+                        We look forward to having you on FlashMEMO, and we hope we can aid you in your learning endeavours.
+                        See you very soon,
                         the FlashMEMO team ☺";
 
             await _provider.SendEmailAsync(user.NormalizedEmail, $"{ user.Name} { user.Surname}", subject, body);
