@@ -173,6 +173,9 @@ namespace Tests.Integration.Fixtures
             services.AddScoped<LanguageService>();
             services.AddScoped<FlashcardService>();
             services.AddScoped<UserService>();
+            // Email
+            services.AddScoped<ISMTPProvider, MailJetSMTPProvider>();
+            services.AddScoped<IEmailService, MailJetEmailService>();
 
             services.AddScoped<UserRepository>();
             services.AddScoped<RoleRepository>();
