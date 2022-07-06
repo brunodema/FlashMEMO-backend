@@ -458,6 +458,31 @@ namespace API.Controllers
             _userService = userService;
         }
 
+        [HttpPost]
+        [Route("register")]
+        public async Task<IActionResult> Register([FromBody] UserDTO model)
+        {
+            if (await _authService.IsEmailAlreadyRegisteredAsync(model.Email))
+            {
+                return BadRequest(new BaseResponseModel() { Message = "Email is already user by another user in FlashMEMO." });
+            }
+            if (await _authService.IsUsernameAlreadyRegistered(model.Username))
+            {
+                return BadRequest(new BaseResponseModel() { Message = "Username is already user by another user in FlashMEMO." });
+            }
+
+            var user = new User();
+            model.PassValuesToEntity(user);
+
+            var brandNewId = await _authService.CreateUserAsync(user, model.Password, false);
+            if (brandNewId == null)
+            {
+                return BadRequest(new BaseResponseModel() { Message = "It was not possible to register the new user." });
+            }
+
+            return Ok(new BaseResponseModel { Message = "User registered successfully." });
+        }
+
 
         [HttpPost]
         [Route("login")]
@@ -468,6 +493,8 @@ namespace API.Controllers
             var authenticatedUser = await _authService.AreCredentialsValidAsync(new FlashMEMOCredentials { Username = model.Username, Password = model.Password }); // The fact that this method returns a user make absolutely no fucking sense...
             if (authenticatedUser is not null)
             {
+                if (!authenticatedUser.EmailConfirmed) return BadRequest(new BaseResponseModel() { Message = "Please confirm your email account before logging in." });
+
                 var accessToken = _JWTService.CreateAccessToken(authenticatedUser);
                 var refreshToken = _JWTService.CreateRefreshToken(accessToken, authenticatedUser);
 
