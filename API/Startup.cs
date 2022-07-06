@@ -183,6 +183,7 @@ namespace API
             // Audio API
             services.AddScoped<IAudioAPIService, AudioAPIService>();
             // Email
+            services.AddScoped<ISMTPProvider, MailJetSMTPProvider>();
             services.AddScoped<IEmailService, MailJetEmailService>();
             // Repositories (are used in Controllers, for instance)
             services.AddScoped<UserRepository>();

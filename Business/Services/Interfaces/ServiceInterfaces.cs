@@ -190,8 +190,8 @@ namespace Business.Services.Interfaces
     #region EmailService
     public interface IEmailService
     {
-        Task SendRegistrationAsync();
-        Task SendPasswordRecoveryAsync();
+        Task SendRegistrationAsync(User user);
+        Task SendPasswordRecoveryAsync(User user);
     }
     #endregion
 }

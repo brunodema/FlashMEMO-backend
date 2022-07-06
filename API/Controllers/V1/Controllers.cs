@@ -342,18 +342,21 @@ namespace API.Controllers
     [Route("api/v{version:apiVersion}/[controller]")]
     public class EmailController : ControllerBase
     {
-        private readonly IEmailService _service;
+        private readonly IEmailService _emailService;
+        private readonly UserService _userService;
 
-        public EmailController(IEmailService service)
+        public EmailController(IEmailService service, UserService userService)
         {
-            _service = service;
+            _emailService = service;
+            _userService = userService;
         }
 
         [HttpGet]
-        [Route("test")]
-        public async Task<ActionResult> Test()
+        [Route("test/{id}")]
+        public async Task<ActionResult> Test(string id)
         {
-            await _service.SendRegistrationAsync();
+            var user = await _userService.GetbyIdAsync(id);
+            await _emailService.SendRegistrationAsync(user);
             return Ok();
         }
     }
