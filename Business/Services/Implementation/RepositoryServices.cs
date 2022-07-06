@@ -95,7 +95,7 @@ namespace Business.Services.Implementation
             }
 
             if (!_languageService.LanguageExists(entity.LanguageISOCode ?? null)) errors.Add(ServiceValidationMessages.InvalidLanguageCode);
-            if (!_authService.UserExistsAsync(entity.OwnerId ?? null).Result) errors.Add(ServiceValidationMessages.InvalidUserId);
+            if (!_authService.IsIdAlreadyRegisteredAsync(entity.OwnerId ?? null).Result) errors.Add(ServiceValidationMessages.InvalidUserId);
 
             return new ValidatonResult() { IsValid = errors.Count == 0, Errors = errors };
         }
@@ -146,7 +146,7 @@ namespace Business.Services.Implementation
         {
             List<string> errors = new();
 
-            if (!_authService.UserExistsAsync(entity.OwnerId).Result) errors.Add(ErrorMessages.InvalidOwner);
+            if (!_authService.IsIdAlreadyRegisteredAsync(entity.OwnerId).Result) errors.Add(ErrorMessages.InvalidOwner);
 
             return new ValidatonResult
             {

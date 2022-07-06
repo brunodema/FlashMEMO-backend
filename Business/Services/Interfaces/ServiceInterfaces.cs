@@ -107,9 +107,10 @@ namespace Business.Services.Interfaces
     }
     public interface IAuthService<TKey>
     {
-        public Task<bool> EmailAlreadyRegisteredAsync(string email);
-        public Task<bool> UserExistsAsync(TKey id);
-        public Task<TKey> CreateUserAsync(User user, string cleanPassword);
+        public Task<bool> IsEmailAlreadyRegisteredAsync(string email);
+        public Task<bool> IsIdAlreadyRegisteredAsync(TKey id);
+        public Task<bool> IsUsernameAlreadyRegistered(string username);
+        public Task<TKey> CreateUserAsync(User user, string cleanPassword, bool emailConfirmed);
         /// <summary>
         /// Checks is the provided credentials are valid, returning the user object is so. Otherwise, returns null.
         /// </summary>

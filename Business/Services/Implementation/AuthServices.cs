@@ -44,19 +44,27 @@ namespace Business.Services.Implementation
             return null;
         }
 
-        public async Task<string> CreateUserAsync(User user, string cleanPassword)
+        /// <summary>
+        /// Creates the user in the repository and sets the encrypted password based on the clean input for it. If desired, can set the email confirmed flag to false, so the user is required to follow the registraiton procedures to activate the account.
+        /// </summary>
+        /// <param name="user"></param>
+        /// <param name="cleanPassword"></param>
+        /// <param name="emailConfirmed"></param>
+        /// <returns></returns>
+        public async Task<string> CreateUserAsync(User user, string cleanPassword, bool emailConfirmed = true)
         {
+            user.EmailConfirmed = emailConfirmed;
             var result = await _userRepository.CreateAsync(user);
             await _userRepository.SetInitialPasswordAsync(user, cleanPassword);
             return result;
         }
 
-        public async Task<bool> EmailAlreadyRegisteredAsync(string email)
+        public async Task<bool> IsEmailAlreadyRegisteredAsync(string email)
         {
             return (await _userRepository.GetByEmailAsync(email)) != null;
         }
 
-        public async Task<bool> UserExistsAsync(string id)
+        public async Task<bool> IsIdAlreadyRegisteredAsync(string id)
         {
             return (await _userRepository.GetByIdAsync(id)) != null;
         }
@@ -71,6 +79,11 @@ namespace Business.Services.Implementation
         {
             user.LastLogin = DateTime.Now.ToUniversalTime();
             await _userRepository.UpdateAsync(user);
+        }
+
+        public async Task<bool> IsUsernameAlreadyRegistered(string username)
+        {
+            return (await _userRepository.GetByUserNameAsync(username)) != null;
         }
     }
     #endregion
