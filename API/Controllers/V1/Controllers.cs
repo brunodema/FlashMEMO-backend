@@ -434,6 +434,7 @@ namespace API.Controllers
     {
         private readonly IJWTService _JWTService;
         private readonly IAuthService<string> _authService;
+        private readonly IEmailService _emailService;
         private readonly UserService _userService;
 
         public static class ResponseMessages
@@ -451,10 +452,11 @@ namespace API.Controllers
             public static readonly string UNRELATED_TOKENS = "The provided tokens are not related to each other.";
         }
 
-        public AuthController(IJWTService JWTService, IAuthService<string> authService, UserService userService) : base()
+        public AuthController(IJWTService JWTService, IAuthService<string> authService, IEmailService emailService, UserService userService) : base()
         {
             _JWTService = JWTService;
             _authService = authService;
+            _emailService = emailService;
             _userService = userService;
         }
 
@@ -480,6 +482,7 @@ namespace API.Controllers
                 return BadRequest(new BaseResponseModel() { Message = "It was not possible to register the new user." });
             }
 
+            await this._emailService.SendRegistrationAsync(user);
             return Ok(new BaseResponseModel { Message = "User registered successfully." });
         }
 
