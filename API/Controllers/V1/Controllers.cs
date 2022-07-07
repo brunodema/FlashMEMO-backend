@@ -450,6 +450,9 @@ namespace API.Controllers
             public static readonly string EMAIL_ACCOUNT_ACTIVATION_SUCCESSFUL = "The account was successfully activated.";
             public static readonly string EMAIL_ACCOUNT_ACTIVATION_FAILED = "The activation process has failed.";
 
+            // Password recovery
+            public static readonly string PASSWORD_USER_IS_NOT_UNLOCKED = "The user is not locked. This could mean he/she did not request password recovery.";
+
             // Renewal
             public static readonly string RENEWAL_ACCESS_TOKEN_RENEWED = "The access token was renewed.";
             public static readonly string RENEWAL_ACCESS_TOKEN_NOT_RENEWED = "The access token was not able to be renewed.";

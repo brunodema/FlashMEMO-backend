@@ -88,7 +88,7 @@ namespace Business.Services.Implementation
 
         public bool IsUserLocked(User user)
         {
-            return user.LockoutEnabled = true && user.LockoutEnd > DateTime.UtcNow;
+            return user.LockoutEnabled == true && user.LockoutEnd > DateTime.UtcNow;
         }
     }
     #endregion

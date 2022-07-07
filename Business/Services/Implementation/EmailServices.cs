@@ -14,6 +14,16 @@ namespace Business.Services.Implementation
         Task SendEmailAsync(string toEmail, string toName, string subject, string body);
     }
 
+    public class MockSMTPProvider : ISMTPProvider
+    {
+        public MockSMTPProvider() { }
+
+        public Task SendEmailAsync(string toEmail, string toName, string subject, string body)
+        {
+            return Task.CompletedTask;
+        }
+    }
+
     public class MailJetOptions
     {
         public string APIKey { get; set; } = "";

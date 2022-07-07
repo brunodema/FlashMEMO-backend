@@ -1,15 +1,13 @@
 ﻿using API.Controllers;
 using API.ViewModels;
 using Business.Services.Implementation;
-using Data.Context;
 using Data.Models.Implementation;
 using FluentAssertions;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
-using Microsoft.IdentityModel.Tokens;
+using System;
 using System.Collections.Generic;
-using System.IdentityModel.Tokens.Jwt;
 using System.Net.Http;
 using System.Net.Http.Json;
 using System.Threading.Tasks;
@@ -40,10 +38,12 @@ namespace Tests.Tests.Integration.Implementation
         Task FailedActivationWithExpiredToken();
         Task FailedActivationWithAlreadyActivatedUser();
 
+        // Password recovery request tests
+        Task SuccessfulRecoveryRequest();
+        Task SuccessfulRecoveryRequestWithInvalidEmail();
+        Task FailedRecoveryRequestWithUnactivatedAccount();
+
         // Password recovery tests
-        Task SuccessfulRecovery();
-        Task FailedRecoveryWithInvalidToken();
-        Task FailedRecoveryWithExpiredToken();
     }
 
     public abstract class IdentityControllerTests : IIdentityControllerTests, IClassFixture<IntegrationTestFixture>
@@ -59,7 +59,12 @@ namespace Tests.Tests.Integration.Implementation
         protected static string _passwordRecoveryEndpoint = $"{_baseEndpoint}/forgot-password";
 
         protected readonly static User _dummyUser = new User() { Name = "Test", Surname = "User", UserName = "testuser", NormalizedUserName = "testuser", Email = "testuser@email.com", NormalizedEmail = "testuser@email.com", EmailConfirmed = true };
+
         protected readonly static User _dummyActivationUser = new User() { Name = "Test2", Surname = "User2", UserName = "testuser2", NormalizedUserName = "testuser2", Email = "testuser2@email.com", NormalizedEmail = "testuser2@email.com", EmailConfirmed = false };
+
+        protected readonly static User _dummyLockedUser = new User() { Name = "Test3", Surname = "User3", UserName = "testuser3", NormalizedUserName = "testuser3", Email = "testuser3@email.com", NormalizedEmail = "testuser3@email.com", EmailConfirmed = true, LockoutEnabled = true, LockoutEnd = DateTimeOffset.Now.AddSeconds(1000) };
+
+
         protected readonly static string _dummyPassword = "Test@123";
 
         public IdentityControllerTests(IntegrationTestFixture fixture)
@@ -86,6 +91,12 @@ namespace Tests.Tests.Integration.Implementation
                 {
                     await userManager.CreateAsync(_dummyActivationUser);
                     await userManager.AddPasswordAsync(_dummyActivationUser, _dummyPassword);
+                }
+
+                if (await userManager.FindByIdAsync(_dummyLockedUser.Id) == null)
+                {
+                    await userManager.CreateAsync(_dummyLockedUser);
+                    await userManager.AddPasswordAsync(_dummyLockedUser, _dummyPassword);
                 }
             }
         }
@@ -341,9 +352,9 @@ namespace Tests.Tests.Integration.Implementation
 
             // Assert
             activationResponse.StatusCode.Should().Be(System.Net.HttpStatusCode.OK);
-            var parsedRefreshResponse = await activationResponse.Content.ReadFromJsonAsync<BaseResponseModel>();
-            parsedRefreshResponse.Errors.Should().BeNullOrEmpty();
-            parsedRefreshResponse.Message.Should().Be(AuthController.ResponseMessages.EMAIL_ACCOUNT_ACTIVATION_SUCCESSFUL);
+            var parsedActivationResponse = await activationResponse.Content.ReadFromJsonAsync<BaseResponseModel>();
+            parsedActivationResponse.Errors.Should().BeNullOrEmpty();
+            parsedActivationResponse.Message.Should().Be(AuthController.ResponseMessages.EMAIL_ACCOUNT_ACTIVATION_SUCCESSFUL);
         }
 
         [Fact]
@@ -365,8 +376,8 @@ namespace Tests.Tests.Integration.Implementation
 
             // Assert
             activationResponse.StatusCode.Should().Be(System.Net.HttpStatusCode.BadRequest);
-            var parsedRefreshResponse = await activationResponse.Content.ReadFromJsonAsync<BaseResponseModel>();
-            parsedRefreshResponse.Message.Should().Be(AuthController.ResponseMessages.EMAIL_ACCOUNT_ACTIVATION_FAILED);
+            var parsedActivationResponse = await activationResponse.Content.ReadFromJsonAsync<BaseResponseModel>();
+            parsedActivationResponse.Message.Should().Be(AuthController.ResponseMessages.EMAIL_ACCOUNT_ACTIVATION_FAILED);
         }
 
         [Fact]
@@ -388,8 +399,8 @@ namespace Tests.Tests.Integration.Implementation
 
             // Assert
             activationResponse.StatusCode.Should().Be(System.Net.HttpStatusCode.BadRequest);
-            var parsedRefreshResponse = await activationResponse.Content.ReadFromJsonAsync<BaseResponseModel>();
-            parsedRefreshResponse.Message.Should().Be(AuthController.ResponseMessages.EMAIL_ACCOUNT_ACTIVATION_FAILED);
+            var parsedActivationResponse = await activationResponse.Content.ReadFromJsonAsync<BaseResponseModel>();
+            parsedActivationResponse.Message.Should().Be(AuthController.ResponseMessages.EMAIL_ACCOUNT_ACTIVATION_FAILED);
         }
 
         [Fact]
@@ -411,23 +422,53 @@ namespace Tests.Tests.Integration.Implementation
 
             // Assert
             activationResponse.StatusCode.Should().Be(System.Net.HttpStatusCode.BadRequest);
-            var parsedRefreshResponse = await activationResponse.Content.ReadFromJsonAsync<BaseResponseModel>();
-            parsedRefreshResponse.Message.Should().Be(AuthController.ResponseMessages.EMAIL_ACCOUNT_IS_ALREADY_ACTIVATED);
+            var parsedActivationResponse = await activationResponse.Content.ReadFromJsonAsync<BaseResponseModel>();
+            parsedActivationResponse.Message.Should().Be(AuthController.ResponseMessages.EMAIL_ACCOUNT_IS_ALREADY_ACTIVATED);
         }
 
-        public Task SuccessfulRecovery()
+        [Fact]
+        public async Task SuccessfulRecoveryRequest()
         {
-            throw new System.NotImplementedException();
+            // Arrange
+
+
+            // Act
+            var recoveryRequestResponse = await _client.PostAsJsonAsync(_passwordRecoveryEndpoint, _dummyUser.Email);
+
+            // Assert
+            recoveryRequestResponse.StatusCode.Should().Be(System.Net.HttpStatusCode.OK);
+            var parsedRecoveryRequestResponse = await recoveryRequestResponse.Content.ReadFromJsonAsync<BaseResponseModel>();
+            parsedRecoveryRequestResponse.Message.Should().Be(AuthController.ResponseMessages.REQUEST_PROCESSED);
         }
 
-        public Task FailedRecoveryWithInvalidToken()
+        [Fact]
+        public async Task SuccessfulRecoveryRequestWithInvalidEmail()
         {
-            throw new System.NotImplementedException();
+            // Arrange
+
+
+            // Act
+            var recoveryRequestResponse = await _client.PostAsJsonAsync(_passwordRecoveryEndpoint, "bogus@no-domain.com");
+
+            // Assert
+            recoveryRequestResponse.StatusCode.Should().Be(System.Net.HttpStatusCode.OK);
+            var parsedRecoveryRequestResponse = await recoveryRequestResponse.Content.ReadFromJsonAsync<BaseResponseModel>();
+            parsedRecoveryRequestResponse.Message.Should().Be(AuthController.ResponseMessages.REQUEST_PROCESSED);
         }
 
-        public Task FailedRecoveryWithExpiredToken()
+        [Fact]
+        public async Task FailedRecoveryRequestWithUnactivatedAccount()
         {
-            throw new System.NotImplementedException();
+            // Arrange
+
+
+            // Act
+            var recoveryRequestResponse = await _client.PostAsJsonAsync(_passwordRecoveryEndpoint, _dummyActivationUser.Email);
+
+            // Assert
+            recoveryRequestResponse.StatusCode.Should().Be(System.Net.HttpStatusCode.BadRequest);
+            var parsedRecoveryRequestResponse = await recoveryRequestResponse.Content.ReadFromJsonAsync<BaseResponseModel>();
+            parsedRecoveryRequestResponse.Message.Should().Be(AuthController.ResponseMessages.ACTIVATION_PENDING);
         }
     }
 
