@@ -509,6 +509,43 @@ namespace API.Controllers
         }
 
         [HttpPost]
+        [Route("activate")]
+        public async Task<IActionResult> ActivateAccount([FromQuery] string activationToken)
+        {
+            var validationResult = await _JWTService.ValidateTokenAsync(activationToken);
+
+            if (validationResult.IsValid)
+            {
+                var user = await _userService.GetbyIdAsync(_JWTService.DecodeToken(activationToken).Subject);
+
+                if (user != null)
+                {
+                    user.EmailConfirmed = true;
+                    await _userService.UpdateAsync(user);
+
+                    return Ok(new BaseResponseModel() { Message = "The account was successfully activated." });
+                }
+            }
+
+            return BadRequest(new BaseResponseModel() { Message = "The activation process has failed." });
+        }
+
+        [HttpPost]
+        [Route("forgot-password")]
+        public async Task<IActionResult> ForgotPassword([FromBody] string email)
+        {
+            var user = await _userService.GetByEmailAsync(email);
+
+            if (user != null)
+            {
+                await _emailService.SendPasswordRecoveryAsync(user);
+            }
+
+            // As can be seen here, the response will always be successful, regardless if the email is valid or not. This is to avoid people from "fishing" emails from the API.
+            return Ok(new BaseResponseModel() { Message = "Your request was successfully processed." });
+        }
+
+        [HttpPost]
         [Route("refresh")]
         public async Task<IActionResult> Refresh([FromBody] RefreshRequestModel refreshRequest)
         {
