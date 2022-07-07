@@ -533,7 +533,7 @@ namespace API.Controllers
 
         [HttpPost]
         [Route("activate")]
-        public async Task<IActionResult> ActivateAccount([FromQuery] string activationToken)
+        public async Task<IActionResult> ActivateAccount([FromBody] string activationToken)
         {
             var validationResult = await _JWTService.ValidateTokenAsync(activationToken);
 
