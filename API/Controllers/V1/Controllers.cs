@@ -518,10 +518,10 @@ namespace API.Controllers
             {
                 var user = await _userService.GetbyIdAsync(_JWTService.DecodeToken(activationToken).Subject);
 
-                if (user.EmailConfirmed == true) return BadRequest(new BaseResponseModel() { Message = "The account has already been activated." });
-
                 if (user != null)
                 {
+                    if (user.EmailConfirmed == true) return BadRequest(new BaseResponseModel() { Message = "The account has already been activated." });
+
                     user.EmailConfirmed = true;
                     await _userService.UpdateAsync(user);
 
