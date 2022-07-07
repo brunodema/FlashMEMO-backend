@@ -174,7 +174,7 @@ namespace Tests.Integration.Fixtures
             services.AddScoped<FlashcardService>();
             services.AddScoped<UserService>();
             // Email
-            services.AddScoped<ISMTPProvider, MailJetSMTPProvider>();
+            services.AddScoped<ISMTPProvider, MockSMTPProvider>(); // I'm using this to not burn up the API quotas
             services.AddScoped<IEmailService, MailJetEmailService>();
 
             services.AddScoped<UserRepository>();
