@@ -439,17 +439,37 @@ namespace API.Controllers
 
         public static class ResponseMessages
         {
-            public static readonly string USER_HAS_LOGGED_IN = "User has logged in.";
-            public static readonly string CREDENTIALS_COULD_NOT_BE_VALIDATED = "The provided credentials could not be validated.";
+            // Login
+            public static readonly string LOGIN_USER_HAS_LOGGED_IN = "User has logged in.";
+            public static readonly string LOGIN_CREDENTIALS_COULD_NOT_BE_VALIDATED = "The provided credentials could not be validated.";
+            public static readonly string LOGIN_ACTIVATION_PENDING = "Please confirm your email account before logging in.";
+            public static readonly string LOGIN_ACCOUNT_IS_LOCKED = "The account is currently locked. Please check your email or contact the admin team.";
 
-            public static readonly string ACCESS_TOKEN_RENEWED = "The access token was renewed.";
-            public static readonly string ACCESS_TOKEN_NOT_RENEWED = "The access token was not able to be renewed.";
-            public static readonly string ACCES_TOKEN_STILL_VALID = "The access token is still valid. Returning current credentials.";
+            // Email confirmation
+            public static readonly string EMAIL_ACCOUNT_IS_ALREADY_ACTIVATED = "The account has already been activated.";
+            public static readonly string EMAIL_ACCOUNT_ACTIVATION_SUCCESSFUL = "The account was successfully activated.";
+            public static readonly string EMAIL_ACCOUNT_ACTIVATION_FAILED = "The activation process has failed.";
 
-            public static readonly string ACCESS_TOKEN_INVALID = "The access token is not expired, but is invalid.";
-            public static readonly string REFRESH_TOKEN_INVALID = "The refresh token is invalid. Please check if it is not expired.";
-            public static readonly string REFRESH_TOKEN_NULL = "The request does not contain a refresh token.";
-            public static readonly string UNRELATED_TOKENS = "The provided tokens are not related to each other.";
+            // Renewal
+            public static readonly string RENEWAL_ACCESS_TOKEN_RENEWED = "The access token was renewed.";
+            public static readonly string RENEWAL_ACCESS_TOKEN_NOT_RENEWED = "The access token was not able to be renewed.";
+            public static readonly string RENEWAL_ACCES_TOKEN_STILL_VALID = "The access token is still valid. Returning current credentials.";
+            public static readonly string RENEWAL_ACCESS_TOKEN_INVALID = "The access token is not expired, but is invalid.";
+            public static readonly string RENEWAL_REFRESH_TOKEN_INVALID = "The refresh token is invalid. Please check if it is not expired.";
+            public static readonly string RENEWAL_REFRESH_TOKEN_NULL = "The request does not contain a refresh token.";
+            public static readonly string RENEWAL_UNRELATED_TOKENS = "The provided tokens are not related to each other.";
+
+            // Registration
+            public static readonly string REGISTRATION_EMAIL_ALREADY_IN_USE = "Email is already user by another user in FlashMEMO.";
+            public static readonly string REGISTRATION_USERNAME_ALREADY_IN_USE = "Username is already user by another user in FlashMEMO.";
+            public static readonly string REGISTRATION_NOT_POSSIBLE_REGISTER_USER = "It was not possible to register the new user.";
+            public static readonly string USER_REGISTERED = "User registered successfully.";
+
+            // General use
+            public static readonly string ACTIVATION_PENDING = "The email confirmation is still pending for the user.";
+            public static readonly string ACCOUNT_LOCKED = "The account is currently locked.";
+            public static readonly string REQUEST_PROCESSED = "Your request was successfully processed.";
+
         }
 
         public AuthController(IJWTService JWTService, IAuthService<string> authService, IEmailService emailService, UserService userService) : base()
@@ -466,11 +486,11 @@ namespace API.Controllers
         {
             if (await _authService.IsEmailAlreadyRegisteredAsync(model.Email))
             {
-                return BadRequest(new BaseResponseModel() { Message = "Email is already user by another user in FlashMEMO." });
+                return BadRequest(new BaseResponseModel() { Message = ResponseMessages.REGISTRATION_EMAIL_ALREADY_IN_USE });
             }
             if (await _authService.IsUsernameAlreadyRegistered(model.Username))
             {
-                return BadRequest(new BaseResponseModel() { Message = "Username is already user by another user in FlashMEMO." });
+                return BadRequest(new BaseResponseModel() { Message = ResponseMessages.REGISTRATION_USERNAME_ALREADY_IN_USE });
             }
 
             var user = new User();
@@ -479,11 +499,11 @@ namespace API.Controllers
             var brandNewId = await _authService.CreateUserAsync(user, model.Password, false);
             if (brandNewId == null)
             {
-                return BadRequest(new BaseResponseModel() { Message = "It was not possible to register the new user." });
+                return BadRequest(new BaseResponseModel() { Message = ResponseMessages.REGISTRATION_NOT_POSSIBLE_REGISTER_USER });
             }
 
             await this._emailService.SendRegistrationAsync(user);
-            return Ok(new BaseResponseModel { Message = "User registered successfully." });
+            return Ok(new BaseResponseModel { Message = ResponseMessages.USER_REGISTERED });
         }
 
 
@@ -494,18 +514,21 @@ namespace API.Controllers
             ICollection<UserRole> roles = new List<UserRole>();
 
             var authenticatedUser = await _authService.AreCredentialsValidAsync(new FlashMEMOCredentials { Username = model.Username, Password = model.Password }); // The fact that this method returns a user make absolutely no fucking sense...
+
             if (authenticatedUser is not null)
             {
-                if (!authenticatedUser.EmailConfirmed) return BadRequest(new BaseResponseModel() { Message = "Please confirm your email account before logging in." });
+                if (!authenticatedUser.EmailConfirmed) return BadRequest(new BaseResponseModel() { Message = ResponseMessages.LOGIN_ACTIVATION_PENDING });
+
+                if (_authService.IsUserLocked(authenticatedUser)) return BadRequest(new BaseResponseModel() { Message = ResponseMessages.LOGIN_ACCOUNT_IS_LOCKED });
 
                 var accessToken = _JWTService.CreateAccessToken(authenticatedUser);
                 var refreshToken = _JWTService.CreateRefreshToken(accessToken, authenticatedUser);
 
                 await _authService.UpdateLastLoginAsync(authenticatedUser);
-                return Ok(new LoginResponseModel { Message = ResponseMessages.USER_HAS_LOGGED_IN, AccessToken = accessToken, RefreshToken = refreshToken });
+                return Ok(new LoginResponseModel { Message = ResponseMessages.LOGIN_USER_HAS_LOGGED_IN, AccessToken = accessToken, RefreshToken = refreshToken });
             }
 
-            return Unauthorized(new LoginResponseModel { Message = ResponseMessages.CREDENTIALS_COULD_NOT_BE_VALIDATED });
+            return Unauthorized(new LoginResponseModel { Message = ResponseMessages.LOGIN_CREDENTIALS_COULD_NOT_BE_VALIDATED });
         }
 
         [HttpPost]
@@ -520,16 +543,16 @@ namespace API.Controllers
 
                 if (user != null)
                 {
-                    if (user.EmailConfirmed == true) return BadRequest(new BaseResponseModel() { Message = "The account has already been activated." });
+                    if (user.EmailConfirmed == true) return BadRequest(new BaseResponseModel() { Message = ResponseMessages.EMAIL_ACCOUNT_IS_ALREADY_ACTIVATED });
 
                     user.EmailConfirmed = true;
                     await _userService.UpdateAsync(user);
 
-                    return Ok(new BaseResponseModel() { Message = "The account was successfully activated." });
+                    return Ok(new BaseResponseModel() { Message = ResponseMessages.EMAIL_ACCOUNT_ACTIVATION_SUCCESSFUL });
                 }
             }
 
-            return BadRequest(new BaseResponseModel() { Message = "The activation process has failed." });
+            return BadRequest(new BaseResponseModel() { Message = ResponseMessages.EMAIL_ACCOUNT_ACTIVATION_FAILED });
         }
 
         [HttpPost]
@@ -540,11 +563,13 @@ namespace API.Controllers
 
             if (user != null)
             {
+                if (!user.EmailConfirmed) return BadRequest(new BaseResponseModel() { Message = ResponseMessages.ACTIVATION_PENDING });
+
                 await _emailService.SendPasswordRecoveryAsync(user);
             }
 
             // As can be seen here, the response will always be successful, regardless if the email is valid or not. This is to avoid people from "fishing" emails from the API.
-            return Ok(new BaseResponseModel() { Message = "Your request was successfully processed." });
+            return Ok(new BaseResponseModel() { Message = ResponseMessages.REQUEST_PROCESSED });
         }
 
         [HttpPost]
@@ -553,16 +578,16 @@ namespace API.Controllers
         {
             // I'm cheking this first to ensure that a legit 'refresh' call was made, and not just some random access token was sent to the back-end.
             var refreshToken = Request.Cookies["RefreshToken"];
-            if (refreshToken == null) return BadRequest(new BaseResponseModel() { Message = ResponseMessages.REFRESH_TOKEN_NULL });
+            if (refreshToken == null) return BadRequest(new BaseResponseModel() { Message = ResponseMessages.RENEWAL_REFRESH_TOKEN_NULL });
 
             if (!await _JWTService.IsTokenExpired(refreshRequest.ExpiredAccessToken))
             {
                 // Must still check if the token is actually valid (maybe it's corrupted or something?)
                 if ((await _JWTService.ValidateTokenAsync(refreshRequest.ExpiredAccessToken)).IsValid)
                 {
-                    return Ok(new LoginResponseModel() { Message = ResponseMessages.ACCES_TOKEN_STILL_VALID, AccessToken = refreshRequest.ExpiredAccessToken, RefreshToken = refreshToken });
+                    return Ok(new LoginResponseModel() { Message = ResponseMessages.RENEWAL_ACCES_TOKEN_STILL_VALID, AccessToken = refreshRequest.ExpiredAccessToken, RefreshToken = refreshToken });
                 }
-                return BadRequest(new BaseResponseModel() { Message = ResponseMessages.ACCESS_TOKEN_INVALID });
+                return BadRequest(new BaseResponseModel() { Message = ResponseMessages.RENEWAL_ACCESS_TOKEN_INVALID });
             }
 
             if (await _JWTService.IsTokenExpired(refreshRequest.ExpiredAccessToken))
@@ -572,17 +597,21 @@ namespace API.Controllers
                     if (_JWTService.AreAuthTokensRelated(refreshRequest.ExpiredAccessToken, refreshToken))
                     {
                         var user = await _userService.GetbyIdAsync(_JWTService.DecodeToken(refreshRequest.ExpiredAccessToken).Subject);
+
+                        if (!user.EmailConfirmed) return BadRequest(new BaseResponseModel() { Message = ResponseMessages.ACTIVATION_PENDING });
+                        if (_authService.IsUserLocked(user)) return BadRequest(new BaseResponseModel() { Message = ResponseMessages.ACCOUNT_LOCKED });
+
                         var newAccessToken = _JWTService.CreateAccessToken(user);
                         var newRefreshToken = _JWTService.CreateRefreshToken(newAccessToken, user);
 
                         await _authService.UpdateLastLoginAsync(user);
-                        return Ok(new LoginResponseModel() { Message = ResponseMessages.ACCESS_TOKEN_RENEWED, AccessToken = newAccessToken, RefreshToken = newRefreshToken });
+                        return Ok(new LoginResponseModel() { Message = ResponseMessages.RENEWAL_ACCESS_TOKEN_RENEWED, AccessToken = newAccessToken, RefreshToken = newRefreshToken });
                     }
-                    return BadRequest(new BaseResponseModel() { Message = ResponseMessages.UNRELATED_TOKENS });
+                    return BadRequest(new BaseResponseModel() { Message = ResponseMessages.RENEWAL_UNRELATED_TOKENS });
                 }
-                return BadRequest(new BaseResponseModel() { Message = ResponseMessages.REFRESH_TOKEN_INVALID });
+                return BadRequest(new BaseResponseModel() { Message = ResponseMessages.RENEWAL_REFRESH_TOKEN_INVALID });
             }
-            return BadRequest(new BaseResponseModel() { Message = ResponseMessages.REFRESH_TOKEN_INVALID });
+            return BadRequest(new BaseResponseModel() { Message = ResponseMessages.RENEWAL_REFRESH_TOKEN_INVALID });
         }
 
         [HttpGet]

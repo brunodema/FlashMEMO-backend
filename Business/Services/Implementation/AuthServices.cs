@@ -17,7 +17,7 @@ namespace Business.Services.Implementation
     #region AuthService
     public class AuthServiceOptions : IAuthServiceOptions
     {
-
+        public int LockoutPeriod { get; set; } = 31536000;
     }
     public class AuthService : IAuthService<string>
     {
@@ -85,6 +85,11 @@ namespace Business.Services.Implementation
         {
             return (await _userRepository.GetByUserNameAsync(username)) != null;
         }
+
+        public bool IsUserLocked(User user)
+        {
+            return user.LockoutEnabled = true && user.LockoutEnd > DateTime.UtcNow;
+        }
     }
     #endregion
 
@@ -96,11 +101,15 @@ namespace Business.Services.Implementation
         public int AccessTokenTTE { get; set; }
         public int RefreshTokenTTE { get; set; }
         public int ActivationTokenTTE { get; set; }
+        public int PasswordTokenTTE { get; set; }
         public string Secret { get; set; }
     }
 
     public class JWTService : IJWTService
     {
+        public readonly string REASON_ACTIVATION = "activation";
+        public readonly string REASON_PASSWORD = "password";
+
         private readonly IJWTServiceOptions _options;
 
         public JWTService(IOptions<JWTServiceOptions> options)
@@ -178,6 +187,7 @@ namespace Business.Services.Implementation
             {
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
                 new Claim(JwtRegisteredClaimNames.Sub, user.Id),
+                new Claim("reason", REASON_ACTIVATION),
             };
 
             var signingKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_options.Secret));
@@ -186,6 +196,27 @@ namespace Business.Services.Implementation
                 issuer: _options.ValidIssuer,
                 audience: _options.ValidAudience,
                 expires: DateTime.Now.AddSeconds(Convert.ToDouble(_options.ActivationTokenTTE)),
+                //expires: DateTime.Now.AddSeconds(1),
+                claims: claims,
+                signingCredentials: new SigningCredentials(signingKey, SecurityAlgorithms.HmacSha256)
+            ));
+        }
+
+        public string CreatePasswordRecoveryToken(User user)
+        {
+            var claims = new List<Claim>
+            {
+                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+                new Claim(JwtRegisteredClaimNames.Sub, user.Id),
+                new Claim("reason", REASON_PASSWORD),
+            };
+
+            var signingKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_options.Secret));
+
+            return new JwtSecurityTokenHandler().WriteToken(new JwtSecurityToken(
+                issuer: _options.ValidIssuer,
+                audience: _options.ValidAudience,
+                expires: DateTime.Now.AddSeconds(Convert.ToDouble(_options.PasswordTokenTTE)),
                 //expires: DateTime.Now.AddSeconds(1),
                 claims: claims,
                 signingCredentials: new SigningCredentials(signingKey, SecurityAlgorithms.HmacSha256)

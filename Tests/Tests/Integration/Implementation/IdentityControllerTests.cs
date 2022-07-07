@@ -116,7 +116,7 @@ namespace Tests.Tests.Integration.Implementation
             // Assert
             response.StatusCode.Should().Be(System.Net.HttpStatusCode.Unauthorized);
             var parsedResponse = await response.Content.ReadFromJsonAsync<LoginResponseModel>();
-            parsedResponse.Message.Should().Be(AuthController.ResponseMessages.CREDENTIALS_COULD_NOT_BE_VALIDATED);
+            parsedResponse.Message.Should().Be(AuthController.ResponseMessages.LOGIN_CREDENTIALS_COULD_NOT_BE_VALIDATED);
         }
 
         // JWT tests
@@ -149,7 +149,7 @@ namespace Tests.Tests.Integration.Implementation
             parsedRefreshResponse.AccessToken.Should().NotBeNullOrEmpty();
             parsedRefreshResponse.RefreshToken.Should().NotBeNullOrEmpty();
             parsedRefreshResponse.Errors.Should().BeNullOrEmpty();
-            parsedRefreshResponse.Message.Should().Be(AuthController.ResponseMessages.ACCESS_TOKEN_RENEWED);
+            parsedRefreshResponse.Message.Should().Be(AuthController.ResponseMessages.RENEWAL_ACCESS_TOKEN_RENEWED);
         }
 
         [Fact]
@@ -178,7 +178,7 @@ namespace Tests.Tests.Integration.Implementation
             // Assert
             refreshResponse.StatusCode.Should().Be(System.Net.HttpStatusCode.BadRequest);
             var parsedRefreshResponse = await refreshResponse.Content.ReadFromJsonAsync<BaseResponseModel>();
-            parsedRefreshResponse.Message.Should().Be(AuthController.ResponseMessages.ACCESS_TOKEN_INVALID);
+            parsedRefreshResponse.Message.Should().Be(AuthController.ResponseMessages.RENEWAL_ACCESS_TOKEN_INVALID);
         }
 
         [Fact]
@@ -207,7 +207,7 @@ namespace Tests.Tests.Integration.Implementation
             // Assert
             refreshResponse.StatusCode.Should().Be(System.Net.HttpStatusCode.OK);
             var parsedRefreshResponse = await refreshResponse.Content.ReadFromJsonAsync<BaseResponseModel>();
-            parsedRefreshResponse.Message.Should().Be(AuthController.ResponseMessages.ACCES_TOKEN_STILL_VALID);
+            parsedRefreshResponse.Message.Should().Be(AuthController.ResponseMessages.RENEWAL_ACCES_TOKEN_STILL_VALID);
         }
 
         [Fact]
@@ -236,7 +236,7 @@ namespace Tests.Tests.Integration.Implementation
             // Assert
             refreshResponse.StatusCode.Should().Be(System.Net.HttpStatusCode.BadRequest);
             var parsedRefreshResponse = await refreshResponse.Content.ReadFromJsonAsync<BaseResponseModel>();
-            parsedRefreshResponse.Message.Should().Be(AuthController.ResponseMessages.REFRESH_TOKEN_INVALID);
+            parsedRefreshResponse.Message.Should().Be(AuthController.ResponseMessages.RENEWAL_REFRESH_TOKEN_INVALID);
         }
 
         [Fact]
@@ -265,7 +265,7 @@ namespace Tests.Tests.Integration.Implementation
             // Assert
             refreshResponse.StatusCode.Should().Be(System.Net.HttpStatusCode.BadRequest);
             var parsedRefreshResponse = await refreshResponse.Content.ReadFromJsonAsync<BaseResponseModel>();
-            parsedRefreshResponse.Message.Should().Be(AuthController.ResponseMessages.REFRESH_TOKEN_INVALID);
+            parsedRefreshResponse.Message.Should().Be(AuthController.ResponseMessages.RENEWAL_REFRESH_TOKEN_INVALID);
         }
 
         [Fact]
@@ -295,7 +295,7 @@ namespace Tests.Tests.Integration.Implementation
             // Assert
             refreshResponse.StatusCode.Should().Be(System.Net.HttpStatusCode.BadRequest);
             var parsedRefreshResponse = await refreshResponse.Content.ReadFromJsonAsync<BaseResponseModel>();
-            parsedRefreshResponse.Message.Should().Be(AuthController.ResponseMessages.UNRELATED_TOKENS);
+            parsedRefreshResponse.Message.Should().Be(AuthController.ResponseMessages.RENEWAL_UNRELATED_TOKENS);
         }
     }
 

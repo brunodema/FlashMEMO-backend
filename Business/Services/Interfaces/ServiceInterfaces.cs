@@ -60,6 +60,7 @@ namespace Business.Services.Interfaces
         int AccessTokenTTE { get; set; }
         int RefreshTokenTTE { get; set; }
         int ActivationTokenTTE { get; set; }
+        int PasswordTokenTTE { get; set; }
         string Secret { get; set; }
     }
     public interface IJWTService
@@ -67,6 +68,7 @@ namespace Business.Services.Interfaces
         public string CreateAccessToken(User user);
         public string CreateRefreshToken(string accessToken, User user);
         public string CreateActivationToken(User user);
+        public string CreatePasswordRecoveryToken(User user);
         public Task<bool> IsTokenExpired(string token);
         public JwtSecurityToken DecodeToken(string token);
         public Task<TokenValidationResult> ValidateTokenAsync(string token);
@@ -106,7 +108,9 @@ namespace Business.Services.Interfaces
     #region AUTH
     public interface IAuthServiceOptions
     {
+        public int LockoutPeriod { get; set; }
     }
+
     public interface IAuthService<TKey>
     {
         public Task<bool> IsEmailAlreadyRegisteredAsync(string email);
@@ -124,6 +128,7 @@ namespace Business.Services.Interfaces
         /// </summary>
         /// <param name="user"></param>
         public Task UpdateLastLoginAsync(User user);
+        public bool IsUserLocked(User user);
     }
     #endregion
 
