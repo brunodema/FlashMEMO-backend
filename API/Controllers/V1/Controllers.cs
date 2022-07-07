@@ -518,7 +518,7 @@ namespace API.Controllers
             {
                 var user = await _userService.GetbyIdAsync(_JWTService.DecodeToken(activationToken).Subject);
 
-                if (user != null)
+                if (user != null && user.EmailConfirmed == false)
                 {
                     user.EmailConfirmed = true;
                     await _userService.UpdateAsync(user);
