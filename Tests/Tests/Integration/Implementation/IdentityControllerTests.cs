@@ -23,6 +23,8 @@ namespace Tests.Tests.Integration.Implementation
         // Login tests
         Task SuccessfulLogin(LoginRequestModel request);
         Task FailedLoginWithWrongCredentials(LoginRequestModel request);
+        // Missing tests for: (1) login with blocked user, (2) login with unactivated user
+
         // JWT tests
         Task SuccessfulTokenRenewal();
         Task FailedTokenRenewalWithInvalidAT();
@@ -30,6 +32,18 @@ namespace Tests.Tests.Integration.Implementation
         Task FailedTokenRenewalWithInvalidRT();
         Task FailedTokenRenewalWithExpiredRT();
         Task FailedTokenRenewalWithUnmatchedTokens();
+        // Missing tests for: (1) token renewal with blocked user, (2) token renewal with unactivated user
+
+        // Activation tests
+        Task SuccessfulActivation();
+        Task FailedActivationWithInvalidToken();
+        Task FailedActivationWithExpiredToken();
+        Task FailedActivationWithAlreadyActivatedUser();
+
+        // Password recovery tests
+        Task SuccessfulRecovery();
+        Task FailedRecoveryWithInvalidToken();
+        Task FailedRecoveryWithExpiredToken();
     }
 
     public abstract class IdentityControllerTests : IIdentityControllerTests, IClassFixture<IntegrationTestFixture>
@@ -41,7 +55,11 @@ namespace Tests.Tests.Integration.Implementation
         protected static string _baseEndpoint = $"/api/v1/auth";
         protected static string _loginEndpoint = $"{_baseEndpoint}/login";
         protected static string _refreshEndpoint = $"{_baseEndpoint}/refresh";
+        protected static string _activationEndpoint = $"{_baseEndpoint}/activate";
+        protected static string _passwordRecoveryEndpoint = $"{_baseEndpoint}/forgot-password";
+
         protected readonly static User _dummyUser = new User() { Name = "Test", Surname = "User", UserName = "testuser", NormalizedUserName = "testuser", Email = "testuser@email.com", NormalizedEmail = "testuser@email.com", EmailConfirmed = true };
+        protected readonly static User _dummyActivationUser = new User() { Name = "Test2", Surname = "User2", UserName = "testuser2", NormalizedUserName = "testuser2", Email = "testuser2@email.com", NormalizedEmail = "testuser2@email.com", EmailConfirmed = false };
         protected readonly static string _dummyPassword = "Test@123";
 
         public IdentityControllerTests(IntegrationTestFixture fixture)
@@ -62,6 +80,12 @@ namespace Tests.Tests.Integration.Implementation
                 {
                     await userManager.CreateAsync(_dummyUser);
                     await userManager.AddPasswordAsync(_dummyUser, _dummyPassword);
+                }
+
+                if (await userManager.FindByIdAsync(_dummyActivationUser.Id) == null)
+                {
+                    await userManager.CreateAsync(_dummyActivationUser);
+                    await userManager.AddPasswordAsync(_dummyActivationUser, _dummyPassword);
                 }
             }
         }
@@ -296,6 +320,114 @@ namespace Tests.Tests.Integration.Implementation
             refreshResponse.StatusCode.Should().Be(System.Net.HttpStatusCode.BadRequest);
             var parsedRefreshResponse = await refreshResponse.Content.ReadFromJsonAsync<BaseResponseModel>();
             parsedRefreshResponse.Message.Should().Be(AuthController.ResponseMessages.RENEWAL_UNRELATED_TOKENS);
+        }
+
+        [Fact]
+        public async Task SuccessfulActivation()
+        {
+            // Arrange
+            var riggedJWTService = new JWTService(Options.Create(new JWTServiceOptions()
+            {
+                ValidIssuer = _jwtOptions.ValidIssuer,
+                ValidAudience = _jwtOptions.ValidAudience,
+                Secret = _jwtOptions.Secret,
+                ActivationTokenTTE = 1000
+            }));
+
+            var activationToken = riggedJWTService.CreateActivationToken(_dummyActivationUser);
+
+            // Act
+            var activationResponse = await _client.PostAsJsonAsync(_activationEndpoint, activationToken);
+
+            // Assert
+            activationResponse.StatusCode.Should().Be(System.Net.HttpStatusCode.OK);
+            var parsedRefreshResponse = await activationResponse.Content.ReadFromJsonAsync<BaseResponseModel>();
+            parsedRefreshResponse.Errors.Should().BeNullOrEmpty();
+            parsedRefreshResponse.Message.Should().Be(AuthController.ResponseMessages.EMAIL_ACCOUNT_ACTIVATION_SUCCESSFUL);
+        }
+
+        [Fact]
+        public async Task FailedActivationWithInvalidToken()
+        {
+            // Arrange
+            var riggedJWTService = new JWTService(Options.Create(new JWTServiceOptions()
+            {
+                ValidIssuer = _jwtOptions.ValidIssuer,
+                ValidAudience = _jwtOptions.ValidAudience,
+                Secret = _jwtOptions.Secret,
+                ActivationTokenTTE = 1000
+            }));
+
+            var activationToken = riggedJWTService.CreateActivationToken(_dummyActivationUser) + "corrupted_ending";
+
+            // Act
+            var activationResponse = await _client.PostAsJsonAsync(_activationEndpoint, activationToken);
+
+            // Assert
+            activationResponse.StatusCode.Should().Be(System.Net.HttpStatusCode.BadRequest);
+            var parsedRefreshResponse = await activationResponse.Content.ReadFromJsonAsync<BaseResponseModel>();
+            parsedRefreshResponse.Message.Should().Be(AuthController.ResponseMessages.EMAIL_ACCOUNT_ACTIVATION_FAILED);
+        }
+
+        [Fact]
+        public async Task FailedActivationWithExpiredToken()
+        {
+            // Arrange
+            var riggedJWTService = new JWTService(Options.Create(new JWTServiceOptions()
+            {
+                ValidIssuer = _jwtOptions.ValidIssuer,
+                ValidAudience = _jwtOptions.ValidAudience,
+                Secret = _jwtOptions.Secret,
+                ActivationTokenTTE = -1
+            }));
+
+            var activationToken = riggedJWTService.CreateActivationToken(_dummyActivationUser);
+
+            // Act
+            var activationResponse = await _client.PostAsJsonAsync(_activationEndpoint, activationToken);
+
+            // Assert
+            activationResponse.StatusCode.Should().Be(System.Net.HttpStatusCode.BadRequest);
+            var parsedRefreshResponse = await activationResponse.Content.ReadFromJsonAsync<BaseResponseModel>();
+            parsedRefreshResponse.Message.Should().Be(AuthController.ResponseMessages.EMAIL_ACCOUNT_ACTIVATION_FAILED);
+        }
+
+        [Fact]
+        public async Task FailedActivationWithAlreadyActivatedUser()
+        {
+            // Arrange
+            var riggedJWTService = new JWTService(Options.Create(new JWTServiceOptions()
+            {
+                ValidIssuer = _jwtOptions.ValidIssuer,
+                ValidAudience = _jwtOptions.ValidAudience,
+                Secret = _jwtOptions.Secret,
+                ActivationTokenTTE = 1000
+            }));
+
+            var activationToken = riggedJWTService.CreateActivationToken(_dummyUser);
+
+            // Act
+            var activationResponse = await _client.PostAsJsonAsync(_activationEndpoint, activationToken);
+
+            // Assert
+            activationResponse.StatusCode.Should().Be(System.Net.HttpStatusCode.BadRequest);
+            var parsedRefreshResponse = await activationResponse.Content.ReadFromJsonAsync<BaseResponseModel>();
+            parsedRefreshResponse.Message.Should().Be(AuthController.ResponseMessages.EMAIL_ACCOUNT_IS_ALREADY_ACTIVATED);
+        }
+
+        public Task SuccessfulRecovery()
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public Task FailedRecoveryWithInvalidToken()
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public Task FailedRecoveryWithExpiredToken()
+        {
+            throw new System.NotImplementedException();
         }
     }
 
