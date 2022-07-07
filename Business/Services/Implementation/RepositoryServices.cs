@@ -71,6 +71,16 @@ namespace Business.Services.Implementation
         {
             await _baseRepository.SetInitialPasswordAsync(user, password);
         }
+
+        public async Task<User> GetByEmailAsync(string email)
+        {
+            return await _baseRepository.GetByEmailAsync(email);
+        }
+
+        public async Task<User> GetByUserNameAsync(string username)
+        {
+            return await _baseRepository.GetByUserNameAsync(username);
+        }
     }
 
     public class DeckService : GenericRepositoryService<DeckRepository, Guid, Deck>

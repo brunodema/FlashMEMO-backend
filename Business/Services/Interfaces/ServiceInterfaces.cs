@@ -57,14 +57,16 @@ namespace Business.Services.Interfaces
     {
         string ValidIssuer { get; set; }
         string ValidAudience { get; set; }
-        double AccessTokenTTE { get; set; }
-        double RefreshTokenTTE { get; set; }
+        int AccessTokenTTE { get; set; }
+        int RefreshTokenTTE { get; set; }
+        int ActivationTokenTTE { get; set; }
         string Secret { get; set; }
     }
     public interface IJWTService
     {
         public string CreateAccessToken(User user);
         public string CreateRefreshToken(string accessToken, User user);
+        public string CreateActivationToken(User user);
         public Task<bool> IsTokenExpired(string token);
         public JwtSecurityToken DecodeToken(string token);
         public Task<TokenValidationResult> ValidateTokenAsync(string token);

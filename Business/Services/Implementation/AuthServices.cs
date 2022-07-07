@@ -93,8 +93,9 @@ namespace Business.Services.Implementation
     {
         public string ValidIssuer { get; set; }
         public string ValidAudience { get; set; }
-        public double AccessTokenTTE { get; set; }
-        public double RefreshTokenTTE { get; set; }
+        public int AccessTokenTTE { get; set; }
+        public int RefreshTokenTTE { get; set; }
+        public int ActivationTokenTTE { get; set; }
         public string Secret { get; set; }
     }
 
@@ -166,6 +167,26 @@ namespace Business.Services.Implementation
                 issuer: _options.ValidIssuer,
                 audience: _options.ValidAudience,
                 expires: DateTime.Now.AddSeconds(Convert.ToDouble(_options.RefreshTokenTTE)),
+                claims: claims,
+                signingCredentials: new SigningCredentials(signingKey, SecurityAlgorithms.HmacSha256)
+            ));
+        }
+
+        public string CreateActivationToken(User user)
+        {
+            var claims = new List<Claim>
+            {
+                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+                new Claim(JwtRegisteredClaimNames.Sub, user.Id),
+            };
+
+            var signingKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_options.Secret));
+
+            return new JwtSecurityTokenHandler().WriteToken(new JwtSecurityToken(
+                issuer: _options.ValidIssuer,
+                audience: _options.ValidAudience,
+                expires: DateTime.Now.AddSeconds(Convert.ToDouble(_options.ActivationTokenTTE)),
+                //expires: DateTime.Now.AddSeconds(1),
                 claims: claims,
                 signingCredentials: new SigningCredentials(signingKey, SecurityAlgorithms.HmacSha256)
             ));
