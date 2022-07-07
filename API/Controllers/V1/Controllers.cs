@@ -344,11 +344,13 @@ namespace API.Controllers
     {
         private readonly IEmailService _emailService;
         private readonly UserService _userService;
+        private readonly JWTService _JWTService;
 
-        public EmailController(IEmailService service, UserService userService)
+        public EmailController(IEmailService service, UserService userService, JWTService JWTService)
         {
             _emailService = service;
             _userService = userService;
+            _JWTService = JWTService;
         }
 
         [HttpGet]
@@ -356,7 +358,7 @@ namespace API.Controllers
         public async Task<ActionResult> Test(string id)
         {
             var user = await _userService.GetbyIdAsync(id);
-            await _emailService.SendRegistrationAsync(user);
+            await _emailService.SendRegistrationAsync(user, _JWTService.CreateActivationToken(user));
             return Ok();
         }
     }
@@ -451,7 +453,10 @@ namespace API.Controllers
             public static readonly string EMAIL_ACCOUNT_ACTIVATION_FAILED = "The activation process has failed.";
 
             // Password recovery
-            public static readonly string PASSWORD_USER_IS_NOT_UNLOCKED = "The user is not locked. This could mean he/she did not request password recovery.";
+            public static readonly string PASSWORD_REQUEST_USER_IS_NOT_UNLOCKED = "The user is not locked. This could mean he/she did not request password recovery.";
+
+            // Password reset
+            public static readonly string PASSWORD_RESET_SUCCESSFUL = "Password successfully reset.";
 
             // Renewal
             public static readonly string RENEWAL_ACCESS_TOKEN_RENEWED = "The access token was renewed.";
@@ -469,9 +474,11 @@ namespace API.Controllers
             public static readonly string USER_REGISTERED = "User registered successfully.";
 
             // General use
-            public static readonly string ACTIVATION_PENDING = "The email confirmation is still pending for the user.";
-            public static readonly string ACCOUNT_LOCKED = "The account is currently locked.";
-            public static readonly string REQUEST_PROCESSED = "Your request was successfully processed.";
+            public static readonly string GENERAL_ACTIVATION_PENDING = "The email confirmation is still pending for the user.";
+            public static readonly string GENERAL_ACCOUNT_LOCKED = "The account is currently locked.";
+            public static readonly string GENERAL_REQUEST_PROCESSED = "Your request was successfully processed.";
+            public static readonly string GENERAL_INVALID_TOKEN = "The token is not valid.";
+            public static readonly string GENERAL_USER_NOT_FOUND = "The user was not found within FlashMEMO.";
 
         }
 
@@ -505,7 +512,7 @@ namespace API.Controllers
                 return BadRequest(new BaseResponseModel() { Message = ResponseMessages.REGISTRATION_NOT_POSSIBLE_REGISTER_USER });
             }
 
-            await this._emailService.SendRegistrationAsync(user);
+            await this._emailService.SendRegistrationAsync(user, _JWTService.CreateActivationToken(user));
             return Ok(new BaseResponseModel { Message = ResponseMessages.USER_REGISTERED });
         }
 
@@ -566,13 +573,38 @@ namespace API.Controllers
 
             if (user != null)
             {
-                if (!user.EmailConfirmed) return BadRequest(new BaseResponseModel() { Message = ResponseMessages.ACTIVATION_PENDING });
+                if (!user.EmailConfirmed) return BadRequest(new BaseResponseModel() { Message = ResponseMessages.GENERAL_ACTIVATION_PENDING });
 
-                await _emailService.SendPasswordRecoveryAsync(user);
+                await _emailService.SendPasswordRecoveryAsync(user, await _authService.GeneratePasswordResetToken(user));
             }
 
             // As can be seen here, the response will always be successful, regardless if the email is valid or not. This is to avoid people from "fishing" emails from the API.
-            return Ok(new BaseResponseModel() { Message = ResponseMessages.REQUEST_PROCESSED });
+            return Ok(new BaseResponseModel() { Message = ResponseMessages.GENERAL_REQUEST_PROCESSED });
+        }
+
+        [HttpPost]
+        [Route("reset-password")]
+        public async Task<IActionResult> ResetPassword([FromBody] string passwordToken, string newPassword)
+        {
+            if (_JWTService.ValidateTokenAsync(passwordToken).Result.IsValid)
+            {
+                var decodedToken = _JWTService.DecodeToken(passwordToken);
+                var user = await _userService.GetbyIdAsync(decodedToken.Subject);
+
+                if (user != null)
+                {
+                    if (!user.EmailConfirmed) return BadRequest(new BaseResponseModel() { Message = ResponseMessages.GENERAL_ACTIVATION_PENDING });
+                    if (_authService.IsUserLocked(user)) return BadRequest(new BaseResponseModel() { Message = ResponseMessages.GENERAL_ACCOUNT_LOCKED });
+
+                    await _authService.ResetPasswordAsync(user, passwordToken, newPassword);
+
+                    return Ok(new BaseResponseModel() { Message = ResponseMessages.PASSWORD_RESET_SUCCESSFUL }); ;
+                }
+
+                return BadRequest(new BaseResponseModel() { Message = ResponseMessages.GENERAL_USER_NOT_FOUND });
+            }
+
+            return BadRequest(new BaseResponseModel() { Message = ResponseMessages.GENERAL_INVALID_TOKEN });
         }
 
         [HttpPost]
@@ -601,8 +633,8 @@ namespace API.Controllers
                     {
                         var user = await _userService.GetbyIdAsync(_JWTService.DecodeToken(refreshRequest.ExpiredAccessToken).Subject);
 
-                        if (!user.EmailConfirmed) return BadRequest(new BaseResponseModel() { Message = ResponseMessages.ACTIVATION_PENDING });
-                        if (_authService.IsUserLocked(user)) return BadRequest(new BaseResponseModel() { Message = ResponseMessages.ACCOUNT_LOCKED });
+                        if (!user.EmailConfirmed) return BadRequest(new BaseResponseModel() { Message = ResponseMessages.GENERAL_ACTIVATION_PENDING });
+                        if (_authService.IsUserLocked(user)) return BadRequest(new BaseResponseModel() { Message = ResponseMessages.GENERAL_ACCOUNT_LOCKED });
 
                         var newAccessToken = _JWTService.CreateAccessToken(user);
                         var newRefreshToken = _JWTService.CreateRefreshToken(newAccessToken, user);

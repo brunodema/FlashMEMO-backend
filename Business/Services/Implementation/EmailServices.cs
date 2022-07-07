@@ -75,32 +75,40 @@ namespace Business.Services.Implementation
         }
     }
 
+    public class MailServiceOptions
+    {
+        public string PasswordResetURL { get; set; } = "";
+        public string AccountActivationURL { get; set; } = "";
+    }
+
     public abstract class GenericEmailService : IEmailService
     {
         protected readonly ISMTPProvider _provider;
+        protected readonly MailServiceOptions _options;
 
-        public GenericEmailService(ISMTPProvider provider)
+        public GenericEmailService(ISMTPProvider provider, IOptions<MailServiceOptions> options)
         {
             _provider = provider;
+            _options = options.Value;
         }
 
-        public async virtual Task SendPasswordRecoveryAsync(User user)
+        public async virtual Task SendPasswordRecoveryAsync(User user, string token)
         {
             var subject = "Click here to reset your password";
             var body = @$"Hello {user.Name} {user.Surname},
-                        As requested, please click on the following link to reset your password: PUT LINK HERE!
+                        As requested, please click on the following link to reset your password: {_options.PasswordResetURL}?token={token}.
                         Kind regards,
                         the FlashMEMO team ☺";
 
             await _provider.SendEmailAsync(user.NormalizedEmail, $"{ user.Name} { user.Surname}", subject, body);
         }
 
-        public async Task SendRegistrationAsync(User user)
+        public async Task SendRegistrationAsync(User user, string token)
         {
             var subject = "Just one more step: please confirm your email";
             var body = @$"Hello {user.Name} {user.Surname},
                         Thank you for registering on our website.
-                        Please click on the following link to activate your account: PUT LINK HERE!
+                        Please click on the following link to activate your account: {_options.AccountActivationURL}?token={token}
                         We look forward to having you on FlashMEMO, and we hope we can aid you in your learning endeavours.
                         See you very soon,
                         the FlashMEMO team ☺";
@@ -111,6 +119,6 @@ namespace Business.Services.Implementation
 
     public class MailJetEmailService : GenericEmailService
     {
-        public MailJetEmailService(ISMTPProvider provider) : base(provider) { }
+        public MailJetEmailService(ISMTPProvider provider, IOptions<MailServiceOptions> options) : base(provider, options) { }
     }
 }

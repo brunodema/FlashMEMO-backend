@@ -68,7 +68,6 @@ namespace Business.Services.Interfaces
         public string CreateAccessToken(User user);
         public string CreateRefreshToken(string accessToken, User user);
         public string CreateActivationToken(User user);
-        public string CreatePasswordRecoveryToken(User user);
         public Task<bool> IsTokenExpired(string token);
         public JwtSecurityToken DecodeToken(string token);
         public Task<TokenValidationResult> ValidateTokenAsync(string token);
@@ -129,6 +128,9 @@ namespace Business.Services.Interfaces
         /// <param name="user"></param>
         public Task UpdateLastLoginAsync(User user);
         public bool IsUserLocked(User user);
+
+        public Task<string> GeneratePasswordResetToken(User user);
+        public Task ResetPasswordAsync(User user, string resetToken, string newPassword);
     }
     #endregion
 
@@ -198,8 +200,8 @@ namespace Business.Services.Interfaces
     #region EmailService
     public interface IEmailService
     {
-        Task SendRegistrationAsync(User user);
-        Task SendPasswordRecoveryAsync(User user);
+        Task SendRegistrationAsync(User user, string token);
+        Task SendPasswordRecoveryAsync(User user, string token);
     }
     #endregion
 }

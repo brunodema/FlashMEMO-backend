@@ -90,6 +90,16 @@ namespace Business.Services.Implementation
         {
             return user.LockoutEnabled == true && user.LockoutEnd > DateTime.UtcNow;
         }
+
+        public Task<string> GeneratePasswordResetToken(User user)
+        {
+            return _userRepository.GeneratePasswordResetToken(user);
+        }
+
+        public Task ResetPasswordAsync(User user, string resetToken, string newPassword)
+        {
+            return _userRepository.UpdatePasswordAsync(user, resetToken, newPassword);
+        }
     }
     #endregion
 
@@ -196,27 +206,6 @@ namespace Business.Services.Implementation
                 issuer: _options.ValidIssuer,
                 audience: _options.ValidAudience,
                 expires: DateTime.Now.AddSeconds(Convert.ToDouble(_options.ActivationTokenTTE)),
-                //expires: DateTime.Now.AddSeconds(1),
-                claims: claims,
-                signingCredentials: new SigningCredentials(signingKey, SecurityAlgorithms.HmacSha256)
-            ));
-        }
-
-        public string CreatePasswordRecoveryToken(User user)
-        {
-            var claims = new List<Claim>
-            {
-                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
-                new Claim(JwtRegisteredClaimNames.Sub, user.Id),
-                new Claim("reason", REASON_PASSWORD),
-            };
-
-            var signingKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_options.Secret));
-
-            return new JwtSecurityTokenHandler().WriteToken(new JwtSecurityToken(
-                issuer: _options.ValidIssuer,
-                audience: _options.ValidAudience,
-                expires: DateTime.Now.AddSeconds(Convert.ToDouble(_options.PasswordTokenTTE)),
                 //expires: DateTime.Now.AddSeconds(1),
                 claims: claims,
                 signingCredentials: new SigningCredentials(signingKey, SecurityAlgorithms.HmacSha256)

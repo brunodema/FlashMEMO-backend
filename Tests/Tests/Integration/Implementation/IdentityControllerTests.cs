@@ -44,6 +44,11 @@ namespace Tests.Tests.Integration.Implementation
         Task FailedRecoveryRequestWithUnactivatedAccount();
 
         // Password recovery tests
+        Task SuccessfulPasswordReset();
+        Task FailedPasswordResetWithInvalidToken();
+        Task FailedPasswordResetWithExpiredToken();
+        Task FailedPasswordResetWithUnactivatedAccount();
+        Task FailedPasswordResetWithLockedAccount();
     }
 
     public abstract class IdentityControllerTests : IIdentityControllerTests, IClassFixture<IntegrationTestFixture>
@@ -438,7 +443,7 @@ namespace Tests.Tests.Integration.Implementation
             // Assert
             recoveryRequestResponse.StatusCode.Should().Be(System.Net.HttpStatusCode.OK);
             var parsedRecoveryRequestResponse = await recoveryRequestResponse.Content.ReadFromJsonAsync<BaseResponseModel>();
-            parsedRecoveryRequestResponse.Message.Should().Be(AuthController.ResponseMessages.REQUEST_PROCESSED);
+            parsedRecoveryRequestResponse.Message.Should().Be(AuthController.ResponseMessages.GENERAL_REQUEST_PROCESSED);
         }
 
         [Fact]
@@ -453,7 +458,7 @@ namespace Tests.Tests.Integration.Implementation
             // Assert
             recoveryRequestResponse.StatusCode.Should().Be(System.Net.HttpStatusCode.OK);
             var parsedRecoveryRequestResponse = await recoveryRequestResponse.Content.ReadFromJsonAsync<BaseResponseModel>();
-            parsedRecoveryRequestResponse.Message.Should().Be(AuthController.ResponseMessages.REQUEST_PROCESSED);
+            parsedRecoveryRequestResponse.Message.Should().Be(AuthController.ResponseMessages.GENERAL_REQUEST_PROCESSED);
         }
 
         [Fact]
@@ -468,7 +473,32 @@ namespace Tests.Tests.Integration.Implementation
             // Assert
             recoveryRequestResponse.StatusCode.Should().Be(System.Net.HttpStatusCode.BadRequest);
             var parsedRecoveryRequestResponse = await recoveryRequestResponse.Content.ReadFromJsonAsync<BaseResponseModel>();
-            parsedRecoveryRequestResponse.Message.Should().Be(AuthController.ResponseMessages.ACTIVATION_PENDING);
+            parsedRecoveryRequestResponse.Message.Should().Be(AuthController.ResponseMessages.GENERAL_ACTIVATION_PENDING);
+        }
+
+        public Task SuccessfulPasswordReset()
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task FailedPasswordResetWithInvalidToken()
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task FailedPasswordResetWithExpiredToken()
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task FailedPasswordResetWithUnactivatedAccount()
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task FailedPasswordResetWithLockedAccount()
+        {
+            throw new NotImplementedException();
         }
     }
 

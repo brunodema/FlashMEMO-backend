@@ -163,6 +163,8 @@ namespace Tests.Integration.Fixtures
             services.Configure<OxfordDictionaryAPIRequestHandler>(Configuration.GetSection("OxfordDictionaryAPI"));
             services.Configure<LexicalaDictionaryAPIRequestHandler>(Configuration.GetSection("LexicalaDictionaryAPI"));
             services.Configure<FlashMEMOContextOptions>(Configuration.GetSection("FlashMEMOContextOptions"));
+            services.Configure<MailServiceOptions>(Configuration.GetSection("MailService"));
+
 
             // custom services
             services.AddScoped<IJWTService, JWTService>();

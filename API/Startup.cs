@@ -165,6 +165,7 @@ namespace API
             services.Configure<GenericRepositoryServiceOptions>(Configuration.GetSection("BaseRepositoryServiceOptions"));
             services.Configure<FlashMEMOContextOptions>(Configuration.GetSection("FlashMEMOContextOptions"));
             services.Configure<MailJetOptions>(Configuration.GetSection("MailJet"));
+            services.Configure<MailServiceOptions>(Configuration.GetSection("MailService"));
             // Custom Services
             services.AddScoped<NewsService>();
             services.AddScoped<DeckService>();
