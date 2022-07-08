@@ -1,6 +1,7 @@
 ﻿using API.Controllers;
 using API.ViewModels;
 using Business.Services.Implementation;
+using Business.Services.Interfaces;
 using Data.Models.Implementation;
 using FluentAssertions;
 using Microsoft.AspNetCore.Identity;
@@ -61,13 +62,16 @@ namespace Tests.Tests.Integration.Implementation
         protected static string _loginEndpoint = $"{_baseEndpoint}/login";
         protected static string _refreshEndpoint = $"{_baseEndpoint}/refresh";
         protected static string _activationEndpoint = $"{_baseEndpoint}/activate";
-        protected static string _passwordRecoveryEndpoint = $"{_baseEndpoint}/forgot-password";
+        protected static string _passwordRecoveryRequestEndpoint = $"{_baseEndpoint}/forgot-password";
+        protected static string _passwordResetEndpoint = $"{_baseEndpoint}/reset-password";
 
         protected readonly static User _dummyUser = new User() { Name = "Test", Surname = "User", UserName = "testuser", NormalizedUserName = "testuser", Email = "testuser@email.com", NormalizedEmail = "testuser@email.com", EmailConfirmed = true };
 
         protected readonly static User _dummyActivationUser = new User() { Name = "Test2", Surname = "User2", UserName = "testuser2", NormalizedUserName = "testuser2", Email = "testuser2@email.com", NormalizedEmail = "testuser2@email.com", EmailConfirmed = false };
 
         protected readonly static User _dummyLockedUser = new User() { Name = "Test3", Surname = "User3", UserName = "testuser3", NormalizedUserName = "testuser3", Email = "testuser3@email.com", NormalizedEmail = "testuser3@email.com", EmailConfirmed = true, LockoutEnabled = true, LockoutEnd = DateTimeOffset.Now.AddSeconds(1000) };
+
+        protected readonly static User _dummyPasswordResetUser = new User() { Name = "Test4", Surname = "User4", UserName = "testuser4", NormalizedUserName = "testuser4", Email = "testuser4@email.com", NormalizedEmail = "testuser4@email.com", EmailConfirmed = true };
 
 
         protected readonly static string _dummyPassword = "Test@123";
@@ -102,6 +106,12 @@ namespace Tests.Tests.Integration.Implementation
                 {
                     await userManager.CreateAsync(_dummyLockedUser);
                     await userManager.AddPasswordAsync(_dummyLockedUser, _dummyPassword);
+                }
+
+                if (await userManager.FindByIdAsync(_dummyPasswordResetUser.Id) == null)
+                {
+                    await userManager.CreateAsync(_dummyPasswordResetUser);
+                    await userManager.AddPasswordAsync(_dummyPasswordResetUser, _dummyPassword);
                 }
             }
         }
@@ -438,7 +448,7 @@ namespace Tests.Tests.Integration.Implementation
 
 
             // Act
-            var recoveryRequestResponse = await _client.PostAsJsonAsync(_passwordRecoveryEndpoint, _dummyUser.Email);
+            var recoveryRequestResponse = await _client.PostAsJsonAsync(_passwordRecoveryRequestEndpoint, _dummyUser.Email);
 
             // Assert
             recoveryRequestResponse.StatusCode.Should().Be(System.Net.HttpStatusCode.OK);
@@ -453,7 +463,7 @@ namespace Tests.Tests.Integration.Implementation
 
 
             // Act
-            var recoveryRequestResponse = await _client.PostAsJsonAsync(_passwordRecoveryEndpoint, "bogus@no-domain.com");
+            var recoveryRequestResponse = await _client.PostAsJsonAsync(_passwordRecoveryRequestEndpoint, "bogus@no-domain.com");
 
             // Assert
             recoveryRequestResponse.StatusCode.Should().Be(System.Net.HttpStatusCode.OK);
@@ -468,7 +478,7 @@ namespace Tests.Tests.Integration.Implementation
 
 
             // Act
-            var recoveryRequestResponse = await _client.PostAsJsonAsync(_passwordRecoveryEndpoint, _dummyActivationUser.Email);
+            var recoveryRequestResponse = await _client.PostAsJsonAsync(_passwordRecoveryRequestEndpoint, _dummyActivationUser.Email);
 
             // Assert
             recoveryRequestResponse.StatusCode.Should().Be(System.Net.HttpStatusCode.BadRequest);
@@ -476,29 +486,103 @@ namespace Tests.Tests.Integration.Implementation
             parsedRecoveryRequestResponse.Message.Should().Be(AuthController.ResponseMessages.GENERAL_ACTIVATION_PENDING);
         }
 
-        public Task SuccessfulPasswordReset()
+        [Fact]
+        public async Task SuccessfulPasswordReset()
         {
-            throw new NotImplementedException();
+            using (var scope = _fixture.Host.Services.CreateScope())
+            {
+                // Arrange
+                var authService = scope.ServiceProvider.GetService<IAuthService<string>>();
+                var token = await authService.GeneratePasswordResetTokenAsync(_dummyPasswordResetUser);
+
+                // Act
+                var requestParams = new ResetPasswordRequestModel() { Username = _dummyPasswordResetUser.UserName, Token = token, NewPassword = "NewPassword@101" };
+                var resetResponse = await _client.PostAsJsonAsync(_passwordResetEndpoint, requestParams);
+
+                // Assert
+                resetResponse.StatusCode.Should().Be(System.Net.HttpStatusCode.OK);
+                var parsedResetResponse = await resetResponse.Content.ReadFromJsonAsync<BaseResponseModel>();
+                parsedResetResponse.Message.Should().Be(AuthController.ResponseMessages.PASSWORD_RESET_SUCCESSFUL);
+            }
         }
 
-        public Task FailedPasswordResetWithInvalidToken()
+        [Fact]
+        public async Task FailedPasswordResetWithInvalidToken()
         {
-            throw new NotImplementedException();
+            using (var scope = _fixture.Host.Services.CreateScope())
+            {
+                // Arrange
+                var authService = scope.ServiceProvider.GetService<IAuthService<string>>();
+                var token = await authService.GeneratePasswordResetTokenAsync(_dummyPasswordResetUser) + "corrupted_token";
+
+                // Act
+                var requestParams = new ResetPasswordRequestModel() { Username = _dummyPasswordResetUser.UserName, Token = token, NewPassword = "NewPassword@101" };
+                var resetResponse = await _client.PostAsJsonAsync(_passwordResetEndpoint, requestParams);
+
+                // Assert
+                resetResponse.StatusCode.Should().Be(System.Net.HttpStatusCode.BadRequest);
+                var parsedResetResponse = await resetResponse.Content.ReadFromJsonAsync<BaseResponseModel>();
+                parsedResetResponse.Message.Should().Be(AuthController.ResponseMessages.PASSWORD_RESET_NOT_SUCCESSFUL);
+            }
         }
 
-        public Task FailedPasswordResetWithExpiredToken()
+        public async Task FailedPasswordResetWithExpiredToken()
         {
-            throw new NotImplementedException();
+            using (var scope = _fixture.Host.Services.CreateScope())
+            {
+                // Arrange
+                var authService = scope.ServiceProvider.GetService<IAuthService<string>>();
+                var dtpOptions = scope.ServiceProvider.GetService<IOptions<DataProtectionTokenProviderOptions>>(); // Getting options to change them on the fly here
+                dtpOptions.Value.TokenLifespan = TimeSpan.FromSeconds(-1);
+                var token = await authService.GeneratePasswordResetTokenAsync(_dummyPasswordResetUser);
+
+                // Act
+                var requestParams = new ResetPasswordRequestModel() { Username = _dummyPasswordResetUser.UserName, Token = token, NewPassword = "NewPassword@101" };
+                var resetResponse = await _client.PostAsJsonAsync(_passwordResetEndpoint, requestParams);
+
+                // Assert
+                resetResponse.StatusCode.Should().Be(System.Net.HttpStatusCode.BadRequest);
+                var parsedResetResponse = await resetResponse.Content.ReadFromJsonAsync<BaseResponseModel>();
+                parsedResetResponse.Message.Should().Be(AuthController.ResponseMessages.PASSWORD_RESET_NOT_SUCCESSFUL);
+            }
         }
 
-        public Task FailedPasswordResetWithUnactivatedAccount()
+        public async Task FailedPasswordResetWithUnactivatedAccount()
         {
-            throw new NotImplementedException();
+            using (var scope = _fixture.Host.Services.CreateScope())
+            {
+                // Arrange
+                var authService = scope.ServiceProvider.GetService<IAuthService<string>>();
+                var token = await authService.GeneratePasswordResetTokenAsync(_dummyActivationUser);
+
+                // Act
+                var requestParams = new ResetPasswordRequestModel() { Username = _dummyActivationUser.UserName, Token = token, NewPassword = "NewPassword@101" };
+                var resetResponse = await _client.PostAsJsonAsync(_passwordResetEndpoint, requestParams);
+
+                // Assert
+                resetResponse.StatusCode.Should().Be(System.Net.HttpStatusCode.BadRequest);
+                var parsedResetResponse = await resetResponse.Content.ReadFromJsonAsync<BaseResponseModel>();
+                parsedResetResponse.Message.Should().Be(AuthController.ResponseMessages.GENERAL_ACTIVATION_PENDING);
+            }
         }
 
-        public Task FailedPasswordResetWithLockedAccount()
+        public async Task FailedPasswordResetWithLockedAccount()
         {
-            throw new NotImplementedException();
+            using (var scope = _fixture.Host.Services.CreateScope())
+            {
+                // Arrange
+                var authService = scope.ServiceProvider.GetService<IAuthService<string>>();
+                var token = await authService.GeneratePasswordResetTokenAsync(_dummyLockedUser);
+
+                // Act
+                var requestParams = new ResetPasswordRequestModel() { Username = _dummyLockedUser.UserName, Token = token, NewPassword = "NewPassword@101" };
+                var resetResponse = await _client.PostAsJsonAsync(_passwordResetEndpoint, requestParams);
+
+                // Assert
+                resetResponse.StatusCode.Should().Be(System.Net.HttpStatusCode.BadRequest);
+                var parsedResetResponse = await resetResponse.Content.ReadFromJsonAsync<BaseResponseModel>();
+                parsedResetResponse.Message.Should().Be(AuthController.ResponseMessages.GENERAL_ACCOUNT_LOCKED);
+            }
         }
     }
 

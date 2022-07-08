@@ -116,6 +116,8 @@ namespace Tests.Integration.Fixtures
                 .AddEntityFrameworkStores<FlashMEMOContext>()
                 .AddRoles<Role>()
                 .AddDefaultTokenProviders();
+            // Configure password reset tokens
+            services.Configure<DataProtectionTokenProviderOptions>(opt => opt.TokenLifespan = TimeSpan.FromSeconds(Double.Parse(Configuration["IdentitySecurity:PasswordTokenTTE"])));
 
             // auth config
             services.AddAuthentication(options =>

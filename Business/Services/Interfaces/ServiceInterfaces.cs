@@ -60,7 +60,6 @@ namespace Business.Services.Interfaces
         int AccessTokenTTE { get; set; }
         int RefreshTokenTTE { get; set; }
         int ActivationTokenTTE { get; set; }
-        int PasswordTokenTTE { get; set; }
         string Secret { get; set; }
     }
     public interface IJWTService
@@ -129,8 +128,9 @@ namespace Business.Services.Interfaces
         public Task UpdateLastLoginAsync(User user);
         public bool IsUserLocked(User user);
 
-        public Task<string> GeneratePasswordResetToken(User user);
-        public Task ResetPasswordAsync(User user, string resetToken, string newPassword);
+        public Task<string> GeneratePasswordResetTokenAsync(User user);
+        public Task<bool> ValidatePasswordResetButton(User user, string token);
+        public Task<bool> ResetPasswordAsync(User user, string resetToken, string newPassword);
     }
     #endregion
 

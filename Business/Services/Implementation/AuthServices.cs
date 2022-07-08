@@ -91,12 +91,17 @@ namespace Business.Services.Implementation
             return user.LockoutEnabled == true && user.LockoutEnd > DateTime.UtcNow;
         }
 
-        public Task<string> GeneratePasswordResetToken(User user)
+        public Task<string> GeneratePasswordResetTokenAsync(User user)
         {
             return _userRepository.GeneratePasswordResetToken(user);
         }
 
-        public Task ResetPasswordAsync(User user, string resetToken, string newPassword)
+        public async Task<bool> ValidatePasswordResetButton(User user, string token)
+        {
+            return await _userRepository.ValidatePasswordResetToken(user, token);
+        }
+
+        public Task<bool> ResetPasswordAsync(User user, string resetToken, string newPassword)
         {
             return _userRepository.UpdatePasswordAsync(user, resetToken, newPassword);
         }
@@ -111,7 +116,6 @@ namespace Business.Services.Implementation
         public int AccessTokenTTE { get; set; }
         public int RefreshTokenTTE { get; set; }
         public int ActivationTokenTTE { get; set; }
-        public int PasswordTokenTTE { get; set; }
         public string Secret { get; set; }
     }
 

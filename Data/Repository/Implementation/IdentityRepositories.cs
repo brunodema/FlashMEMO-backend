@@ -19,7 +19,7 @@ namespace Data.Repository.Implementation
         Task<TUserType> GetByUserNameAsync(string username);
         Task<bool> CheckPasswordAsync(TUserType user, string initialPassword);
         Task<string> GeneratePasswordResetToken(User user);
-        Task UpdatePasswordAsync(User user, string resetToken, string newPassword);
+        Task<bool> UpdatePasswordAsync(User user, string resetToken, string newPassword);
     }
 
     public class UserRepository : GenericRepository<User, string, FlashMEMOContext>, IUserRepository<User>
@@ -118,10 +118,17 @@ namespace Data.Repository.Implementation
             return _userManager.GeneratePasswordResetTokenAsync(user);
         }
 
-        public async Task UpdatePasswordAsync(User user, string resetToken, string newPassword)
+        public Task<bool> ValidatePasswordResetToken(User user, string token)
         {
-            await _userManager.ResetPasswordAsync(user, resetToken, newPassword);
+            return _userManager.VerifyUserTokenAsync(user, _userManager.Options.Tokens.PasswordResetTokenProvider, "ResetPassword", token);
+        }
+
+        public async Task<bool> UpdatePasswordAsync(User user, string resetToken, string newPassword)
+        {
+            var updateResult = await _userManager.ResetPasswordAsync(user, resetToken, newPassword);
             await SaveChangesAsync();
+
+            return updateResult.Succeeded;
         }
     }
 

@@ -55,10 +55,11 @@ namespace API
             }); // try to remove any CORS problems (k8s deployment)
 
             // implementation to show enums as string taken from here: https://stackoverflow.com/questions/2441290/javascriptserializer-json-serialization-of-enum-as-string. Originally used the system JSON serializer, later changed to Newtonsoft to avoid too much dependency mingling...
-            services.AddControllers().AddNewtonsoftJson(o => {
+            services.AddControllers().AddNewtonsoftJson(o =>
+            {
                 o.SerializerSettings.Converters.Add(new StringEnumConverter());
                 o.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
-                });
+            });
             services.AddSwaggerGenNewtonsoftSupport();
 
             services.AddSwaggerGen(c =>
@@ -115,9 +116,11 @@ namespace API
             {
                 opt.User.RequireUniqueEmail = true;
             })
-                .AddEntityFrameworkStores<FlashMEMOContext>()
-                .AddRoles<Role>()
-                .AddDefaultTokenProviders();
+            .AddEntityFrameworkStores<FlashMEMOContext>()
+            .AddRoles<Role>()
+            .AddDefaultTokenProviders();
+            // Configure password reset tokens
+            services.Configure<DataProtectionTokenProviderOptions>(opt => opt.TokenLifespan = TimeSpan.FromSeconds(Double.Parse(Configuration["IdentitySecurity:PasswordTokenTTE"])));
 
             // auth config
             services.AddAuthorization(options =>
@@ -212,7 +215,7 @@ namespace API
             }
 
             app.UseHttpLogging(); // use HTTP logging from .NET 6.0 (debug k8s deployment)
-             
+
             app.UseCors("AllowConfiguredOrigins");  // try to remove any CORS problems (k8s deployment)
 
             //app.UseHttpsRedirection(); // removing for temporary testing

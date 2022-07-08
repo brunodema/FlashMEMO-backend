@@ -13,7 +13,6 @@ using Data.Tools.Filtering;
 using Data.Tools.Sorting;
 using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using System;
@@ -457,6 +456,7 @@ namespace API.Controllers
 
             // Password reset
             public static readonly string PASSWORD_RESET_SUCCESSFUL = "Password successfully reset.";
+            public static readonly string PASSWORD_RESET_NOT_SUCCESSFUL = "Password could not be reset.";
 
             // Renewal
             public static readonly string RENEWAL_ACCESS_TOKEN_RENEWED = "The access token was renewed.";
@@ -575,7 +575,7 @@ namespace API.Controllers
             {
                 if (!user.EmailConfirmed) return BadRequest(new BaseResponseModel() { Message = ResponseMessages.GENERAL_ACTIVATION_PENDING });
 
-                await _emailService.SendPasswordRecoveryAsync(user, await _authService.GeneratePasswordResetToken(user));
+                await _emailService.SendPasswordRecoveryAsync(user, await _authService.GeneratePasswordResetTokenAsync(user));
             }
 
             // As can be seen here, the response will always be successful, regardless if the email is valid or not. This is to avoid people from "fishing" emails from the API.
@@ -584,27 +584,22 @@ namespace API.Controllers
 
         [HttpPost]
         [Route("reset-password")]
-        public async Task<IActionResult> ResetPassword([FromBody] string passwordToken, string newPassword)
+        public async Task<IActionResult> ResetPassword([FromBody] ResetPasswordRequestModel resetRequest)
         {
-            if (_JWTService.ValidateTokenAsync(passwordToken).Result.IsValid)
+            var user = await _userService.GetByUserNameAsync(resetRequest.Username);
+            if (user != null)
             {
-                var decodedToken = _JWTService.DecodeToken(passwordToken);
-                var user = await _userService.GetbyIdAsync(decodedToken.Subject);
+                if (!user.EmailConfirmed) return BadRequest(new BaseResponseModel() { Message = ResponseMessages.GENERAL_ACTIVATION_PENDING });
+                if (_authService.IsUserLocked(user)) return BadRequest(new BaseResponseModel() { Message = ResponseMessages.GENERAL_ACCOUNT_LOCKED });
 
-                if (user != null)
-                {
-                    if (!user.EmailConfirmed) return BadRequest(new BaseResponseModel() { Message = ResponseMessages.GENERAL_ACTIVATION_PENDING });
-                    if (_authService.IsUserLocked(user)) return BadRequest(new BaseResponseModel() { Message = ResponseMessages.GENERAL_ACCOUNT_LOCKED });
+                var succeeded = await _authService.ResetPasswordAsync(user, resetRequest.Token, resetRequest.NewPassword);
 
-                    await _authService.ResetPasswordAsync(user, passwordToken, newPassword);
+                if (succeeded) return Ok(new BaseResponseModel() { Message = ResponseMessages.PASSWORD_RESET_SUCCESSFUL });
 
-                    return Ok(new BaseResponseModel() { Message = ResponseMessages.PASSWORD_RESET_SUCCESSFUL }); ;
-                }
-
-                return BadRequest(new BaseResponseModel() { Message = ResponseMessages.GENERAL_USER_NOT_FOUND });
+                return BadRequest(new BaseResponseModel() { Message = ResponseMessages.PASSWORD_RESET_NOT_SUCCESSFUL });
             }
 
-            return BadRequest(new BaseResponseModel() { Message = ResponseMessages.GENERAL_INVALID_TOKEN });
+            return BadRequest(new BaseResponseModel() { Message = ResponseMessages.GENERAL_USER_NOT_FOUND });
         }
 
         [HttpPost]
