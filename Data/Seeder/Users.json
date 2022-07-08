@@ -2,51 +2,61 @@
   {
     "id": "B4553CAB-7997-1DE5-F7E3-90A7BC1DA167",
     "username": "sysadmin",
-    "email": "sysadmin@flashmemo.edu"
+    "email": "sysadmin@flashmemo.edu",
+    "emailConfirmed": true
   },
   {
     "id": "9FBC287A-C113-EBA3-526F-4AE7CEACBDE8",
     "username": "demantova111",
-    "email": "dapibus.ligula@hotmail.couk"
+    "email": "dapibus.ligula@hotmail.couk",
+    "emailConfirmed": true
   },
   {
     "id": "E4C3E116-C71A-7B3B-CA32-159AE97C8456",
     "username": "eck3",
-    "email": "accumsan.convallis.ante@outlook.couk"
+    "email": "accumsan.convallis.ante@outlook.couk",
+    "emailConfirmed": true
   },
   {
     "id": "9F87EEA2-25CB-13B8-13B7-CA1A69CA68B4",
     "username": "demantova",
-    "email": "lacus.mauris@aol.couk"
+    "email": "lacus.mauris@aol.couk",
+    "emailConfirmed": true
   },
   {
     "id": "62DAAEBC-F2F5-4D16-533A-AD176D7EA7B7",
     "username": "eck2333",
-    "email": "sed.dictum.eleifend@hotmail.org"
+    "email": "sed.dictum.eleifend@hotmail.org",
+    "emailConfirmed": true
   },
   {
     "id": "9CBF5FEE-EE6E-5F1D-3E53-2389AD983EA2",
     "username": "eckkkkert",
-    "email": "leo.morbi@google.org"
+    "email": "leo.morbi@google.org",
+    "emailConfirmed": true
   },
   {
     "id": "6BBD068B-B258-EB0A-2132-BEB9BAEA886E",
     "username": "vekvert",
-    "email": "viverra.donec@hotmail.com"
+    "email": "viverra.donec@hotmail.com",
+    "emailConfirmed": true
   },
   {
     "id": "0004E137-13A5-5129-AA50-5A856A2A86F7",
     "username": "bruno_demantova",
-    "email": "ligula.eu@icloud.com"
+    "email": "ligula.eu@icloud.com",
+    "emailConfirmed": true
   },
   {
     "id": "5881A9B3-912A-8F1A-C5FA-0855A0563E23",
     "username": "dema100",
-    "email": "non.dui@hotmail.org"
+    "email": "non.dui@hotmail.org",
+    "emailConfirmed": true
   },
   {
     "id": "BD696EC2-1BE1-FFB1-3FC1-883C2D247875",
     "username": "bruno79",
-    "email": "aliquam@hotmail.com"
+    "email": "aliquam@hotmail.com",
+    "emailConfirmed": true
   }
 ]

@@ -14,9 +14,10 @@ using System.Threading.Tasks;
 
 namespace Business.Services.Implementation
 {
+    #region AuthService
     public class AuthServiceOptions : IAuthServiceOptions
     {
-
+        public int LockoutPeriod { get; set; } = 31536000;
     }
     public class AuthService : IAuthService<string>
     {
@@ -43,19 +44,27 @@ namespace Business.Services.Implementation
             return null;
         }
 
-        public async Task<string> CreateUserAsync(User user, string cleanPassword)
+        /// <summary>
+        /// Creates the user in the repository and sets the encrypted password based on the clean input for it. If desired, can set the email confirmed flag to false, so the user is required to follow the registraiton procedures to activate the account.
+        /// </summary>
+        /// <param name="user"></param>
+        /// <param name="cleanPassword"></param>
+        /// <param name="emailConfirmed"></param>
+        /// <returns></returns>
+        public async Task<string> CreateUserAsync(User user, string cleanPassword, bool emailConfirmed = true)
         {
+            user.EmailConfirmed = emailConfirmed;
             var result = await _userRepository.CreateAsync(user);
             await _userRepository.SetInitialPasswordAsync(user, cleanPassword);
             return result;
         }
 
-        public async Task<bool> EmailAlreadyRegisteredAsync(string email)
+        public async Task<bool> IsEmailAlreadyRegisteredAsync(string email)
         {
             return (await _userRepository.GetByEmailAsync(email)) != null;
         }
 
-        public async Task<bool> UserExistsAsync(string id)
+        public async Task<bool> IsIdAlreadyRegisteredAsync(string id)
         {
             return (await _userRepository.GetByIdAsync(id)) != null;
         }
@@ -71,10 +80,50 @@ namespace Business.Services.Implementation
             user.LastLogin = DateTime.Now.ToUniversalTime();
             await _userRepository.UpdateAsync(user);
         }
+
+        public async Task<bool> IsUsernameAlreadyRegistered(string username)
+        {
+            return (await _userRepository.GetByUserNameAsync(username)) != null;
+        }
+
+        public bool IsUserLocked(User user)
+        {
+            return user.LockoutEnabled == true && user.LockoutEnd > DateTime.UtcNow;
+        }
+
+        public Task<string> GeneratePasswordResetTokenAsync(User user)
+        {
+            return _userRepository.GeneratePasswordResetToken(user);
+        }
+
+        public async Task<bool> ValidatePasswordResetButton(User user, string token)
+        {
+            return await _userRepository.ValidatePasswordResetToken(user, token);
+        }
+
+        public Task<bool> ResetPasswordAsync(User user, string resetToken, string newPassword)
+        {
+            return _userRepository.UpdatePasswordAsync(user, resetToken, newPassword);
+        }
+    }
+    #endregion
+
+    #region JWTService
+    public class JWTServiceOptions : IJWTServiceOptions
+    {
+        public string ValidIssuer { get; set; }
+        public string ValidAudience { get; set; }
+        public int AccessTokenTTE { get; set; }
+        public int RefreshTokenTTE { get; set; }
+        public int ActivationTokenTTE { get; set; }
+        public string Secret { get; set; }
     }
 
     public class JWTService : IJWTService
     {
+        public readonly string REASON_ACTIVATION = "activation";
+        public readonly string REASON_PASSWORD = "password";
+
         private readonly IJWTServiceOptions _options;
 
         public JWTService(IOptions<JWTServiceOptions> options)
@@ -146,6 +195,27 @@ namespace Business.Services.Implementation
             ));
         }
 
+        public string CreateActivationToken(User user)
+        {
+            var claims = new List<Claim>
+            {
+                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+                new Claim(JwtRegisteredClaimNames.Sub, user.Id),
+                new Claim("reason", REASON_ACTIVATION),
+            };
+
+            var signingKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_options.Secret));
+
+            return new JwtSecurityTokenHandler().WriteToken(new JwtSecurityToken(
+                issuer: _options.ValidIssuer,
+                audience: _options.ValidAudience,
+                expires: DateTime.Now.AddSeconds(Convert.ToDouble(_options.ActivationTokenTTE)),
+                //expires: DateTime.Now.AddSeconds(1),
+                claims: claims,
+                signingCredentials: new SigningCredentials(signingKey, SecurityAlgorithms.HmacSha256)
+            ));
+        }
+
         public async Task<TokenValidationResult> ValidateTokenAsync(string token)
         {
             var handler = new JwtSecurityTokenHandler();
@@ -187,4 +257,5 @@ namespace Business.Services.Implementation
                 true : false;
         }
     }
+    #endregion
 }

@@ -6,15 +6,10 @@ using Business.Tools.Validations;
 using Data.Models.DTOs;
 using Data.Models.Implementation;
 using Data.Repository.Implementation;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Options;
-using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;
-using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
-using System.Security.Claims;
-using System.Text;
 using System.Threading.Tasks;
 using static Data.Models.Implementation.StaticModels;
 
@@ -22,7 +17,6 @@ namespace Business.Services.Implementation
 {
     public class RoleService : GenericRepositoryService<RoleRepository, string, Role>
     {
-
         public RoleService(RoleRepository roleRepository, IOptions<GenericRepositoryServiceOptions> serviceOptions) : base(roleRepository, serviceOptions.Value) { }
 
         public override ValidatonResult CheckIfEntityIsValid(Role entity)
@@ -77,6 +71,16 @@ namespace Business.Services.Implementation
         {
             await _baseRepository.SetInitialPasswordAsync(user, password);
         }
+
+        public async Task<User> GetByEmailAsync(string email)
+        {
+            return await _baseRepository.GetByEmailAsync(email);
+        }
+
+        public async Task<User> GetByUserNameAsync(string username)
+        {
+            return await _baseRepository.GetByUserNameAsync(username);
+        }
     }
 
     public class DeckService : GenericRepositoryService<DeckRepository, Guid, Deck>
@@ -101,7 +105,7 @@ namespace Business.Services.Implementation
             }
 
             if (!_languageService.LanguageExists(entity.LanguageISOCode ?? null)) errors.Add(ServiceValidationMessages.InvalidLanguageCode);
-            if (!_authService.UserExistsAsync(entity.OwnerId ?? null).Result) errors.Add(ServiceValidationMessages.InvalidUserId);
+            if (!_authService.IsIdAlreadyRegisteredAsync(entity.OwnerId ?? null).Result) errors.Add(ServiceValidationMessages.InvalidUserId);
 
             return new ValidatonResult() { IsValid = errors.Count == 0, Errors = errors };
         }
@@ -152,7 +156,7 @@ namespace Business.Services.Implementation
         {
             List<string> errors = new();
 
-            if (!_authService.UserExistsAsync(entity.OwnerId).Result) errors.Add(ErrorMessages.InvalidOwner);
+            if (!_authService.IsIdAlreadyRegisteredAsync(entity.OwnerId).Result) errors.Add(ErrorMessages.InvalidOwner);
 
             return new ValidatonResult
             {
@@ -160,15 +164,6 @@ namespace Business.Services.Implementation
                 Errors = errors
             };
         }
-    }
-
-    public class JWTServiceOptions : IJWTServiceOptions
-    {
-        public string ValidIssuer { get; set; }
-        public string ValidAudience { get; set; }
-        public double AccessTokenTTE { get; set; }
-        public double RefreshTokenTTE { get; set; }
-        public string Secret { get; set; }
     }
 
     #region Language Service

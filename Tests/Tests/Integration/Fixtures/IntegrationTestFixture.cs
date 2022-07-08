@@ -22,6 +22,7 @@ namespace Tests.Integration.Fixtures
                     Console.WriteLine(System.IO.Directory.GetCurrentDirectory());
                     webHost.UseStartup<TestStartup>().UseConfiguration(new ConfigurationBuilder()
                         .AddJsonFile("apisettings.json", optional: true)
+                        .AddJsonFile("appsettings.json", optional: true)
                         //.AddJsonFile("dbsettings.json", optional: true)
                         .Build());
                 });

@@ -116,6 +116,8 @@ namespace Tests.Integration.Fixtures
                 .AddEntityFrameworkStores<FlashMEMOContext>()
                 .AddRoles<Role>()
                 .AddDefaultTokenProviders();
+            // Configure password reset tokens
+            services.Configure<DataProtectionTokenProviderOptions>(opt => opt.TokenLifespan = TimeSpan.FromSeconds(Double.Parse(Configuration["IdentitySecurity:PasswordTokenTTE"])));
 
             // auth config
             services.AddAuthentication(options =>
@@ -163,6 +165,8 @@ namespace Tests.Integration.Fixtures
             services.Configure<OxfordDictionaryAPIRequestHandler>(Configuration.GetSection("OxfordDictionaryAPI"));
             services.Configure<LexicalaDictionaryAPIRequestHandler>(Configuration.GetSection("LexicalaDictionaryAPI"));
             services.Configure<FlashMEMOContextOptions>(Configuration.GetSection("FlashMEMOContextOptions"));
+            services.Configure<MailServiceOptions>(Configuration.GetSection("MailService"));
+
 
             // custom services
             services.AddScoped<IJWTService, JWTService>();
@@ -173,6 +177,9 @@ namespace Tests.Integration.Fixtures
             services.AddScoped<LanguageService>();
             services.AddScoped<FlashcardService>();
             services.AddScoped<UserService>();
+            // Email
+            services.AddScoped<ISMTPProvider, MockSMTPProvider>(); // I'm using this to not burn up the API quotas
+            services.AddScoped<IEmailService, MailJetEmailService>();
 
             services.AddScoped<UserRepository>();
             services.AddScoped<RoleRepository>();

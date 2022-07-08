@@ -29,7 +29,6 @@ using FluentValidation;
 using Data.Models.DTOs;
 using System.Collections.Generic;
 using System.Security.Claims;
-using Microsoft.IdentityModel.Logging;
 
 namespace API
 {
@@ -56,10 +55,11 @@ namespace API
             }); // try to remove any CORS problems (k8s deployment)
 
             // implementation to show enums as string taken from here: https://stackoverflow.com/questions/2441290/javascriptserializer-json-serialization-of-enum-as-string. Originally used the system JSON serializer, later changed to Newtonsoft to avoid too much dependency mingling...
-            services.AddControllers().AddNewtonsoftJson(o => {
+            services.AddControllers().AddNewtonsoftJson(o =>
+            {
                 o.SerializerSettings.Converters.Add(new StringEnumConverter());
                 o.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
-                });
+            });
             services.AddSwaggerGenNewtonsoftSupport();
 
             services.AddSwaggerGen(c =>
@@ -107,7 +107,7 @@ namespace API
                 {
                     options.InvalidModelStateResponseFactory = actionContext =>
                     {
-                        return new BadRequestObjectResult(new BaseResponseModel { Message = "Validation errors have ocurred when processing the request", Errors = actionContext.ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage) });
+                        return new BadRequestObjectResult(new BaseResponseModel { Message = "Validation errors have ocurred when processing the request.", Errors = actionContext.ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage) });
                     };
                 });
 
@@ -116,9 +116,11 @@ namespace API
             {
                 opt.User.RequireUniqueEmail = true;
             })
-                .AddEntityFrameworkStores<FlashMEMOContext>()
-                .AddRoles<Role>()
-                .AddDefaultTokenProviders();
+            .AddEntityFrameworkStores<FlashMEMOContext>()
+            .AddRoles<Role>()
+            .AddDefaultTokenProviders();
+            // Configure password reset tokens
+            services.Configure<DataProtectionTokenProviderOptions>(opt => opt.TokenLifespan = TimeSpan.FromSeconds(Double.Parse(Configuration["IdentitySecurity:PasswordTokenTTE"])));
 
             // auth config
             services.AddAuthorization(options =>
@@ -165,15 +167,18 @@ namespace API
             services.Configure<LexicalaDictionaryAPIRequestHandler>(Configuration.GetSection("LexicalaDictionaryAPI"));
             services.Configure<GenericRepositoryServiceOptions>(Configuration.GetSection("BaseRepositoryServiceOptions"));
             services.Configure<FlashMEMOContextOptions>(Configuration.GetSection("FlashMEMOContextOptions"));
+            services.Configure<MailJetOptions>(Configuration.GetSection("MailJet"));
+            services.Configure<MailServiceOptions>(Configuration.GetSection("MailService"));
             // Custom Services
-            services.AddScoped<IJWTService, JWTService>();
-            services.AddScoped<IAuthService<string>, AuthService>();
             services.AddScoped<NewsService>();
             services.AddScoped<DeckService>();
             services.AddScoped<FlashcardService>();
             services.AddScoped<LanguageService>();
             services.AddScoped<UserService>();
             services.AddScoped<RoleService>();
+            // Auth
+            services.AddScoped<IJWTService, JWTService>();
+            services.AddScoped<IAuthService<string>, AuthService>();
             // Image API
             services.AddScoped<CustomSearchAPIService>();
             // Dictionary API
@@ -181,6 +186,9 @@ namespace API
             services.AddScoped<IDictionaryAPIService<OxfordAPIResponseModel>, DictionaryAPIService<OxfordAPIResponseModel>>();
             // Audio API
             services.AddScoped<IAudioAPIService, AudioAPIService>();
+            // Email
+            services.AddScoped<ISMTPProvider, MailJetSMTPProvider>();
+            services.AddScoped<IEmailService, MailJetEmailService>();
             // Repositories (are used in Controllers, for instance)
             services.AddScoped<UserRepository>();
             services.AddScoped<RoleRepository>();
@@ -207,7 +215,7 @@ namespace API
             }
 
             app.UseHttpLogging(); // use HTTP logging from .NET 6.0 (debug k8s deployment)
-             
+
             app.UseCors("AllowConfiguredOrigins");  // try to remove any CORS problems (k8s deployment)
 
             //app.UseHttpsRedirection(); // removing for temporary testing

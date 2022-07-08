@@ -57,14 +57,16 @@ namespace Business.Services.Interfaces
     {
         string ValidIssuer { get; set; }
         string ValidAudience { get; set; }
-        double AccessTokenTTE { get; set; }
-        double RefreshTokenTTE { get; set; }
+        int AccessTokenTTE { get; set; }
+        int RefreshTokenTTE { get; set; }
+        int ActivationTokenTTE { get; set; }
         string Secret { get; set; }
     }
     public interface IJWTService
     {
         public string CreateAccessToken(User user);
         public string CreateRefreshToken(string accessToken, User user);
+        public string CreateActivationToken(User user);
         public Task<bool> IsTokenExpired(string token);
         public JwtSecurityToken DecodeToken(string token);
         public Task<TokenValidationResult> ValidateTokenAsync(string token);
@@ -104,12 +106,15 @@ namespace Business.Services.Interfaces
     #region AUTH
     public interface IAuthServiceOptions
     {
+        public int LockoutPeriod { get; set; }
     }
+
     public interface IAuthService<TKey>
     {
-        public Task<bool> EmailAlreadyRegisteredAsync(string email);
-        public Task<bool> UserExistsAsync(TKey id);
-        public Task<TKey> CreateUserAsync(User user, string cleanPassword);
+        public Task<bool> IsEmailAlreadyRegisteredAsync(string email);
+        public Task<bool> IsIdAlreadyRegisteredAsync(TKey id);
+        public Task<bool> IsUsernameAlreadyRegistered(string username);
+        public Task<TKey> CreateUserAsync(User user, string cleanPassword, bool emailConfirmed);
         /// <summary>
         /// Checks is the provided credentials are valid, returning the user object is so. Otherwise, returns null.
         /// </summary>
@@ -121,6 +126,11 @@ namespace Business.Services.Interfaces
         /// </summary>
         /// <param name="user"></param>
         public Task UpdateLastLoginAsync(User user);
+        public bool IsUserLocked(User user);
+
+        public Task<string> GeneratePasswordResetTokenAsync(User user);
+        public Task<bool> ValidatePasswordResetButton(User user, string token);
+        public Task<bool> ResetPasswordAsync(User user, string resetToken, string newPassword);
     }
     #endregion
 
@@ -185,6 +195,13 @@ namespace Business.Services.Interfaces
     {
         bool LanguageExists(string languageCode);
     }
+    #endregion
 
+    #region EmailService
+    public interface IEmailService
+    {
+        Task SendRegistrationAsync(User user, string token);
+        Task SendPasswordRecoveryAsync(User user, string token);
+    }
     #endregion
 }
