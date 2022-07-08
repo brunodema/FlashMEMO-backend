@@ -6,6 +6,7 @@ using Microsoft.Extensions.Options;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Threading.Tasks;
+using System.Web;
 
 namespace Business.Services.Implementation
 {
@@ -95,10 +96,12 @@ namespace Business.Services.Implementation
         public async virtual Task SendPasswordRecoveryAsync(User user, string token)
         {
             var subject = "Click here to reset your password";
-            var body = @$"Hello {user.Name} {user.Surname},
-                        As requested, please click on the following link to reset your password: {_options.PasswordResetURL}?token={token}.
-                        Kind regards,
-                        the FlashMEMO team ☺";
+            var body = @$"Hello {user.Name} {user.Surname} ({user.UserName}),
+
+As requested, please click on the following link to reset your password: {_options.PasswordResetURL}?token={HttpUtility.UrlEncode(token)}.
+
+Kind regards,
+The FlashMEMO team ☺";
 
             await _provider.SendEmailAsync(user.NormalizedEmail, $"{ user.Name} { user.Surname}", subject, body);
         }
@@ -106,12 +109,16 @@ namespace Business.Services.Implementation
         public async Task SendRegistrationAsync(User user, string token)
         {
             var subject = "Just one more step: please confirm your email";
-            var body = @$"Hello {user.Name} {user.Surname},
-                        Thank you for registering on our website.
-                        Please click on the following link to activate your account: {_options.AccountActivationURL}?token={token}
-                        We look forward to having you on FlashMEMO, and we hope we can aid you in your learning endeavours.
-                        See you very soon,
-                        the FlashMEMO team ☺";
+            var body = @$"Hello {user.Name} {user.Surname} ({user.UserName}),
+
+Thank you for registering on our website.
+
+Please click on the following link to activate your account: {_options.AccountActivationURL}?token={token}.
+
+We look forward to having you on FlashMEMO, and we hope we can aid you in your learning endeavours.
+
+See you very soon,
+The FlashMEMO team ☺";
 
             await _provider.SendEmailAsync(user.NormalizedEmail, $"{ user.Name} { user.Surname}", subject, body);
         }

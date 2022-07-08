@@ -392,7 +392,7 @@ namespace Tests.Tests.Integration.Implementation
             // Assert
             activationResponse.StatusCode.Should().Be(System.Net.HttpStatusCode.BadRequest);
             var parsedActivationResponse = await activationResponse.Content.ReadFromJsonAsync<BaseResponseModel>();
-            parsedActivationResponse.Message.Should().Be(AuthController.ResponseMessages.EMAIL_ACCOUNT_ACTIVATION_FAILED);
+            parsedActivationResponse.Message.Should().Be(AuthController.ResponseMessages.EMAIL_TOKEN_IS_NOT_VALID);
         }
 
         [Fact]
@@ -415,7 +415,7 @@ namespace Tests.Tests.Integration.Implementation
             // Assert
             activationResponse.StatusCode.Should().Be(System.Net.HttpStatusCode.BadRequest);
             var parsedActivationResponse = await activationResponse.Content.ReadFromJsonAsync<BaseResponseModel>();
-            parsedActivationResponse.Message.Should().Be(AuthController.ResponseMessages.EMAIL_ACCOUNT_ACTIVATION_FAILED);
+            parsedActivationResponse.Message.Should().Be(AuthController.ResponseMessages.EMAIL_TOKEN_IS_NOT_VALID);
         }
 
         [Fact]

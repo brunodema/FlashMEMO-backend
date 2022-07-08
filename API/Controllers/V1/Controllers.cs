@@ -449,7 +449,7 @@ namespace API.Controllers
             // Email confirmation
             public static readonly string EMAIL_ACCOUNT_IS_ALREADY_ACTIVATED = "The account has already been activated.";
             public static readonly string EMAIL_ACCOUNT_ACTIVATION_SUCCESSFUL = "The account was successfully activated.";
-            public static readonly string EMAIL_ACCOUNT_ACTIVATION_FAILED = "The activation process has failed.";
+            public static readonly string EMAIL_TOKEN_IS_NOT_VALID = "The token provided is not valid.";
 
             // Password recovery
             public static readonly string PASSWORD_REQUEST_USER_IS_NOT_UNLOCKED = "The user is not locked. This could mean he/she did not request password recovery.";
@@ -562,7 +562,7 @@ namespace API.Controllers
                 }
             }
 
-            return BadRequest(new BaseResponseModel() { Message = ResponseMessages.EMAIL_ACCOUNT_ACTIVATION_FAILED });
+            return BadRequest(new BaseResponseModel() { Message = ResponseMessages.EMAIL_TOKEN_IS_NOT_VALID });
         }
 
         [HttpPost]

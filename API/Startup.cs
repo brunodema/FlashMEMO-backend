@@ -107,7 +107,7 @@ namespace API
                 {
                     options.InvalidModelStateResponseFactory = actionContext =>
                     {
-                        return new BadRequestObjectResult(new BaseResponseModel { Message = "Validation errors have ocurred when processing the request", Errors = actionContext.ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage) });
+                        return new BadRequestObjectResult(new BaseResponseModel { Message = "Validation errors have ocurred when processing the request.", Errors = actionContext.ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage) });
                     };
                 });
 
