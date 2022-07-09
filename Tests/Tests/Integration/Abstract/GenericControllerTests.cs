@@ -49,7 +49,7 @@ namespace Tests.Tests.Integration.Abstract
             _listEndpoint = $"{_baseEndpoint}/list";
             _searchEndpoint = $"{_baseEndpoint}/search";
 
-            new ControllerTestingAuthTokenInjector(_fixture).AddAuthHeadersToClient();
+            new ControllerTestingAuthTokenInjector(_fixture).SetupDummyJWTBearerAuthentication();
         }
 
         /// <summary>

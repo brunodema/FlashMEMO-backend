@@ -17,7 +17,7 @@ namespace Tests.Integration.Auxiliary
     /// </summary>
     public interface IControllerTestingAuthTokenInjector
     {
-        void AddAuthHeadersToClient();
+        void SetupDummyJWTBearerAuthentication();
     }
 
     public class ControllerTestingAuthTokenInjector : IControllerTestingAuthTokenInjector
@@ -40,7 +40,7 @@ namespace Tests.Integration.Auxiliary
         /// <summary>
         /// Creates a dummy user with the goal of using it to retrieve a valid access token, so the HttpClient is authorized to use the protected endpoints of FlashMEMO.
         /// </summary>
-        public void AddAuthHeadersToClient()
+        public void SetupDummyJWTBearerAuthentication()
         {
             using (var scope = _fixture.Host.Services.CreateScope())
             {
