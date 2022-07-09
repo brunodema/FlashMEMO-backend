@@ -40,32 +40,18 @@ namespace Tests.Tests.Integration.Abstract
         protected string _searchEndpoint;
 
         /// <summary>
-        /// Directly adds an object to the DB, bypassing the Repository class and/or any other interfaces (services, controllers, etc).
-        /// </summary>
-        /// <param name="entity">Object to be added into the DB.</param>
-        /// <returns>The Id of the newly created object, which is teh current return value of the associated functions in the Repository classes.</returns>
-        private TKey AddToContext(T entity)
-        {
-            using (var scope = _fixture.Host.Services.CreateScope())
-            {
-                var dbContext = scope.ServiceProvider.GetService<FlashMEMOContext>();
-                var id = dbContext.Add(entity).Entity.DbId;
-                dbContext.SaveChanges();
-                return id;
-            }
-        }
-
-        /// <summary>
         /// This disgusting implementation is required because (1) no 'AddOrUpdate' method exists in the EF Core stuff anymore (despite claims of it on the internet), and because (2) the 'Update' method doesn't actually add instead of updating when providing a non-existent object (it should, though) 
         /// </summary>
         /// <param name="entity"></param>
-        protected void AddIfNecessary<Type, Key>(Type entity) where Type : class, IDatabaseItem<Key>
+        protected Key AddIfNecessary<Type, Key>(Type entity) where Type : class, IDatabaseItem<Key>
         {
             using (var scope = _fixture.Host.Services.CreateScope())
             {
                 var dbContext = scope.ServiceProvider.GetService<FlashMEMOContext>();
                 if (dbContext.Find<Type>(entity.DbId) == null) dbContext.Add(entity);
                 dbContext.SaveChanges();
+
+                return entity.DbId;
             }
         }
 
@@ -148,7 +134,7 @@ namespace Tests.Tests.Integration.Abstract
             // Arrange
             var entity = new T();
             dto.PassValuesToEntity(entity);
-            var id = AddToContext(entity);
+            var id = AddIfNecessary<T, TKey>(entity);
 
             // Act
             var response = await _client.GetAsync($"{_baseEndpoint}/{id}");
@@ -167,7 +153,7 @@ namespace Tests.Tests.Integration.Abstract
             // Arrange
             var entity = new T();
             dto.PassValuesToEntity(entity);
-            var id = AddToContext(entity);
+            var id = AddIfNecessary<T, TKey>(entity);
 
             // Act
             var response = await _client.PostAsync($"{_deleteEndpoint}", JsonContent.Create(id));
@@ -184,7 +170,7 @@ namespace Tests.Tests.Integration.Abstract
             // Arrange
             var entity = new T();
             dto.PassValuesToEntity(entity);
-            var id = AddToContext(entity);
+            var id = AddIfNecessary<T, TKey>(entity);
 
             // Act
             var response = await _client.PutAsync($"{_baseEndpoint}/{id}", JsonContent.Create(updatedDTO));
@@ -208,7 +194,7 @@ namespace Tests.Tests.Integration.Abstract
             {
                 entityList.Add(new T());
                 dtoList[i].PassValuesToEntity(entityList[i]);
-                entityList[i].DbId = AddToContext(entityList[i]);
+                entityList[i].DbId = AddIfNecessary<T, TKey>(entityList[i]);
             }
             var retrievedEntities = new List<T>();
 
@@ -248,7 +234,7 @@ namespace Tests.Tests.Integration.Abstract
             {
                 entityList.Add(new T());
                 dtoList[i].PassValuesToEntity(entityList[i]);
-                entityList[i].DbId = AddToContext(entityList[i]);
+                entityList[i].DbId = AddIfNecessary<T, TKey>(entityList[i]);
             }
             var processedEntities = entityList.Where(x => expectedFiltering.predicate.Compile()(x)).ToList();
             if (expectedFiltering.sortType == Data.Tools.Sorting.SortType.Ascending) processedEntities = entityList.OrderBy(expectedFiltering.sortPredicate.Compile()).ToList();
@@ -292,7 +278,7 @@ namespace Tests.Tests.Integration.Abstract
         {
             // Arrange
             var dummyEntity = new T();
-            var id = AddToContext(dummyEntity);
+            var id = AddIfNecessary<T, TKey>(dummyEntity);
 
             // Act
             var createResponse = await _client.PostAsync($"{_createEndpoint}", JsonContent.Create(dto));
