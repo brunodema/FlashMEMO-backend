@@ -34,13 +34,14 @@ namespace Tests.Tests.Integration.Implementation
             {
                 var dbContext = scope.ServiceProvider.GetService<FlashMEMOContext>();
 
-                // this disgusting implementation is required because (1) no 'AddOrUpdate' method exists in the EF Core stuff anymore (despite claims of it on the internet), and because (2) the 'Update' method doesn't actually add instead of updating when providing a non-existent object (it should, though) 
                 foreach (var item in new List<User>() { TestUser1, TestUser2, TestUser3 })
                 {
                     AddIfNecessary<User, string>(item);
                 }
 
                 dbContext.SaveChanges();
+
+                new ControllerTestingAuthTokenInjector(_fixture).SetupDummyJWTBearerAuthentication();
             }
         }
 
@@ -202,7 +203,6 @@ namespace Tests.Tests.Integration.Implementation
             {
                 var dbContext = scope.ServiceProvider.GetService<FlashMEMOContext>();
 
-                // this disgusting implementation is required because (1) no 'AddOrUpdate' method exists in the EF Core stuff anymore (despite claims of it on the internet), and because (2) the 'Update' method doesn't actually add instead of updating when providing a non-existent object (it should, though) 
                 foreach (var item in new List<Language>() { TestLanguage1, TestLanguage2, TestLanguage3 })
                 {
                     AddIfNecessary<Language, string>(item);
@@ -213,6 +213,8 @@ namespace Tests.Tests.Integration.Implementation
                 }
 
                 dbContext.SaveChanges();
+
+                new ControllerTestingAuthTokenInjector(_fixture).SetupDummyJWTBearerAuthentication();
             }
         }
 
@@ -371,7 +373,6 @@ namespace Tests.Tests.Integration.Implementation
             {
                 var dbContext = scope.ServiceProvider.GetService<FlashMEMOContext>();
 
-                // this disgusting implementation is required because (1) no 'AddOrUpdate' method exists in the EF Core stuff anymore (despite claims of it on the internet), and because (2) the 'Update' method doesn't actually add instead of updating when providing a non-existent object (it should, though) 
                 foreach (var item in new List<Language>() { TestLanguage1, TestLanguage2, TestLanguage3 })
                 {
                     AddIfNecessary<Language, string>(item);
@@ -386,6 +387,8 @@ namespace Tests.Tests.Integration.Implementation
                 }
 
                 dbContext.SaveChanges();
+
+                new ControllerTestingAuthTokenInjector(_fixture).SetupDummyJWTBearerAuthentication();
             }
         }
 

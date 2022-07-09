@@ -30,29 +30,7 @@ namespace Tests.Integration.Auxiliary.API
             _integrationTestFixture = integrationTestFixture;
             _output = output;
 
-            AddAuthHeadersToClient();
-        }
-
-        /// <summary>
-        /// Creates a dummy user with the goal of using it to retrieve a valid access token, so the HttpClient is authorized to use the protected endpoints of FlashMEMO. Pretty much the entire implementation here was taken from the GenericControllerTest classes.
-        /// </summary>
-        protected void AddAuthHeadersToClient()
-        {
-            // Adds a dummy user so an access token can be returned for it (controller endpoints might require it)
-            var dummyAuthenticatedUser = new User() { Email = "loggeduser@email.com", NormalizedEmail = "loggeduser@email.com", UserName = "loggeduser", NormalizedUserName = "loggeduser" };
-
-            using (var scope = _integrationTestFixture.Host.Services.CreateScope())
-            {
-                var dbContext = scope.ServiceProvider.GetService<FlashMEMOContext>();
-                if (dbContext.Find<User>(dummyAuthenticatedUser.Id) == null) dbContext.Add(dummyAuthenticatedUser);
-                dbContext.SaveChanges();
-            }
-
-            // Declares a dummy JWTService and creates a token using it
-            //var jwtService =fixture.Host.Services.GetService<JWTService>();
-            var jwtService = new JWTService(_integrationTestFixture.Host.Services.GetService<IOptions<JWTServiceOptions>>()); // For some fucking reason, I can't simply retrieve the JWTService from the fixture...
-            var accessToken = jwtService.CreateAccessToken(dummyAuthenticatedUser);
-            _integrationTestFixture.HttpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("bearer", accessToken);
+            new ControllerTestingAuthTokenInjector(_integrationTestFixture).SetupDummyJWTBearerAuthentication();
         }
 
         public static IEnumerable<object[]> MakesSuccessfulRequestData =>
@@ -156,29 +134,7 @@ namespace Tests.Integration.Auxiliary.API
             _integrationTestFixture = integrationTestFixture;
             _output = output;
 
-            AddAuthHeadersToClient();
-        }
-
-        /// <summary>
-        /// Creates a dummy user with the goal of using it to retrieve a valid access token, so the HttpClient is authorized to use the protected endpoints of FlashMEMO. Pretty much the entire implementation here was taken from the GenericControllerTest classes.
-        /// </summary>
-        protected void AddAuthHeadersToClient()
-        {
-            // Adds a dummy user so an access token can be returned for it (controller endpoints might require it)
-            var dummyAuthenticatedUser = new User() { Email = "loggeduser@email.com", NormalizedEmail = "loggeduser@email.com", UserName = "loggeduser", NormalizedUserName = "loggeduser" };
-
-            using (var scope = _integrationTestFixture.Host.Services.CreateScope())
-            {
-                var dbContext = scope.ServiceProvider.GetService<FlashMEMOContext>();
-                if (dbContext.Find<User>(dummyAuthenticatedUser.Id) == null) dbContext.Add(dummyAuthenticatedUser);
-                dbContext.SaveChanges();
-            }
-
-            // Declares a dummy JWTService and creates a token using it
-            //var jwtService =fixture.Host.Services.GetService<JWTService>();
-            var jwtService = new JWTService(_integrationTestFixture.Host.Services.GetService<IOptions<JWTServiceOptions>>()); // For some fucking reason, I can't simply retrieve the JWTService from the fixture...
-            var accessToken = jwtService.CreateAccessToken(dummyAuthenticatedUser);
-            _integrationTestFixture.HttpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("bearer", accessToken);
+            new ControllerTestingAuthTokenInjector(_integrationTestFixture).SetupDummyJWTBearerAuthentication();
         }
 
         public static IEnumerable<object[]> MakesSuccessfulRequestData =>

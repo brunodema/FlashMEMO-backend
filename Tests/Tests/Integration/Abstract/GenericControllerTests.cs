@@ -48,8 +48,6 @@ namespace Tests.Tests.Integration.Abstract
             _deleteEndpoint = $"{_baseEndpoint}/delete";
             _listEndpoint = $"{_baseEndpoint}/list";
             _searchEndpoint = $"{_baseEndpoint}/search";
-
-            new ControllerTestingAuthTokenInjector(_fixture).SetupDummyJWTBearerAuthentication();
         }
 
         /// <summary>
