@@ -15,7 +15,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using System.Net.Http.Headers;
 
-namespace Tests.Integration.Implementation.API
+namespace Tests.Integration.Auxiliary.API
 {
     #region Dictionary API
     public class DictionaryAPITests : IClassFixture<IntegrationTestFixture>

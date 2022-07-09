@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Tests.Integration.Auxiliary;
 using Tests.Integration.Fixtures;
 using Tests.Tests.Integration.Abstract;
 using Xunit;

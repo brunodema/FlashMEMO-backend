@@ -19,6 +19,7 @@ using System.Net.Http.Headers;
 using Business.Services.Implementation;
 using Microsoft.Extensions.Options;
 using Data.Models.Implementation;
+using Tests.Integration.Auxiliary;
 
 namespace Tests.Tests.Integration.Abstract
 {
@@ -30,26 +31,13 @@ namespace Tests.Tests.Integration.Abstract
         protected HttpClient _client;
         protected ITestOutputHelper _output;
         protected JsonSerializerSettings _serializerSettings = new JsonSerializerSettings() { ReferenceLoopHandling = ReferenceLoopHandling.Ignore, Formatting = Formatting.Indented };
+        protected IControllerTestingAuthTokenInjector _tokenInjector;
 
         protected string _baseEndpoint = $"/api/v1/{typeof(T).Name}";
         protected string _createEndpoint;
         protected string _deleteEndpoint;
         protected string _listEndpoint;
         protected string _searchEndpoint;
-
-        /// <summary>
-        /// This disgusting implementation is required because (1) no 'AddOrUpdate' method exists in the EF Core stuff anymore (despite claims of it on the internet), and because (2) the 'Update' method doesn't actually add instead of updating when providing a non-existent object (it should, though) 
-        /// </summary>
-        /// <param name="entity"></param>
-        protected void AddIfNecessary<Type, Key>(Type entity) where Type : class, IDatabaseItem<Key>
-        {
-            using (var scope = _fixture.Host.Services.CreateScope())
-            {
-                var dbContext = scope.ServiceProvider.GetService<FlashMEMOContext>();
-                if (dbContext.Find<Type>(entity.DbId) == null) dbContext.Add(entity);
-                dbContext.SaveChanges();
-            }
-        }
 
         /// <summary>
         /// Directly adds an object to the DB, bypassing the Repository class and/or any other interfaces (services, controllers, etc).
@@ -64,6 +52,20 @@ namespace Tests.Tests.Integration.Abstract
                 var id = dbContext.Add(entity).Entity.DbId;
                 dbContext.SaveChanges();
                 return id;
+            }
+        }
+
+        /// <summary>
+        /// This disgusting implementation is required because (1) no 'AddOrUpdate' method exists in the EF Core stuff anymore (despite claims of it on the internet), and because (2) the 'Update' method doesn't actually add instead of updating when providing a non-existent object (it should, though) 
+        /// </summary>
+        /// <param name="entity"></param>
+        protected void AddIfNecessary<Type, Key>(Type entity) where Type : class, IDatabaseItem<Key>
+        {
+            using (var scope = _fixture.Host.Services.CreateScope())
+            {
+                var dbContext = scope.ServiceProvider.GetService<FlashMEMOContext>();
+                if (dbContext.Find<Type>(entity.DbId) == null) dbContext.Add(entity);
+                dbContext.SaveChanges();
             }
         }
 
@@ -105,21 +107,14 @@ namespace Tests.Tests.Integration.Abstract
             _fixture = fixture;
             _client = fixture.HttpClient;
             _output = output;
+            _tokenInjector = fixture.Host.Services.GetService<IControllerTestingAuthTokenInjector>();
 
             _createEndpoint = $"{_baseEndpoint}/create";
             _deleteEndpoint = $"{_baseEndpoint}/delete";
             _listEndpoint = $"{_baseEndpoint}/list";
             _searchEndpoint = $"{_baseEndpoint}/search";
 
-            // Adds a dummy user so an access token can be returned for it (controller endpoints might require it)
-            var dummyAuthenticatedUser = new User() { Email = "loggeduser@email.com", NormalizedEmail = "loggeduser@email.com", UserName = "loggeduser", NormalizedUserName = "loggeduser" };
-            AddIfNecessary<User, string>(dummyAuthenticatedUser);
-
-            // Declares a dummy JWTService and creates a token using it
-            //var jwtService =fixture.Host.Services.GetService<JWTService>();
-            var jwtService = new JWTService(fixture.Host.Services.GetService<IOptions<JWTServiceOptions>>()); // For some fucking reason, I can't simply retrieve the JWTService from the fixture...
-            var accessToken = jwtService.CreateAccessToken(dummyAuthenticatedUser);
-            _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("bearer", accessToken);
+            _tokenInjector.AddAuthHeadersToClient(_fixture);
 
             //using (var scope = _fixture.Host.Services.CreateScope())
             //{

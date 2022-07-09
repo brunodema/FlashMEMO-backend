@@ -9,7 +9,6 @@ using Data.Context;
 using Data.Models.DTOs;
 using Data.Models.Implementation;
 using Data.Repository.Implementation;
-using Data.Seeder;
 using FluentValidation;
 using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -25,6 +24,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
+using Tests.Integration.Auxiliary;
 
 namespace Tests.Integration.Fixtures
 {
@@ -151,6 +151,8 @@ namespace Tests.Integration.Fixtures
                 DefaultUserPassword = InternalConfigs.DefaultPassword
             }));
 
+            services.AddHttpClient();
+
             // options configuration
             services.Configure<JWTServiceOptions>(config =>
             {
@@ -168,7 +170,7 @@ namespace Tests.Integration.Fixtures
             services.Configure<MailServiceOptions>(Configuration.GetSection("MailService"));
 
 
-            // custom services
+            // Custom services
             services.AddScoped<IJWTService, JWTService>();
             services.AddScoped<IAuthService<string>, AuthService>();
             services.AddScoped<NewsService>();
@@ -180,7 +182,7 @@ namespace Tests.Integration.Fixtures
             // Email
             services.AddScoped<ISMTPProvider, MockSMTPProvider>(); // I'm using this to not burn up the API quotas
             services.AddScoped<IEmailService, MailJetEmailService>();
-
+            // Repositories
             services.AddScoped<UserRepository>();
             services.AddScoped<RoleRepository>();
             services.AddScoped<NewsRepository>();
@@ -191,6 +193,9 @@ namespace Tests.Integration.Fixtures
             // Validators
             services.AddTransient<IValidator<FlashcardDTO>, FlashcardDTOValidator>();
             services.AddTransient<IValidator<NewsDTO>, NewsDTOValidator>();
+
+            // Testing resources
+            services.AddSingleton<IControllerTestingAuthTokenInjector, ControllerTestingAuthTokenInjector>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
