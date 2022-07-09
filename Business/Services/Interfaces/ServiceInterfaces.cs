@@ -175,6 +175,7 @@ namespace Business.Services.Interfaces
         /// </summary>
         string ProcessingTime { get; set; }
     }
+
     /// <summary>
     /// Interface holding the main functionalities of an Audio API service. This interface is assumed to be used for providers restricted to pronunciation resources, as many dictionary ones also provide pronunciation with their results, when applicable. In this case, the controllers will be responsible for routing the calls to the appropriate internal services (ex: search dictionary entry using Oxford API, but filter only audio link result).
     /// </summary>
@@ -186,7 +187,7 @@ namespace Business.Services.Interfaces
         /// <param name="keyword">Target word for pronunciation search.</param>
         /// <param name="languageCode">Language code to be used for the search. In theory can allow searches as: pronunciation of 'hello' in spanish.</param>
         /// <returns>List of links with pronunciation audios.</returns>
-        Task<ILexicalAPIDTO<IAudioAPIResult>> SearchAudioAsync(string keyword, string languageCode, AudioAPIProviderType provider);
+        Task<AudioAPIDTO> SearchAudioAsync(string keyword, string languageCode, AudioAPIProviderType provider);
     }
     #endregion
 

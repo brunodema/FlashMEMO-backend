@@ -26,6 +26,8 @@ using Business.Tools;
 using OpenQA.Selenium;
 using Data.Models.Implementation;
 using static Data.Models.Implementation.StaticModels;
+using System.Reflection;
+using System.IO;
 
 namespace Business.Services.Implementation
 {
@@ -433,15 +435,27 @@ namespace Business.Services.Implementation
         public string ProcessingTime { get; set; } = "";
     }
 
-    public class AudioAPIDTO : ILexicalAPIDTO<IAudioAPIResult>
+    public class AudioAPIDTO : ILexicalAPIDTO<AudioAPIResult>
     {
         public string SearchText { get; set; } = "";
         public string LanguageCode { get; set; } = "";
-        public IAudioAPIResult Results { get; set; } = new AudioAPIResult();
+        public AudioAPIResult Results { get; set; } = new AudioAPIResult();
     }
 
-    public class AudioAPIService : IAudioAPIService
+    public class RedactedAPIOptions
     {
+        public string ChromeDriverFolder { get; set; } = "";
+    }
+
+    public class AudioAPIService : IAudioAPIService // Need to update everything so the "general" class is not based on 'RedactedAPIOptions'
+    {
+        protected readonly RedactedAPIOptions _options;
+
+        public AudioAPIService(IOptions<RedactedAPIOptions> options)
+        {
+            _options = options.Value;
+        }
+
         public HttpResponse CheckAvailability()
         {
             throw new NotImplementedException();
@@ -452,7 +466,7 @@ namespace Business.Services.Implementation
             throw new NotImplementedException();
         }
 
-        public async Task<ILexicalAPIDTO<IAudioAPIResult>> SearchAudioAsync(string keyword, string languageCode, AudioAPIProviderType provider)
+        public async Task<AudioAPIDTO> SearchAudioAsync(string keyword, string languageCode, AudioAPIProviderType provider)
         {
             switch (provider)
             {
@@ -467,7 +481,7 @@ namespace Business.Services.Implementation
                         var chromeOptions = new ChromeOptions();
                         chromeOptions.AddArguments("--headless");
 
-                        var driver = new ChromeDriver(chromeOptions);
+                        ChromeDriver driver = new ChromeDriver(_options.ChromeDriverFolder, chromeOptions);
 
                         var devTools = driver as IDevTools;
                         var session = devTools.GetDevToolsSession();
@@ -501,6 +515,10 @@ namespace Business.Services.Implementation
                     catch (NoSuchElementException) // this should mean that no results were found
                     {
                         return new AudioAPIDTO() { SearchText = keyword, LanguageCode = languageCode, Results = { AudioLinks = { }, ProcessingTime = "0" } };
+                    }
+                    catch (Exception e)
+                    {
+                        throw new Exception("An exception occurred while using the Audio API.", e);
                     }
 
                 default:

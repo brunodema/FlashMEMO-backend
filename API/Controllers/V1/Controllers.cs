@@ -683,8 +683,7 @@ namespace API.Controllers
         {
             var results = await _audioAPIService.SearchAudioAsync(keyword, languageCode, provider);
 
-            return Ok(new DataResponseModel<ILexicalAPIDTO<IAudioAPIResult>> { Message = $"{results.Results.AudioLinks.Count} results were retrieved.", Data = results });
-
+            return Ok(new DataResponseModel<AudioAPIDTO> { Message = $"{results.Results.AudioLinks.Count} results were retrieved.", Data = results });
         }
     }
 }

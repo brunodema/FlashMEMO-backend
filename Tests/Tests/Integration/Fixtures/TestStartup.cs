@@ -3,6 +3,7 @@ using System.Linq;
 using System.Text;
 using API.Controllers;
 using API.ViewModels;
+using Business.Services.Abstract;
 using Business.Services.Implementation;
 using Business.Services.Interfaces;
 using Data.Context;
@@ -102,11 +103,12 @@ namespace Tests.Integration.Fixtures
                         return new BadRequestObjectResult(new BaseResponseModel { Message = "Validation errors have ocurred when processing the request", Errors = actionContext.ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage) });
                     };
                 })
-                .AddApplicationPart(typeof(NewsController).Assembly) // why am I doing this again?
+                .AddApplicationPart(typeof(NewsController).Assembly) // Why am I doing this again? A:
                 .AddApplicationPart(typeof(AuthController).Assembly)
                 .AddApplicationPart(typeof(OxfordDictionaryAPIController).Assembly)
                 .AddApplicationPart(typeof(LexicalaDictionaryAPIController).Assembly)
-                .AddApplicationPart(typeof(ImageAPIController).Assembly);
+                .AddApplicationPart(typeof(ImageAPIController).Assembly)
+                .AddApplicationPart(typeof(RedactedAPIController).Assembly);
 
             // identity config
             services.AddIdentity<User, Role>(opt =>
@@ -161,18 +163,22 @@ namespace Tests.Integration.Fixtures
                 config.Secret = InternalConfigs.Secret;
             });
 
+            services.Configure<JWTServiceOptions>(Configuration.GetSection("JWT"));
             services.Configure<CustomSearchAPIServiceOptions>(Configuration.GetSection("GoogleCustomSearchAPI"));
             services.Configure<OxfordDictionaryAPIRequestHandler>(Configuration.GetSection("OxfordDictionaryAPI"));
             services.Configure<LexicalaDictionaryAPIRequestHandler>(Configuration.GetSection("LexicalaDictionaryAPI"));
+            services.Configure<RedactedAPIOptions>(Configuration.GetSection("RedactedAPI"));
+            services.Configure<GenericRepositoryServiceOptions>(Configuration.GetSection("BaseRepositoryServiceOptions"));
             services.Configure<FlashMEMOContextOptions>(Configuration.GetSection("FlashMEMOContextOptions"));
+            services.Configure<MailJetOptions>(Configuration.GetSection("MailJet"));
             services.Configure<MailServiceOptions>(Configuration.GetSection("MailService"));
-
 
             // Custom services
             services.AddScoped<IJWTService, JWTService>();
             services.AddScoped<IAuthService<string>, AuthService>();
             services.AddScoped<NewsService>();
             services.AddScoped<CustomSearchAPIService>();
+            services.AddScoped<IAudioAPIService, AudioAPIService>();
             services.AddScoped<DeckService>();
             services.AddScoped<LanguageService>();
             services.AddScoped<FlashcardService>();
