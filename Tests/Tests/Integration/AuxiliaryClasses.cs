@@ -17,11 +17,12 @@ namespace Tests.Integration.Auxiliary
     /// </summary>
     public interface IControllerTestingAuthTokenInjector
     {
-        void AddAuthHeadersToClient(IntegrationTestFixture fixture);
+        void AddAuthHeadersToClient();
     }
 
     public class ControllerTestingAuthTokenInjector : IControllerTestingAuthTokenInjector
     {
+        protected readonly IntegrationTestFixture _fixture;
         protected readonly User _dummyUser = new User()
         {
             Email = "loggeduser@email.com",
@@ -31,14 +32,17 @@ namespace Tests.Integration.Auxiliary
             EmailConfirmed = true,
         };
 
-        public ControllerTestingAuthTokenInjector() { }
+        public ControllerTestingAuthTokenInjector(IntegrationTestFixture fixture) 
+        {
+            _fixture = fixture;
+        }
 
         /// <summary>
         /// Creates a dummy user with the goal of using it to retrieve a valid access token, so the HttpClient is authorized to use the protected endpoints of FlashMEMO.
         /// </summary>
-        public void AddAuthHeadersToClient(IntegrationTestFixture fixture)
+        public void AddAuthHeadersToClient()
         {
-            using (var scope = fixture.Host.Services.CreateScope())
+            using (var scope = _fixture.Host.Services.CreateScope())
             {
                 var dbContext = scope.ServiceProvider.GetService<FlashMEMOContext>();
                 if (dbContext.Find<User>(_dummyUser.Id) == null) dbContext.Add(_dummyUser);
@@ -46,10 +50,10 @@ namespace Tests.Integration.Auxiliary
             }
 
             // Declares a dummy JWTService and creates a token using it
-            var jwtService = new JWTService(fixture.Host.Services.GetService<IOptions<JWTServiceOptions>>()); // For some fucking reason, I can't simply retrieve the JWTService from the fixture...
+            var jwtService = new JWTService(_fixture.Host.Services.GetService<IOptions<JWTServiceOptions>>()); // For some fucking reason, I can't simply retrieve the JWTService from the fixture...
             var accessToken = jwtService.CreateAccessToken(_dummyUser);
 
-            fixture.HttpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("bearer", accessToken);
+            _fixture.HttpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("bearer", accessToken);
         }
     }
     #endregion

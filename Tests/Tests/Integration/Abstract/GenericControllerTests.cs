@@ -31,7 +31,6 @@ namespace Tests.Tests.Integration.Abstract
         protected HttpClient _client;
         protected ITestOutputHelper _output;
         protected JsonSerializerSettings _serializerSettings = new JsonSerializerSettings() { ReferenceLoopHandling = ReferenceLoopHandling.Ignore, Formatting = Formatting.Indented };
-        protected IControllerTestingAuthTokenInjector _tokenInjector;
 
         protected string _baseEndpoint = $"/api/v1/{typeof(T).Name}";
         protected string _createEndpoint;
@@ -44,14 +43,13 @@ namespace Tests.Tests.Integration.Abstract
             _fixture = fixture;
             _client = fixture.HttpClient;
             _output = output;
-            _tokenInjector = fixture.Host.Services.GetService<IControllerTestingAuthTokenInjector>();
 
             _createEndpoint = $"{_baseEndpoint}/create";
             _deleteEndpoint = $"{_baseEndpoint}/delete";
             _listEndpoint = $"{_baseEndpoint}/list";
             _searchEndpoint = $"{_baseEndpoint}/search";
 
-            _tokenInjector.AddAuthHeadersToClient(_fixture);
+            new ControllerTestingAuthTokenInjector(_fixture).AddAuthHeadersToClient();
         }
 
         /// <summary>
