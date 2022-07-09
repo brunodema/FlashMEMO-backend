@@ -39,6 +39,21 @@ namespace Tests.Tests.Integration.Abstract
         protected string _listEndpoint;
         protected string _searchEndpoint;
 
+        public GenericControllerTests(IntegrationTestFixture fixture, ITestOutputHelper output)
+        {
+            _fixture = fixture;
+            _client = fixture.HttpClient;
+            _output = output;
+            _tokenInjector = fixture.Host.Services.GetService<IControllerTestingAuthTokenInjector>();
+
+            _createEndpoint = $"{_baseEndpoint}/create";
+            _deleteEndpoint = $"{_baseEndpoint}/delete";
+            _listEndpoint = $"{_baseEndpoint}/list";
+            _searchEndpoint = $"{_baseEndpoint}/search";
+
+            _tokenInjector.AddAuthHeadersToClient(_fixture);
+        }
+
         /// <summary>
         /// This disgusting implementation is required because (1) no 'AddOrUpdate' method exists in the EF Core stuff anymore (despite claims of it on the internet), and because (2) the 'Update' method doesn't actually add instead of updating when providing a non-existent object (it should, though) 
         /// </summary>
@@ -86,27 +101,6 @@ namespace Tests.Tests.Integration.Abstract
                 dbContext.RemoveRange(entities);
                 dbContext.SaveChanges();
             }
-        }
-
-        public GenericControllerTests(IntegrationTestFixture fixture, ITestOutputHelper output)
-        {
-            _fixture = fixture;
-            _client = fixture.HttpClient;
-            _output = output;
-            _tokenInjector = fixture.Host.Services.GetService<IControllerTestingAuthTokenInjector>();
-
-            _createEndpoint = $"{_baseEndpoint}/create";
-            _deleteEndpoint = $"{_baseEndpoint}/delete";
-            _listEndpoint = $"{_baseEndpoint}/list";
-            _searchEndpoint = $"{_baseEndpoint}/search";
-
-            _tokenInjector.AddAuthHeadersToClient(_fixture);
-
-            //using (var scope = _fixture.Host.Services.CreateScope())
-            //{
-            //    var dbContext = scope.ServiceProvider.GetService<FlashMEMOContext>();
-            //    dbContext.Database.EnsureCreated(); // must do this to actually seed the data
-            //}
         }
 
         public virtual async Task CreateEntity(TDTO dto)
