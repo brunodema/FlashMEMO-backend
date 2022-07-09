@@ -151,8 +151,6 @@ namespace Tests.Integration.Fixtures
                 DefaultUserPassword = InternalConfigs.DefaultPassword
             }));
 
-            services.AddHttpClient();
-
             // options configuration
             services.Configure<JWTServiceOptions>(config =>
             {
@@ -195,7 +193,7 @@ namespace Tests.Integration.Fixtures
             services.AddTransient<IValidator<NewsDTO>, NewsDTOValidator>();
 
             // Testing resources
-            services.AddSingleton<IControllerTestingAuthTokenInjector, ControllerTestingAuthTokenInjector>();
+            services.AddTransient<IControllerTestingAuthTokenInjector, ControllerTestingAuthTokenInjector>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
