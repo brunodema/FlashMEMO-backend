@@ -376,6 +376,64 @@ namespace Tests.Tests.Integration.Implementation
             var parsedRefreshResponse = await refreshResponse.Content.ReadFromJsonAsync<BaseResponseModel>();
             parsedRefreshResponse.Message.Should().Be(AuthController.ResponseMessages.RENEWAL_UNRELATED_TOKENS);
         }
+
+        [Fact]
+        public virtual async Task FailedTokenRenewalWithUnactivatedUser()
+        {
+            // Arrange
+            var riggedJWTService = new JWTService(Options.Create(new JWTServiceOptions()
+            {
+                ValidIssuer = _jwtOptions.ValidIssuer,
+                ValidAudience = _jwtOptions.ValidAudience,
+                Secret = _jwtOptions.Secret,
+                AccessTokenTTE = -1,
+                RefreshTokenTTE = _jwtOptions.RefreshTokenTTE
+            }));
+
+            var accessToken = riggedJWTService.CreateAccessToken(_dummyActivationUser);
+            var refreshToken = riggedJWTService.CreateRefreshToken(accessToken, _dummyActivationUser);
+
+            // Act]
+            var postRequest = new HttpRequestMessage(HttpMethod.Post, _refreshEndpoint);
+            postRequest.Headers.Add("Cookie", $"RefreshToken={refreshToken}");
+            postRequest.Content = JsonContent.Create(new RefreshRequestModel() { ExpiredAccessToken = accessToken });
+
+            var refreshResponse = await _client.SendAsync(postRequest);
+
+            // Assert
+            refreshResponse.StatusCode.Should().Be(System.Net.HttpStatusCode.BadRequest);
+            var parsedRefreshResponse = await refreshResponse.Content.ReadFromJsonAsync<BaseResponseModel>();
+            parsedRefreshResponse.Message.Should().Be(AuthController.ResponseMessages.GENERAL_ACTIVATION_PENDING);
+        }
+
+        [Fact]
+        public virtual async Task FailedTokenRenewalWithLockedUser()
+        {
+            // Arrange
+            var riggedJWTService = new JWTService(Options.Create(new JWTServiceOptions()
+            {
+                ValidIssuer = _jwtOptions.ValidIssuer,
+                ValidAudience = _jwtOptions.ValidAudience,
+                Secret = _jwtOptions.Secret,
+                AccessTokenTTE = -1,
+                RefreshTokenTTE = _jwtOptions.RefreshTokenTTE
+            }));
+
+            var accessToken = riggedJWTService.CreateAccessToken(_dummyLockedUser);
+            var refreshToken = riggedJWTService.CreateRefreshToken(accessToken, _dummyLockedUser);
+
+            // Act]
+            var postRequest = new HttpRequestMessage(HttpMethod.Post, _refreshEndpoint);
+            postRequest.Headers.Add("Cookie", $"RefreshToken={refreshToken}");
+            postRequest.Content = JsonContent.Create(new RefreshRequestModel() { ExpiredAccessToken = accessToken });
+
+            var refreshResponse = await _client.SendAsync(postRequest);
+
+            // Assert
+            refreshResponse.StatusCode.Should().Be(System.Net.HttpStatusCode.BadRequest);
+            var parsedRefreshResponse = await refreshResponse.Content.ReadFromJsonAsync<BaseResponseModel>();
+            parsedRefreshResponse.Message.Should().Be(AuthController.ResponseMessages.GENERAL_ACCOUNT_LOCKED);
+        }
         #endregion
 
         #region Activation tests
