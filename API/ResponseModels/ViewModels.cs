@@ -1,5 +1,6 @@
 ﻿using API.Tools;
 using Business.Services.Implementation;
+using Business.Services.Interfaces;
 using Data.Models.Implementation;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -62,6 +63,19 @@ namespace API.ViewModels
 
         [Required(ErrorMessage = "Field {0} is required")]
         public string NewPassword { get; set; }
+    }
+
+    public class AudioAPIRequestModel
+    {
+        [Required(ErrorMessage = "Field {0} is required")]
+        public string Keyword { get; set; }
+
+        [Required(ErrorMessage = "Field {0} is required")]
+        public string LanguageCode { get; set; }
+
+        [Required(ErrorMessage = "Field {0} is required")]
+        [EnumDataType(typeof(AudioAPIProviderType))]
+        public AudioAPIProviderType Provider { get; set; }
     }
 
     public class LoginResponseModel : BaseResponseModel

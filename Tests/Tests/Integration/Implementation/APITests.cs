@@ -244,6 +244,7 @@ namespace Tests.Integration.Auxiliary.API
                 new object[] { "love", "en-us", AudioAPIProviderType.REDACTED },
                 new object[] { "bonjour", "fr", AudioAPIProviderType.REDACTED },
                 new object[] { "hola", "es", AudioAPIProviderType.REDACTED },
+                new object[] { "bonjour", "fr", null }, // This is valid because, due to how C# works, the default value for a enum will the 0-index value, even if 'null' is used.
             };
 
         [Theory, MemberData(nameof(MakesSuccessfulRequestData), Skip = "Test consumes external API. Ignore to avoid depleting daily comsumption limits")]
@@ -256,66 +257,81 @@ namespace Tests.Integration.Auxiliary.API
             var response = await _integrationTestFixture.HttpClient.GetAsync(url);
 
             // Assert
-            response.StatusCode.Should().Be(HttpStatusCode.OK);
+            response.StatusCode.Should().Be(HttpStatusCode.OK, "the request is well-formed");
             var results = await response.Content.ReadFromJsonAsync<DataResponseModel<AudioAPIDTO>>();
-            results.Data.Results.AudioLinks.Should().NotBeNullOrEmpty("valid data should have been retrieved from this query.");
+            results.Data.Results.AudioLinks.Should().NotBeNullOrEmpty("valid data should have been retrieved from this query");
+            results.Message.Should().NotBeNullOrEmpty("the request should have been successful");
+            results.Errors.Should().BeNullOrEmpty("the request should have been successful");
         }
 
-        //public static IEnumerable<object[]> MakeRequestWithBrokenSearchTextData =>
-        //    new List<object[]>
-        //    {
-        //                new object[] { "oxford", "thisiscompletebogus", "en-us" },
-        //                new object[] { "lexicala", "thisiscompletebogus", "en" },
-        //    };
+        public static IEnumerable<object[]> MakeRequestWithBrokenSearchTextData =>
+            new List<object[]>
+            {
+                new object[] { "akhtiolhjkhnfjlhlds", "en-us", AudioAPIProviderType.REDACTED }, // Returns nothing, which is expected
+                new object[] { "bonjour", "ahlkjhtlkshldj", AudioAPIProviderType.REDACTED }, // Returns the usual results (languageCode parameter is actually redundant)
+            };
 
-        ///// <summary>
-        ///// Ensure that a given combination of search text + language code for a specific provider yields a valid response from the API, even though no entries are returned by the API.
-        ///// </summary>
-        ///// <param name="provider"></param>
-        ///// <param name="searchText"></param>
-        ///// <param name="languageCode"></param>
-        //[Theory, MemberData(nameof(MakeRequestWithBrokenSearchTextData), Skip = "Test consumes external API. Ignore to avoid depleting daily comsumption limits")]
-        //public async void MakeRequestWithBrokenSearchText(string provider, string searchText, string languageCode)
-        //{
-        //    // Arrange
-        //    var url = $"{BaseEndpoint}/{provider}/search?searchText={searchText}&languageCode={languageCode}";
+        [Theory, MemberData(nameof(MakeRequestWithBrokenSearchTextData), Skip = "Test consumes external API. Ignore to avoid depleting daily comsumption limits")]
+        public async void MakeRequestWithBrokenSearchText(string keyword, string languageCode, AudioAPIProviderType provider)
+        {
+            // Arrange
+            var url = $"{BaseEndpoint}/search?keyword={keyword}&languageCode={languageCode}&provider={provider}";
 
-        //    // Act
-        //    var response = await _integrationTestFixture.HttpClient.GetAsync(url).Result.Content.ReadFromJsonAsync<DictionaryAPIResponse>();
+            // Act
+            var response = await _integrationTestFixture.HttpClient.GetAsync(url);
 
-        //    // Assert
-        //    response.Data.Results.Should().BeEmpty("the search text is complete bogus, and should not provide any results from the API");
-        //}
+            // Assert
+            response.StatusCode.Should().Be(HttpStatusCode.OK, "the request is well-formed");
+            var results = await response.Content.ReadFromJsonAsync<DataResponseModel<AudioAPIDTO>>();
+            results.Message.Should().NotBeNullOrEmpty("the request should have been successful");
+            results.Errors.Should().BeNullOrEmpty("the request should have been successful");
+        }
 
-        //public static IEnumerable<object[]> ReceiveBadRequestForInvalidInputData =>
-        //    new List<object[]>
-        //    {
-        //                        new object[] { "oxford", "invalid.//.request", "en-us", new List<string> { GenericDictionaryAPIRequestHandler.ErrorMessages.InvalidSearchText } },
-        //                        new object[] { "lexicala", "invalid.//.request", "en", new List<string> { GenericDictionaryAPIRequestHandler.ErrorMessages.InvalidSearchText } },
-        //                        new object[] { "oxford", "validtext", "invalid", new List<string> { string.Format(GenericDictionaryAPIRequestHandler.ErrorMessages.InvalidLanguageCode, "invalid") } },
-        //                        new object[] { "lexicala", "validtext", "invalid",  new List<string> { string.Format(GenericDictionaryAPIRequestHandler.ErrorMessages.InvalidLanguageCode, "invalid") } },
-        //                        new object[] { "oxford", "invalid.//.request", "invalid", new List<string> { GenericDictionaryAPIRequestHandler.ErrorMessages.InvalidSearchText, string.Format(GenericDictionaryAPIRequestHandler.ErrorMessages.InvalidLanguageCode, "invalid") } },
-        //                        new object[] { "lexicala", "invalid.//.request", "invalid", new List<string> { GenericDictionaryAPIRequestHandler.ErrorMessages.InvalidSearchText, string.Format(GenericDictionaryAPIRequestHandler.ErrorMessages.InvalidLanguageCode, "invalid") } } ,
-        //    };
+        public static IEnumerable<object[]> ReceiveBadRequestForInvalidInputData =>
+            new List<object[]>
+            {
+                new object[] { "", "fr", AudioAPIProviderType.REDACTED },
+                new object[] { "macchina", "", AudioAPIProviderType.REDACTED },
+            };
 
-        ///// <summary>
-        ///// Ensure that the proper error notifications are shown when invalid input is given for the API (Bad Request).
-        ///// </summary>
-        ///// <param name="provider"></param>
-        ///// <param name="searchText"></param>
-        ///// <param name="languageCode"></param>
-        //[Theory, MemberData(nameof(ReceiveBadRequestForInvalidInputData), Skip = "Test consumes external API. Ignore to avoid depleting daily comsumption limits")]
-        //public async void ReceiveBadRequestForInvalidInput(string provider, string searchText, string languageCode, List<string> expectedErrorMessages)
-        //{
-        //    // Arrange
-        //    var url = $"{BaseEndpoint}/{provider}/search?searchText={searchText}&languageCode={languageCode}";
+        [Theory, MemberData(nameof(ReceiveBadRequestForInvalidInputData), Skip = "Test consumes external API. Ignore to avoid depleting daily comsumption limits")]
+        public async void ReceiveBadRequestForInvalidInput(string keyword, string languageCode, AudioAPIProviderType provider)
+        {
+            // Arrange
+            var url = $"{BaseEndpoint}/search?keyword={keyword}&languageCode={languageCode}&provider={provider}";
 
-        //    // Act
-        //    var response = await _integrationTestFixture.HttpClient.GetAsync(url).Result.Content.ReadFromJsonAsync<BaseResponseModel>();
+            // Act
+            var response = await _integrationTestFixture.HttpClient.GetAsync(url);
 
-        //    // Assert
-        //    response.Errors.Should().Contain(expectedErrorMessages);
-        //}
+            // Assert
+            response.StatusCode.Should().Be(HttpStatusCode.BadRequest, "the request is faulty");
+            var results = await response.Content.ReadFromJsonAsync<DataResponseModel<AudioAPIDTO>>();
+            results.Message.Should().NotBeNullOrEmpty("the request should have a standard message");
+            results.Errors.Should().NotBeNullOrEmpty("the request is faulty");
+        }
+
+        /// <summary>
+        /// This specialized test is used to see what happens when an invalid value is set to the 'provider' parameter. I have to isolate this test because c# can't bind a custom text value to a 'Enum' at runtime.
+        /// </summary>
+        [Fact(Skip = "Test consumes external API. Ignore to avoid depleting daily comsumption limits")]
+        public async void ReceiveBadRequestForInvalidProvider()
+        {
+            // Arrange
+            var keyword = "cat";
+            var languageCode = "en";
+            var provider = "bogus";
+
+            var url = $"{BaseEndpoint}/search?keyword={keyword}&languageCode={languageCode}&provider={provider}";
+
+            // Act
+            var response = await _integrationTestFixture.HttpClient.GetAsync(url);
+
+            // Assert
+            response.StatusCode.Should().Be(HttpStatusCode.BadRequest, "the request is faulty");
+            var results = await response.Content.ReadFromJsonAsync<DataResponseModel<AudioAPIDTO>>();
+            results.Message.Should().NotBeNullOrEmpty("the request should have a standard message");
+            results.Errors.Should().NotBeNullOrEmpty("the request is faulty");
+        }
     }
     #endregion
 }

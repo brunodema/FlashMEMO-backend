@@ -679,10 +679,10 @@ namespace API.Controllers
 
         [HttpGet]
         [Route("search")]
-        public async Task<IActionResult> Search(string keyword, string languageCode, AudioAPIProviderType provider = AudioAPIProviderType.REDACTED)
+        public async Task<IActionResult> Search([FromQuery] AudioAPIRequestModel requestParams)
         {
-            var results = await _audioAPIService.SearchAudioAsync(keyword, languageCode, provider);
-
+            // Important: no value/type checking happens here because the 'DataAnnotations' from 'AudioAPIRequestModel' should take care of that.
+            var results = await _audioAPIService.SearchAudioAsync(requestParams.Keyword, requestParams.LanguageCode, requestParams.Provider);
             return Ok(new DataResponseModel<AudioAPIDTO> { Message = $"{results.Results.AudioLinks.Count} results were retrieved.", Data = results });
         }
     }
