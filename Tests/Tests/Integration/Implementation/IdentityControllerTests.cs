@@ -73,7 +73,6 @@ namespace Tests.Tests.Integration.Implementation
 
         protected readonly static User _dummyPasswordResetUser = new User() { Name = "Test4", Surname = "User4", UserName = "testuser4", NormalizedUserName = "testuser4", Email = "testuser4@email.com", NormalizedEmail = "testuser4@email.com", EmailConfirmed = true };
 
-
         protected readonly static string _dummyPassword = "Test@123";
 
         public IdentityControllerTests(IntegrationTestFixture fixture)
@@ -121,7 +120,7 @@ namespace Tests.Tests.Integration.Implementation
             return await _client.PostAsync($"{_loginEndpoint}", JsonContent.Create(new LoginRequestModel() { Username = _dummyUser.UserName, Password = _dummyPassword }));
         }
 
-        // Login tests
+        #region Login tests
         public static IEnumerable<object[]> SuccessfulLoginData
         {
             get
@@ -146,7 +145,6 @@ namespace Tests.Tests.Integration.Implementation
             parsedResponse.Errors.Should().BeNullOrEmpty();
         }
 
-        // Login tests
         public static IEnumerable<object[]> FailedLoginWithWrongCredentialsData
         {
             get
@@ -154,7 +152,7 @@ namespace Tests.Tests.Integration.Implementation
                 yield return new object[] { new LoginRequestModel() { Username = _dummyUser.UserName, Password = "Wrong@Password123" } };
             }
         }
-
+        
         [Theory, MemberData(nameof(FailedLoginWithWrongCredentialsData))]
         public virtual async Task FailedLoginWithWrongCredentials(LoginRequestModel request)
         {
@@ -169,7 +167,38 @@ namespace Tests.Tests.Integration.Implementation
             parsedResponse.Message.Should().Be(AuthController.ResponseMessages.LOGIN_CREDENTIALS_COULD_NOT_BE_VALIDATED);
         }
 
-        // JWT tests
+        [Fact]
+        public virtual async Task FailedLoginWithUnactivatedUser()
+        {
+            // Arrange
+            var request = new LoginRequestModel() { Username = _dummyActivationUser.UserName, Password = _dummyPassword };
+
+            // Act
+            var response = await _client.PostAsync($"{_loginEndpoint}", JsonContent.Create(request));
+
+            // Assert
+            response.StatusCode.Should().Be(System.Net.HttpStatusCode.Forbidden);
+            var parsedResponse = await response.Content.ReadFromJsonAsync<LoginResponseModel>();
+            parsedResponse.Message.Should().Be(AuthController.ResponseMessages.LOGIN_ACTIVATION_PENDING);
+        }
+
+        [Fact]
+        public virtual async Task FailedLoginWithLockedUser()
+        {
+            // Arrange
+            var request = new LoginRequestModel() { Username = _dummyLockedUser.UserName, Password = _dummyPassword };
+
+            // Act
+            var response = await _client.PostAsync($"{_loginEndpoint}", JsonContent.Create(request));
+
+            // Assert
+            response.StatusCode.Should().Be(System.Net.HttpStatusCode.Forbidden);
+            var parsedResponse = await response.Content.ReadFromJsonAsync<LoginResponseModel>();
+            parsedResponse.Message.Should().Be(AuthController.ResponseMessages.LOGIN_ACCOUNT_IS_LOCKED);
+        }
+        #endregion
+
+        #region Token renewal tests
         [Fact]
         public virtual async Task SuccessfulTokenRenewal()
         {
@@ -347,7 +376,9 @@ namespace Tests.Tests.Integration.Implementation
             var parsedRefreshResponse = await refreshResponse.Content.ReadFromJsonAsync<BaseResponseModel>();
             parsedRefreshResponse.Message.Should().Be(AuthController.ResponseMessages.RENEWAL_UNRELATED_TOKENS);
         }
+        #endregion
 
+        #region Activation tests
         [Fact]
         public async Task SuccessfulActivation()
         {
@@ -440,7 +471,9 @@ namespace Tests.Tests.Integration.Implementation
             var parsedActivationResponse = await activationResponse.Content.ReadFromJsonAsync<BaseResponseModel>();
             parsedActivationResponse.Message.Should().Be(AuthController.ResponseMessages.EMAIL_ACCOUNT_IS_ALREADY_ACTIVATED);
         }
+        #endregion
 
+        #region Password recovery/reset tests
         [Fact]
         public async Task SuccessfulRecoveryRequest()
         {
@@ -584,6 +617,8 @@ namespace Tests.Tests.Integration.Implementation
                 parsedResetResponse.Message.Should().Be(AuthController.ResponseMessages.GENERAL_ACCOUNT_LOCKED);
             }
         }
+        #endregion
+
     }
 
     public class AuthControllerTests : IdentityControllerTests

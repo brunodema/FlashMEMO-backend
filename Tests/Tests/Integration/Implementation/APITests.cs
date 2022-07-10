@@ -6,17 +6,9 @@ using Xunit;
 using Xunit.Abstractions;
 using FluentAssertions;
 using Business.Services.Implementation;
-using System.Linq;
 using System;
-using System.Net.Http;
-using Data.Models.Implementation;
-using Data.Context;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Options;
-using System.Net.Http.Headers;
 using Business.Services.Interfaces;
 using System.Net;
-using Newtonsoft.Json;
 
 namespace Tests.Integration.Auxiliary.API
 {

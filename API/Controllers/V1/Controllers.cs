@@ -527,9 +527,10 @@ namespace API.Controllers
 
             if (authenticatedUser is not null)
             {
-                if (!authenticatedUser.EmailConfirmed) return BadRequest(new BaseResponseModel() { Message = ResponseMessages.LOGIN_ACTIVATION_PENDING });
+                // I have to use 'StatusCode' here, because the 'Forbid' method does not accept messages. When I eventually remove these messages from the responses, I could go back to 'Forbid' 
+                if (!authenticatedUser.EmailConfirmed) return StatusCode(403, new BaseResponseModel() { Message = ResponseMessages.LOGIN_ACTIVATION_PENDING });
 
-                if (_authService.IsUserLocked(authenticatedUser)) return BadRequest(new BaseResponseModel() { Message = ResponseMessages.LOGIN_ACCOUNT_IS_LOCKED });
+                if (_authService.IsUserLocked(authenticatedUser)) return StatusCode(403, new BaseResponseModel() { Message = ResponseMessages.LOGIN_ACCOUNT_IS_LOCKED });
 
                 var accessToken = _JWTService.CreateAccessToken(authenticatedUser);
                 var refreshToken = _JWTService.CreateRefreshToken(accessToken, authenticatedUser);
