@@ -12,8 +12,6 @@ namespace API
     {
         public static void Main(string[] args)
         {
-
-
             CreateHostBuilder(args).Build().Run();
         }
 
@@ -23,7 +21,8 @@ namespace API
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder.UseStartup<Startup>()
-                    .ConfigureAppConfiguration(configureDelegate => {
+                    .ConfigureAppConfiguration(configureDelegate =>
+                    {
                         configureDelegate.AddJsonFile("apisettings.json", true); // contains information about the APIs used in FlashMEMO
                         configureDelegate.AddJsonFile("dbsettings.json"); // contains information on defautl settings for the app's DB context
                         configureDelegate.AddJsonFile("emailsettings.json"); // contains information on defautl settings for the app's email services

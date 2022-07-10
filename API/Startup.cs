@@ -29,6 +29,7 @@ using FluentValidation;
 using Data.Models.DTOs;
 using System.Collections.Generic;
 using System.Security.Claims;
+using Microsoft.Extensions.Logging;
 
 namespace API
 {
@@ -107,6 +108,22 @@ namespace API
                 {
                     options.InvalidModelStateResponseFactory = actionContext =>
                     {
+                        // Implementation shamelessly stolen form here: https://stackoverflow.com/questions/57892394/fluentvalidation-errors-to-logger
+                        // Setup logger from DI
+                        var logger = new LoggerFactory().CreateLogger(actionContext.ActionDescriptor.DisplayName);
+
+                        // Get error messages
+                        var errorMessages = string.Join(" | ", actionContext.ModelState.Values
+                            .SelectMany(x => x.Errors)
+                            .Select(x => x.ErrorMessage));
+
+                        var request = actionContext.HttpContext.Request;
+
+                        // Use whatever logging information you want
+                        logger.LogError("Automatic Bad Request occurred." +
+                                        $"{Environment.NewLine}Error(s): {errorMessages}" +
+                                        $"{Environment.NewLine}|{request.Method}| Full URL: {request.Path}{request.QueryString}");
+
                         return new BadRequestObjectResult(new BaseResponseModel { Message = "Validation errors have ocurred when processing the request.", Errors = actionContext.ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage) });
                     };
                 });
@@ -226,7 +243,19 @@ namespace API
                 var exception = context.Features
                     .Get<IExceptionHandlerPathFeature>()
                     .Error;
-                var response = new BaseResponseModel { Message = "The back-end server of FlashMEMO ran into a problem.", Errors = new List<string>() { exception.Message } };
+
+                // Setup logger from DI
+                var logger = new LoggerFactory().CreateLogger("HttpExceptionHandler");
+
+                // Get error messages
+                var errorMessages = exception.Message;
+
+                // Use whatever logging information you want
+                logger.LogError("Automatic Internal Server Error occurred." +
+                                $"{Environment.NewLine}Error(s): {errorMessages}");
+
+                var response = new BaseResponseModel { Message = "The back-end server of FlashMEMO ran into a problem." };
+
                 await context.Response.WriteAsJsonAsync(response);
             }));
 
