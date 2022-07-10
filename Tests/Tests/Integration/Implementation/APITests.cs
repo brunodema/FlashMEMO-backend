@@ -9,8 +9,9 @@ using Business.Services.Implementation;
 using System;
 using Business.Services.Interfaces;
 using System.Net;
+using Tests.Integration.Auxiliary;
 
-namespace Tests.Integration.Auxiliary.API
+namespace Tests.Integration.API
 {
     #region Dictionary API
     public class DictionaryAPITests : IClassFixture<IntegrationTestFixture>
