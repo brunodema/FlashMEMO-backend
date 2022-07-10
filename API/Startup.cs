@@ -87,8 +87,8 @@ namespace API
                   });
             });
 
-            // custom definitions
-            // swagger/API definitions
+            // Custom Definitions
+            // Swagger/API definitions
             services.AddApiVersioning(config =>
             {
                 config.DefaultApiVersion = new ApiVersion(1, 0);
@@ -111,7 +111,7 @@ namespace API
                     };
                 });
 
-            // identity config
+            // Identity config
             services.AddIdentity<User, Role>(opt =>
             {
                 opt.User.RequireUniqueEmail = true;
@@ -122,7 +122,7 @@ namespace API
             // Configure password reset tokens
             services.Configure<DataProtectionTokenProviderOptions>(opt => opt.TokenLifespan = TimeSpan.FromSeconds(Double.Parse(Configuration["IdentitySecurity:PasswordTokenTTE"])));
 
-            // auth config
+            // Auth config
             services.AddAuthorization(options =>
             {
                 options.AddPolicy("AdminOnly", policy => policy.RequireClaim(ClaimTypes.Role, "admin"));
@@ -149,7 +149,7 @@ namespace API
                     ClockSkew = TimeSpan.Zero // the default is 5 min (framework)
                 };
             });
-            // database configuration
+            // Database configuration
             services.AddDbContext<FlashMEMOContext>(o =>
             {
                 o.EnableSensitiveDataLogging();
@@ -158,7 +158,7 @@ namespace API
                     .EnableRetryOnFailure(5));
             });
 
-            services.AddHttpClient();
+            services.AddHttpClient(); // Maybe I can remove this? Hard to determine this because the test assembly uses its own version of a .NET host
 
             // Options Configuration
             services.Configure<JWTServiceOptions>(Configuration.GetSection("JWT"));
