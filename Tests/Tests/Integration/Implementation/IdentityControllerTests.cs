@@ -401,7 +401,7 @@ namespace Tests.Tests.Integration.Implementation
             var refreshResponse = await _client.SendAsync(postRequest);
 
             // Assert
-            refreshResponse.StatusCode.Should().Be(System.Net.HttpStatusCode.BadRequest);
+            refreshResponse.StatusCode.Should().Be(System.Net.HttpStatusCode.Forbidden);
             var parsedRefreshResponse = await refreshResponse.Content.ReadFromJsonAsync<BaseResponseModel>();
             parsedRefreshResponse.Message.Should().Be(AuthController.ResponseMessages.GENERAL_ACTIVATION_PENDING);
         }
@@ -430,7 +430,7 @@ namespace Tests.Tests.Integration.Implementation
             var refreshResponse = await _client.SendAsync(postRequest);
 
             // Assert
-            refreshResponse.StatusCode.Should().Be(System.Net.HttpStatusCode.BadRequest);
+            refreshResponse.StatusCode.Should().Be(System.Net.HttpStatusCode.Forbidden);
             var parsedRefreshResponse = await refreshResponse.Content.ReadFromJsonAsync<BaseResponseModel>();
             parsedRefreshResponse.Message.Should().Be(AuthController.ResponseMessages.GENERAL_ACCOUNT_LOCKED);
         }
@@ -572,7 +572,7 @@ namespace Tests.Tests.Integration.Implementation
             var recoveryRequestResponse = await _client.PostAsJsonAsync(_passwordRecoveryRequestEndpoint, _dummyActivationUser.Email);
 
             // Assert
-            recoveryRequestResponse.StatusCode.Should().Be(System.Net.HttpStatusCode.BadRequest);
+            recoveryRequestResponse.StatusCode.Should().Be(System.Net.HttpStatusCode.Forbidden);
             var parsedRecoveryRequestResponse = await recoveryRequestResponse.Content.ReadFromJsonAsync<BaseResponseModel>();
             parsedRecoveryRequestResponse.Message.Should().Be(AuthController.ResponseMessages.GENERAL_ACTIVATION_PENDING);
         }

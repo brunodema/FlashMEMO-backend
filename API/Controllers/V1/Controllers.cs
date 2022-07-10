@@ -574,7 +574,7 @@ namespace API.Controllers
 
             if (user != null)
             {
-                if (!user.EmailConfirmed) return BadRequest(new BaseResponseModel() { Message = ResponseMessages.GENERAL_ACTIVATION_PENDING });
+                if (!user.EmailConfirmed) return StatusCode(403, new BaseResponseModel() { Message = ResponseMessages.GENERAL_ACTIVATION_PENDING });
 
                 await _emailService.SendPasswordRecoveryAsync(user, await _authService.GeneratePasswordResetTokenAsync(user));
             }
@@ -590,8 +590,8 @@ namespace API.Controllers
             var user = await _userService.GetByUserNameAsync(resetRequest.Username);
             if (user != null)
             {
-                if (!user.EmailConfirmed) return BadRequest(new BaseResponseModel() { Message = ResponseMessages.GENERAL_ACTIVATION_PENDING });
-                if (_authService.IsUserLocked(user)) return BadRequest(new BaseResponseModel() { Message = ResponseMessages.GENERAL_ACCOUNT_LOCKED });
+                if (!user.EmailConfirmed) StatusCode(403, new BaseResponseModel() { Message = ResponseMessages.GENERAL_ACTIVATION_PENDING });
+                if (_authService.IsUserLocked(user)) StatusCode(403, new BaseResponseModel() { Message = ResponseMessages.GENERAL_ACCOUNT_LOCKED });
 
                 var succeeded = await _authService.ResetPasswordAsync(user, resetRequest.Token, resetRequest.NewPassword);
 
@@ -607,7 +607,7 @@ namespace API.Controllers
         [Route("refresh")]
         public async Task<IActionResult> Refresh([FromBody] RefreshRequestModel refreshRequest)
         {
-            // I'm cheking this first to ensure that a legit 'refresh' call was made, and not just some random access token was sent to the back-end.
+            // I'm checking this first to ensure that a legit 'refresh' call was made, and not just some random access token was sent to the back-end.
             var refreshToken = Request.Cookies["RefreshToken"];
             if (refreshToken == null) return BadRequest(new BaseResponseModel() { Message = ResponseMessages.RENEWAL_REFRESH_TOKEN_NULL });
 
@@ -629,8 +629,8 @@ namespace API.Controllers
                     {
                         var user = await _userService.GetbyIdAsync(_JWTService.DecodeToken(refreshRequest.ExpiredAccessToken).Subject);
 
-                        if (!user.EmailConfirmed) return BadRequest(new BaseResponseModel() { Message = ResponseMessages.GENERAL_ACTIVATION_PENDING });
-                        if (_authService.IsUserLocked(user)) return BadRequest(new BaseResponseModel() { Message = ResponseMessages.GENERAL_ACCOUNT_LOCKED });
+                        if (!user.EmailConfirmed) return StatusCode(403, new BaseResponseModel() { Message = ResponseMessages.GENERAL_ACTIVATION_PENDING });
+                        if (_authService.IsUserLocked(user)) return StatusCode(403, new BaseResponseModel() { Message = ResponseMessages.GENERAL_ACCOUNT_LOCKED });
 
                         var newAccessToken = _JWTService.CreateAccessToken(user);
                         var newRefreshToken = _JWTService.CreateRefreshToken(newAccessToken, user);
