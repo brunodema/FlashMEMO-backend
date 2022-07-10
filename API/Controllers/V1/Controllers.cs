@@ -14,6 +14,7 @@ using Data.Tools.Sorting;
 using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
@@ -30,9 +31,9 @@ namespace API.Controllers
     {
         private readonly RoleService _roleService;
 
-        public RoleController(RoleService roleService) : base(roleService)
+        public RoleController(RoleService service, ILogger<RoleController> logger) : base(service, logger)
         {
-            _roleService = roleService;
+            _roleService = service;
         }
     }
 
@@ -43,9 +44,9 @@ namespace API.Controllers
     {
         private readonly UserService _userService;
 
-        public UserController(UserService userService) : base(userService)
+        public UserController(UserService service, ILogger<UserController> logger) : base(service, logger)
         {
-            _userService = userService;
+            _userService = service;
         }
 
         /// <summary>
@@ -142,11 +143,11 @@ namespace API.Controllers
     [Route("api/v{version:apiVersion}/[controller]")]
     public class LanguageController : GenericRepositoryController<Language, string, LanguageDTO, LanguageFilterOptions, LanguageSortOptions>
     {
-        private readonly LanguageService _roleService;
+        private readonly LanguageService _languageService;
 
-        public LanguageController(LanguageService roleService) : base(roleService)
+        public LanguageController(LanguageService service, ILogger<LanguageController> logger) : base(service, logger)
         {
-            _roleService = roleService;
+            _languageService = service;
         }
     }
 
@@ -157,7 +158,7 @@ namespace API.Controllers
     {
         private readonly UserService _userService;
 
-        public NewsController(NewsService newsService, UserService userService) : base(newsService)
+        public NewsController(NewsService newsService, UserService userService, ILogger<NewsController> logger) : base(newsService, logger)
         {
             _userService = userService;
         }
@@ -229,7 +230,7 @@ namespace API.Controllers
         private readonly DeckService _deckService;
         private readonly FlashcardService _flashcardService;
 
-        public DeckController(DeckService deckService, FlashcardService flashcardService) : base(deckService)
+        public DeckController(DeckService deckService, FlashcardService flashcardService, ILogger<DeckController> logger) : base(deckService, logger)
         {
             _deckService = deckService;
             _flashcardService = flashcardService;
@@ -273,9 +274,9 @@ namespace API.Controllers
     {
         private readonly FlashcardService _flashcardService;
 
-        public FlashcardController(FlashcardService flashcardService) : base(flashcardService)
+        public FlashcardController(FlashcardService service, ILogger<FlashcardController> logger) : base(service, logger)
         {
-            _flashcardService = flashcardService;
+            _flashcardService = service;
         }
 
         [HttpGet]
