@@ -12,7 +12,11 @@ services:
       - xpack.monitoring.enabled=true  
       - xpack.watcher.enabled=false  
       - "ES_JAVA_OPTS=-Xms512m -Xmx512m"  
-      - discovery.type=single-node  
+      - discovery.type=single-node 
+      - http.cors.allow-origin=http://localhost:4200,http://flashmemo.edu:4200
+      - http.cors.enabled=true
+      - http.cors.allow-headers=X-Requested-With,X-Auth-Token,Content-Type,Content-Length,Authorization
+      - http.cors.allow-credentials=true 
     networks:  
       - elastic  
     
