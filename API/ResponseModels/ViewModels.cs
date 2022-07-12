@@ -2,6 +2,7 @@
 using Business.Services.Implementation;
 using Business.Services.Interfaces;
 using Data.Models.Implementation;
+using Microsoft.Extensions.Logging;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
@@ -38,6 +39,22 @@ namespace API.ViewModels
         public IEnumerable<string> Errors { get; set; }
     }
 
+    public class LoginResponseModel : BaseResponseModel
+    {
+        public string AccessToken { get; set; }
+        public string RefreshToken { get; set; }
+    }
+
+    /// <summary>
+    /// Class that mimics what was originally implemented in the front-end. There are many controllers that end up responding with basic metadata ('BaseResponseModel'), and the data of interest. This class aims to faciliate this setup.
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    public class DataResponseModel<T> : BaseResponseModel
+    {
+        public T Data { get; set; }
+    }
+
+    #region Request
     public class LoginRequestModel
     {
         [Required(ErrorMessage = "Field {0} is required")]
@@ -78,18 +95,24 @@ namespace API.ViewModels
         public AudioAPIProviderType Provider { get; set; }
     }
 
-    public class LoginResponseModel : BaseResponseModel
+    public class LoggingRequestModel
     {
-        public string AccessToken { get; set; }
-        public string RefreshToken { get; set; }
-    }
+        [Required(ErrorMessage = "Field {0} is required")]
+        public LogLevel LogLevel { get; set; }
 
-    /// <summary>
-    /// Class that mimics what was originally implemented in the front-end. There are many controllers that end up responding with basic metadata ('BaseResponseModel'), and the data of interest. This class aims to faciliate this setup.
-    /// </summary>
-    /// <typeparam name="T"></typeparam>
-    public class DataResponseModel<T> : BaseResponseModel
-    {
-        public T Data { get; set; }
+        [Required(ErrorMessage = "Field {0} is required")]
+        public string Message { get; set; }
+
+        public string FileName { get; set; }
+
+        public int LineNumber { get; set; }
+
+        public int ColumnNumber { get; set; }
+
+        [Required(ErrorMessage = "Field {0} is required")]
+        public string Timestamp { get; set; }
+
+        public object[] Args { get; set; }
     }
+    #endregion
 }

@@ -16,6 +16,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -686,6 +687,33 @@ namespace API.Controllers
             // Important: no value/type checking happens here because the 'DataAnnotations' from 'AudioAPIRequestModel' should take care of that.
             var results = await _audioAPIService.SearchAudioAsync(requestParams.Keyword, requestParams.LanguageCode, requestParams.Provider);
             return Ok(new DataResponseModel<AudioAPIDTO> { Message = $"{results.Results.AudioLinks.Count} results were retrieved.", Data = results });
+        }
+    }
+
+    /// <summary>
+    /// Toying around with this first... hehehe
+    /// </summary>
+    [ApiController]
+    [ApiVersion("1.0")]
+    [Route("api/v{version:apiVersion}/[controller]")]
+    public class LoggingController : ControllerBase
+    {
+        private readonly ILogger<LoggingController> _logger;
+
+        public LoggingController(ILogger<LoggingController> logger) : base()
+        {
+            _logger = logger;
+        }
+
+        [HttpPost]
+        [Route("relay")]
+        public IActionResult RelayMessage([FromBody] LoggingRequestModel logParams)
+        {
+            _logger.Log<LoggingRequestModel>(logParams.LogLevel, new EventId(1, "Website Logging"), logParams, null, (log, ex) =>
+            {
+                return $"{log.Message} - ({log.FileName} on line {log.LineNumber}:{log.ColumnNumber}) at {log.Timestamp}. Additional info: {String.Join(";", log.Args.Select(arg => JsonConvert.SerializeObject(arg))) }.";
+            });
+            return Ok(new BaseResponseModel { Message = "Log message relayed successfully." });
         }
     }
 }
