@@ -218,7 +218,7 @@ namespace Tests.Integration.Auxiliary.API
         protected readonly IntegrationTestFixture _integrationTestFixture;
         protected readonly ITestOutputHelper _output;
 
-        public string BaseEndpoint { get; set; } = $"api/v1/RedactedAPI";
+        public string BaseEndpoint { get; set; } = $"api/v1/audio/flashmemo";
 
         public AudioAPITests(IntegrationTestFixture integrationTestFixture, ITestOutputHelper output)
         {
@@ -233,9 +233,9 @@ namespace Tests.Integration.Auxiliary.API
         public static IEnumerable<object[]> MakesSuccessfulRequestData =>
             new List<object[]>
             {
-                new object[] { "love", "en-us", AudioAPIProviderType.REDACTED },
-                new object[] { "bonjour", "fr", AudioAPIProviderType.REDACTED },
-                new object[] { "hola", "es", AudioAPIProviderType.REDACTED },
+                new object[] { "love", "en-us", AudioAPIProviderType.FLASHMEMO },
+                new object[] { "bonjour", "fr", AudioAPIProviderType.FLASHMEMO },
+                new object[] { "hola", "es", AudioAPIProviderType.FLASHMEMO },
                 new object[] { "bonjour", "fr", null }, // This is valid because, due to how C# works, the default value for a enum will the 0-index value, even if 'null' is used.
             };
 
@@ -259,8 +259,8 @@ namespace Tests.Integration.Auxiliary.API
         public static IEnumerable<object[]> MakeRequestWithBrokenSearchTextData =>
             new List<object[]>
             {
-                new object[] { "akhtiolhjkhnfjlhlds", "en-us", AudioAPIProviderType.REDACTED }, // Returns nothing, which is expected
-                new object[] { "bonjour", "ahlkjhtlkshldj", AudioAPIProviderType.REDACTED }, // Returns the usual results (languageCode parameter is actually redundant)
+                new object[] { "akhtiolhjkhnfjlhlds", "en-us", AudioAPIProviderType.FLASHMEMO }, // Returns nothing, which is expected
+                new object[] { "bonjour", "ahlkjhtlkshldj", AudioAPIProviderType.FLASHMEMO }, // Returns the usual results (languageCode parameter is actually redundant)
             };
 
         [Theory, MemberData(nameof(MakeRequestWithBrokenSearchTextData), Skip = "Test consumes external API. Ignore to avoid depleting daily comsumption limits")]
@@ -282,8 +282,8 @@ namespace Tests.Integration.Auxiliary.API
         public static IEnumerable<object[]> ReceiveBadRequestForInvalidInputData =>
             new List<object[]>
             {
-                new object[] { "", "fr", AudioAPIProviderType.REDACTED },
-                new object[] { "macchina", "", AudioAPIProviderType.REDACTED },
+                new object[] { "", "fr", AudioAPIProviderType.FLASHMEMO },
+                new object[] { "macchina", "", AudioAPIProviderType.FLASHMEMO },
             };
 
         [Theory, MemberData(nameof(ReceiveBadRequestForInvalidInputData), Skip = "Test consumes external API. Ignore to avoid depleting daily comsumption limits")]

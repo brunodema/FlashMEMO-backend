@@ -158,7 +158,7 @@ namespace Business.Services.Interfaces
     /// </summary>
     public enum AudioAPIProviderType
     {
-        REDACTED,
+        FLASHMEMO,
     }
 
     /// <summary>
