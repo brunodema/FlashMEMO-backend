@@ -14,7 +14,9 @@ using Data.Tools.Sorting;
 using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -30,9 +32,9 @@ namespace API.Controllers
     {
         private readonly RoleService _roleService;
 
-        public RoleController(RoleService roleService) : base(roleService)
+        public RoleController(RoleService service, ILogger<RoleController> logger) : base(service, logger)
         {
-            _roleService = roleService;
+            _roleService = service;
         }
     }
 
@@ -43,9 +45,9 @@ namespace API.Controllers
     {
         private readonly UserService _userService;
 
-        public UserController(UserService userService) : base(userService)
+        public UserController(UserService service, ILogger<UserController> logger) : base(service, logger)
         {
-            _userService = userService;
+            _userService = service;
         }
 
         /// <summary>
@@ -142,11 +144,11 @@ namespace API.Controllers
     [Route("api/v{version:apiVersion}/[controller]")]
     public class LanguageController : GenericRepositoryController<Language, string, LanguageDTO, LanguageFilterOptions, LanguageSortOptions>
     {
-        private readonly LanguageService _roleService;
+        private readonly LanguageService _languageService;
 
-        public LanguageController(LanguageService roleService) : base(roleService)
+        public LanguageController(LanguageService service, ILogger<LanguageController> logger) : base(service, logger)
         {
-            _roleService = roleService;
+            _languageService = service;
         }
     }
 
@@ -157,7 +159,7 @@ namespace API.Controllers
     {
         private readonly UserService _userService;
 
-        public NewsController(NewsService newsService, UserService userService) : base(newsService)
+        public NewsController(NewsService newsService, UserService userService, ILogger<NewsController> logger) : base(newsService, logger)
         {
             _userService = userService;
         }
@@ -229,7 +231,7 @@ namespace API.Controllers
         private readonly DeckService _deckService;
         private readonly FlashcardService _flashcardService;
 
-        public DeckController(DeckService deckService, FlashcardService flashcardService) : base(deckService)
+        public DeckController(DeckService deckService, FlashcardService flashcardService, ILogger<DeckController> logger) : base(deckService, logger)
         {
             _deckService = deckService;
             _flashcardService = flashcardService;
@@ -273,9 +275,9 @@ namespace API.Controllers
     {
         private readonly FlashcardService _flashcardService;
 
-        public FlashcardController(FlashcardService flashcardService) : base(flashcardService)
+        public FlashcardController(FlashcardService service, ILogger<FlashcardController> logger) : base(service, logger)
         {
-            _flashcardService = flashcardService;
+            _flashcardService = service;
         }
 
         [HttpGet]
@@ -685,6 +687,33 @@ namespace API.Controllers
             // Important: no value/type checking happens here because the 'DataAnnotations' from 'AudioAPIRequestModel' should take care of that.
             var results = await _audioAPIService.SearchAudioAsync(requestParams.Keyword, requestParams.LanguageCode, requestParams.Provider);
             return Ok(new DataResponseModel<AudioAPIDTO> { Message = $"{results.Results.AudioLinks.Count} results were retrieved.", Data = results });
+        }
+    }
+
+    /// <summary>
+    /// Toying around with this first... hehehe
+    /// </summary>
+    [ApiController]
+    [ApiVersion("1.0")]
+    [Route("api/v{version:apiVersion}/[controller]")]
+    public class LoggingController : ControllerBase
+    {
+        private readonly ILogger<LoggingController> _logger;
+
+        public LoggingController(ILogger<LoggingController> logger) : base()
+        {
+            _logger = logger;
+        }
+
+        [HttpPost]
+        [Route("relay")]
+        public IActionResult RelayMessage([FromBody] LoggingRequestModel logParams)
+        {
+            _logger.Log<LoggingRequestModel>(logParams.LogLevel, new EventId(1, "Website Logging"), logParams, null, (log, ex) =>
+            {
+                return $"{log.Message} - ({log.FileName} on line {log.LineNumber}:{log.ColumnNumber}) at {log.Timestamp}. Additional info: {String.Join(";", log.Args.Select(arg => JsonConvert.SerializeObject(arg))) }.";
+            });
+            return Ok(new BaseResponseModel { Message = "Log message relayed successfully." });
         }
     }
 }

@@ -13,6 +13,7 @@ using System;
 using Business.Tools.Exceptions;
 using API.Controllers.Messages;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.Extensions.Logging;
 
 namespace API.Controllers.Messages
 {
@@ -38,10 +39,12 @@ namespace API.Controllers.Abstract
         where TSortOptions : GenericSortOptions<TEntity>
     {
         private readonly IRepositoryService<TEntity, TKey> _repositoryService;
+        private readonly ILogger<GenericRepositoryController<TEntity, TKey, TDTO, TFilterOptions, TSortOptions>> _logger;
 
-        protected GenericRepositoryController(IRepositoryService<TEntity, TKey> repositoryService)
+        protected GenericRepositoryController(IRepositoryService<TEntity, TKey> repositoryService, ILogger<GenericRepositoryController<TEntity, TKey, TDTO, TFilterOptions, TSortOptions>> logger)
         {
             _repositoryService = repositoryService;
+            _logger = logger;
         }
 
         [HttpGet]
