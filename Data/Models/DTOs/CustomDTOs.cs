@@ -31,6 +31,9 @@ namespace Data.Models.DTOs
         public string Username { get; set; } = "";
         public string Email { get; set; } = "";
         public DateTime? LastLogin { get; set; } = null;
+        public bool LockoutEnabled { get; set; } = false;
+        public DateTimeOffset? LockoutEnd { get; set; } = null;
+        public bool EmailConfirmed { get; set; } = false;
 
         public ReducedUserDTO() { }
 
@@ -42,6 +45,9 @@ namespace Data.Models.DTOs
             Surname = user.Surname;
             Username = user.UserName;
             LastLogin = user.LastLogin;
+            LockoutEnabled = user.LockoutEnabled;
+            LockoutEnd = user.LockoutEnd;
+            EmailConfirmed = user.EmailConfirmed;
         }
     }
 }
