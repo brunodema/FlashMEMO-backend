@@ -29,6 +29,7 @@ namespace API
 
                         var configuration = configureDelegate.Build();
                         Log.Logger = new LoggerConfiguration()
+                            .WriteTo.Console()
                             .Enrich.FromLogContext()
                             .WriteTo.Elasticsearch(new ElasticsearchSinkOptions(new Uri(configuration["ElasticConfiguration:Uri"]))
                             {
