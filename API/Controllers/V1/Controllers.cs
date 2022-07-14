@@ -473,7 +473,7 @@ namespace API.Controllers
             public static readonly string REGISTRATION_EMAIL_ALREADY_IN_USE = "Email is already user by another user in FlashMEMO.";
             public static readonly string REGISTRATION_USERNAME_ALREADY_IN_USE = "Username is already user by another user in FlashMEMO.";
             public static readonly string REGISTRATION_NOT_POSSIBLE_REGISTER_USER = "It was not possible to register the new user.";
-            public static readonly string USER_REGISTERED = "User registered successfully.";
+            public static readonly string REGISTRATION_SUCCESSFUL = "User registered successfully.";
 
             // General use
             public static readonly string GENERAL_ACTIVATION_PENDING = "The email confirmation is still pending for the user.";
@@ -515,7 +515,7 @@ namespace API.Controllers
             }
 
             await this._emailService.SendRegistrationAsync(user, _JWTService.CreateActivationToken(user));
-            return Ok(new BaseResponseModel { Message = ResponseMessages.USER_REGISTERED });
+            return Ok(new BaseResponseModel { Message = ResponseMessages.REGISTRATION_SUCCESSFUL });
         }
 
 

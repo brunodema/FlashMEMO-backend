@@ -2,6 +2,7 @@
 using API.ViewModels;
 using Business.Services.Implementation;
 using Business.Services.Interfaces;
+using Data.Models.DTOs;
 using Data.Models.Implementation;
 using FluentAssertions;
 using Microsoft.AspNetCore.Identity;
@@ -52,7 +53,7 @@ namespace Tests.Tests.Integration.Implementation
         Task FailedPasswordResetWithLockedAccount();
 
         // Registration tests
-        Task SuccessfulRegistration();
+        Task SuccessfulRegistration(UserDTO request);
         Task FailedRegistrationWithMissingInput();
         Task FailedRegistrationWithInvalidUsername();
         Task FailedRegistrationWithInvalidEmail();
@@ -68,6 +69,7 @@ namespace Tests.Tests.Integration.Implementation
 
         protected static string _baseEndpoint = $"/api/v1/auth";
         protected static string _loginEndpoint = $"{_baseEndpoint}/login";
+        protected static string _registrationEndpoint = $"{_baseEndpoint}/register";
         protected static string _refreshEndpoint = $"{_baseEndpoint}/refresh";
         protected static string _activationEndpoint = $"{_baseEndpoint}/activate";
         protected static string _passwordRecoveryRequestEndpoint = $"{_baseEndpoint}/forgot-password";
@@ -686,9 +688,28 @@ namespace Tests.Tests.Integration.Implementation
         #endregion
 
         #region Registration tests
-        public Task SuccessfulRegistration()
+        public static IEnumerable<object[]> SuccessfulRegistrationData
         {
-            throw new NotImplementedException();
+            get
+            {
+                yield return new object[] { new UserDTO() { Name = "test1", Surname = "user1", Email = "testemail1@email.com", Username = "testusername1", Password = "Aa@1aaaa" } };
+                yield return new object[] { new UserDTO() { Name = "test2", Surname = "user2", Email = "testemail2@email.com", Username = "testusername2", Password = "p8NkWDb7njb4KT7Qw^i$fVMywhH4x0ARcoJ8V89EzgMJONF1Op" } };
+            }
+        }
+
+        [Theory, MemberData(nameof(SuccessfulRegistrationData))]
+        public async Task SuccessfulRegistration(UserDTO request)
+        {
+            // Arrange
+
+            // Act
+            var response = await _client.PostAsync($"{_registrationEndpoint}", JsonContent.Create(request));
+
+            // Assert
+            response.StatusCode.Should().Be(System.Net.HttpStatusCode.OK);
+            var parsedResponse = await response.Content.ReadFromJsonAsync<BaseResponseModel>();
+            parsedResponse.Message.Should().Be(AuthController.ResponseMessages.REGISTRATION_SUCCESSFUL);
+            parsedResponse.Errors.Should().BeNullOrEmpty();
         }
 
         public Task FailedRegistrationWithMissingInput()
