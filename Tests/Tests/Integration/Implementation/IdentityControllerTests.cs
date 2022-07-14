@@ -770,16 +770,17 @@ namespace Tests.Tests.Integration.Implementation
         }
 
         [Theory]
-        [InlineData("a")]
-        [InlineData("aaaaaaaa")]
-        [InlineData("12345678")]
-        [InlineData("ABCDEFGH")]
-        [InlineData("!@#$%¨&*")]
-        [InlineData("A@1aaaa")]
-        [InlineData("aaaaaaaa@1")]
-        [InlineData("aaaaaaaaA1")]
-        [InlineData("12345678@a")]
-        [InlineData("12345678Aa")]
+        [InlineData("a")] // Speaks for itself
+        [InlineData("aaaaaaaa")] // Only lower-cased chars
+        [InlineData("12345678")] // Only numbers
+        [InlineData("ABCDEFGH")] // Only upper-cased chars
+        [InlineData("!@#$%¨&*")] // Only special symbols
+        [InlineData("A@1aaaa")] // Does not comply with minimum length (7 instead of 8)
+        [InlineData("aaaaaaaa@1")] // Missing upper-cased char
+        [InlineData("aaaaaaaaA1")] // Missing special symbol
+        [InlineData("12345678@A")] // Missing lower-cased char
+        [InlineData("A@aaaaaa")] // Missing number
+        // Several other combinations could be put here too...
         public async Task FailedRegistrationWithInvalidPassword(string invalidPassword)
         {
             // Arrange
