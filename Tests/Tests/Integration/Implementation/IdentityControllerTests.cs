@@ -50,6 +50,14 @@ namespace Tests.Tests.Integration.Implementation
         Task FailedPasswordResetWithExpiredToken();
         Task FailedPasswordResetWithUnactivatedAccount();
         Task FailedPasswordResetWithLockedAccount();
+
+        // Registration tests
+        Task SuccessfulRegistration();
+        Task FailedRegistrationWithMissingInput();
+        Task FailedRegistrationWithInvalidUsername();
+        Task FailedRegistrationWithInvalidEmail();
+        Task FailedRegistrationWithInvalidPassword();
+
     }
 
     public abstract class IdentityControllerTests : IIdentityControllerTests, IClassFixture<IntegrationTestFixture>
@@ -674,6 +682,33 @@ namespace Tests.Tests.Integration.Implementation
                 var parsedResetResponse = await resetResponse.Content.ReadFromJsonAsync<BaseResponseModel>();
                 parsedResetResponse.Message.Should().Be(AuthController.ResponseMessages.GENERAL_ACCOUNT_LOCKED);
             }
+        }
+        #endregion
+
+        #region Registration tests
+        public Task SuccessfulRegistration()
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task FailedRegistrationWithMissingInput()
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task FailedRegistrationWithInvalidUsername()
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task FailedRegistrationWithInvalidEmail()
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task FailedRegistrationWithInvalidPassword()
+        {
+            throw new NotImplementedException();
         }
         #endregion
 
