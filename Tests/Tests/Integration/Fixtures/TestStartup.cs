@@ -80,8 +80,8 @@ namespace Tests.Integration.Fixtures
             //      });
             //});
 
-            // custom definitions
-            // swagger/API definitions
+            // Custom definitions
+            // Swagger/API definitions
             services.AddApiVersioning(config =>
             {
                 config.DefaultApiVersion = new ApiVersion(1, 0);
@@ -110,7 +110,7 @@ namespace Tests.Integration.Fixtures
                 .AddApplicationPart(typeof(ImageAPIController).Assembly)
                 .AddApplicationPart(typeof(RedactedAPIController).Assembly);
 
-            // identity config
+            // Identity config
             services.AddIdentity<User, Role>(opt =>
             {
                 opt.User.RequireUniqueEmail = true;
@@ -145,7 +145,7 @@ namespace Tests.Integration.Fixtures
                     };
                 });
 
-            // database configuration
+            // Database configuration
             services.AddDbContext<FlashMEMOContext>(options => options.UseInMemoryDatabase("TestDB"));
             services.AddSingleton(opt => Options.Create<FlashMEMOContextOptions>(new FlashMEMOContextOptions()
             {
@@ -153,7 +153,11 @@ namespace Tests.Integration.Fixtures
                 DefaultUserPassword = InternalConfigs.DefaultPassword
             }));
 
-            // options configuration
+            // Caching configuration
+            services.AddDistributedMemoryCache();
+            services.AddScoped<ICachingService, CachingService>();
+
+            // Options configuration
             services.Configure<JWTServiceOptions>(config =>
             {
                 config.ValidIssuer = InternalConfigs.ValidIssuer;

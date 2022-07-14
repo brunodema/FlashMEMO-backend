@@ -675,10 +675,12 @@ namespace API.Controllers
     public class RedactedAPIController : ControllerBase
     {
         private readonly IAudioAPIService _audioAPIService;
+        private readonly ICachingService _cachingService;
 
-        public RedactedAPIController(IAudioAPIService audioAPIService) : base()
+        public RedactedAPIController(IAudioAPIService audioAPIService, ICachingService cachingService) : base()
         {
             _audioAPIService = audioAPIService;
+            _cachingService = cachingService;
         }
 
         [HttpGet]
@@ -686,7 +688,16 @@ namespace API.Controllers
         public async Task<IActionResult> Search([FromQuery] AudioAPIRequestModel requestParams)
         {
             // Important: no value/type checking happens here because the 'DataAnnotations' from 'AudioAPIRequestModel' should take care of that.
+            var searchHash = requestParams.GetCacheHash();
+            var cacheResult = await _cachingService.GetAsync<AudioAPIDTO>(searchHash);
+            if (cacheResult != null)
+            {
+                return Ok(new DataResponseModel<AudioAPIDTO> { Message = $"{cacheResult.Results.AudioLinks.Count} results were retrieved.", Data = cacheResult });
+            }
+
             var results = await _audioAPIService.SearchAudioAsync(requestParams.Keyword, requestParams.LanguageCode, requestParams.Provider);
+            await _cachingService.SetAsync(searchHash, results);
+
             return Ok(new DataResponseModel<AudioAPIDTO> { Message = $"{results.Results.AudioLinks.Count} results were retrieved.", Data = results });
         }
     }
