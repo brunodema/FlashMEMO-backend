@@ -27,7 +27,6 @@ using Newtonsoft.Json.Converters;
 using FluentValidation.AspNetCore;
 using FluentValidation;
 using Data.Models.DTOs;
-using System.Collections.Generic;
 using System.Security.Claims;
 using Microsoft.Extensions.Logging;
 
@@ -166,6 +165,7 @@ namespace API
                     ClockSkew = TimeSpan.Zero // the default is 5 min (framework)
                 };
             });
+
             // Database configuration
             services.AddDbContext<FlashMEMOContext>(o =>
             {
@@ -175,7 +175,14 @@ namespace API
                     .EnableRetryOnFailure(5));
             });
 
-            services.AddHttpClient(); // Maybe I can remove this? Hard to determine this because the test assembly uses its own version of a .NET host
+            // HTTP configuration
+            services.AddHttpClient(); // Maybe I can remove this? Would have to check if the FlashMEMO APIs use it or not.
+
+            // Caching configuration
+            services.AddStackExchangeRedisCache(options =>
+            {
+                options.Configuration = Configuration["Caching:CachingURL"];
+            });
 
             // Options Configuration
             services.Configure<JWTServiceOptions>(Configuration.GetSection("JWT"));
