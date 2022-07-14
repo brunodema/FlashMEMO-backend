@@ -55,8 +55,8 @@ namespace Tests.Tests.Integration.Implementation
         // Registration tests
         Task SuccessfulRegistration(UserDTO request);
         Task FailedRegistrationWithMissingInput(UserDTO request, int errorCount);
-        Task FailedRegistrationWithInvalidUsername(UserDTO request);
-        Task FailedRegistrationWithInvalidEmail(UserDTO request);
+        Task FailedRegistrationWithInvalidUsername();
+        Task FailedRegistrationWithInvalidEmail();
         Task FailedRegistrationWithInvalidPassword(UserDTO request);
 
     }
@@ -739,14 +739,34 @@ namespace Tests.Tests.Integration.Implementation
             parsedResponse.Errors.Should().HaveCount(errorCount);
         }
 
-        public Task FailedRegistrationWithInvalidUsername(UserDTO request)
+        [Fact]
+        public async Task FailedRegistrationWithInvalidUsername()
         {
-            throw new NotImplementedException();
+            // Arrange
+            var user = new UserDTO() { Name = "test", Surname = "user", Email = "testmail@email.com", Username = _dummyUser.UserName, Password = "Aa@1aaaa" };
+
+            // Act
+            var response = await _client.PostAsync($"{_registrationEndpoint}", JsonContent.Create(user));
+
+            // Assert
+            response.StatusCode.Should().Be(System.Net.HttpStatusCode.BadRequest);
+            var parsedResponse = await response.Content.ReadFromJsonAsync<BaseResponseModel>();
+            parsedResponse.Message.Should().Be(AuthController.ResponseMessages.REGISTRATION_USERNAME_ALREADY_IN_USE);
         }
 
-        public Task FailedRegistrationWithInvalidEmail(UserDTO request)
+        [Fact]
+        public async Task FailedRegistrationWithInvalidEmail()
         {
-            throw new NotImplementedException();
+            // Arrange
+            var user = new UserDTO() { Name = "test", Surname = "user", Email = _dummyUser.Email, Username = "testusername", Password = "Aa@1aaaa" };
+
+            // Act
+            var response = await _client.PostAsync($"{_registrationEndpoint}", JsonContent.Create(user));
+
+            // Assert
+            response.StatusCode.Should().Be(System.Net.HttpStatusCode.BadRequest);
+            var parsedResponse = await response.Content.ReadFromJsonAsync<BaseResponseModel>();
+            parsedResponse.Message.Should().Be(AuthController.ResponseMessages.REGISTRATION_EMAIL_ALREADY_IN_USE);
         }
 
         public Task FailedRegistrationWithInvalidPassword(UserDTO request)
