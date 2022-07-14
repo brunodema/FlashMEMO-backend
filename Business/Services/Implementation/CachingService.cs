@@ -1,8 +1,6 @@
 ﻿using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Options;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+using Newtonsoft.Json;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -10,10 +8,10 @@ namespace Business.Services.Implementation
 {
     public interface ICachingService
     {
-        Task<byte[]> GetAsync(string key);
-        Task SetAsync(string key, byte[] value);
+        Task<T> GetAsync<T>(string key);
+        Task SetAsync<T>(string key, T value);
         Task RefreshAsync(string key);
-        Task Remove(string key);
+        Task RemoveAsync(string key);
     }
 
     public class CachingOptions // Leave this class for now, but it might be useless depending on what can be configured on 'Startup'.
@@ -21,7 +19,7 @@ namespace Business.Services.Implementation
         public string CachingURL { get; set; }
     }
 
-    public class CachingService
+    public class CachingService : ICachingService
     {
         private readonly IDistributedCache _cache;
         private readonly CachingOptions _options;
@@ -32,24 +30,29 @@ namespace Business.Services.Implementation
             _options = options.Value;
         }
 
-        public Task<byte[]> GetAsync(string key)
+        public async Task<T> GetAsync<T>(string key)
         {
-            return _cache.GetAsync(key);
+            var byteData = await _cache.GetAsync(key);
+            if (byteData != null)
+            {
+               return JsonConvert.DeserializeObject<T>(Encoding.UTF8.GetString(byteData));
+            }
+
+            return default(T);
         }
 
-        public Task SetAsync(string key, byte[] value)
+        public Task SetAsync<T>(string key, T value)
         {
-            return _cache.SetAsync(key, value);
-
+            var byteData = Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(value));
+            return _cache.SetAsync(key, byteData);
         }
 
         public Task RefreshAsync(string key)
         {
             return _cache.RefreshAsync(key);
-
         }
 
-        public Task Remove(string key)
+        public Task RemoveAsync(string key)
         {
             return _cache.RemoveAsync(key);
         }

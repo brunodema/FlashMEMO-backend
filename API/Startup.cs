@@ -183,6 +183,7 @@ namespace API
             {
                 options.Configuration = Configuration["Caching:CachingURL"];
             });
+            services.AddScoped<ICachingService, CachingService>();
 
             // Options Configuration
             services.Configure<JWTServiceOptions>(Configuration.GetSection("JWT"));
@@ -194,6 +195,7 @@ namespace API
             services.Configure<FlashMEMOContextOptions>(Configuration.GetSection("FlashMEMOContextOptions"));
             services.Configure<MailJetOptions>(Configuration.GetSection("MailJet"));
             services.Configure<MailServiceOptions>(Configuration.GetSection("MailService"));
+            services.Configure<CachingOptions>(Configuration.GetSection("Caching"));
             // Custom Services
             services.AddScoped<NewsService>();
             services.AddScoped<DeckService>();
