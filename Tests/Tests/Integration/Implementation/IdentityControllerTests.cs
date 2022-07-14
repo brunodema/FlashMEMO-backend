@@ -54,10 +54,10 @@ namespace Tests.Tests.Integration.Implementation
 
         // Registration tests
         Task SuccessfulRegistration(UserDTO request);
-        Task FailedRegistrationWithMissingInput();
-        Task FailedRegistrationWithInvalidUsername();
-        Task FailedRegistrationWithInvalidEmail();
-        Task FailedRegistrationWithInvalidPassword();
+        Task FailedRegistrationWithMissingInput(UserDTO request, int errorCount);
+        Task FailedRegistrationWithInvalidUsername(UserDTO request);
+        Task FailedRegistrationWithInvalidEmail(UserDTO request);
+        Task FailedRegistrationWithInvalidPassword(UserDTO request);
 
     }
 
@@ -712,22 +712,44 @@ namespace Tests.Tests.Integration.Implementation
             parsedResponse.Errors.Should().BeNullOrEmpty();
         }
 
-        public Task FailedRegistrationWithMissingInput()
+        public static IEnumerable<object[]> FailedRegistrationWithMissingInputData
+        {
+            get
+            {
+                yield return new object[] { new UserDTO() { Name = "", Surname = "user", Email = "testemail@email.com", Username = "testusername", Password = "Aa@1aaaa" }, 1 };
+                yield return new object[] { new UserDTO() { Name = "test", Surname = "", Email = "testemail@email.com", Username = "testusername", Password = "p8NkWDb7njb4KT7Qw^i$fVMywhH4x0ARcoJ8V89EzgMJONF1Op" }, 1 };
+                yield return new object[] { new UserDTO() { Name = "test", Surname = "user", Email = "", Username = "testusername", Password = "p8NkWDb7njb4KT7Qw^i$fVMywhH4x0ARcoJ8V89EzgMJONF1Op" }, 1 };
+                yield return new object[] { new UserDTO() { Name = "test", Surname = "user", Email = "testemail@email.com", Username = "", Password = "p8NkWDb7njb4KT7Qw^i$fVMywhH4x0ARcoJ8V89EzgMJONF1Op" }, 1 };
+                yield return new object[] { new UserDTO() { Name = "test", Surname = "user", Email = "testemail@email.com", Username = "testusername", Password = "" }, 1 };
+                yield return new object[] { new UserDTO() { Name = "", Surname = "", Email = "", Username = "", Password = "" }, 5 };
+            }
+        }
+
+        [Theory, MemberData(nameof(FailedRegistrationWithMissingInputData))]
+        public async Task FailedRegistrationWithMissingInput(UserDTO request, int errorCount)
+        {
+            // Arrange
+
+            // Act
+            var response = await _client.PostAsync($"{_registrationEndpoint}", JsonContent.Create(request));
+
+            // Assert
+            response.StatusCode.Should().Be(System.Net.HttpStatusCode.BadRequest);
+            var parsedResponse = await response.Content.ReadFromJsonAsync<BaseResponseModel>();
+            parsedResponse.Errors.Should().HaveCount(errorCount);
+        }
+
+        public Task FailedRegistrationWithInvalidUsername(UserDTO request)
         {
             throw new NotImplementedException();
         }
 
-        public Task FailedRegistrationWithInvalidUsername()
+        public Task FailedRegistrationWithInvalidEmail(UserDTO request)
         {
             throw new NotImplementedException();
         }
 
-        public Task FailedRegistrationWithInvalidEmail()
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task FailedRegistrationWithInvalidPassword()
+        public Task FailedRegistrationWithInvalidPassword(UserDTO request)
         {
             throw new NotImplementedException();
         }

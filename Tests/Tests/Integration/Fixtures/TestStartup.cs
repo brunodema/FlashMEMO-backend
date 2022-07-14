@@ -196,6 +196,8 @@ namespace Tests.Integration.Fixtures
 
             // Validators
             services.AddTransient<IValidator<FlashcardDTO>, FlashcardDTOValidator>();
+            services.AddTransient<IValidator<LanguageDTO>, LanguageDTOValidator>();
+            services.AddTransient<IValidator<UserDTO>, UserDTOValidator>();
             services.AddTransient<IValidator<NewsDTO>, NewsDTOValidator>();
 
             // Testing resources
