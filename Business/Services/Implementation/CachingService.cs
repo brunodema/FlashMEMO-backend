@@ -16,7 +16,7 @@ namespace Business.Services.Implementation
         Task Remove(string key);
     }
 
-    public class CachingOptions
+    public class CachingOptions // Leave this class for now, but it might be useless depending on what can be configured on 'Startup'.
     {
         public string CachingURL { get; set; }
     }
