@@ -29,6 +29,8 @@ using FluentValidation;
 using Data.Models.DTOs;
 using System.Security.Claims;
 using Microsoft.Extensions.Logging;
+using StackExchange.Redis;
+using Role = Data.Models.Implementation.Role;
 
 namespace API
 {
@@ -179,10 +181,12 @@ namespace API
             services.AddHttpClient(); // Maybe I can remove this? Would have to check if the FlashMEMO APIs use it or not.
 
             // Caching configuration
-            services.AddStackExchangeRedisCache(options =>
+            services.AddSingleton<IConnectionMultiplexer>(sp =>
+            ConnectionMultiplexer.Connect(new ConfigurationOptions
             {
-                options.Configuration = Configuration["Caching:CachingURL"];
-            });
+                EndPoints = { Configuration["Caching:CachingURL"] },
+                  AbortOnConnectFail = false,
+            }));
             services.AddScoped<ICachingService, CachingService>();
 
             // Options Configuration

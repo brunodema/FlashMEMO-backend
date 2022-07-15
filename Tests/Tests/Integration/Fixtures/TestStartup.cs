@@ -25,7 +25,9 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
+using StackExchange.Redis;
 using Tests.Integration.Auxiliary;
+using Role = Data.Models.Implementation.Role;
 
 namespace Tests.Integration.Fixtures
 {
@@ -154,7 +156,12 @@ namespace Tests.Integration.Fixtures
             }));
 
             // Caching configuration
-            services.AddDistributedMemoryCache();
+            services.AddSingleton<IConnectionMultiplexer>(sp =>
+            ConnectionMultiplexer.Connect(new ConfigurationOptions
+            {
+                EndPoints = { "http://localhost:1234" }, // This doesn't exist, only so NET stops complaining
+                AbortOnConnectFail = false,
+            }));
             services.AddScoped<ICachingService, CachingService>();
 
             // Options configuration
