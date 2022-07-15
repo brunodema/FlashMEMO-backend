@@ -237,7 +237,7 @@ namespace Tests.Integration.API
                 new object[] { "love", "en-us", AudioAPIProviderType.FLASHMEMO },
                 new object[] { "bonjour", "fr", AudioAPIProviderType.FLASHMEMO },
                 new object[] { "hola", "es", AudioAPIProviderType.FLASHMEMO },
-                new object[] { "bonjour", "fr", null }, // This is valid because, due to how C# works, the default value for a enum will the 0-index value, even if 'null' is used.
+                new object[] { "macchina", "it", null }, // This is valid because, due to how C# works, the default value for a enum will the 0-index value, even if 'null' is used.
             };
 
         [Theory, MemberData(nameof(MakesSuccessfulRequestData), Skip = "Test consumes external API. Ignore to avoid depleting daily comsumption limits")]
@@ -255,6 +255,8 @@ namespace Tests.Integration.API
             results.Data.Results.AudioLinks.Should().NotBeNullOrEmpty("valid data should have been retrieved from this query");
             results.Message.Should().NotBeNullOrEmpty("the request should have been successful");
             results.Errors.Should().BeNullOrEmpty("the request should have been successful");
+
+            _output.WriteLine($"Test successful, links ({ results.Data.Results.AudioLinks.Count }) returned in {results.Data.Results.ProcessingTime}s are: { String.Join(";", results.Data.Results.AudioLinks) }");
         }
 
         public static IEnumerable<object[]> MakeRequestWithBrokenSearchTextData =>
@@ -278,6 +280,8 @@ namespace Tests.Integration.API
             var results = await response.Content.ReadFromJsonAsync<DataResponseModel<AudioAPIDTO>>();
             results.Message.Should().NotBeNullOrEmpty("the request should have been successful");
             results.Errors.Should().BeNullOrEmpty("the request should have been successful");
+
+            _output.WriteLine($"Test successful, links ({ results.Data.Results.AudioLinks.Count }) returned in {results.Data.Results.ProcessingTime}s are: { String.Join(";", results.Data.Results.AudioLinks) }");
         }
 
         public static IEnumerable<object[]> ReceiveBadRequestForInvalidInputData =>

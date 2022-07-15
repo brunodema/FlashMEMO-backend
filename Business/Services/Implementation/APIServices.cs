@@ -487,38 +487,47 @@ namespace Business.Services.Implementation
                         var audioLinks = new List<string>();
 
                         var chromeOptions = new ChromeOptions();
-                        chromeOptions.AddArguments("--headless");
+                        chromeOptions.AddArguments("--headless --no-sandbox");
 
-                        ChromeDriver driver = new ChromeDriver(_options.ChromeDriverFolder, chromeOptions);
-
-                        var devTools = driver as IDevTools;
-                        var session = devTools.GetDevToolsSession();
-
-                        var devToolsSession = session.GetVersionSpecificDomains<DevToolsSessionDomains>();
-                        await devToolsSession.Network.Enable(new Network.EnableCommandSettings());
-
-                        devToolsSession.Network.ResponseReceived += (object sender, Network.ResponseReceivedEventArgs args) =>
+                        using (var driver = new ChromeDriver(_options.ChromeDriverFolder, chromeOptions))
                         {
-                            if (args.Type == Network.ResourceType.Media)
+                            var timer = Stopwatch.StartNew();
+
+                            var devTools = driver as IDevTools;
+                            var session = devTools.GetDevToolsSession();
+
+                            var devToolsSession = session.GetVersionSpecificDomains<DevToolsSessionDomains>();
+                            await devToolsSession.Network.Enable(new Network.EnableCommandSettings());
+
+                            devToolsSession.Network.ResponseReceived += (object sender, Network.ResponseReceivedEventArgs args) =>
                             {
-                                audioLinks.Add($"{args.Response.Url}");
+                                if (args.Type == Network.ResourceType.Media)
+                                {
+                                    audioLinks.Add($"{args.Response.Url}");
+                                }
+                            };
+
+                            driver.Url = $"https://forvo.com/word/{keyword}";
+
+                            /**
+                             * July 14th, 2022: The strategy where I searched for a 'show-all-pronunciations' element, and then clicked all elements with the 'play' class within it does not work anymore, since the 'show-all-pronunciations' doesn't seem to exist anymore. I replaced this approach with one that uses an XPath query to get all the buttons, but only click the ones visible, to avoid Selenium exceptions. This, unfortunatelly, means that fewer results than before will be returned by the API. UNLESS, I find a way to click on the hidden buttons...
+                             * Check these links in the future: https://stackoverflow.com/questions/22110282/how-to-click-on-hidden-element-in-selenium-webdriver and https://www.tutorialspoint.com/how-do-you-click-on-an-element-which-is-hidden-using-selenium-webdriver#:~:text=Selenium%20by%20default%20cannot%20handle,as%20arguments%20to%20the%20method.
+                             */
+                            var pronunciations = driver.FindElements(OpenQA.Selenium.By.XPath("//*[contains(@class, 'play') and @onclick]"));
+                            foreach (var item in pronunciations)
+                            {
+                                if (item.Displayed)
+                                {
+                                    item.Click();
+                                }
+                                //driver.ExecuteScript("$(arguments[0]).click();", item);
                             }
-                        };
+                            // This is implementation is probably very wrong... but it works, for now. What I mean with 'it works': waits until array reaches pre-determined state, without waiting the full timeout period, if possible.
+                            bool spinUntil = SpinWait.SpinUntil(() => audioLinks.Count == pronunciations.Count, TimeSpan.FromSeconds(15));
+                            timer.Stop();
 
-                        driver.Url = $"https://forvo.com/word/{keyword}";
-
-                        var pronunciations = driver.FindElement(OpenQA.Selenium.By.ClassName("show-all-pronunciations")).FindElements(OpenQA.Selenium.By.ClassName("play"));
-                        foreach (var item in pronunciations)
-                        {
-                            item.Click();
+                            return new AudioAPIDTO() { SearchText = keyword, LanguageCode = languageCode, Results = { AudioLinks = audioLinks, ProcessingTime = timer.Elapsed.ToString() } };
                         }
-
-                        var timer = Stopwatch.StartNew();
-                        // this is implementation is probably very wrong... but it works, for now. What I mean with 'it works': waits until array reaches pre-determined state, without waiting the full timeout period, if possible.
-                        bool spinUntil = SpinWait.SpinUntil(() => audioLinks.Count == pronunciations.Count, TimeSpan.FromSeconds(15));
-                        timer.Stop();
-
-                        return new AudioAPIDTO() { SearchText = keyword, LanguageCode = languageCode, Results = { AudioLinks = audioLinks, ProcessingTime = timer.Elapsed.ToString() } };
                     }
                     catch (NoSuchElementException) // this should mean that no results were found
                     {

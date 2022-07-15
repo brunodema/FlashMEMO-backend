@@ -3,11 +3,17 @@ using Business.Services.Implementation;
 using Business.Services.Interfaces;
 using Data.Models.Implementation;
 using Microsoft.Extensions.Logging;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace API.ViewModels
 {
+    public interface ICacheable
+    {
+        string GetCacheHash();
+    }
+
     public class LargePaginatedListResponse<TEntity> : BaseResponseModel
         where TEntity : class
     {
@@ -82,7 +88,7 @@ namespace API.ViewModels
         public string NewPassword { get; set; }
     }
 
-    public class AudioAPIRequestModel
+    public class AudioAPIRequestModel : ICacheable
     {
         [Required(ErrorMessage = "Field {0} is required")]
         public string Keyword { get; set; }
@@ -93,6 +99,11 @@ namespace API.ViewModels
         [Required(ErrorMessage = "Field {0} is required")]
         [EnumDataType(typeof(AudioAPIProviderType))]
         public AudioAPIProviderType Provider { get; set; }
+
+        public string GetCacheHash()
+        {
+            return HashCode.Combine(Keyword, Provider).ToString();
+        }
     }
 
     public class LoggingRequestModel
