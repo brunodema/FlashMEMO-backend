@@ -299,10 +299,12 @@ namespace API.Controllers
 
     {
         private readonly CustomSearchAPIService _service;
+        private readonly ICachingService _cachingService;
 
-        public ImageAPIController(CustomSearchAPIService service)
+        public ImageAPIController(CustomSearchAPIService service, ICachingService cachingService)
         {
             _service = service;
+            _cachingService = cachingService;
         }
 
         [HttpGet]
@@ -311,8 +313,28 @@ namespace API.Controllers
         {
             try
             {
-                var results = await _service.Search(searchText, pageNumber);
+                var searchHash = $"image_{HashCode.Combine(searchText, pageNumber)}";
+                var cacheResult = await _cachingService.GetAsync<CustomSearchAPIResponse>(searchHash);
+                if (cacheResult != null)
+                {
+                    return Ok(new LargePaginatedListResponse<CustomSearchAPIImageResult>
+                    {
+                        Message = "API results successfully retrieved.",
+                        Data = new LargePaginatedList<CustomSearchAPIImageResult>()
+                        {
+                            Results = cacheResult.Results.ToList(),
+                            ResultSize = cacheResult.PageSize,
+                            PageNumber = cacheResult.PageNumber,
+                            TotalPages = cacheResult.TotalPages,
+                            TotalAmount = cacheResult.TotalAmount,
+                            HasPreviousPage = cacheResult.HasPreviousPage,
+                            HasNextPage = cacheResult.HasNextPage,
+                        }
+                    });
+                }
 
+                var results = await _service.Search(searchText, pageNumber);
+                await _cachingService.SetAsync(searchHash, results);
                 return Ok(new LargePaginatedListResponse<CustomSearchAPIImageResult>
                 {
                     Message = "API results successfully retrieved.",
@@ -370,10 +392,12 @@ namespace API.Controllers
         where TDictionaryAPIResponse : IDictionaryAPIResponse
     {
         private readonly IDictionaryAPIService<TDictionaryAPIResponse> _service;
+        private readonly ICachingService _cachingService;
 
-        public GenericDictionaryAPIController(IDictionaryAPIService<TDictionaryAPIResponse> service)
+        public GenericDictionaryAPIController(IDictionaryAPIService<TDictionaryAPIResponse> service, ICachingService cachingService)
         {
             _service = service;
+            _cachingService = cachingService;
         }
 
         [HttpGet]
@@ -382,7 +406,17 @@ namespace API.Controllers
         {
             try
             {
-                return Ok(new DictionaryAPIResponse() { Message = "API results successfully retrieved.", Data = await _service.SearchResults(searchText, languageCode) });
+                var searchHash = $"dictionary_{searchText}_{languageCode}";
+                var cacheResult = await _cachingService.GetAsync<DictionaryAPIDTO>(searchHash);
+                if (cacheResult != null)
+                {
+                    return Ok(new DictionaryAPIResponse() { Message = "API results successfully retrieved.", Data = cacheResult });
+                }
+
+                var results = await _service.SearchResults(searchText, languageCode);
+                await _cachingService.SetAsync(searchHash, results);
+
+                return Ok(new DictionaryAPIResponse() { Message = "API results successfully retrieved.", Data = results });
             }
             catch (InputValidationException e)
             {
@@ -411,7 +445,7 @@ namespace API.Controllers
     {
         private readonly IDictionaryAPIService<OxfordAPIResponseModel> _service;
 
-        public OxfordDictionaryAPIController(IOptions<OxfordDictionaryAPIRequestHandler> options) : base(new DictionaryAPIService<OxfordAPIResponseModel>(options))
+        public OxfordDictionaryAPIController(IOptions<OxfordDictionaryAPIRequestHandler> options, ICachingService cachingService) : base(new DictionaryAPIService<OxfordAPIResponseModel>(options), cachingService)
         {
             _service = new DictionaryAPIService<OxfordAPIResponseModel>(options);
         }
@@ -425,7 +459,7 @@ namespace API.Controllers
     {
         private readonly IDictionaryAPIService<LexicalaAPIResponseModel> _service;
 
-        public LexicalaDictionaryAPIController(IOptions<LexicalaDictionaryAPIRequestHandler> options) : base(new DictionaryAPIService<LexicalaAPIResponseModel>(options))
+        public LexicalaDictionaryAPIController(IOptions<LexicalaDictionaryAPIRequestHandler> options, ICachingService cachingService) : base(new DictionaryAPIService<LexicalaAPIResponseModel>(options), cachingService)
         {
             _service = new DictionaryAPIService<LexicalaAPIResponseModel>(options);
         }
@@ -688,7 +722,7 @@ namespace API.Controllers
         public async Task<IActionResult> Search([FromQuery] AudioAPIRequestModel requestParams)
         {
             // Important: no value/type checking happens here because the 'DataAnnotations' from 'AudioAPIRequestModel' should take care of that.
-            var searchHash = requestParams.GetCacheHash();
+            var searchHash = $"audio_{requestParams.Provider}_{requestParams.GetCacheHash()}";
             var cacheResult = await _cachingService.GetAsync<AudioAPIDTO>(searchHash);
             if (cacheResult != null)
             {
