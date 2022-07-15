@@ -256,7 +256,7 @@ namespace Tests.Integration.API
             results.Message.Should().NotBeNullOrEmpty("the request should have been successful");
             results.Errors.Should().BeNullOrEmpty("the request should have been successful");
 
-            _output.WriteLine($"Test successful, links ({ results.Data.Results.AudioLinks.Count }) returned are: { String.Join(";", results.Data.Results.AudioLinks) }");
+            _output.WriteLine($"Test successful, links ({ results.Data.Results.AudioLinks.Count }) returned in {results.Data.Results.ProcessingTime}s are: { String.Join(";", results.Data.Results.AudioLinks) }");
         }
 
         public static IEnumerable<object[]> MakeRequestWithBrokenSearchTextData =>
@@ -281,7 +281,7 @@ namespace Tests.Integration.API
             results.Message.Should().NotBeNullOrEmpty("the request should have been successful");
             results.Errors.Should().BeNullOrEmpty("the request should have been successful");
 
-            _output.WriteLine($"Test successful, links ({ results.Data.Results.AudioLinks.Count }) returned are: { String.Join(";", results.Data.Results.AudioLinks) }");
+            _output.WriteLine($"Test successful, links ({ results.Data.Results.AudioLinks.Count }) returned in {results.Data.Results.ProcessingTime}s are: { String.Join(";", results.Data.Results.AudioLinks) }");
         }
 
         public static IEnumerable<object[]> ReceiveBadRequestForInvalidInputData =>
