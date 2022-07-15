@@ -487,10 +487,12 @@ namespace Business.Services.Implementation
                         var audioLinks = new List<string>();
 
                         var chromeOptions = new ChromeOptions();
-                        chromeOptions.AddArguments("--headless");
+                        chromeOptions.AddArguments("--headless --no-sandbox");
 
                         using (var driver = new ChromeDriver(_options.ChromeDriverFolder, chromeOptions))
                         {
+                            var timer = Stopwatch.StartNew();
+
                             var devTools = driver as IDevTools;
                             var session = devTools.GetDevToolsSession();
 
@@ -514,14 +516,12 @@ namespace Business.Services.Implementation
                             var pronunciations = driver.FindElements(OpenQA.Selenium.By.XPath("//*[contains(@class, 'play') and @onclick]"));
                             foreach (var item in pronunciations)
                             {
-                                //if (item.Displayed)
-                                //{
-                                //    item.Click();
-                                //}
-                                driver.ExecuteScript("$(arguments[0]).click();", item);
+                                if (item.Displayed)
+                                {
+                                    item.Click();
+                                }
+                                //driver.ExecuteScript("$(arguments[0]).click();", item);
                             }
-
-                            var timer = Stopwatch.StartNew();
                             // This is implementation is probably very wrong... but it works, for now. What I mean with 'it works': waits until array reaches pre-determined state, without waiting the full timeout period, if possible.
                             bool spinUntil = SpinWait.SpinUntil(() => audioLinks.Count == pronunciations.Count, TimeSpan.FromSeconds(15));
                             timer.Stop();
