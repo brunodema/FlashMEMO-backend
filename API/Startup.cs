@@ -220,7 +220,7 @@ namespace API
             // Email
             services.AddScoped<ISMTPProvider, MailJetSMTPProvider>();
             services.AddScoped<IEmailService, MailJetEmailService>();
-            // Repositories (are used in Controllers, for instance)
+            // Repositories
             services.AddScoped<UserRepository>();
             services.AddScoped<RoleRepository>();
             services.AddScoped<NewsRepository>();
@@ -244,12 +244,14 @@ namespace API
                 app.UseSwagger();
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "API v1"));
             }
+            if (env.IsProduction())
+            {
+                app.UseHttpsRedirection();
+            }
 
             app.UseHttpLogging(); // use HTTP logging from .NET 6.0 (debug k8s deployment)
 
             app.UseCors("AllowConfiguredOrigins");  // try to remove any CORS problems (k8s deployment)
-
-            //app.UseHttpsRedirection(); // removing for temporary testing
 
             app.UseExceptionHandler(c => c.Run(async context =>
             {
