@@ -23,9 +23,19 @@ namespace API
                     webBuilder.UseStartup<Startup>()
                     .ConfigureAppConfiguration(configureDelegate =>
                     {
-                        configureDelegate.AddJsonFile("apisettings.json", true); // contains information about the APIs used in FlashMEMO
-                        configureDelegate.AddJsonFile("dbsettings.json"); // contains information on defautl settings for the app's DB context
-                        configureDelegate.AddJsonFile("emailsettings.json"); // contains information on defautl settings for the app's email services
+                        if (Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == "Production")
+                        {
+                            configureDelegate.AddJsonFile("/config/appsettings.Production.json"); // contains information about the APIs used in FlashMEMO
+                            configureDelegate.AddJsonFile("/config/apisettings.json"); // contains information about the APIs used in FlashMEMO
+                            configureDelegate.AddJsonFile("/config/dbsettings.json"); // contains information on defautl settings for the app's DB context
+                            configureDelegate.AddJsonFile("/config/emailsettings.json"); // contains information on defautl settings for the app's email services
+                        }
+                        else
+                        {
+                            configureDelegate.AddJsonFile("apisettings.json"); // contains information about the APIs used in FlashMEMO
+                            configureDelegate.AddJsonFile("dbsettings.json"); // contains information on defautl settings for the app's DB context
+                            configureDelegate.AddJsonFile("emailsettings.json"); // contains information on defautl settings for the app's email services
+                        }
 
                         var configuration = configureDelegate.Build();
                         Log.Logger = new LoggerConfiguration()
