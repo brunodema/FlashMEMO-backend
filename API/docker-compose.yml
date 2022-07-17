@@ -55,11 +55,12 @@ services:
     - elastic
     
   cache:
-    image: redis:6.2-alpine
+    image: redis/redis-stack:6.2.2-v5
     restart: always
     ports:
       - '6379:6379'
-    command: redis-server --save 20 1 --loglevel warning
+      - '8001:8001'
+    # command: redis-server --save 20 1 --loglevel warning
     volumes: 
       - cache:/data     
     networks:
