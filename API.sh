@@ -1,0 +1,1 @@
+dotnet run --project "FlashMEMO-backend/API" -c development
